@@ -58,9 +58,10 @@ void PluginCloseButton::enterEvent(QEvent* e){
 	}
 
 	else{
-		QStringList names;
-		names << "window-close" << "application-exit";
-        icon = IconLoader::icon(names, "close");
+		icon = IconLoader::icon(IconLoader::Close);
+		if(icon.isNull()){
+			icon = IconLoader::icon(IconLoader::Exit);
+		}
 	}
 
 	if( this->isEnabled() ){
@@ -98,9 +99,10 @@ void PluginCloseButton::set_std_icon()
 	}
 
 	else{
-		QStringList names;
-		names << "window-close" << "application-exit";
-        icon = IconLoader::icon(names, "close");
+		icon = IconLoader::icon(IconLoader::Close);
+		if(icon.isNull()){
+			icon = IconLoader::icon(IconLoader::Exit);
+		}
 	}
 
 

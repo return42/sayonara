@@ -22,6 +22,7 @@
 #define DIRECTORYTREEVIEW_H
 
 #include "GUI/Utils/SearchableWidget/SearchableView.h"
+#include "GUI/Utils/Widgets/WidgetTemplate.h"
 #include "GUI/Utils/Dragable/Dragable.h"
 #include "Utils/Pimpl.h"
 
@@ -39,7 +40,7 @@ namespace Library
 }
 
 class DirectoryTreeView :
-		public SearchableTreeView,
+		public Gui::WidgetTemplate<SearchableTreeView>,
 		protected Dragable
 {
 	Q_OBJECT
@@ -47,6 +48,8 @@ class DirectoryTreeView :
 
 signals:
 	void sig_info_clicked();
+	void sig_edit_clicked();
+	void sig_lyrics_clicked();
 	void sig_delete_clicked();
 	void sig_play_next_clicked();
 	void sig_append_clicked();
@@ -63,8 +66,11 @@ public:
 
 	QMimeData*			get_mimedata() const override;
 
+protected:
+	void skin_changed() override;
 
 private:
+	void keyPressEvent(QKeyEvent* event) override;
 	void mousePressEvent(QMouseEvent* event) override;
 	void mouseMoveEvent(QMouseEvent *event) override;
 	void init_context_menu();

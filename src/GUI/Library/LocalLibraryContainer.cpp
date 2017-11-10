@@ -20,7 +20,7 @@
 
 #include "LocalLibraryContainer.h"
 #include "GUI/Library/GUI_LocalLibrary.h"
-#include "GUI/Utils/GuiUtils.h"
+#include "GUI/Utils/IconLoader/IconLoader.h"
 #include "Utils/Library/LibraryInfo.h"
 
 #include <QAction>
@@ -99,7 +99,7 @@ QFrame* LocalLibraryContainer::header() const
 
 QPixmap LocalLibraryContainer::icon() const
 {
-	return Gui::Util::pixmap("append.svg");
+	return IconLoader::pixmap(IconLoader::LocalLibrary);
 }
 
 void LocalLibraryContainer::set_name(const QString& name)

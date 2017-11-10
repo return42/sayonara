@@ -55,7 +55,7 @@ struct DirectoryTreeView::Private
 
 
 DirectoryTreeView::DirectoryTreeView(QWidget *parent) :
-	SearchableTreeView(parent),
+	Gui::WidgetTemplate<SearchableTreeView>(parent),
 	Dragable(this)
 {
 	m = Pimpl::make<Private>();
@@ -123,6 +123,20 @@ QMimeData* DirectoryTreeView::get_mimedata() const
 
 	return nullptr;
 }
+
+void DirectoryTreeView::skin_changed()
+{
+	if(m && m->model){
+		m->model->setIconProvider(m->icon_provider);
+	}
+}
+
+void DirectoryTreeView::keyPressEvent(QKeyEvent* event)
+{
+	event->setAccepted(false);
+	SearchableTreeView::keyPressEvent(event);
+}
+
 void DirectoryTreeView::init_context_menu()
 {
 	m->context_menu = new LibraryContextMenu(this);
@@ -130,12 +144,16 @@ void DirectoryTreeView::init_context_menu()
 	LibraryContexMenuEntries entries =
 			(LibraryContextMenu::EntryDelete |
 			LibraryContextMenu::EntryInfo |
+			LibraryContextMenu::EntryLyrics |
+			LibraryContextMenu::EntryEdit |
 			LibraryContextMenu::EntryAppend |
 			LibraryContextMenu::EntryPlayNext);
 
 	m->context_menu->show_actions(entries);
 
 	connect(m->context_menu, &LibraryContextMenu::sig_info_clicked, this, &DirectoryTreeView::sig_info_clicked);
+	connect(m->context_menu, &LibraryContextMenu::sig_lyrics_clicked, this, &DirectoryTreeView::sig_info_clicked);
+	connect(m->context_menu, &LibraryContextMenu::sig_edit_clicked, this, &DirectoryTreeView::sig_info_clicked);
 	connect(m->context_menu, &LibraryContextMenu::sig_delete_clicked, this, &DirectoryTreeView::sig_delete_clicked);
 	connect(m->context_menu, &LibraryContextMenu::sig_play_next_clicked, this, &DirectoryTreeView::sig_play_next_clicked);
 	connect(m->context_menu, &LibraryContextMenu::sig_append_clicked, this, &DirectoryTreeView::sig_append_clicked);
@@ -185,5 +203,5 @@ int DirectoryTreeView::get_index_by_model_index(const QModelIndex& idx) const
 
 QModelIndex DirectoryTreeView::get_model_index_by_index(int idx) const
 {
-    return m->model->index(idx, 0);
+	return m->model->index(idx, 0);
 }

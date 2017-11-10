@@ -42,12 +42,17 @@ namespace Library
 			explicit PluginCombobox(const QString& text, QWidget* parent=nullptr);
 			~PluginCombobox();
 
+		protected:
+			void skin_changed() override;
+			void language_changed() override;
+
 		public slots:
 			void setup_actions();
 
 		private slots:
 			void action_triggered(bool b);
 			void current_library_changed(const QString& name);
+
 	};
 }
 

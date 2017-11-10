@@ -58,8 +58,6 @@ PluginCombobox::PluginCombobox(const QString& text, QWidget* parent) :
 	connect(m->lph, &PluginHandler::sig_libraries_changed, this, &PluginCombobox::setup_actions);
 	connect(m->lph, &PluginHandler::sig_current_library_changed, this, &PluginCombobox::current_library_changed);
 
-	Set::listen(Set::Player_Language, this, &PluginCombobox::setup_actions, false);
-
 	setup_actions();
 	setCurrentText(text);
 }
@@ -113,5 +111,43 @@ void PluginCombobox::current_library_changed(const QString& name)
 			this->setCurrentIndex(i);
 			break;
 		}
+	}
+}
+
+void PluginCombobox::language_changed()
+{
+	if(!m){
+		return;
+	}
+
+	QList<Container*> libraries = m->lph->get_libraries();
+	int i=0;
+
+	for(const Container* container : libraries)
+	{
+		this->setItemText(i, container->display_name());
+		i++;
+	}
+}
+
+void PluginCombobox::skin_changed()
+{
+	if(!m){
+		return;
+	}
+
+	QList<Container*> libraries = m->lph->get_libraries();
+	int i=0;
+
+	for(const Container* container : libraries)
+	{
+		QPixmap pm = container->icon().scaled(
+					this->iconSize(),
+					Qt::KeepAspectRatio,
+					Qt::SmoothTransformation
+		);
+
+		this->setItemIcon(i, QIcon(pm));
+		i++;
 	}
 }

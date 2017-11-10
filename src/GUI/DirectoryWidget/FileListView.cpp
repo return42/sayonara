@@ -98,12 +98,16 @@ void FileListView::init_context_menu()
 	LibraryContexMenuEntries entries =
 			(LibraryContextMenu::EntryDelete |
 			LibraryContextMenu::EntryInfo |
+			LibraryContextMenu::EntryEdit |
+			LibraryContextMenu::EntryLyrics |
 			LibraryContextMenu::EntryAppend |
 			LibraryContextMenu::EntryPlayNext);
 
 	m->context_menu->show_actions(entries);
 
 	connect(m->context_menu, &LibraryContextMenu::sig_info_clicked, this, &FileListView::sig_info_clicked);
+	connect(m->context_menu, &LibraryContextMenu::sig_lyrics_clicked, this, &FileListView::sig_lyrics_clicked);
+	connect(m->context_menu, &LibraryContextMenu::sig_edit_clicked, this, &FileListView::sig_edit_clicked);
 	connect(m->context_menu, &LibraryContextMenu::sig_delete_clicked, this, &FileListView::sig_delete_clicked);
 	connect(m->context_menu, &LibraryContextMenu::sig_play_next_clicked, this, &FileListView::sig_play_next_clicked);
 	connect(m->context_menu, &LibraryContextMenu::sig_append_clicked, this, &FileListView::sig_append_clicked);
@@ -174,4 +178,10 @@ int FileListView::get_index_by_model_index(const QModelIndex& idx) const
 QModelIndex FileListView::get_model_index_by_index(int idx) const
 {
 	return m->model->index(idx);
+}
+
+void FileListView::keyPressEvent(QKeyEvent *event)
+{
+	event->setAccepted(false);
+	SearchableListView::keyPressEvent(event);
 }

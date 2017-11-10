@@ -104,25 +104,18 @@ QVariant SomaFM::StationModel::data(const QModelIndex& index, int role) const
 		}
 
 		if(m->status == Status::Error){
-            return IconLoader::icon("view-refresh", "undo");
+			return IconLoader::icon(IconLoader::Undo);
 		}
 
-		bool loved = m->stations[row].is_loved();
-		if(loved){
-			return Gui::Util::icon("star.png");
-		}
-
-		else{
-			return Gui::Util::icon("star_disabled.png");
-		}
+		return IconLoader::icon(IconLoader::Star);
 	}
 
 	else if(role == Qt::DisplayRole && col == 1)
 	{
-        if(m->stations.isEmpty())
-        {
+		if(m->stations.isEmpty())
+		{
 			if(m->status == Status::Waiting){
-                return Lang::get(Lang::LoadingArg).arg("SomaFM");
+				return Lang::get(Lang::LoadingArg).arg("SomaFM");
 			}
 
 			else if(m->status == Status::Error){
@@ -150,7 +143,7 @@ QVariant SomaFM::StationModel::data(const QModelIndex& index, int role) const
 
 bool SomaFM::StationModel::has_items() const
 {
-    return (!m->stations.isEmpty());
+	return (!m->stations.isEmpty());
 }
 
 
@@ -263,7 +256,7 @@ QMimeData* SomaFM::StationModel::mimeData(const QModelIndexList& indexes) const
 
 		for(const QString& str_url : str_urls){
 			urls << QUrl(str_url);
-            Cover::Location cl = m->stations[row].cover_location();
+			Cover::Location cl = m->stations[row].cover_location();
 			if(cl.has_search_urls()){
 				cover_url = cl.search_urls().first();
 			}
@@ -291,6 +284,13 @@ Qt::ItemFlags SomaFM::StationModel::flags(const QModelIndex& index) const
 			}
 			return (Qt::NoItemFlags);
 		default:
+			/*if(index.column() == 0){
+				bool loved = m->stations[index.row].is_loved();
+				if(!loved){
+					return (Qt::ItemIsSelectable | Qt::ItemIsDragEnabled & ~Qt::ItemIsEnabled);
+				}
+
+			}*/
 			return (Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled);
-    }
+	}
 }

@@ -22,7 +22,8 @@
 
 #include <algorithm>
 
-ColumnHeader::ColumnHeader(HeaderType type, bool switchable, Library::SortOrder sort_asc, Library::SortOrder sort_desc){
+ColumnHeader::ColumnHeader(HeaderType type, bool switchable, Library::SortOrder sort_asc, Library::SortOrder sort_desc)
+{
 	_type = type;
 	_preferred_size_abs = 0;
 	_preferred_size_rel = 0;
@@ -90,8 +91,7 @@ bool ColumnHeader::is_visible() const
 		return true;
 	}
 
-	bool is_checked = _action->isChecked();
-	return is_checked;
+	return _action->isChecked();
 }
 
 bool ColumnHeader::is_hidden() const

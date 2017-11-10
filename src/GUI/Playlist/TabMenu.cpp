@@ -113,20 +113,18 @@ void PlaylistTabMenu::language_changed()
 
 void PlaylistTabMenu::skin_changed()
 {
-	m->action_open_file->setIcon(IconLoader::icon( "document-open", "play_small") );
-	m->action_open_dir->setIcon(IconLoader::icon( "document-open", "play_small") );
+	m->action_open_file->setIcon(IconLoader::icon(IconLoader::Open) );
+	m->action_open_dir->setIcon(IconLoader::icon(IconLoader::Open) );
 
-	m->action_reset->setIcon(IconLoader::icon( "edit-undo", "undo") );
-	m->action_rename->setIcon(IconLoader::icon( "accessories-text-editor", "edit") );
-	m->action_delete->setIcon(IconLoader::icon( "edit-delete", "delete") );
-	m->action_save->setIcon(IconLoader::icon( "document-save", "save") );
-	m->action_save_as->setIcon(IconLoader::icon( "document-save-as", "save_as") );
-	m->action_save_to_file->setIcon(IconLoader::icon( "document-save-as", "save_as") );
-
-	m->action_clear->setIcon(IconLoader::icon( "edit-clear", "broom.png") );
-	m->action_close->setIcon(IconLoader::icon( "window-close", "power_off") );
-
-	m->action_close_others->setIcon(IconLoader::icon( "window-close", "power_on") );
+	m->action_reset->setIcon(IconLoader::icon(IconLoader::Undo));
+	m->action_rename->setIcon(IconLoader::icon(IconLoader::Rename));
+	m->action_delete->setIcon(IconLoader::icon(IconLoader::Delete));
+	m->action_save->setIcon(IconLoader::icon(IconLoader::Save));
+	m->action_save_as->setIcon(IconLoader::icon(IconLoader::SaveAs));
+	m->action_save_to_file->setIcon(IconLoader::icon(IconLoader::SaveAs));
+	m->action_clear->setIcon(IconLoader::icon(IconLoader::Clear));
+	m->action_close->setIcon(IconLoader::icon(IconLoader::Close));
+	m->action_close_others->setIcon(IconLoader::icon(IconLoader::Close));
 }
 
 void PlaylistTabMenu::show_menu_items(PlaylistMenuEntries entries)

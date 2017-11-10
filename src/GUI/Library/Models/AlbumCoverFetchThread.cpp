@@ -166,11 +166,15 @@ void AlbumCoverFetchThread::done(bool success)
 {
 	Q_UNUSED(success)
 
-	m->goon = true;
+	if(m){
+		m->goon = true;
+	}
 }
 
 void AlbumCoverFetchThread::stop()
 {
-	m->may_run = false;
+	if(m){
+		m->may_run = false;
+	}
 }
 

@@ -36,6 +36,7 @@
 #include "Utils/FileUtils.h"
 #include "Utils/globals.h"
 #include "Utils/Language.h"
+#include "Utils/Settings/Settings.h"
 
 
 #include <QItemSelectionModel>
@@ -52,7 +53,6 @@ struct GUI_DirectoryWidget::Private
 		Files
 	} selected_widget;
 
-	IconProvider*						icon_provider=nullptr;
 	LocalLibrary*						local_library=nullptr;
 	SearchableFileTreeModel*			dir_model=nullptr;
 	QModelIndex							found_idx;
@@ -90,14 +90,39 @@ GUI_DirectoryWidget::GUI_DirectoryWidget(QWidget *parent) :
 		show_info();
 	});
 
+	connect(ui->tv_dirs, &DirectoryTreeView::sig_edit_clicked, [=]()
+	{
+		m->selected_widget = Private::SelectedWidget::Dirs;
+		show_edit();
+	});
+
+	connect(ui->tv_dirs, &DirectoryTreeView::sig_lyrics_clicked, [=]()
+	{
+		m->selected_widget = Private::SelectedWidget::Dirs;
+		show_lyrics();
+	});
+
 	connect(ui->tv_dirs, &DirectoryTreeView::sig_append_clicked, this, &GUI_DirectoryWidget::dir_append_clicked);
 	connect(ui->tv_dirs, &DirectoryTreeView::sig_play_next_clicked, this, &GUI_DirectoryWidget::dir_play_next_clicked);
 	connect(ui->tv_dirs, &DirectoryTreeView::sig_delete_clicked, this, &GUI_DirectoryWidget::dir_delete_clicked);
+	connect(m->dir_model, &SearchableFileTreeModel::directoryLoaded, this, &GUI_DirectoryWidget::directory_loaded);
 
 	connect(ui->lv_files, &FileListView::sig_info_clicked, [=]()
-{
+	{
 		m->selected_widget = Private::SelectedWidget::Files;
 		show_info();
+	});
+
+	connect(ui->lv_files, &FileListView::sig_edit_clicked, [=]()
+	{
+		m->selected_widget = Private::SelectedWidget::Files;
+		show_edit();
+	});
+
+	connect(ui->lv_files, &FileListView::sig_lyrics_clicked, [=]()
+	{
+		m->selected_widget = Private::SelectedWidget::Files;
+		show_lyrics();
 	});
 
 	connect(ui->lv_files, &FileListView::sig_append_clicked, this, &GUI_DirectoryWidget::file_append_clicked);
@@ -161,8 +186,35 @@ void GUI_DirectoryWidget::dir_pressed(QModelIndex idx)
 
 void GUI_DirectoryWidget::dir_clicked(QModelIndex idx)
 {
+	Library::SearchModeMask smm = _settings->get(Set::Lib_SearchMode);
+	QString search_text = Library::Util::convert_search_string(ui->le_search->text(), smm);
+
 	QString dir = m->dir_model->fileInfo(idx).absoluteFilePath();
 	ui->lv_files->set_parent_directory(dir);
+
+	if(search_text.isEmpty())
+	{
+		return;
+	}
+
+	int n_rows = ui->lv_files->model()->rowCount();
+	for(int i=0; i<n_rows; i++)
+	{
+		QModelIndex idx = ui->lv_files->model()->index(i, 0);
+		QString data = ui->lv_files->model()->data(idx).toString();
+		if(data.isEmpty()){
+			continue;
+		}
+
+		if(!idx.isValid()){
+			continue;
+		}
+
+		data = Library::Util::convert_search_string(data, smm);
+		if(data.contains(search_text, Qt::CaseInsensitive)){
+			ui->lv_files->selectionModel()->select(idx, (QItemSelectionModel::Select | QItemSelectionModel::Rows));
+		}
+	}
 }
 
 
@@ -236,6 +288,11 @@ void GUI_DirectoryWidget::language_changed()
 	ui->btn_search->setText(Lang::get(Lang::Search));
 }
 
+void GUI_DirectoryWidget::skin_changed()
+{
+	//ui->tv_dirs->setI();
+}
+
 
 void GUI_DirectoryWidget::file_pressed(QModelIndex idx)
 {
@@ -259,9 +316,8 @@ void GUI_DirectoryWidget::file_dbl_clicked(QModelIndex idx)
 	m->local_library->prepare_tracks_for_playlist(paths, false);
 }
 
-void GUI_DirectoryWidget::directory_loaded(const QString& path){
-	Q_UNUSED(path)
-
+void GUI_DirectoryWidget::directory_loaded(const QString& path)
+{
 	if(!m->found_idx.isValid()){
 		return;
 	}
@@ -279,25 +335,23 @@ void GUI_DirectoryWidget::search_button_clicked()
 		return;
 	}
 
-	if(m->search_term == ui->le_search->text()){
+	if(m->search_term == ui->le_search->text()) {
 		m->found_idx = m->dir_model->getNextRowIndexOf(m->search_term, 0, QModelIndex());
 	}
-	else{
+
+	else {
 		m->search_term = ui->le_search->text();
 		m->found_idx = m->dir_model->getFirstRowIndexOf(m->search_term);
-		ui->btn_search->setText(Lang::get(Lang::SearchNext));
+
 	}
 
-	if(!m->found_idx.isValid()){
-		return;
-	}
-
+	ui->tv_dirs->expand(m->found_idx);
+	ui->tv_dirs->scrollTo(m->found_idx, QAbstractItemView::PositionAtCenter);
+	ui->tv_dirs->selectionModel()->select(m->found_idx, QItemSelectionModel::ClearAndSelect);
 	if(m->dir_model->canFetchMore(m->found_idx)){
 		m->dir_model->fetchMore(m->found_idx);
 	}
 
-	ui->tv_dirs->scrollTo(m->found_idx, QAbstractItemView::PositionAtCenter);
-	ui->tv_dirs->selectionModel()->select(m->found_idx, QItemSelectionModel::ClearAndSelect);
 	dir_clicked(m->found_idx);
 }
 
@@ -311,17 +365,12 @@ void GUI_DirectoryWidget::search_term_changed(const QString& term)
 
 void GUI_DirectoryWidget::init_dir_view()
 {
-	connect(m->dir_model, &SearchableFileTreeModel::directoryLoaded,
-			this, &GUI_DirectoryWidget::directory_loaded);
+
 }
 
 
 void GUI_DirectoryWidget::showEvent(QShowEvent* e)
 {
-	if(!m->dir_model){
-		init_dir_view();
-	}
-
 	Widget::showEvent(e);
 }
 

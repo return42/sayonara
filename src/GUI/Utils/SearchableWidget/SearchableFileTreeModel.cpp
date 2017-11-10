@@ -25,6 +25,12 @@
 #include "Utils/Settings/Settings.h"
 #include "Utils/Library/SearchMode.h"
 #include "Utils/Library/LibraryInfo.h"
+#include "Utils/Library/Filter.h"
+#include "Utils/MetaData/MetaDataList.h"
+
+#include "Components/Library/LibraryManager.h"
+#include "Database/DatabaseTracks.h"
+#include "Database/DatabaseConnector.h"
 
 #include <QDirIterator>
 #include <algorithm>
@@ -50,43 +56,47 @@ SearchableFileTreeModel::~SearchableFileTreeModel() {}
 
 bool SearchableFileTreeModel::has_items() const
 {
-    return (rowCount() > 0);
+	return (rowCount() > 0);
 }
 
 QModelIndex SearchableFileTreeModel::getFirstRowIndexOf(const QString& substr)
 {
-	m->cur_idx = -1;
+	Library::Filter filter;
+	filter.set_filtertext("%" + substr + "%");
+	filter.set_mode(Library::Filter::Mode::Filename);
+
 	m->found_strings.clear();
+	m->cur_idx = -1;
 
-	Settings* settings = Settings::instance();
-	Library::SearchModeMask mask = settings->get(Set::Lib_SearchMode);
-	QString converted_substr = Library::Util::convert_search_string(substr, mask);
+	DB::Connector* db = DB::Connector::instance();
+	DB::LibraryDatabases library_dbs = db->library_dbs();
 
-	QDirIterator it(this->rootPath(), QDirIterator::Subdirectories);
-	QString str;
-
-	while (it.hasNext())
+	for(DB::LibraryDatabase* lib_db : library_dbs)
 	{
-		it.next();
+		int8_t lib_id = lib_db->library_id();
+		if(lib_id < 0){
+			continue;
+		}
 
-		QString filename = it.fileName();
-		filename = Library::Util::convert_search_string(filename, mask);
+		Library::Info info = Library::Manager::instance()->library_info(lib_id);
+		QString info_path = info.path();
+		QString symlink_path = info.symlink_path();
 
-		if (filename.contains(converted_substr))
+		MetaDataList v_md;
+		lib_db->getAllTracksBySearchString(filter, v_md);
+
+		for(const MetaData& md : v_md)
 		{
-			str = it.filePath();
+			QString filepath = md.filepath();
+			filepath.replace(info_path, symlink_path);
 
-			if(it.fileInfo().isFile()){
-				QString parent_folder = Util::File::get_parent_directory(str);
-				str = parent_folder;
-			}
-
-			m->found_strings << str;
+			m->found_strings << Util::File::get_parent_directory(filepath);
 		}
 	}
 
-
-	if(m->found_strings.size() > 0){
+	QString str;
+	if(m->found_strings.size() > 0)
+	{
 		std::sort(m->found_strings.begin(), m->found_strings.end(), [](const QString& str1 , const QString& str2){
 			return (str1 < str2);
 		});
@@ -97,7 +107,12 @@ QModelIndex SearchableFileTreeModel::getFirstRowIndexOf(const QString& substr)
 		m->cur_idx = 0;
 	}
 
-	return index(str);
+	QModelIndex idx = index(str);
+	if(canFetchMore(idx)){
+		fetchMore(idx);
+	}
+
+	return idx;
 }
 
 

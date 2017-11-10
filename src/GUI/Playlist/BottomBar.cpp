@@ -78,13 +78,13 @@ GUI_PlaylistBottomBar::GUI_PlaylistBottomBar(QWidget *parent) :
 {
 	m = Pimpl::make<Private>();
 
-	m->btn_rep1 = new QPushButton(IconLoader::icon("rep_1", "rep_1"), "", this);
-	m->btn_repAll = new QPushButton(IconLoader::icon("rep_all", "rep_all"), "", this);
-	m->btn_append = new QPushButton(IconLoader::icon("append", "append"), "", this);
-	m->btn_dynamic = new QPushButton(IconLoader::icon("dynamic", "dynamic"), "", this);
-	m->btn_shuffle = new QPushButton(IconLoader::icon("shuffle", "shuffle"), "", this);
-	m->btn_gapless = new QPushButton(IconLoader::icon("gapless", "gapless"), "", this);
-	m->btn_shutdown = new QPushButton(IconLoader::icon("power_on", "power_on"), "", this);
+	m->btn_rep1 = new QPushButton(IconLoader::icon(IconLoader::Repeat1, IconLoader::ForceSayonaraIcon), "", this);
+	m->btn_repAll = new QPushButton(IconLoader::icon(IconLoader::RepeatAll, IconLoader::ForceSayonaraIcon), "", this);
+	m->btn_append = new QPushButton(IconLoader::icon(IconLoader::Append, IconLoader::ForceSayonaraIcon), "", this);
+	m->btn_dynamic = new QPushButton(IconLoader::icon(IconLoader::Dynamic, IconLoader::ForceSayonaraIcon), "", this);
+	m->btn_shuffle = new QPushButton(IconLoader::icon(IconLoader::Shuffle, IconLoader::ForceSayonaraIcon), "", this);
+	m->btn_gapless = new QPushButton(IconLoader::icon(IconLoader::Gapless, IconLoader::ForceSayonaraIcon), "", this);
+	m->btn_shutdown = new QPushButton(IconLoader::icon(IconLoader::Shutdown), "", this);
 
 	for(QPushButton* btn : m->buttons())
 	{

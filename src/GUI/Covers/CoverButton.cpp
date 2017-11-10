@@ -62,8 +62,10 @@ CoverButton::CoverButton(QWidget* parent) :
 	m->search_cover_location = Location::invalid_location();
 
 
+
 	this->setIconSize(this->size());
 	this->setIcon(get_cur_icon());
+	this->setFlat(true);
 
 	connect(this, &QPushButton::clicked, this, &CoverButton::cover_button_clicked);
 	connect(m->cover_change_notifier, &Cover::ChangeNotfier::sig_covers_changed,
@@ -93,6 +95,7 @@ void CoverButton::refresh()
 void CoverButton::set_cover_location(const Location& cl)
 {
 	m->search_cover_location = cl;
+	m->cover_forced = false;
 
 	if(!m->cover_lookup)
 	{
@@ -127,10 +130,19 @@ void CoverButton::force_cover(const QImage &img)
 
 QIcon CoverButton::get_cur_icon() const
 {
+	QIcon icon;
 	QPixmap pm = QPixmap(m->current_cover_path)
 			.scaled(this->iconSize(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
-	return QIcon(pm);
+	for(QIcon::Mode m : { QIcon::Mode::Normal, QIcon::Mode::Disabled, QIcon::Mode::Active, QIcon::Mode::Selected })
+	{
+		for(QIcon::State s : {QIcon::State::On, QIcon::State::Off})
+		{
+			icon.addPixmap(pm, m, s);
+		}
+	}
+
+	return icon;
 }
 
 

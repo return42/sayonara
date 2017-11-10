@@ -480,9 +480,9 @@ void GUI_Player::skin_changed()
 	QString stylesheet = Style::style(dark);
 	this->setStyleSheet(stylesheet);
 
-	action_OpenFile->setIcon(IconLoader::icon("document-open", "play"));
-	action_OpenFolder->setIcon(IconLoader::icon("document-open", "play"));
-	action_Close->setIcon(IconLoader::icon("window-close", "power_off"));
+	action_OpenFile->setIcon(IconLoader::icon(IconLoader::Open));
+	action_OpenFolder->setIcon(IconLoader::icon(IconLoader::Open));
+	action_Close->setIcon(IconLoader::icon(IconLoader::Exit));
 }
 
 void GUI_Player::skin_toggled(bool on)

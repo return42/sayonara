@@ -143,13 +143,13 @@ void GUI_Controls::play_clicked()
 
 void GUI_Controls::played()
 {
-	ui->btn_play->setIcon(IconLoader::icon("media-playback-pause", "pause"));
+	ui->btn_play->setIcon(IconLoader::icon(IconLoader::Pause));
 }
 
 
 void GUI_Controls::paused()
 {
-	ui->btn_play->setIcon(IconLoader::icon("media-playback-start", "play"));
+	ui->btn_play->setIcon(IconLoader::icon(IconLoader::Play));
 }
 
 
@@ -163,7 +163,7 @@ void GUI_Controls::stopped()
 {
 	setWindowTitle("Sayonara");
 
-	ui->btn_play->setIcon(IconLoader::icon("media-playback-start", "play"));
+	ui->btn_play->setIcon(IconLoader::icon(IconLoader::Play));
 
 	ui->progress_widget->setCurrentIndex(0);
 
@@ -353,30 +353,25 @@ void GUI_Controls::volume_changed(int val)
 
 void GUI_Controls::setup_volume_button(int percent)
 {
-	QString but_name = "vol_";
-	QString but_std_name = "vol_";
+	QIcon icon;
 
 	if (percent <= 1) {
-		but_name += QString("mute_dark");
-		but_std_name = QString("audio-volume-muted");
+		icon = IconLoader::icon(IconLoader::VolMute);
 	}
 
 	else if (percent < 40) {
-		but_name += QString("1_dark");
-		but_std_name = QString("audio-volume-low");
+		icon = IconLoader::icon(IconLoader::Vol1);
 	}
 
 	else if (percent < 80) {
-		but_name += QString("2_dark");
-		but_std_name = QString("audio-volume-medium");
+		icon = IconLoader::icon(IconLoader::Vol2);
 	}
 
 	else {
-		but_name += QString("3_dark");
-		but_std_name = QString("audio-volume-high");
+		icon = IconLoader::icon(IconLoader::Vol3);
 	}
 
-	ui->btn_mute->setIcon( IconLoader::icon(but_std_name, but_name));
+	ui->btn_mute->setIcon(icon);
 }
 
 void GUI_Controls::increase_volume()
@@ -546,19 +541,19 @@ void GUI_Controls::skin_changed()
 
 	this->setStyleSheet(stylesheet);
 
-	ui->btn_fw->setIcon(IconLoader::icon("media-skip-forward", "fwd"));
-	ui->btn_bw->setIcon(IconLoader::icon("media-skip-backward", "bwd"));
+	ui->btn_fw->setIcon(IconLoader::icon(IconLoader::Forward));
+	ui->btn_bw->setIcon(IconLoader::icon(IconLoader::Backward));
 
 	if(PlayManager::instance()->playstate() == PlayState::Playing){
-		ui->btn_play->setIcon(IconLoader::icon("media-playback-pause", "pause"));
+		ui->btn_play->setIcon(IconLoader::icon(IconLoader::Pause));
 	}
 
 	else{
-		ui->btn_play->setIcon(IconLoader::icon("media-playback-start", "play"));
+		ui->btn_play->setIcon(IconLoader::icon(IconLoader::Play));
 	}
 
-	ui->btn_stop->setIcon(IconLoader::icon("media-playback-stop", "stop"));
-	ui->btn_rec->setIcon(IconLoader::icon("media-record", "rec"));
+	ui->btn_stop->setIcon(IconLoader::icon(IconLoader::Stop));
+	ui->btn_rec->setIcon(IconLoader::icon(IconLoader::Record));
 
 	setup_volume_button(ui->sli_volume->value());
 }

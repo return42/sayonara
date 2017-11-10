@@ -24,35 +24,57 @@
 #include "Utils/Settings/Settings.h"
 
 #include "GUI/Utils/GuiUtils.h"
+#include "GUI/Utils/IconLoader/IconLoader.h"
 
 IconProvider::IconProvider() :
 	QFileIconProvider()
 {
 	_settings = Settings::instance();
-
-	_folder_icon.addPixmap(Gui::Util::pixmap("folder"), QIcon::Normal, QIcon::Off);
-	_folder_icon.addPixmap(Gui::Util::pixmap("folder_open"), QIcon::Normal, QIcon::On);
 }
 
 IconProvider::~IconProvider() {}
 
 QIcon IconProvider::icon(IconType type) const
 {
+	if(type==IconType::Folder)
+	{
+		QPixmap pm = IconLoader::pixmap(IconLoader::Folder);
+		QPixmap pm_open = IconLoader::pixmap(IconLoader::FolderVisiting);
+
+		QIcon icon;
+
+		icon.addPixmap(pm, QIcon::Mode::Normal, QIcon::State::On);
+		icon.addPixmap(pm_open, QIcon::Mode::Selected, QIcon::State::On);
+
+		return icon;
+	}
+
 	return QFileIconProvider::icon(type);
 }
 
 QIcon IconProvider::icon(const QFileInfo &info) const
 {
-	if(_settings->get(Set::Player_Style) == 0){
+	if(_settings->get(Set::Player_Style) == 0)
+	{
 		return QFileIconProvider::icon(info);
 	}
 
-	if(info.isDir()){
-		return _folder_icon;
+	if(info.isDir())
+	{
+		QPixmap pm = IconLoader::pixmap(IconLoader::Folder);
+		QPixmap pm_open = IconLoader::pixmap(IconLoader::FolderVisiting);
+
+		QIcon icon;
+
+		icon.addPixmap(pm, QIcon::Mode::Normal, QIcon::State::On);
+		icon.addPixmap(pm_open, QIcon::Mode::Selected, QIcon::State::On);
+
+		return icon;
 	}
 
-	if(info.isFile() && Util::File::is_playlistfile(info.filePath())){
-		return Gui::Util::icon("playlistfile");
+	if(info.isFile() && Util::File::is_playlistfile(info.filePath()))
+	{
+		return IconLoader::icon(IconLoader::PlaylistFile);
 	}
 
 	return QFileIconProvider::icon(info);

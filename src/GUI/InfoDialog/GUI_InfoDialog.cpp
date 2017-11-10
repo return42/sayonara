@@ -91,9 +91,9 @@ void GUI_InfoDialog::skin_changed()
 	QTabBar* tab_bar = ui->tab_widget->tabBar();
 	if(tab_bar)
 	{
-		tab_bar->setTabIcon(0, IconLoader::icon("dialog-info", "info"));
-		tab_bar->setTabIcon(1, IconLoader::icon("document-properties", "lyrics"));
-		tab_bar->setTabIcon(2, IconLoader::icon("accessories-text-editor", "edit"));
+		tab_bar->setTabIcon(0, IconLoader::icon(IconLoader::Info));
+		tab_bar->setTabIcon(1, IconLoader::icon(IconLoader::Lyrics));
+		tab_bar->setTabIcon(2, IconLoader::icon(IconLoader::Edit));
 	}
 }
 

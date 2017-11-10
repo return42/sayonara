@@ -164,11 +164,11 @@ void LocalLibraryMenu::skin_changed()
 		return;
 	}
 
-	m->reload_library_action->setIcon(IconLoader::icon("view-refresh", "undo"));
-	m->import_file_action->setIcon(IconLoader::icon("document-open", "open"));
-	m->import_folder_action->setIcon(IconLoader::icon("document-open", "open"));
-	m->info_action->setIcon(IconLoader::icon("dialog-information", "info"));
-	m->edit_action->setIcon(IconLoader::icon("accessories-text-editor", "edit"));
+	m->reload_library_action->setIcon(IconLoader::icon(IconLoader::Refresh));
+	m->import_file_action->setIcon(IconLoader::icon(IconLoader::Open));
+	m->import_folder_action->setIcon(IconLoader::icon(IconLoader::Open));
+	m->info_action->setIcon(IconLoader::icon(IconLoader::Info));
+	m->edit_action->setIcon(IconLoader::icon(IconLoader::Edit));
 }
 
 void LocalLibraryMenu::realtime_search_changed()

@@ -49,8 +49,9 @@ private:
 	void init_shortcuts();
 
 protected:
-    void showEvent(QShowEvent* e) override;
-    void language_changed() override;
+	void showEvent(QShowEvent* e) override;
+	void language_changed() override;
+	void skin_changed() override;
 
 private slots:
 	void search_button_clicked();

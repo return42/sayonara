@@ -57,8 +57,8 @@ struct PluginHandler::Private
 	QList<Container*>	library_containers;
 	QList<Container*>	dll_libraries;
 
-	QWidget*							library_parent=nullptr;
-	PluginHandler*				plugin_handler=nullptr;
+	QWidget*			library_parent=nullptr;
+	PluginHandler*		plugin_handler=nullptr;
 
 	Private(PluginHandler* plugin_handler) :
 		plugin_handler(plugin_handler)
@@ -281,7 +281,6 @@ void PluginHandler::set_current_library(Container* cur_library)
 
 	emit sig_current_library_changed( cur_library->name() );
 }
-
 
 void PluginHandler::add_local_library(const Library::Info& library)
 {

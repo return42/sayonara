@@ -63,12 +63,5 @@ QFrame* DirectoryContainer::header() const
 
 QPixmap DirectoryContainer::icon() const
 {
-	QIcon icon = IconLoader::icon("folder", "dir_view");
-	QList<QSize> sizes = icon.availableSizes();
-
-	auto it = std::max_element(sizes.begin(), sizes.end(), [](const QSize& sz1, const QSize& sz2){
-		return (sz1.height() < sz2.height());
-	});
-
-	return icon.pixmap(*it);
+	return IconLoader::pixmap(IconLoader::FileManager);
 }

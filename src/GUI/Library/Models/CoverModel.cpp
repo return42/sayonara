@@ -60,6 +60,14 @@ struct CoverModel::Private
 		columns = 10;
 		n_threads_running = 0;
 	}
+
+	~Private()
+	{
+		cover_thread->stop();
+		while(cover_thread->isRunning()){
+			::Util::sleep_ms(50);
+		}
+	}
 };
 
 static QString get_hash(const Album& album)
@@ -270,7 +278,10 @@ void CoverModel::next_hash()
 			emit dataChanged(idx, idx);
 		}
 
-		acft->done(success);
+		if(acft){
+			acft->done(success);
+		}
+
 		clu->deleteLater();
 	});
 

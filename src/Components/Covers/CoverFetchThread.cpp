@@ -81,6 +81,10 @@ FetchThread::~FetchThread()
 {
 	while(!m->active_connections.isEmpty())
 	{
+		for(AsyncWebAccess* awa : m->active_connections){
+			awa->stop();
+		}
+
 		Util::sleep_ms(50);
 	}
 }

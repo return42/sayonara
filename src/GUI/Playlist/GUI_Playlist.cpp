@@ -565,7 +565,7 @@ void GUI_Playlist::check_tab_icon()
 		return;
 	}
 
-	QIcon icon = IconLoader::icon("media-playback-start", "play_bordered");
+	QIcon icon = IconLoader::icon(IconLoader::PlayBorder);
 
 	ui->tw_playlists->tabBar()->setTabIcon(active_idx, icon);
 }
