@@ -10,10 +10,11 @@ QWidget {
 }
 
 
-LibraryView,
-LibraryGenreView,
 DirectoryTreeView,
-FileListView
+FileListView,
+Library--View,
+Library--GenreView,
+Library--ItemView
 {
 	      font-size: <<FONT_SIZE_LIB>>pt;
 		  font-weight: <<FONT_WEIGHT_LIB>>;
