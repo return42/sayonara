@@ -72,6 +72,7 @@ static QMap<IconLoader::IconName, QPair<QString, QString>> s_icon_map =
 	{IconLoader::Shuffle,	P("shuffle", "shuffle")},
 	{IconLoader::Shutdown,	P("power_on", "power_on")},
 	{IconLoader::Star,		P("rating", "star.png")},
+	{IconLoader::StarDisabled, P("rating-unrated", "star_disabled.png")},
 	{IconLoader::Stop,		P("media-playback-stop", "stop")},
 	{IconLoader::Table,		P("format-justify-fill", "")},
 	{IconLoader::Undo,		P("edit-undo", "undo")},

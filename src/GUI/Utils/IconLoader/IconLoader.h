@@ -91,6 +91,7 @@ namespace IconLoader
 		Rename,
 		Search,
 		Star,
+		StarDisabled,
 		Table,
 		Undo,
 
