@@ -156,19 +156,19 @@ int ReloadThread::get_and_save_all_files(const QHash<QString, MetaData>& md_map_
 			v_md_to_store << md;
 
 			if(v_md_to_store.size() >= N_FILES_TO_STORE){
-				lib_db->storeMetadata(v_md_to_store);
+				lib_db->store_metadata(v_md_to_store);
 				v_md_to_store.clear();
 			}
 		}
 	}
 
 	if(!v_md_to_store.isEmpty()){
-		lib_db->storeMetadata(v_md_to_store);
+		lib_db->store_metadata(v_md_to_store);
 		v_md_to_store.clear();
 	}
 
-	lib_db->addAlbumArtists();
-	lib_db->createIndexes();
+	lib_db->add_album_artists();
+	lib_db->create_indexes();
 	DB::Connector::instance()->clean_up();
 
 	return v_md_to_store.size();

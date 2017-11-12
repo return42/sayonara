@@ -46,14 +46,11 @@ class PlaylistView :
 		private Dragable
 {
 	Q_OBJECT
-    PIMPL(PlaylistView)
+	PIMPL(PlaylistView)
 
 signals:
 	void sig_double_clicked(int row);
-	void sig_left_tab_clicked();
-	void sig_right_tab_clicked();
-	void sig_time_changed();
-    void sig_delete_tracks(const IndexSet& rows);
+	void sig_delete_tracks(const IndexSet& rows);
 
 public:
 	explicit PlaylistView(PlaylistPtr pl, QWidget* parent=nullptr);
@@ -79,7 +76,7 @@ public slots:
 	void clear();
 
 private:
-    void init_rc_menu();
+	void init_context_menu();
 
 	// d & d
 	void clear_drag_drop_lines(int row);
@@ -104,7 +101,7 @@ private:
 	void mouseMoveEvent(QMouseEvent* event) override;
 	void mouseDoubleClickEvent(QMouseEvent* event) override;
 
-    void keyPressEvent(QKeyEvent *event) override;
+	void keyPressEvent(QKeyEvent *event) override;
 	void selectionChanged ( const QItemSelection & selected, const QItemSelection & deselected ) override;
 
 	MD::Interpretation metadata_interpretation() const override;
@@ -113,7 +110,7 @@ private:
 
 
 private slots:
-    void async_drop_finished(bool success);
+	void async_drop_finished(bool success);
 	void rating_changed(int rating);
 
 	// SayonaraSelectionView interface

@@ -197,7 +197,7 @@ void SayonaraSelectionView::clear_selection()
 }
 
 
-IndexSet SayonaraSelectionView::get_selected_items() const
+IndexSet SayonaraSelectionView::selected_items() const
 {
 	QItemSelectionModel* sel_model = this->get_selection_model();
 
@@ -241,7 +241,7 @@ QModelIndexList SayonaraSelectionView::get_model_indexes_by_indexes(const IndexS
 
 int SayonaraSelectionView::get_min_selected_item() const
 {
-    IndexSet selected = get_selected_items();
+    IndexSet selected = selected_items();
     if(!selected.isEmpty()){
         return *(std::min_element(selected.begin(), selected.end()));
     }
@@ -284,7 +284,7 @@ void SayonaraSelectionView::handle_key_press(QKeyEvent* e)
     switch(e->key())
     {
         case Qt::Key_Up:
-            if(this->get_selected_items().empty())
+            if(this->selected_items().empty())
             {
                 e->accept();
                 this->select_row(this->get_row_count() - 1);
@@ -293,7 +293,7 @@ void SayonaraSelectionView::handle_key_press(QKeyEvent* e)
             return;
 
         case Qt::Key_Down:
-            if(this->get_selected_items().empty())
+            if(this->selected_items().empty())
             {
                 e->accept();
                 this->select_row(0);

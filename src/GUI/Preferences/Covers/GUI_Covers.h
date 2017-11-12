@@ -21,24 +21,24 @@
 #ifndef GUI_COVERS_H
 #define GUI_COVERS_H
 
-#include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
+#include "Interfaces/PreferenceDialog/PreferenceWidget.h"
 
 UI_FWD(GUI_Covers)
 
 class GUI_Covers :
-		public PreferenceWidgetInterface
+		public Preferences::Base
 {
 	Q_OBJECT
 	UI_CLASS(GUI_Covers)
 
 public:
-	GUI_Covers(QWidget* parent=nullptr);
+	GUI_Covers(const QString& identifier);
 	virtual ~GUI_Covers();
 
 	void commit() override;
 	void revert() override;
 
-	QString get_action_name() const override;
+	QString action_name() const override;
 
 protected:
 	void init_ui() override;

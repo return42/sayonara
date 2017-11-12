@@ -22,6 +22,7 @@
 #define DATABASELIBRARY_H
 
 #include "Database/DatabaseModule.h"
+#include "Utils/Pimpl.h"
 
 class MetaDataList;
 namespace DB
@@ -29,18 +30,16 @@ namespace DB
 	class Library :
 			private Module
 	{
-
-		private:
-			uint8_t _library_id;
+		PIMPL(Library)
 
 		public:
 			Library(const QSqlDatabase& db, uint8_t db_id, int8_t library_id);
 			~Library();
 
-			virtual void dropIndexes();
-			virtual void createIndexes();
-			virtual bool storeMetadata(const MetaDataList& v_md);
-			virtual void addAlbumArtists();
+			virtual void drop_indexes();
+			virtual void create_indexes();
+			virtual bool store_metadata(const MetaDataList& v_md);
+			virtual void add_album_artists();
 	};
 }
 

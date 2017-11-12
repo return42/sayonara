@@ -38,28 +38,30 @@ namespace SomaFM
 
 		PIMPL(Library)
 
-	signals:
-		void sig_stations_loaded(const QList<Station>& stations);
-		void sig_station_changed(const Station& station);
+		signals:
+			void sig_stations_loaded(const QList<Station>& stations);
+			void sig_station_changed(const Station& station);
+			void sig_loading_finished();
+			void sig_loading_started();
 
-	public:
-		explicit Library(QObject* parent=nullptr);
-		~Library();
+		public:
+			explicit Library(QObject* parent=nullptr);
+			~Library();
 
-		Station station(const QString& name);
-		void create_playlist_from_station(int idx);
-		void create_playlist_from_playlist(int idx);
-		void search_stations();
-		void set_station_loved(const QString& station_name, bool loved);
+			Station station(const QString& name);
+			void create_playlist_from_station(int idx);
+			bool create_playlist_from_playlist(int idx);
+			void search_stations();
+			void set_station_loved(const QString& station_name, bool loved);
 
 
-	private slots:
-		void soma_website_fetched();
-		void soma_playlist_content_fetched(bool success);
-		void soma_station_playlists_fetched(bool success);
+		private slots:
+			void soma_website_fetched();
+			void soma_playlist_content_fetched(bool success);
+			void soma_station_playlists_fetched(bool success);
 
-	private:
-		void sort_stations(QList<Station>& stations);
+		private:
+			void sort_stations(QList<Station>& stations);
 	};
 }
 

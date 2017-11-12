@@ -26,33 +26,42 @@
 
 namespace Cover
 {
-    class Location;
+	class Location;
 
-    /**
-     * @brief The CoverLookupAlternative class
-     * @ingroup Covers
-     */
-    class AlternativeLookup :
-            public LookupBase
-    {
-        Q_OBJECT
-        PIMPL(AlternativeLookup)
+	/**
+	 * @brief The CoverLookupAlternative class
+	 * @ingroup Covers
+	 */
+	class AlternativeLookup :
+			public LookupBase
+	{
+		Q_OBJECT
+		PIMPL(AlternativeLookup)
 
-    private:
-        AlternativeLookup(QObject* parent, int n_covers);
+	private:
+		void go(const Location& cl);
 
-    public:
-        AlternativeLookup(QObject* parent, const Cover::Location& cl, int n_covers);
-        ~AlternativeLookup();
+	public:
 
-        void stop() override;
-        void start();
+		AlternativeLookup(QObject* parent, int n_covers);
+		~AlternativeLookup();
+
+		void start();
+		void start(const QString& cover_fetcher_identifier);
+
+		void start_text_search(const QString& search_term);
+		void start_text_search(const QString& search_term, const QString& cover_fetcher_identifier);
+
+		void stop() override;
+
+		Cover::Location cover_location() const;
+		void set_cover_location(const Cover::Location& location);
 
 
-    private slots:
-        void cover_found(const QString& cover_path);
-        void finished(bool);
-    };
+	private slots:
+		void cover_found(const QString& cover_path);
+		void finished(bool);
+	};
 }
 
 #endif // COVERLOOKUPALTERNATIVE_H

@@ -24,6 +24,10 @@
 class QString;
 class QStringList;
 class QIcon;
+class QPixmap;
+
+template <typename T>
+class QList;
 
 /**
  * @brief The IconLoader class
@@ -31,10 +35,75 @@ class QIcon;
  */
 namespace IconLoader
 {
-    QIcon icon(const QString& name, const QString& dark_name);
-    QIcon icon(const QStringList& names, const QString& dark_name);
+	enum IconMode
+	{
+		Automatic,
+		ForceStdIcon,
+		ForceSayonaraIcon
+	};
 
-    void change_theme();
+	enum IconName
+	{
+		Append=0,		// Playlist
+		AudioFile,
+		Dynamic,
+		Repeat1,
+		RepeatAll,
+		Shuffle,
+		Gapless,
+		Shutdown,
+
+		Backward,
+		Forward,
+		LocalLibrary,
+		Pause,
+		Play,
+		PlayBorder,
+		PlaySmall,
+		Previous,		// Player controls
+		Next,
+		PlaylistFile,
+		Record,
+		Stop,
+		Vol1,
+		Vol2,
+		Vol3,
+		VolMute,
+
+		Delete,
+		Folder,
+		FolderOpen,
+		FolderVisiting,
+		Save,
+		SaveAs,
+
+		Clear,
+		Close,
+		Edit,
+		Exit,
+		FileManager,
+		Image,
+		Info,
+		New,
+		Open,
+		Refresh,
+		Remove,
+		Rename,
+		Search,
+		Star,
+		Table,
+		Undo,
+
+		Lyrics
+	};
+
+	QIcon icon(IconName name);
+	QIcon icon(IconName name, IconMode mode);
+
+	QPixmap pixmap(IconName name);
+	QPixmap pixmap(IconName name, IconMode mode);
+
+	void change_theme();
 }
 
 #endif

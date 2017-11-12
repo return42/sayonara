@@ -151,12 +151,6 @@ private slots:
 
 
 private:
-
-	/**
-	 * @brief reset member variables
-	 */
-	void init_members();
-
 	/**
 	 * @brief fetch bookmarks from db and emit sig_bookmarks_changed signal
 	 */

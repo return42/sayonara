@@ -28,8 +28,8 @@
 #include "Utils/Language.h"
 
 
-GUI_BroadcastSetup::GUI_BroadcastSetup(QWidget *parent) :
-	PreferenceWidgetInterface(parent) {}
+GUI_BroadcastSetup::GUI_BroadcastSetup(const QString& identifier) :
+	Base(identifier) {}
 
 GUI_BroadcastSetup::~GUI_BroadcastSetup()
 {
@@ -102,7 +102,7 @@ void GUI_BroadcastSetup::retranslate_ui()
 }
 
 
-QString GUI_BroadcastSetup::get_action_name() const
+QString GUI_BroadcastSetup::action_name() const
 {
 	return Lang::get(Lang::Broadcast);
 }
@@ -142,3 +142,5 @@ void GUI_BroadcastSetup::refresh_url()
 	ui->lab_url_title->setVisible(active);
 	ui->le_url->setText(get_url_string());
 }
+
+

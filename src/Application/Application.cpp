@@ -272,43 +272,43 @@ void Application::init_playlist(const QStringList& files_to_play)
 
 void Application::init_preferences()
 {
-	GUI_PreferenceDialog* preferences = new GUI_PreferenceDialog(m->player);
+	PreferenceDialog* preferences = new GUI_PreferenceDialog(m->player);
 
 	m->player->register_preference_dialog(preferences);
 
-	preferences->register_preference_dialog(new GUI_LanguageChooser());
-	preferences->register_preference_dialog(new GUI_FontConfig());
-	preferences->register_preference_dialog(new GUI_PlayerPreferences());
-	preferences->register_preference_dialog(new GUI_PlaylistPreferences());
-	preferences->register_preference_dialog(new GUI_LibraryPreferences());
-	preferences->register_preference_dialog(new GUI_Covers());
-	//preferences->register_preference_dialog(new GUI_StreamPreferences());
-	preferences->register_preference_dialog(new GUI_StreamRecorder());
-	preferences->register_preference_dialog(new GUI_BroadcastSetup());
-	preferences->register_preference_dialog(new GUI_Shortcuts());
-	preferences->register_preference_dialog(new GUI_Notifications());
-	preferences->register_preference_dialog(new GUI_RemoteControl());
-	preferences->register_preference_dialog(new GUI_LastFM(new LastFM::Base()));
-	preferences->register_preference_dialog(new GUI_IconPreferences());
-	preferences->register_preference_dialog(new GUI_Proxy());
+	preferences->register_preference_dialog(new GUI_LanguageChooser("language"));
+	preferences->register_preference_dialog(new GUI_FontConfig("fonts"));
+	preferences->register_preference_dialog(new GUI_PlayerPreferences("player"));
+	preferences->register_preference_dialog(new GUI_PlaylistPreferences("playlist"));
+	preferences->register_preference_dialog(new GUI_LibraryPreferences("library"));
+	preferences->register_preference_dialog(new GUI_Covers("covers"));
+	//preferences->register_preference_dialog(new GUI_StreamPreferences("streams"));
+	preferences->register_preference_dialog(new GUI_StreamRecorder("streamrecorder"));
+	preferences->register_preference_dialog(new GUI_BroadcastSetup("broadcast"));
+	preferences->register_preference_dialog(new GUI_Shortcuts("shortcuts"));
+	preferences->register_preference_dialog(new GUI_Notifications("notifications"));
+	preferences->register_preference_dialog(new GUI_RemoteControl("remotecontrol"));
+	preferences->register_preference_dialog(new GUI_LastFM("lastfm", new LastFM::Base()));
+	preferences->register_preference_dialog(new GUI_IconPreferences("icons"));
+	preferences->register_preference_dialog(new GUI_Proxy("proxy"));
 
 	sp_log(Log::Debug, this) << "Preference dialogs loaded: " << m->timer->elapsed() << "ms";
 }
 
 void Application::init_libraries()
 {
-	LibraryPluginHandler* library_plugin_loader = LibraryPluginHandler::instance();
+	Library::PluginHandler* library_plugin_loader = Library::PluginHandler::instance();
 
-	QList<LibraryContainerInterface*> library_containers;
-	DirectoryLibraryContainer* directory_container = new DirectoryLibraryContainer(this);
+	QList<Library::Container*> library_containers;
+	Library::DirectoryContainer* directory_container = new Library::DirectoryContainer(this);
 
-	library_containers << static_cast<LibraryContainerInterface*>(directory_container);
+	library_containers << static_cast<Library::Container*>(directory_container);
 
 #ifdef Q_OS_WIN
-	SoundcloudLibraryContainer* soundcloud_container = new SoundcloudLibraryContainer(this);
-	SomaFMLibraryContainer* somafm_container = new SomaFMLibraryContainer(this);
-	library_containers << static_cast<LibraryContainerInterface*>(soundcloud_container);
-	library_containers << static_cast<LibraryContainerInterface*>(somafm_container);
+	SC::LibraryContainer* soundcloud_container = new SC::LibraryContainer(this);
+	SomaFM::LibraryContainer* somafm_container = new SomaFM::LibraryContainer(this);
+	library_containers << static_cast<Library::ContainerInterface*>(soundcloud_container);
+	library_containers << static_cast<Library::ContainerInterface*>(somafm_container);
 #endif
 	sp_log(Log::Debug, this) << "Libraries init: " << m->timer->elapsed() << "ms";
 	library_plugin_loader->init(library_containers);

@@ -162,6 +162,7 @@ namespace Util
 	 * @param value variable value
 	 */
 	void set_environment(const QString& key, const QString& value);
+	void unset_environment(const QString& key);
 }
 
 #endif

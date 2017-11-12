@@ -42,13 +42,13 @@ namespace Style
 	 * @brief fetch the stylesheet file formatted as string
 	 * @return string formatted stylesheet file
 	 */
-	QString get_style(bool dark);
+	QString style(bool dark);
 
-	QString get_current_style();
+	QString current_style();
 
-	QFont get_current_font();
+	QFont current_font();
 
-	int get_recommended_height();
+	int recommended_height();
 }
 
 #endif /* STYLE_H_ */

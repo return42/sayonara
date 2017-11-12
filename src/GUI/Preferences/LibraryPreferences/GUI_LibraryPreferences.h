@@ -21,26 +21,26 @@
 #ifndef GUI_LIBRARYPREFERENCES_H
 #define GUI_LIBRARYPREFERENCES_H
 
-#include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
+#include "Interfaces/PreferenceDialog/PreferenceWidget.h"
 #include "Utils/Pimpl.h"
 
 UI_FWD(GUI_LibraryPreferences)
 
 class GUI_LibraryPreferences :
-		public PreferenceWidgetInterface
+		public Preferences::Base
 {
 	Q_OBJECT
 	PIMPL(GUI_LibraryPreferences)
 	UI_CLASS(GUI_LibraryPreferences)
 
 public:
-	explicit GUI_LibraryPreferences(QWidget* parent=nullptr);
+	explicit GUI_LibraryPreferences(const QString& identifier);
 	virtual ~GUI_LibraryPreferences();
 
 	void commit() override;
 	void revert() override;
 
-	QString get_action_name() const override;
+	QString action_name() const override;
 
 protected:
 	void init_ui() override;

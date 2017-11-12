@@ -20,7 +20,7 @@
 
 #include "LocalLibraryContainer.h"
 #include "GUI/Library/GUI_LocalLibrary.h"
-#include "GUI/Utils/GuiUtils.h"
+#include "GUI/Utils/IconLoader/IconLoader.h"
 #include "Utils/Library/LibraryInfo.h"
 
 #include <QAction>
@@ -30,19 +30,19 @@ using namespace Library;
 struct LocalLibraryContainer::Private
 {
 	GUI_LocalLibrary*   ui=nullptr;
-	LibraryInfo			library;
+	Info			library;
 	QString				name;
 	QString				library_path;
 
-	Private(const LibraryInfo& library) :
+	Private(const Info& library) :
 		library(library)
 	{
 		name = library.name();
 	}
 };
 
-LocalLibraryContainer::LocalLibraryContainer(const LibraryInfo& library, QObject* parent) :
-	LibraryContainerInterface(parent)
+LocalLibraryContainer::LocalLibraryContainer(const Library::Info& library, QObject* parent) :
+	Container(parent)
 {
 	m = Pimpl::make<Private>(library);
 }
@@ -99,7 +99,7 @@ QFrame* LocalLibraryContainer::header() const
 
 QPixmap LocalLibraryContainer::icon() const
 {
-	return Gui::Util::pixmap("append.svg");
+	return IconLoader::pixmap(IconLoader::LocalLibrary);
 }
 
 void LocalLibraryContainer::set_name(const QString& name)

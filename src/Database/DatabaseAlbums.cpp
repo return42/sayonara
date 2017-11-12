@@ -26,21 +26,33 @@
 using DB::Albums;
 using DB::Query;
 
+struct Albums::Private
+{
+	QString artist_id_field;
+	QString artist_name_field;
+	QString search_view;
+	QString track_view;
+
+	Private(int8_t library_id)
+	{
+		artist_id_field = "artistID";
+		artist_name_field = "name";
+		search_view = QString("track_search_view_%1").arg(library_id);
+
+		if(library_id < 0) {
+			track_view = "tracks";
+		}
+
+		else {
+			track_view = QString("track_view_%1").arg(library_id);
+		}
+	}
+};
+
 Albums::Albums(QSqlDatabase db, uint8_t db_id, int8_t library_id) :
 	DB::SearchMode(db, db_id)
 {
-	_artistid_field = "artistID";
-	_artistname_field = "artistName";
-
-	_search_view_name = "track_search_view_" + QString::number(library_id);
-
-	if(library_id < 0) {
-		_track_view_name = QString("tracks");
-	}
-
-	else {
-		_track_view_name = QString("track_view_%1").arg(library_id);
-	}
+	m = Pimpl::make<Private>(library_id);
 }
 
 Albums::~Albums() {}
@@ -51,12 +63,13 @@ QString Albums::fetch_query_albums(bool also_empty) const
 			"SELECT "
 			"  albums.albumID AS albumID"
 			", albums.name AS albumName"
-			", SUM( " + _track_view_name + ".length) / 1000 AS albumLength"
+			", SUM( " + m->track_view + ".length) / 1000 AS albumLength"
 			", albums.rating AS albumRating"
-			", COUNT(DISTINCT " + _track_view_name + ".trackid) AS trackCount"
-			", MAX(" + _track_view_name + ".year) AS albumYear"
+			", COUNT(DISTINCT " + m->track_view + ".trackID) AS trackCount"
+			", MAX(" + m->track_view + ".year) AS albumYear"
 			", GROUP_CONCAT(DISTINCT artists.name)"
-			", GROUP_CONCAT(DISTINCT " + _track_view_name + ".discnumber)"
+			", GROUP_CONCAT(DISTINCT albumArtists.name)"
+			", GROUP_CONCAT(DISTINCT " + m->track_view + ".discnumber)"
 			" FROM albums ";
 
 	QString join = " INNER JOIN ";
@@ -64,11 +77,9 @@ QString Albums::fetch_query_albums(bool also_empty) const
 		join = " LEFT OUTER JOIN ";
 	}
 
-	sql +=	join + " " + _track_view_name + " ON " + _track_view_name + ".albumID = albums.albumID " +
-			join + " artists ON ("
-				   "    " + _track_view_name + ".artistID = artists.artistID OR "
-				   "    " + _track_view_name + ".albumArtistID = artists.artistID"
-				   " ) ";
+	sql +=	join + " " +  m->track_view + " ON " +  m->track_view + ".albumID = albums.albumID " +
+			join + " artists ON " + m->track_view + ".artistID = artists.artistID " +
+			join + " artists albumArtists ON " + m->track_view + ".albumArtistID = albumArtists.artistID ";
 
 	return sql;
 }
@@ -90,15 +101,16 @@ bool Albums::db_fetch_albums(Query& q, AlbumList& result)
 		Album album;
 
 		album.id =			q.value(0).toInt();
-		album.set_name(q.value(1).toString().trimmed());
+		album.set_name(		q.value(1).toString().trimmed());
 		album.length_sec =	q.value(2).toInt();
 		album.rating =		q.value(3).toInt();
 		album.num_songs =	q.value(4).toInt();
 		album.year =		q.value(5).toInt();
-		album.set_artists(q.value(6).toString().split(','));
+		album.set_artists(	q.value(6).toString().split(','));
+		album.set_album_artists(q.value(7).toString().split(','));
 
 		album.discnumbers.clear();
-		QStringList discs =	q.value(7).toString().split(',');
+		QStringList discs =	q.value(8).toString().split(',');
 		discs.removeDuplicates();
 
 		for(const QString& disc : discs) {
@@ -243,9 +255,9 @@ bool Albums::getAllAlbumsByArtist(IDList artists, AlbumList& result, const Libra
 					 ", COUNT(DISTINCT trackID) AS trackCount"
 					 ", MAX(year) AS albumYear"
 					 ", GROUP_CONCAT(DISTINCT artistName)"
-					 ", GROUP_CONCAT(DISTINCT discnumber)"
 					 ", GROUP_CONCAT(DISTINCT albumArtistName)"
-					 " FROM " + _search_view_name + " ";
+					 ", GROUP_CONCAT(DISTINCT discnumber)"
+					 " FROM " + m->search_view + " ";
 	QString query = select;
 
 	if( !filter.cleared() )
@@ -273,7 +285,7 @@ bool Albums::getAllAlbumsByArtist(IDList artists, AlbumList& result, const Libra
 
 	if(!artists.isEmpty())
 	{
-		QString artist_id_field = _search_view_name + "." + _artistid_field;
+		QString artist_id_field = m->search_view + "." + m->artist_id_field;
 		query += "(" + artist_id_field + " = :artist_id_0 ";
 
 		for(int i=1; i<artists.size(); i++) {
@@ -322,9 +334,9 @@ bool Albums::getAllAlbumsBySearchString(const Library::Filter& filter, AlbumList
 					 ", COUNT(DISTINCT trackID) AS trackCount"
 					 ", MAX(year) AS albumYear"
 					 ", GROUP_CONCAT(DISTINCT artistName)"
-					 ", GROUP_CONCAT(DISTINCT discnumber)"
 					 ", GROUP_CONCAT(DISTINCT albumArtistName)"
-					 " FROM " + _search_view_name + " ";
+					 ", GROUP_CONCAT(DISTINCT discnumber)"
+					 " FROM " + m->search_view + " ";
 	QString query;
 	QString search_field;
 	switch(filter.mode())
@@ -458,11 +470,11 @@ int Albums::insertAlbumIntoDatabase (const Album& album)
 
 void Albums::change_artistid_field(const QString& id, const QString& name)
 {
-	_artistid_field = id;
-	_artistname_field = name;
+	m->artist_id_field = id;
+	m->artist_name_field = name;
 }
 
-void Albums::change_track_lookup_field(const QString& track_lookup_field)
+void Albums::change_track_lookup_field(const QString& search_view)
 {
-	_search_view_name = track_lookup_field;
+	m->search_view = search_view;
 }

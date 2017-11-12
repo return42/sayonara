@@ -1,3 +1,25 @@
+/* GUI_Controls.h */
+
+/* Copyright (C) 2011-2017  Lucio Carreras
+ *
+ * This file is part of sayonara player
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+
+
 #ifndef GUI_CONTROLS_H
 #define GUI_CONTROLS_H
 
@@ -10,6 +32,7 @@
 #include "GUI/Utils/GUIClass.h"
 #include "GUI/Utils/Shortcuts/ShortcutWidget.h"
 #include "GUI/Utils/Widgets/Widget.h"
+#include "GUI/InfoDialog/InfoDialogContainer.h"
 
 UI_FWD(GUI_Controls)
 
@@ -18,7 +41,8 @@ class MetaDataList;
 
 class GUI_Controls :
 		public Gui::Widget,
-		public ShortcutWidget
+		public ShortcutWidget,
+		public InfoDialogContainer
 {
 	Q_OBJECT
 	PIMPL(GUI_Controls)
@@ -51,6 +75,7 @@ private:
 protected:
 	void resizeEvent(QResizeEvent* e) override;
 	void showEvent(QShowEvent* e) override;
+	void contextMenuEvent(QContextMenuEvent* e) override;
 
 public:
 	explicit GUI_Controls(QWidget *parent = 0);
@@ -96,8 +121,14 @@ private slots:
 	void dur_changed(const MetaData &md);
 	void br_changed(const MetaData &md);
 
-	void cover_changed(const QImage &img);
+	// cover changed by engine
+	void force_cover(const QImage &img);
 
+
+	// InfoDialogContainer interface
+protected:
+	MD::Interpretation metadata_interpretation() const override;
+	MetaDataList info_dialog_data() const override;
 };
 
 #endif // GUI_CONTROLS_H

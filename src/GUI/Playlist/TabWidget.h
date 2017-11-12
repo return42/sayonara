@@ -21,17 +21,17 @@
 #ifndef PLAYLISTTABWIDGET_H
 #define PLAYLISTTABWIDGET_H
 
-#include "PlaylistMenuEntry.h"
+#include "MenuEntry.h"
 #include "Utils/Pimpl.h"
 
 #include <QTabWidget>
 
 class MetaDataList;
 class PlaylistTabWidget :
-        public QTabWidget
+		public QTabWidget
 {
 	Q_OBJECT
-    PIMPL(PlaylistTabWidget)
+	PIMPL(PlaylistTabWidget)
 
 signals:
 	void sig_open_file(int tab_idx);
@@ -39,7 +39,7 @@ signals:
 	void sig_tab_reset(int tab_idx);
 	void sig_tab_save(int tab_idx);
 	void sig_tab_save_as(int tab_idx, const QString& name);
-    void sig_tab_save_to_file(int tab_idx, const QString& filename);
+	void sig_tab_save_to_file(int tab_idx, const QString& filename);
 	void sig_tab_rename(int tab_idx, const QString& name);
 	void sig_tab_delete(int tab_idx);
 	void sig_tab_clear(int tab_idx);
@@ -53,10 +53,10 @@ public:
 	void show_menu_items(PlaylistMenuEntries actions);
 
 	void removeTab(int index);
-    void addTab(QWidget* widget, const QIcon& icon, const QString& label);
-    void addTab(QWidget* widget, const QString& label);
-    void insertTab(int index, QWidget* widget, const QString& label);
-    void insertTab(int index, QWidget* widget, const QIcon& icon, const QString& label);
+	void addTab(QWidget* widget, const QIcon& icon, const QString& label);
+	void addTab(QWidget* widget, const QString& label);
+	void insertTab(int index, QWidget* widget, const QString& label);
+	void insertTab(int index, QWidget* widget, const QIcon& icon, const QString& label);
 
 	bool was_drag_from_playlist() const;
 	int get_drag_origin_tab() const;

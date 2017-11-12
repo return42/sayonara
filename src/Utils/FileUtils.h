@@ -164,6 +164,9 @@ namespace Util
 		 */
 		bool check_file(const QString& filepath);
 
+		QString get_common_directory(const QStringList& paths);
+		QString get_common_directory(QString dir1, QString dir2);
+
 		// Everything clear
 		bool is_url(const QString& str);
 		bool is_www(const QString& str);

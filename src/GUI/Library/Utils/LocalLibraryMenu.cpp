@@ -40,7 +40,7 @@ struct LocalLibraryMenu::Private
 	QAction* import_folder_action=nullptr;
 	QAction* info_action=nullptr;
 	QAction* edit_action=nullptr;
-    QAction* livesearch_action=nullptr;
+	QAction* livesearch_action=nullptr;
 	QAction* auto_update=nullptr;
 	QAction* show_album_artists_action=nullptr;
 	QAction* show_album_cover_view=nullptr;
@@ -67,12 +67,12 @@ void LocalLibraryMenu::refresh_name(const QString& name)
 
 void LocalLibraryMenu::refresh_path(const QString& path)
 {
-    m->path = path;
+	m->path = path;
 }
 
 void LocalLibraryMenu::set_show_album_covers_checked(bool checked)
 {
-    m->show_album_cover_view->setChecked(checked);
+	m->show_album_cover_view->setChecked(checked);
 }
 
 void LocalLibraryMenu::init_menu()
@@ -82,24 +82,24 @@ void LocalLibraryMenu::init_menu()
 		return;
 	}
 
-    m->reload_library_action = new QAction(this);
-    m->import_file_action = new QAction(this);
-    m->import_folder_action = new QAction(this);
-    m->info_action = new QAction(this);
-    m->edit_action = new QAction(this);
+	m->reload_library_action = new QAction(this);
+	m->import_file_action = new QAction(this);
+	m->import_folder_action = new QAction(this);
+	m->info_action = new QAction(this);
+	m->edit_action = new QAction(this);
 
-    m->livesearch_action = new QAction(this);
-    m->livesearch_action->setCheckable(true);
-    m->livesearch_action->setChecked(_settings->get(Set::Lib_LiveSearch));
-    m->auto_update = new QAction(this);
+	m->livesearch_action = new QAction(this);
+	m->livesearch_action->setCheckable(true);
+	m->livesearch_action->setChecked(_settings->get(Set::Lib_LiveSearch));
+	m->auto_update = new QAction(this);
 	m->auto_update->setCheckable(true);
 	m->auto_update->setChecked(_settings->get(Set::Lib_AutoUpdate));
 
-    m->show_album_artists_action = new QAction(this);
+	m->show_album_artists_action = new QAction(this);
 	m->show_album_artists_action->setCheckable(true);
 	m->show_album_artists_action->setChecked(_settings->get(Set::Lib_ShowAlbumArtists));
 
-    m->show_album_cover_view = new QAction(this);
+	m->show_album_cover_view = new QAction(this);
 	m->show_album_cover_view->setCheckable(true);
 	m->show_album_cover_view->setChecked(_settings->get(Set::Lib_ShowAlbumCovers));
 
@@ -108,7 +108,7 @@ void LocalLibraryMenu::init_menu()
 	connect(m->import_folder_action, &QAction::triggered, this, &LocalLibraryMenu::sig_import_folder);
 	connect(m->info_action, &QAction::triggered, this, &LocalLibraryMenu::sig_info);
 	connect(m->edit_action, &QAction::triggered, this, &LocalLibraryMenu::edit_clicked);
-    connect(m->livesearch_action, &QAction::triggered, this, &LocalLibraryMenu::realtime_search_changed);
+	connect(m->livesearch_action, &QAction::triggered, this, &LocalLibraryMenu::realtime_search_changed);
 	connect(m->auto_update, &QAction::triggered, this, &LocalLibraryMenu::auto_update_changed);
 	connect(m->show_album_artists_action, &QAction::triggered, this, &LocalLibraryMenu::show_album_artists_changed);
 	connect(m->show_album_cover_view, &QAction::triggered, this, &LocalLibraryMenu::show_album_cover_view_changed);
@@ -123,16 +123,13 @@ void LocalLibraryMenu::init_menu()
 				  m->reload_library_action <<
 				  this->addSeparator() <<
 				  m->show_album_cover_view <<
-                  m->livesearch_action <<
+				  m->livesearch_action <<
 				  m->auto_update <<
 				  m->show_album_artists_action;
 
 	this->addActions(actions);
 
-    Set::listen(Set::Lib_ShowAlbumCovers, this, [=](){
-         bool show_covers = Settings::instance()->get(Set::Lib_ShowAlbumCovers);
-         m->show_album_cover_view->setChecked(show_covers);
-    });
+	Set::listen(Set::Lib_ShowAlbumCovers, this, &LocalLibraryMenu::show_album_covers_changed);
 
 	m->initialized = true;
 }
@@ -155,10 +152,10 @@ void LocalLibraryMenu::language_changed()
 	m->import_folder_action->setText(Lang::get(Lang::ImportDir));
 	m->info_action->setText(Lang::get(Lang::Info));
 	m->edit_action->setText(Lang::get(Lang::Edit));
-    m->livesearch_action->setText(tr("Live search"));
+	m->livesearch_action->setText(tr("Live search"));
 	m->auto_update->setText(tr("Auto update"));
 	m->show_album_artists_action->setText(Lang::get(Lang::ShowAlbumArtists));
-    m->show_album_cover_view->setText(tr("Cover view"));
+	m->show_album_cover_view->setText(tr("Cover view"));
 }
 
 void LocalLibraryMenu::skin_changed()
@@ -167,18 +164,16 @@ void LocalLibraryMenu::skin_changed()
 		return;
 	}
 
-    ;
-
-    m->reload_library_action->setIcon(IconLoader::icon("view-refresh", "undo"));
-    m->import_file_action->setIcon(IconLoader::icon("document-open", "open"));
-    m->import_folder_action->setIcon(IconLoader::icon("document-open", "open"));
-    m->info_action->setIcon(IconLoader::icon("dialog-information", "info"));
-    m->edit_action->setIcon(IconLoader::icon("accessories-text-editor", "edit"));
+	m->reload_library_action->setIcon(IconLoader::icon(IconLoader::Refresh));
+	m->import_file_action->setIcon(IconLoader::icon(IconLoader::Open));
+	m->import_folder_action->setIcon(IconLoader::icon(IconLoader::Open));
+	m->info_action->setIcon(IconLoader::icon(IconLoader::Info));
+	m->edit_action->setIcon(IconLoader::icon(IconLoader::Edit));
 }
 
 void LocalLibraryMenu::realtime_search_changed()
 {
-    _settings->set(Set::Lib_LiveSearch, m->livesearch_action->isChecked());
+	_settings->set(Set::Lib_LiveSearch, m->livesearch_action->isChecked());
 }
 
 void LocalLibraryMenu::auto_update_changed()
@@ -215,6 +210,12 @@ void LocalLibraryMenu::edit_accepted()
 	}
 }
 
+void LocalLibraryMenu::show_album_covers_changed()
+{
+	bool show_covers = Settings::instance()->get(Set::Lib_ShowAlbumCovers);
+	m->show_album_cover_view->setChecked(show_covers);
+}
+
 void LocalLibraryMenu::show_album_cover_view_changed()
 {
 	_settings->set(Set::Lib_ShowAlbumCovers, m->show_album_cover_view->isChecked());
@@ -225,6 +226,6 @@ void LocalLibraryMenu::show_album_artists_changed()
 	bool show_album_artist = m->show_album_artists_action->isChecked();
 	_settings->set(Set::Lib_ShowAlbumArtists, show_album_artist);
 
-    emit sig_show_album_artists_changed(show_album_artist);
+	emit sig_show_album_artists_changed(show_album_artist);
 }
 

@@ -49,7 +49,7 @@ struct GUI_InfoDialog::Private
 	InfoDialogContainer*	info_dialog_container=nullptr;
 	GUI_TagEdit*			ui_tag_edit=nullptr;
 	GUI_Lyrics*				ui_lyrics=nullptr;
-    Cover::Location			cl;
+	Cover::Location			cl;
 	MetaDataList			v_md;
 	MD::Interpretation		md_interpretation;
 };
@@ -59,7 +59,7 @@ GUI_InfoDialog::GUI_InfoDialog(InfoDialogContainer* container, QWidget* parent) 
 	Dialog(parent)
 {
 	ui = nullptr;
-    m = Pimpl::make<Private>();
+	m = Pimpl::make<Private>();
 
 	m->info_dialog_container = container;
 	m->md_interpretation = MD::Interpretation::None;
@@ -91,9 +91,9 @@ void GUI_InfoDialog::skin_changed()
 	QTabBar* tab_bar = ui->tab_widget->tabBar();
 	if(tab_bar)
 	{
-        tab_bar->setTabIcon(0, IconLoader::icon("dialog-info", "info"));
-        tab_bar->setTabIcon(1, IconLoader::icon("document-properties", "lyrics"));
-        tab_bar->setTabIcon(2, IconLoader::icon("accessories-text-editor", "edit"));
+		tab_bar->setTabIcon(0, IconLoader::icon(IconLoader::Info));
+		tab_bar->setTabIcon(1, IconLoader::icon(IconLoader::Lyrics));
+		tab_bar->setTabIcon(2, IconLoader::icon(IconLoader::Edit));
 	}
 }
 
@@ -211,7 +211,6 @@ void GUI_InfoDialog::tab_index_changed(GUI_InfoDialog::Tab idx)
 	}
 }
 
-
 void GUI_InfoDialog::show(GUI_InfoDialog::Tab tab)
 {
 	if(!ui){
@@ -220,7 +219,7 @@ void GUI_InfoDialog::show(GUI_InfoDialog::Tab tab)
 
 	QTabWidget* tab_widget = ui->tab_widget;
 
-    prepare_cover(Cover::Location::getInvalidLocation());
+	prepare_cover(Cover::Location::invalid_location());
 
 	bool lyric_enabled = (m->v_md.size() == 1);
 	bool tag_edit_enabled = std::any_of(m->v_md.begin(), m->v_md.end(), [](const MetaData& md){
@@ -280,12 +279,14 @@ void GUI_InfoDialog::init()
 	QLayout* tab3_layout = ui->tab_3->layout();
 	QTabWidget* tab_widget = ui->tab_widget;
 
-	if(tab2_layout){
+	if(tab2_layout)
+	{
 		m->ui_lyrics = new GUI_Lyrics(ui->tab_2);
 		tab2_layout->addWidget(m->ui_lyrics);
 	}
 
-	if(tab3_layout){
+	if(tab3_layout)
+	{
 		m->ui_tag_edit = new GUI_TagEdit(ui->tab_3);
 		tab3_layout->addWidget(m->ui_tag_edit);
 	}

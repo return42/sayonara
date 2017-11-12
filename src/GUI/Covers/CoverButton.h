@@ -24,13 +24,14 @@
 #include <QPushButton>
 
 #include "Utils/Pimpl.h"
+#include "GUI/Utils/Widgets/WidgetTemplate.h"
 
 class QPixmap;
 class QResizeEvent;
 
 namespace Cover
 {
-    class Location;
+	class Location;
 }
 
 
@@ -39,34 +40,53 @@ namespace Cover
  * @ingroup GUICovers
  */
 class CoverButton :
-		public QPushButton
+		public Gui::WidgetTemplate<QPushButton>
 {
 	Q_OBJECT
 	PIMPL(CoverButton)
 
 signals:
-	void sig_cover_replaced();
-	void sig_cover_found();
+	void sig_rejected();
 
 public:
 	explicit CoverButton(QWidget* parent=nullptr);
 	virtual ~CoverButton();
 
-    void set_cover_location(const Cover::Location& cl);
-    void force_cover(const QImage& img);
-    void force_cover(const QPixmap& img);
+	/**
+	 * @brief Set an appropriate cover location.
+	 * Afterwards a search is triggered to find the cover.
+	 * @param cl
+	 */
+	void set_cover_location(const Cover::Location& cl);
+
+	/**
+	 * @brief Force a cover in order to override a searched cover.
+	 * This is intended if the audio file contains a cover itself
+	 * @param img
+	 */
+	void force_cover(const QImage& img);
+
+	/**
+	 * @brief Force a cover in order to override a searched cover.
+	 * This is intended if the audio file contains a cover itself
+	 * @param img
+	 */
+	void force_cover(const QPixmap& img);
 
 private:
-    QIcon get_cur_icon() const;
+	QIcon get_cur_icon() const;
 
 protected:
 	void resizeEvent(QResizeEvent* e) override;
 
 private slots:
 	void cover_button_clicked();
-    void alternative_cover_fetched(const Cover::Location& cl);
-    void cover_found(const Cover::Location& cl);
+	void alternative_cover_fetched(const Cover::Location& cl);
+	void cover_found(const Cover::Location& cl);
 	void set_cover_image(const QString& cover_path);
+
+public slots:
+	void refresh();
 };
 
 #endif

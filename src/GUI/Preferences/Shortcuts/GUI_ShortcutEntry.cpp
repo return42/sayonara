@@ -92,7 +92,7 @@ void GUI_ShortcutEntry::default_clicked()
 }
 
 void GUI_ShortcutEntry::test_clicked()
-{	
+{
 	QStringList splitted = ui->le_entry->text().split(", ");
 	QList<QKeySequence> sequences;
 
@@ -116,10 +116,9 @@ void GUI_ShortcutEntry::language_changed()
 
 void GUI_ShortcutEntry::skin_changed()
 {
-    ;
-    ui->btn_default->setIcon(IconLoader::icon("undo", "undo"));
-    ui->btn_edit->setIcon(IconLoader::icon("accessories-text-editor", "edit"));
-    ui->btn_test->setIcon(IconLoader::icon("dialog-info", "info"));
+	ui->btn_default->setIcon(IconLoader::icon(IconLoader::Undo));
+	ui->btn_edit->setIcon(IconLoader::icon(IconLoader::Edit));
+	ui->btn_test->setIcon(IconLoader::icon(IconLoader::Info));
 }
 
 

@@ -22,6 +22,7 @@
 #define INFO_DIALOG_CONTAINER_H_
 
 #include "Utils/MetaData/MetaDataFwd.h"
+#include "Utils/Pimpl.h"
 
 class GUI_InfoDialog;
 
@@ -34,6 +35,10 @@ class GUI_InfoDialog;
  */
 class InfoDialogContainer
 {
+	PIMPL(InfoDialogContainer)
+
+	friend class GUI_InfoDialog;
+
 	public:
 		InfoDialogContainer();
 		virtual ~InfoDialogContainer();
@@ -58,9 +63,6 @@ class InfoDialogContainer
 		 * This function is triggered when the info dialog was closed.
 		 */
 		void info_dialog_closed();
-
-	private:
-		GUI_InfoDialog*		_info_dialog=nullptr;
 
 	private:
 		void check_info_dialog();

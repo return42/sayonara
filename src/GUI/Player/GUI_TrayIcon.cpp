@@ -152,7 +152,7 @@ void GUI_TrayIcon::skin_changed()
 {
 	bool dark = (_settings->get(Set::Player_Style) == 1);
 
-	QString stylesheet = Style::get_style(dark);
+	QString stylesheet = Style::style(dark);
 	m->context_menu->setStyleSheet(stylesheet);
 
 	mute_changed( _settings->get(Set::Engine_Mute) );

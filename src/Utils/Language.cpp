@@ -88,6 +88,8 @@ LanguageString Lang::get(Lang::Term term, bool* ok)
 			return l.tr("Artist");
 		case Artists:
 			return l.tr("Artists");
+		case Ascending:
+			return l.tr("Ascending");
 		case Bitrate:
 			return l.tr("Bitrate");
 		case Bookmarks:
@@ -124,6 +126,8 @@ LanguageString Lang::get(Lang::Term term, bool* ok)
 			return l.tr("Default");
 		case Delete:
 			return l.tr("Delete");
+		case Descending:
+			return l.tr("Descending");
 		case Directory:
 			return l.tr("Directory");
 		case Directories:
@@ -137,8 +141,8 @@ LanguageString Lang::get(Lang::Term term, bool* ok)
 			return l.tr("Dynamic playback");
 		case Edit:
 			return l.tr("Edit");
-        case EmptyInput:
-            return l.tr("Empty input");
+		case EmptyInput:
+			return l.tr("Empty input");
 		case EnterName:
 			return l.tr("Enter name");
 		case EnterUrl:
@@ -165,8 +169,8 @@ LanguageString Lang::get(Lang::Term term, bool* ok)
 			return l.tr("Font");
 		case Fonts:
 			return l.tr("Fonts");
-        case Fulltext:
-            return l.tr("Fulltext");
+		case Fulltext:
+			return l.tr("Fulltext");
 		case GaplessPlayback:
 			return l.tr("Gapless playback");
 		case Genre:
@@ -186,12 +190,12 @@ LanguageString Lang::get(Lang::Term term, bool* ok)
 			return l.tr("Inactive");
 		case Info:
 			return l.tr("Info");
-        case Loading:
-            return l.tr("Loading");
-        case LoadingArg:
-            return l.tr("Loading %1");
-        case InvalidChars:
-            return l.tr("Invalid characters");
+		case Loading:
+			return l.tr("Loading");
+		case LoadingArg:
+			return l.tr("Loading %1");
+		case InvalidChars:
+			return l.tr("Invalid characters");
 		case Library:
 			return l.tr("Library");
 		case LibraryPath:
@@ -209,8 +213,8 @@ LanguageString Lang::get(Lang::Term term, bool* ok)
 		case MinutesShort:
 			// short form of minutes
 			return l.tr("m");
-        case Missing:
-            return l.tr("Missing");
+		case Missing:
+			return l.tr("Missing");
 		case Months:
 			return l.tr("Months");
 		case MuteOn:
@@ -240,8 +244,8 @@ LanguageString Lang::get(Lang::Term term, bool* ok)
 			return l.tr("Open directory");
 		case OpenFile:
 			return l.tr("Open file");
-        case Or:
-            return l.tr("or");
+		case Or:
+			return l.tr("or");
 		case Overwrite:
 			return l.tr("Overwrite");
 		case Pause:
@@ -262,8 +266,8 @@ LanguageString Lang::get(Lang::Term term, bool* ok)
 			return l.tr("Previous track");
 		case Radio:
 			return l.tr("Radio");
-        case RadioStation:
-            return l.tr("Radio Station");
+		case RadioStation:
+			return l.tr("Radio Station");
 		case Rating:
 			return l.tr("Rating");
 		case Really:
@@ -294,8 +298,8 @@ LanguageString Lang::get(Lang::Term term, bool* ok)
 			return l.tr("Save");
 		case SaveAs:
 			return l.tr("Save as");
-        case SaveToFile:
-            return l.tr("Save to file");
+		case SaveToFile:
+			return l.tr("Save to file");
 		case Search:
 			return l.tr("Search");
 		case SearchNext:
@@ -317,6 +321,8 @@ LanguageString Lang::get(Lang::Term term, bool* ok)
 			return l.tr("Show album artists");
 		case SimilarArtists:
 			return l.tr("Similar artists");
+		case SortBy:
+			return l.tr("Sort by");			// for example "sort by year"
 		case Stop:
 			return l.tr("Stop");
 		case StreamUrl:
@@ -341,8 +347,8 @@ LanguageString Lang::get(Lang::Term term, bool* ok)
 			return l.tr("Tree");
 		case Undo:
 			return l.tr("Undo");
-        case UnknownPlaceholder:
-            return l.tr("Unknown placeholder");
+		case UnknownPlaceholder:
+			return l.tr("Unknown placeholder");
 		case Various:
 			return l.tr("Various");
 		case VariousAlbums:

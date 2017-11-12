@@ -64,7 +64,7 @@ void Standard::set_changed(bool b)
 
 int Standard::create_playlist(const MetaDataList& v_md)
 {
-	if(Playlist::Mode::isActiveAndEnabled(playlist_mode().append())){
+	if(Playlist::Mode::isActiveAndEnabled(mode().append())){
 		metadata() << v_md;
 	}
 
@@ -147,15 +147,15 @@ void Standard::stop()
 
 void Standard::fwd()
 {
-	Playlist::Mode mode = playlist_mode();
-	Playlist::Mode mode_bak = mode;
+	Playlist::Mode cur_mode = mode();
+	Playlist::Mode mode_bak = cur_mode;
 
-	mode.setRep1(false);
-	set_playlist_mode(mode);
+	cur_mode.setRep1(false);
+	set_mode(cur_mode);
 
 	next();
 
-	set_playlist_mode(mode_bak);
+	set_mode(mode_bak);
 }
 
 
@@ -182,12 +182,12 @@ void Standard::next()
 		track_num = 0;
 	}
 
-	else if(Playlist::Mode::isActiveAndEnabled(playlist_mode().rep1())){
+	else if(Playlist::Mode::isActiveAndEnabled(mode().rep1())){
 		track_num = cur_track;
 	}
 
 	// shuffle mode
-	else if(Playlist::Mode::isActiveAndEnabled(playlist_mode().shuffle()))
+	else if(Playlist::Mode::isActiveAndEnabled(mode().shuffle()))
 	{
 		track_num = calc_shuffle_track();
 		if(track_num == -1){
@@ -201,7 +201,7 @@ void Standard::next()
 		// last track
 		if(cur_track == metadata().count() - 1)
 		{
-			if(Playlist::Mode::isActiveAndEnabled(playlist_mode().repAll())){
+			if(Playlist::Mode::isActiveAndEnabled(mode().repAll())){
 				track_num = 0;
 			}
 
@@ -243,7 +243,7 @@ int Standard::calc_shuffle_track()
 
 	// no random track to play
 	if(left_tracks.isEmpty()){
-		if(Playlist::Mode::isActiveAndEnabled(playlist_mode().repAll())){
+		if(Playlist::Mode::isActiveAndEnabled(mode().repAll())){
 			return rnd.get_number(0, metadata().size() -1);
 		}
 
@@ -277,7 +277,7 @@ void Standard::metadata_deleted(const MetaDataList& v_md_deleted)
 	}
 
 	metadata().remove_tracks(indexes);
-	emit sig_data_changed( playlist_index() );
+	emit sig_data_changed( index() );
 }
 
 
@@ -298,7 +298,7 @@ void Standard::metadata_changed(const MetaDataList& v_md_old, const MetaDataList
 		}
 	}
 
-	emit sig_data_changed( playlist_index() );
+	emit sig_data_changed( index() );
 }
 
 void Standard::duration_changed(uint64_t ms)

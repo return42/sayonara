@@ -62,7 +62,7 @@ AlbumModel::AlbumModel(QObject* parent, AbstractLibrary* library) :
 
 AlbumModel::~AlbumModel() {}
 
-int AlbumModel::get_id_by_row(int row)
+int AlbumModel::id_by_index(int row)
 {
     const AlbumList& albums = library()->albums();
 
@@ -89,7 +89,7 @@ QString AlbumModel::get_string(int row) const
 }
 
 
-Cover::Location AlbumModel::get_cover(const IndexSet& indexes) const
+Cover::Location AlbumModel::cover(const IndexSet& indexes) const
 {
 	if(indexes.isEmpty() || indexes.size() > 1){
         return Cover::Location();
@@ -103,7 +103,7 @@ Cover::Location AlbumModel::get_cover(const IndexSet& indexes) const
 
     const Album& album = albums[idx];
 
-    return Cover::Location::get_cover_location(album);
+    return Cover::Location::cover_location(album);
 }
 
 

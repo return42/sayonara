@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1357</width>
-    <height>535</height>
+    <width>852</width>
+    <height>557</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -43,7 +43,7 @@
       </property>
       <widget class="QStackedWidget" name="sw_album_covers">
        <property name="currentIndex">
-        <number>0</number>
+        <number>1</number>
        </property>
        <widget class="QWidget" name="page_3">
         <layout class="QGridLayout" name="gridLayout_7">
@@ -198,8 +198,11 @@
          </item>
         </layout>
        </widget>
-       <widget class="QWidget" name="page_4">
-        <layout class="QGridLayout" name="gridLayout_8">
+       <widget class="QWidget" name="page_cover">
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <property name="spacing">
+          <number>5</number>
+         </property>
          <property name="leftMargin">
           <number>0</number>
          </property>
@@ -212,6 +215,17 @@
          <property name="bottomMargin">
           <number>0</number>
          </property>
+         <item>
+          <widget class="QWidget" name="cover_topbar" native="true">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <layout class="QHBoxLayout" name="horizontalLayout_2"/>
+          </widget>
+         </item>
         </layout>
        </widget>
       </widget>

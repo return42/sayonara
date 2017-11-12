@@ -43,8 +43,8 @@ struct GUI_LibraryPreferences::Private
 	LibraryListModel* model = nullptr;
 };
 
-GUI_LibraryPreferences::GUI_LibraryPreferences(QWidget* parent) :
-	PreferenceWidgetInterface(parent)
+GUI_LibraryPreferences::GUI_LibraryPreferences(const QString& identifier) :
+	Preferences::Base(identifier)
 {
 	m = Pimpl::make<Private>();
 }
@@ -85,7 +85,7 @@ void GUI_LibraryPreferences::init_ui()
 	revert();
 }
 
-QString GUI_LibraryPreferences::get_action_name() const
+QString GUI_LibraryPreferences::action_name() const
 {
 	return Lang::get(Lang::Library);
 }
@@ -146,7 +146,7 @@ void GUI_LibraryPreferences::retranslate_ui()
 
 void GUI_LibraryPreferences::showEvent(QShowEvent* e)
 {
-	PreferenceWidgetInterface::showEvent(e);
+	Base::showEvent(e);
 	this->revert();
 }
 

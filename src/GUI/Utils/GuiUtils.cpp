@@ -32,31 +32,7 @@
 
 using namespace Gui;
 
-QIcon Util::icon(const QString& icon_name)
-{
-	QString path;
-
-	if(icon_name.endsWith(".png")){
-		path = icon_name;
-		// alles paletti
-	}
-
-	else if(!icon_name.endsWith(".svg.png")){
-		path = icon_name + ".svg.png";
-	}
-
-	path.prepend(":/Icons/");
-
-
-    QIcon icon = QIcon(path);
-	if(icon.isNull()){
-		sp_log(Log::Warning, "GuiUtils") << "Icon " << path << " does not exist";
-	}
-
-	return icon;
-}
-
-QPixmap Util::pixmap(const QString& icon_name, QSize sz, bool keep_aspect)
+static QString icon_path(const QString& icon_name)
 {
 	QString path = QString(":/Icons/") + icon_name;
 	if(path.endsWith(".png")){
@@ -71,6 +47,24 @@ QPixmap Util::pixmap(const QString& icon_name, QSize sz, bool keep_aspect)
 		path += ".svg.png";
 	}
 
+	return path;
+}
+
+QIcon Util::icon(const QString& icon_name)
+{
+	QString path = icon_path(icon_name);
+	QIcon icon = QIcon(path);
+
+	if(icon.isNull()){
+		sp_log(Log::Warning, "GuiUtils") << "Icon " << path << " does not exist";
+	}
+
+	return icon;
+}
+
+QPixmap Util::pixmap(const QString& icon_name, QSize sz, bool keep_aspect)
+{
+	QString path = icon_path(icon_name);
 	QPixmap pixmap(path);
 
 	if(pixmap.isNull()){

@@ -32,8 +32,8 @@ class QSize;
 
 namespace Cover
 {
-    class Location;
-    class Lookup;
+	class Location;
+	class Lookup;
 }
 
 namespace Library
@@ -52,28 +52,32 @@ namespace Library
 
 			// QAbstractItemModel interface
 		public:
-			int         rowCount(const QModelIndex& parent=QModelIndex()) const override;
-			int         columnCount(const QModelIndex& paren=QModelIndex()) const override;
-			QVariant    data(const QModelIndex& index, int role) const override;
-			QSize       item_size() const;
-			const IndexSet& selections() const override;
+			int				rowCount(const QModelIndex& parent=QModelIndex()) const override;
+			int				columnCount(const QModelIndex& paren=QModelIndex()) const override;
+			QVariant		data(const QModelIndex& index, int role) const override;
+			Qt::ItemFlags	flags(const QModelIndex &index) const override;
 
-			bool            has_items() const override;
-			QModelIndex     getNextRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent=QModelIndex()) override;
-			QModelIndex     getPrevRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent=QModelIndex()) override;
+			QSize			item_size() const;
+			const IndexSet&	selections() const override;
+
+
+			bool			has_items() const override;
+			QModelIndex		getNextRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent=QModelIndex()) override;
+			QModelIndex		getPrevRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent=QModelIndex()) override;
 			QMap<QChar, QString> getExtraTriggers() override;
 
-			int             get_searchable_column() const override;
-			QString         get_string(int idx) const override;
-			int             get_id_by_row(int idx) override;
-            Cover::Location get_cover(const IndexSet& indexes) const override;
+			int				get_searchable_column() const override;
+			QString			get_string(int idx) const override;
+			int				id_by_index(int idx) override;
+			Cover::Location	cover(const IndexSet& indexes) const override;
 
 
-			int             zoom() const;
-			void            set_max_columns(int columns);
+			int				zoom() const;
+			void			set_max_columns(int columns);
 
 		public slots:
 			void            set_zoom(int zoom, const QSize& view_size);
+			void			reload();
 
 		private slots:
 			void            next_hash();

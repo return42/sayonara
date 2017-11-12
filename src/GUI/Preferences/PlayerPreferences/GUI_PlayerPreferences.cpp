@@ -23,8 +23,8 @@
 #include "Utils/Settings/Settings.h"
 
 
-GUI_PlayerPreferences::GUI_PlayerPreferences(QWidget *parent) :
-	PreferenceWidgetInterface(parent) {}
+GUI_PlayerPreferences::GUI_PlayerPreferences(const QString& identifier) :
+	Base(identifier) {}
 
 GUI_PlayerPreferences::~GUI_PlayerPreferences()
 {
@@ -45,7 +45,7 @@ void GUI_PlayerPreferences::init_ui()
 }
 
 
-QString GUI_PlayerPreferences::get_action_name() const
+QString GUI_PlayerPreferences::action_name() const
 {
 	return tr("Player");
 }

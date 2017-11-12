@@ -1,4 +1,4 @@
-/* PreferenceInterface.cpp */
+/* PreferenceDialog.h */
 
 /* Copyright (C) 2011-2017  Lucio Carreras
  *
@@ -18,11 +18,34 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "PreferenceInterface.h"
 
-PreferenceAction::PreferenceAction(const QString &text, QWidget *preference_interface) :
-	QAction(nullptr)
+
+#ifndef PREFERENCEDIALOG_H
+#define PREFERENCEDIALOG_H
+
+#include "GUI/Utils/Widgets/Dialog.h"
+
+class QString;
+class QAction;
+
+namespace Preferences
 {
-	this->setText(text + "...");
-	connect(this, &QAction::triggered, preference_interface, &QWidget::show);
+	class Base;
 }
+
+class PreferenceDialog :
+	public Gui::Dialog
+{
+
+public:
+	using Gui::Dialog::Dialog;
+
+	virtual QString action_name() const=0;
+	virtual QAction* action()=0;
+
+	virtual void register_preference_dialog(Preferences::Base* dialog)=0;
+	virtual void show_preference_dialog(const QString& identifier)=0;
+};
+
+#endif // PREFERENCEDIALOG_H
+

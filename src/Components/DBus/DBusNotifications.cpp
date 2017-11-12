@@ -88,7 +88,7 @@ void DBusNotifications::track_changed(const MetaData& md)
 		return;
 	}
 
-    Cover::Location cl = Cover::Location::get_cover_location(md);
+    Cover::Location cl = Cover::Location::cover_location(md);
 	QString cover_path = cl.preferred_path();
 
 	notify(md.title, "by " + md.artist(), cover_path);

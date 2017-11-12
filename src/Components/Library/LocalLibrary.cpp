@@ -38,7 +38,7 @@
 
 struct LocalLibrary::Private
 {
-	DB::Connector*	db=nullptr;
+	DB::Connector*			db=nullptr;
 	DB::LibraryDatabase*	lib_db=nullptr;
 
 	ReloadThread* 		reload_thread=nullptr;
@@ -60,7 +60,7 @@ struct LocalLibrary::Private
 LocalLibrary::LocalLibrary(int8_t lib_id, const QString& library_name, const QString& library_path, QObject *parent) :
 	AbstractLibrary(parent)
 {
-	DB::Connector::instance()->register_library_db<DB::LocalLibraryDatabase>(lib_id);
+	DB::Connector::instance()->register_library_db(lib_id);
 
 	m = Pimpl::make<Private>(library_name, library_path, lib_id);
 
@@ -263,7 +263,7 @@ void LocalLibrary::update_album(const Album& album)
 
 void LocalLibrary::insert_tracks(const MetaDataList &v_md)
 {
-	m->lib_db->storeMetadata(v_md);
+	m->lib_db->store_metadata(v_md);
 	AbstractLibrary::insert_tracks(v_md);
 }
 
@@ -402,16 +402,18 @@ void LocalLibrary::merge_albums(const SP::Set<AlbumID>& album_ids, AlbumID targe
 
 void LocalLibrary::show_album_artists_changed(bool show_album_artists)
 {
-	QList<DB::LibraryDatabase*> dbs = m->db->library_dbs();
+	DB::LibraryDatabases dbs = m->db->library_dbs();
 	for(DB::LibraryDatabase* lib_db : dbs)
 	{
 		if(lib_db->db_id() == 0)
 		{
-			if(show_album_artists){
+			if(show_album_artists)
+			{
 				lib_db->change_artistid_field(DB::LibraryDatabase::ArtistIDField::AlbumArtistID);
 			}
 
-			else{
+			else
+			{
 				lib_db->change_artistid_field(DB::LibraryDatabase::ArtistIDField::ArtistID);
 			}
 		}
@@ -438,7 +440,7 @@ void LocalLibrary::set_library_path(const QString& library_path)
 		return;
 	}
 
-	LibraryManager* library_manager = LibraryManager::instance();
+	Library::Manager* library_manager = Library::Manager::instance();
 	library_manager->change_library_path(this->library_id(), library_path);
 
 	m->library_path = library_path;
@@ -452,7 +454,7 @@ void LocalLibrary::set_library_name(const QString& library_name)
 		return;
 	}
 
-	LibraryManager* library_manager = LibraryManager::instance();
+	Library::Manager* library_manager = Library::Manager::instance();
 	library_manager->rename_library(this->library_id(), library_name);
 
 	m->library_name = library_name;

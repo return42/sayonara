@@ -9,6 +9,7 @@ class FileHelperTest : public QObject
 private slots:
 	void test();
 	void create_and_delete();
+	void common_path_test();
 };
 
 
@@ -70,6 +71,52 @@ void FileHelperTest::create_and_delete()
 	QVERIFY(check_file(new_file));
 	delete_files(to_be_deleted);
 	QVERIFY( !check_file("./tmp") );
+}
+
+void FileHelperTest::common_path_test()
+{
+	QString ret;
+	QStringList files;
+
+	files << "/tmp/path/to/some/directory/bla.txt";
+	files << "/tmp/path/to/some/directory/bla2.txt";
+
+	Util::File::create_directories("/tmp/path/to/some/directory");
+	Util::File::create_directories("/tmp/other/path/to/somewhere");
+	Util::File::create_directories("/tmp/path/to/some/really/long/directory");
+
+	QFile f1("/tmp/path/to/some/directory/bla.txt");
+	QFile f2("/tmp/path/to/some/directory/bla2.txt");
+	QFile f3("/tmp/path/to/some/file.txt");
+
+	f1.open(QFile::WriteOnly);
+	f1.write("bla");
+	f1.close();
+
+	f2.open(QFile::WriteOnly);
+	f2.write("bla");
+	f2.close();
+
+	f3.open(QFile::WriteOnly);
+	f3.write("bla");
+	f3.close();
+
+	ret = Util::File::get_common_directory(files);
+	QVERIFY(ret.compare("/tmp/path/to/some/directory") == 0);
+
+	files << "/tmp/path/to/some/file.txt";
+	ret = Util::File::get_common_directory(files);
+	QVERIFY(ret.compare("/tmp/path/to/some") == 0);
+
+	files << "/tmp/path/to/some/really/long/directory";
+	ret = Util::File::get_common_directory(files);
+	QVERIFY(ret.compare("/tmp/path/to/some") == 0);
+
+	files << "/tmp/other/path/to/somewhere";
+	ret = Util::File::get_common_directory(files);
+	QVERIFY(ret.compare("/tmp") == 0);
+
+	Util::File::delete_files({"/tmp/path", "/tmp/other"});
 }
 
 QTEST_MAIN(FileHelperTest)

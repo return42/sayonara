@@ -39,6 +39,8 @@ class FileListView :
 
 signals:
 	void sig_info_clicked();
+	void sig_edit_clicked();
+	void sig_lyrics_clicked();
 	void sig_delete_clicked();
 	void sig_play_next_clicked();
 	void sig_append_clicked();
@@ -57,9 +59,12 @@ public:
 	int get_index_by_model_index(const QModelIndex& idx) const override;
 	QModelIndex get_model_index_by_index(int idx) const override;
 
-private:
+protected:
+	void keyPressEvent(QKeyEvent* event) override;
 	void mousePressEvent(QMouseEvent* event) override;
 	void mouseMoveEvent(QMouseEvent* event) override;
+
+private:
 	void init_context_menu();
 };
 

@@ -52,6 +52,21 @@
        <item row="5" column="1">
         <widget class="QWidget" name="ui_info_widget" native="true">
          <layout class="QGridLayout" name="gridLayout_5">
+          <property name="leftMargin">
+           <number>8</number>
+          </property>
+          <property name="topMargin">
+           <number>8</number>
+          </property>
+          <property name="rightMargin">
+           <number>8</number>
+          </property>
+          <property name="bottomMargin">
+           <number>8</number>
+          </property>
+          <property name="horizontalSpacing">
+           <number>20</number>
+          </property>
           <item row="2" column="1" colspan="2">
            <widget class="QLabel" name="lab_subheader">
             <property name="sizePolicy">
@@ -106,8 +121,8 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>434</width>
-               <height>73</height>
+               <width>422</width>
+               <height>76</height>
               </rect>
              </property>
              <layout class="QGridLayout" name="gridLayout_7">
@@ -175,8 +190,8 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>434</width>
-               <height>318</height>
+               <width>422</width>
+               <height>310</height>
               </rect>
              </property>
              <layout class="QGridLayout" name="gridLayout_4">

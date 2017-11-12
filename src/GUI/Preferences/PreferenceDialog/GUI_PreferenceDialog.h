@@ -21,47 +21,55 @@
 #ifndef GUI_PreferenceDialog_H
 #define GUI_PreferenceDialog_H
 
-#include "Interfaces/PreferenceDialog/PreferenceDialogInterface.h"
 #include "Utils/Pimpl.h"
+#include "GUI/Utils/GUIClass.h"
+#include "Interfaces/PreferenceDialog/PreferenceDialog.h"
 
 class QString;
+namespace Preferences
+{
+	class Base;
+	class Action;
+}
 
 UI_FWD(GUI_PreferenceDialog)
 
-class PreferenceWidgetInterface;
 
 /**
  * @brief The Preference Dialog. Register new Preference dialogs with the register_preference_dialog() method.
  * @ingroup Preferences
  */
 class GUI_PreferenceDialog :
-		public PreferenceDialogInterface
+		public PreferenceDialog
 {
 	Q_OBJECT
 	UI_CLASS(GUI_PreferenceDialog)
-    PIMPL(GUI_PreferenceDialog)
+	PIMPL(GUI_PreferenceDialog)
 
 public:
-	explicit GUI_PreferenceDialog(QWidget *parent = 0);
+	explicit GUI_PreferenceDialog(QWidget* parent=nullptr);
 	~GUI_PreferenceDialog();
 
-	void commit() override;
-	void revert() override;
+	QString action_name() const override;
+	QAction* action() override;
 
-	QString get_action_name() const override;
-
-	void register_preference_dialog(PreferenceWidgetInterface* dialog);
+	void register_preference_dialog(Preferences::Base* dialog) override;
+	void show_preference_dialog(const QString& identifier) override;
 
 protected slots:
 	void commit_and_close();
 	void row_changed(int row);
 
 protected:
-	void init_ui() override;
-	void retranslate_ui() override;
+	void init_ui();
+	void language_changed() override;
 	void showEvent(QShowEvent *e) override;
 
 	void hide_all();
+
+private:
+	void commit();
+	void revert();
 };
 
 #endif // GUI_PreferenceDialog_H

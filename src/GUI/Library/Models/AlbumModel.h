@@ -51,9 +51,9 @@ namespace Library
 		bool            setData(const QModelIndex& index, const QVariant& value, int role=Qt::DisplayRole) override;
 		int             rowCount(const QModelIndex &parent) const override;
 
-        Cover::Location   get_cover(const IndexSet& indexes) const override;
+        Cover::Location   cover(const IndexSet& indexes) const override;
 		int             get_searchable_column() const override;
-		int             get_id_by_row(int row) override;
+		int             id_by_index(int row) override;
 		QString         get_string(int row) const override;
 
 

@@ -140,12 +140,16 @@ void AlbumInfo::calc_cover_location()
 		DB::LibraryDatabase* lib_db = db->library_db(-1, m->db_id);
 
 		Album album;
-		album.id = album_ids().first();
-		album.set_name(albums().first());
-		album.set_artists(artists().toList());
-		album.set_db_id(lib_db->db_id());
+		bool success = lib_db->getAlbumByID(album_ids().first(), album, true);
+		if(!success) {
+			album.id = album_ids().first();
+			album.set_name(albums().first());
+			album.set_artists(artists().toList());
+			album.set_album_artists(album_artists().toList());
+			album.set_db_id(lib_db->db_id());
+		}
 
-		m->cover_location = Cover::Location::get_cover_location(album);
+		m->cover_location = Cover::Location::cover_location(album);
 	}
 
 	else if( albums().size() == 1)
@@ -154,18 +158,18 @@ void AlbumInfo::calc_cover_location()
 
 		if(!album_artists().isEmpty())
 		{
-			m->cover_location = Cover::Location::get_cover_location(album, album_artists().toList());
+			m->cover_location = Cover::Location::cover_location(album, album_artists().toList());
 		}
 
 		else
 		{
-			m->cover_location = Cover::Location::get_cover_location(album, artists().toList());
+			m->cover_location = Cover::Location::cover_location(album, artists().toList());
 		}
 	}
 
 	else
 	{
-		m->cover_location = Cover::Location::getInvalidLocation();
+		m->cover_location = Cover::Location::invalid_location();
 	}
 }
 

@@ -68,8 +68,8 @@ void GUI_EmptyLibrary::set_lib_path_clicked()
 		return;
 	}
 
-	LibraryManager* lib_manager = LibraryManager::instance();
-	QString name = LibraryManager::request_library_name(dir);
+	Manager* lib_manager = Manager::instance();
+	QString name = Manager::request_library_name(dir);
 
 	int8_t id = lib_manager->add_library(name, dir);
 	LocalLibrary* library = lib_manager->library_instance(id);

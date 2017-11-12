@@ -25,29 +25,32 @@
 #include <QtGlobal>
 
 class QString;
-class LibraryInfo
+namespace Library
 {
-	PIMPL(LibraryInfo)
+	class Info
+	{
+		PIMPL(Info)
 
-public:
-	LibraryInfo();
-	LibraryInfo(const QString& name, const QString& path, int id);
-	LibraryInfo(const LibraryInfo& other);
-	~LibraryInfo();
+	public:
+		Info();
+		Info(const QString& name, const QString& path, int id);
+		Info(const Info& other);
+		~Info();
 
-	LibraryInfo& operator =(const LibraryInfo& other);
+		Info& operator =(const Info& other);
 
 
-	QString name() const;
-	QString path() const;
-	QString symlink_path() const;
-	int8_t id() const;
-	bool valid() const;
+		QString name() const;
+		QString path() const;
+		QString symlink_path() const;
+		int8_t id() const;
+		bool valid() const;
 
-	static LibraryInfo fromString(const QString& str);
-	QString toString() const;
+		static Info fromString(const QString& str);
+		QString toString() const;
 
-	bool operator==(const LibraryInfo& other) const;
-};
+		bool operator==(const Info& other) const;
+	};
+}
 
 #endif // LIBRARYINFO_H

@@ -1,4 +1,4 @@
-/* PreferenceDialog.cpp */
+/* CoverChangeNotifier.h */
 
 /* Copyright (C) 2011-2017  Lucio Carreras
  *
@@ -18,11 +18,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "PreferenceDialogInterface.h"
 
 
-PreferenceDialogInterface::PreferenceDialogInterface(QWidget* parent) :
-	PreferenceInterface<Dialog>(parent) {}
+#ifndef COVERCHANGENOTIFIER_H
+#define COVERCHANGENOTIFIER_H
 
-PreferenceDialogInterface::~PreferenceDialogInterface() {}
+#include <QObject>
+#include "Utils/Singleton.h"
 
+namespace Cover
+{
+	class ChangeNotfier : public QObject
+	{
+		Q_OBJECT
+		SINGLETON(ChangeNotfier)
+
+	public:
+		void shout();
+
+	signals:
+		void sig_covers_changed();
+	};
+}
+
+#endif // COVERCHANGENOTIFIER_H

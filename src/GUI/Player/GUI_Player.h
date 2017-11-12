@@ -32,8 +32,7 @@
 
 class GUI_TrayIcon;
 class MetaData;
-class LibraryPluginHandler;
-class PreferenceDialogInterface;
+class PreferenceDialog;
 class QTranslator;
 class QMessageBox;
 class GUI_Logger;
@@ -59,10 +58,9 @@ public:
 	~GUI_Player();
 
 	void register_player_plugin_handler(PlayerPlugin::Handler* pph);
-	void register_preference_dialog(PreferenceDialogInterface* dialog);
+	void register_preference_dialog(PreferenceDialog* dialog);
 
 	void ui_loaded();
-
 
 
 private:

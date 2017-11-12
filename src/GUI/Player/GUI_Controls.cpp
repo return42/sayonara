@@ -18,6 +18,7 @@
 #include "Utils/MetaData/MetaData.h"
 #include "Utils/MetaData/MetaDataList.h"
 #include "Utils/Language.h"
+#include "GUI/Utils/ContextMenu/LibraryContextMenu.h"
 
 #include <QToolTip>
 #include <QPushButton>
@@ -29,7 +30,10 @@
 
 using Cover::Location;
 
-struct GUI_Controls::Private {};
+struct GUI_Controls::Private
+{
+	LibraryContextMenu* context_menu=nullptr;
+};
 
 GUI_Controls::GUI_Controls(QWidget* parent) :
 	Gui::Widget(parent),
@@ -64,6 +68,10 @@ GUI_Controls::GUI_Controls(QWidget* parent) :
 		cur_pos_changed(play_manager->initial_position_ms());
 	}
 
+	connect(ui->albumCover, &CoverButton::sig_rejected, [=](){
+		show_edit();
+	});
+
 	Set::listen(Set::Engine_SR_Active, this, &GUI_Controls::sr_active_changed);
 	Set::listen(Set::Engine_Pitch, this, &GUI_Controls::file_info_changed);
 	Set::listen(Set::Engine_SpeedActive, this, &GUI_Controls::file_info_changed, false);
@@ -89,7 +97,10 @@ void GUI_Controls::track_changed(const MetaData & md)
 	ui->lab_album->show();
 
 	ui->lab_copyright->hide();
-	ui->lab_rating->show();
+
+	ui->lab_bitrate->show();
+	ui->lab_filesize->show();
+	ui->widget->show();
 
 	set_info_labels(md);
 	set_cur_pos_label(0);
@@ -132,13 +143,13 @@ void GUI_Controls::play_clicked()
 
 void GUI_Controls::played()
 {
-	ui->btn_play->setIcon(IconLoader::icon("media-playback-pause", "pause"));
+	ui->btn_play->setIcon(IconLoader::icon(IconLoader::Pause));
 }
 
 
 void GUI_Controls::paused()
 {
-	ui->btn_play->setIcon(IconLoader::icon("media-playback-start", "play"));
+	ui->btn_play->setIcon(IconLoader::icon(IconLoader::Play));
 }
 
 
@@ -152,7 +163,7 @@ void GUI_Controls::stopped()
 {
 	setWindowTitle("Sayonara");
 
-	ui->btn_play->setIcon(IconLoader::icon("media-playback-start", "play"));
+	ui->btn_play->setIcon(IconLoader::icon(IconLoader::Play));
 
 	ui->progress_widget->setCurrentIndex(0);
 
@@ -165,7 +176,8 @@ void GUI_Controls::stopped()
 	ui->lab_album->hide();
 	ui->lab_version->show();
 
-	ui->lab_rating->hide();
+	ui->widget->hide();
+
 	ui->lab_copyright->show();
 
 	ui->sli_progress->setValue(0);
@@ -341,30 +353,25 @@ void GUI_Controls::volume_changed(int val)
 
 void GUI_Controls::setup_volume_button(int percent)
 {
-	QString but_name = "vol_";
-	QString but_std_name = "vol_";
+	QIcon icon;
 
 	if (percent <= 1) {
-		but_name += QString("mute_dark");
-		but_std_name = QString("audio-volume-muted");
+		icon = IconLoader::icon(IconLoader::VolMute);
 	}
 
 	else if (percent < 40) {
-		but_name += QString("1_dark");
-		but_std_name = QString("audio-volume-low");
+		icon = IconLoader::icon(IconLoader::Vol1);
 	}
 
 	else if (percent < 80) {
-		but_name += QString("2_dark");
-		but_std_name = QString("audio-volume-medium");
+		icon = IconLoader::icon(IconLoader::Vol2);
 	}
 
 	else {
-		but_name += QString("3_dark");
-		but_std_name = QString("audio-volume-high");
+		icon = IconLoader::icon(IconLoader::Vol3);
 	}
 
-	ui->btn_mute->setIcon( IconLoader::icon(but_std_name, but_name));
+	ui->btn_mute->setIcon(icon);
 }
 
 void GUI_Controls::increase_volume()
@@ -450,21 +457,18 @@ void GUI_Controls::dur_changed(const MetaData& md)
 
 void GUI_Controls::br_changed(const MetaData& md)
 {
-	QString rating_text;
-
 	if(md.bitrate / 1000 > 0){
-		rating_text = QString::number(md.bitrate / 1000) + " kBit/s";
+		QString bitrate = QString::number(md.bitrate / 1000) + " kBit/s";
+		ui->lab_bitrate->setText(bitrate);
 	}
 
-	if(md.filesize > 0){
-		if(md.bitrate / 1000 > 0){
-			rating_text += ", ";
-		}
-		rating_text += QString::number( (double) (md.filesize / 1024) / 1024.0, 'f', 2) + " MB";
+	if(md.filesize > 0)
+	{
+		QString filesize = QString::number( (double) (md.filesize / 1024) / 1024.0, 'f', 2) + " MB";
+		ui->lab_filesize->setText(filesize);
 	}
 
-	ui->lab_rating->setText(rating_text);
-	ui->lab_rating->setToolTip(rating_text);
+//	ui->lab_rating->set_rating(md.rating);
 }
 
 
@@ -499,26 +503,11 @@ void GUI_Controls::set_info_labels(const MetaData& md)
 }
 
 
-
-
-
 void GUI_Controls::file_info_changed()
 {
 	const MetaData& md = PlayManager::instance()->current_track();
+
 	QString rating_text;
-
-	if(md.bitrate / 1000 > 0){
-		rating_text = QString::number(md.bitrate / 1000) + " kBit/s";
-	}
-
-	if(md.filesize > 0){
-		if(!rating_text.isEmpty()){
-			rating_text += ", ";
-		}
-
-		rating_text += QString::number( (double) (md.filesize / 1024) / 1024.0, 'f', 2) + " MB";
-	}
-
 	if( (_settings->get(Set::Engine_Pitch) != 440) &&
 		_settings->get(Set::Engine_SpeedActive))
 	{
@@ -529,8 +518,18 @@ void GUI_Controls::file_info_changed()
 		rating_text += QString::number(_settings->get(Set::Engine_Pitch)) + "Hz";
 	}
 
-	ui->lab_rating->setText(rating_text);
-	ui->lab_rating->setToolTip(rating_text);
+	if(md.bitrate / 1000 > 0){
+		QString bitrate = QString::number(md.bitrate / 1000) + " kBit/s";
+		ui->lab_bitrate->setText(bitrate);
+	}
+
+	if(md.filesize > 0)
+	{
+		QString filesize = QString::number( (double) (md.filesize / 1024) / 1024.0, 'f', 2) + " MB";
+		ui->lab_filesize->setText(filesize);
+	}
+
+//	ui->lab_rating->set_rating(md.rating);
 }
 
 
@@ -538,23 +537,23 @@ void GUI_Controls::skin_changed()
 {
 	bool dark = (_settings->get(Set::Player_Style) == 1);
 
-	QString stylesheet = Style::get_style(dark);
+	QString stylesheet = Style::style(dark);
 
 	this->setStyleSheet(stylesheet);
 
-	ui->btn_fw->setIcon(IconLoader::icon("media-skip-forward", "fwd"));
-	ui->btn_bw->setIcon(IconLoader::icon("media-skip-backward", "bwd"));
+	ui->btn_fw->setIcon(IconLoader::icon(IconLoader::Forward));
+	ui->btn_bw->setIcon(IconLoader::icon(IconLoader::Backward));
 
 	if(PlayManager::instance()->playstate() == PlayState::Playing){
-		ui->btn_play->setIcon(IconLoader::icon("media-playback-pause", "pause"));
+		ui->btn_play->setIcon(IconLoader::icon(IconLoader::Pause));
 	}
 
 	else{
-		ui->btn_play->setIcon(IconLoader::icon("media-playback-start", "play"));
+		ui->btn_play->setIcon(IconLoader::icon(IconLoader::Play));
 	}
 
-	ui->btn_stop->setIcon(IconLoader::icon("media-playback-stop", "stop"));
-	ui->btn_rec->setIcon(IconLoader::icon("media-record", "rec"));
+	ui->btn_stop->setIcon(IconLoader::icon(IconLoader::Stop));
+	ui->btn_rec->setIcon(IconLoader::icon(IconLoader::Record));
 
 	setup_volume_button(ui->sli_volume->value());
 }
@@ -607,20 +606,21 @@ void GUI_Controls::check_record_button_visible()
 
 void GUI_Controls::set_cover_location(const MetaData& md)
 {
-	Location cl = Location::get_cover_location(md);
+	Location cl = Location::cover_location(md);
 
 	ui->albumCover->set_cover_location(cl);
 }
 
 void GUI_Controls::set_standard_cover()
 {
-	ui->albumCover->set_cover_location(Location::getInvalidLocation());
+	ui->albumCover->set_cover_location(Location::invalid_location());
 }
 
-void GUI_Controls::cover_changed(const QImage& img)
+void GUI_Controls::force_cover(const QImage& img)
 {
 	ui->albumCover->force_cover(img);
 }
+
 
 void GUI_Controls::setup_connections()
 {
@@ -650,7 +650,7 @@ void GUI_Controls::setup_connections()
 	connect(engine, &Engine::Handler::sig_md_changed,	this, &GUI_Controls::md_changed);
 	connect(engine, &Engine::Handler::sig_dur_changed, this, &GUI_Controls::dur_changed);
 	connect(engine, &Engine::Handler::sig_br_changed,	this, &GUI_Controls::br_changed);
-	connect(engine, &Engine::Handler::sig_cover_changed, this, &GUI_Controls::cover_changed);
+	connect(engine, &Engine::Handler::sig_cover_changed, this, &GUI_Controls::force_cover);
 
 	Tagging::ChangeNotifier* mdcn = Tagging::ChangeNotifier::instance();
 	connect(mdcn, &Tagging::ChangeNotifier::sig_metadata_changed, this, &GUI_Controls::id3_tags_changed);
@@ -742,6 +742,33 @@ void GUI_Controls::showEvent(QShowEvent* e)
 	refresh_info_labels();
 }
 
+void GUI_Controls::contextMenuEvent(QContextMenuEvent* e)
+{
+	if(!m->context_menu)
+	{
+		m->context_menu = new LibraryContextMenu(this);
+		m->context_menu->show_actions( (LibraryContexMenuEntries)
+			(LibraryContextMenu::EntryInfo |
+			LibraryContextMenu::EntryLyrics |
+			LibraryContextMenu::EntryEdit)
+		);
+
+		connect(m->context_menu, &LibraryContextMenu::sig_edit_clicked, [=](){
+			show_edit();
+		});
+
+		connect(m->context_menu, &LibraryContextMenu::sig_info_clicked, [=](){
+			show_info();
+		});
+
+		connect(m->context_menu, &LibraryContextMenu::sig_lyrics_clicked, [=](){
+			show_lyrics();
+		});
+	}
+
+	m->context_menu->exec(e->globalPos());
+}
+
 void GUI_Controls::set_radio_mode(RadioMode radio)
 {
 	check_record_button_visible();
@@ -749,4 +776,22 @@ void GUI_Controls::set_radio_mode(RadioMode radio)
 	if(radio != RadioMode::Off){
 		buffering(0);
 	}
+}
+
+
+MD::Interpretation GUI_Controls::metadata_interpretation() const
+{
+	return MD::Interpretation::Tracks;
+}
+
+MetaDataList GUI_Controls::info_dialog_data() const
+{
+	PlayState ps = PlayManager::instance()->playstate();
+	if(ps == PlayState::Stopped){
+		return MetaDataList();
+	}
+
+	return MetaDataList(
+		PlayManager::instance()->current_track()
+	);
 }

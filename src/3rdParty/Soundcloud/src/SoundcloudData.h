@@ -58,7 +58,7 @@ namespace SC
 		int insertAlbumIntoDatabase (const QString& album) override;
 
 		bool updateTrack(const MetaData& md) override;
-		bool storeMetadata(const MetaDataList& v_md) override;
+		bool store_metadata(const MetaDataList& v_md) override;
 		bool insertTrackIntoDatabase(const MetaData& md, int artist_id, int album_id, int album_artist_id) override;
 		bool insertTrackIntoDatabase(const MetaData& md, int artist_id, int album_id) override;
 

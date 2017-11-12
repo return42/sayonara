@@ -21,27 +21,27 @@
 #ifndef GUI_LANGUAGECHOOSER_H
 #define GUI_LANGUAGECHOOSER_H
 
-#include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
+#include "Interfaces/PreferenceDialog/PreferenceWidget.h"
 #include "Utils/Pimpl.h"
 
 UI_FWD(GUI_LanguageChooser)
 
 class QString;
 class GUI_LanguageChooser :
-		public PreferenceWidgetInterface
+		public Preferences::Base
 {
-    Q_OBJECT
+	Q_OBJECT
 	UI_CLASS(GUI_LanguageChooser)
-    PIMPL(GUI_LanguageChooser)
+	PIMPL(GUI_LanguageChooser)
 
 public:
-    explicit GUI_LanguageChooser(QWidget *parent=nullptr);
-    virtual ~GUI_LanguageChooser();
+	explicit GUI_LanguageChooser(const QString& identifier);
+	virtual ~GUI_LanguageChooser();
 
 	void commit() override;
 	void revert() override;
 
-	QString get_action_name() const override;
+	QString action_name() const override;
 
 protected:
 	void init_ui() override;

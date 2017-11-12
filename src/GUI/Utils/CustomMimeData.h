@@ -30,40 +30,40 @@
  * @brief Mimedata class for drag and dropping metadata
  * @ingroup GUIHelper
  */
-class CustomMimeData : public QMimeData 
+class CustomMimeData : public QMimeData
 {
 
 private:
 	PIMPL(CustomMimeData)
 
 public:
-    /**
-     * @brief Constructor
-     */
-    CustomMimeData();
-    virtual ~CustomMimeData();
+	/**
+	 * @brief Constructor
+	 */
+	CustomMimeData();
+	virtual ~CustomMimeData();
 
-    /**
-     * @brief Set metadata you want to drag and drop
-     * @param v_md metadata that should be sent
-     */
+	/**
+	 * @brief Set metadata you want to drag and drop
+	 * @param v_md metadata that should be sent
+	 */
 	void set_metadata(const MetaDataList& v_md);
 
-    /**
-     * @brief get metadata from drag and drop
-     * @param v_md reference to metadata
-     * @return size of metadata
-     */
-    const MetaDataList& metadata() const;
+	/**
+	 * @brief get metadata from drag and drop
+	 * @param v_md reference to metadata
+	 * @return size of metadata
+	 */
+	const MetaDataList& metadata() const;
 
-    /**
-     * @brief check, if the custom mimedata has metadata
-     * @return true if yes, false else
-     */
-    bool has_metadata() const;
+	/**
+	 * @brief check, if the custom mimedata has metadata
+	 * @return true if yes, false else
+	 */
+	bool has_metadata() const;
 
-    void set_inner_drag_drop();
-    bool is_inner_drag_drop() const;
+	void set_playlist_source_index(int playlist_idx);
+	int playlist_source_index() const;
 };
 
 #endif

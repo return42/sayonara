@@ -28,38 +28,43 @@ using namespace Gui::Util;
 
 struct CustomMimeData::Private
 {
-    MetaDataList v_md;
+	MetaDataList	v_md;
+	int				playlist_source_index;
+
+	Private() :
+		playlist_source_index(-1)
+	{}
 };
 
 CustomMimeData::CustomMimeData() :
 	QMimeData()
 {
-    m = Pimpl::make<Private>();
+	m = Pimpl::make<Private>();
 }
 
 CustomMimeData::~CustomMimeData() {}
 
 void CustomMimeData::set_metadata(const MetaDataList& v_md)
 {
-    m->v_md = v_md;
+	m->v_md = v_md;
 }
 
 const MetaDataList& CustomMimeData::metadata() const
 {
-    return m->v_md;
+	return m->v_md;
 }
 
 bool CustomMimeData::has_metadata() const
 {
-    return (m->v_md.size() > 0);
+	return (m->v_md.size() > 0);
 }
 
-void CustomMimeData::set_inner_drag_drop()
+void CustomMimeData::set_playlist_source_index(int idx)
 {
-	MimeData::set_inner_drag_drop(this);
+	m->playlist_source_index = idx;
 }
 
-bool CustomMimeData::is_inner_drag_drop() const
+int CustomMimeData::playlist_source_index() const
 {
-	return MimeData::is_inner_drag_drop(this);
+	return m->playlist_source_index;
 }

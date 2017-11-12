@@ -32,15 +32,20 @@
 #include "Database/LibraryDatabase.h"
 
 #include "Utils/Singleton.h"
+#include "Utils/Pimpl.h"
 
 #include <QList>
 
 #define INDEX_SIZE 3
 
-class LibraryDatabase;
-class LocalLibraryDatabase;
+
 namespace DB
 {
+	class LibraryDatabase;
+	class LocalLibraryDatabase;
+
+	using LibraryDatabases=QList<LibraryDatabase*>;
+
 	class Connector :
 			public Base,
 			public Bookmarks,
@@ -51,11 +56,10 @@ namespace DB
 			public VisualStyles
 	{
 		SINGLETON(Connector)
+		PIMPL(Connector)
 
 		private:
-			QList<LibraryDatabase*> _library_dbs;
-			LocalLibraryDatabase*	_local_library=nullptr;
-
+			void add_library_db(DB::LibraryDatabase* lib_db);
 
 		protected:
 			bool updateAlbumCissearchFix();
@@ -65,28 +69,12 @@ namespace DB
 			virtual bool apply_fixes();
 
 		public:
-			virtual void clean_up();
-			void register_library_db(int8_t library_id);
-			QList<LibraryDatabase*> library_dbs() const;
-			LibraryDatabase* library_db(int8_t library_id, uint8_t db_id);
+			virtual void		clean_up();
 
-			template<typename T>
-			LibraryDatabase* register_library_db(int8_t library_id)
-			{
-				for(int i=0; i<_library_dbs.size(); i++)
-				{
-					LibraryDatabase* lib_db = _library_dbs[i];
-					if(lib_db->library_id() == library_id &&
-					   lib_db->db_id() == db_id())
-					{
-						return lib_db;
-					}
-				}
-
-				DB::LibraryDatabase* lib_db = new T(library_id);
-				_library_dbs << lib_db;
-				return lib_db;
-			}
+			LibraryDatabases	library_dbs() const;
+			LibraryDatabase*	library_db(int8_t library_id, uint8_t db_id);
+			LibraryDatabase*	find_library_db(int8_t library_id) const;
+			LibraryDatabase*	register_library_db(int8_t library_id);
 	};
 }
 #endif // DatabaseConnector_H

@@ -73,7 +73,7 @@ protected:
 	int get_min_selected_item() const;
 
 public:
-    IndexSet get_selected_items() const;
+    IndexSet selected_items() const;
 
 	virtual void set_selection_type(SayonaraSelectionView::SelectionType type);
 	SayonaraSelectionView::SelectionType selection_type() const;

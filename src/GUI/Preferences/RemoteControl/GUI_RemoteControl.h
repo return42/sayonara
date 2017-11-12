@@ -1,6 +1,6 @@
 /* GUI_RemoteControl.h
 
- * Copyright (C) 2011-2017 Lucio Carreras  
+ * Copyright (C) 2011-2017 Lucio Carreras
  *
  * This file is part of sayonara-player
  *
@@ -17,32 +17,32 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * created by Lucio Carreras, 
- * Sep 3, 2012 
+ * created by Lucio Carreras,
+ * Sep 3, 2012
  *
  */
 
 #ifndef GUISOCKETSETUP_H_
 #define GUISOCKETSETUP_H_
 
-#include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
+#include "Interfaces/PreferenceDialog/PreferenceWidget.h"
 
 UI_FWD(GUI_RemoteControl)
 
 class GUI_RemoteControl :
-		public PreferenceWidgetInterface
+		public Preferences::Base
 {
 	Q_OBJECT
 	UI_CLASS(GUI_RemoteControl)
 
 public:
-	explicit GUI_RemoteControl(QWidget* parent=nullptr);
+	explicit GUI_RemoteControl(const QString& identifier);
 	~GUI_RemoteControl();
 
 	void commit() override;
 	void revert() override;
 
-	QString get_action_name() const override;
+	QString action_name() const override;
 
 protected:
 	void init_ui() override;

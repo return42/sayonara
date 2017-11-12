@@ -38,7 +38,7 @@ void GUI_Player::moveEvent(QMoveEvent *e)
 void GUI_Player::resizeEvent(QResizeEvent* e)
 {
 	QMainWindow::resizeEvent(e);
-	LibraryPluginHandler* lph = LibraryPluginHandler::instance();
+	Library::PluginHandler* lph = Library::PluginHandler::instance();
 
 	bool is_maximized = _settings->get(Set::Player_Maximized);
 	bool is_fullscreen = _settings->get(Set::Player_Fullscreen);
@@ -49,7 +49,7 @@ void GUI_Player::resizeEvent(QResizeEvent* e)
 	}
 
 	if(is_library_visible && lph){
-		LibraryContainerInterface* container;
+		Library::Container* container;
 		container = lph->current_library();
 		if(container && container->is_initialized()){
 			container->widget()->resize(library_widget->size());
@@ -73,10 +73,10 @@ void GUI_Player::main_splitter_moved(int pos, int idx)
 	Q_UNUSED(pos)
 	Q_UNUSED(idx)
 
-	LibraryPluginHandler* lph = LibraryPluginHandler::instance();
+	Library::PluginHandler* lph = Library::PluginHandler::instance();
 	if(lph)
 	{
-		LibraryContainerInterface* container;
+		Library::Container* container;
 		container = lph->current_library();
 		if(container){
 			container->widget()->resize(library_widget->size());

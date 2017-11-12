@@ -29,69 +29,73 @@
 #include <QObject>
 
 class QMenu;
-class LibraryInfo;
-class LibraryContainerInterface;
-/**
- * @brief Library Plugin Manager
- * @ingroup LibraryPlugins
- */
-class LibraryPluginHandler :
-		public QObject,
-		protected SayonaraClass
+namespace Library
 {
-	Q_OBJECT
-	PIMPL(LibraryPluginHandler)
-	SINGLETON(LibraryPluginHandler)
-
-signals:
-	void sig_initialized();
-	void sig_current_library_changed(const QString& name);
-	void sig_libraries_changed();
-
-private:
-	/**
-	 * @brief Init a library. This is used at startup for the current library
-	 * or when the index has changed
-	 * @param idx
-	 */
-	void init_library(LibraryContainerInterface* container);
-
-
-public:
-	/**
-	 * @brief Search for plugins and add some predefined plugins
-	 * @param containers Some predefined plugins
-	 */
-	void init(const QList<LibraryContainerInterface*>& containers);
+	class Info;
+	class Container;
 
 	/**
-	 * @brief Set the parent widget for library plugins
-	 * @param parent Parent widget
+	 * @brief Library Plugin Manager
+	 * @ingroup LibraryPlugins
 	 */
-	void set_library_parent(QWidget* parent);
+	class PluginHandler :
+			public QObject,
+			protected SayonaraClass
+	{
+		Q_OBJECT
+		PIMPL(PluginHandler)
+		SINGLETON(PluginHandler)
+
+	signals:
+		void sig_initialized();
+		void sig_current_library_changed(const QString& name);
+		void sig_libraries_changed();
+
+	private:
+		/**
+		 * @brief Init a library. This is used at startup for the current library
+		 * or when the index has changed
+		 * @param idx
+		 */
+		void init_library(Library::Container* container);
 
 
-	/**
-	 * @brief Get a list for all found plugins. The ui is not necessarily initialized
-	 * @return list for all found library plugins
-	 */
-	QList<LibraryContainerInterface*> get_libraries() const;
+	public:
+		/**
+		 * @brief Search for plugins and add some predefined plugins
+		 * @param containers Some predefined plugins
+		 */
+		void init(const QList<Library::Container*>& containers);
 
-	void add_local_library(const LibraryInfo& library);
-	void rename_local_library(int8_t library_id, const QString& new_name);
-	void remove_local_library(int8_t library_id);
-	void move_local_library(int old_row, int new_row);
-	void change_local_library_path(int8_t library_id, const QString& path);
+		/**
+		 * @brief Set the parent widget for library plugins
+		 * @param parent Parent widget
+		 */
+		void set_library_parent(QWidget* parent);
 
-	LibraryContainerInterface* current_library() const;
-	QMenu* current_library_menu() const;
 
-private slots:
-	void current_library_changed(int library_idx);
+		/**
+		 * @brief Get a list for all found plugins. The ui is not necessarily initialized
+		 * @return list for all found library plugins
+		 */
+		QList<Library::Container*> get_libraries() const;
 
-public slots:
-	void set_current_library(const QString& name);
-	void set_current_library(LibraryContainerInterface* container);
-};
+		void add_local_library(const Library::Info& library);
+		void rename_local_library(int8_t library_id, const QString& new_name);
+		void remove_local_library(int8_t library_id);
+		void move_local_library(int old_row, int new_row);
+		void change_local_library_path(int8_t library_id, const QString& path);
+
+		Library::Container* current_library() const;
+		QMenu* current_library_menu() const;
+
+	private slots:
+		void current_library_changed(int library_idx);
+
+	public slots:
+		void set_current_library(const QString& name);
+		void set_current_library(Library::Container* container);
+	};
+}
 
 #endif // LIBRARYPLUGINLOADER_H

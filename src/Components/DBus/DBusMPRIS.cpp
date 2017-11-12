@@ -315,7 +315,7 @@ QVariantMap DBusMPRIS::MediaPlayer2::Metadata()
 	v_object_path.setValue<QDBusObjectPath>(object_path);
 	v_length.setValue<qlonglong>(m->md.length_ms * 1000);
 
-	Cover::Location cl = Cover::Location::get_cover_location(m->md);
+	Cover::Location cl = Cover::Location::cover_location(m->md);
 	cover_path = cl.preferred_path();
 
 	map["mpris:trackid"] = v_object_path;

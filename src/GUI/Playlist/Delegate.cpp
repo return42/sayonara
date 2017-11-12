@@ -29,8 +29,8 @@
 #include "Utils/MetaData/MetaData.h"
 #include "Utils/Settings/Settings.h"
 
-#include "PlaylistItemDelegate.h"
-#include "GUI/Playlist/Model/PlaylistItemModel.h"
+#include "Delegate.h"
+#include "Model.h"
 
 #define PLAYLIST_BOLD 70
 
@@ -66,7 +66,7 @@ void PlaylistItemDelegate::paint(QPainter *painter,	const QStyleOptionViewItem &
 	int y = rect.topLeft().y() + row_height - 1;
 
 	const PlaylistItemModel* model = static_cast<const PlaylistItemModel*>(index.model());
-    const MetaData& md = model->metadata(row);
+	const MetaData& md = model->metadata(row);
 
 	bool is_playing = md.pl_playing;
 	bool is_selected = (option.state & QStyle::State_Selected);
@@ -130,7 +130,7 @@ void PlaylistItemDelegate::paint(QPainter *painter,	const QStyleOptionViewItem &
 	if(!time_string.isEmpty()){
 		rect.setWidth(rect.width() - time_width);
 	}
-    else {
+	else {
 		rect.setWidth(rect.width() - 20);
 	}
 
@@ -171,12 +171,12 @@ void PlaylistItemDelegate::paint(QPainter *painter,	const QStyleOptionViewItem &
 			str = "";
 		}
 
-        if(c == '*')
-        {
+		if(c == '*')
+		{
 			if(font.weight() == PLAYLIST_BOLD){
 				font.setWeight(QFont::Normal);
 			}
-            else {
+			else {
 				font.setWeight(PLAYLIST_BOLD);
 			}
 			painter->setFont(font);

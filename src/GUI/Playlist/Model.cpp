@@ -26,7 +26,7 @@
  *      Author: Lucio Carreras
  */
 
-#include "PlaylistItemModel.h"
+#include "Model.h"
 #include "Components/Playlist/AbstractPlaylist.h"
 
 #include "GUI/Utils/CustomMimeData.h"
@@ -80,7 +80,7 @@ QVariant PlaylistItemModel::data(const QModelIndex &index, int role) const
 	}
 
 	if (role == Qt::DisplayRole) {
-		return MetaData::toVariant( m->pl->at_const_ref(index.row()) );
+		return MetaData::toVariant( m->pl->metadata(index.row()) );
 	}
 
 	return QVariant();
@@ -109,11 +109,16 @@ Qt::ItemFlags PlaylistItemModel::flags(const QModelIndex &index = QModelIndex())
 void PlaylistItemModel::clear()
 {
 	m->pl->clear();
+
+	playlist_changed(0);
 }
 
 
-void PlaylistItemModel::remove_rows(const IndexSet& indexes){
+void PlaylistItemModel::remove_rows(const IndexSet& indexes)
+{
 	m->pl->delete_tracks(indexes);
+
+	playlist_changed(0);
 }
 
 
@@ -165,7 +170,8 @@ IndexSet PlaylistItemModel::move_rows_down(const IndexSet& indexes)
 	return new_indexes;
 }
 
-void PlaylistItemModel::copy_rows(const IndexSet& indexes, int target_index){
+void PlaylistItemModel::copy_rows(const IndexSet& indexes, int target_index)
+{
 	m->pl->copy_tracks(indexes, target_index);
 	playlist_changed(0);
 }
@@ -184,25 +190,21 @@ void PlaylistItemModel::set_current_track(int row)
 
 const MetaData& PlaylistItemModel::metadata(int row) const
 {
-	return m->pl->at_const_ref(row);
+	return m->pl->metadata(row);
 }
 
-template<typename T>
-MetaDataList gather_metadata(const T& rows, PlaylistPtr pl)
+
+MetaDataList PlaylistItemModel::metadata(const IndexSet &rows) const
 {
 	MetaDataList v_md;
 	v_md.reserve(rows.size());
 
-	for(int row : rows){
-		v_md << pl->at_const_ref(row);
+	for(int row : rows)
+	{
+		v_md << m->pl->metadata(row);
 	}
 
 	return v_md;
-}
-
-MetaDataList PlaylistItemModel::metadata(const IndexSet &rows) const
-{
-	return gather_metadata(rows, m->pl);
 }
 
 const static QChar album_search_prefix('%');
@@ -235,7 +237,7 @@ QModelIndex PlaylistItemModel::getPrevRowIndexOf(const QString& substr, int row,
 			if(row - i < 0) row = len - 1;
 			int row_idx = (row - i) % len;
 
-			QString album = m->pl->at_const_ref(row_idx).album();
+			QString album = m->pl->metadata(row_idx).album();
 			album = Library::Util::convert_search_string(album, search_mode());
 
 			if(album.contains(converted_string))
@@ -256,7 +258,7 @@ QModelIndex PlaylistItemModel::getPrevRowIndexOf(const QString& substr, int row,
 			if(row - i < 0) row = len - 1;
 			int row_idx = (row - i) % len;
 
-			QString artist = m->pl->at_const_ref(row_idx).artist();
+			QString artist = m->pl->metadata(row_idx).artist();
 			artist = Library::Util::convert_search_string(artist, search_mode());
 
 			if(artist.contains(converted_string))
@@ -285,7 +287,7 @@ QModelIndex PlaylistItemModel::getPrevRowIndexOf(const QString& substr, int row,
 		{
 			if(row - i < 0) row = len - 1;
 			int row_idx = (row - i) % len;
-			QString title = m->pl->at_const_ref(row_idx).title;
+			QString title = m->pl->metadata(row_idx).title;
 			title = Library::Util::convert_search_string(title, search_mode());
 
 			if(title.contains(converted_string))
@@ -319,7 +321,7 @@ QModelIndex PlaylistItemModel::getNextRowIndexOf(const QString& substr, int row,
 		{
 			int row_idx = (i + row) % len;
 
-			QString album = m->pl->at_const_ref(row_idx).album();
+			QString album = m->pl->metadata(row_idx).album();
 			album = Library::Util::convert_search_string(album, search_mode());
 
 			if(album.contains(converted_string))
@@ -339,7 +341,7 @@ QModelIndex PlaylistItemModel::getNextRowIndexOf(const QString& substr, int row,
 		{
 			int row_idx = (i + row) % len;
 
-			QString artist = m->pl->at_const_ref(row_idx).artist();
+			QString artist = m->pl->metadata(row_idx).artist();
 
 			artist = Library::Util::convert_search_string(artist, search_mode());
 
@@ -372,7 +374,7 @@ QModelIndex PlaylistItemModel::getNextRowIndexOf(const QString& substr, int row,
 		{
 			int row_idx = (i + row) % len;
 
-			QString title = m->pl->at_const_ref(row_idx).title;
+			QString title = m->pl->metadata(row_idx).title;
 			title = Library::Util::convert_search_string(title, search_mode());
 
 			if(title.contains(converted_string))
@@ -412,8 +414,8 @@ CustomMimeData* PlaylistItemModel::custom_mimedata(const QModelIndexList& indexe
 			continue;
 		}
 
-		v_md << m->pl->at_const_ref(idx.row());
-		QUrl url(QString("file://") + m->pl->at_const_ref(idx.row()).filepath());
+		v_md << m->pl->metadata(idx.row());
+		QUrl url(QString("file://") + m->pl->metadata(idx.row()).filepath());
 		urls << url;
 	}
 
@@ -421,7 +423,7 @@ CustomMimeData* PlaylistItemModel::custom_mimedata(const QModelIndexList& indexe
 		return nullptr;
 	}
 
-	mimedata->set_inner_drag_drop();
+	mimedata->set_playlist_source_index(m->pl->index());
 	mimedata->set_metadata(v_md);
 	mimedata->setText("tracks");
 	mimedata->setUrls(urls);

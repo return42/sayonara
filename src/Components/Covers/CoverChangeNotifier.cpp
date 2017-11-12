@@ -1,3 +1,4 @@
+/* CoverChangeNotifier.cpp */
 
 /* Copyright (C) 2011-2017  Lucio Carreras
  *
@@ -16,3 +17,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+
+
+#include "CoverChangeNotifier.h"
+
+using Cover::ChangeNotfier;
+
+ChangeNotfier::ChangeNotfier() : QObject(nullptr) {}
+
+ChangeNotfier::~ChangeNotfier() {}
+
+void ChangeNotfier::shout()
+{
+	emit sig_covers_changed();
+}

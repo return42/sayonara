@@ -44,7 +44,7 @@ Dialog* Widget::box_into_dialog()
 		this->setParent(_boxed_dialog);
 	}
 
-    return _boxed_dialog;
+	return _boxed_dialog;
 }
 
 MainWindow::MainWindow(QWidget* parent) :
@@ -55,19 +55,18 @@ MainWindow::~MainWindow() {}
 
 void MainWindow::raise()
 {
-    QMainWindow::raise();
+	QMainWindow::raise();
 
-    if(this->isHidden())
-    {   
-        this->setHidden(false);
-    }   
+	if(this->isHidden())
+	{
+		this->setHidden(false);
+	}
 
-    if(!this->isVisible()){
-        this->setVisible(true);
-    }   
+	if(!this->isVisible()){
+		this->setVisible(true);
+	}
 
-
-    this->setWindowFlags((Qt::WindowFlags) (windowFlags() & ~Qt::WindowMinimized));
-    this->activateWindow();
+	this->setWindowFlags((Qt::WindowFlags) (windowFlags() & ~Qt::WindowMinimized));
+	this->activateWindow();
 	this->showNormal();
 }

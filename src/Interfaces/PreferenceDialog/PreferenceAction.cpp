@@ -1,4 +1,4 @@
-/* PreferenceWidgetInterface.cpp */
+/* PreferenceInterface.cpp */
 
 /* Copyright (C) 2011-2017  Lucio Carreras
  *
@@ -18,10 +18,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "PreferenceWidgetInterface.h"
+#include "PreferenceAction.h"
+#include <QWidget>
 
+using Preferences::Action;
 
-PreferenceWidgetInterface::PreferenceWidgetInterface(QWidget* parent) :
-	PreferenceInterface<Widget>(parent) {}
-
-PreferenceWidgetInterface::~PreferenceWidgetInterface() {}
+Action::Action(const QString &text, QWidget *preference_interface) :
+	QAction(nullptr)
+{
+	this->setText(text + "...");
+	connect(this, &QAction::triggered, preference_interface, &QWidget::show);
+}

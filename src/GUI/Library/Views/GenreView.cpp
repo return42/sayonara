@@ -107,7 +107,6 @@ int GenreView::row_count() const
 void GenreView::set_local_library(LocalLibrary* library)
 {
 	m->genre_fetcher->set_local_library(library);
-	//m->genre_fetcher->reload_genres();
 }
 
 void GenreView::progress_changed(int progress)

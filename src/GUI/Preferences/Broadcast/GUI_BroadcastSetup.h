@@ -21,24 +21,24 @@
 #ifndef GUI_BROADCASTSETUP_H
 #define GUI_BROADCASTSETUP_H
 
-#include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
+#include "Interfaces/PreferenceDialog/PreferenceWidget.h"
 
 UI_FWD(GUI_BroadcastSetup)
 
 class GUI_BroadcastSetup :
-		public PreferenceWidgetInterface
+		public Preferences::Base
 {
 	Q_OBJECT
 	UI_CLASS(GUI_BroadcastSetup)
 
 public:
-	explicit GUI_BroadcastSetup(QWidget *parent=nullptr);
+	explicit GUI_BroadcastSetup(const QString& identifier);
 	virtual ~GUI_BroadcastSetup();
 
 	void commit() override;
 	void revert() override;
 
-	QString get_action_name() const override;
+	QString action_name() const override;
 
 protected:
 	void init_ui() override;

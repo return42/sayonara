@@ -58,14 +58,12 @@ public:
 	~GUI_Playlist();
 
 private:
-	PlaylistView* get_view_by_idx(int idx);
-	PlaylistView* get_current_view();
+	PlaylistView* view_by_index(int idx);
+	PlaylistView* current_view();
 
-	void init_shortcuts();
 	void set_total_time_label();
 
 	/** Overridden events **/
-	void resizeEvent(QResizeEvent *e) override;
 	void language_changed() override;
 	void skin_changed() override;
 
@@ -73,19 +71,16 @@ private:
 	void dragLeaveEvent(QDragLeaveEvent* event) override;
 	void dropEvent(QDropEvent* event) override;
 	void dragMoveEvent(QDragMoveEvent* event) override;
-	void changeEvent(QEvent* e) override;
 
 	GlobalMessage::Answer show_save_message_box(Playlist::DBInterface::SaveAsAnswer answer);
 
 private slots:
 
-	void load_old_playlists();
-
 	// triggered from playlist
-	void playlist_track_changed(int row, int pl_idx); // GUI_Playlist.cpp
-	void playlist_fill(PlaylistPtr pl); // GUI_Playlist.cpp
-	void playlist_added(PlaylistPtr pl); // GUI_PlaylistTabs.cpp
-	void playlist_name_changed(int pl_idx);// GUI_PlaylistTabs.cpp
+	void playlist_track_changed(int row, int pl_idx);
+	void playlist_created(PlaylistPtr pl);
+	void playlist_added(PlaylistPtr pl);
+	void playlist_name_changed(int pl_idx);
 	void playlist_changed(int pl_idx);
 	void playlist_idx_changed(int pld_idx);
 
@@ -111,15 +106,9 @@ private slots:
 
 	void clear_button_pressed(int pl_idx);
 
-	void select_tab_left();
-	void select_tab_right();
-
-
 	// called by playmanager
 	void playstate_changed(PlayState state);
 	void playlist_finished();
-	void playlist_time_changed();
-
 
 	void _sl_show_numbers_changed();
 	void _sl_show_clear_button_changed();

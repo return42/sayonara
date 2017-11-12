@@ -35,6 +35,8 @@
 
 #include "Components/Covers/CoverLocation.h"
 #include "Components/Covers/CoverLookupAlternative.h"
+#include "Components/Covers/CoverFetchManager.h"
+#include "Components/Covers/CoverFetcherInterface.h"
 #include "Components/Library/LibraryManager.h"
 
 #include "Utils/Message/Message.h"
@@ -45,9 +47,7 @@
 #include <QFile>
 #include <QDir>
 #include <QFileDialog>
-#include <QRegExp>
-#include <QPixmap>
-#include <QList>
+#include <QStringList>
 #include <QModelIndex>
 
 using Cover::AlternativeLookup;
@@ -56,21 +56,31 @@ using Gui::ProgressBar;
 
 struct GUI_AlternativeCovers::Private
 {
-	int						cur_idx;
-    Location                cover_location;
 	QStringList				filelist;
-	bool					is_searching;
-	ProgressBar*			loading_bar=nullptr;
 
+	AlternativeLookup*				cl_alternative=nullptr;
 	AlternativeCoverItemModel*		model=nullptr;
 	AlternativeCoverItemDelegate*	delegate=nullptr;
 
-	AlternativeLookup*			cl_alternative=nullptr;
+	ProgressBar*			loading_bar=nullptr;
+
+	int						cur_idx;
+	bool					is_searching;
+
+	Private() :
+		cur_idx(-1),
+		is_searching(false)
+	{}
 
 	~Private()
 	{
-		delete model;
-		delete delegate;
+		if(model){
+			delete model;
+		}
+
+		if(delegate){
+			delete delegate;
+		}
 
 		if(cl_alternative) {
 			cl_alternative->stop();
@@ -82,27 +92,45 @@ struct GUI_AlternativeCovers::Private
 GUI_AlternativeCovers::GUI_AlternativeCovers(QWidget* parent) :
 	Dialog(parent)
 {
-	ui = new Ui::AlternativeCovers();
+	ui = new Ui::GUI_AlternativeCovers();
 	m = Pimpl::make<GUI_AlternativeCovers::Private>();
-
-	ui->setupUi(this);
-
-	m->loading_bar = new ProgressBar(ui->tv_images);
-	m->cur_idx = -1;
-	m->is_searching = false;
 
 	m->model = new AlternativeCoverItemModel(this);
 	m->delegate = new AlternativeCoverItemDelegate(this);
 
+	int n_items = m->model->rowCount() * m->model->columnCount() + 5;
+	m->cl_alternative = new AlternativeLookup(this, n_items);
+
+	ui->setupUi(this);
+
+	m->loading_bar = new ProgressBar(ui->tv_images);
 	ui->tv_images->setModel(m->model);
 	ui->tv_images->setItemDelegate(m->delegate);
 
 	connect(ui->btn_ok, &QPushButton::clicked, this, &GUI_AlternativeCovers::ok_clicked);
 	connect(ui->btn_apply, &QPushButton::clicked, this, &GUI_AlternativeCovers::apply_clicked);
 	connect(ui->btn_search, &QPushButton::clicked, this, &GUI_AlternativeCovers::search_clicked);
-	connect(ui->tv_images, &QTableView::pressed, this, &GUI_AlternativeCovers::cover_pressed);	
+	connect(ui->tv_images, &QTableView::pressed, this, &GUI_AlternativeCovers::cover_pressed);
 	connect(ui->btn_file, &QPushButton::clicked, this, &GUI_AlternativeCovers::open_file_dialog);
 	connect(ui->btn_close, &QPushButton::clicked, this, &Dialog::close);
+	connect(m->cl_alternative, &AlternativeLookup::sig_cover_found, this, &GUI_AlternativeCovers::cl_new_cover);
+	connect(m->cl_alternative, &AlternativeLookup::sig_finished, this, &GUI_AlternativeCovers::cl_finished);
+
+	connect(ui->rb_auto_search, &QRadioButton::toggled, [=](bool b)
+	{
+		if(b){
+			init_combobox();
+		}
+	});
+
+	connect(ui->rb_text_search, &QRadioButton::toggled, [=](bool b)
+	{
+		ui->le_search->setEnabled(b);
+
+		if(b){
+			init_combobox();
+		}
+	});
 }
 
 
@@ -114,6 +142,70 @@ GUI_AlternativeCovers::~GUI_AlternativeCovers()
 }
 
 
+void GUI_AlternativeCovers::start(const Location& cl)
+{
+	if(!cl.valid()){
+		return;
+	}
+
+	m->cl_alternative->set_cover_location(cl);
+
+	ui->tabWidget->setCurrentIndex(0);
+	ui->le_search->setText( cl.search_term() );
+	ui->rb_auto_search->setChecked(true);
+
+	sp_log(Log::Develop, this) << "Search alternative cover";
+	sp_log(Log::Develop, this) << cl.to_string();
+
+	init_combobox();
+
+	connect_and_start();
+}
+
+
+void GUI_AlternativeCovers::connect_and_start()
+{
+	reset_model();
+	delete_all_files();
+
+	m->is_searching = true;
+
+	ui->btn_ok->setEnabled(false);
+	ui->btn_apply->setEnabled(false);
+	ui->btn_search->setText( Lang::get(Lang::Stop) );
+
+	if(ui->rb_text_search->isChecked())
+	{
+		QString search_term = ui->le_search->text();
+		if(ui->combo_search_fetchers->currentIndex() > 0)
+		{
+			QString cover_fetcher_identifier = ui->combo_search_fetchers->currentText();
+			m->cl_alternative->start_text_search(search_term, cover_fetcher_identifier);
+		}
+
+		else {
+			m->cl_alternative->start_text_search(search_term);
+		}
+	}
+
+	else if(ui->rb_auto_search->isChecked())
+	{
+		if(ui->combo_search_fetchers->currentIndex() > 0)
+		{
+			QString cover_fetcher_identifier = ui->combo_search_fetchers->currentText();
+			m->cl_alternative->start(cover_fetcher_identifier);
+		}
+
+		else {
+			m->cl_alternative->start();
+		}
+	}
+
+	m->loading_bar->show();
+
+	show();
+}
+
 void GUI_AlternativeCovers::language_changed()
 {
 	ui->retranslateUi(this);
@@ -121,44 +213,6 @@ void GUI_AlternativeCovers::language_changed()
 	ui->btn_search->setText(Lang::get(Lang::Search));
 	ui->btn_close->setText(Lang::get(Lang::Close));
 	ui->btn_apply->setText(Lang::get(Lang::Apply));
-}
-
-void GUI_AlternativeCovers::connect_and_start(const Location& cl)
-{
-	reset_model();
-	delete_all_files();
-
-	m->cover_location = cl;
-	m->cl_alternative = new AlternativeLookup(this, cl, m->model->rowCount() * m->model->columnCount() + 5);
-
-	connect(m->cl_alternative, &AlternativeLookup::sig_cover_found, this, &GUI_AlternativeCovers::cl_new_cover);
-	connect(m->cl_alternative, &AlternativeLookup::sig_finished, this, &GUI_AlternativeCovers::cl_finished);
-
-	m->is_searching = true;
-
-	ui->btn_ok->setEnabled(false);
-	ui->btn_apply->setEnabled(false);
-	ui->btn_search->setText( Lang::get(Lang::Stop) );
-	ui->le_search->setText(cl.search_term());
-	ui->lab_info->setText(cl.search_term());
-
-	m->cl_alternative->start();
-	m->loading_bar->show();
-
-	show();
-}
-
-void GUI_AlternativeCovers::start(const Location& cl)
-{
-	if(!cl.valid()){
-		return;
-	}
-
-	ui->le_search->setText( cl.search_term() );
-	ui->rb_local->setChecked(false);
-	ui->rb_online->setChecked(true);
-
-	connect_and_start(cl);
 }
 
 void GUI_AlternativeCovers::ok_clicked()
@@ -194,28 +248,22 @@ void GUI_AlternativeCovers::apply_clicked()
 		return;
 	}
 
-	img.save(m->cover_location.cover_path());
+	Cover::Location cl = m->cl_alternative->cover_location();
+	img.save(cl.cover_path());
 
-	emit sig_cover_changed(m->cover_location);
+	emit sig_cover_changed(cl);
 }
 
 void GUI_AlternativeCovers::search_clicked()
 {
-	if(m->is_searching && m->cl_alternative){
+	if( m->is_searching &&
+		m->cl_alternative)
+	{
 		m->cl_alternative->stop();
 		return;
 	}
 
-	if(!ui->le_search->text().isEmpty()){
-		QString text = ui->le_search->text();
-		m->cover_location.set_search_term(text);
-	}
-
-	else{
-		ui->le_search->setText( m->cover_location.search_term() );
-	}
-
-	connect_and_start(m->cover_location);
+	connect_and_start();
 }
 
 
@@ -245,8 +293,6 @@ void GUI_AlternativeCovers::cl_finished(bool b)
 
 	ui->btn_search->setText(Lang::get(Lang::Search));
 
-	m->cl_alternative->deleteLater();
-	m->cl_alternative = nullptr;
 	m->loading_bar->hide();
 }
 
@@ -276,15 +322,15 @@ void GUI_AlternativeCovers::reset_model()
 
 void GUI_AlternativeCovers::open_file_dialog()
 {
-    QStringList filters;
-        filters << "*.jpg";
-        filters << "*.png";
-        filters << "*.gif";
+	QStringList filters;
+		filters << "*.jpg";
+		filters << "*.png";
+		filters << "*.gif";
 
-    QStringList lst = QFileDialog::getOpenFileNames(this,
-                                  tr("Open image files"),
+	QStringList lst = QFileDialog::getOpenFileNames(this,
+								  tr("Open image files"),
 								  QDir::homePath(),
-                                  filters.join(" "));
+								  filters.join(" "));
 	if(lst.isEmpty())
 	{
 		return;
@@ -298,15 +344,16 @@ void GUI_AlternativeCovers::open_file_dialog()
 		RowColumn rc = m->model->cvt_2_row_col( idx );
 		m->model->set_cover(rc.row, rc.col, path);
 
-        idx ++;
-    }
+		idx ++;
+	}
 }
 
 
 void GUI_AlternativeCovers::delete_all_files()
 {
-	for(const QString& cover_path : m->filelist) {
-		if(Location::isInvalidLocation(cover_path)){
+	for(const QString& cover_path : m->filelist)
+	{
+		if(Location::is_invalid(cover_path)){
 			continue;
 		}
 
@@ -315,6 +362,54 @@ void GUI_AlternativeCovers::delete_all_files()
 	}
 
 	m->filelist.clear();
+}
+
+void GUI_AlternativeCovers::init_combobox()
+{
+	bool is_text_mode = ui->rb_text_search->isChecked();
+
+	Cover::Fetcher::Manager* cfm = Cover::Fetcher::Manager::instance();
+	Cover::Location cl = m->cl_alternative->cover_location();
+
+	QList<Cover::Fetcher::Base*> active_coverfetchers = cfm->active_coverfetchers();
+	QStringList first_item_string;
+
+	for(Cover::Fetcher::Base* cfi : active_coverfetchers)
+	{
+		if(!cfi->keyword().isEmpty()){
+			first_item_string << cfi->keyword();
+		}
+	}
+
+	ui->combo_search_fetchers->clear();
+	ui->combo_search_fetchers->addItem(first_item_string.join(", "));
+
+	QList<Cover::Fetcher::Base*> available_cover_fetchers = cfm->available_coverfetchers();
+	for(const Cover::Fetcher::Base* cover_fetcher : available_cover_fetchers)
+	{
+		QString keyword = cover_fetcher->keyword();
+		QMap<QString, QString> all_search_urls = cl.all_search_urls();
+
+		bool suitable = false;
+		if(is_text_mode) {
+			suitable = cover_fetcher->is_search_supported();
+		}
+
+		else {
+			suitable = all_search_urls.keys().contains(keyword);
+		}
+
+		if(suitable){
+			ui->combo_search_fetchers->addItem(cover_fetcher->keyword());
+		}
+	}
+}
+
+void GUI_AlternativeCovers::resizeEvent(QResizeEvent *e)
+{
+	Gui::Dialog::resizeEvent(e);
+	m->loading_bar->hide();
+	m->loading_bar->show();
 }
 
 

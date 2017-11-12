@@ -27,20 +27,17 @@
 #include <QtGlobal>
 #include "Interfaces/LibraryInterface/LibraryContainer/LibraryContainer.h"
 
-
-
 namespace SC
 {
 	class GUI_Library;
 
 	class LibraryContainer :
-		public LibraryContainerInterface
+		public ::Library::Container
 	{
 		Q_OBJECT
 
 		Q_PLUGIN_METADATA(IID "com.sayonara-player.soundcloud_library")
 		Q_INTERFACES(LibraryContainerInterface)
-
 
 	private:
 		SC::GUI_Library*	ui=nullptr;

@@ -32,19 +32,19 @@
 
 struct GUI_Shortcuts::Private
 {
-    ShortcutHandler*			sch = nullptr;
-    QList<GUI_ShortcutEntry*>	entries;
+	ShortcutHandler*			sch = nullptr;
+	QList<GUI_ShortcutEntry*>	entries;
 
-    Private()
-    {
-        sch = ShortcutHandler::instance();
-    }
+	Private()
+	{
+		sch = ShortcutHandler::instance();
+	}
 };
 
-GUI_Shortcuts::GUI_Shortcuts(QWidget* parent) :
-	PreferenceWidgetInterface(parent)
+GUI_Shortcuts::GUI_Shortcuts(const QString& identifier) :
+	Base(identifier)
 {
-    m = Pimpl::make<Private>();
+	m = Pimpl::make<Private>();
 }
 
 GUI_Shortcuts::~GUI_Shortcuts()
@@ -68,7 +68,7 @@ void GUI_Shortcuts::init_ui()
 
 	ui->cb_test->setVisible(false);
 
-    QList<Shortcut> shortcuts = m->sch->get_shortcuts();
+	QList<Shortcut> shortcuts = m->sch->get_shortcuts();
 
 	for(const Shortcut& shortcut : shortcuts){
 		GUI_ShortcutEntry* entry = new GUI_ShortcutEntry(shortcut);
@@ -80,7 +80,7 @@ void GUI_Shortcuts::init_ui()
 
 		ui->layout_entries->addWidget(entry);
 
-        m->entries << entry;
+		m->entries << entry;
 	}
 
 	connect(ui->cb_test, &QCheckBox::toggled, ui->cb_test, [=]()
@@ -93,7 +93,7 @@ void GUI_Shortcuts::init_ui()
 }
 
 
-QString GUI_Shortcuts::get_action_name() const
+QString GUI_Shortcuts::action_name() const
 {
 	return tr("Shortcuts");
 }
@@ -101,7 +101,7 @@ QString GUI_Shortcuts::get_action_name() const
 
 void GUI_Shortcuts::commit()
 {
-    for(GUI_ShortcutEntry* entry : m->entries){
+	for(GUI_ShortcutEntry* entry : m->entries){
 		entry->commit();
 	}
 }
@@ -109,7 +109,7 @@ void GUI_Shortcuts::commit()
 
 void GUI_Shortcuts::revert()
 {
-    for(GUI_ShortcutEntry* entry : m->entries){
+	for(GUI_ShortcutEntry* entry : m->entries){
 		entry->revert();
 	}
 }
@@ -133,7 +133,7 @@ void GUI_Shortcuts::sequence_entered()
 	GUI_ShortcutEntry* entry = static_cast<GUI_ShortcutEntry*>(sender());
 	QList<QKeySequence> sequences = entry->get_sequences();
 
-    for(GUI_ShortcutEntry* lst_entry : m->entries)
+	for(GUI_ShortcutEntry* lst_entry : m->entries)
 	{
 		if(lst_entry == entry){
 			continue;

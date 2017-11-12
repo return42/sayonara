@@ -1,6 +1,6 @@
 /* GUIRemoteControl.cpp
 
- * Copyright (C) 2011-2017 Lucio Carreras  
+ * Copyright (C) 2011-2017 Lucio Carreras
  *
  * This file is part of sayonara-player
  *
@@ -17,8 +17,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * created by Lucio Carreras, 
- * Sep 3, 2012 
+ * created by Lucio Carreras,
+ * Sep 3, 2012
  *
  */
 
@@ -29,8 +29,8 @@
 #include "Utils/Settings/Settings.h"
 
 
-GUI_RemoteControl::GUI_RemoteControl(QWidget* parent) :
-	PreferenceWidgetInterface(parent) {}
+GUI_RemoteControl::GUI_RemoteControl(const QString& identifier) :
+	Base(identifier) {}
 
 GUI_RemoteControl::~GUI_RemoteControl()
 {
@@ -71,7 +71,7 @@ void GUI_RemoteControl::revert()
 }
 
 
-QString GUI_RemoteControl::get_action_name() const
+QString GUI_RemoteControl::action_name() const
 {
 	return tr("Remote control");
 }

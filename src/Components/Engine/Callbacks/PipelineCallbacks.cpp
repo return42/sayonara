@@ -162,7 +162,7 @@ void Callbacks::source_ready(GstURIDecodeBin* bin, GstElement* source, gpointer 
 	sp_log(Log::Develop, "Engine Callback") << "Source ready: is soup? " << is_source_soup(source);
 	if(is_source_soup(source))
 	{
-		g_object_set(G_OBJECT(source), "ssl-strict", false, nullptr);
+		//g_object_set(G_OBJECT(source), "ssl-strict", false, nullptr);
 
 		Proxy* proxy = Proxy::instance();
 		if(proxy->active())

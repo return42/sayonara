@@ -121,7 +121,7 @@ struct SomaFM::Station::Private
 					"/covers/" +
 					station_name + "." + Util::File::get_file_extension(url);
 
-            cover = Cover::Location::get_cover_location(QUrl(url), cover_path);
+            cover = Cover::Location::cover_location(QUrl(url), cover_path);
 		}
 	}
 
@@ -132,7 +132,7 @@ struct SomaFM::Station::Private
 SomaFM::Station::Station()
 {
 	m = Pimpl::make<SomaFM::Station::Private>();
-    m->cover = Cover::Location::getInvalidLocation();
+    m->cover = Cover::Location::invalid_location();
 	m->loved = false;
 }
 

@@ -49,7 +49,6 @@ struct MetaDataInfo::Private
 	QStringList paths;
 
 	Cover::Location	cover_location;
-
 };
 
 MetaDataInfo::MetaDataInfo(const MetaDataList& v_md) :
@@ -83,7 +82,6 @@ MetaDataInfo::MetaDataInfo(const MetaDataList& v_md) :
 		m->album_ids.insert(md.album_id);
 		m->artist_ids.insert(md.artist_id);
 		m->album_artist_ids.insert(md.album_artist_id());
-
 
 		length += md.length_ms;
 		filesize += md.filesize;
@@ -203,7 +201,7 @@ void MetaDataInfo::calc_cover_location(const MetaDataList& lst)
 	if(lst.size() == 1)
 	{
 		const MetaData& md = lst[0];
-		m->cover_location = Cover::Location::get_cover_location(md);
+		m->cover_location = Cover::Location::cover_location(md);
 	}
 
 	else if(album_ids().size() == 1)
@@ -213,9 +211,10 @@ void MetaDataInfo::calc_cover_location(const MetaDataList& lst)
 		album.id = album_ids().first();
 		album.set_name(m->albums.first());
 		album.set_artists(m->artists.toList());
+		album.set_album_artists(m->album_artists.toList());
 		album.set_db_id(lst[0].db_id());
 
-		m->cover_location = Cover::Location::get_cover_location(album);
+		m->cover_location = Cover::Location::cover_location(album);
 	}
 
 	else if(m->albums.size() == 1 && m->artists.size() == 1)
@@ -223,18 +222,26 @@ void MetaDataInfo::calc_cover_location(const MetaDataList& lst)
 		QString album = m->albums.first();
 		QString artist = m->artists.first();
 
-		m->cover_location = Cover::Location::get_cover_location(album, artist);
+		m->cover_location = Cover::Location::cover_location(album, artist);
+	}
+
+	else if(m->albums.size() == 1 && m->album_artists.size() == 1)
+	{
+		QString album = m->albums.first();
+		QString artist = m->album_artists.first();
+
+		m->cover_location = Cover::Location::cover_location(album, artist);
 	}
 
 	else if(m->albums.size() == 1)
 	{
 		QString album = m->albums.first();
-		m->cover_location = Cover::Location::get_cover_location(album, m->artists.toList());
+		m->cover_location = Cover::Location::cover_location(album, m->artists.toList());
 	}
 
 	else
 	{
-		m->cover_location = Cover::Location::getInvalidLocation();
+		m->cover_location = Cover::Location::invalid_location();
 	}
 }
 
@@ -381,10 +388,10 @@ QString MetaDataInfo::additional_infostring() const
 QString MetaDataInfo::pathsstring() const
 {
 	QString ret;
-	QList<LibraryInfo> lib_infos = LibraryManager::instance()->all_libraries();
+	QList<Library::Info> lib_infos = Library::Manager::instance()->all_libraries();
 	QStringList lib_paths;
 
-	for(const LibraryInfo& li : lib_infos)
+	for(const Library::Info& li : lib_infos)
 	{
 		lib_paths << li.path();
 	}

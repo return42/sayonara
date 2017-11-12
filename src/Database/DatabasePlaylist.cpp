@@ -180,7 +180,8 @@ bool DB::Playlist::getPlaylistById(CustomPlaylist& pl)
 			"tracks.discnumber AS discnumber, "			// 13
 			"tracks.rating AS rating, "					// 14
 			"playlistToTracks.filepath AS filepath, "	// 15
-			"playlistToTracks.db_id AS db_id "			// 16
+			"playlistToTracks.db_id AS db_id, "			// 16
+			"tracks.libraryID AS library_id "			// 17
 
 			"FROM tracks, albums, artists, playlists, playlisttotracks "
 			"WHERE playlists.playlistID = :playlist_id "
@@ -192,7 +193,6 @@ bool DB::Playlist::getPlaylistById(CustomPlaylist& pl)
 
 	q.prepare(querytext);
 	q.bindValue(":playlist_id", pl.id());
-	q.show_query();
 
 	if (!q.exec()) {
 		q.show_error( QString("Cannot get tracks for playlist %1").arg(pl.id()) );
@@ -220,6 +220,7 @@ bool DB::Playlist::getPlaylistById(CustomPlaylist& pl)
 			data.filesize =  q.value(12).toInt();
 			data.discnumber = q.value(13).toInt();
 			data.rating = q.value(14).toInt();
+			data.library_id = q.value(17).toInt();
 
 			data.is_extern = false;
 			data.set_db_id(module_db_id());
@@ -244,7 +245,6 @@ bool DB::Playlist::getPlaylistById(CustomPlaylist& pl)
 	Query q2(this);
 	q2.prepare(querytext2);
 	q2.bindValue(":playlist_id", pl.id());
-	q2.show_query();
 
 	if(!q2.exec()) {
 		q2.show_error(QString("Playlist by id: Cannot fetch playlist %1").arg(pl.id()));

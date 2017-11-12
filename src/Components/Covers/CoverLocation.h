@@ -22,6 +22,7 @@
 #define COVERLOCATION_H
 
 #include <QMetaType>
+#include <QMap>
 #include "Utils/Pimpl.h"
 
 class QUrl;
@@ -47,19 +48,95 @@ namespace Cover
 		Location(const Location& cl);
 		Location& operator=(const Location& cl);
 
-		bool valid() const;
-		QStringList local_paths() const;
-		void add_local_path(const QString& path);
-		QString local_path(int idx) const;
-		QString cover_path() const;
-		QString identifer() const;
-		QStringList search_urls() const;
-		void remove_first_search_url();
+		/**
+		 * @brief returns if the current location is a valid or
+		 * a standard constructed location
+		 * @return
+		 */
+		bool			valid() const;
 
-		bool has_search_urls() const;
-		QString search_term() const;
-		void set_search_term(const QString& search_term);
-		QString to_string() const;
+		/**
+		 * @brief returns if path is the same as the invalid location path
+		 * @param cover_path the path to be compared
+		 * @return
+		 */
+		static bool is_invalid(const QString& cover_path);
+
+
+		/**
+		 * @brief returns paths of images in the directory
+		 * where the soundfiles are located.
+		 * @return
+		 */
+		QStringList		local_paths() const;
+
+		/**
+		 * @brief adds an local path to other local paths
+		 * @param path new path
+		 */
+		void			add_local_path(const QString& path);
+
+		/**
+		 * @brief Returns the most suitable path for covers.
+		 * Usually this is the first of local_paths(). If not,
+		 * the cover_path() is taken. If this file does not exist
+		 * either, the fallback path is returned (logo)
+		 * @return
+		 */
+		QString			preferred_path() const;
+
+		/**
+		 * @brief Returns the standard cover path in the .Sayonara
+		 * directory
+		 * @return
+		 */
+		QString			cover_path() const;
+
+		/**
+		 * @brief This identifier may be used in order to check
+		 * how the cover algorithm determined the locations
+		 * @return
+		 */
+		QString			identifer() const;
+
+		/**
+		 * @brief Retrieve the urls where a new cover can be searched
+		 * @return
+		 */
+		QStringList		search_urls() const;
+
+		/**
+		 * @brief Check for existing search urls
+		 * @return
+		 */
+		bool			has_search_urls() const;
+
+
+		QMap<QString, QString> all_search_urls() const;
+
+		/**
+		 * @brief Search term for a free search. As a human you would
+		 * type that search term into your browser
+		 * @return
+		 */
+		QString			search_term() const;
+
+		/**
+		 * @brief Set a new search term
+		 * @param search_term
+		 */
+		void			set_search_term(const QString& search_term);
+
+		void			set_search_term(const QString& search_term,
+										const QString& cover_fetcher_identifier);
+
+		void			set_search_urls(const QStringList& urls);
+
+		/**
+		 * @brief to_string
+		 * @return
+		 */
+		QString			to_string() const;
 
 
 		/**
@@ -68,37 +145,25 @@ namespace Cover
 		 * @param artist_name Artist name
 		 * @return CoverLocation object
 		 */
-		static Location get_cover_location(const QString& album_name, const QString& artist_name);
+		static Location cover_location(const QString& album_name, const QString& artist_name);
 
 		/**
 		 * @brief overloaded. Picks major artist out of artists and calls
-		 *   get_cover_location(const QString& album_name, const QString& artist_name)
+		 *   cover_location(const QString& album_name, const QString& artist_name)
 		 * @param album_name Album name
 		 * @param artists List of artists
 		 * @return CoverLocation object
 		 */
-		static Location get_cover_location(const QString& album_name, const QStringList& artists);
+		static Location cover_location(const QString& album_name, const QStringList& artists);
 
 
 		/**
 		 * @brief overloaded. Calls
-		 *   get_cover_location(const QString& album_name, const QStringList& artists)
+		 *   cover_location(const QString& album_name, const QStringList& artists)
 		 * @param album
 		 * @return CoverLocation object
 		 */
-		static Location get_cover_location(const Album& album);
-
-
-		/**
-		 * @brief The slowest, but by far the most accurate function. Checks all local
-		 * cover paths by all known tracks for the album.
-		 * Fetches album from database and calls
-		 *  get_cover_location(const QString& album_name, const QStringList& artists)
-		 * @param album_id Album ID
-		 * @param db_id Database ID for album
-		 * @return CoverLocation object
-		 */
-
+		static Location cover_location(const Album& album);
 
 
 		/**
@@ -106,28 +171,28 @@ namespace Cover
 		 * @param artist Artist name
 		 * @return CoverLocation object
 		 */
-		static Location get_cover_location(const QString& artist);
+		static Location cover_location(const QString& artist);
 
 
 		/**
 		 * @brief overloaded. extracts artist name and calls
-		 *   get_cover_location(const QString& artist)
+		 *   cover_location(const QString& artist)
 		 * @param artist Artist object
 		 * @return CoverLocation object
 		 */
-		static Location get_cover_location(const Artist& artist);
+		static Location cover_location(const Artist& artist);
 
 
 		/**
 		 * @brief overloaded.
 		 *   if MetaData::album_id < 0 calls
-		 *     get_cover_location(const QString& album_name, const QString& artist_name)
+		 *     cover_location(const QString& album_name, const QString& artist_name)
 		 *   else extract Album from database and calls
-		 *     get_cover_location(const Album& album)
+		 *     cover_location(const Album& album)
 		 * @param Metadata object
 		 * @return  CoverLocation object
 		 */
-		static Location get_cover_location(const MetaData& md);
+		static Location cover_location(const MetaData& md);
 
 
 		/**
@@ -136,21 +201,15 @@ namespace Cover
 		 * @param target_path path where the found image has to be saved
 		 * @return CoverLocation object
 		 */
-		static Location get_cover_location(const QUrl& url, const QString& target_path);
+		static Location cover_location(const QUrl& url, const QString& target_path);
 
 
 		/**
 		 * @brief returns an invalid location
 		 * @return  CoverLocation object
 		 */
-		static Location getInvalidLocation();
+		static Location invalid_location();
 
-		/**
-		 * @brief returns if path is the same as the invalid location path
-		 * @param cover_path the path to be compared
-		 * @return
-		 */
-		static bool isInvalidLocation(const QString& cover_path);
 
 
 		/**
@@ -158,8 +217,6 @@ namespace Cover
 		 * @return usually ~/.Sayonara/covers
 		 */
 		static QString get_cover_directory(const QString& append_path);
-
-		QString preferred_path() const;
 	};
 }
 

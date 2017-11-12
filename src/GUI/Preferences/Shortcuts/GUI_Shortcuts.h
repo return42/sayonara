@@ -21,7 +21,7 @@
 #ifndef GUI_SHORTCUTS_H
 #define GUI_SHORTCUTS_H
 
-#include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
+#include "Interfaces/PreferenceDialog/PreferenceWidget.h"
 #include "Utils/Pimpl.h"
 
 UI_FWD(GUI_Shortcuts)
@@ -31,20 +31,20 @@ UI_FWD(GUI_Shortcuts)
  * @ingroup Shortcuts
  */
 class GUI_Shortcuts final:
-		public PreferenceWidgetInterface
+		public Preferences::Base
 {
 	Q_OBJECT
 	UI_CLASS(GUI_Shortcuts)
-    PIMPL(GUI_Shortcuts)
+	PIMPL(GUI_Shortcuts)
 
 public:
-	explicit GUI_Shortcuts(QWidget* parent=nullptr);
+	explicit GUI_Shortcuts(const QString& identifier);
 	~GUI_Shortcuts();
 
 	void revert() override;
 	void commit() override;
 
-	QString get_action_name() const override;
+	QString action_name() const override;
 
 protected:
 	void init_ui() override;

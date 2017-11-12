@@ -24,45 +24,49 @@
 #include "Utils/MetaData/MetaDataList.h"
 #include <QMainWindow>
 
-InfoDialogContainer::InfoDialogContainer() {}
+struct InfoDialogContainer::Private
+{
+	GUI_InfoDialog*	info_dialog=nullptr;
+};
+
+InfoDialogContainer::InfoDialogContainer()
+{
+	m = Pimpl::make<Private>();
+}
 
 InfoDialogContainer::~InfoDialogContainer() {}
 
-void InfoDialogContainer::info_dialog_closed()
-{
-	// we could delete the dialog here, but that's not really neccessary
-}
-
+void InfoDialogContainer::info_dialog_closed() {}
 
 void InfoDialogContainer::show_info()
 {
 	if(init_dialog()){
-		_info_dialog->show(GUI_InfoDialog::Tab::Info);
+		m->info_dialog->show(GUI_InfoDialog::Tab::Info);
 	}
 }
 
 void InfoDialogContainer::show_lyrics()
 {
 	if(init_dialog()){
-		_info_dialog->show(GUI_InfoDialog::Tab::Lyrics);
+		m->info_dialog->show(GUI_InfoDialog::Tab::Lyrics);
 	}
 }
 
 void InfoDialogContainer::show_edit()
 {
 	if(init_dialog()){
-		_info_dialog->show(GUI_InfoDialog::Tab::Edit);
+		m->info_dialog->show(GUI_InfoDialog::Tab::Edit);
 	}
 }
 
 bool InfoDialogContainer::init_dialog()
 {
-	if(!_info_dialog){
-		_info_dialog = new GUI_InfoDialog(this, Gui::Util::main_window());
+	if(!m->info_dialog){
+		m->info_dialog = new GUI_InfoDialog(this, Gui::Util::main_window());
 	}
 
-	_info_dialog->set_metadata(info_dialog_data(), metadata_interpretation());
+	m->info_dialog->set_metadata(info_dialog_data(), metadata_interpretation());
 
-	return _info_dialog->has_metadata();
+	return m->info_dialog->has_metadata();
 }
 

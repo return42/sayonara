@@ -24,6 +24,7 @@
 
 #include "GUI_LibraryInfoBox.h"
 #include "GUI/Library/ui_GUI_LibraryInfoBox.h"
+#include "GUI/Utils/IconLoader/IconLoader.h"
 
 #include "Components/Library/LibraryManager.h"
 #include "Database/DatabaseConnector.h"
@@ -69,8 +70,8 @@ void GUI_LibraryInfoBox::language_changed()
 	ui->lab_filesize_descr->setText(Lang::get(Lang::Filesize));
 	ui->btn_close->setText(Lang::get(Lang::Close));
 
-	LibraryManager* manager = LibraryManager::instance();
-	LibraryInfo info = manager->library_info(_library_id);
+	Library::Manager* manager = Library::Manager::instance();
+	Library::Info info = manager->library_info(_library_id);
 
 	ui->lab_name->setText(Lang::get(Lang::Library) + ": " + info.name());
 
@@ -79,11 +80,12 @@ void GUI_LibraryInfoBox::language_changed()
 
 void GUI_LibraryInfoBox::skin_changed()
 {
-	LibraryManager* manager = LibraryManager::instance();
-	LibraryInfo info = manager->library_info(_library_id);
+	Library::Manager* manager = Library::Manager::instance();
+	Library::Info info = manager->library_info(_library_id);
 	bool dark = (_settings->get(Set::Player_Style) == 1);
 
 	ui->lab_path->setText(Util::create_link(info.path(), dark));
+	ui->lab_icon->setPixmap(IconLoader::pixmap(IconLoader::LocalLibrary));
 }
 
 
