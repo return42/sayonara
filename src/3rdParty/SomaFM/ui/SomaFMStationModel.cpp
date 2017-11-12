@@ -107,7 +107,11 @@ QVariant SomaFM::StationModel::data(const QModelIndex& index, int role) const
 			return IconLoader::icon(IconLoader::Undo);
 		}
 
-		return IconLoader::icon(IconLoader::Star);
+		if(m->stations[row].is_loved()){
+			return IconLoader::icon(IconLoader::Star);
+		}
+
+		return IconLoader::icon(IconLoader::StarDisabled);
 	}
 
 	else if(role == Qt::DisplayRole && col == 1)
@@ -284,13 +288,6 @@ Qt::ItemFlags SomaFM::StationModel::flags(const QModelIndex& index) const
 			}
 			return (Qt::NoItemFlags);
 		default:
-			/*if(index.column() == 0){
-				bool loved = m->stations[index.row].is_loved();
-				if(!loved){
-					return (Qt::ItemIsSelectable | Qt::ItemIsDragEnabled & ~Qt::ItemIsEnabled);
-				}
-
-			}*/
 			return (Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled);
 	}
 }
