@@ -27,6 +27,7 @@ using DB::Query;
 Streams::Streams(const QSqlDatabase& db, uint8_t db_id) :
 	Module(db, db_id) {}
 
+Streams::~Streams() {}
 
 bool Streams::getAllStreams(QMap<QString, QString>& streams)
 {

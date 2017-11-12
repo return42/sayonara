@@ -145,7 +145,8 @@ void GUI_InfoDialog::set_metadata(const MetaDataList& v_md, MD::Interpretation m
 	m->v_md = v_md;
 
 	prepare_info(md_interpretation);
-	if(ui){
+	if(ui && v_md.size() > 0)
+	{
 		m->ui_lyrics->set_metadata(v_md.first());
 	}
 }
@@ -217,6 +218,10 @@ void GUI_InfoDialog::show(GUI_InfoDialog::Tab tab)
 		init();
 	}
 
+	if(m->v_md.isEmpty()){
+		return;
+	}
+
 	QTabWidget* tab_widget = ui->tab_widget;
 
 	prepare_cover(Cover::Location::invalid_location());
@@ -243,7 +248,8 @@ void GUI_InfoDialog::show(GUI_InfoDialog::Tab tab)
 			}
 		}
 
-		if(local_md.size() > 0){
+		if(local_md.size() > 0)
+		{
 			m->ui_tag_edit->get_tag_edit()->set_metadata(local_md);
 		}
 	}

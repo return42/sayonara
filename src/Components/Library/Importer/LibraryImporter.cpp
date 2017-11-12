@@ -159,7 +159,9 @@ void LibraryImporter::copy_thread_finished()
 	}
 
 	// store to db
-	DB::LibraryDatabase* lib_db = m->db->library_db(m->library->library_id(), 0);
+	DB::Connector* db = DB::Connector::instance();
+	DB::LibraryDatabase* lib_db = db->library_db(m->library->library_id(), db->db_id());
+
 	bool success = lib_db->store_metadata(v_md);
 	int n_files_copied = copy_thread->get_n_copied_files();
 	int n_files_to_copy = m->import_cache->get_files().size();

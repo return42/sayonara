@@ -27,6 +27,7 @@ using DB::Query;
 Bookmarks::Bookmarks(const QSqlDatabase& db, uint8_t db_id) :
 	DB::Module(db, db_id) {}
 
+Bookmarks::~Bookmarks() {}
 
 bool Bookmarks::searchBookmarks(int track_id, QMap<uint32_t, QString>& bookmarks)
 {

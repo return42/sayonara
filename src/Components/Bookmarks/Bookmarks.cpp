@@ -24,6 +24,7 @@
 #include "Utils/globals.h"
 #include "Utils/MetaData/MetaData.h"
 #include "Database/DatabaseConnector.h"
+#include "Database/DatabaseBookmarks.h"
 #include "Components/PlayManager/PlayManager.h"
 
 #include <algorithm>
@@ -48,7 +49,7 @@ struct Bookmarks::Private
 	Private()
 	{
 		play_manager = PlayManager::instance();
-		db = DB::Connector::instance();
+		db = DB::Connector::instance()->bookmark_connector();
 
 		reset();
 	}
@@ -74,9 +75,10 @@ Bookmarks::Bookmarks(QObject *parent) :
 
 	connect(m->play_manager, &PlayManager::sig_track_changed, this, &Bookmarks::track_changed);
 	connect(m->play_manager, &PlayManager::sig_position_changed_ms, this, &Bookmarks::pos_changed_ms);
-	connect(m->play_manager, &PlayManager::sig_playstate_changed,	this, &Bookmarks::playstate_changed);
+	connect(m->play_manager, &PlayManager::sig_playstate_changed, this, &Bookmarks::playstate_changed);
 
 	m->md = m->play_manager->current_track();
+
 	reload_bookmarks();
 }
 
@@ -143,7 +145,7 @@ Bookmarks::CreationStatus Bookmarks::create()
 
 bool Bookmarks::remove(int idx)
 {
-	if(idx < 0 || idx >= m->bookmarks.size()){
+	if(!between(idx, m->bookmarks)){
 		return false;
 	}
 
@@ -329,7 +331,8 @@ bool Bookmarks::set_loop(bool b)
 	m->loop_start = 0;
 	m->loop_end = 0;
 
-	if(b){
+	if(b)
+	{
 		if( between(m->prev_idx, m->bookmarks) &&
 			between(m->next_idx, m->bookmarks) )
 		{

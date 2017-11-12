@@ -30,6 +30,7 @@ namespace DB
 	{
 		public:
 			Streams(const QSqlDatabase& db, uint8_t db_id);
+			~Streams();
 
 			bool getAllStreams(QMap<QString, QString>& result);
 			bool deleteStream(const QString& name);

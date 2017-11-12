@@ -39,7 +39,6 @@ namespace Library
 
 		Info& operator =(const Info& other);
 
-
 		QString name() const;
 		QString path() const;
 		QString symlink_path() const;

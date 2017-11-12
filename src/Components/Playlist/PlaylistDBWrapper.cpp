@@ -19,12 +19,15 @@
  */
 
 #include "PlaylistDBWrapper.h"
+
 #include "Utils/Tagging/Tagging.h"
 #include "Utils/FileUtils.h"
 #include "Utils/Parser/PlaylistParser.h"
 #include "Utils/MetaData/MetaDataList.h"
 #include "Utils/Playlist/CustomPlaylist.h"
+
 #include "Database/DatabaseConnector.h"
+#include "Database/DatabasePlaylist.h"
 
 #include <utility>
 
@@ -32,11 +35,11 @@ using Playlist::DBWrapper;
 
 struct DBWrapper::Private
 {
-	DB::Connector* db=nullptr;
+	DB::Playlist* db=nullptr;
 
 	Private()
 	{
-		db = DB::Connector::instance();
+		db = DB::Connector::instance()->playlist_connector();
 	}
 };
 
@@ -195,23 +198,24 @@ bool DBWrapper::rename_playlist(int id, const QString& new_name)
 
 bool DBWrapper::save_playlist_as(const MetaDataList& v_md, const QString& name)
 {
-	bool success;
+	DB::Connector* db = DB::Connector::instance();
 
-	m->db->transaction();
-	success = m->db->storePlaylist(v_md, name, false);
-	m->db->commit();
+	db->transaction();
+	bool success = m->db->storePlaylist(v_md, name, false);
+	db->commit();
 
 	return success;
 }
 
 bool DBWrapper::save_playlist_temporary(const MetaDataList& v_md, const QString& name)
 {
-	bool success;
+	DB::Connector* db = DB::Connector::instance();
 
-	m->db->transaction();
+	db->transaction();
 
-	success = m->db->storePlaylist(v_md, name, true);
-	m->db->commit();
+	bool success = m->db->storePlaylist(v_md, name, true);
+
+	db->commit();
 
 	return success;
 }
@@ -219,12 +223,12 @@ bool DBWrapper::save_playlist_temporary(const MetaDataList& v_md, const QString&
 
 bool DBWrapper::save_playlist(const CustomPlaylist& pl)
 {
-	bool success;
+	DB::Connector* db = DB::Connector::instance();
 
-	m->db->transaction();
+	db->transaction();
 	// TODO! we dont need the two other parameters
-	success = m->db->storePlaylist(pl, pl.id(), pl.temporary());
-	m->db->commit();
+	bool success = m->db->storePlaylist(pl, pl.id(), pl.temporary());
+	db->commit();
 
 	return success;
 }
@@ -232,12 +236,12 @@ bool DBWrapper::save_playlist(const CustomPlaylist& pl)
 
 bool DBWrapper::save_playlist(const MetaDataList& v_md, int id, bool is_temporary)
 {
-	bool success;
+	DB::Connector* db = DB::Connector::instance();
 
-	m->db->transaction();
+	db->transaction();
 	// TODO: see above
-	success = m->db->storePlaylist(v_md, id, is_temporary);
-	m->db->commit();
+	bool success = m->db->storePlaylist(v_md, id, is_temporary);
+	db->commit();
 
 	return success;
 }

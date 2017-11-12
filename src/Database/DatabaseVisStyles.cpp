@@ -30,6 +30,7 @@ using DB::Module;
 VisualStyles::VisualStyles(const QSqlDatabase& db, uint8_t db_id) :
 	Module(db, db_id) {}
 
+VisualStyles::~VisualStyles() {}
 
 QString col2String(QColor col) {
 	QString str;

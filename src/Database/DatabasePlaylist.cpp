@@ -30,6 +30,7 @@ using DB::Query;
 DB::Playlist::Playlist(const QSqlDatabase& db, uint8_t db_id) :
 	Module(db, db_id) {}
 
+DB::Playlist::~Playlist() {}
 
 bool DB::Playlist::getAllPlaylistSkeletons(CustomPlaylistSkeletons& skeletons, ::Playlist::StoreType type, ::Playlist::SortOrder sortorder)
 {

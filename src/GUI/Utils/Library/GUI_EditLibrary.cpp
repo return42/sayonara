@@ -23,9 +23,11 @@
 #include "GUI_EditLibrary.h"
 #include "GUI/Utils/ui_GUI_EditLibrary.h"
 #include "Utils/Language.h"
+#include "Utils/FileUtils.h"
 
 #include <QFileDialog>
 #include <QSizePolicy>
+#include <QStringList>
 
 struct GUI_EditLibrary::Private
 {
@@ -33,6 +35,11 @@ struct GUI_EditLibrary::Private
 	QString old_path;
 
 	EditMode edit_mode;
+
+	Private()
+	{
+
+	}
 };
 
 GUI_EditLibrary::GUI_EditLibrary(QWidget *parent) :
@@ -102,6 +109,12 @@ void GUI_EditLibrary::choose_dir_clicked()
 
 	if(new_dir.isEmpty()){
 		new_dir = m->old_path;
+	}
+
+	if(m->edit_mode == EditMode::New)
+	{
+		QString str = Util::File::get_filename_of_path(new_dir);
+		ui->le_name->setText(str);
 	}
 
 	ui->le_path->setText(new_dir);

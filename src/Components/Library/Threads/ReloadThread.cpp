@@ -31,8 +31,11 @@
 #include "ReloadThread.h"
 
 #include "Components/DirectoryReader/DirectoryReader.h"
+
 #include "Database/DatabaseConnector.h"
+#include "Database/DatabaseLibrary.h"
 #include "Database/LibraryDatabase.h"
+
 #include "Utils/Tagging/Tagging.h"
 #include "Utils/Utils.h"
 #include "Utils/FileUtils.h"
@@ -114,7 +117,9 @@ int ReloadThread::get_and_save_all_files(const QHash<QString, MetaData>& md_map_
 	}
 
 	DB::Connector* db = m->db;
-	DB::LibraryDatabase* lib_db = db->library_db(m->library_id, 0);
+	DB::Library* db_library = m->db->library_connector();
+	DB::LibraryDatabase* lib_db = db->library_db(m->library_id, db->db_id());
+
 	QDir dir(library_path);
 
 	MetaDataList v_md_to_store;
@@ -155,7 +160,8 @@ int ReloadThread::get_and_save_all_files(const QHash<QString, MetaData>& md_map_
 		if(file_was_read){
 			v_md_to_store << md;
 
-			if(v_md_to_store.size() >= N_FILES_TO_STORE){
+			if(v_md_to_store.size() >= N_FILES_TO_STORE)
+			{
 				lib_db->store_metadata(v_md_to_store);
 				v_md_to_store.clear();
 			}
@@ -167,8 +173,8 @@ int ReloadThread::get_and_save_all_files(const QHash<QString, MetaData>& md_map_
 		v_md_to_store.clear();
 	}
 
-	lib_db->add_album_artists();
-	lib_db->create_indexes();
+	db_library->add_album_artists();
+	db_library->create_indexes();
 	DB::Connector::instance()->clean_up();
 
 	return v_md_to_store.size();
@@ -271,12 +277,13 @@ void ReloadThread::run()
 	m->running = true;
 	m->paused = false;
 
-	MetaDataList v_md, v_to_delete;
+	MetaDataList v_md, v_to_delete, v_md_needs_update;
 	QHash<QString, MetaData> v_md_map;
 
 	emit sig_reloading_library(tr("Delete orphaned tracks..."), 0);
 
-	lib_db->deleteInvalidTracks(m->library_path);
+	lib_db->deleteInvalidTracks(m->library_path, v_md_needs_update);
+	lib_db->store_metadata(v_md_needs_update);
 	lib_db->getAllTracks(v_md);
 
 	sp_log(Log::Debug, this) << "Have " << v_md.size() << " tracks";

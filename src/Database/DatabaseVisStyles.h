@@ -32,6 +32,7 @@ namespace DB
 	{
 		public:
 			VisualStyles(const QSqlDatabase& db, uint8_t db_id);
+			~VisualStyles();
 
 			QList<RawColorStyle> get_raw_color_styles();
 			bool insert_raw_color_style_to_db(const RawColorStyle& rcs);

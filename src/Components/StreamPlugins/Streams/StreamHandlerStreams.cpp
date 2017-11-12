@@ -20,25 +20,34 @@
 
 #include "StreamHandlerStreams.h"
 #include "Database/DatabaseConnector.h"
+#include "Database/DatabaseStreams.h"
 
 StreamHandlerStreams::StreamHandlerStreams(QObject* parent) :
 	AbstractStreamHandler(parent) {}
 
 StreamHandlerStreams::~StreamHandlerStreams() {}
 
-bool StreamHandlerStreams::get_all_streams(StreamMap& streams){
-	return DB::Connector::instance()->getAllStreams(streams);
+bool StreamHandlerStreams::get_all_streams(StreamMap& streams)
+{
+	DB::Streams* db = DB::Connector::instance()->stream_connector();
+	return db->getAllStreams(streams);
 }
 
-bool StreamHandlerStreams::add_stream(const QString& station_name, const QString& url){
-	return DB::Connector::instance()->addStream(station_name, url);
+bool StreamHandlerStreams::add_stream(const QString& station_name, const QString& url)
+{
+	DB::Streams* db = DB::Connector::instance()->stream_connector();
+	return db->addStream(station_name, url);
 }
 
-bool StreamHandlerStreams::delete_stream(const QString& station_name){
-	return DB::Connector::instance()->deleteStream(station_name);
+bool StreamHandlerStreams::delete_stream(const QString& station_name)
+{
+	DB::Streams* db = DB::Connector::instance()->stream_connector();
+	return db->deleteStream(station_name);
 }
 
-bool StreamHandlerStreams::update_url(const QString& station_name, const QString& url){
-	return DB::Connector::instance()->updateStreamUrl(station_name, url);
+bool StreamHandlerStreams::update_url(const QString& station_name, const QString& url)
+{
+	DB::Streams* db = DB::Connector::instance()->stream_connector();
+	return db->updateStreamUrl(station_name, url);
 }
 

@@ -89,7 +89,7 @@ enum class SettingKey : unsigned short
 	Lib_CoverShowUtils,
 	Lib_GenreTree,
 	Lib_LastIndex,
-	Lib_AllLibraries,
+	Lib_AllLibraries,				// deprecated
 	Lib_UseViewClearButton,
 
 	Player_Version,
@@ -222,8 +222,8 @@ namespace Set
 	INST(QList<EQ_Setting>,		Eq_List);				/* All equalizers */
 	INST(bool,				Eq_Gauss);				/* do curve, when changing eq setting */
 
-	INST(bool,				Lib_Show);				/* show library */
-	INST(QString,			Lib_Path);				/* library path */
+	INST(bool,				Lib_Show);					/* show library */
+	INST(QString,			Lib_Path);					// deprecated
 	INST(BoolList,			Lib_ColsTitle);				/* shown columns tracks */
 	INST(BoolList,			Lib_ColsArtist);			/* shown columns artist */
 	INST(BoolList,			Lib_ColsAlbum);				/* shown columns albums */
@@ -249,7 +249,7 @@ namespace Set
 	INST(int,				Lib_CoverZoom);				/* Zoom of album cover view */
 	INST(bool,				Lib_CoverShowUtils);		/* Show utils bar in cover view */
 	INST(bool,				Lib_GenreTree);				/* Show tree view of genres */
-	INST(QList<::Library::Info>, Lib_AllLibraries);
+	INST(QList<::Library::Info>, Lib_AllLibraries);		// deprecated
 	INST(int,				Lib_LastIndex);				/* Last selected library */
 	INST(bool,				Lib_UseViewClearButton);	/* Show clear button in single view */
 

@@ -31,6 +31,7 @@ namespace DB
 	{
 		public:
 			Podcasts(const QSqlDatabase& db, uint8_t db_id);
+			~Podcasts();
 
 			bool getAllPodcasts(QMap<QString, QString>& result);
 			bool deletePodcast(const QString& name);

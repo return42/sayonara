@@ -20,6 +20,7 @@
 
 #include "StreamHandlerPodcasts.h"
 #include "Database/DatabaseConnector.h"
+#include "Database/DatabasePodcasts.h"
 
 StreamHandlerPodcasts::StreamHandlerPodcasts(QObject* parent) :
 	AbstractStreamHandler(parent) {}
@@ -28,19 +29,24 @@ StreamHandlerPodcasts::~StreamHandlerPodcasts() {}
 
 bool StreamHandlerPodcasts::get_all_streams(StreamMap& streams)
 {
-
-	return DB::Connector::instance()->getAllPodcasts(streams);
+	DB::Podcasts* db = DB::Connector::instance()->podcast_connector();
+	return db->getAllPodcasts(streams);
 }
 
-bool StreamHandlerPodcasts::add_stream(const QString& station_name, const QString& url){
-	return DB::Connector::instance()->addPodcast(station_name, url);
+bool StreamHandlerPodcasts::add_stream(const QString& station_name, const QString& url)
+{
+	DB::Podcasts* db = DB::Connector::instance()->podcast_connector();
+	return db->addPodcast(station_name, url);
 }
 
-bool StreamHandlerPodcasts::delete_stream(const QString& station_name){
-	return DB::Connector::instance()->deletePodcast(station_name);
+bool StreamHandlerPodcasts::delete_stream(const QString& station_name)
+{
+	DB::Podcasts* db = DB::Connector::instance()->podcast_connector();
+	return db->deletePodcast(station_name);
 }
 
 bool StreamHandlerPodcasts::update_url(const QString& station_name, const QString& url)
 {
-	return DB::Connector::instance()->updatePodcastUrl(station_name, url);
+	DB::Podcasts* db = DB::Connector::instance()->podcast_connector();
+	return db->updatePodcastUrl(station_name, url);
 }

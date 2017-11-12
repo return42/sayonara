@@ -29,124 +29,201 @@
 #include "Utils/MetaData/Album.h"
 #include "Utils/MetaData/Artist.h"
 #include "Utils/Logger/Logger.h"
+#include "Utils/Library/LibraryInfo.h"
 
-using DB::Library;
+#include <QList>
+
 using DB::Query;
 
-struct DB::Library::Private
-{
-	uint8_t library_id;
+struct DB::Library::Private {};
 
-	Private(uint8_t library_id) :
-		library_id(library_id)
-	{}
-};
-
-DB::Library::Library(const QSqlDatabase& db, uint8_t db_id, int8_t library_id) :
+DB::Library::Library(const QSqlDatabase& db, uint8_t db_id) :
 	Module(db, db_id)
-{
-	m = Pimpl::make<Private>(library_id);
-}
+{}
 
 DB::Library::~Library() {}
 
-bool DB::Library::store_metadata(const MetaDataList& v_md)
+
+template<typename T>
+struct Order
 {
-	bool success = true;
+	int index;
+	T value;
+};
 
-	if(v_md.isEmpty()) {
-		return success;
-	}
+using InfoOrder=Order<::Library::Info>;
 
-	module_db().transaction();
+QList<::Library::Info> DB::Library::get_all_libraries()
+{
+	QString query = "SELECT libraryID, libraryName, libraryPath, libraryIndex FROM Libraries;";
 
-	DB::Albums db_albums(module_db(), v_md.first().db_id(), m->library_id);
-	DB::Artists db_artists(module_db(), v_md.first().db_id(), m->library_id);
-	DB::Tracks db_tracks(module_db(), v_md.first().db_id(), m->library_id);
+	QList<::Library::Info> infos;
+	QList<InfoOrder> orders;
 
-	AlbumList albums;
-	ArtistList artists;
-	QHash<QString, Album> album_map;
-	QHash<QString, Artist> artist_map;
+	Query q(module_db());
+	q.prepare(query);
 
-	db_albums.getAllAlbums(albums, true);
-	db_artists.getAllArtists(artists, true);
+	bool success = q.exec();
 
-	for(const Album& album : albums){
-		album_map[album.name()] = album;
-	}
-
-	for(const Artist& artist : artists){
-		artist_map[artist.name()] = artist;
-	}
-
-	albums.clear();
-	artists.clear();
-
-	for(MetaData md : v_md)
+	if(!success)
 	{
-		int artist_id, album_id, album_artist_id;
-		//first check if we know the artist and its id
-		Album album = album_map[md.album()];
-		if(album.id < 0) {
-			album_id = db_albums.insertAlbumIntoDatabase(md.album());
-			album.id = album_id;
-			album_map[md.album()] = album;
-		}
-
-		else{
-			album_id = album.id;
-		}
-
-		Artist artist = artist_map[md.artist()];
-		if (artist.id < 0) {
-			artist_id = db_artists.insertArtistIntoDatabase(md.artist());
-			artist.id = artist_id;
-			artist_map[md.artist()] = artist;
-		}
-
-		else{
-			artist_id = artist.id;
-		}
-
-		if(md.album_artist_id() == -1){
-			md.set_album_artist_id(artist_id);
-		}
-
-		if(md.album_artist().isEmpty()){
-			md.set_album_artist(md.artist());
-		}
-
-		Artist album_artist = artist_map[md.album_artist()];
-		if (album_artist.id < 0) {
-			if(md.album_artist().isEmpty()){
-				album_artist_id = -1;
-			}
-
-			else{
-				album_artist_id = db_artists.insertArtistIntoDatabase(md.album_artist());
-				album_artist.id = album_artist_id;
-				artist_map[md.album_artist()] = album_artist;
-			}
-		}
-
-		else{
-			album_artist_id = album_artist.id;
-		}
-
-		md.album_id = album_id;
-		md.artist_id = artist_id;
-		md.library_id = m->library_id;
-
-		if(album_id == -1 || artist_id == -1 || md.library_id == -1){
-			sp_log(Log::Warning) << "Cannot insert artist or album of " << md.filepath();
-			continue;
-		}
-
-		db_tracks.insertTrackIntoDatabase(md, artist_id, album_id, album_artist_id);
+		q.show_error("Cannot fetch all libraries");
 	}
 
-	success = module_db().commit();
+	while(q.next())
+	{
+		int8_t id = q.value(0).toInt();
+		QString name = q.value(1).toString();
+		QString path = q.value(2).toString();
+
+		InfoOrder order;
+		order.value = ::Library::Info(name, path, id);
+		order.index = q.value(3).toInt();
+
+		orders << order;
+	}
+
+	if(orders.size() == 0){
+		return QList<::Library::Info>();
+	}
+
+	else if(orders.size() == 1){
+		infos << orders.first().value;
+	}
+
+	else {
+
+		std::sort(orders.begin(), orders.end(), [](const InfoOrder& order1, const InfoOrder& order2){
+			return (order1.index < order2.index);
+		});
+
+
+		for(const InfoOrder& order : orders){
+			infos << order.value;
+		}
+	}
+
+	return infos;
+}
+
+bool DB::Library::insert_library(int8_t id, const QString& library_name, const QString& library_path, int index)
+{
+	if(library_name.isEmpty() || library_path.isEmpty())
+	{
+		sp_log(Log::Warning, this) << "Cannot insert library: Invalid parameters";
+		return false;
+	}
+
+	QString query = "INSERT INTO Libraries "
+					"(libraryID, libraryName, libraryPath, libraryIndex) "
+					"VALUES "
+					"(:library_id, :library_name, :library_path, :library_index);";
+
+	Query q(module_db());
+
+	q.prepare(query);
+	q.bindValue(":library_id", id);
+	q.bindValue(":library_name", library_name);
+	q.bindValue(":library_path", library_path);
+	q.bindValue(":library_index", index);
+
+	bool success = q.exec();
+
+	if(!success)
+	{
+		q.show_error(
+			QString("Cannot insert library (name: %1, path: %2)").arg(library_name).arg(library_path)
+		);
+	}
+
+	return success;
+}
+
+bool DB::Library::edit_library(int8_t library_id, const QString& new_name, const QString& new_path)
+{
+	if(new_name.isEmpty() || new_path.isEmpty())
+	{
+		sp_log(Log::Warning, this) << "Cannot update library: Invalid parameters";
+		return false;
+	}
+
+	QString query = "UPDATE Libraries "
+					"SET "
+					"libraryName=:library_name, "
+					"libraryPath=:library_path "
+					"WHERE "
+					"libraryID=:library_id;";
+
+	Query q(module_db());
+
+	q.prepare(query);
+	q.bindValue(":library_name", new_name);
+	q.bindValue(":library_path", new_path);
+	q.bindValue(":library_id", library_id);
+
+	bool success = q.exec();
+
+	if(!success)
+	{
+		q.show_error(
+			QString("Cannot update library (name: %1, path: %2)").arg(new_name).arg(new_path)
+		);
+	}
+
+	return success;
+}
+
+bool DB::Library::remove_library(int8_t library_id)
+{
+	QString query = "DELETE FROM Libraries WHERE libraryID=:library_id;";
+
+	Query q(module_db());
+
+	q.prepare(query);
+	q.bindValue(":library_id", library_id);
+
+	bool success = q.exec();
+
+	if(!success)
+	{
+		q.show_error(
+			QString("Cannot remove library %1").arg(library_id)
+		);
+	}
+
+	return success;
+}
+
+bool DB::Library::reorder_libraries(const QMap<int8_t, int>& order)
+{
+	if(order.isEmpty())
+	{
+		sp_log(Log::Warning, this) << "Cannot reorder library: Invalid parameters";
+		return false;
+	}
+
+	bool success = true;
+	for(int8_t library_id : order.keys())
+	{
+		QString query = "UPDATE Libraries "
+						"SET "
+						"libraryIndex=:index "
+						"WHERE "
+						"libraryID=:library_id;";
+
+		Query q(module_db());
+		q.prepare(query);
+		q.bindValue(":index", order[library_id]);
+		q.bindValue(":library_id", library_id);
+
+		success = (success && q.exec());
+
+		if(!success)
+		{
+			q.show_error("Cannot reorder libraries");
+
+		}
+	}
 
 	return success;
 }

@@ -29,7 +29,8 @@
 #include "Utils/MetaData/MetaDataList.h"
 
 #include "Components/Library/LibraryManager.h"
-#include "Database/DatabaseTracks.h"
+
+#include "Database/LibraryDatabase.h"
 #include "Database/DatabaseConnector.h"
 
 #include <QDirIterator>

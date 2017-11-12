@@ -22,14 +22,6 @@
 #define DatabaseConnector_H
 
 #include "Database/AbstractDatabase.h"
-#include "Database/DatabaseBookmarks.h"
-#include "Database/DatabaseModule.h"
-#include "Database/DatabasePlaylist.h"
-#include "Database/DatabasePodcasts.h"
-#include "Database/DatabaseSettings.h"
-#include "Database/DatabaseStreams.h"
-#include "Database/DatabaseVisStyles.h"
-#include "Database/LibraryDatabase.h"
 
 #include "Utils/Singleton.h"
 #include "Utils/Pimpl.h"
@@ -38,28 +30,26 @@
 
 #define INDEX_SIZE 3
 
-
 namespace DB
 {
 	class LibraryDatabase;
+	class Bookmarks;
+	class Playlist;
+	class LibraryDatabase;
 	class LocalLibraryDatabase;
+	class Podcasts;
+	class Streams;
+	class VisualStyles;
+	class Settings;
+	class Library;
 
 	using LibraryDatabases=QList<LibraryDatabase*>;
 
 	class Connector :
-			public Base,
-			public Bookmarks,
-			public Playlist,
-			public Podcasts,
-			public Settings,
-			public Streams,
-			public VisualStyles
+			public Base
 	{
 		SINGLETON(Connector)
 		PIMPL(Connector)
-
-		private:
-			void add_library_db(DB::LibraryDatabase* lib_db);
 
 		protected:
 			bool updateAlbumCissearchFix();
@@ -69,12 +59,20 @@ namespace DB
 			virtual bool apply_fixes();
 
 		public:
-			virtual void		clean_up();
+			virtual void			clean_up();
 
-			LibraryDatabases	library_dbs() const;
-			LibraryDatabase*	library_db(int8_t library_id, uint8_t db_id);
-			LibraryDatabase*	find_library_db(int8_t library_id) const;
-			LibraryDatabase*	register_library_db(int8_t library_id);
+			LibraryDatabases		library_dbs() const;
+			DB::LibraryDatabase*	library_db(int8_t library_id, uint8_t db_id);
+			DB::LibraryDatabase*	find_library_db(int8_t library_id) const;
+			DB::LibraryDatabase*	register_library_db(int8_t library_id);
+
+			DB::Bookmarks*			bookmark_connector();
+			DB::Playlist*			playlist_connector();
+			DB::Podcasts*			podcast_connector();
+			DB::Streams*			stream_connector();
+			DB::VisualStyles*		visual_style_connector();
+			DB::Settings*			settings_connector();
+			DB::Library*			library_connector();
 	};
 }
 #endif // DatabaseConnector_H

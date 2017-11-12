@@ -23,8 +23,11 @@
 #include "Importer/LibraryImporter.h"
 #include "Threads/ReloadThread.h"
 #include "Threads/IndexDirectoriesThread.h"
+
 #include "Database/DatabaseConnector.h"
 #include "Database/LocalLibraryDatabase.h"
+#include "Database/DatabaseLibrary.h"
+
 #include "Components/Playlist/PlaylistHandler.h"
 #include "Components/Tagging/Editor.h"
 

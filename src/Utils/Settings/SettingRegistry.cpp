@@ -95,7 +95,7 @@ bool SettingRegistry::init()
 	register_setting( Set::Lib_CoverShowUtils, "lib_cover_show_utils", false);
 	register_setting( Set::Lib_GenreTree, "lib_show_genre_tree", true);
 	register_setting( Set::Lib_LastIndex, "lib_last_idx", -1);
-	register_setting( Set::Lib_AllLibraries, "lib_all_libraries", QList<Library::Info>());
+	register_setting( Set::Lib_AllLibraries, "lib_all_libraries", QList<Library::Info>()); // deprecated
 
 #ifdef Q_OS_WIN
 	register_setting( Set::Lib_FontBold ,"lib_font_bold", false);

@@ -84,22 +84,6 @@ bool DB::Settings::store_settings()
 	return true;
 }
 
-bool DB::Settings::load_all_settings(QStringList& result)
-{
-	Query q(this);
-	q.prepare("SELECT value FROM settings;");
-
-	if (!q.exec()) {
-		q.show_error(QString("Cannot load all settings"));
-		return false;
-	}
-
-	while(q.next()) {
-		result << q.value(0).toString();
-	}
-
-	return (result.size() > 0);
-}
 
 bool DB::Settings::load_setting(QString key, QString& tgt_value)
 {

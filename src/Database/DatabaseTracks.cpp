@@ -254,9 +254,9 @@ MetaData Tracks::getTrackByPath(const QString& path)
 		return md;
 	}
 
-	if(v_md.size() == 0) {
+	if(v_md.size() == 0)
+	{
 		md.is_extern = true;
-
 		return md;
 	}
 
@@ -561,31 +561,28 @@ bool Tracks::deleteTracks(const MetaDataList& v_md)
 	return (deleted_tracks == v_md.size());
 }
 
-bool Tracks::deleteInvalidTracks(const QString& library_path)
+bool Tracks::deleteInvalidTracks(const QString& library_path, MetaDataList& double_metadata)
 {
-	bool success;
+	double_metadata.clear();
 
 	MetaDataList v_md;
-	QMap<QString, int> map;
-	IDList to_delete;
-	MetaDataList v_md_update;
-
-	Query q(this);
-	Library db_library(module_db(), module_db_id(), m->library_id);
-
 	if(!getAllTracks(v_md)){
 		sp_log(Log::Error) << "Cannot get tracks from db";
 		return false;
 	}
 
+	QMap<QString, int> map;
+	IDList to_delete;
 	int idx = 0;
+
 	for(const MetaData& md : v_md)
 	{
-		if(map.contains(md.filepath())) {
+		if(map.contains(md.filepath()))
+		{
 			sp_log(Log::Warning, this) << "found double path: " << md.filepath();
 			int old_idx = map[md.filepath()];
 			to_delete << md.id;
-			v_md_update << v_md[old_idx];
+			double_metadata << v_md[old_idx];
 		}
 
 		else {
@@ -601,15 +598,13 @@ bool Tracks::deleteInvalidTracks(const QString& library_path)
 		idx++;
 	}
 
+	bool success;
 	sp_log(Log::Debug, this) << "Will delete " << to_delete.size() << " double-tracks";
 	success = deleteTracks(to_delete);
 	sp_log(Log::Debug, this) << "delete tracks: " << success;
 
-	success = deleteTracks(v_md_update);
+	success = deleteTracks(double_metadata);
 	sp_log(Log::Debug, this) << "delete other tracks: " << success;
-
-	success = db_library.store_metadata(v_md_update);
-	sp_log(Log::Debug, this) << "update tracks: " << success;
 
 	return false;
 }

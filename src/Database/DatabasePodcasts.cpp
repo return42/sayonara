@@ -28,6 +28,7 @@ using DB::Query;
 Podcasts::Podcasts(const QSqlDatabase& db, uint8_t db_id) :
 	DB::Module(db, db_id) {}
 
+Podcasts::~Podcasts() {}
 
 bool Podcasts::getAllPodcasts(QMap<QString, QString> & podcasts)
 {

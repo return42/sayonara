@@ -20,6 +20,7 @@
 
 #include "EngineColorStyleChooser.h"
 #include "Database/DatabaseConnector.h"
+#include "Database/DatabaseVisStyles.h"
 
 #include <algorithm>
 #include <atomic>
@@ -156,7 +157,9 @@ void EngineColorStyleChooser::reload(int widget_width, int widget_height)
 {
 	std::lock_guard<std::mutex> lock(mtx);
 
-	QList< RawColorStyle > colors_active = DB::Connector::instance()->get_raw_color_styles();
+	DB::VisualStyles* db = DB::Connector::instance()->visual_style_connector();
+
+	QList< RawColorStyle > colors_active = db->get_raw_color_styles();
 
     _styles_spectrum.clear();
     _styles_level.clear();
@@ -193,8 +196,8 @@ void EngineColorStyleChooser::reload(int widget_width, int widget_height)
 
         colors_active << fallback1 << fallback2;
 
-        DB::Connector::instance()->insert_raw_color_style_to_db(fallback1);
-        DB::Connector::instance()->insert_raw_color_style_to_db(fallback2);
+		db->insert_raw_color_style_to_db(fallback1);
+		db->insert_raw_color_style_to_db(fallback2);
     }
 
 

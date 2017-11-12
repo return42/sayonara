@@ -18,14 +18,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "GenreFetcher.h"
 
 #include "Components/Library/LocalLibrary.h"
 #include "Components/Tagging/ChangeNotifier.h"
 #include "Components/Tagging/Editor.h"
+
 #include "Database/DatabaseConnector.h"
+#include "Database/LibraryDatabase.h"
+
 #include "Utils/MetaData/MetaDataList.h"
 
 struct GenreFetcher::Private

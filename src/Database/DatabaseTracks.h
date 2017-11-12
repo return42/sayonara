@@ -82,7 +82,13 @@ namespace DB
 			virtual bool deleteTrack(int id);
 			virtual bool deleteTracks(const MetaDataList&);
 			virtual bool deleteTracks(const IDList& ids);
-			virtual bool deleteInvalidTracks(const QString& library_path=QString());
+
+
+			// some tracks may be inserted two times
+			// this function deletes BOTH copies but returns those tracks
+			// which were found twice. Those tracks should be inserted by the store_metadata()
+			// function of LibraryDatabase
+			virtual bool deleteInvalidTracks(const QString& library_path, MetaDataList& double_metadata);
 
 			virtual QString fetch_query_tracks() const;
 

@@ -318,6 +318,8 @@ void GUI_DirectoryWidget::file_dbl_clicked(QModelIndex idx)
 
 void GUI_DirectoryWidget::directory_loaded(const QString& path)
 {
+	Q_UNUSED(path)
+
 	if(!m->found_idx.isValid()){
 		return;
 	}

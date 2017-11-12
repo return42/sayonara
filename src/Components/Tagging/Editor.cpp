@@ -247,7 +247,6 @@ void Editor::run()
 {
 	MetaDataList v_md;
 	MetaDataList v_md_orig;
-	DB::Connector* db;
 
 	sp_log(Log::Debug, this) << "Apply albums and artists";
 	apply_artists_and_albums_to_md();
@@ -289,9 +288,10 @@ void Editor::run()
 		emit sig_progress( (i++ * 100) / n_operations);
 	}
 
-	m->ldb->create_indexes();
+	DB::Connector* db = DB::Connector::instance();
+	DB::Library* db_library = db->library_connector();
 
-	db = DB::Connector::instance();
+	db_library->create_indexes();
 	db->clean_up();
 
 	m->v_md_after_change = v_md;

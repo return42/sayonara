@@ -27,6 +27,7 @@
 #include "Utils/Utils.h"
 #include "Utils/Shutdown/Shutdown.h"
 #include "Database/DatabaseConnector.h"
+#include "Database/DatabaseSettings.h"
 #include "Components/PlayManager/PlayManager.h"
 #include "Interfaces/Notification/NotificationHandler.h"
 #include "Utils/Logger/Logger.h"
@@ -53,7 +54,7 @@ struct Shutdown::Private
 		msecs2go(0),
 		is_running(false)
 	{
-		db = DB::Connector::instance();
+		db = DB::Connector::instance()->settings_connector();
 		play_manager = PlayManager::instance();
 
 		timer = new QTimer(parent);

@@ -31,6 +31,7 @@ namespace DB
 	{
 	public:
 		Bookmarks(const QSqlDatabase& db, uint8_t db_id);
+		~Bookmarks();
 
 		bool searchBookmarks(int track_id, QMap<uint32_t, QString>& bookmarks);
 		bool insertBookmark(int track_id, uint32_t time, QString text);

@@ -25,6 +25,7 @@
 
 #include "Utils/Message/Message.h"
 #include "Database/DatabaseConnector.h"
+#include "Database/DatabaseVisStyles.h"
 
 #include <QColorDialog>
 #include <QCloseEvent>
@@ -47,7 +48,7 @@ struct GUI_StyleSettings::Private
 
 	Private()
 	{
-		db = DB::Connector::instance();
+		db = DB::Connector::instance()->visual_style_connector();
 	}
 };
 

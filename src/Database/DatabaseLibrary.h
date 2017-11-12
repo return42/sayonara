@@ -23,8 +23,15 @@
 
 #include "Database/DatabaseModule.h"
 #include "Utils/Pimpl.h"
+#include <QMap>
 
 class MetaDataList;
+
+namespace Library
+{
+	class Info;
+}
+
 namespace DB
 {
 	class Library :
@@ -33,12 +40,18 @@ namespace DB
 		PIMPL(Library)
 
 		public:
-			Library(const QSqlDatabase& db, uint8_t db_id, int8_t library_id);
+			Library(const QSqlDatabase& db, uint8_t db_id);
 			~Library();
+
+			QList<::Library::Info> get_all_libraries();
+			bool insert_library(int8_t library_id, const QString& library_name, const QString& library_path, int index);
+			bool edit_library(int8_t library_id, const QString& new_name, const QString& new_path);
+			bool remove_library(int8_t library_id);
+			bool reorder_libraries(const QMap<int8_t, int>& order);
 
 			virtual void drop_indexes();
 			virtual void create_indexes();
-			virtual bool store_metadata(const MetaDataList& v_md);
+
 			virtual void add_album_artists();
 	};
 }

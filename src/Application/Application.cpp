@@ -88,6 +88,7 @@
 #include "Utils/Settings/SettingRegistry.h"
 
 #include "Database/DatabaseConnector.h"
+#include "Database/DatabaseSettings.h"
 
 #include <QTime>
 #include <QTranslator>
@@ -98,7 +99,7 @@ struct Application::Private
 	GUI_Player*			player=nullptr;
 
 	Playlist::Handler*	plh=nullptr;
-	DB::Connector*	db=nullptr;
+	DB::Connector*		db=nullptr;
 	InstanceThread*		instance_thread=nullptr;
 	QTranslator*		translator=nullptr;
 	MetaTypeRegistry*	metatype_registry=nullptr;
@@ -114,7 +115,7 @@ struct Application::Private
 		settings_initialized = SettingRegistry::init();
 
 		db = DB::Connector::instance();
-		db->load_settings();
+		db->settings_connector()->load_settings();
 
 		if( !settings_initialized )
 		{
@@ -154,7 +155,7 @@ struct Application::Private
 		}
 
 		if(db){
-			db->store_settings();
+			db->settings_connector()->store_settings();
 			db->close_db();
 		}
 

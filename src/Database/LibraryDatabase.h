@@ -26,6 +26,7 @@
 #include "Database/DatabaseArtists.h"
 #include "Database/DatabaseTracks.h"
 #include "Database/DatabaseLibrary.h"
+#include "Utils/Pimpl.h"
 
 namespace DB
 {
@@ -33,12 +34,9 @@ namespace DB
 			public DB::Base,
 			public DB::Albums,
 			public DB::Artists,
-			public DB::Tracks,
-			public DB::Library
+			public DB::Tracks
 	{
-
-	private:
-		int8_t _library_id;
+		PIMPL(LibraryDatabase)
 
 	public:
 
@@ -56,6 +54,8 @@ namespace DB
 		bool apply_fixes() override;
 
 		int8_t library_id() const;
+
+		virtual bool store_metadata(const MetaDataList& v_md);
 	};
 }
 

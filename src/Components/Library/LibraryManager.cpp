@@ -20,6 +20,8 @@
 
 #include "LibraryManager.h"
 #include "Interfaces/LibraryInterface/LibraryPluginHandler.h"
+#include "Database/DatabaseConnector.h"
+#include "Database/DatabaseLibrary.h"
 #include "Utils/Library/LibraryInfo.h"
 #include "Utils/Utils.h"
 #include "Utils/FileUtils.h"
@@ -35,6 +37,8 @@
 using Library::Manager;
 using Library::Info;
 
+using OrderMap=QMap<int8_t, int>;
+
 struct Manager::Private
 {
 	QList<Info> all_libs;
@@ -48,8 +52,8 @@ struct Manager::Private
 
 	bool contains_path(const QString& path) const
 	{
-		for(const Info& info : all_libs){
-			//QString info_path = info.path();
+		for(const Info& info : all_libs)
+		{
 			if(path.compare(info.path(), Qt::CaseInsensitive) == 0){
 				return true;
 			}
@@ -77,7 +81,7 @@ struct Manager::Private
 			all_libs[i] = Info(name, info.path(), info.id());
 			lib_map[library_id]->set_library_name(name);
 
-			Util::File::create_symlink(all_libs[i].path(), all_libs[i].symlink_path());
+			::Util::File::create_symlink(all_libs[i].path(), all_libs[i].symlink_path());
 			break;
 		}
 
@@ -105,7 +109,7 @@ struct Manager::Private
 			library->set_library_path(new_path);
 
 			QFile::remove(info.symlink_path());
-			Util::File::create_symlink(new_info.path(), new_info.symlink_path());
+			::Util::File::create_symlink(new_info.path(), new_info.symlink_path());
 
 			break;
 		}
@@ -166,7 +170,7 @@ struct Manager::Private
 	void init_symlinks()
 	{
 
-		QString dir = Util::sayonara_path("Libraries");
+		QString dir = ::Util::sayonara_path("Libraries");
 		QDir d(dir);
 
 		QFileInfoList symlinks = d.entryInfoList(QDir::NoFilter);
@@ -177,16 +181,28 @@ struct Manager::Private
 			}
 		}
 
-		Util::File::create_directories(dir);
+		::Util::File::create_directories(dir);
 
 		for(const Info& info : all_libs)
 		{
 			QString target = info.symlink_path();
 
 			if(!(QFile::exists(target))){
-				Util::File::create_symlink(info.path(), target);
+				::Util::File::create_symlink(info.path(), target);
 			}
 		}
+	}
+
+	OrderMap order_map() const
+	{
+		OrderMap order_map;
+		int i=0;
+		for(const ::Library::Info& info : all_libs){
+			order_map[info.id()] = i;
+			i++;
+		}
+
+		return order_map;
 	}
 };
 
@@ -218,9 +234,12 @@ int8_t Manager::add_library(const QString& name, const QString& path)
 	m->all_libs << li;
 	m->lph->add_local_library(li);
 
-	_settings->set(Set::Lib_AllLibraries, m->all_libs);
+	DB::Library* ldb = DB::Connector::instance()->library_connector();
 
-	Util::File::create_symlink(li.path(), li.symlink_path());
+	ldb->insert_library(id, name, path, 0);
+	ldb->reorder_libraries(m->order_map());
+
+	::Util::File::create_symlink(li.path(), li.symlink_path());
 
 	return id;
 }
@@ -228,7 +247,18 @@ int8_t Manager::add_library(const QString& name, const QString& path)
 void Manager::rename_library(int8_t id, const QString& new_name)
 {
 	m->rename_library(id, new_name);
-	_settings->set(Set::Lib_AllLibraries, m->all_libs);
+
+	Library::Info info = m->get_library_info(id);
+
+	if(info.valid())
+	{
+		DB::Library* ldb = DB::Connector::instance()->library_connector();
+		ldb->edit_library(id, new_name, info.path());
+	}
+
+	else {
+		sp_log(Log::Warning, this) << "Cannot rename library";
+	}
 }
 
 void Manager::remove_library(int8_t id)
@@ -244,11 +274,14 @@ void Manager::remove_library(int8_t id)
 		Info info = m->all_libs.takeAt(i);
 		QFile::remove(info.symlink_path());
 
-
-		LocalLibrary* library = m->lib_map.take(info.id());
+		LocalLibrary* library;
 
 		if(!m->lib_map.contains(info.id())){
 			library = nullptr;
+		}
+
+		else{
+			library = m->lib_map.take(info.id());
 		}
 
 		if(library){
@@ -256,31 +289,47 @@ void Manager::remove_library(int8_t id)
 			delete library; library=nullptr;
 		}
 
-		_settings->set(Set::Lib_AllLibraries, m->all_libs);
-
 		break;
 	}
+
+	DB::Library* ldb = DB::Connector::instance()->library_connector();
+	ldb->remove_library(id);
+	ldb->reorder_libraries(m->order_map());
+
+	m->all_libs = ldb->get_all_libraries();
 }
 
 void Manager::move_library(int old_row, int new_row)
 {
 	m->move_library(old_row, new_row);
 
-	m->lph->move_local_library(old_row, new_row);
-	_settings->set(Set::Lib_AllLibraries, m->all_libs);
+	DB::Library* ldb = DB::Connector::instance()->library_connector();
+	ldb->reorder_libraries(m->order_map());
+
+	m->all_libs = ldb->get_all_libraries();
 }
 
 void Manager::change_library_path(int8_t id, const QString& path)
 {
 	m->change_library_path(id, path);
-	_settings->set(Set::Lib_AllLibraries, m->all_libs);
+
+	Library::Info info = m->get_library_info(id);
+	if(info.valid())
+	{
+		DB::Library* ldb = DB::Connector::instance()->library_connector();
+		ldb->edit_library(id, info.name(), path);
+	}
+
+	else {
+		sp_log(Log::Warning, this) << "Cannot change library path";
+	}
 }
 
 
 QString Manager::request_library_name(const QString& path)
 {
 	QDir d(path);
-	return Util::cvt_str_to_first_upper(d.dirName());
+	return ::Util::cvt_str_to_first_upper(d.dirName());
 }
 
 QList<Info> Manager::all_libraries() const
@@ -303,25 +352,42 @@ LocalLibrary* Manager::library_instance(int8_t id) const
 	return m->get_library(id);
 }
 
-
-
-
 void Manager::revert()
 {
-	m->all_libs = _settings->get(Set::Lib_AllLibraries);
-	QList<int> invalid;
-	for(int i=m->all_libs.size() - 1; i>=0; i--){
-		if(!m->all_libs[i].valid()){
-			m->all_libs.removeAt(i);
+	DB::Library* ldb = DB::Connector::instance()->library_connector();
+	m->all_libs = ldb->get_all_libraries();
+
+	if(m->all_libs.isEmpty())
+	{
+		m->all_libs = _settings->get(Set::Lib_AllLibraries);
+		int index = 0;
+		for(const Library::Info& info : m->all_libs){
+			ldb->insert_library(info.id(), info.name(), info.path(), index);
+			index ++;
 		}
+
+		_settings->set(Set::Lib_AllLibraries, QList<::Library::Info>());
 	}
 
-	if(m->all_libs.isEmpty()) {
+	if(m->all_libs.isEmpty())
+	{
 		QString old_path = _settings->get(Set::Lib_Path);
-		if(!old_path.isEmpty()) {
-			Info li("Local Library", old_path, 0);
-			m->all_libs << li;
-			_settings->set(Set::Lib_AllLibraries, m->all_libs);
+
+		if(!old_path.isEmpty())
+		{
+			Info info("Local Library", old_path, 0);
+			ldb->insert_library(0, info.name(), info.path(), 0);
+
+			m->all_libs << info;
+		}
+
+		_settings->set(Set::Lib_Path, QString());
+	}
+
+	for(int i=m->all_libs.size() - 1; i>=0; i--)
+	{
+		if(!m->all_libs[i].valid()){
+			m->all_libs.removeAt(i);
 		}
 	}
 }

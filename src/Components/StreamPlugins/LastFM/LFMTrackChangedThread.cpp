@@ -29,6 +29,7 @@
 #include "ArtistMatch.h"
 
 #include "Database/DatabaseConnector.h"
+#include "Database/LibraryDatabase.h"
 
 #include "Utils/Utils.h"
 #include "Utils/FileUtils.h"
