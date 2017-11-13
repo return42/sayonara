@@ -137,8 +137,12 @@ void Tracks::check_track_view(int8_t library_id)
 	search_view_query += ";";
 
 	Query drop_view(this);
-	drop_view.prepare("DROP VIEW " + m->track_search_view_name + "; ");
+	drop_view.prepare("DROP VIEW " + m->track_view_name + "; ");
 	drop_view.exec();
+
+	Query drop_search_view(this);
+	drop_search_view.prepare("DROP VIEW " + m->track_search_view_name + "; ");
+	drop_search_view.exec();
 
 	Query view_q(this);
 	Query search_view_q(this);
@@ -746,7 +750,7 @@ bool Tracks::updateTrack(const MetaData& md)
 	q.bindValue(":filesize",		(uint32_t) md.filesize);
 	q.bindValue(":discnumber",		md.discnumber);
 	q.bindValue(":cissearch",		cissearch);
-	q.bindValue(":cissearch",		file_cissearch);
+	q.bindValue(":filecissearch",	file_cissearch);
 	q.bindValue(":rating",			md.rating);
 	q.bindValue(":modifydate",		(quint64) Util::current_date_to_int());
 	q.bindValue(":libraryID",		md.library_id);

@@ -401,9 +401,11 @@ bool Connector::apply_fixes()
 			MetaDataList v_md;
 			LibraryDatabase* lib_db = new LocalLibraryDatabase(-1);
 			lib_db->getAllTracks(v_md);
+			this->transaction();
 			for(const MetaData& md : v_md) {
 				lib_db->updateTrack(md);
 			}
+			this->commit();
 
 			delete lib_db;
 		}
