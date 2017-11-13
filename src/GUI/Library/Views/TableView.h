@@ -51,13 +51,15 @@ namespace Library
 		void set_table_headers(const ColumnHeaderList& headers, const BoolList& shown_columns, Library::SortOrder sorting);
 		BoolList get_shown_columns() const;
 
-		int get_index_by_model_index(const QModelIndex& idx) const override;
-		QModelIndex get_model_index_by_index(int idx) const override;
-
 	protected:
 		HeaderView*	get_header_view();
 		void resizeEvent(QResizeEvent* e) override;
 		void language_changed() override;
+
+		// SayonaraSelectionView
+		int index_by_model_index(const QModelIndex& idx) const override;
+		QModelIndex model_index_by_index(int idx) const override;
+
 
 	protected slots:
 		void header_actions_triggered();

@@ -150,7 +150,21 @@ void AbstractLibrary::refresh()
 }
 
 
-void AbstractLibrary::prepare_tracks_for_playlist(bool new_playlist)
+void AbstractLibrary::prepare_fetched_tracks_for_playlist(bool new_playlist)
+{
+	if(!new_playlist) {
+		m->playlist->create_playlist( tracks() );
+	}
+
+	else {
+		m->playlist->create_playlist( tracks(),
+									  m->playlist->request_new_playlist_name());
+	}
+
+	set_playlist_action_after_double_click();
+}
+
+void AbstractLibrary::prepare_current_tracks_for_playlist(bool new_playlist)
 {
 	if(!new_playlist) {
 		m->playlist->create_playlist( current_tracks() );
@@ -199,9 +213,9 @@ void AbstractLibrary::set_playlist_action_after_double_click()
 }
 
 
-void AbstractLibrary::play_next_all_tracks()
+void AbstractLibrary::play_next_fetched_tracks()
 {
-	m->playlist->play_next(_tracks);
+	m->playlist->play_next(tracks());
 }
 
 void AbstractLibrary::play_next_current_tracks()
@@ -210,9 +224,9 @@ void AbstractLibrary::play_next_current_tracks()
 }
 
 
-void AbstractLibrary::append_all_tracks()
+void AbstractLibrary::append_fetched_tracks()
 {
-	m->playlist->append_tracks(_tracks, m->playlist->current_index());
+	m->playlist->append_tracks(tracks(), m->playlist->current_index());
 }
 
 void AbstractLibrary::append_current_tracks()
@@ -644,6 +658,12 @@ void AbstractLibrary::delete_current_tracks(Library::TrackDeletionMode mode)
 	delete_tracks( current_tracks(), mode);
 }
 
+
+void AbstractLibrary::delete_fetched_tracks(Library::TrackDeletionMode mode)
+{
+	if(mode == Library::TrackDeletionMode::None) return;
+	delete_tracks( tracks(), mode);
+}
 
 void AbstractLibrary::delete_all_tracks()
 {

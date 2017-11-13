@@ -51,11 +51,14 @@ namespace Library
 			int             rowCount(const QModelIndex& parent) const override;
 
 			/** LibraryItemModel **/
-            Cover::Location cover(const IndexSet& indexes) const override;
-			int             get_searchable_column() const override;
-			int             id_by_index(int row) override;
-			QString         get_string(int row) const override;
+			Cover::Location cover(const IndexSet& indexes) const override;
+			int             searchable_column() const override;
+			int             id_by_row(int row) override;
+			QString         searchable_string(int row) const override;
 			const IndexSet&    selections() const override;
+
+		protected:
+			const MetaDataList& mimedata_tracks() const override;
 	};
 }
 

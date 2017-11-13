@@ -288,11 +288,6 @@ void CoverModel::next_hash()
 	clu->fetch_cover(cl);
 }
 
-bool CoverModel::has_items() const
-{
-	return (m->albums.size() > 0);
-}
-
 QModelIndex CoverModel::getNextRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent)
 {
 	Q_UNUSED(parent)
@@ -300,7 +295,7 @@ QModelIndex CoverModel::getNextRowIndexOf(const QString& substr, int cur_row, co
 	for(int i=0; i<m->albums.count(); i++)
 	{
 		int idx = (i + cur_row) % m->albums.size();
-		QString title = get_string(idx);
+		QString title = searchable_string(idx);
 		title = Library::Util::convert_search_string(title, search_mode());
 
 		if(title.contains(substr))
@@ -334,7 +329,7 @@ QModelIndex CoverModel::getPrevRowIndexOf(const QString& substr, int row, const 
 
 		int idx = (row - i) % len;
 
-		QString title = get_string(idx);
+		QString title = searchable_string(idx);
 		title = Library::Util::convert_search_string(title, search_mode());
 		if(title.contains(substr))
 		{
@@ -353,18 +348,12 @@ QModelIndex CoverModel::getPrevRowIndexOf(const QString& substr, int row, const 
 	return QModelIndex();
 }
 
-QMap<QChar, QString> CoverModel::getExtraTriggers()
-{
-	return QMap<QChar, QString>();
-}
-
-
-int CoverModel::get_searchable_column() const
+int CoverModel::searchable_column() const
 {
 	return 0;
 }
 
-QString CoverModel::get_string(int idx) const
+QString CoverModel::searchable_string(int idx) const
 {
 	if(idx < 0 || idx >= m->albums.count())
 	{
@@ -374,7 +363,7 @@ QString CoverModel::get_string(int idx) const
 	return m->albums[idx].name();
 }
 
-int CoverModel::id_by_index(int idx)
+int CoverModel::id_by_row(int idx)
 {
 	if(idx < 0 || idx >= m->albums.count())
 	{
@@ -430,4 +419,10 @@ Qt::ItemFlags CoverModel::flags(const QModelIndex& index) const
 	}
 
 	return ret;
+}
+
+
+const MetaDataList& Library::CoverModel::mimedata_tracks() const
+{
+	return library()->tracks();
 }

@@ -185,7 +185,7 @@ void View::remove_context_action(QAction *action)
 
 QMimeData* View::get_mimedata() const
 {
-	return _model->get_mimedata();
+	return _model->custom_mimedata();
 }
 
 QPixmap View::pixmap() const
@@ -291,15 +291,7 @@ void View::set_metadata_interpretation(MD::Interpretation type)
 
 MetaDataList View::info_dialog_data() const
 {
-	CustomMimeData* cmd = _model->get_mimedata();
-	if(!cmd){
-		return MetaDataList();
-	}
-
-	MetaDataList v_md(std::move(cmd->metadata()));
-	delete cmd; cmd = nullptr;
-
-	return v_md;
+	return _model->mimedata_tracks();
 }
 
 
@@ -318,7 +310,7 @@ void View::merge_action_triggered()
 
 	for(auto idx : selected_items)
 	{
-		ids.insert( _model->id_by_index(idx) );
+		ids.insert( _model->id_by_row(idx) );
 	}
 
 	emit sig_merge(ids, id);
@@ -477,7 +469,7 @@ void View::contextMenuEvent(QContextMenuEvent* event)
 
 			for(int i : selections)
 			{
-				int id = _model->id_by_index(i);
+				int id = _model->id_by_row(i);
 				if(id < 0){
 					n_selections--;
 					if(n_selections <= 1) {
@@ -487,7 +479,7 @@ void View::contextMenuEvent(QContextMenuEvent* event)
 					continue;
 				}
 
-				QString name = _model->get_string(i);
+				QString name = _model->searchable_string(i);
 				name.replace("&", "&&");
 
 				QAction* action = new QAction(name, m->merge_menu);

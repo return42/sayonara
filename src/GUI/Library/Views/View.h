@@ -130,18 +130,8 @@ namespace Library
 		template < typename T, typename ModelType >
 		void fill(const T& input_data)
 		{
-			int old_size = _model->last_row_count();
-			int new_size = input_data.size();
-
-			if(old_size > new_size){
-				_model->removeRows(new_size, old_size - new_size);
-			}
-
-			else if(old_size < new_size){
-				_model->insertRows(old_size, new_size - old_size);
-			}
-
-			_model->refresh_data();
+			int old_size, new_size;
+			_model->refresh_data(&old_size, &new_size);
 
 			IndexSet selections;
 			for(int row=0; row < new_size; row++)

@@ -44,40 +44,40 @@ using namespace Library;
 struct ArtistModel::Private
 {
 	QPixmap		pm_single;
-    QPixmap		pm_multi;
+	QPixmap		pm_multi;
 
-    Private() :
+	Private() :
 		pm_single(Gui::Util::pixmap("play", QSize(16, 16))),
 		pm_multi(Gui::Util::pixmap("sampler", QSize(16, 16)))
-    {}
+	{}
 };
 
 ArtistModel::ArtistModel(QObject* parent, AbstractLibrary* library) :
-    ItemModel(parent, library)
+	ItemModel(parent, library)
 {
 	m = Pimpl::make<ArtistModel::Private>();
 }
 
 ArtistModel::~ArtistModel() {}
 
-int ArtistModel::id_by_index(int row)
+int ArtistModel::id_by_row(int row)
 {
-    const ArtistList& artists = library()->artists();
+	const ArtistList& artists = library()->artists();
 
-    if(row < 0 || row >= artists.count()){
+	if(row < 0 || row >= artists.count()){
 		return -1;
 	}
 
 	else {
-        return artists[row].id;
+		return artists[row].id;
 	}
 }
 
-QString ArtistModel::get_string(int row) const
+QString ArtistModel::searchable_string(int row) const
 {
-    const ArtistList& artists = library()->artists();
+	const ArtistList& artists = library()->artists();
 
-    if(row < 0 || row >= artists.count()){
+	if(row < 0 || row >= artists.count()){
 		return QString();
 	}
 
@@ -89,20 +89,20 @@ QString ArtistModel::get_string(int row) const
 
 QVariant ArtistModel::data(const QModelIndex & index, int role) const
 {
-    if (!index.isValid()) {
+	if (!index.isValid()) {
 		return QVariant();
-    }
+	}
 
-    const ArtistList& artists = library()->artists();
-    if (index.row() >= artists.count()) {
+	const ArtistList& artists = library()->artists();
+	if (index.row() >= artists.count()) {
 		return QVariant();
-    }
+	}
 
 	int row = index.row();
 	int col = index.column();
 
 	ColumnIndex::Artist idx_col = (ColumnIndex::Artist) col;
-    const Artist& artist = artists[row];
+	const Artist& artist = artists[row];
 
 
 	if(role == Qt::TextAlignmentRole)
@@ -117,8 +117,8 @@ QVariant ArtistModel::data(const QModelIndex & index, int role) const
 
 	else if(role == Qt::DecorationRole)
 	{
-        if(idx_col == ColumnIndex::Artist::NumAlbums)
-        {
+		if(idx_col == ColumnIndex::Artist::NumAlbums)
+		{
 			if(artist.num_albums > 1){
 				return m->pm_multi;
 			}
@@ -145,20 +145,20 @@ QVariant ArtistModel::data(const QModelIndex & index, int role) const
 		}
 	}
 
-    return QVariant();
+	return QVariant();
 }
 
 int ArtistModel::rowCount(const QModelIndex&) const
 {
-    return library()->artists().count();
+	return library()->artists().count();
 }
 
 
 Qt::ItemFlags ArtistModel::flags(const QModelIndex& index) const
 {
-    if (!index.isValid()){
-        return Qt::ItemIsEnabled;
-    }
+	if (!index.isValid()){
+		return Qt::ItemIsEnabled;
+	}
 
 	return QAbstractItemModel::flags(index);
 }
@@ -167,28 +167,34 @@ Qt::ItemFlags ArtistModel::flags(const QModelIndex& index) const
 Cover::Location ArtistModel::cover(const IndexSet& indexes) const
 {
 	if(indexes.isEmpty() || indexes.size() > 1){
-        return Cover::Location();
+		return Cover::Location();
 	}
 
-    const ArtistList& artists = library()->artists();
+	const ArtistList& artists = library()->artists();
 	int idx = indexes.first();
 
-    if(idx < 0 || idx > artists.count()){
-        return Cover::Location();
+	if(idx < 0 || idx > artists.count()){
+		return Cover::Location();
 	}
 
-    const Artist& artist = artists[idx];
-    return Cover::Location::cover_location(artist);
+	const Artist& artist = artists[idx];
+	return Cover::Location::cover_location(artist);
 }
 
 
-int ArtistModel::get_searchable_column() const
+int ArtistModel::searchable_column() const
 {
-    return (int) ColumnIndex::Artist::Name;
+	return (int) ColumnIndex::Artist::Name;
 }
 
 
 const IndexSet& ArtistModel::selections() const
 {
-    return library()->selected_artists();
+	return library()->selected_artists();
+}
+
+
+const MetaDataList &Library::ArtistModel::mimedata_tracks() const
+{
+	return library()->tracks();
 }

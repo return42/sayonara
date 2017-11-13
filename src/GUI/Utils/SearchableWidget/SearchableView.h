@@ -50,31 +50,30 @@ protected:
 		Prev
 	};
 
-public:
-	explicit SearchViewFunctionality(QAbstractItemView* view);
-	virtual ~SearchViewFunctionality();
+	public:
+		explicit SearchViewFunctionality(QAbstractItemView* view);
+		virtual ~SearchViewFunctionality();
 
-	virtual void setSearchModel(SearchModelFunctionality* model) final;
+		virtual void setSearchModel(SearchModelFunctionality* model) final;
 
-	virtual QModelIndex get_index(int row, int col, const QModelIndex& parent=QModelIndex()) const override final;
-	virtual int get_row_count(const QModelIndex& parent=QModelIndex()) const override final;
-	virtual int get_column_count(const QModelIndex& parent=QModelIndex()) const override final;
+		virtual QModelIndex model_index(int row, int col, const QModelIndex& parent=QModelIndex()) const override final;
+		virtual int row_count(const QModelIndex& parent=QModelIndex()) const override final;
+		virtual int column_count(const QModelIndex& parent=QModelIndex()) const override final;
 
-	virtual QItemSelectionModel* get_selection_model() const override final;
-	virtual void set_current_index(int idx) override final;
+		virtual QItemSelectionModel* selection_model() const override final;
+		virtual void set_current_index(int idx) override final;
 
-	bool is_minisearcher_active() const;
-	void set_mini_searcher_padding(int padding);
+		bool is_minisearcher_active() const;
+		void set_mini_searcher_padding(int padding);
 
-private:
-	QModelIndex get_match_index(const QString& str, SearchDirection direction) const;
-	void select_match(const QString& str, SearchDirection direction);
+	private:
+		QModelIndex match_index(const QString& str, SearchDirection direction) const;
+		void select_match(const QString& str, SearchDirection direction);
 
-protected:
-	void handle_key_press(QKeyEvent* e) override;
+	protected:
+		void handle_key_press(QKeyEvent* e) override;
 
 };
-
 
 template<typename AbstractView>
 class SearchViewInterface :

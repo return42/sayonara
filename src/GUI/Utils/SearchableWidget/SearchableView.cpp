@@ -96,33 +96,32 @@ void SearchViewFunctionality::setSearchModel(SearchModelFunctionality* model)
 {
 	 m->search_model = model;
 
-	 if(m->search_model){
-		 Library::SearchModeMask search_mode = m->settings->get(Set::Lib_SearchMode);
-		 m->search_model->set_search_mode(search_mode);
+	 if(m->search_model)
+	 {
 		 m->mini_searcher->set_extra_triggers(m->search_model->getExtraTriggers());
 	 }
 }
 
 
-int SearchViewFunctionality::get_row_count(const QModelIndex& parent) const
+int SearchViewFunctionality::row_count(const QModelIndex& parent) const
 {
 	return m->view->model()->rowCount(parent);
 }
 
 
-int SearchViewFunctionality::get_column_count(const QModelIndex& parent) const
+int SearchViewFunctionality::column_count(const QModelIndex& parent) const
 {
 	return m->view->model()->columnCount(parent);
 }
 
 
-QModelIndex SearchViewFunctionality::get_index(int row, int col, const QModelIndex& parent) const
+QModelIndex SearchViewFunctionality::model_index(int row, int col, const QModelIndex& parent) const
 {
 	return m->view->model()->index(row, col, parent);
 }
 
 
-QModelIndex SearchViewFunctionality::get_match_index(const QString& str, SearchDirection direction) const
+QModelIndex SearchViewFunctionality::match_index(const QString& str, SearchDirection direction) const
 {
 	QModelIndex idx;
 	if(str.isEmpty()) {
@@ -157,13 +156,13 @@ QModelIndex SearchViewFunctionality::get_match_index(const QString& str, SearchD
 
 void SearchViewFunctionality::select_match(const QString &str, SearchDirection direction)
 {
-	QModelIndex idx = get_match_index(str, direction);
+	QModelIndex idx = match_index(str, direction);
 	if(!idx.isValid()){
 		m->cur_idx = -1;
 		return;
 	}
 
-	m->cur_idx = get_index_by_model_index(idx);
+	m->cur_idx = index_by_model_index(idx);
 
 	IndexSet indexes(m->cur_idx);
 
@@ -197,7 +196,7 @@ void SearchViewFunctionality::select_match(const QString &str, SearchDirection d
 }
 
 
-QItemSelectionModel* SearchViewFunctionality::get_selection_model() const
+QItemSelectionModel* SearchViewFunctionality::selection_model() const
 {
 	return m->view->selectionModel();
 }
@@ -205,7 +204,7 @@ QItemSelectionModel* SearchViewFunctionality::get_selection_model() const
 
 void SearchViewFunctionality::set_current_index(int idx)
 {
-	QModelIndex index = get_model_index_by_index(idx);
+	QModelIndex index = model_index_by_index(idx);
 	m->view->setCurrentIndex(index);
 }
 
@@ -221,9 +220,6 @@ void SearchViewFunctionality::handle_key_press(QKeyEvent* e)
 		return;
 	}
 
-	Library::SearchModeMask search_mode = m->settings->get(Set::Lib_SearchMode);
-
-	m->search_model->set_search_mode(search_mode);
 	m->mini_searcher->handle_key_press(e);
 }
 

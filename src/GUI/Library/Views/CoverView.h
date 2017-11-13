@@ -40,12 +40,10 @@ namespace Library
 		explicit CoverView(QWidget* topbar, QWidget* parent=nullptr);
 		virtual ~CoverView();
 
-		int get_index_by_model_index(const QModelIndex& idx) const override;
-		QModelIndex get_model_index_by_index(int idx) const override;
-
 		void setModel(Library::CoverModel* model);
 		void refresh();
 		void language_changed() override;
+
 
 	protected:
 		void wheelEvent(QWheelEvent* e) override;
@@ -57,6 +55,10 @@ namespace Library
 		void init_context_menu() override;
 		void init_sorting_actions();
 		void init_zoom_actions();
+
+		//SayonaraSelectionView
+		int index_by_model_index(const QModelIndex& idx) const override;
+		QModelIndex model_index_by_index(int idx) const override;
 
 	private:
 		void change_zoom(int zoom=-1);

@@ -133,10 +133,6 @@ void PlaylistView::init_context_menu()
 	});
 }
 
-int PlaylistView::row_count() const
-{
-	return m->model->rowCount();
-}
 
 void PlaylistView::goto_row(int row)
 {
@@ -191,7 +187,7 @@ void PlaylistView::scroll_down()
 
 void PlaylistView::remove_cur_selected_rows()
 {
-	int min_row = get_min_selected_item();
+	int min_row = min_selected_item();
 
 	m->model->remove_rows(selected_items());
 	clear_selection();
@@ -508,7 +504,7 @@ void PlaylistView::keyPressEvent(QKeyEvent* event)
 		case Qt::Key_Enter:
 			if(!selections.isEmpty())
 			{
-				int min_row = get_min_selected_item();
+				int min_row = min_selected_item();
 				m->model->set_current_track(min_row);
 				emit sig_double_clicked(min_row);
 				return;
@@ -574,12 +570,12 @@ void PlaylistView::dropEvent(QDropEvent* event)
 }
 
 
-int PlaylistView::get_index_by_model_index(const QModelIndex& idx) const
+int PlaylistView::index_by_model_index(const QModelIndex& idx) const
 {
 	return idx.row();
 }
 
-QModelIndex PlaylistView::get_model_index_by_index(int idx) const
+QModelIndex PlaylistView::model_index_by_index(int idx) const
 {
 	return m->model->index(idx);
 }

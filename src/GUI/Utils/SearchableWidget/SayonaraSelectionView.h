@@ -22,6 +22,7 @@
 #define SAYONARASELECTIONVIEW_H
 
 #include "Utils/typedefs.h"
+#include "Utils/Pimpl.h"
 
 #include <QModelIndex>
 
@@ -40,6 +41,8 @@ namespace SP
  */
 class SayonaraSelectionView
 {
+	PIMPL(SayonaraSelectionView)
+
 public:
 	enum class SelectionType
 	{
@@ -48,47 +51,44 @@ public:
 		Items
 	};
 
-
 protected:
-	SelectionType _selection_type;
+	SayonaraSelectionView();
+	virtual ~SayonaraSelectionView();
 
-	virtual QItemSelectionModel* get_selection_model() const=0;
-	virtual QModelIndex	get_index(int row, int col, const QModelIndex& parent=QModelIndex()) const=0;
-	virtual int	get_row_count(const QModelIndex& parent=QModelIndex()) const=0;
-	virtual int get_column_count(const QModelIndex& parent=QModelIndex()) const=0;
+	virtual QItemSelectionModel* selection_model() const=0;
+	virtual QModelIndex	model_index(int row, int col, const QModelIndex& parent=QModelIndex()) const=0;
+	virtual int	row_count(const QModelIndex& parent=QModelIndex()) const=0;
+	virtual int column_count(const QModelIndex& parent=QModelIndex()) const=0;
 	virtual void set_current_index(int idx)=0;
 
-    void select_rows(const IndexSet& indexes, int min_col=-1, int max_col=-1);
+	void select_rows(const IndexSet& indexes, int min_col=-1, int max_col=-1);
 	void select_row(int row);
 
-    void select_columns(const IndexSet& indexes, int min_row=-1, int max_row=-1);
+	void select_columns(const IndexSet& indexes, int min_row=-1, int max_row=-1);
 	void select_column(int col);
 
-    void select_items(const IndexSet& indexes);
+	void select_items(const IndexSet& indexes);
 	void select_item(int item);
 
 	void select_all();
 
 	void clear_selection();
-	int get_min_selected_item() const;
+	int min_selected_item() const;
 
-public:
-    IndexSet selected_items() const;
+	IndexSet selected_items() const;
 
 	virtual void set_selection_type(SayonaraSelectionView::SelectionType type);
 	SayonaraSelectionView::SelectionType selection_type() const;
 
-	virtual int get_index_by_model_index(const QModelIndex& idx) const=0;
-	virtual QModelIndex get_model_index_by_index(int idx) const=0;
+protected:
+	virtual int index_by_model_index(const QModelIndex& idx) const=0;
+	virtual QModelIndex model_index_by_index(int idx) const=0;
 
-    virtual IndexSet get_indexes_by_model_indexes(const QModelIndexList& indexes) const;
-    virtual QModelIndexList get_model_indexes_by_indexes(const IndexSet& indexes) const;
+	virtual IndexSet indexes_by_model_indexes(const QModelIndexList& indexes) const;
+	virtual QModelIndexList model_indexes_by_indexes(const IndexSet& indexes) const;
 
 protected:
-	SayonaraSelectionView();
-	virtual ~SayonaraSelectionView();
-
-    virtual void handle_key_press(QKeyEvent* e);
+	virtual void handle_key_press(QKeyEvent* e);
 };
 
 #endif // SAYONARASELECTIONVIEW_H

@@ -41,8 +41,8 @@ void switch_sorters(T& srcdst, T src1, T src2)
 struct TableView::Private
 {
 	HeaderView*			header=nullptr;
-    Library::SortOrder  sort_order;
-    BoolList            shown_columns;
+	Library::SortOrder  sort_order;
+	BoolList            shown_columns;
 };
 
 TableView::TableView(QWidget* parent) :
@@ -60,28 +60,28 @@ TableView::TableView(QWidget* parent) :
 TableView::~TableView() {}
 
 void TableView::set_table_headers(
-        const ColumnHeaderList& headers, const BoolList& shown_columns, Library::SortOrder sorting)
+		const ColumnHeaderList& headers, const BoolList& shown_columns, Library::SortOrder sorting)
 {
 	HeaderView* header_view = this->get_header_view();
 
-    m->shown_columns = shown_columns;
+	m->shown_columns = shown_columns;
 
-    QStringList header_names;
-    for(ColumnHeader* header : headers)
-    {
-        header_names << header->get_title();
+	QStringList header_names;
+	for(ColumnHeader* header : headers)
+	{
+		header_names << header->get_title();
 	}
 
-    _model->set_header_data(header_names);
+	_model->set_header_data(header_names);
 
-    header_view->set_column_headers(headers, shown_columns, sorting);
+	header_view->set_column_headers(headers, shown_columns, sorting);
 
-    language_changed();
+	language_changed();
 }
 
 BoolList TableView::get_shown_columns() const
 {
-    return m->shown_columns;
+	return m->shown_columns;
 }
 
 
@@ -93,14 +93,14 @@ HeaderView* TableView::get_header_view()
 
 void TableView::header_actions_triggered()
 {
-    IndexSet sel_indexes = selected_items();
+	IndexSet sel_indexes = selected_items();
 
 	std::for_each(sel_indexes.begin(), sel_indexes.end(), [this](int row){
 		this->selectRow(row);
 	});
 
 	m->shown_columns = m->header->get_shown_columns();
-    emit sig_columns_changed();
+	emit sig_columns_changed();
 }
 
 
@@ -129,17 +129,16 @@ void TableView::language_changed()
 {
 	HeaderView* header_view = get_header_view();
 
-
-    QStringList header_names;
-    for(int i=0; i<_model->columnCount(); i++)
-    {
+	QStringList header_names;
+	for(int i=0; i<_model->columnCount(); i++)
+	{
 		ColumnHeader* header = header_view->get_column_header(i);
 		if(header){
-            header_names << header->get_title();
+			header_names << header->get_title();
 		}
 	}
 
-    _model->set_header_data(header_names);
+	_model->set_header_data(header_names);
 }
 
 
@@ -150,19 +149,19 @@ void TableView::resizeEvent(QResizeEvent* event)
 }
 
 
-int TableView::get_index_by_model_index(const QModelIndex& idx) const
+int TableView::index_by_model_index(const QModelIndex& idx) const
 {
 	return idx.row();
 }
 
-QModelIndex TableView::get_model_index_by_index(int idx) const
+QModelIndex TableView::model_index_by_index(int idx) const
 {
-    int first_col = 0;
+	int first_col = 0;
 
-    if( horizontalHeader()->isSectionHidden(0) )
-    {
-        first_col = 1;
-    }
+	if( horizontalHeader()->isSectionHidden(0) )
+	{
+		first_col = 1;
+	}
 
-    return _model->index(idx, first_col);
+	return _model->index(idx, first_col);
 }

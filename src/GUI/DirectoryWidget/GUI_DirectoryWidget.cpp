@@ -36,8 +36,6 @@
 #include "Utils/FileUtils.h"
 #include "Utils/globals.h"
 #include "Utils/Language.h"
-#include "Utils/Settings/Settings.h"
-
 
 #include <QItemSelectionModel>
 #include <QApplication>
@@ -186,35 +184,8 @@ void GUI_DirectoryWidget::dir_pressed(QModelIndex idx)
 
 void GUI_DirectoryWidget::dir_clicked(QModelIndex idx)
 {
-	Library::SearchModeMask smm = _settings->get(Set::Lib_SearchMode);
-	QString search_text = Library::Util::convert_search_string(ui->le_search->text(), smm);
-
 	QString dir = m->dir_model->fileInfo(idx).absoluteFilePath();
-	ui->lv_files->set_parent_directory(dir);
-
-	if(search_text.isEmpty())
-	{
-		return;
-	}
-
-	int n_rows = ui->lv_files->model()->rowCount();
-	for(int i=0; i<n_rows; i++)
-	{
-		QModelIndex idx = ui->lv_files->model()->index(i, 0);
-		QString data = ui->lv_files->model()->data(idx).toString();
-		if(data.isEmpty()){
-			continue;
-		}
-
-		if(!idx.isValid()){
-			continue;
-		}
-
-		data = Library::Util::convert_search_string(data, smm);
-		if(data.contains(search_text, Qt::CaseInsensitive)){
-			ui->lv_files->selectionModel()->select(idx, (QItemSelectionModel::Select | QItemSelectionModel::Rows));
-		}
-	}
+	ui->lv_files->set_parent_directory(dir, ui->le_search->text());
 }
 
 

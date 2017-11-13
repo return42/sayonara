@@ -107,6 +107,7 @@ void Tracks::check_track_view(int8_t library_id)
 	;
 
 	QString search_view_query =
+
 			"CREATE "
 			"VIEW "
 			"IF NOT EXISTS "
@@ -117,17 +118,27 @@ void Tracks::check_track_view(int8_t library_id)
 			"albums.rating AS albumRating, "			// 18
 			"artists.name AS artistName, "				// 19
 			"albumArtists.name AS albumArtistName, "	// 20
-			"(albums.cissearch || ',' || artists.cissearch || ',' || tracks.cissearch) AS allCissearch " // 21
+			"(albums.cissearch || ',' || artists.cissearch || ',' || tracks.cissearch) AS allCissearch, " // 21
+			"tracks.fileCissearch AS fileCissearch "
 			"FROM tracks "
 			"INNER JOIN albums ON tracks.albumID = albums.albumID "
 			"INNER JOIN artists ON tracks.artistID = artists.artistID "
 			"LEFT OUTER JOIN artists albumArtists ON tracks.albumArtistID = albumArtists.artistID ";
 	;
 
+
+
 	if(m->library_id >= 0){
-		view_query += "WHERE libraryID=" + QString::number(m->library_id) + "; ";
-		search_view_query += "WHERE libraryID=" + QString::number(m->library_id) + "; ";
+		view_query += "WHERE libraryID=" + QString::number(m->library_id);
+		search_view_query += "WHERE libraryID=" + QString::number(m->library_id);
 	}
+
+	view_query += ";";
+	search_view_query += ";";
+
+	Query drop_view(this);
+	drop_view.prepare("DROP VIEW " + m->track_search_view_name + "; ");
+	drop_view.exec();
 
 	Query view_q(this);
 	Query search_view_q(this);
@@ -357,7 +368,7 @@ bool Tracks::getAllTracksByAlbum(IDList albums, MetaDataList& returndata, const 
 				break;
 
 			case ::Library::Filter::Filename:
-				querytext += "WHERE filename LIKE :searchterm AND ";
+				querytext += "WHERE filecissearch LIKE :searchterm AND ";
 				break;
 
 			case ::Library::Filter::Fulltext:
@@ -435,7 +446,7 @@ bool Tracks::getAllTracksByArtist(IDList artists, MetaDataList& returndata, cons
 				break;
 
 			case ::Library::Filter::Filename:
-				querytext += "WHERE filename LIKE :searchterm AND ";
+				querytext += "WHERE filecissearch LIKE :searchterm AND ";
 				break;
 
 			case ::Library::Filter::Fulltext:
@@ -488,7 +499,7 @@ bool Tracks::getAllTracksBySearchString(const ::Library::Filter& filter, MetaDat
 			break;
 
 		case ::Library::Filter::Filename:
-			querytext += "WHERE filename LIKE :searchterm ";
+			querytext += "WHERE filecissearch LIKE :searchterm ";
 			break;
 
 		case ::Library::Filter::Fulltext:
@@ -652,10 +663,11 @@ void Tracks::updateTrackCissearch()
 
 	for(const MetaData& md : v_md)
 	{
-		QString querystring = "UPDATE tracks SET cissearch=:cissearch WHERE trackID=:id;";
+		QString querystring = "UPDATE tracks SET cissearch=:cissearch, filecissearch=:filecissearch WHERE trackID=:id;";
 		Query q(this);
 		q.prepare(querystring);
 		q.bindValue(":cissearch", ::Library::Util::convert_search_string(md.title, search_mode()));
+		q.bindValue(":filecissearch", ::Library::Util::convert_search_string(md.filepath(), search_mode()));
 		q.bindValue(":id", md.id);
 
 		if(!q.exec()){
@@ -697,6 +709,7 @@ bool Tracks::updateTrack(const MetaData& md)
 	Query q(this);
 
 	QString cissearch = ::Library::Util::convert_search_string(md.title, search_mode());
+	QString file_cissearch = ::Library::Util::convert_search_string(md.filepath(), search_mode());
 
 	q.prepare("UPDATE tracks "
 			  "SET "
@@ -713,9 +726,11 @@ bool Tracks::updateTrack(const MetaData& md)
 			  "filesize=:filesize, "
 			  "discnumber=:discnumber, "
 			  "cissearch=:cissearch, "
+			  "filecissearch=:filecissearch, "
 			  "rating=:rating, "
 			  "modifydate=:modifydate, "
 			  "libraryID=:libraryID "
+			  
 			  "WHERE TrackID = :trackID;");
 
 	q.bindValue(":albumID",			md.album_id);
@@ -731,6 +746,7 @@ bool Tracks::updateTrack(const MetaData& md)
 	q.bindValue(":filesize",		(uint32_t) md.filesize);
 	q.bindValue(":discnumber",		md.discnumber);
 	q.bindValue(":cissearch",		cissearch);
+	q.bindValue(":cissearch",		file_cissearch);
 	q.bindValue(":rating",			md.rating);
 	q.bindValue(":modifydate",		(quint64) Util::current_date_to_int());
 	q.bindValue(":libraryID",		md.library_id);
@@ -779,11 +795,12 @@ bool Tracks::insertTrackIntoDatabase(const MetaData& md, int artist_id, int albu
 	}
 
 	QString cissearch = ::Library::Util::convert_search_string(md.title, search_mode());
+	QString file_cissearch = ::Library::Util::convert_search_string(md.filepath(), search_mode());
 	QString querytext =
 			"INSERT INTO tracks "
-			"(filename,  albumID, artistID, albumArtistID,  title,  year,  length,  track,  bitrate,  genre,  filesize,  discnumber,  rating,  cissearch,  createdate,  modifydate,  libraryID) "
+			"(filename,  albumID, artistID, albumArtistID,  title,  year,  length,  track,  bitrate,  genre,  filesize,  discnumber,  rating,  cissearch, filecissearch, createdate,  modifydate,  libraryID) "
 			"VALUES "
-			"(:filename,:albumID,:artistID, :albumArtistID, :title, :year, :length, :track, :bitrate, :genre, :filesize, :discnumber, :rating, :cissearch, :createdate, :modifydate, :libraryID); ";
+			"(:filename,:albumID,:artistID, :albumArtistID, :title, :year, :length, :track, :bitrate, :genre, :filesize, :discnumber, :rating, :cissearch, :filecissearch, :createdate, :modifydate, :libraryID); ";
 
 	uint64_t current_time = Util::current_date_to_int();
 	q.prepare(querytext);
@@ -802,6 +819,7 @@ bool Tracks::insertTrackIntoDatabase(const MetaData& md, int artist_id, int albu
 	q.bindValue(":discnumber",		md.discnumber);
 	q.bindValue(":rating",			md.rating);
 	q.bindValue(":cissearch",		cissearch);
+	q.bindValue(":filecissearch",	file_cissearch);
 	q.bindValue(":createdate",		(quint64) current_time);
 	q.bindValue(":modifydate",		(quint64) current_time);
 	q.bindValue(":libraryID",		md.library_id);

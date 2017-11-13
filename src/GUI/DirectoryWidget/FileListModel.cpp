@@ -22,6 +22,7 @@
 #include "Components/DirectoryReader/DirectoryReader.h"
 #include "Utils/Utils.h"
 #include "Utils/FileUtils.h"
+#include "Utils/Logger/Logger.h"
 
 #include <QMap>
 #include <QVariant>
@@ -36,6 +37,7 @@ FileListModel::~FileListModel() {}
 
 void FileListModel::set_parent_directory(const QString& dir)
 {
+	int old_rowcount = rowCount();
 	_files.clear();
 
 	QDir base_dir(dir);
@@ -48,13 +50,22 @@ void FileListModel::set_parent_directory(const QString& dir)
 	reader.set_filter(extensions);
 	reader.get_files_in_dir(base_dir, _files);
 
-	beginInsertRows(QModelIndex(), 0, rowCount() - 1);
-	endInsertRows();
+	if(_files.size() > old_rowcount){
+		beginInsertRows(QModelIndex(), old_rowcount, _files.size());
+		endInsertRows();
+	}
 
-	emit dataChanged( 
-			index(0,0), 
-			index(rowCount() - 1, 0) 
+	else if(_files.size() < old_rowcount)
+	{
+		beginRemoveRows(QModelIndex(), _files.size(), old_rowcount);
+		endRemoveRows();
+	}
+
+	emit dataChanged(
+			index(0,0),
+			index(_files.size() - 1, 0)
 	);
+
 }
 
 QStringList FileListModel::get_files() const
@@ -82,10 +93,6 @@ QVariant FileListModel::data(const QModelIndex &index, int role) const
 	return QVariant();
 }
 
-bool FileListModel::has_items() const
-{
-    return (_files.size() > 0);
-}
 
 QModelIndex FileListModel::getNextRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent)
 {

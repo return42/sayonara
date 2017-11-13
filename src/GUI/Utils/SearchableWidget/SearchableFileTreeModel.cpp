@@ -55,11 +55,6 @@ SearchableFileTreeModel::SearchableFileTreeModel(QObject* parent) :
 
 SearchableFileTreeModel::~SearchableFileTreeModel() {}
 
-bool SearchableFileTreeModel::has_items() const
-{
-	return (rowCount() > 0);
-}
-
 QModelIndex SearchableFileTreeModel::getFirstRowIndexOf(const QString& substr)
 {
 	Library::Filter filter;

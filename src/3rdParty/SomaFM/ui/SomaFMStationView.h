@@ -32,10 +32,10 @@ public:
 	SomaFMStationView(QWidget* parent=nullptr);
 	~SomaFMStationView();
 
-	// SayonaraSelectionView interface
 public:
-	int get_index_by_model_index(const QModelIndex& idx) const override;
-	QModelIndex get_model_index_by_index(int idx) const override;
+	// SayonaraSelectionView interface
+	int index_by_model_index(const QModelIndex& idx) const override;
+	QModelIndex model_index_by_index(int idx) const override;
 };
 
 #endif // SOMAFMSTATIONVIEW_H

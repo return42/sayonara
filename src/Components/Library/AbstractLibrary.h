@@ -105,17 +105,18 @@ public slots:
 	virtual void selected_tracks_changed(const IndexSet& indexes);
 
 	// Those two functions are identical (1) calls (2)
-	virtual void prepare_tracks_for_playlist(bool new_playlist);
+	virtual void prepare_current_tracks_for_playlist(bool new_playlist);
+	virtual void prepare_fetched_tracks_for_playlist(bool new_playlist);
 	virtual void prepare_tracks_for_playlist(const QStringList& file_paths, bool new_playlist);
 
 
 	/* append tracks after current played track in playlist */
-	virtual void play_next_all_tracks();
+	virtual void play_next_fetched_tracks();
 	virtual void play_next_current_tracks();
 
 
 	/* append tracks after last track in playlist */
-	virtual void append_all_tracks();
+	virtual void append_fetched_tracks();
 	virtual void append_current_tracks();
 
 	/* triggered by tagedit */
@@ -128,8 +129,10 @@ public slots:
 
 	virtual void delete_tracks(const MetaDataList& v_md, Library::TrackDeletionMode mode)=0;
 	virtual void delete_tracks_by_idx(const IndexSet& indexes, Library::TrackDeletionMode mode);
-	virtual void delete_all_tracks();
+
+	virtual void delete_fetched_tracks(Library::TrackDeletionMode mode);
 	virtual void delete_current_tracks(Library::TrackDeletionMode mode);
+	virtual void delete_all_tracks();
 
 	virtual void insert_tracks(const MetaDataList& v_md);
 	virtual void import_files(const QStringList& files);

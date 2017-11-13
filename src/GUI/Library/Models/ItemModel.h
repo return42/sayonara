@@ -44,40 +44,44 @@ namespace Library
 		Q_OBJECT
 		PIMPL(ItemModel)
 
-	public:
-		ItemModel(QObject* parent, AbstractLibrary* library);
-		virtual ~ItemModel();
+		using ExtraTriggerMap=QMap<QChar, QString>;
 
-		/** Overloaded from QAbstractTableModel **/
-		QVariant		headerData ( int section, Qt::Orientation orientation, int role=Qt::DisplayRole ) const override;
-		bool			set_header_data(const QStringList& names);
+		public:
+			ItemModel(QObject* parent, AbstractLibrary* library);
+			virtual ~ItemModel();
 
-		virtual int     columnCount(const QModelIndex& parent=QModelIndex()) const override;
-		virtual bool	removeRows(int position, int rows, const QModelIndex& index=QModelIndex()) override;
-		virtual bool	insertRows(int row, int count, const QModelIndex &parent=QModelIndex()) override;
-		int             last_row_count() const;
+			/** Overloaded from QAbstractTableModel **/
+			QVariant		headerData ( int section, Qt::Orientation orientation, int role=Qt::DisplayRole ) const override;
+			bool			set_header_data(const QStringList& names);
 
-		/** AbstractSearchTableModel **/
-		virtual bool		has_items() const override;
-		virtual QModelIndex getNextRowIndexOf(const QString& substr, int row, const QModelIndex& parent=QModelIndex()) override;
-		virtual QModelIndex getPrevRowIndexOf(const QString& substr, int row, const QModelIndex& parent=QModelIndex()) override;
-		virtual QMap<QChar, QString> getExtraTriggers() override;
+			virtual int     columnCount(const QModelIndex& parent=QModelIndex()) const override;
 
-		virtual bool			is_selected(int id) const final;
-		virtual const IndexSet& selections() const=0;
+			void 			refresh_data(int* n_rows_before=nullptr, int* n_rows_after=nullptr); //returns the size difference
 
-		virtual int				get_searchable_column() const=0;
-		virtual QString			get_string(int row) const=0;
-		virtual int				id_by_index(int row)=0;
-		virtual Cover::Location	cover(const IndexSet& indexes) const=0;
+			/** AbstractSearchTableModel **/
+			virtual QModelIndex		getNextRowIndexOf(const QString& substr, int row, const QModelIndex& parent=QModelIndex()) override;
+			virtual QModelIndex		getPrevRowIndexOf(const QString& substr, int row, const QModelIndex& parent=QModelIndex()) override;
+			virtual ExtraTriggerMap getExtraTriggers() override;
 
-		CustomMimeData*			get_mimedata() const;
+			virtual bool			is_selected(int id) const final;
+			virtual const IndexSet& selections() const=0;
 
-		void                    refresh_data();
+			virtual int				searchable_column() const=0;
+			virtual QString			searchable_string(int row) const=0;
+			virtual int				id_by_row(int row)=0;
+			virtual Cover::Location	cover(const IndexSet& indexes) const=0;
 
-	protected:
-		AbstractLibrary* library();
-		const AbstractLibrary* library() const;
+			virtual const MetaDataList&	mimedata_tracks() const=0;
+			CustomMimeData*				custom_mimedata() const;
+
+		protected:
+			AbstractLibrary*		library();
+			const AbstractLibrary*	library() const;
+
+		private:
+			bool removeRows(int position, int rows, const QModelIndex& index=QModelIndex()) override;
+			bool insertRows(int row, int count, const QModelIndex &parent=QModelIndex()) override;
+
 	};
 }
 

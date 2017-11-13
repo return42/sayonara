@@ -42,22 +42,25 @@ namespace Library
 		Q_OBJECT
 		PIMPL(AlbumModel)
 
-	public:
-		AlbumModel(QObject* parent, AbstractLibrary* library);
-		virtual ~AlbumModel();
+		public:
+			AlbumModel(QObject* parent, AbstractLibrary* library);
+			virtual ~AlbumModel();
 
-		Qt::ItemFlags   flags(const QModelIndex &index) const override;
-		QVariant        data(const QModelIndex& index, int role) const override;
-		bool            setData(const QModelIndex& index, const QVariant& value, int role=Qt::DisplayRole) override;
-		int             rowCount(const QModelIndex &parent) const override;
+			Qt::ItemFlags   flags(const QModelIndex &index) const override;
+			QVariant        data(const QModelIndex& index, int role) const override;
+			bool            setData(const QModelIndex& index, const QVariant& value, int role=Qt::DisplayRole) override;
+			int             rowCount(const QModelIndex &parent) const override;
 
-        Cover::Location   cover(const IndexSet& indexes) const override;
-		int             get_searchable_column() const override;
-		int             id_by_index(int row) override;
-		QString         get_string(int row) const override;
+			Cover::Location   cover(const IndexSet& indexes) const override;
+			int             searchable_column() const override;
+			int             id_by_row(int row) override;
+			QString         searchable_string(int row) const override;
 
 
-		const IndexSet& selections() const override;
+			const IndexSet& selections() const override;
+
+		public:
+			const MetaDataList& mimedata_tracks() const override;
 	};
 }
 

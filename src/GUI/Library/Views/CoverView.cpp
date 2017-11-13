@@ -162,12 +162,12 @@ CoverView::CoverView(QWidget* topbar, QWidget* parent) :
 
 CoverView::~CoverView() {}
 
-int CoverView::get_index_by_model_index(const QModelIndex& idx) const
+int CoverView::index_by_model_index(const QModelIndex& idx) const
 {
 	return idx.row() * model()->columnCount() + idx.column();
 }
 
-QModelIndex CoverView::get_model_index_by_index(int idx) const
+QModelIndex CoverView::model_index_by_index(int idx) const
 {
 	int row = idx / model()->columnCount();
 	int col = idx % model()->columnCount();

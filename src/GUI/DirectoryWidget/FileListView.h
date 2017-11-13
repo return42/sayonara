@@ -23,6 +23,7 @@
 
 #include "GUI/Utils/SearchableWidget/SearchableView.h"
 #include "GUI/Utils/Dragable/Dragable.h"
+#include "GUI/Utils/Widgets/WidgetTemplate.h"
 
 #include "Utils/Pimpl.h"
 
@@ -31,7 +32,7 @@ class MetaDataList;
 class LibraryContextMenu;
 
 class FileListView :
-		public SearchableListView,
+		public Gui::WidgetTemplate<SearchableListView>,
 		private Dragable
 {
 	Q_OBJECT
@@ -53,16 +54,19 @@ public:
 	MetaDataList get_selected_metadata() const;
 	QStringList get_selected_paths() const;
 
-	void set_parent_directory(const QString& dir);
+	void set_parent_directory(const QString& dir, const QString& search_string);
 
 	QMimeData* get_mimedata() const override;
-	int get_index_by_model_index(const QModelIndex& idx) const override;
-	QModelIndex get_model_index_by_index(int idx) const override;
+
 
 protected:
 	void keyPressEvent(QKeyEvent* event) override;
 	void mousePressEvent(QMouseEvent* event) override;
 	void mouseMoveEvent(QMouseEvent* event) override;
+
+	// SayonaraSelectionView
+	int index_by_model_index(const QModelIndex& idx) const override;
+	QModelIndex model_index_by_index(int idx) const override;
 
 private:
 	void init_context_menu();

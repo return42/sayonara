@@ -545,8 +545,8 @@ void GUI_LocalLibrary::init_album_cover_view()
 	connect(m->acv, &View::sig_sel_changed, this, &GUI_LocalLibrary::album_sel_changed);
 	connect(m->acv, &View::doubleClicked, this, &GUI_LocalLibrary::item_double_clicked);
 	connect(m->acv, &View::sig_middle_button_clicked, this, &GUI_LocalLibrary::item_middle_clicked);
-	connect(m->acv, &View::sig_play_next_clicked, this, &GUI_LocalLibrary::play_next);
-	connect(m->acv, &View::sig_append_clicked, this, &GUI_LocalLibrary::append);
+	connect(m->acv, &View::sig_play_next_clicked, this, &GUI_LocalLibrary::item_play_next_clicked);
+	connect(m->acv, &View::sig_append_clicked, this, &GUI_LocalLibrary::item_append_clicked);
 	connect(m->acv, &View::sig_merge, m->library, &LocalLibrary::merge_albums);
 
 	m->acv->show();

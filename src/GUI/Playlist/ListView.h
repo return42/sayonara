@@ -60,7 +60,6 @@ public:
 	void scroll_up();
 	void scroll_down();
 
-	int row_count() const;
 	void remove_cur_selected_rows();
 	void delete_cur_selected_tracks();
 
@@ -113,10 +112,11 @@ private slots:
 	void async_drop_finished(bool success);
 	void rating_changed(int rating);
 
+
+protected:
 	// SayonaraSelectionView interface
-public:
-	int get_index_by_model_index(const QModelIndex& idx) const override;
-	QModelIndex get_model_index_by_index(int idx) const override;
+	int index_by_model_index(const QModelIndex& idx) const override;
+	QModelIndex model_index_by_index(int idx) const override;
 };
 
 #endif /* PlaylistView_H_ */

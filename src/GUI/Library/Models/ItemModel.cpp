@@ -108,9 +108,29 @@ bool ItemModel::insertRows(int row, int count, const QModelIndex& index)
 	return true;
 }
 
-int ItemModel::last_row_count() const
+
+void ItemModel::refresh_data(int* n_rows_before, int* n_rows_after)
 {
-	return m->old_row_count;
+	int old_size = m->old_row_count;
+	int new_size = rowCount();
+
+	if(n_rows_before != nullptr){
+		*n_rows_before = old_size;
+	}
+
+	if(n_rows_after != nullptr){
+		*n_rows_after = new_size;
+	}
+
+	if(old_size > new_size){
+		removeRows(new_size, old_size - new_size);
+	}
+
+	else if(old_size < new_size){
+		insertRows(old_size, new_size - old_size);
+	}
+
+	emit dataChanged(index(0,0), index(rowCount(), columnCount()));
 }
 
 
@@ -119,26 +139,24 @@ QMap<QChar, QString> ItemModel::getExtraTriggers()
 	return QMap<QChar, QString>();
 }
 
-CustomMimeData* ItemModel::get_mimedata() const
+CustomMimeData* ItemModel::custom_mimedata() const
 {
 	CustomMimeData* mimedata = new CustomMimeData();
 	QList<QUrl> urls;
 
-	const MetaDataList& track_mimedata = m->library->current_tracks();
-
-	if(track_mimedata.isEmpty()){
+	if(mimedata_tracks().isEmpty()){
 		sp_log(Log::Warning, this) << this->objectName() << " does not have any mimedata";
 		mimedata->setText("No tracks");
 	}
 
 	else
 	{
-		for(const MetaData& md : track_mimedata){
+		for(const MetaData& md : mimedata_tracks()){
 			QUrl url(QString("file://") + md.filepath());
 			urls << url;
 		}
 
-		mimedata->set_metadata(track_mimedata);
+		mimedata->set_metadata(mimedata_tracks());
 		mimedata->setText("tracks");
 		mimedata->setUrls(urls);
 	}
@@ -146,20 +164,9 @@ CustomMimeData* ItemModel::get_mimedata() const
 	return mimedata;
 }
 
-void ItemModel::refresh_data()
-{
-	emit dataChanged(index(0,0), index(rowCount(), columnCount()));
-}
-
-
 bool ItemModel::is_selected(int id) const
 {
 	return selections().contains(id);
-}
-
-bool ItemModel::has_items() const
-{
-	return (rowCount() > 0);
 }
 
 QModelIndex ItemModel::getNextRowIndexOf(const QString& substr, int row, const QModelIndex& parent)
@@ -175,11 +182,11 @@ QModelIndex ItemModel::getNextRowIndexOf(const QString& substr, int row, const Q
 	{
 		int row_idx = (i + row) % len;
 
-		QString title = get_string(row_idx);
+		QString title = searchable_string(row_idx);
 		title = Library::Util::convert_search_string(title, search_mode());
 
 		if(title.contains(substr)) {
-			return this->index(row_idx, get_searchable_column());
+			return this->index(row_idx, searchable_column());
 		}
 	}
 
@@ -202,11 +209,11 @@ QModelIndex ItemModel::getPrevRowIndexOf(const QString& substr, int row, const Q
 
 		int row_idx = (row - i) % len;
 
-		QString title = get_string(row_idx);
+		QString title = searchable_string(row_idx);
 		title = Library::Util::convert_search_string(title, search_mode());
 
 		if(title.contains(substr)) {
-			return this->index(row_idx, get_searchable_column());
+			return this->index(row_idx, searchable_column());
 		}
 	}
 

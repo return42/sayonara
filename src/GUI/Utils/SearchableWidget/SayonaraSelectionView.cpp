@@ -27,25 +27,33 @@
 
 #include <algorithm>
 
+struct SayonaraSelectionView::Private
+{
+	SayonaraSelectionView::SelectionType selection_type;
+	Private() :
+		selection_type(SayonaraSelectionView::SelectionType::Rows)
+	{}
+};
+
 SayonaraSelectionView::SayonaraSelectionView()
 {
-	_selection_type = SayonaraSelectionView::SelectionType::Rows;
+	m = Pimpl::make<Private>();
 }
 
 SayonaraSelectionView::~SayonaraSelectionView() {}
 
 void SayonaraSelectionView::select_all()
 {
-	QItemSelectionModel* sel_model = this->get_selection_model();
-    if(!sel_model) {
+	QItemSelectionModel* sel_model = this->selection_model();
+	if(!sel_model) {
 		return;
 	}
 
-	int n_rows = get_row_count();
-	int n_cols = get_column_count();
+	int n_rows = row_count();
+	int n_cols = column_count();
 
-	QModelIndex first_idx = get_index(0, 0);
-	QModelIndex last_idx = get_index(n_rows - 1, n_cols - 1);
+	QModelIndex first_idx = model_index(0, 0);
+	QModelIndex last_idx = model_index(n_rows - 1, n_cols - 1);
 
 	QItemSelection sel = sel_model->selection();
 	sel.select(first_idx, last_idx);
@@ -56,15 +64,15 @@ void SayonaraSelectionView::select_all()
 
 void SayonaraSelectionView::select_rows(const IndexSet& indexes, int min_col, int max_col)
 {
-	QItemSelectionModel* sel_model = this->get_selection_model();
+	QItemSelectionModel* sel_model = this->selection_model();
 	if(!sel_model){
 		return;
 	}
 
-    if(indexes.empty()) {
-        this->clear_selection();
-        return;
-    }
+	if(indexes.empty()) {
+		this->clear_selection();
+		return;
+	}
 
 	if(indexes.size() > 0) {
 		int first_index = indexes.first();
@@ -72,15 +80,15 @@ void SayonaraSelectionView::select_rows(const IndexSet& indexes, int min_col, in
 	}
 
 	min_col = std::max(0, min_col);
-	min_col = std::min(min_col, get_column_count() - 1);
+	min_col = std::min(min_col, column_count() - 1);
 	max_col = std::max(0, max_col);
-	max_col = std::min(max_col, get_column_count() - 1);
+	max_col = std::min(max_col, column_count() - 1);
 
 	QItemSelection sel;
 	if(indexes.size() == 1)
 	{
-		QModelIndex first_idx = get_index(indexes.first(), 0);
-		QModelIndex last_idx = get_index(indexes.first(), get_column_count() - 1);
+		QModelIndex first_idx = model_index(indexes.first(), 0);
+		QModelIndex last_idx = model_index(indexes.first(), column_count() - 1);
 
 		sel.select(first_idx, last_idx);
 		sel_model->select(sel, QItemSelectionModel::ClearAndSelect);
@@ -126,8 +134,8 @@ void SayonaraSelectionView::select_rows(const IndexSet& indexes, int min_col, in
 
 		// select the range
 
-		QModelIndex min_idx = get_index(*it, min_col);
-		QModelIndex max_idx = get_index(*other_predecessor, max_col);
+		QModelIndex min_idx = model_index(*it, min_col);
+		QModelIndex max_idx = model_index(*other_predecessor, max_col);
 		sel.select(min_idx, max_idx);
 
 		it = other_it;
@@ -143,20 +151,20 @@ void SayonaraSelectionView::select_rows(const IndexSet& indexes, int min_col, in
 
 void SayonaraSelectionView::select_row(int row)
 {
-    select_rows({row});
+	select_rows({row});
 }
 
 void SayonaraSelectionView::select_columns(const IndexSet& indexes, int min_row, int max_row)
 {
-	QItemSelectionModel* sel_model = this->get_selection_model();
+	QItemSelectionModel* sel_model = this->selection_model();
 	if(!sel_model){
 		return;
 	}
 
 	QItemSelection sel;
 	for(auto it = indexes.begin(); it != indexes.end(); it++){
-		sel.select(get_index(min_row, *it),
-				   get_index(max_row, *it));
+		sel.select(model_index(min_row, *it),
+				   model_index(max_row, *it));
 	}
 
 	sel_model->select(sel, QItemSelectionModel::ClearAndSelect);
@@ -164,22 +172,22 @@ void SayonaraSelectionView::select_columns(const IndexSet& indexes, int min_row,
 
 void SayonaraSelectionView::select_column(int col)
 {
-    IndexSet indexes(col);
+	IndexSet indexes(col);
 	select_columns(col);
 }
 
 void SayonaraSelectionView::select_items(const IndexSet& indexes)
 {
-	QItemSelectionModel* sel_model = this->get_selection_model();
+	QItemSelectionModel* sel_model = this->selection_model();
 	if(!sel_model){
 		return;
 	}
 
 	QItemSelection sel;
-    for(int index : indexes)
-    {
-        sel.select( get_model_index_by_index(index),
-                    get_model_index_by_index(index)
+	for(int index : indexes)
+	{
+		sel.select( model_index_by_index(index),
+					model_index_by_index(index)
 		);
 	}
 
@@ -188,7 +196,7 @@ void SayonaraSelectionView::select_items(const IndexSet& indexes)
 
 void SayonaraSelectionView::clear_selection()
 {
-	QItemSelectionModel* sel_model = this->get_selection_model();
+	QItemSelectionModel* sel_model = this->selection_model();
 	if(!sel_model){
 		return;
 	}
@@ -199,52 +207,52 @@ void SayonaraSelectionView::clear_selection()
 
 IndexSet SayonaraSelectionView::selected_items() const
 {
-	QItemSelectionModel* sel_model = this->get_selection_model();
+	QItemSelectionModel* sel_model = this->selection_model();
 
 	if(!sel_model){
-        return IndexSet();
+		return IndexSet();
 	}
 
 	QModelIndexList idx_list = sel_model->selectedIndexes();
 
-    IndexSet indexes;
+	IndexSet indexes;
 
 	for(const QModelIndex& model_idx : idx_list) {
-		indexes.insert( get_index_by_model_index(model_idx) );
+		indexes.insert( index_by_model_index(model_idx) );
 	}
 
 	return indexes;
 }
 
 
-IndexSet SayonaraSelectionView::get_indexes_by_model_indexes(const QModelIndexList& indexes) const
+IndexSet SayonaraSelectionView::indexes_by_model_indexes(const QModelIndexList& indexes) const
 {
-    IndexSet ret;
+	IndexSet ret;
 
-    for(const QModelIndex& idx : indexes){
-		ret.insert( get_index_by_model_index(idx) );
+	for(const QModelIndex& idx : indexes){
+		ret.insert( index_by_model_index(idx) );
 	}
 
 	return ret;
 }
 
 
-QModelIndexList SayonaraSelectionView::get_model_indexes_by_indexes(const IndexSet& idxs) const
+QModelIndexList SayonaraSelectionView::model_indexes_by_indexes(const IndexSet& idxs) const
 {
 	QModelIndexList lst;
 	for(auto it = idxs.begin(); it != idxs.end(); it++){
-		lst << get_model_index_by_index(*it);
+		lst << model_index_by_index(*it);
 	}
 	return lst;
 }
 
 
-int SayonaraSelectionView::get_min_selected_item() const
+int SayonaraSelectionView::min_selected_item() const
 {
-    IndexSet selected = selected_items();
-    if(!selected.isEmpty()){
-        return *(std::min_element(selected.begin(), selected.end()));
-    }
+	IndexSet selected = selected_items();
+	if(!selected.isEmpty()){
+		return *(std::min_element(selected.begin(), selected.end()));
+	}
 
 	return -1;
 }
@@ -252,66 +260,66 @@ int SayonaraSelectionView::get_min_selected_item() const
 
 void SayonaraSelectionView::set_selection_type(SayonaraSelectionView::SelectionType type)
 {
-	_selection_type = type;
+	m->selection_type = type;
 }
 
 SayonaraSelectionView::SelectionType SayonaraSelectionView::selection_type() const
 {
-	return _selection_type;
+	return m->selection_type;
 }
 
 void SayonaraSelectionView::handle_key_press(QKeyEvent* e)
 {
-    e->setAccepted(false);
+	e->setAccepted(false);
 
-    if(this->get_row_count() == 0)
-    {
-        return;
-    }
+	if(this->row_count() == 0)
+	{
+		return;
+	}
 
-    Qt::KeyboardModifiers modifiers = e->modifiers();
-    if(modifiers != Qt::NoModifier){
-        return;
-    }
+	Qt::KeyboardModifiers modifiers = e->modifiers();
+	if(modifiers != Qt::NoModifier){
+		return;
+	}
 
-    if(e->matches(QKeySequence::SelectAll))
-    {
-        this->select_all();
-        e->accept();
-        return;
-    }
+	if(e->matches(QKeySequence::SelectAll))
+	{
+		this->select_all();
+		e->accept();
+		return;
+	}
 
-    switch(e->key())
-    {
-        case Qt::Key_Up:
-            if(this->selected_items().empty())
-            {
-                e->accept();
-                this->select_row(this->get_row_count() - 1);
-            }
+	switch(e->key())
+	{
+		case Qt::Key_Up:
+			if(this->selected_items().empty())
+			{
+				e->accept();
+				this->select_row(this->row_count() - 1);
+			}
 
-            return;
+			return;
 
-        case Qt::Key_Down:
-            if(this->selected_items().empty())
-            {
-                e->accept();
-                this->select_row(0);
-            }
+		case Qt::Key_Down:
+			if(this->selected_items().empty())
+			{
+				e->accept();
+				this->select_row(0);
+			}
 
-            return;
+			return;
 
-        case Qt::Key_End:
-            this->select_row(this->get_row_count() - 1);
-            e->accept();
-            return;
+		case Qt::Key_End:
+			this->select_row(this->row_count() - 1);
+			e->accept();
+			return;
 
-        case Qt::Key_Home:
-            this->select_row(0);
-            e->accept();
-            return;
+		case Qt::Key_Home:
+			this->select_row(0);
+			e->accept();
+			return;
 
-        default:
-            break;
-    }
+		default:
+			break;
+	}
 }

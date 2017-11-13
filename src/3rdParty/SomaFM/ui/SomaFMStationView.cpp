@@ -28,12 +28,12 @@ SomaFMStationView::SomaFMStationView(QWidget* parent) :
 
 SomaFMStationView::~SomaFMStationView() {}
 
-int SomaFMStationView::get_index_by_model_index(const QModelIndex& idx) const
+int SomaFMStationView::index_by_model_index(const QModelIndex& idx) const
 {
 	return idx.row();
 }
 
-QModelIndex SomaFMStationView::get_model_index_by_index(int idx) const
+QModelIndex SomaFMStationView::model_index_by_index(int idx) const
 {
 	return this->model()->index(idx, 0);
 }

@@ -56,7 +56,7 @@ struct Connector::Private
 	DB::Library*			library_connector=nullptr;
 
 	QList<LibraryDatabase*> library_dbs;
-	LocalLibraryDatabase*	local_library_database=nullptr;
+	LocalLibraryDatabase*	generic_library_database=nullptr;
 
 	Private() {}
 	~Private()
@@ -93,8 +93,8 @@ Connector::Connector() :
 	m = Pimpl::make<Private>();
 	apply_fixes();
 
-	m->local_library_database = new DB::LocalLibraryDatabase(-1);
-	m->library_dbs << m->local_library_database;
+	m->generic_library_database = new DB::LocalLibraryDatabase(-1);
+	m->library_dbs << m->generic_library_database;
 }
 
 Connector::~Connector() {}
@@ -167,7 +167,7 @@ bool Connector::apply_fixes()
 	QString str_version;
 	int version;
 	bool success;
-	const int LatestVersion = 15;
+	const int LatestVersion = 16;
 
 
 	success = settings_connector()->load_setting("version", str_version);
@@ -390,6 +390,25 @@ bool Connector::apply_fixes()
 		}
 	}
 
+	if(version < 16)
+	{
+		bool success = check_and_insert_column("tracks", "fileCissearch", "VARCHAR(256)");
+		
+		if(success)
+		{
+			settings_connector()->store_setting("version", 16);
+
+			MetaDataList v_md;
+			LibraryDatabase* lib_db = new LocalLibraryDatabase(-1);
+			lib_db->getAllTracks(v_md);
+			for(const MetaData& md : v_md) {
+				lib_db->updateTrack(md);
+			}
+
+			delete lib_db;
+		}
+	}
+
 	return true;
 }
 
@@ -425,7 +444,7 @@ DB::LibraryDatabase* Connector::library_db(int8_t library_id, uint8_t db_id)
 							 << " LibraryID = " << (int) library_id;
 	}
 
-	return m->local_library_database;
+	return m->generic_library_database;
 }
 
 

@@ -40,12 +40,11 @@ class FileListModel :
 		void set_parent_directory(const QString& dir);
 		QStringList get_files() const;
 
-        bool        has_items() const override;
 		QModelIndex getNextRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent=QModelIndex()) override;
 		QModelIndex getPrevRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent=QModelIndex()) override;
 		QMap<QChar, QString> getExtraTriggers() override;
 
-		QVariant data(const QModelIndex &index, int role) const override;
+		QVariant data(const QModelIndex &index, int role=Qt::DisplayRole) const override;
 
 		int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 

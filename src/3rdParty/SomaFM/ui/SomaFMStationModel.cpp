@@ -58,11 +58,7 @@ int SomaFM::StationModel::rowCount(const QModelIndex& parent) const
 {
 	Q_UNUSED(parent)
 
-	if(m->stations.isEmpty()){
-		return 1;
-	}
-
-	return m->stations.size();
+	return std::max(1, m->stations.size());
 }
 
 int SomaFM::StationModel::columnCount(const QModelIndex& parent) const

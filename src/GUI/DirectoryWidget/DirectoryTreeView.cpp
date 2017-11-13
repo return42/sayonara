@@ -196,12 +196,12 @@ QStringList DirectoryTreeView::get_selected_paths() const
 	return paths;
 }
 
-int DirectoryTreeView::get_index_by_model_index(const QModelIndex& idx) const
+int DirectoryTreeView::index_by_model_index(const QModelIndex& idx) const
 {
 	return idx.row();
 }
 
-QModelIndex DirectoryTreeView::get_model_index_by_index(int idx) const
+QModelIndex DirectoryTreeView::model_index_by_index(int idx) const
 {
 	return m->model->index(idx, 0);
 }

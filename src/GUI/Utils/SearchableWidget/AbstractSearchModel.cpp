@@ -19,24 +19,25 @@
  */
 
 #include "AbstractSearchModel.h"
+#include "Utils/Settings/Settings.h"
 
 SearchModelFunctionality::SearchModelFunctionality() {}
 SearchModelFunctionality::~SearchModelFunctionality() {}
 
 QModelIndex SearchModelFunctionality::getFirstRowIndexOf(const QString &substr)
 {
-    if(!has_items()){
-        return QModelIndex();
-    }
+	if(!has_items()){
+		return QModelIndex();
+	}
 
-    return getNextRowIndexOf(substr, 0, QModelIndex());
+	return getNextRowIndexOf(substr, 0, QModelIndex());
 }
 
 int SearchModelFunctionality::getNumberResults(const QString& str)
 {
-    if(str.isEmpty()){
-        return -1;
-    }
+	if(str.isEmpty()){
+		return -1;
+	}
 
 	QModelIndex first_idx = this->getFirstRowIndexOf(str);
 	QModelIndex found_idx = first_idx;
@@ -65,12 +66,7 @@ int SearchModelFunctionality::getNumberResults(const QString& str)
 	return results;
 }
 
-void SearchModelFunctionality::set_search_mode(Library::SearchModeMask search_mode)
-{
-	_search_mode = search_mode;
-}
-
 Library::SearchModeMask SearchModelFunctionality::search_mode() const
 {
-	return _search_mode;
+	return Settings::instance()->get(Set::Lib_SearchMode);
 }

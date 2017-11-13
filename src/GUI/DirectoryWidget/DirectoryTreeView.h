@@ -66,8 +66,6 @@ public:
 
 	QMimeData*			get_mimedata() const override;
 
-protected:
-	void skin_changed() override;
 
 private:
 	void keyPressEvent(QKeyEvent* event) override;
@@ -75,10 +73,12 @@ private:
 	void mouseMoveEvent(QMouseEvent *event) override;
 	void init_context_menu();
 
+protected:
+	// SayonaraSelectionView
+	int index_by_model_index(const QModelIndex& idx) const override;
+	QModelIndex model_index_by_index(int idx) const override;
 
-public:
-	int get_index_by_model_index(const QModelIndex& idx) const override;
-	QModelIndex get_model_index_by_index(int idx) const override;
+	void skin_changed() override;
 };
 
 #endif // DIRECTORYTREEVIEW_H

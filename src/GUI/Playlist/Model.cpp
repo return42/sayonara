@@ -212,11 +212,6 @@ const static QChar artist_search_prefix=('$');
 const static QChar jump_prefix=(':');
 
 
-bool PlaylistItemModel::has_items() const
-{
-	return (rowCount() > 0);
-}
-
 QModelIndex PlaylistItemModel::getPrevRowIndexOf(const QString& substr, int row, const QModelIndex &parent)
 {
 	Q_UNUSED(parent)

@@ -46,40 +46,40 @@ using namespace Library;
 struct AlbumModel::Private
 {
 	QPixmap		pm_single;
-    QPixmap		pm_multi;
+	QPixmap		pm_multi;
 
-    Private() :
+	Private() :
 		pm_single(Gui::Util::pixmap("cd.png", QSize(14, 14))),
 		pm_multi(Gui::Util::pixmap("cds.png", QSize(16, 16)))
-    {}
+	{}
 };
 
 AlbumModel::AlbumModel(QObject* parent, AbstractLibrary* library) :
-    ItemModel(parent, library)
+	ItemModel(parent, library)
 {
 	m = Pimpl::make<AlbumModel::Private>();
 }
 
 AlbumModel::~AlbumModel() {}
 
-int AlbumModel::id_by_index(int row)
+int AlbumModel::id_by_row(int row)
 {
-    const AlbumList& albums = library()->albums();
+	const AlbumList& albums = library()->albums();
 
-    if(row < 0 || row >= albums.count()){
+	if(row < 0 || row >= albums.count()){
 		return -1;
 	}
 
 	else {
-        return albums[row].id;
+		return albums[row].id;
 	}
 }
 
-QString AlbumModel::get_string(int row) const
+QString AlbumModel::searchable_string(int row) const
 {
-    const AlbumList& albums = library()->albums();
+	const AlbumList& albums = library()->albums();
 
-    if(row < 0 || row >= albums.count()){
+	if(row < 0 || row >= albums.count()){
 		return QString();
 	}
 
@@ -92,36 +92,36 @@ QString AlbumModel::get_string(int row) const
 Cover::Location AlbumModel::cover(const IndexSet& indexes) const
 {
 	if(indexes.isEmpty() || indexes.size() > 1){
-        return Cover::Location();
+		return Cover::Location();
 	}
 
 	int idx = indexes.first();
-    const AlbumList& albums = library()->albums();
-    if(idx < 0 || idx > albums.count()){
-        return Cover::Location();
+	const AlbumList& albums = library()->albums();
+	if(idx < 0 || idx > albums.count()){
+		return Cover::Location();
 	}
 
-    const Album& album = albums[idx];
+	const Album& album = albums[idx];
 
-    return Cover::Location::cover_location(album);
+	return Cover::Location::cover_location(album);
 }
 
 
 QVariant AlbumModel::data(const QModelIndex& index, int role) const
 {
-    if (!index.isValid()) {
+	if (!index.isValid()) {
 		return QVariant();
-    }
+	}
 
-    const AlbumList& albums = library()->albums();
-    if (index.row() >= albums.count())
+	const AlbumList& albums = library()->albums();
+	if (index.row() >= albums.count())
 		return QVariant();
 
 	int row = index.row();
 	int column = index.column();
 	ColumnIndex::Album col = (ColumnIndex::Album) column;
 
-    const Album& album = albums[row];
+	const Album& album = albums[row];
 
 	if(role == Qt::TextAlignmentRole )
 	{
@@ -162,8 +162,8 @@ QVariant AlbumModel::data(const QModelIndex& index, int role) const
 	{
 		switch(col) {
 			case ColumnIndex::Album::NumSongs:
-                return  QString::number(album.num_songs) + " " +
-                        Lang::get(Lang::Tracks).toLower();
+				return  QString::number(album.num_songs) + " " +
+						Lang::get(Lang::Tracks).toLower();
 
 			case ColumnIndex::Album::Year:
 				if(album.year == 0){
@@ -173,8 +173,8 @@ QVariant AlbumModel::data(const QModelIndex& index, int role) const
 
 			case ColumnIndex::Album::Name:
 				if(album.name().trimmed().isEmpty()){
-                    return Lang::get(Lang::None);
-                }
+					return Lang::get(Lang::None);
+				}
 				return album.name();
 
 			case ColumnIndex::Album::Duration:
@@ -192,30 +192,30 @@ QVariant AlbumModel::data(const QModelIndex& index, int role) const
 
 bool AlbumModel::setData(const QModelIndex & index, const QVariant & value, int role)
 {
-    if(!index.isValid()){
-        return false;
-    }
+	if(!index.isValid()){
+		return false;
+	}
 
-    if (role == Qt::EditRole || role == Qt::DisplayRole)
-    {
-        int row = index.row();
-        int col = index.column();
+	if (role == Qt::EditRole || role == Qt::DisplayRole)
+	{
+		int row = index.row();
+		int col = index.column();
 
-        if(col == (int) ColumnIndex::Album::Rating)
-        {
-            library()->change_album_rating(row, value.toInt());
-            emit dataChanged(index, this->index(row, columnCount() - 1));
+		if(col == (int) ColumnIndex::Album::Rating)
+		{
+			library()->change_album_rating(row, value.toInt());
+			emit dataChanged(index, this->index(row, columnCount() - 1));
 
-            return true;
-        }
-    }
+			return true;
+		}
+	}
 
-    return false;
+	return false;
 }
 
 int AlbumModel::rowCount(const QModelIndex&) const
 {
-    return library()->albums().count();
+	return library()->albums().count();
 }
 
 
@@ -235,13 +235,19 @@ Qt::ItemFlags AlbumModel::flags(const QModelIndex & index) const
 }
 
 
-int AlbumModel::get_searchable_column() const
+int AlbumModel::searchable_column() const
 {
-    return (int) ColumnIndex::Album::Name;
+	return (int) ColumnIndex::Album::Name;
 }
 
 
 const IndexSet& AlbumModel::selections() const
 {
-    return library()->selected_albums();
+	return library()->selected_albums();
+}
+
+
+const MetaDataList& Library::AlbumModel::mimedata_tracks() const
+{
+	return library()->tracks();
 }

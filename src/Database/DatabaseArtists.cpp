@@ -214,7 +214,7 @@ bool Artists::getAllArtistsBySearchString(const Library::Filter& filter, ArtistL
 			break;
 
 		case Library::Filter::Filename:
-			search_field = "filename";
+			search_field = "filecissearch";
 			break;
 
 		case Library::Filter::Fulltext:

@@ -43,7 +43,7 @@
 using namespace Library;
 
 TrackModel::TrackModel(QObject* parent, AbstractLibrary* library) :
-    ItemModel(parent, library)
+	ItemModel(parent, library)
 {}
 
 TrackModel::~TrackModel() {}
@@ -57,9 +57,9 @@ QVariant TrackModel::data(const QModelIndex &index, int role) const
 		return QVariant();
 	}
 
-    const MetaDataList& tracks = library()->tracks();
+	const MetaDataList& tracks = library()->tracks();
 
-    if (row >= tracks.count()) {
+	if (row >= tracks.count()) {
 		return QVariant();
 	}
 
@@ -87,7 +87,7 @@ QVariant TrackModel::data(const QModelIndex &index, int role) const
 
 	else if (role == Qt::DisplayRole || role==Qt::EditRole)
 	{
-        const MetaData& md = tracks[row];
+		const MetaData& md = tracks[row];
 
 		switch(idx_col)
 		{
@@ -110,7 +110,7 @@ QVariant TrackModel::data(const QModelIndex &index, int role) const
 				if(md.year == 0){
 					return Lang::get(Lang::None);
 				}
-				
+
 				return md.year;
 
 			case ColumnIndex::Track::Bitrate:
@@ -148,93 +148,99 @@ Qt::ItemFlags TrackModel::flags(const QModelIndex &index = QModelIndex()) const
 	return QAbstractItemModel::flags(index);
 }
 
-bool TrackModel::setData(const QModelIndex &index, const QVariant &value, int role) 
+bool TrackModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
 	if(!index.isValid()){
 		return false;
 	}
 
-    if (role == Qt::DisplayRole || role == Qt::EditRole)
-    {
+	if (role == Qt::DisplayRole || role == Qt::EditRole)
+	{
 		int row = index.row();
 		int col = index.column();
 
-        if(col == (int) ColumnIndex::Track::Rating)
-        {
-            library()->change_track_rating(row, value.toInt());
-            emit dataChanged(index, this->index(row, columnCount() - 1));
-            return true;
+		if(col == (int) ColumnIndex::Track::Rating)
+		{
+			library()->change_track_rating(row, value.toInt());
+			emit dataChanged(index, this->index(row, columnCount() - 1));
+			return true;
 		}
 	}
 
-    return false;
+	return false;
 }
 
 int TrackModel::rowCount(const QModelIndex&) const
 {
-    return library()->tracks().count();
+	return library()->tracks().count();
 }
 
 
-int TrackModel::id_by_index(int row)
+int TrackModel::id_by_row(int row)
 {
-    const MetaDataList& tracks = library()->tracks();
+	const MetaDataList& tracks = library()->tracks();
 
-    if(!between(row, tracks)){
+	if(!between(row, tracks)){
 		return -1;
 	}
 
 	else {
-        return tracks[row].id;
+		return tracks[row].id;
 	}
 }
 
-QString TrackModel::get_string(int row) const
+QString TrackModel::searchable_string(int row) const
 {
-    const MetaDataList& tracks = library()->tracks();
+	const MetaDataList& tracks = library()->tracks();
 
-    if(!between(row, tracks)){
-        return QString();
-    }
+	if(!between(row, tracks)){
+		return QString();
+	}
 
-    else {
-        return tracks[row].title;
-    }
+	else {
+		return tracks[row].title;
+	}
 }
 
 
 Cover::Location TrackModel::cover(const IndexSet& indexes) const
 {
 	if(indexes.isEmpty()){
-        return Cover::Location();
+		return Cover::Location();
 	}
 
-    const MetaDataList& tracks = library()->tracks();
-    SP::Set<AlbumID> album_ids;
+	const MetaDataList& tracks = library()->tracks();
+	SP::Set<AlbumID> album_ids;
 
-    for(int idx : indexes)
-    {
-        if(!between(idx, tracks)){
-            continue;
-        }
+	for(int idx : indexes)
+	{
+		if(!between(idx, tracks)){
+			continue;
+		}
 
-        album_ids.insert( tracks[idx].album_id );
-        if(album_ids.size() > 1) {
-            return Cover::Location();
+		album_ids.insert( tracks[idx].album_id );
+		if(album_ids.size() > 1) {
+			return Cover::Location();
 		}
 	}
 
-    return Cover::Location::cover_location( tracks.first() );
+	return Cover::Location::cover_location( tracks.first() );
 }
 
 
-int TrackModel::get_searchable_column() const
+int TrackModel::searchable_column() const
 {
-    return (int) ColumnIndex::Track::Title;
+	return (int) ColumnIndex::Track::Title;
 }
 
 
 const IndexSet& TrackModel::selections() const
 {
-    return library()->selected_tracks();
+	return library()->selected_tracks();
+}
+
+
+const MetaDataList& Library::TrackModel::mimedata_tracks() const
+{
+	return library()->current_tracks();
 }

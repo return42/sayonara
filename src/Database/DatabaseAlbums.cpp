@@ -269,7 +269,7 @@ bool Albums::getAllAlbumsByArtist(IDList artists, AlbumList& result, const Libra
 				break;
 
 			case Library::Filter::Filename:
-				query += "WHERE filename LIKE :searchterm AND ";			// track title is like filter
+				query += "WHERE filecissearch LIKE :searchterm AND ";			// track title is like filter
 
 				break;
 
@@ -346,7 +346,7 @@ bool Albums::getAllAlbumsBySearchString(const Library::Filter& filter, AlbumList
 			break;
 
 		case Library::Filter::Filename:
-			search_field = "filename";
+			search_field = "filecissearch";
 			break;
 
 		case Library::Filter::Fulltext:

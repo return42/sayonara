@@ -38,11 +38,10 @@ class SearchableFileTreeModel :
 	PIMPL(SearchableFileTreeModel)
 
 public:
-    explicit SearchableFileTreeModel(QObject* parent=nullptr);
-    virtual ~SearchableFileTreeModel();
+	explicit SearchableFileTreeModel(QObject* parent=nullptr);
+	virtual ~SearchableFileTreeModel();
 
 public:
-    bool has_items() const override;
 	virtual QModelIndex getFirstRowIndexOf(const QString& substr) override;
 	virtual QModelIndex getNextRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent=QModelIndex()) override;
 	virtual QModelIndex getPrevRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent=QModelIndex()) override;

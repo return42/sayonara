@@ -34,38 +34,41 @@
 class SearchModelFunctionality
 {
 public:
-    virtual QModelIndex getFirstRowIndexOf(const QString& substr);
+	virtual QModelIndex getFirstRowIndexOf(const QString& substr);
 	virtual QModelIndex getNextRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent=QModelIndex())=0;
 	virtual QModelIndex getPrevRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent=QModelIndex())=0;
 	virtual QMap<QChar, QString> getExtraTriggers()=0;
 	virtual int getNumberResults(const QString& str);
-    virtual bool has_items() const=0;
-	
-	virtual void set_search_mode(::Library::SearchModeMask search_mode);
+	virtual bool has_items() const=0;
+
 	virtual ::Library::SearchModeMask search_mode() const final;
 
 protected:
 	SearchModelFunctionality();
 	virtual ~SearchModelFunctionality();
-
-private:
-	::Library::SearchModeMask _search_mode;
 };
 
 
-template <typename AbstractModel> 
-class SearchModelInterface : 
+template <typename AbstractModel>
+class SearchModelInterface :
 	public SearchModelFunctionality,
 	public AbstractModel
 {
 	public:
 
-	SearchModelInterface(QObject* parent=nullptr) : 
+	SearchModelInterface(QObject* parent=nullptr) :
 		SearchModelFunctionality(),
 		AbstractModel(parent)
 	{}
 
 	virtual ~SearchModelInterface() {}
+
+	using AbstractModel::rowCount;
+
+	virtual bool has_items() const override
+	{
+		return (rowCount() > 0);
+	}
 };
 
 using AbstractSearchTableModel=SearchModelInterface<QAbstractTableModel>;

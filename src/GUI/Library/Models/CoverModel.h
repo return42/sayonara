@@ -60,20 +60,20 @@ namespace Library
 			QSize			item_size() const;
 			const IndexSet&	selections() const override;
 
-
-			bool			has_items() const override;
 			QModelIndex		getNextRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent=QModelIndex()) override;
 			QModelIndex		getPrevRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent=QModelIndex()) override;
-			QMap<QChar, QString> getExtraTriggers() override;
 
-			int				get_searchable_column() const override;
-			QString			get_string(int idx) const override;
-			int				id_by_index(int idx) override;
+			int				searchable_column() const override;
+			QString			searchable_string(int idx) const override;
+			int				id_by_row(int idx) override;
 			Cover::Location	cover(const IndexSet& indexes) const override;
 
 
 			int				zoom() const;
 			void			set_max_columns(int columns);
+
+		protected:
+			const MetaDataList &mimedata_tracks() const override;
 
 		public slots:
 			void            set_zoom(int zoom, const QSize& view_size);
@@ -81,6 +81,9 @@ namespace Library
 
 		private slots:
 			void            next_hash();
+
+
+
 	};
 }
 

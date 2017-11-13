@@ -20,14 +20,17 @@
 
 #include "FileListView.h"
 #include "FileListModel.h"
-#include "GUI/Utils/ContextMenu/LibraryContextMenu.h"
-
-#include "Components/DirectoryReader/DirectoryReader.h"
 #include "DirectoryIconProvider.h"
 #include "DirectoryDelegate.h"
+
+#include "Components/DirectoryReader/DirectoryReader.h"
+
 #include "Utils/globals.h"
 #include "Utils/MetaData/MetaDataList.h"
 #include "Utils/Settings/Settings.h"
+#include "Utils/Library/SearchMode.h"
+
+#include "GUI/Utils/ContextMenu/LibraryContextMenu.h"
 
 #include <QDrag>
 #include <QDragEnterEvent>
@@ -43,7 +46,7 @@ struct FileListView::Private
 };
 
 FileListView::FileListView(QWidget* parent) :
-	SearchableListView(parent),
+	Gui::WidgetTemplate<SearchableListView>(parent),
 	Dragable(this)
 {
 	m = Pimpl::make<Private>();
@@ -153,12 +156,40 @@ QStringList FileListView::get_selected_paths() const
 }
 
 
-void FileListView::set_parent_directory(const QString& dir)
+void FileListView::set_parent_directory(const QString& dir, const QString& search_string)
 {
+	this->selectionModel()->clear();
+
 	m->model->set_parent_directory(dir);
+
+	if(search_string.isEmpty()){
+		return;
+	}
+
+	Library::SearchModeMask smm = _settings->get(Set::Lib_SearchMode);
+	QString search_text = Library::Util::convert_search_string(search_string, smm);
+
+	int n_rows = m->model->rowCount();
+	for(int i=0; i<n_rows; i++)
+	{
+		QModelIndex idx = m->model->index(i, 0);
+		QString data = m->model->data(idx).toString();
+		if(data.isEmpty()){
+			continue;
+		}
+
+		if(!idx.isValid()){
+			continue;
+		}
+
+		data = Library::Util::convert_search_string(data, smm);
+		if(data.contains(search_text, Qt::CaseInsensitive)){
+			this->selectionModel()->select(idx, (QItemSelectionModel::Select | QItemSelectionModel::Rows));
+		}
+	}
 }
 
-QMimeData*FileListView::get_mimedata() const
+QMimeData* FileListView::get_mimedata() const
 {
 	QItemSelectionModel* sel_model = this->selectionModel();
 	if(sel_model)
@@ -170,12 +201,12 @@ QMimeData*FileListView::get_mimedata() const
 }
 
 
-int FileListView::get_index_by_model_index(const QModelIndex& idx) const
+int FileListView::index_by_model_index(const QModelIndex& idx) const
 {
 	return idx.row();
 }
 
-QModelIndex FileListView::get_model_index_by_index(int idx) const
+QModelIndex FileListView::model_index_by_index(int idx) const
 {
 	return m->model->index(idx);
 }
