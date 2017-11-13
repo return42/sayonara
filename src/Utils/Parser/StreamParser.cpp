@@ -69,7 +69,7 @@ struct StreamParser::Private
 	}
 };
 
-StreamParser::StreamParser(const QString& station_name, QObject* parent) : 
+StreamParser::StreamParser(const QString& station_name, QObject* parent) :
 	QObject(parent)
 {
 	m = Pimpl::make<Private>();
@@ -319,15 +319,15 @@ void StreamParser::tag_metadata(MetaData &md, const QString& stream_url, const Q
 {
 	if(m->station_name.isEmpty()) {
 		md.set_album(stream_url);
-		if(md.title.isEmpty()){
-			md.title = Lang::get(Lang::Radio);
+		if(md.title().isEmpty()){
+			md.set_title(Lang::get(Lang::Radio));
 		}
 	}
 
 	else {
 		md.set_album(m->station_name);
-		if(md.title.isEmpty()){
-			md.title = m->station_name;
+		if(md.title().isEmpty()){
+			md.set_title(m->station_name);
 		}
 	}
 

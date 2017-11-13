@@ -46,7 +46,7 @@ GUI_Covers::~GUI_Covers()
 	}
 }
 
-void GUI_Covers::commit()
+bool GUI_Covers::commit()
 {
 	Settings* settings = Settings::instance();
 	QStringList active_items;

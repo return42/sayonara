@@ -73,7 +73,7 @@ void ASXParser::parse()
 			}
 
 			else if(!node_name.compare("title")) {
-				md.title = e.text();
+				md.set_title(e.text());
 			}
 
 			else if(!node_name.compare("album")) {

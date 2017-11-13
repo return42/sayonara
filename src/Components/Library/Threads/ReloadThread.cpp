@@ -96,7 +96,7 @@ bool compare_md(const MetaData& md1, const MetaData& md2)
 		}
 	}
 
-	return (md1.title == md2.title &&
+	return (md1.title() == md2.title() &&
 			md1.album() == md2.album() &&
 			md1.artist() == md2.artist() &&
 			md1.year == md2.year &&

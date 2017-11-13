@@ -46,30 +46,33 @@ class GUI_PreferenceDialog :
 	UI_CLASS(GUI_PreferenceDialog)
 	PIMPL(GUI_PreferenceDialog)
 
-public:
-	explicit GUI_PreferenceDialog(QWidget* parent=nullptr);
-	~GUI_PreferenceDialog();
+	signals:
+		void sig_error(const QString& error_message);
 
-	QString action_name() const override;
-	QAction* action() override;
+	public:
+		explicit GUI_PreferenceDialog(QWidget* parent=nullptr);
+		~GUI_PreferenceDialog();
 
-	void register_preference_dialog(Preferences::Base* dialog) override;
-	void show_preference_dialog(const QString& identifier) override;
+		QString action_name() const override;
+		QAction* action() override;
 
-protected slots:
-	void commit_and_close();
-	void row_changed(int row);
+		void register_preference_dialog(Preferences::Base* dialog) override;
+		void show_preference_dialog(const QString& identifier) override;
 
-protected:
-	void init_ui();
-	void language_changed() override;
-	void showEvent(QShowEvent *e) override;
+	protected slots:
+		void commit_and_close();
+		void row_changed(int row);
 
-	void hide_all();
+	protected:
+		void init_ui();
+		void language_changed() override;
+		void showEvent(QShowEvent *e) override;
 
-private:
-	void commit();
-	void revert();
+		void hide_all();
+
+	private:
+		bool commit();
+		void revert();
 };
 
 #endif // GUI_PreferenceDialog_H

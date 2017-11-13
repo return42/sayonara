@@ -81,7 +81,7 @@ struct CoverView::Private
 	{
 		blocked = false;
 		buffer_timer = new QTimer();
-		buffer_timer->setInterval(100);
+		buffer_timer->setInterval(10);
 		buffer_timer->setSingleShot(true);
 
 		zoom_actions << "50" << "75" << "100"
@@ -187,6 +187,10 @@ void CoverView::change_zoom(int zoom)
 {
 	bool force_reload = (zoom < 0);
 
+	if(m->model->rowCount() == 0){
+		return;
+	}
+
 	if(force_reload){
 		zoom = m->model->zoom();
 	}
@@ -229,6 +233,10 @@ void CoverView::change_zoom(int zoom)
 
 void CoverView::refresh()
 {
+	if(m->model->rowCount() == 0){
+		return;
+	}
+
 	m->buffer_timer->start();
 }
 

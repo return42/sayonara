@@ -182,7 +182,7 @@ bool Tracks::db_fetch_tracks(Query& q, MetaDataList& result)
 		MetaData data;
 
 		data.id = 		 	q.value(0).toInt();
-		data.title = 	 	q.value(1).toString();
+		data.set_title(q.value(1).toString());
 		data.length_ms = 	q.value(2).toInt();
 		data.year = 	 	q.value(3).toInt();
 		data.bitrate = 	 	q.value(4).toInt();
@@ -666,7 +666,7 @@ void Tracks::updateTrackCissearch()
 		QString querystring = "UPDATE tracks SET cissearch=:cissearch, filecissearch=:filecissearch WHERE trackID=:id;";
 		Query q(this);
 		q.prepare(querystring);
-		q.bindValue(":cissearch", ::Library::Util::convert_search_string(md.title, search_mode()));
+		q.bindValue(":cissearch", ::Library::Util::convert_search_string(md.title(), search_mode()));
 		q.bindValue(":filecissearch", ::Library::Util::convert_search_string(md.filepath(), search_mode()));
 		q.bindValue(":id", md.id);
 
@@ -708,7 +708,7 @@ bool Tracks::updateTrack(const MetaData& md)
 
 	Query q(this);
 
-	QString cissearch = ::Library::Util::convert_search_string(md.title, search_mode());
+	QString cissearch = ::Library::Util::convert_search_string(md.title(), search_mode());
 	QString file_cissearch = ::Library::Util::convert_search_string(md.filepath(), search_mode());
 
 	q.prepare("UPDATE tracks "
@@ -730,13 +730,13 @@ bool Tracks::updateTrack(const MetaData& md)
 			  "rating=:rating, "
 			  "modifydate=:modifydate, "
 			  "libraryID=:libraryID "
-			  
+
 			  "WHERE TrackID = :trackID;");
 
 	q.bindValue(":albumID",			md.album_id);
 	q.bindValue(":artistID",		md.artist_id);
 	q.bindValue(":albumArtistID",	md.album_artist_id());
-	q.bindValue(":title",			md.title);
+	q.bindValue(":title",			md.title());
 	q.bindValue(":track",			md.track_num);
 	q.bindValue(":length",			(uint32_t) md.length_ms);
 	q.bindValue(":bitrate",			md.bitrate);
@@ -794,7 +794,7 @@ bool Tracks::insertTrackIntoDatabase(const MetaData& md, int artist_id, int albu
 		return updateTrack(track_copy);
 	}
 
-	QString cissearch = ::Library::Util::convert_search_string(md.title, search_mode());
+	QString cissearch = ::Library::Util::convert_search_string(md.title(), search_mode());
 	QString file_cissearch = ::Library::Util::convert_search_string(md.filepath(), search_mode());
 	QString querytext =
 			"INSERT INTO tracks "
@@ -809,7 +809,7 @@ bool Tracks::insertTrackIntoDatabase(const MetaData& md, int artist_id, int albu
 	q.bindValue(":albumID",			album_id);
 	q.bindValue(":artistID",		artist_id);
 	q.bindValue(":albumArtistID",	album_artist_id);
-	q.bindValue(":title",			md.title);
+	q.bindValue(":title",			md.title());
 	q.bindValue(":year",			md.year);
 	q.bindValue(":length",			(quint64) md.length_ms);
 	q.bindValue(":track",			md.track_num);

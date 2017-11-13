@@ -256,7 +256,7 @@ void Base::scrobble(const MetaData& md)
 	started = mktime(ptm);
 
 	QString artist = md.artist();
-	QString title = md.title;
+	QString title = md.title();
 
 	UrlParams sig_data;
 	sig_data["api_key"] = LFM_API_KEY;

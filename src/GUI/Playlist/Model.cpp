@@ -282,7 +282,7 @@ QModelIndex PlaylistItemModel::getPrevRowIndexOf(const QString& substr, int row,
 		{
 			if(row - i < 0) row = len - 1;
 			int row_idx = (row - i) % len;
-			QString title = m->pl->metadata(row_idx).title;
+			QString title = m->pl->metadata(row_idx).title();
 			title = Library::Util::convert_search_string(title, search_mode());
 
 			if(title.contains(converted_string))
@@ -369,7 +369,7 @@ QModelIndex PlaylistItemModel::getNextRowIndexOf(const QString& substr, int row,
 		{
 			int row_idx = (i + row) % len;
 
-			QString title = m->pl->metadata(row_idx).title;
+			QString title = m->pl->metadata(row_idx).title();
 			title = Library::Util::convert_search_string(title, search_mode());
 
 			if(title.contains(converted_string))

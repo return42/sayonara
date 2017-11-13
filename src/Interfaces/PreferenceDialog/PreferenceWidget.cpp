@@ -104,3 +104,8 @@ QAction *Base::action()
 	m->action->setText(name + "...");
 	return m->action;
 }
+
+QString Base::error_string() const
+{
+	return QString();
+}

@@ -45,7 +45,7 @@ protected:
 
 public:
 	QString action_name() const override;
-	void commit() override;
+	bool commit() override;
 	void revert() override;
 
 private slots:

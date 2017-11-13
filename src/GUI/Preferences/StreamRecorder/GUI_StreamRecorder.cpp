@@ -42,9 +42,16 @@
 
 namespace SR=StreamRecorder;
 
+struct GUI_StreamRecorder::Private
+{
+	QString error_string;
+};
+
 GUI_StreamRecorder::GUI_StreamRecorder(const QString& identifier) :
 	Base(identifier)
-{}
+{
+	m = Pimpl::make<Private>();
+}
 
 GUI_StreamRecorder::~GUI_StreamRecorder()
 {
@@ -122,6 +129,12 @@ void GUI_StreamRecorder::retranslate_ui()
 	ui->btn_default->setText(Lang::get(Lang::Default));
 }
 
+QString GUI_StreamRecorder::error_string() const
+{
+	return m->error_string;
+}
+
+
 void GUI_StreamRecorder::sl_cb_activate_toggled(bool b)
 {
 	ui->le_path->setEnabled(b);
@@ -155,7 +168,7 @@ void GUI_StreamRecorder::sl_line_edit_changed(const QString& new_text)
 	QString template_text = ui->le_template->text();
 
 	MetaData md;
-	md.title = "Happy Song";
+	md.set_title("Happy Song");
 	md.set_artist("Al White");
 	md.set_album("Rock Radio");
 	md.track_num = 1;
@@ -187,31 +200,42 @@ void GUI_StreamRecorder::sl_line_edit_changed(const QString& new_text)
 	}
 }
 
-void GUI_StreamRecorder::commit()
+bool GUI_StreamRecorder::commit()
 {
-	_settings->set(Set::Engine_SR_Active, ui->cb_activate->isChecked());
+	bool has_error = false;
 
-	if(!ui->le_path->isEnabled()){
-		return;
-	}
+	bool active = ui->cb_activate->isChecked();
+	QString path = ui->le_path->text();
 
-	QString str = ui->le_path->text();
-	if(!QFile::exists(str))
+	if(active)
 	{
-		bool create_success = QDir::root().mkpath(str);
-		if(!create_success)
+		if(!QFile::exists(path))
 		{
-			QString sr_path = _settings->get(Set::Engine_SR_Path);
-			ui->le_path->setText(sr_path);
+			bool create_success = QDir::root().mkpath(path);
+			if(!create_success)
+			{
+				m->error_string = path + tr(" could not be created\nPlease choose another folder");
+				has_error = true;
+			}
 
-			Message::warning(str + tr(" could not be created\nPlease choose another folder"), tr("Stream recorder"));
+		}
+
+		int invalid_idx;
+		SR::Utils::ErrorCode err = SR::Utils::validate_template(ui->le_template->text().trimmed(), &invalid_idx);
+		if(err != SR::Utils::ErrorCode::OK)
+		{
+			m->error_string += tr("Template path is not valid") + "\n" + SR::Utils::parse_error_code(err);
+			has_error = true;
 		}
 	}
 
-	_settings->set(Set::Engine_SR_Path, str);
+	_settings->set(Set::Engine_SR_Active, ui->cb_activate->isChecked());
+	_settings->set(Set::Engine_SR_Path, path);
 	_settings->set(Set::Engine_SR_AutoRecord, ui->cb_auto_rec->isChecked());
 	_settings->set(Set::Engine_SR_SessionPath, ui->cb_create_session_path->isChecked());
 	_settings->set(Set::Engine_SR_SessionPathTemplate, ui->le_template->text().trimmed());
+
+	return has_error;
 }
 
 void GUI_StreamRecorder::revert()
@@ -245,12 +269,10 @@ void GUI_StreamRecorder::revert()
 	}
 }
 
-
 QString GUI_StreamRecorder::action_name() const
 {
 	return tr("Stream recorder");
 }
-
 
 struct TagButton::Private
 {

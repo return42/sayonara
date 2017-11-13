@@ -32,7 +32,7 @@
 
 struct StreamWriter::Private
 {
-    Engine::Handler*    engine=nullptr;
+	Engine::Handler*    engine=nullptr;
 	StreamHttpParser*	parser=nullptr;
 	StreamDataSender*	sender=nullptr;
 	QTcpSocket*			socket=nullptr;
@@ -56,11 +56,11 @@ StreamWriter::StreamWriter(QTcpSocket* socket, const QString& ip, const MetaData
 	m->parser = new StreamHttpParser();
 	m->ip = ip;
 
-    m->engine = Engine::Handler::instance();
+	m->engine = Engine::Handler::instance();
 	m->send_data = false;
 	m->dismissed = false;
 
-	m->stream_title = md.title + " by " + md.artist();
+	m->stream_title = md.title() + " by " + md.artist();
 	m->socket = socket;
 
 	m->type = StreamWriter::Type::Undefined;
@@ -154,7 +154,7 @@ bool StreamWriter::send_header(bool reject){
 
 
 void StreamWriter::change_track(const MetaData& md){
-	m->stream_title = md.title + " by " + md.artist();
+	m->stream_title = md.title() + " by " + md.artist();
 }
 
 void StreamWriter::dismiss()
@@ -167,7 +167,7 @@ void StreamWriter::dismiss()
 void StreamWriter::disconnect()
 {
 	dismiss();
-	
+
 	m->socket->disconnectFromHost();
 }
 

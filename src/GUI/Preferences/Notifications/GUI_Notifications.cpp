@@ -56,7 +56,7 @@ void GUI_Notifications::notifications_changed()
 
 
 
-void GUI_Notifications::commit()
+bool GUI_Notifications::commit()
 {
 	NotificationHandler* nh = NotificationHandler::instance();
 
@@ -69,6 +69,8 @@ void GUI_Notifications::commit()
 	_settings->set(Set::Notification_Show, active);
 
 	nh->notificator_changed(cur_text);
+
+	return true;
 }
 
 void GUI_Notifications::revert()

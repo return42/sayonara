@@ -169,7 +169,7 @@ void MetaDataInfo::calc_header(const MetaDataList& lst)
 {
 	if(lst.size() == 1){
 		const MetaData& md = lst[0];
-		_header = md.title;
+		_header = md.title();
 	}
 
 	else{

@@ -23,10 +23,12 @@
 #include "GUI/Preferences/ui_GUI_Shortcuts.h"
 #include "GUI/Utils/Shortcuts/ShortcutHandler.h"
 #include "Utils/Language.h"
+#include "Utils/Set.h"
 
 #include <QLineEdit>
 #include <QPushButton>
 #include <QTimer>
+#include <QStringList>
 
 #define ADD_TO_MAP(x) _btn_le_map[btn_##x] = le_##x
 
@@ -34,6 +36,7 @@ struct GUI_Shortcuts::Private
 {
 	ShortcutHandler*			sch = nullptr;
 	QList<GUI_ShortcutEntry*>	entries;
+	QStringList					error_strings;
 
 	Private()
 	{
@@ -99,11 +102,28 @@ QString GUI_Shortcuts::action_name() const
 }
 
 
-void GUI_Shortcuts::commit()
+bool GUI_Shortcuts::commit()
 {
-	for(GUI_ShortcutEntry* entry : m->entries){
+	m->error_strings.clear();
+
+	SP::Set<QKeySequence> sequences;
+	for(GUI_ShortcutEntry* entry : m->entries)
+	{
+		QList<QKeySequence> lst = entry->get_sequences();
+		for(const QKeySequence& s : lst)
+		{
+			if(sequences.contains(s.toString()))
+			{
+				m->error_strings << s.toString();
+			}
+
+			sequences.insert(s.toString());
+		}
+
 		entry->commit();
 	}
+
+	return m->error_strings.isEmpty();
 }
 
 
@@ -159,5 +179,10 @@ void GUI_Shortcuts::sequence_entered()
 void GUI_Shortcuts::retranslate_ui()
 {
 	ui->retranslateUi(this);
+}
+
+QString GUI_Shortcuts::error_string() const
+{
+	return tr("Double shortcuts found") + ":" + m->error_strings.join("\n");
 }
 

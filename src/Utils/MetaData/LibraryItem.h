@@ -26,7 +26,7 @@
 #include <vector>
 #include <QHash>
 
-using HashValue=uint;
+using HashValue=uint32_t;
 class QString;
 
 
@@ -62,7 +62,7 @@ using CustomFieldList=std::vector<CustomField>;
  * @brief The LibraryItem class
  * @ingroup MetaDataHelper
  */
-class LibraryItem 
+class LibraryItem
 {
 	PIMPL(LibraryItem)
 
@@ -79,7 +79,7 @@ public:
 	void add_custom_field(const CustomField& field);
 	void add_custom_field(const QString& id, const QString& display_name, const QString& value);
 
-    const CustomFieldList& get_custom_fields() const;
+	const CustomFieldList& get_custom_fields() const;
 	QString get_custom_field(const QString& id) const;
 	QString get_custom_field(int idx) const;
 
@@ -92,8 +92,8 @@ public:
 	virtual void print() const;
 
 protected:
-    static QHash<HashValue, QString>& album_pool();
-    static QHash<HashValue, QString>& artist_pool();
+	static QHash<HashValue, QString>& album_pool();
+	static QHash<HashValue, QString>& artist_pool();
 };
 
 

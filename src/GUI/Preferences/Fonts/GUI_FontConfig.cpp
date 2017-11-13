@@ -137,7 +137,7 @@ void GUI_FontConfig::fill_sizes(const QStringList& sizes)
 }
 
 
-void GUI_FontConfig::commit()
+bool GUI_FontConfig::commit()
 {
 	bool ok;
 	int font_size;
@@ -164,6 +164,8 @@ void GUI_FontConfig::commit()
 	_settings->set(Set::Lib_FontBold, ui->cb_lib_bold->isChecked());
 
 	m->cur_font_size = font_size;
+
+	return true;
 }
 
 void GUI_FontConfig::revert()

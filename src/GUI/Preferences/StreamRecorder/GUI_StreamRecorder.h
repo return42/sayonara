@@ -52,13 +52,14 @@ class GUI_StreamRecorder :
 	public Preferences::Base
 {
 	Q_OBJECT
+	PIMPL(GUI_StreamRecorder)
 	UI_CLASS(GUI_StreamRecorder)
 
 	public:
 		explicit GUI_StreamRecorder(const QString& identifier);
 		~GUI_StreamRecorder();
 
-		void commit() override;
+		bool commit() override;
 		void revert() override;
 
 		QString action_name() const override;
@@ -66,7 +67,7 @@ class GUI_StreamRecorder :
 	protected:
 		void init_ui() override;
 		void retranslate_ui() override;
-
+		QString error_string() const override;
 
 	private slots:
 		void sl_cb_activate_toggled(bool);

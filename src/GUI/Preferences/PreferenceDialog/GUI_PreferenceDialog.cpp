@@ -25,6 +25,7 @@
 #include "Interfaces/PreferenceDialog/PreferenceWidget.h"
 #include "Interfaces/PreferenceDialog/PreferenceAction.h"
 #include "Utils/globals.h"
+#include "Utils/Message/GlobalMessage.h"
 
 #include <QLayout>
 
@@ -120,18 +121,29 @@ QAction* GUI_PreferenceDialog::action()
 
 void GUI_PreferenceDialog::commit_and_close()
 {
-	commit();
-	close();
+	if(commit()){
+		close();
+	}
 }
 
 
-void GUI_PreferenceDialog::commit()
+bool GUI_PreferenceDialog::commit()
 {
-	for(Base* iface : m->pref_widgets){
-		if(iface->is_ui_initialized()){
-			iface->commit();
+	bool success = true;
+	for(Base* iface : m->pref_widgets)
+	{
+		if(iface->is_ui_initialized())
+		{
+			if(!iface->commit())
+			{
+				QString error_string = iface->error_string();
+				GlobalMessage::warning(iface->action_name() + "\n\n" + error_string, iface->action_name());
+				success = false;
+			}
 		}
 	}
+
+	return success;
 }
 
 

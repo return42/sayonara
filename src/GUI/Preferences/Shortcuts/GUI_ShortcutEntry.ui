@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>646</width>
-    <height>34</height>
+    <height>35</height>
    </rect>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
@@ -31,20 +31,7 @@
     </widget>
    </item>
    <item>
-    <widget class="ShortcutLineEdit" name="le_entry">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="placeholderText">
-      <string>Enter shortcut...</string>
-     </property>
-     <property name="clearButtonEnabled">
-      <bool>true</bool>
-     </property>
-    </widget>
+    <widget class="ShortcutLineEdit" name="le_entry"/>
    </item>
    <item>
     <widget class="QPushButton" name="btn_edit">

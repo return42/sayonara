@@ -30,7 +30,7 @@ static MetaDataList create_v_md(int min, int max)
 	{
 		MetaData md;
 		md.id = i;
-		md.title = QString("title %1").arg(i);
+		md.set_title(QString("title %1").arg(i));
 		md.set_artist(QString("artist %1").arg(i));
 		md.set_album(QString("album %1").arg(i));
 

@@ -167,94 +167,6 @@ QFrame* GUI_LocalLibrary::header_frame() const
 }
 
 
-void GUI_LocalLibrary::showEvent(QShowEvent* e)
-{
-	GUI_AbstractLibrary::showEvent(e);
-
-	this->lv_album()->resizeRowsToContents();
-	this->lv_artist()->resizeRowsToContents();
-	this->lv_tracks()->resizeRowsToContents();
-
-	QByteArray artist_splitter_state, track_splitter_state, genre_splitter_state, date_splitter_state;
-
-	artist_splitter_state = _settings->get(Set::Lib_SplitterStateArtist);
-	track_splitter_state = _settings->get(Set::Lib_SplitterStateTrack);
-	genre_splitter_state = _settings->get(Set::Lib_SplitterStateGenre);
-	date_splitter_state = _settings->get(Set::Lib_SplitterStateDate);
-
-	if(!artist_splitter_state.isEmpty()){
-		ui->splitter_artist_album->restoreState(artist_splitter_state);
-	}
-
-	if(!track_splitter_state.isEmpty()){
-		ui->splitter_tracks->restoreState(track_splitter_state);
-	}
-
-	if(!genre_splitter_state.isEmpty()){
-		ui->splitter_genre->restoreState(genre_splitter_state);
-	}
-}
-
-
-Library::ReloadQuality GUI_LocalLibrary::show_quality_dialog()
-{
-	QStringList lst;
-	bool ok = false;
-
-	lst << tr("Check for changed files (fast)") + "\t";
-	lst << tr("Deep scan (slow)") + "\t";
-
-	QString str = QInputDialog::getItem(this,
-										"Sayonara",
-										tr("Select reload mode") + "\n",
-										lst,
-										0,
-										false,
-										&ok);
-
-	if(!ok){
-		return Library::ReloadQuality::Unknown;
-	}
-
-	if(str.isEmpty()){
-		return Library::ReloadQuality::Unknown;
-	}
-
-	if(str.compare(lst.first()) == 0){
-		return Library::ReloadQuality::Fast;
-	}
-
-	if(str.compare(lst[1]) == 0){
-		return Library::ReloadQuality::Accurate;
-	}
-
-	return Library::ReloadQuality::Unknown;
-}
-
-void GUI_LocalLibrary::switch_album_view()
-{
-	bool show_cover_view = _settings->get(Set::Lib_ShowAlbumCovers);
-
-	int idx = 0;
-	if(show_cover_view)
-	{
-		idx = 1;
-		if(!m->acv){
-			init_album_cover_view();
-		}
-	}
-
-	ui->sw_album_covers->setCurrentIndex( idx );
-
-	if(show_cover_view)
-	{
-		// reload albums
-		m->library->selected_artists_changed(IndexSet());
-		lib_albums_ready();
-	}
-}
-
-
 void GUI_LocalLibrary::language_changed()
 {
 	ui->retranslateUi(this);
@@ -351,6 +263,42 @@ void GUI_LocalLibrary::reload_library_requested(Library::ReloadQuality quality)
 
 	m->library->reload_library(false, quality);
 	ui->btn_reload_library->setVisible(false);
+}
+
+
+Library::ReloadQuality GUI_LocalLibrary::show_quality_dialog()
+{
+	QStringList lst;
+	bool ok = false;
+
+	lst << tr("Check for changed files (fast)") + "\t";
+	lst << tr("Deep scan (slow)") + "\t";
+
+	QString str = QInputDialog::getItem(this,
+										"Sayonara",
+										tr("Select reload mode") + "\n",
+										lst,
+										0,
+										false,
+										&ok);
+
+	if(!ok){
+		return Library::ReloadQuality::Unknown;
+	}
+
+	if(str.isEmpty()){
+		return Library::ReloadQuality::Unknown;
+	}
+
+	if(str.compare(lst.first()) == 0){
+		return Library::ReloadQuality::Fast;
+	}
+
+	if(str.compare(lst[1]) == 0){
+		return Library::ReloadQuality::Accurate;
+	}
+
+	return Library::ReloadQuality::Unknown;
 }
 
 void GUI_LocalLibrary::reload_finished()
@@ -553,15 +501,33 @@ void GUI_LocalLibrary::init_album_cover_view()
 }
 
 
+void GUI_LocalLibrary::switch_album_view()
+{
+	bool show_cover_view = _settings->get(Set::Lib_ShowAlbumCovers);
+
+	int idx = 0;
+	if(show_cover_view)
+	{
+		idx = 1;
+		if(!m->acv){
+			init_album_cover_view();
+		}
+
+		if(m->library->is_loaded() && (m->library->selected_artists().size() > 0))
+		{
+			m->library->selected_artists_changed(IndexSet());
+		}
+	}
+
+	ui->sw_album_covers->setCurrentIndex( idx );
+}
+
 void GUI_LocalLibrary::lib_albums_ready()
 {
 	GUI_AbstractLibrary::lib_albums_ready();
 
-	if(m->acv)
+	if(m->acv && m->acv->isVisible())
 	{
-		const AlbumList& albums = m->library->albums();
-
-		m->acm->set_data(albums);
 		m->acv->refresh();
 	}
 }
@@ -593,5 +559,36 @@ QList<Library::Filter::Mode> GUI_LocalLibrary::search_options() const
 		::Library::Filter::Filename,
 		::Library::Filter::Genre
 	};
+}
+
+
+
+
+void GUI_LocalLibrary::showEvent(QShowEvent* e)
+{
+	GUI_AbstractLibrary::showEvent(e);
+
+	this->lv_album()->resizeRowsToContents();
+	this->lv_artist()->resizeRowsToContents();
+	this->lv_tracks()->resizeRowsToContents();
+
+	QByteArray artist_splitter_state, track_splitter_state, genre_splitter_state, date_splitter_state;
+
+	artist_splitter_state = _settings->get(Set::Lib_SplitterStateArtist);
+	track_splitter_state = _settings->get(Set::Lib_SplitterStateTrack);
+	genre_splitter_state = _settings->get(Set::Lib_SplitterStateGenre);
+	date_splitter_state = _settings->get(Set::Lib_SplitterStateDate);
+
+	if(!artist_splitter_state.isEmpty()){
+		ui->splitter_artist_album->restoreState(artist_splitter_state);
+	}
+
+	if(!track_splitter_state.isEmpty()){
+		ui->splitter_tracks->restoreState(track_splitter_state);
+	}
+
+	if(!genre_splitter_state.isEmpty()){
+		ui->splitter_genre->restoreState(genre_splitter_state);
+	}
 }
 

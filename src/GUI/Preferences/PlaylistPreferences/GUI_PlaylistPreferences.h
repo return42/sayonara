@@ -38,7 +38,7 @@ public:
 	explicit GUI_PlaylistPreferences(const QString& identifier);
 	~GUI_PlaylistPreferences();
 
-	void commit() override;
+	bool commit() override;
 	void revert() override;
 
 	QString action_name() const override;
@@ -46,6 +46,7 @@ public:
 protected:
 	void init_ui() override;
 	void retranslate_ui() override;
+	QString error_string() const override;
 
 private slots:
 	void cb_toggled(bool b);

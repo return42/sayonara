@@ -186,7 +186,6 @@ void GUI_AbstractLibrary::init_search_bar()
 
 	m->le_search->installEventFilter(cm_filter);
 	connect(m->le_search, &QLineEdit::returnPressed, this, &GUI_AbstractLibrary::search_return_pressed);
-//    connect(m->le_search, &QLineEdit::text_changed, this, &GUI_AbstractLibrary::search_edited);
 
 	search_mode_changed(Filter::Fulltext);
 }

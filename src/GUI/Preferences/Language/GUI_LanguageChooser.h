@@ -38,7 +38,7 @@ public:
 	explicit GUI_LanguageChooser(const QString& identifier);
 	virtual ~GUI_LanguageChooser();
 
-	void commit() override;
+	bool commit() override;
 	void revert() override;
 
 	QString action_name() const override;

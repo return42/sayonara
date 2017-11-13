@@ -87,6 +87,7 @@ signals:
 public slots:
 
 	virtual void load();
+	bool is_loaded() const;
 
 	virtual void reload_library(bool clear_first, Library::ReloadQuality quality)=0;
 

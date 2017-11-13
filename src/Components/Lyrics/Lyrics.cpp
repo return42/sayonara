@@ -87,7 +87,7 @@ bool Lyrics::save_lyrics(const QString& plain_text)
 		return false;
 	}
 
-    bool success = Tagging::Util::write_lyrics(m->md, plain_text);
+	bool success = Tagging::Util::write_lyrics(m->md, plain_text);
 	if(success){
 		m->is_valid = true;
 		m->lyric_tag_content = plain_text;
@@ -106,7 +106,7 @@ void Lyrics::set_metadata(const MetaData& md)
 	m->md = md;
 	m->guess_artist_and_title();
 
-    Tagging::Util::extract_lyrics(md, m->lyric_tag_content);
+	Tagging::Util::extract_lyrics(md, m->lyric_tag_content);
 }
 
 QString Lyrics::artist() const
@@ -155,7 +155,7 @@ bool Lyrics::is_lyric_tag_available() const
 
 bool Lyrics::is_lyric_tag_supported() const
 {
-    return Tagging::Util::is_lyrics_supported(m->md.filepath());
+	return Tagging::Util::is_lyrics_supported(m->md.filepath());
 }
 
 void Lyrics::lyrics_fetched()
@@ -179,15 +179,15 @@ void Lyrics::Private::guess_artist_and_title()
 	if(	md.radio_mode() == RadioMode::Station &&
 		md.artist().contains("://"))
 	{
-		if(md.title.contains("-")){
-			QStringList lst = md.title.split("-");
+		if(md.title().contains("-")){
+			QStringList lst = md.title().split("-");
 			artist = lst.takeFirst().trimmed();
 			title = lst.join("-").trimmed();
 			guessed = true;
 		}
 
-		else if(md.title.contains(":")){
-			QStringList lst = md.title.split(":");
+		else if(md.title().contains(":")){
+			QStringList lst = md.title().split(":");
 			artist = lst.takeFirst().trimmed();
 			title = lst.join(":").trimmed();
 			guessed = true;
@@ -197,17 +197,17 @@ void Lyrics::Private::guess_artist_and_title()
 	if(guessed == false) {
 		if(!md.artist().isEmpty()) {
 			artist = md.artist();
-			title = md.title;
+			title = md.title();
 		}
 
 		else if(!md.album_artist().isEmpty()) {
 			artist = md.album_artist();
-			title = md.title;
+			title = md.title();
 		}
 
 		else {
 			artist = md.artist();
-			title = md.title;
+			title = md.title();
 		}
 	}
 }

@@ -36,6 +36,7 @@ GUI_ShortcutEntry::GUI_ShortcutEntry(const Shortcut& shortcut, QWidget* parent) 
 
 	_sch = ShortcutHandler::instance();
 
+	ui->le_entry->setPlaceholderText(tr("Enter shortcut"));
 	ui->lab_description->setText(_shortcut.get_name());
 	ui->le_entry->setText(_shortcut.get_shortcuts().join(", "));
 

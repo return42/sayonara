@@ -42,13 +42,14 @@ public:
 	~GUI_Shortcuts();
 
 	void revert() override;
-	void commit() override;
+	bool commit() override;
 
 	QString action_name() const override;
 
 protected:
 	void init_ui() override;
 	void retranslate_ui() override;
+	QString error_string() const override;
 
 private slots:
 	void test_pressed(const QList<QKeySequence>& sequences);

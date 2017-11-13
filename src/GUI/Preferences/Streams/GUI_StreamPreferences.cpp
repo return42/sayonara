@@ -32,10 +32,12 @@ GUI_StreamPreferences::GUI_StreamPreferences(const QString& identifier) :
 
 GUI_StreamPreferences::~GUI_StreamPreferences() {}
 
-void GUI_StreamPreferences::commit()
+bool GUI_StreamPreferences::commit()
 {
 	_settings->set(Set::Stream_NewTab, ui->cb_new_tab->isChecked());
 	_settings->set(Set::Stream_ShowHistory, ui->cb_show_history->isChecked());
+
+	return true;
 }
 
 void GUI_StreamPreferences::revert()

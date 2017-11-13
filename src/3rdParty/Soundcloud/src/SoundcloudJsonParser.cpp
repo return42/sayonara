@@ -180,14 +180,12 @@ bool SC::JsonParser::parse_track(Artist& artist, MetaData& md, QJsonObject objec
 {
 	QString cover_download_url;
 	get_int("id", object, md.id);
-	get_string("title", object, md.title);
 	get_string("artwork_url", object, cover_download_url);
 	md.set_cover_download_url(cover_download_url);
 
-
 	int length;
 	if(get_int("duration", object, length)){
-        md.length_ms = (uint32_t) length;
+		md.length_ms = (uint32_t) length;
 	}
 
 	int year;
@@ -197,7 +195,12 @@ bool SC::JsonParser::parse_track(Artist& artist, MetaData& md, QJsonObject objec
 
 	int filesize;
 	if(get_int("original_content_size", object, filesize)){
-         md.filesize = (uint32_t) filesize;
+		 md.filesize = (uint32_t) filesize;
+	}
+
+	QString title;
+	if(get_string("title", object, title)){
+		md.set_title(title);
 	}
 
 	QString stream_url;
@@ -207,7 +210,7 @@ bool SC::JsonParser::parse_track(Artist& artist, MetaData& md, QJsonObject objec
 
 	QString genre;
 	if(get_string("genre", object, genre)){
-        md.add_genre(Genre(genre));
+		md.add_genre(Genre(genre));
 	}
 
 	QString purchase_url;

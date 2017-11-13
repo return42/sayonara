@@ -95,7 +95,7 @@ QVariant TrackModel::data(const QModelIndex &index, int role) const
 				return QVariant( md.track_num );
 
 			case ColumnIndex::Track::Title:
-				return QVariant( md.title );
+				return QVariant( md.title() );
 
 			case ColumnIndex::Track::Artist:
 				return QVariant( md.artist() );
@@ -198,7 +198,7 @@ QString TrackModel::searchable_string(int row) const
 	}
 
 	else {
-		return tracks[row].title;
+		return tracks[row].title();
 	}
 }
 

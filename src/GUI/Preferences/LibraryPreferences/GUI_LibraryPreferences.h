@@ -37,7 +37,7 @@ public:
 	explicit GUI_LibraryPreferences(const QString& identifier);
 	virtual ~GUI_LibraryPreferences();
 
-	void commit() override;
+	bool commit() override;
 	void revert() override;
 
 	QString action_name() const override;
@@ -46,9 +46,9 @@ protected:
 	void init_ui() override;
 	void retranslate_ui() override;
 	void showEvent(QShowEvent* e) override;
+	QString error_string() const override;
 
 private slots:
-
 	void new_clicked();
 	void edit_clicked();
 	void delete_clicked();

@@ -35,7 +35,7 @@ public:
 	explicit GUI_BroadcastSetup(const QString& identifier);
 	virtual ~GUI_BroadcastSetup();
 
-	void commit() override;
+	bool commit() override;
 	void revert() override;
 
 	QString action_name() const override;

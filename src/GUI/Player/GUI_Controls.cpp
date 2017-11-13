@@ -433,7 +433,7 @@ void GUI_Controls::id3_tags_changed(const MetaDataList& v_md_old, const MetaData
 		set_info_labels(md);
 		set_cover_location(md);
 
-		setWindowTitle(QString("Sayonara - ") + md.title);
+		setWindowTitle(QString("Sayonara - ") + md.title());
 	}
 }
 
@@ -480,7 +480,7 @@ void GUI_Controls::refresh_info_labels()
 void GUI_Controls::set_info_labels(const MetaData& md)
 {
 	// title
-	QString text = Gui::Util::elide_text(md.title, ui->lab_title, 2);
+	QString text = Gui::Util::elide_text(md.title(), ui->lab_title, 2);
 	ui->lab_title->setText(text);
 
 	//album

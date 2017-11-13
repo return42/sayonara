@@ -24,9 +24,9 @@ private slots:
 static MetaData create_md()
 {
 	MetaData md("/path/to/my/file.mp3");
-	md.title = "Title";
-    md.set_artist("Artist");
-    md.set_album("Album");
+	md.set_title("Title");
+	md.set_artist("Artist");
+	md.set_album("Album");
 	md.length_ms = 100000;
 	md.filesize = 1234567;
 	md.id = 5;
@@ -56,9 +56,9 @@ void MetaDataTest::copy_test()
 	qDebug() << "Copy Test";
 
 	MetaData md("/path/to/my/file.mp3");
-	md.title = "Title";
-    md.set_artist("Artist");
-    md.set_album("Album");
+	md.set_title("Title");
+	md.set_artist("Artist");
+	md.set_album("Album");
 	md.length_ms = 100000;
 	md.filesize = 1234567;
 	md.id = 5;
@@ -102,7 +102,7 @@ void MetaDataTest::private_test()
 void MetaDataTest::stream_test()
 {
 	MetaData md = create_md();
-	
+
 	QVERIFY( md.radio_mode() == RadioMode::Off );
 
 	md.set_filepath("http://path.to/my/stream");

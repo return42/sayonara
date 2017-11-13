@@ -27,10 +27,10 @@
 
 #include "Utils/MetaData/Album.h"
 #include "Utils/Utils.h"
-#include "Utils/Logger/Logger.h"
 #include "Utils/Set.h"
 #include "Utils/Settings/Settings.h"
 #include "Utils/Language.h"
+#include "Utils/Logger/Logger.h"
 
 #include <QStringList>
 #include <QPixmap>
@@ -43,10 +43,11 @@ using Library::CoverModel;
 struct CoverModel::Private
 {
 	AlbumCoverFetchThread*		cover_thread=nullptr;
-	AlbumList					albums;
 	QHash<QString, QPixmap>		pixmaps;
 	QHash<QString, Location>	cover_locations;
 	QHash<QString, QModelIndex> indexes;
+	int							old_row_count;
+	int							old_column_count;
 
 	int zoom;
 	int columns;
@@ -56,6 +57,8 @@ struct CoverModel::Private
 	{
 		cover_thread = new AlbumCoverFetchThread(parent);
 
+		old_row_count = 0;
+		old_column_count = 0;
 		zoom = Settings::instance()->get(Set::Lib_CoverZoom);
 		columns = 10;
 		n_threads_running = 0;
@@ -68,6 +71,11 @@ struct CoverModel::Private
 			::Util::sleep_ms(50);
 		}
 	}
+
+	QSize item_size() const
+	{
+		return QSize(zoom + 50, zoom + 50);
+	}
 };
 
 static QString get_hash(const Album& album)
@@ -78,7 +86,6 @@ static QString get_hash(const Album& album)
 CoverModel::CoverModel(QObject* parent, AbstractLibrary* library) :
 	ItemModel(parent, library)
 {
-	Q_UNUSED(parent);
 	m = Pimpl::make<Private>(this);
 
 	connect(m->cover_thread, &AlbumCoverFetchThread::sig_next, this, &CoverModel::next_hash);
@@ -91,11 +98,14 @@ CoverModel::~CoverModel()
 	}
 }
 
-
 int CoverModel::rowCount(const QModelIndex& parent) const
 {
+	if(columnCount() == 0){
+		return 0;
+	}
+
 	Q_UNUSED(parent);
-	return (m->albums.size() / columnCount()) + 1;
+	return (albums().size() / columnCount()) + 1;
 }
 
 int CoverModel::columnCount(const QModelIndex& parent) const
@@ -104,48 +114,63 @@ int CoverModel::columnCount(const QModelIndex& parent) const
 	return m->columns;
 }
 
-void CoverModel::set_max_columns(int columns)
+void CoverModel::refresh_data()
 {
-	if(columns == 0){
+	int old_columns = m->old_column_count;
+	int old_rows = m->old_row_count;
+
+	int new_rows = rowCount();
+	int new_columns = columnCount();
+
+	if(old_columns == new_columns && old_rows == new_rows){
 		return;
 	}
 
-	int old_columns = columnCount();
-	int old_rows = rowCount();
-
-	m->columns = columns;
-	int rows = rowCount();
-
-	if(old_columns == columns && old_rows == rows){
-		return;
+	if(new_columns > old_columns) {
+		add_columns(old_columns, new_columns - old_columns);
 	}
 
-	if(columns > old_columns) {
-		beginInsertColumns(QModelIndex(), 0, columns - old_columns - 1);
-		endInsertColumns();
+	else if(new_columns < old_columns) {
+		remove_columns(new_columns, old_columns - new_columns);
 	}
 
-	else if(columns < old_columns) {
-		beginRemoveColumns(QModelIndex(), 0, old_columns - columns - 1);
-		endRemoveColumns();
+	if(new_rows > old_rows)	{
+		add_rows(old_rows, new_rows - old_rows);
 	}
 
-	if(rows > old_rows)	{
-		beginInsertRows(QModelIndex(), old_rows, rows - 1);
-		endInsertRows();
-	}
-
-	else if(rows < old_rows) {
-		beginRemoveRows(QModelIndex(), rows, old_rows - 1);
-		endRemoveRows();
+	else if(new_rows < old_rows) {
+		remove_rows(new_rows, old_rows - new_rows);
 	}
 
 	emit dataChanged(index(0, 0), index(rowCount() - 1, columnCount() - 1), {Qt::DisplayRole, Qt::SizeHintRole});
 }
 
-int CoverModel::zoom() const
+void CoverModel::add_rows(int row, int count)
 {
-	return m->zoom;
+	beginInsertRows(QModelIndex(), row, row + count - 1);
+	m->old_row_count += count;
+	endInsertRows();
+}
+
+void CoverModel::remove_rows(int row, int count)
+{
+	beginRemoveRows(QModelIndex(), row, row + count - 1);
+	m->old_row_count -= count;
+	endRemoveRows();
+}
+
+void CoverModel::add_columns(int column, int count)
+{
+	beginInsertColumns(QModelIndex(), column, column + count - 1);
+	m->old_column_count += count;
+	endInsertColumns();
+}
+
+void CoverModel::remove_columns(int column, int count)
+{
+	beginRemoveColumns(QModelIndex(), column, column + count - 1);
+	m->old_column_count -= count;
+	endRemoveColumns();
 }
 
 
@@ -160,7 +185,7 @@ QVariant CoverModel::data(const QModelIndex& index, int role) const
 
 	int n_columns = columnCount();
 	int lin_idx = (row * n_columns) + col;
-	if(lin_idx >= m->albums.count()){
+	if(lin_idx >= albums().count()){
 		return QVariant();
 	}
 
@@ -168,7 +193,7 @@ QVariant CoverModel::data(const QModelIndex& index, int role) const
 	{
 		case Qt::DisplayRole:
 			{
-				QString name = m->albums[lin_idx].name();
+				QString name = albums()[lin_idx].name();
 				if(name.trimmed().isEmpty()){
 					name = Lang::get(Lang::None);
 				}
@@ -181,7 +206,7 @@ QVariant CoverModel::data(const QModelIndex& index, int role) const
 
 		case Qt::DecorationRole:
 			{
-				const Album& album = m->albums[lin_idx];
+				const Album& album = albums()[lin_idx];
 				QString hash = get_hash(album);
 				QPixmap p;
 				if(!m->pixmaps.contains(hash))
@@ -224,7 +249,7 @@ QVariant CoverModel::data(const QModelIndex& index, int role) const
 			}
 
 		case Qt::SizeHintRole:
-			return item_size();
+			return m->item_size();
 
 		default:
 			return QVariant();
@@ -234,33 +259,6 @@ QVariant CoverModel::data(const QModelIndex& index, int role) const
 }
 
 
-
-QSize CoverModel::item_size() const
-{
-	return QSize(m->zoom + 50, m->zoom + 50);
-}
-
-
-void CoverModel::set_data(const AlbumList& albums)
-{
-	m->albums = albums;
-	set_max_columns(m->columns);
-
-	emit dataChanged(index(0, 0), index(rowCount() - 1, columnCount() - 1));
-}
-
-void CoverModel::set_zoom(int zoom, const QSize& view_size)
-{
-	m->zoom = zoom;
-
-	int new_columns = (view_size.width() / this->item_size().width());
-	set_max_columns(new_columns);
-}
-
-void CoverModel::reload()
-{
-	m->pixmaps.clear();
-}
 
 
 void CoverModel::next_hash()
@@ -292,9 +290,9 @@ QModelIndex CoverModel::getNextRowIndexOf(const QString& substr, int cur_row, co
 {
 	Q_UNUSED(parent)
 
-	for(int i=0; i<m->albums.count(); i++)
+	for(int i=0; i<albums().count(); i++)
 	{
-		int idx = (i + cur_row) % m->albums.size();
+		int idx = (i + cur_row) % albums().size();
 		QString title = searchable_string(idx);
 		title = Library::Util::convert_search_string(title, search_mode());
 
@@ -303,7 +301,7 @@ QModelIndex CoverModel::getNextRowIndexOf(const QString& substr, int cur_row, co
 			return this->index(idx / columnCount(), idx % columnCount());
 		}
 
-		for(const QString& artist : m->albums[idx].artists())
+		for(const QString& artist : albums()[idx].artists())
 		{
 			QString cvt_artist = Library::Util::convert_search_string(artist, search_mode());
 
@@ -320,9 +318,9 @@ QModelIndex CoverModel::getPrevRowIndexOf(const QString& substr, int row, const 
 {
 	Q_UNUSED(parent)
 
-	int len = m->albums.size();
-	for(int i=0; i<m->albums.count(); i++){
-
+	int len = albums().size();
+	for(int i=0; i<albums().count(); i++)
+	{
 		if(row - i < 0){
 			row = len - 1;
 		}
@@ -336,7 +334,8 @@ QModelIndex CoverModel::getPrevRowIndexOf(const QString& substr, int row, const 
 			return this->index(idx / columnCount(), idx % columnCount());
 		}
 
-		for(const QString& artist : m->albums[idx].artists()) {
+		for(const QString& artist : albums()[idx].artists())
+		{
 			QString cvt_artist = Library::Util::convert_search_string(artist, search_mode());
 
 			if(cvt_artist.contains(substr)){
@@ -355,22 +354,22 @@ int CoverModel::searchable_column() const
 
 QString CoverModel::searchable_string(int idx) const
 {
-	if(idx < 0 || idx >= m->albums.count())
+	if(idx < 0 || idx >= albums().count())
 	{
 		return QString();
 	}
 
-	return m->albums[idx].name();
+	return albums()[idx].name();
 }
 
 int CoverModel::id_by_row(int idx)
 {
-	if(idx < 0 || idx >= m->albums.count())
+	if(idx < 0 || idx >= albums().count())
 	{
 		return -1;
 	}
 
-	return m->albums[idx].id;
+	return albums()[idx].id;
 }
 
 Location CoverModel::cover(const IndexSet& indexes) const
@@ -380,11 +379,11 @@ Location CoverModel::cover(const IndexSet& indexes) const
 	}
 
 	int idx = indexes.first();
-	if(idx < 0 || idx >= m->albums.count() ){
+	if(idx < 0 || idx >= albums().count() ){
 		return Location::invalid_location();
 	}
 
-	QString hash = get_hash( m->albums[idx] );
+	QString hash = get_hash( albums()[idx] );
 	if(!m->cover_locations.contains(hash)){
 		return Location::invalid_location();
 	}
@@ -392,11 +391,6 @@ Location CoverModel::cover(const IndexSet& indexes) const
 	return m->cover_locations[hash];
 }
 
-
-const IndexSet& CoverModel::selections() const
-{
-	return library()->selected_albums();
-}
 
 Qt::ItemFlags CoverModel::flags(const QModelIndex& index) const
 {
@@ -408,7 +402,7 @@ Qt::ItemFlags CoverModel::flags(const QModelIndex& index) const
 	int max_column = columnCount();
 	if(row == rowCount() - 1)
 	{
-		max_column = m->albums.size() % columnCount();
+		max_column = albums().size() % columnCount();
 	}
 
 	if(column >= max_column || column < 0 || row < 0)
@@ -426,3 +420,38 @@ const MetaDataList& Library::CoverModel::mimedata_tracks() const
 {
 	return library()->tracks();
 }
+
+const AlbumList &CoverModel::albums() const
+{
+	const AbstractLibrary* al = library();
+	const AlbumList& a = al->albums();
+	return a;
+}
+
+const IndexSet& CoverModel::selections() const
+{
+	return library()->selected_albums();
+}
+
+int CoverModel::zoom() const
+{
+	return m->zoom;
+}
+
+void CoverModel::set_zoom(int zoom, const QSize& view_size)
+{
+	m->zoom = zoom;
+
+	int columns = (view_size.width() / m->item_size().width());
+	if(columns > 0){
+		m->columns = columns;
+		refresh_data();
+	}
+}
+
+void CoverModel::reload()
+{
+	m->pixmaps.clear();
+	refresh_data();
+}
+

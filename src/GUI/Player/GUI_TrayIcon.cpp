@@ -179,7 +179,7 @@ void GUI_TrayIcon::notify(const MetaData& md)
 		return;
 	}
 
-	QString msg = md.title + " " + Lang::get(Lang::By).space() + md.artist();
+	QString msg = md.title() + " " + Lang::get(Lang::By).space() + md.artist();
 	int timeout = _settings->get(Set::Notification_Timeout);
 
 	showMessage("Sayonara", msg, QSystemTrayIcon::Information, timeout);

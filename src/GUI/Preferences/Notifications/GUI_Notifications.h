@@ -37,7 +37,7 @@ public:
 	explicit GUI_Notifications(const QString& identifier);
 	virtual ~GUI_Notifications();
 
-	void commit() override;
+	bool commit() override;
 	void revert() override;
 
 	QString action_name() const override;

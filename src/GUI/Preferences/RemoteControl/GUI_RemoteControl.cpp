@@ -56,10 +56,12 @@ void GUI_RemoteControl::retranslate_ui()
 }
 
 
-void GUI_RemoteControl::commit()
+bool GUI_RemoteControl::commit()
 {
 	_settings->set(Set::Remote_Active, ui->cb_activate->isChecked());
 	_settings->set(Set::Remote_Port, ui->sb_port->value());
+
+	return true;
 }
 
 void GUI_RemoteControl::revert()

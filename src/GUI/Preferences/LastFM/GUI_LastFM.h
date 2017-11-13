@@ -50,7 +50,7 @@ public:
 	explicit GUI_LastFM(const QString& identifier, LastFM::Base* lfm);
 	virtual ~GUI_LastFM();
 
-	void commit() override;
+	bool commit() override;
 	void revert() override;
 
 	QString action_name() const override;

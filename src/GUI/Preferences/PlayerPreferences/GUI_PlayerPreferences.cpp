@@ -51,7 +51,7 @@ QString GUI_PlayerPreferences::action_name() const
 }
 
 
-void GUI_PlayerPreferences::commit()
+bool GUI_PlayerPreferences::commit()
 {
 	bool show_tray_icon = _settings->get(Set::Player_ShowTrayIcon);
 
@@ -60,6 +60,8 @@ void GUI_PlayerPreferences::commit()
 
 	_settings->set(Set::Player_ShowTrayIcon, ui->cb_show_tray_icon->isChecked());
 	_settings->set(Set::Player_NotifyNewVersion, ui->cb_update_notifications->isChecked());
+
+	return true;
 }
 
 void GUI_PlayerPreferences::revert()

@@ -47,6 +47,12 @@ struct AbstractLibrary::Private
 
 	Library::Sortings sortorder;
 	Library::Filter filter;
+	bool loaded;
+
+	Private()
+	{
+		loaded = false;
+	}
 };
 
 AbstractLibrary::AbstractLibrary(QObject *parent) :
@@ -68,7 +74,7 @@ AbstractLibrary::AbstractLibrary(QObject *parent) :
 
 AbstractLibrary::~AbstractLibrary() {}
 
-void AbstractLibrary::load ()
+void AbstractLibrary::load()
 {
 	Set::listen(Set::Lib_Sorting, this, &AbstractLibrary::_sl_sortorder_changed);
 
@@ -79,6 +85,13 @@ void AbstractLibrary::load ()
 	get_all_tracks(_tracks, m->sortorder);
 
 	emit_stuff();
+
+	m->loaded = true;
+}
+
+bool AbstractLibrary::is_loaded() const
+{
+	return m->loaded;
 }
 
 

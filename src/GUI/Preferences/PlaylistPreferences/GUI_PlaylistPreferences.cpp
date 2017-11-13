@@ -27,6 +27,73 @@
 #include "Utils/Settings/Settings.h"
 #include "Utils/Language.h"
 
+static
+bool evaluate_expression(const QString& expr)
+{
+	if(expr.isEmpty()){
+		return false;
+	}
+
+	int star_count=0;
+	int apostroph_count=0;
+	int percent_count=0;
+	for(QChar c : expr)
+	{
+		if(c == '\''){
+			apostroph_count ++;
+		}
+
+		else if(c == '*'){
+			star_count ++;
+		}
+
+		else if(c == '%'){
+			percent_count ++;
+		}
+	}
+
+	if(apostroph_count % 2 == 1){
+		return false;
+	}
+
+	if(percent_count % 2 == 1){
+		return false;
+	}
+
+	if(star_count % 2 == 1){
+		return false;
+	}
+
+	QStringList between_percents;
+	QRegExp re(".*%(.*)%.*");
+	re.setMinimal(true);
+
+	int idx = re.indexIn(expr);
+	while(idx >= 0){
+		between_percents << re.cap(1);
+		idx = re.indexIn(expr, idx + 1);
+	}
+
+	int correct_ones = 0;
+	int incorrect_ones = 0;
+
+	for(const QString& between_percent : between_percents)
+	{
+		if((between_percent.compare("title") != 0) &&
+		   (between_percent.compare("artist") != 0) &&
+		   (between_percent.compare("album") != 0))
+		{
+			incorrect_ones++;
+		}
+
+		else {
+			correct_ones++;
+		}
+	}
+
+	return (correct_ones > incorrect_ones);
+}
+
 
 GUI_PlaylistPreferences::GUI_PlaylistPreferences(const QString& identifier) :
 	Base(identifier) {}
@@ -40,7 +107,7 @@ GUI_PlaylistPreferences::~GUI_PlaylistPreferences()
 }
 
 
-void GUI_PlaylistPreferences::commit()
+bool GUI_PlaylistPreferences::commit()
 {
 	_settings->set( Set::PL_LoadSavedPlaylists, ui->cb_load_saved_playlists->isChecked() );
 	_settings->set( Set::PL_LoadTemporaryPlaylists, ui->cb_load_temporary_playlists->isChecked() );
@@ -49,9 +116,16 @@ void GUI_PlaylistPreferences::commit()
 	_settings->set( Set::PL_StartPlaying, (ui->cb_start_playing->isChecked() && ui->cb_start_playing->isEnabled()) );
 
 	_settings->set(Set::PL_ShowNumbers, ui->cb_show_numbers->isChecked());
-	_settings->set(Set::PL_EntryLook, ui->le_expression->text());
+
 	_settings->set(Set::PL_ShowClearButton, ui->cb_show_clear_button->isChecked());
 	_settings->set(Set::PL_RememberTrackAfterStop, ui->cb_remember_after_stop->isChecked());
+
+	if(evaluate_expression(ui->le_expression->text())){
+		_settings->set(Set::PL_EntryLook, ui->le_expression->text());
+		return true;
+	}
+
+	return false;
 }
 
 void GUI_PlaylistPreferences::revert()
@@ -96,7 +170,7 @@ void GUI_PlaylistPreferences::init_ui()
 	connect(ui->cb_start_playing, &QCheckBox::toggled, this, &GUI_PlaylistPreferences::cb_toggled);
 
 	connect(ui->btn_default, &QPushButton::clicked, [=]()
-{
+	{
 		ui->le_expression->setText("*%title%* - %artist%");
 	});
 }
@@ -114,6 +188,11 @@ void GUI_PlaylistPreferences::retranslate_ui()
 	ui->lab_title->setText(Lang::get(Lang::Title));
 	ui->lab_trackno->setText(Lang::get(Lang::TrackNo));
 	ui->btn_default->setText(Lang::get(Lang::Default));
+}
+
+QString GUI_PlaylistPreferences::error_string() const
+{
+	return tr("Playlist look: Invalid expression");
 }
 
 void GUI_PlaylistPreferences::cb_toggled(bool b) {

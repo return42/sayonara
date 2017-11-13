@@ -104,7 +104,7 @@ void TrackChangedThread::update_now_playing(const MetaData& md)
 	connect(lfm_wa, &WebAccess::sig_error, this, &TrackChangedThread::error_update);
 
 	QString artist = m->md.artist();
-	QString title = m->md.title;
+	QString title = m->md.title();
 
 	if(artist.trimmed().size() == 0) artist = "Unknown";
 	artist.replace("&", "&amp;");

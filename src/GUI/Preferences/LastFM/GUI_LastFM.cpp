@@ -88,7 +88,7 @@ void GUI_LastFM::retranslate_ui()
 
 }
 
-void GUI_LastFM::commit()
+bool GUI_LastFM::commit()
 {
 	StringPair user_pw;
 	user_pw.first = ui->tf_username->text();
@@ -105,6 +105,8 @@ void GUI_LastFM::commit()
 	}
 
 	_settings->set(Set::LFM_ScrobbleTimeSec, ui->sb_scrobble_time->value());
+
+	return true;
 }
 
 

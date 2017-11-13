@@ -114,7 +114,7 @@ void PLSParser::parse()
 
 		else if(line_entry.key.startsWith("title", Qt::CaseInsensitive))
 		{
-			md.title = line_entry.value;
+			md.set_title(line_entry.value);
 		}
 
 		else if(line_entry.key.startsWith("length", Qt::CaseInsensitive))

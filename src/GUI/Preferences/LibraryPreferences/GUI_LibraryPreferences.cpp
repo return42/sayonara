@@ -78,7 +78,6 @@ void GUI_LibraryPreferences::init_ui()
 	connect(ui->btn_new, &QPushButton::clicked, this, &GUI_LibraryPreferences::new_clicked);
 	connect(ui->btn_edit, &QPushButton::clicked, this, &GUI_LibraryPreferences::edit_clicked);
 	connect(ui->btn_delete, &QPushButton::clicked, this, &GUI_LibraryPreferences::delete_clicked);
-
 	connect(ui->btn_up, &QPushButton::clicked, this, &GUI_LibraryPreferences::up_clicked);
 	connect(ui->btn_down, &QPushButton::clicked, this, &GUI_LibraryPreferences::down_clicked);
 
@@ -91,9 +90,10 @@ QString GUI_LibraryPreferences::action_name() const
 }
 
 
-void GUI_LibraryPreferences::commit()
+bool GUI_LibraryPreferences::commit()
 {
 	Library::SearchModeMask mask = 0;
+
 	if(ui->cb_case_insensitive->isChecked()){
 		mask |= Library::CaseInsensitve;
 	}
@@ -114,7 +114,7 @@ void GUI_LibraryPreferences::commit()
 	_settings->set(Set::Lib_SearchMode, mask);
 	_settings->set(Set::Lib_UseViewClearButton, ui->cb_show_clear_buttons->isChecked());
 
-	m->model->commit();
+	return m->model->commit();
 }
 
 void GUI_LibraryPreferences::revert()
@@ -148,6 +148,11 @@ void GUI_LibraryPreferences::showEvent(QShowEvent* e)
 {
 	Base::showEvent(e);
 	this->revert();
+}
+
+QString GUI_LibraryPreferences::error_string() const
+{
+	return tr("Cannot edit library");
 }
 
 void GUI_LibraryPreferences::current_item_changed(int row)
@@ -219,7 +224,6 @@ void GUI_LibraryPreferences::down_clicked()
 	m->model->move_row(row, row+1);
 	ui->lv_libs->setCurrentIndex(m->model->index(row + 1));
 }
-
 
 
 void GUI_LibraryPreferences::edit_dialog_accepted()

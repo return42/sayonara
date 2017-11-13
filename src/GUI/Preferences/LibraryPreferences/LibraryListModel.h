@@ -53,7 +53,7 @@ public:
 	QStringList all_paths() const;
 
 	void reset();
-	void commit();
+	bool commit();
 };
 
 #endif // LIBRARYLISTMODEL_H

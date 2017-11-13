@@ -57,12 +57,14 @@ void GUI_LanguageChooser::retranslate_ui()
 }
 
 
-void GUI_LanguageChooser::commit()
+bool GUI_LanguageChooser::commit()
 {
 	int cur_idx = ui->combo_lang->currentIndex();
 	QString cur_language = ui->combo_lang->itemData(cur_idx).toString();
 
 	_settings->set(Set::Player_Language, cur_language);
+
+	return true;
 }
 
 void GUI_LanguageChooser::revert() {}

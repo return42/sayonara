@@ -136,7 +136,7 @@ namespace Preferences
 		 * @brief This method is called, when OK or apply is pressed. So all settings
 		 * should be written there
 		 */
-		virtual void commit()=0;
+		virtual bool commit()=0;
 
 		/**
 		 * @brief This method is called, when cancel is clicked. So the gui should be
@@ -157,6 +157,10 @@ namespace Preferences
 		 * @brief call the Qt retranslateUi method here
 		 */
 		virtual void retranslate_ui()=0;
+
+
+		virtual QString error_string() const;
+
 	};
 }
 

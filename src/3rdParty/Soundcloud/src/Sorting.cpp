@@ -79,7 +79,7 @@ namespace Compare
 	}
 
 	bool trackTitleAsc(const MetaData& md1, const MetaData& md2){
-		return (md1.title < md2.title);
+		return (md1.title() < md2.title());
 	}
 
 	bool trackTitleDesc(const MetaData& md1, const MetaData& md2){
@@ -183,7 +183,7 @@ void SC::Sorting::sort_artists(ArtistList& artists, Library::SortOrder so)
 void SC::Sorting::sort_albums(AlbumList& albums, Library::SortOrder so)
 {
 	std::function<bool (const Album& a1, const Album& a2)> fn;
-	switch(so) 
+	switch(so)
 	{
 		case Library::SortOrder::AlbumNameAsc:
 			fn = Compare::albumNameAsc;

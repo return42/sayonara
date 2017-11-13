@@ -35,7 +35,7 @@
 using namespace Engine;
 
 #ifdef Q_OS_WIN
-    void Callbacks::destroy_notify(gpointer data) {}
+	void Callbacks::destroy_notify(gpointer data) {}
 
 	GstBusSyncReply
 	EngineCallbacks::bus_message_received(GstBus* bus, GstMessage* msg, gpointer data) {
@@ -100,12 +100,12 @@ static bool parse_image(GstTagList* tags, QImage& img)
 
 		gst_sample_unref(sample);
 
-	
+
 		return false;
 	}
 
 	img = QImage::fromData((const uchar*) data, size, mime.toLocal8Bit().data());
-	
+
 	delete[] data;
 
 	gst_sample_unref(sample);
@@ -138,7 +138,7 @@ gboolean Callbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpointer dat
 				 !msg_src_name.contains("spectrum_sink") &&
 				 !msg_src_name.contains("pipeline"))
 			{
-                sp_log(Log::Debug, "Engine Callbacks") << "EOF reached: " << msg_src_name;
+				sp_log(Log::Debug, "Engine Callbacks") << "EOF reached: " << msg_src_name;
 				break;
 			}
 
@@ -189,7 +189,7 @@ gboolean Callbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpointer dat
 			if(success){
 				engine->update_cover(img, src);
 			}
-			
+
 			success = gst_tag_list_get_uint(tags, GST_TAG_BITRATE, &bitrate);
 			if(success){
 				engine->update_bitrate((bitrate / 1000) * 1000, src);
@@ -199,9 +199,9 @@ gboolean Callbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpointer dat
 			if(success)
 			{
 				MetaData md;
-				md.title = title;
+				md.set_title(title);
 				g_free(title);
-                engine->update_metadata(md, src);
+				engine->update_metadata(md, src);
 			}
 
 			gst_tag_list_unref(tags);
@@ -213,13 +213,13 @@ gboolean Callbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpointer dat
 			GstState old_state, new_state, pending_state;
 
 			gst_message_parse_state_changed(msg, &old_state, &new_state, &pending_state);
-            /*sp_log(Log::Debug, this) << GST_MESSAGE_SRC_NAME(msg) << ": "
+			/*sp_log(Log::Debug, this) << GST_MESSAGE_SRC_NAME(msg) << ": "
 							   << "State changed from "
 							   << gst_element_state_get_name(old_state)
 							   << " to "
 							   << gst_element_state_get_name(new_state)
 							   << " pending: "
-                               << gst_element_state_get_name(pending_state);*/
+							   << gst_element_state_get_name(pending_state);*/
 
 			if(!msg_src_name.contains("pipeline", Qt::CaseInsensitive)){
 				break;
@@ -236,9 +236,9 @@ gboolean Callbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpointer dat
 		case GST_MESSAGE_BUFFERING:
 
 			gint percent;
-			
+
 			gint avg_in, avg_out;
-            int64_t buffering_left;
+			int64_t buffering_left;
 
 			GstBufferingMode mode;
 			gst_message_parse_buffering(msg, &percent);
@@ -248,13 +248,13 @@ gboolean Callbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpointer dat
 			break;
 
 		case GST_MESSAGE_DURATION_CHANGED:
-            {
-                int64_t duration_ns;
-                bool success = gst_element_query_duration(src, GST_FORMAT_TIME, &duration_ns);
-                if(success) {
-                    engine->update_duration(GST_TIME_AS_MSECONDS(duration_ns), src);
-                }
-            }
+			{
+				int64_t duration_ns;
+				bool success = gst_element_query_duration(src, GST_FORMAT_TIME, &duration_ns);
+				if(success) {
+					engine->update_duration(GST_TIME_AS_MSECONDS(duration_ns), src);
+				}
+			}
 			break;
 
 		case GST_MESSAGE_INFO:
@@ -265,7 +265,7 @@ gboolean Callbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpointer dat
 			{
 				GError*			err;
 				gst_message_parse_warning(msg, &err, nullptr);
-                sp_log(Log::Warning) << "Engine " << (int) engine->name() << ": GST_MESSAGE_WARNING: " << err->message << ": "
+				sp_log(Log::Warning) << "Engine " << (int) engine->name() << ": GST_MESSAGE_WARNING: " << err->message << ": "
 					 << GST_MESSAGE_SRC_NAME(msg);
 			}
 			break;
@@ -275,7 +275,7 @@ gboolean Callbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpointer dat
 				GError*			err;
 				gst_message_parse_error(msg, &err, nullptr);
 
-                sp_log(Log::Error) << "Engine " << (int) engine->name() << ": GST_MESSAGE_ERROR: " << err->message << ": "
+				sp_log(Log::Error) << "Engine " << (int) engine->name() << ": GST_MESSAGE_ERROR: " << err->message << ": "
 						 << GST_MESSAGE_SRC_NAME(msg);
 
 				QString	error_msg(err->message);
@@ -328,9 +328,9 @@ Callbacks::level_handler(GstBus * bus, GstMessage * message, gpointer data)
 	}
 
 	name = gst_structure_get_name(structure);
-    if ( strcmp(name, "level") != 0 ) {
+	if ( strcmp(name, "level") != 0 ) {
 		return true;
-    }
+	}
 
 	peak_value = gst_structure_get_value(structure, "peak");
 	if(!peak_value) {
@@ -342,7 +342,7 @@ Callbacks::level_handler(GstBus * bus, GstMessage * message, gpointer data)
 	n_peak_elements = rms_arr->n_values;
 	if(n_peak_elements == 0) {
 		return true;
-    }
+	}
 
 	n_peak_elements = std::min((guint) 2, n_peak_elements);
 	for(guint i=0; i<n_peak_elements; i++) {
@@ -380,7 +380,7 @@ Callbacks::spectrum_handler(GstBus* bus, GstMessage* message, gpointer data)
 {
 	Q_UNUSED(bus);
 
-    Playback*               engine;
+	Playback*               engine;
 	const GstStructure*		structure;
 	const gchar*			structure_name;
 	const GValue*			magnitudes;
@@ -394,12 +394,12 @@ Callbacks::spectrum_handler(GstBus* bus, GstMessage* message, gpointer data)
 	structure = gst_message_get_structure(message);
 	if(!structure) {
 		return true;
-    }
+	}
 
 	structure_name = gst_structure_get_name(structure);
 	if( strcmp(structure_name, "spectrum") != 0 ) {
 		return true;
-    }
+	}
 
 	magnitudes = gst_structure_get_value (structure, "magnitude");
 
@@ -411,7 +411,7 @@ Callbacks::spectrum_handler(GstBus* bus, GstMessage* message, gpointer data)
 
 	for (int i=0; i<bins; ++i)
 	{
-        float f;
+		float f;
 		const GValue* mag;
 
 		mag = gst_value_list_get_value(magnitudes, i);
@@ -422,7 +422,7 @@ Callbacks::spectrum_handler(GstBus* bus, GstMessage* message, gpointer data)
 		f = g_value_get_float(mag);
 
 		spectrum_vals[i] = f;
-    }
+	}
 
 	engine->set_spectrum(spectrum_vals);
 

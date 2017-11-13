@@ -35,7 +35,7 @@ public:
 	explicit GUI_PlayerPreferences(const QString& identifier);
 	~GUI_PlayerPreferences();
 
-	void commit() override;
+	bool commit() override;
 	void revert() override;
 
 	QString action_name() const override;

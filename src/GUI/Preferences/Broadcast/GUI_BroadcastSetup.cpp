@@ -49,7 +49,7 @@ void GUI_BroadcastSetup::init_ui()
 	connect(ui->sb_port, spinbox_value_changed_int, this, &GUI_BroadcastSetup::port_changed);
 }
 
-void GUI_BroadcastSetup::commit()
+bool GUI_BroadcastSetup::commit()
 {
 	bool new_active = ui->cb_active->isChecked();
 	bool new_prompt = ui->cb_prompt->isChecked();
@@ -70,6 +70,8 @@ void GUI_BroadcastSetup::commit()
 	if(old_port != new_port){
 		_settings->set(Set::Broadcast_Port, new_port);
 	}
+
+	return true;
 }
 
 

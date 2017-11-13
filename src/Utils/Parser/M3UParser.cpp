@@ -88,7 +88,7 @@ bool M3UParser::parse_first_line(const QString& line, MetaData& md)
 
 	md.length_ms = re.cap(1).toInt() * 1000;
 	md.set_artist(re.cap(2));
-	md.title = re.cap(3);
+	md.set_title(re.cap(3));
 
 	return true;
 }

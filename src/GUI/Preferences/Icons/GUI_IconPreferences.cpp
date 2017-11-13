@@ -205,18 +205,21 @@ QString GUI_IconPreferences::action_name() const
 	return tr("Icons");
 }
 
-void GUI_IconPreferences::commit()
+bool GUI_IconPreferences::commit()
 {
 	for(const QString& key : m->rb_map.keys())
 	{
 		IconRadioButton* rb = m->rb_map[key];
 		rb->setStyleSheet("font-weight: normal;");
-		if(rb->isChecked()){
+		if(rb->isChecked())
+		{
 			_settings->set(Set::Icon_Theme, key);
 			rb->setStyleSheet("font-weight: bold;");
 			m->original_theme = rb->data();
 		}
 	}
+
+	return true;
 }
 
 void GUI_IconPreferences::revert()

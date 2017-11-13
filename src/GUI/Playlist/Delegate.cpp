@@ -157,7 +157,7 @@ void PlaylistItemDelegate::paint(QPainter *painter,	const QStyleOptionViewItem &
 			QFontMetrics fm(font);
 			painter->translate(offset_x, 0);
 
-			str.replace("%title%", md.title);
+			str.replace("%title%", md.title());
 			str.replace("%nr%", QString::number(md.track_num));
 			str.replace("%artist%", md.artist());
 			str.replace("%album%", md.album());

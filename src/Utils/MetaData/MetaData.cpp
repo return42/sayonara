@@ -34,36 +34,37 @@ static QHash<GenreID, Genre> genre_pool;
 
 //#define COUNT_MD
 #ifdef COUNT_MD
-    struct MDCounter
-    {
-        int c=0;
-        int m=0;
-        void increase()
-        {
-            c++;
-            m++;
-            sp_log(Log::Debug, this) << "Num MD: " << c << " / " <<  m;
-        }
+	struct MDCounter
+	{
+		int c=0;
+		int m=0;
+		void increase()
+		{
+			c++;
+			m++;
+			sp_log(Log::Debug, this) << "Num MD: " << c << " / " <<  m;
+		}
 
-        void decrease()
-        {
-            c--;
-            sp_log(Log::Debug, this) << "Num MD: " << c << " / " <<  m;
-        }
-    };
+		void decrease()
+		{
+			c--;
+			sp_log(Log::Debug, this) << "Num MD: " << c << " / " <<  m;
+		}
+	};
 
-    static MDCounter mdc;
+	static MDCounter mdc;
 #endif
 
 struct MetaData::Private
 {
+	QString			title;
 	SP::Set<GenreID> genres;
 	ArtistID		album_artist_id;
 	HashValue		album_artist_idx;
 	HashValue		album_idx;
 	HashValue		artist_idx;
-    QString         filepath;
-    RadioMode       radio_mode;
+	QString         filepath;
+	RadioMode       radio_mode;
 
 	Private() :
 		album_artist_id(-1),
@@ -74,7 +75,8 @@ struct MetaData::Private
 	{}
 
 	Private(const Private& other) :
-        CASSIGN(genres),
+		CASSIGN(title),
+		CASSIGN(genres),
 		CASSIGN(album_artist_id),
 		CASSIGN(album_artist_idx),
 		CASSIGN(album_idx),
@@ -84,7 +86,8 @@ struct MetaData::Private
 	{}
 
 	Private(Private&& other) :
-        CMOVE(genres),
+		CMOVE(title),
+		CMOVE(genres),
 		CMOVE(album_artist_id),
 		CMOVE(album_artist_idx),
 		CMOVE(album_idx),
@@ -95,7 +98,8 @@ struct MetaData::Private
 
 	Private& operator=(const Private& other)
 	{
-        ASSIGN(genres);
+		ASSIGN(title);
+		ASSIGN(genres);
 		ASSIGN(album_artist_id);
 		ASSIGN(album_artist_idx);
 		ASSIGN(album_idx);
@@ -108,7 +112,8 @@ struct MetaData::Private
 
 	Private& operator=(Private&& other)
 	{
-        MOVE(genres);
+		MOVE(title);
+		MOVE(genres);
 		MOVE(album_artist_id);
 		MOVE(album_artist_idx);
 		MOVE(album_idx);
@@ -122,7 +127,8 @@ struct MetaData::Private
 	bool is_equal(const Private& other) const
 	{
 		return(
-            CMP(genres) &&
+			CMP(title) &&
+			CMP(genres) &&
 			CMP(album_artist_id) &&
 			CMP(album_idx) &&
 			CMP(artist_idx) &&
@@ -148,23 +154,22 @@ MetaData::MetaData() :
 	discnumber(0),
 	n_discs(0),
 
-    library_id(-1),
+	library_id(-1),
 
-    rating(0),
-    played(false),
-    is_extern(false),
-    pl_playing(false),
-    is_disabled(false)
+	rating(0),
+	played(false),
+	is_extern(false),
+	pl_playing(false),
+	is_disabled(false)
 {
 	m = Pimpl::make<Private>();
 #ifdef COUNT_MD
-    mdc.increase();
+	mdc.increase();
 #endif
 }
 
 MetaData::MetaData(const MetaData& other) :
 	LibraryItem(other),
-	CASSIGN(title),
 	CASSIGN(length_ms),
 	CASSIGN(filesize),
 	CASSIGN(id),
@@ -175,23 +180,22 @@ MetaData::MetaData(const MetaData& other) :
 	CASSIGN(year),
 	CASSIGN(discnumber),
 	CASSIGN(n_discs),
-    CASSIGN(library_id),
-    CASSIGN(rating),
-    CASSIGN(played),
-    CASSIGN(is_extern),
-    CASSIGN(pl_playing),
-    CASSIGN(is_disabled)
+	CASSIGN(library_id),
+	CASSIGN(rating),
+	CASSIGN(played),
+	CASSIGN(is_extern),
+	CASSIGN(pl_playing),
+	CASSIGN(is_disabled)
 {
 	m = Pimpl::make<Private>(*(other.m));
 #ifdef COUNT_MD
-    mdc.increase();
+	mdc.increase();
 #endif
 }
 
 
 MetaData::MetaData(MetaData&& other) :
 	LibraryItem(other),
-	CMOVE(title),
 	CMOVE(length_ms),
 	CMOVE(filesize),
 	CMOVE(id),
@@ -202,18 +206,18 @@ MetaData::MetaData(MetaData&& other) :
 	CMOVE(year),
 	CMOVE(discnumber),
 	CMOVE(n_discs),
-    CMOVE(library_id),
-    CMOVE(rating),
-    CMOVE(played),
-    CMOVE(is_extern),
-    CMOVE(pl_playing),
-    CMOVE(is_disabled)
+	CMOVE(library_id),
+	CMOVE(rating),
+	CMOVE(played),
+	CMOVE(is_extern),
+	CMOVE(pl_playing),
+	CMOVE(is_disabled)
 {
 	m = Pimpl::make<Private>(
 		std::move(*(other.m))
 	);
 #ifdef COUNT_MD
-    mdc.increase();
+	mdc.increase();
 #endif
 }
 
@@ -221,7 +225,7 @@ MetaData::MetaData(const QString& path) :
 	MetaData()
 {
 #ifdef COUNT_MD
-    mdc.increase();
+	mdc.increase();
 #endif
 	this->set_filepath(path);
 }
@@ -229,8 +233,18 @@ MetaData::MetaData(const QString& path) :
 MetaData::~MetaData()
 {
 #ifdef COUNT_MD
-    mdc.decrease();
+	mdc.decrease();
 #endif
+}
+
+const QString& MetaData::title() const
+{
+	return m->title;
+}
+
+void MetaData::set_title(const QString &title)
+{
+	m->title = title;
 }
 
 const QString& MetaData::artist() const
@@ -307,7 +321,7 @@ bool MetaData::has_album_artist() const
 QString MetaData::to_string() const
 {
 	QStringList lst;
-	lst << title;
+	lst << m->title;
 	lst << "by " << this->artist() << " (" << album_artist() << ")";
 	lst << "on " << this->album();
 	lst << "Rating: " << QString::number(rating);
@@ -317,7 +331,7 @@ QString MetaData::to_string() const
 	return lst.join(" - ");
 }
 
-QVariant MetaData::toVariant(const MetaData& md) 
+QVariant MetaData::toVariant(const MetaData& md)
 {
 	QVariant v;
 
@@ -326,7 +340,7 @@ QVariant MetaData::toVariant(const MetaData& md)
 	return v;
 }
 
-bool MetaData::fromVariant(const QVariant& v, MetaData& md) 
+bool MetaData::fromVariant(const QVariant& v, MetaData& md)
 {
 	if(!v.canConvert<MetaData>() ) {
 		return false;
@@ -339,10 +353,9 @@ bool MetaData::fromVariant(const QVariant& v, MetaData& md)
 MetaData& MetaData::operator=(const MetaData& other)
 {
 	LibraryItem::operator=(other);
-	
+
 	(*m) = *(other.m);
 
-	ASSIGN(title);
 	ASSIGN(length_ms);
 	ASSIGN(filesize);
 	ASSIGN(id);
@@ -354,11 +367,11 @@ MetaData& MetaData::operator=(const MetaData& other)
 	ASSIGN(discnumber);
 	ASSIGN(n_discs);
 	ASSIGN(library_id);
-    ASSIGN(rating);
-    ASSIGN(played);
-    ASSIGN(is_extern);
-    ASSIGN(pl_playing);
-    ASSIGN(is_disabled);
+	ASSIGN(rating);
+	ASSIGN(played);
+	ASSIGN(is_extern);
+	ASSIGN(pl_playing);
+	ASSIGN(is_disabled);
 
 	return *this;
 }
@@ -366,10 +379,9 @@ MetaData& MetaData::operator=(const MetaData& other)
 MetaData& MetaData::operator=(MetaData&& other)
 {
 	LibraryItem::operator=(std::move(other));
-	
+
 	(*m) = std::move(*(other.m));
 
-	MOVE(title);
 	MOVE(length_ms);
 	MOVE(filesize);
 	MOVE(id);
@@ -381,13 +393,13 @@ MetaData& MetaData::operator=(MetaData&& other)
 	MOVE(discnumber);
 	MOVE(n_discs);
 	MOVE(library_id);
-    MOVE(rating);
-    MOVE(played);
-    MOVE(is_extern);
-    MOVE(pl_playing);
-    MOVE(is_disabled);
+	MOVE(rating);
+	MOVE(played);
+	MOVE(is_extern);
+	MOVE(pl_playing);
+	MOVE(is_disabled);
 
-    return *this;
+	return *this;
 }
 
 bool MetaData::operator==(const MetaData& md) const
@@ -420,9 +432,8 @@ bool MetaData::is_equal(const MetaData& md) const
 
 bool MetaData::is_equal_deep(const MetaData& other) const
 {
-	return 
+	return
 	(
-			CMP(title) &&
 			CMP(length_ms) &&
 			CMP(filesize) &&
 			CMP(id) &&

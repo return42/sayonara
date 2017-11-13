@@ -206,7 +206,7 @@ bool DB::Playlist::getPlaylistById(CustomPlaylist& pl)
 			MetaData data;
 
 			data.id = 		 q.value(0).toInt();
-			data.title = 	 q.value(1).toString();
+			data.set_title(q.value(1).toString());
 			data.length_ms = q.value(2).toInt();
 			data.year = 	 q.value(3).toInt();
 			data.bitrate = 	 q.value(4).toInt();
@@ -260,7 +260,7 @@ bool DB::Playlist::getPlaylistById(CustomPlaylist& pl)
 		MetaData data(filepath);
 		data.id = -1;
 		data.is_extern = true;
-		data.title = filepath;
+		data.set_title(filepath);
 		data.set_artist(filepath);
 		data.set_db_id(module_db_id());
 

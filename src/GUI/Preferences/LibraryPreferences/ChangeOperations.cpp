@@ -48,9 +48,9 @@ MoveOperation::MoveOperation(int from, int to)
 
 MoveOperation::~MoveOperation() {}
 
-void MoveOperation::exec()
+bool MoveOperation::exec()
 {
-	manager()->move_library(m->from, m->to);
+	return manager()->move_library(m->from, m->to);
 }
 
 
@@ -72,9 +72,9 @@ RenameOperation::RenameOperation(int8_t id, const QString& new_name)
 
 RenameOperation::~RenameOperation() {}
 
-void RenameOperation::exec()
+bool RenameOperation::exec()
 {
-	manager()->rename_library(m->id, m->new_name);
+	return manager()->rename_library(m->id, m->new_name);
 }
 
 struct RemoveOperation::Private
@@ -93,9 +93,9 @@ RemoveOperation::RemoveOperation(int8_t id)
 
 RemoveOperation::~RemoveOperation() {}
 
-void RemoveOperation::exec()
+bool RemoveOperation::exec()
 {
-	manager()->remove_library(m->id);
+	return manager()->remove_library(m->id);
 }
 
 struct AddOperation::Private
@@ -115,9 +115,9 @@ AddOperation::AddOperation(const QString& name, const QString& path)
 
 AddOperation::~AddOperation() {}
 
-void AddOperation::exec()
+bool AddOperation::exec()
 {
-	manager()->add_library(m->name, m->path);
+	return (manager()->add_library(m->name, m->path) >= 0);
 }
 
 struct ChangePathOperation::Private
@@ -138,7 +138,7 @@ ChangePathOperation::ChangePathOperation(int8_t id, const QString& new_path)
 
 ChangePathOperation::~ChangePathOperation() {}
 
-void ChangePathOperation::exec()
+bool ChangePathOperation::exec()
 {
-	manager()->change_library_path(m->id, m->new_path);
+	return manager()->change_library_path(m->id, m->new_path);
 }

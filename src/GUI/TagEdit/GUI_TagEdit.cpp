@@ -239,7 +239,7 @@ void GUI_TagEdit::track_idx_changed()
 	valid = m->tag_expression.update_tag(ui->le_tag->text(), md.filepath());
 	set_tag_colors( valid );
 
-	ui->le_title->setText(md.title);
+	ui->le_title->setText(md.title());
 
 	if(!ui->cb_album_all->isChecked()){
 		ui->le_album->setText(md.album());
@@ -462,7 +462,7 @@ void GUI_TagEdit::write_changes(int idx)
 
 	MetaData md =m->tag_edit->metadata(idx);
 
-	md.title = ui->le_title->text();
+	md.set_title(ui->le_title->text());
 	md.set_artist(ui->le_artist->text());
 	md.set_album(ui->le_album->text());
 	md.set_album_artist(ui->le_album_artist->text());
@@ -644,7 +644,7 @@ void GUI_TagEdit::apply_tag(int idx)
 		ReplacedString cap = tag_cap_map[tag];
 
 		if(tag.compare(TAG_TITLE) == 0){
-			md.title = cap;
+			md.set_title(cap);
 		}
 
 		else if(tag.compare(TAG_ALBUM) == 0){
@@ -699,7 +699,7 @@ void GUI_TagEdit::apply_tag_all_clicked()
 			not_valid_str +=
 					QString::number(i+1) + "/" +
 					QString::number(n_tracks) + " " +
-					v_md[i].title + " " + Lang::get(Lang::By).space() +
+					v_md[i].title() + " " + Lang::get(Lang::By).space() +
 					v_md[i].artist() + "<br />";
 		}
 	}

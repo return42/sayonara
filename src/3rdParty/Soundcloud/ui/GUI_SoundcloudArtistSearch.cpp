@@ -190,7 +190,7 @@ void SC::GUI_ArtistSearch::tracks_fetched(const MetaDataList& v_md)
 	ui->list_tracks->clear();
 
 	for(const MetaData& md : v_md){
-		ui->list_tracks->addItem(md.title);
+		ui->list_tracks->addItem(md.title());
 	}
 
 	m->v_md = v_md;

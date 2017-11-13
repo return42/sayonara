@@ -45,10 +45,10 @@ namespace Library
 
 	public:
 		int8_t add_library(const QString& name, const QString& path);
-		void rename_library(int8_t id, const QString& name);
-		void remove_library(int8_t id);
-		void move_library(int old_row, int new_row);
-		void change_library_path(int8_t id, const QString& path);
+		bool rename_library(int8_t id, const QString& name);
+		bool remove_library(int8_t id);
+		bool move_library(int old_row, int new_row);
+		bool change_library_path(int8_t id, const QString& path);
 
 		static QString request_library_name(const QString& path);
 		QList<Info> all_libraries() const;

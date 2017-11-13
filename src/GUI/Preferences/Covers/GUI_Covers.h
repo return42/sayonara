@@ -35,7 +35,7 @@ public:
 	GUI_Covers(const QString& identifier);
 	virtual ~GUI_Covers();
 
-	void commit() override;
+	bool commit() override;
 	void revert() override;
 
 	QString action_name() const override;

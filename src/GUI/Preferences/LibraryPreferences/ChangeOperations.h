@@ -35,7 +35,7 @@ class ChangeOperation
 public:
 	ChangeOperation();
 	virtual ~ChangeOperation();
-	virtual void exec()=0;
+	virtual bool exec()=0;
 
 	Library::Manager* manager() const;
 };
@@ -49,7 +49,7 @@ public:
 	MoveOperation(int from, int to);
 	~MoveOperation();
 
-	void exec() override;
+	bool exec() override;
 };
 
 
@@ -62,7 +62,7 @@ public:
 	RenameOperation(int8_t id, const QString& new_name);
 	~RenameOperation();
 
-	void exec() override;
+	bool exec() override;
 };
 
 class RemoveOperation :
@@ -74,7 +74,7 @@ public:
 	RemoveOperation(int8_t id);
 	~RemoveOperation();
 
-	void exec() override;
+	bool exec() override;
 };
 
 class AddOperation :
@@ -86,7 +86,7 @@ public:
 	AddOperation(const QString& name, const QString& path);
 	~AddOperation();
 
-	void exec() override;
+	bool exec() override;
 };
 
 class ChangePathOperation :
@@ -98,7 +98,7 @@ public:
 	ChangePathOperation(int8_t id, const QString& new_path);
 	~ChangePathOperation();
 
-	void exec() override;
+	bool exec() override;
 };
 
 

@@ -183,12 +183,22 @@ void LibraryListModel::reset()
 	emit dataChanged(index(0), index(rowCount()));
 }
 
-void LibraryListModel::commit()
+bool LibraryListModel::commit()
 {
-	for(ChangeOperation* op : m->operations){
-		op->exec();
+	for(ChangeOperation* op : m->operations)
+	{
+		bool success = op->exec();
+
+		if(!success)
+		{
+			m->operations.clear();
+			m->reload();
+
+			return false;
+		}
 	}
 
 	m->reload();
+	return true;
 }
 

@@ -55,7 +55,7 @@ QString GUI_Proxy::action_name() const
 	return tr("Proxy");
 }
 
-void GUI_Proxy::commit()
+bool GUI_Proxy::commit()
 {
 	_settings->set(Set::Proxy_Active, ui->cb_active->isChecked());
 	_settings->set(Set::Proxy_Username, ui->le_username->text());
@@ -70,6 +70,8 @@ void GUI_Proxy::commit()
 	else {
 		_settings->set(Set::Proxy_Password, QString());
 	}
+
+	return true;
 }
 
 void GUI_Proxy::revert()

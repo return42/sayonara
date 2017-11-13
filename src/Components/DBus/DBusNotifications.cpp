@@ -38,12 +38,12 @@ DBusNotifications::DBusNotifications(QObject* parent) :
 
 	if (!QDBusConnection::sessionBus().interface()->isServiceRegistered("org.freedesktop.Notifications"))
 	{
-        sp_log(Log::Debug, this) << " not registered";
+		sp_log(Log::Debug, this) << " not registered";
 
 	}
 
 	else{
-        sp_log(Log::Info, this) << " registered";
+		sp_log(Log::Info, this) << " registered";
 	}
 
 	NotificationHandler::instance()->register_notificator(this);
@@ -88,8 +88,8 @@ void DBusNotifications::track_changed(const MetaData& md)
 		return;
 	}
 
-    Cover::Location cl = Cover::Location::cover_location(md);
+	Cover::Location cl = Cover::Location::cover_location(md);
 	QString cover_path = cl.preferred_path();
 
-	notify(md.title, "by " + md.artist(), cover_path);
+	notify(md.title(), "by " + md.artist(), cover_path);
 }

@@ -50,8 +50,6 @@ class MetaData :
 	PIMPL(MetaData)
 
 public:
-	QString title;
-
 	uint32_t length_ms;
 	uint32_t filesize;
 
@@ -83,6 +81,9 @@ public:
 	MetaData& operator=(MetaData&& md);
 
 	~MetaData();
+
+	const QString& title() const;
+	void set_title(const QString& title);
 
 	const QString& artist() const;
 	void set_artist(const QString& artist);

@@ -48,16 +48,17 @@ namespace Library
 			explicit CoverModel(QObject* parent, AbstractLibrary* library);
 			virtual ~CoverModel();
 
-			void set_data(const AlbumList& albums);
-
-			// QAbstractItemModel interface
 		public:
 			int				rowCount(const QModelIndex& parent=QModelIndex()) const override;
 			int				columnCount(const QModelIndex& paren=QModelIndex()) const override;
 			QVariant		data(const QModelIndex& index, int role) const override;
 			Qt::ItemFlags	flags(const QModelIndex &index) const override;
 
-			QSize			item_size() const;
+			int				zoom() const;
+			void			refresh_data();
+
+		protected:
+			const MetaDataList& mimedata_tracks() const override;
 			const IndexSet&	selections() const override;
 
 			QModelIndex		getNextRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent=QModelIndex()) override;
@@ -68,19 +69,19 @@ namespace Library
 			int				id_by_row(int idx) override;
 			Cover::Location	cover(const IndexSet& indexes) const override;
 
-
-			int				zoom() const;
-			void			set_max_columns(int columns);
-
-		protected:
-			const MetaDataList &mimedata_tracks() const override;
+		private:
+			const AlbumList& albums() const;
+			void add_rows(int row, int count);
+			void remove_rows(int row, int count);
+			void add_columns(int column, int count);
+			void remove_columns(int column, int count);
 
 		public slots:
-			void            set_zoom(int zoom, const QSize& view_size);
-			void			reload();
+			void set_zoom(int zoom, const QSize& view_size);
+			void reload();
 
 		private slots:
-			void            next_hash();
+			void next_hash();
 
 
 

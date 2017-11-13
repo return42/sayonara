@@ -236,15 +236,19 @@ int8_t Manager::add_library(const QString& name, const QString& path)
 
 	DB::Library* ldb = DB::Connector::instance()->library_connector();
 
-	ldb->insert_library(id, name, path, 0);
-	ldb->reorder_libraries(m->order_map());
+	bool success = ldb->insert_library(id, name, path, 0);
+	success = success && ldb->reorder_libraries(m->order_map());
 
 	::Util::File::create_symlink(li.path(), li.symlink_path());
+
+	if(!success){
+		return -1;
+	}
 
 	return id;
 }
 
-void Manager::rename_library(int8_t id, const QString& new_name)
+bool Manager::rename_library(int8_t id, const QString& new_name)
 {
 	m->rename_library(id, new_name);
 
@@ -253,15 +257,14 @@ void Manager::rename_library(int8_t id, const QString& new_name)
 	if(info.valid())
 	{
 		DB::Library* ldb = DB::Connector::instance()->library_connector();
-		ldb->edit_library(id, new_name, info.path());
+		return ldb->edit_library(id, new_name, info.path());
 	}
 
-	else {
-		sp_log(Log::Warning, this) << "Cannot rename library";
-	}
+	sp_log(Log::Warning, this) << "Cannot rename library";
+	return false;
 }
 
-void Manager::remove_library(int8_t id)
+bool Manager::remove_library(int8_t id)
 {
 	for(int i=0; i<m->all_libs.size(); i++)
 	{
@@ -292,24 +295,29 @@ void Manager::remove_library(int8_t id)
 		break;
 	}
 
+	bool success = true;
 	DB::Library* ldb = DB::Connector::instance()->library_connector();
-	ldb->remove_library(id);
-	ldb->reorder_libraries(m->order_map());
+	success = success && ldb->remove_library(id);
+	success = success && ldb->reorder_libraries(m->order_map());
 
 	m->all_libs = ldb->get_all_libraries();
+
+	return success;
 }
 
-void Manager::move_library(int old_row, int new_row)
+bool Manager::move_library(int old_row, int new_row)
 {
 	m->move_library(old_row, new_row);
 
 	DB::Library* ldb = DB::Connector::instance()->library_connector();
-	ldb->reorder_libraries(m->order_map());
+	bool success = ldb->reorder_libraries(m->order_map());
 
 	m->all_libs = ldb->get_all_libraries();
+
+	return success;
 }
 
-void Manager::change_library_path(int8_t id, const QString& path)
+bool Manager::change_library_path(int8_t id, const QString& path)
 {
 	m->change_library_path(id, path);
 
@@ -317,11 +325,12 @@ void Manager::change_library_path(int8_t id, const QString& path)
 	if(info.valid())
 	{
 		DB::Library* ldb = DB::Connector::instance()->library_connector();
-		ldb->edit_library(id, info.name(), path);
+		return ldb->edit_library(id, info.name(), path);
 	}
 
 	else {
 		sp_log(Log::Warning, this) << "Cannot change library path";
+		return false;
 	}
 }
 
