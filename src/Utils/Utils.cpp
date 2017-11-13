@@ -401,6 +401,18 @@ void Util::set_environment(const QString& key, const QString& value)
 #endif
 }
 
+void Util::unset_environment(const QString& key)
+{
+#ifdef Q_OS_WIN
+	QString str = key + "=";
+	_putenv(str.toLocal8Bit().constData());
+	sp_log(Log::Info) << "Windows: Set environment variable " << str;
+#else
+	unsetenv(key.toLocal8Bit().constData());
+#endif
+}
+
+
 QString Util::random_string(int max_chars)
 {
 	QString ret;

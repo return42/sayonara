@@ -33,13 +33,14 @@
 
 #include "Components/Covers/CoverLocation.h"
 
-MetaTypeRegistry::MetaTypeRegistry()
+MetaTypeRegistry::MetaTypeRegistry(QObject* parent) :
+	QObject(parent)
 {
 	qRegisterMetaType<StringPair>("StringPair");
 	qRegisterMetaType<IntList>("IntList");
 	qRegisterMetaType<IDList>("IDList");
 	qRegisterMetaType<IdxList>("IdxList");
-	/* qRegisterMetaType<BoolList>("BoolList"); */
+	//qRegisterMetaType<BoolList>("BoolList");
 	qRegisterMetaType<ArtistID>("ArtistID");
 	qRegisterMetaType<AlbumID>("AlbumID");
 	qRegisterMetaType<TrackID>("TrackID");

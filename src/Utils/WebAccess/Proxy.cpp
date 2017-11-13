@@ -54,16 +54,23 @@ void Proxy::proxy_changed()
 			proxy.setUser(username());
 			proxy.setPassword(password());
 		}
-	}
-	else {
-		proxy.setType(QNetworkProxy::NoProxy);
+
+		QString url = full_url();
+
+		Util::set_environment("http_proxy", url.toLocal8Bit().data());
+		Util::set_environment("https_proxy", url.toLocal8Bit().data());
+		Util::set_environment("HTTP_PROXY", url.toLocal8Bit().data());
+		Util::set_environment("HTTPS_PROXY", url.toLocal8Bit().data());
 	}
 
-	QString url = full_url();
-	Util::set_environment("http_proxy", url.toLocal8Bit().data());
-	Util::set_environment("https_proxy", url.toLocal8Bit().data());
-	Util::set_environment("HTTP_PROXY", url.toLocal8Bit().data());
-	Util::set_environment("HTTPS_PROXY", url.toLocal8Bit().data());
+	else {
+		proxy.setType(QNetworkProxy::NoProxy);
+	
+		Util::unset_environment("http_proxy");
+		Util::unset_environment("https_proxy");
+		Util::unset_environment("HTTP_PROXY");
+		Util::unset_environment("HTTPS_PROXY");
+	}
 
 	QNetworkProxy::setApplicationProxy(proxy);
 }

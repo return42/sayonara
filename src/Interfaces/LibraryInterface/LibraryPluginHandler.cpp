@@ -272,7 +272,8 @@ void PluginHandler::set_current_library(Container* cur_library)
 		}
 	}
 
-	if(m->current_library) {
+	if(m->current_library)
+	{
 	   init_library(m->current_library);
 	   m->current_library->show();
 	}

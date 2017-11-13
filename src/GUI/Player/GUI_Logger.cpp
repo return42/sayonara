@@ -118,7 +118,7 @@ QString GUI_Logger::calc_log_line(const QDateTime &t, Log log_type, const QStrin
 	}
 
 	log_line += "<tr>";
-	log_line += "<td>[" + t.toString("hh:mm:ss") + "]</td>";
+	log_line += "<td>[" + t.toString("hh:mm:ss") + "." + QString::number(t.time().msec()) + "]</td>";
 	log_line += "<td><div style=\"color: " + html_color + ";\">" + type_str + ": </div></td>";
 
 	if(!class_name.isEmpty())

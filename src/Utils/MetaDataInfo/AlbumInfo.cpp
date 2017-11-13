@@ -29,7 +29,6 @@
 
 #include <QStringList>
 
-
 struct AlbumInfo::Private
 {
 	uint8_t db_id;

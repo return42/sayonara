@@ -311,6 +311,7 @@ void Application::init_libraries()
 	library_containers << static_cast<Library::ContainerInterface*>(soundcloud_container);
 	library_containers << static_cast<Library::ContainerInterface*>(somafm_container);
 #endif
+	sp_log(Log::Debug, this) << "Libraries init: " << m->timer->elapsed() << "ms";
 	library_plugin_loader->init(library_containers);
 
 	sp_log(Log::Debug, this) << "Libraries loaded: " << m->timer->elapsed() << "ms";
