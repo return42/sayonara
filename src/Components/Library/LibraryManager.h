@@ -44,19 +44,19 @@ namespace Library
 		friend class LocalLibrary;
 
 	public:
-		int8_t add_library(const QString& name, const QString& path);
-		bool rename_library(int8_t id, const QString& name);
-		bool remove_library(int8_t id);
+		LibraryId add_library(const QString& name, const QString& path);
+		bool rename_library(LibraryId id, const QString& name);
+		bool remove_library(LibraryId id);
 		bool move_library(int old_row, int new_row);
-		bool change_library_path(int8_t id, const QString& path);
+		bool change_library_path(LibraryId id, const QString& path);
 
 		static QString request_library_name(const QString& path);
 		QList<Info> all_libraries() const;
-		Info library_info(int8_t id) const;
+		Info library_info(LibraryId id) const;
 
 		int count() const;
 
-		LocalLibrary* library_instance(int8_t id) const;
+		LocalLibrary* library_instance(LibraryId id) const;
 
 		void revert();
 	};

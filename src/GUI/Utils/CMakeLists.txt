@@ -34,9 +34,9 @@ SET(SOURCES
 	Widgets/ProgressBar.cpp
 
 	SearchableWidget/SearchableView.cpp
-	SearchableWidget/AbstractSearchModel.cpp
+	SearchableWidget/SearchableModel.cpp
 	SearchableWidget/SearchableFileTreeModel.cpp
-	SearchableWidget/SayonaraSelectionView.cpp
+	SearchableWidget/SelectionView.cpp
 	SearchableWidget/MiniSearcher.cpp
 
 	Shortcuts/Shortcut.cpp
@@ -58,6 +58,6 @@ TARGET_LINK_LIBRARIES(${PROJECT_NAME}
 )
 
 IF( WITH_COTIRE )
-    cotire(${PROJECT_NAME})
+	cotire(${PROJECT_NAME})
 ENDIF()
 

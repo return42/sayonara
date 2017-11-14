@@ -46,14 +46,14 @@ namespace DB
 			ArtistID
 		};
 
-		LibraryDatabase(const QString& db_name, uint8_t db_id, int8_t library_id);
+		LibraryDatabase(const QString& db_name, DbId db_id, LibraryId library_id);
 		virtual ~LibraryDatabase();
 
 		void change_artistid_field(ArtistIDField field);
 		void clear();
 		bool apply_fixes() override;
 
-		int8_t library_id() const;
+		LibraryId library_id() const;
 
 		virtual bool store_metadata(const MetaDataList& v_md);
 	};

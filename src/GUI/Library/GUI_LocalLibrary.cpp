@@ -28,6 +28,7 @@
 
 #include "GUI_LocalLibrary.h"
 #include "GUI/Library/ui_GUI_LocalLibrary.h"
+#include "GUI/Library/GUI_ReloadLibraryDialog.h"
 
 #include "GUI/Library/Utils/LocalLibraryMenu.h"
 #include "GUI/Library/Views/CoverView.h"
@@ -86,7 +87,6 @@ GUI_LocalLibrary::GUI_LocalLibrary(int id, QWidget* parent) :
 
 	ui->pb_progress->setVisible(false);
 	ui->lab_progress->setVisible(false);
-	ui->btn_reload_library->setVisible(false);
 
 	int entries = (LibraryContextMenu::EntryInfo |
 			LibraryContextMenu::EntryEdit |
@@ -125,10 +125,6 @@ GUI_LocalLibrary::GUI_LocalLibrary(int id, QWidget* parent) :
 	connect(m->library_menu, &LocalLibraryMenu::sig_info, this, &GUI_LocalLibrary::show_info_box);
 	connect(m->library_menu, &LocalLibraryMenu::sig_show_album_artists_changed, m->library, &LocalLibrary::show_album_artists_changed);
 	connect(m->library_menu, &LocalLibraryMenu::sig_reload_library, [=](){
-		this->reload_library_requested();
-	});
-
-	connect(ui->btn_reload_library, &QPushButton::clicked, [=](){
 		this->reload_library_requested();
 	});
 
@@ -229,88 +225,50 @@ void GUI_LocalLibrary::progress_changed(const QString& type, int progress)
 
 void GUI_LocalLibrary::genres_reloaded()
 {
-	if(ui->lv_genres->row_count() == 0){
-		ui->stacked_genre_widget->setCurrentIndex(1);
+	if(ui->lv_genres->has_items()){
+		ui->stacked_genre_widget->setCurrentIndex(0);
 	}
 
 	else{
-		ui->stacked_genre_widget->setCurrentIndex(0);
+		ui->stacked_genre_widget->setCurrentIndex(1);
 	}
 }
 
 void GUI_LocalLibrary::reload_library_requested()
 {
-	 reload_library_requested(Library::ReloadQuality::Unknown);
+	reload_library_requested(Library::ReloadQuality::Unknown);
 }
 
 void GUI_LocalLibrary::reload_library_requested(Library::ReloadQuality quality)
 {
-	if(quality == Library::ReloadQuality::Unknown)
-	{
-		int n_rows = ui->tb_title->model()->rowCount();
-		if(n_rows > 0){
-			quality = show_quality_dialog();
+	GUI_ReloadLibraryDialog* dialog =
+			new GUI_ReloadLibraryDialog(m->library->library_name(), this);
 
-			if(quality == Library::ReloadQuality::Unknown){
-				return;
-			}
-		}
+	dialog->set_quality(quality);
+	dialog->show();
 
-		else {
-			quality = Library::ReloadQuality::Accurate;
-		}
-	}
-
-	m->library->reload_library(false, quality);
-	ui->btn_reload_library->setVisible(false);
+	connect(dialog, &GUI_ReloadLibraryDialog::sig_accepted,
+			this, &GUI_LocalLibrary::reload_library_accepted);
 }
 
-
-Library::ReloadQuality GUI_LocalLibrary::show_quality_dialog()
+void GUI_LocalLibrary::reload_library_accepted(Library::ReloadQuality quality)
 {
-	QStringList lst;
-	bool ok = false;
-
-	lst << tr("Check for changed files (fast)") + "\t";
-	lst << tr("Deep scan (slow)") + "\t";
-
-	QString str = QInputDialog::getItem(this,
-										"Sayonara",
-										tr("Select reload mode") + "\n",
-										lst,
-										0,
-										false,
-										&ok);
-
-	if(!ok){
-		return Library::ReloadQuality::Unknown;
-	}
-
-	if(str.isEmpty()){
-		return Library::ReloadQuality::Unknown;
-	}
-
-	if(str.compare(lst.first()) == 0){
-		return Library::ReloadQuality::Fast;
-	}
-
-	if(str.compare(lst[1]) == 0){
-		return Library::ReloadQuality::Accurate;
-	}
-
-	return Library::ReloadQuality::Unknown;
+	m->library_menu->set_library_busy(true);
+	m->library->reload_library(false, quality);
+	sender()->deleteLater();
 }
 
 void GUI_LocalLibrary::reload_finished()
 {
-	ui->btn_reload_library->setVisible(false);
-
-	if(ui->lv_genres->row_count() <= 1){
-		ui->stacked_genre_widget->setCurrentIndex(1);
-	}
-	else{
+	if(ui->lv_genres->has_items()){
 		ui->stacked_genre_widget->setCurrentIndex(0);
 	}
+
+	else{
+		ui->stacked_genre_widget->setCurrentIndex(1);
+	}
+
+	m->library_menu->set_library_busy(false);
 }
 
 void GUI_LocalLibrary::show_info_box()
@@ -423,11 +381,9 @@ void GUI_LocalLibrary::name_changed(const QString& name)
 	m->library_menu->refresh_name(name);
 }
 
-
 void GUI_LocalLibrary::path_changed(const QString& path)
 {
 	m->library_menu->refresh_path(path);
-	ui->btn_reload_library->setVisible(true);
 }
 
 void GUI_LocalLibrary::import_dialog_requested()
@@ -522,9 +478,9 @@ void GUI_LocalLibrary::switch_album_view()
 	ui->sw_album_covers->setCurrentIndex( idx );
 }
 
-void GUI_LocalLibrary::lib_albums_ready()
+void GUI_LocalLibrary::albums_ready()
 {
-	GUI_AbstractLibrary::lib_albums_ready();
+	GUI_AbstractLibrary::albums_ready();
 
 	if(m->acv && m->acv->isVisible())
 	{

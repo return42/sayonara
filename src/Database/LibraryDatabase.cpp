@@ -29,15 +29,15 @@ using DB::LibraryDatabase;
 
 struct LibraryDatabase::Private
 {
-	int8_t library_id;
+	LibraryId library_id;
 
-	Private(int8_t library_id) :
+	Private(LibraryId library_id) :
 		library_id(library_id)
 	{}
 };
 
 
-LibraryDatabase::LibraryDatabase(const QString& db_name, uint8_t database_id, int8_t library_id) :
+LibraryDatabase::LibraryDatabase(const QString& db_name, DbId database_id, LibraryId library_id) :
 	DB::Base(database_id, "", db_name),
 	DB::Albums(db(), db_id(), library_id),
 	DB::Artists(db(), db_id(), library_id),
@@ -97,7 +97,7 @@ void LibraryDatabase::clear()
 	DB::Tracks::deleteAllTracks();
 }
 
-int8_t LibraryDatabase::library_id() const
+LibraryId LibraryDatabase::library_id() const
 {
 	return m->library_id;
 }

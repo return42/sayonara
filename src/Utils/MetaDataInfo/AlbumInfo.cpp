@@ -20,21 +20,24 @@
 
 #include "AlbumInfo.h"
 #include "MetaDataInfo.h"
+
+#include "Database/LibraryDatabase.h"
+#include "Database/DatabaseConnector.h"
+
+#include "Utils/Set.h"
 #include "Utils/Language.h"
 #include "Utils/MetaData/Album.h"
 #include "Utils/MetaData/MetaData.h"
 #include "Utils/MetaData/MetaDataList.h"
-#include "Database/LibraryDatabase.h"
-#include "Database/DatabaseConnector.h"
 
 #include <QStringList>
 
 struct AlbumInfo::Private
 {
-	uint8_t db_id;
+	DbId db_id;
 	Cover::Location cover_location;
 
-	Private(uint8_t db_id) :
+	Private(DbId db_id) :
 		db_id(db_id)
 	{}
 };
@@ -42,7 +45,7 @@ struct AlbumInfo::Private
 AlbumInfo::AlbumInfo(const MetaDataList& v_md) :
 	MetaDataInfo(v_md)
 {
-	uint8_t db_id = -1;
+	DbId db_id = (DbId) -1;
 	if(v_md.size() > 0)
 	{
 		db_id = v_md.first().db_id();

@@ -76,25 +76,25 @@ CustomField::CustomField(const QString& id, const QString& display_name, const Q
 
 CustomField::CustomField(const CustomField &other)
 {
-    m = Pimpl::make<Private>(*(other.m));
+	m = Pimpl::make<Private>(*(other.m));
 }
 
 CustomField::CustomField(CustomField&& other)
 {
 	m = Pimpl::make<Private>(
-            std::move(*(other.m))
+			std::move(*(other.m))
 							  );
 }
 
 CustomField& CustomField::operator=(const CustomField& other)
 {
-    (*m) = *(other.m);
+	(*m) = *(other.m);
 	return *this;
 }
 
 CustomField& CustomField::operator=(CustomField&& other)
 {
-    (*m) = std::move(*(other.m));
+	(*m) = std::move(*(other.m));
 	return *this;
 }
 
@@ -120,7 +120,7 @@ struct LibraryItem::Private
 {
 	CustomFieldList additional_data;
 	QString	cover_download_url;
-	uint8_t db_id;
+	DbId db_id;
 
 	Private() :
 		db_id(0)
@@ -164,25 +164,25 @@ LibraryItem::LibraryItem()
 
 LibraryItem::LibraryItem(const LibraryItem& other)
 {
-    m = Pimpl::make<Private>(*(other.m));
+	m = Pimpl::make<Private>(*(other.m));
 }
 
 LibraryItem::LibraryItem(LibraryItem&& other)
 {
 	m = Pimpl::make<Private>(
-        std::move(*(other.m))
+		std::move(*(other.m))
 	);
 }
 
 LibraryItem& LibraryItem::operator=(const LibraryItem& other)
 {
-    (*m) = *(other.m);
+	(*m) = *(other.m);
 	return *this;
 }
 
 LibraryItem& LibraryItem::operator=(LibraryItem&& other)
 {
-    (*m) = std::move(*(other.m));
+	(*m) = std::move(*(other.m));
 	return *this;
 }
 
@@ -190,7 +190,7 @@ LibraryItem::~LibraryItem() {}
 
 void LibraryItem::add_custom_field(const CustomField& field)
 {
-    m->additional_data.push_back(field);
+	m->additional_data.push_back(field);
 }
 
 void LibraryItem::add_custom_field(const QString& id, const QString& display_name, const QString& value)
@@ -219,7 +219,7 @@ QString LibraryItem::get_custom_field(const QString& id) const
 
 QString LibraryItem::get_custom_field(int idx) const
 {
-    if(idx < 0 || idx >= (int) m->additional_data.size()){
+	if(idx < 0 || idx >= (int) m->additional_data.size()){
 		return "";
 	}
 
@@ -233,17 +233,17 @@ QString LibraryItem::cover_download_url() const
 
 void LibraryItem::set_cover_download_url(const QString& url)
 {
-    m->cover_download_url = url;
+	m->cover_download_url = url;
 }
 
-uint8_t LibraryItem::db_id() const
+DbId LibraryItem::db_id() const
 {
 	return m->db_id;
 }
 
-void LibraryItem::set_db_id(uint8_t id)
+void LibraryItem::set_db_id(DbId id)
 {
-    m->db_id = id;
+	m->db_id = id;
 }
 
 
@@ -252,14 +252,14 @@ void LibraryItem::print() const {}
 
 QHash<HashValue, QString> &LibraryItem::album_pool()
 {
-    static QHash<HashValue, QString> pool;
-    return pool;
+	static QHash<HashValue, QString> pool;
+	return pool;
 }
 
 QHash<HashValue, QString> &LibraryItem::artist_pool()
 {
-    static QHash<HashValue, QString> pool;
-    return pool;
+	static QHash<HashValue, QString> pool;
+	return pool;
 }
 
 

@@ -135,7 +135,7 @@ class StreamWriter :
 		 * @param data
 		 * @param size
 		 */
-		void new_audio_data(const uint8_t* data, uint64_t size) override;
+		void new_audio_data(const Byte* data, uint64_t size) override;
 
 	private:
 		void reset();

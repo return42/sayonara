@@ -33,7 +33,7 @@ namespace Library
 
 	public:
 		Info();
-		Info(const QString& name, const QString& path, int id);
+		Info(const QString& name, const QString& path, LibraryId id);
 		Info(const Info& other);
 		~Info();
 
@@ -42,7 +42,7 @@ namespace Library
 		QString name() const;
 		QString path() const;
 		QString symlink_path() const;
-		int8_t id() const;
+		LibraryId id() const;
 		bool valid() const;
 
 		static Info fromString(const QString& str);

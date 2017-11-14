@@ -52,7 +52,7 @@ struct PlaylistItemModel::Private
 };
 
 PlaylistItemModel::PlaylistItemModel(PlaylistPtr pl, QObject* parent) :
-	AbstractSearchListModel(parent)
+	SearchableListModel(parent)
 {
 	m = Pimpl::make<Private>(pl);
 

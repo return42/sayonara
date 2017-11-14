@@ -44,7 +44,7 @@ namespace Library
 		void sig_info();
 		void sig_name_changed(const QString& name);
 		void sig_path_changed(const QString& path);
-        void sig_show_album_artists_changed(bool show_album_artists);
+		void sig_show_album_artists_changed(bool show_album_artists);
 
 	public:
 		explicit LocalLibraryMenu(const QString& name, const QString& path, QWidget* parent=nullptr);
@@ -53,7 +53,8 @@ namespace Library
 		void refresh_name(const QString& name);
 		void refresh_path(const QString& path);
 
-        void set_show_album_covers_checked(bool checked);
+		void set_show_album_covers_checked(bool checked);
+		void set_library_busy(bool b);
 
 	private:
 		void init_menu();
@@ -68,7 +69,6 @@ namespace Library
 		void show_album_artists_changed();
 
 		void realtime_search_changed();
-		void auto_update_changed();
 
 		void edit_clicked();
 		void edit_accepted();

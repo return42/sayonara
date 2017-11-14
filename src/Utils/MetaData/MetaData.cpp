@@ -59,7 +59,7 @@ struct MetaData::Private
 {
 	QString			title;
 	SP::Set<GenreID> genres;
-	ArtistID		album_artist_id;
+	ArtistId		album_artist_id;
 	HashValue		album_artist_idx;
 	HashValue		album_idx;
 	HashValue		artist_idx;
@@ -282,7 +282,7 @@ void MetaData::set_album(const QString& album)
 
 
 
-ArtistID MetaData::album_artist_id() const
+ArtistId MetaData::album_artist_id() const
 {
 	if(m->album_artist_id < 0 || m->album_artist_idx == 0){
 		return artist_id;
@@ -296,7 +296,7 @@ const QString& MetaData::album_artist() const
 	return artist_pool()[m->album_artist_idx];
 }
 
-void MetaData::set_album_artist(const QString& album_artist, ArtistID id)
+void MetaData::set_album_artist(const QString& album_artist, ArtistId id)
 {
 	HashValue hashed = qHash(album_artist);
 	if(!artist_pool().contains(hashed))
@@ -308,7 +308,7 @@ void MetaData::set_album_artist(const QString& album_artist, ArtistID id)
 	m->album_artist_id = id;
 }
 
-void MetaData::set_album_artist_id(ArtistID id)
+void MetaData::set_album_artist_id(ArtistId id)
 {
 	m->album_artist_id = id;
 }

@@ -35,6 +35,7 @@ class MetaData;
 class StreamParser : public QObject
 {
 	Q_OBJECT
+	PIMPL(StreamParser)
 
 	signals:
 		void sig_finished(bool);
@@ -50,14 +51,11 @@ class StreamParser : public QObject
 		void set_cover_url(const QString& cover_url);
 		void stop();
 
-		MetaDataList get_metadata() const;
+		MetaDataList metadata() const;
 
 	private slots:
 		void awa_finished();
 		void icy_finished();
-
-	private:
-		PIMPL(StreamParser)
 
 	private:
 		/**
@@ -99,8 +97,6 @@ class StreamParser : public QObject
 		 * @return
 		 */
 		bool parse_next_url();
-
-
 };
 
 #endif

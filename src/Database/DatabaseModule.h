@@ -32,10 +32,10 @@ namespace DB
 		PIMPL(Module)
 
 		public:
-			Module(QSqlDatabase db, uint8_t db_id);
+			Module(QSqlDatabase db, DbId db_id);
 			virtual ~Module();
 
-			uint8_t module_db_id() const;
+			DbId module_db_id() const;
 			QSqlDatabase module_db() const;
 	};
 }

@@ -44,7 +44,7 @@ namespace DB
 			private Module
 	{
 		public:
-			Playlist(const QSqlDatabase& db, uint8_t db_id);
+			Playlist(const QSqlDatabase& db, DbId db_id);
 			~Playlist();
 
 			bool getAllPlaylistSkeletons(CustomPlaylistSkeletons& skeletons, ::Playlist::StoreType type, ::Playlist::SortOrder sortorder=::Playlist::SortOrder::NameAsc);

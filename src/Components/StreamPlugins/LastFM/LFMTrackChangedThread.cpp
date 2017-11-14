@@ -246,7 +246,7 @@ void TrackChangedThread::evaluate_artist_match(const ArtistMatch& artist_match)
 		return;
 	}
 
-	IDList chosen_ids;
+	IdList chosen_ids;
 	for(auto it = possible_artists.begin(); it != possible_artists.end(); it++) {
 		chosen_ids << it.value();
 	}

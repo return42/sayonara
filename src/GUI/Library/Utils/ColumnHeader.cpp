@@ -20,22 +20,46 @@
 #include "ColumnHeader.h"
 #include "Utils/Language.h"
 
+#include <QAction>
+
 #include <algorithm>
 
-ColumnHeader::ColumnHeader(HeaderType type, bool switchable, Library::SortOrder sort_asc, Library::SortOrder sort_desc)
+using Library::SortOrder;
+using SizeType=ColumnHeader::SizeType;
+using HeaderType=ColumnHeader::HeaderType;
+
+struct ColumnHeader::Private
 {
-	_type = type;
-	_preferred_size_abs = 0;
-	_preferred_size_rel = 0;
+	QAction*		action=nullptr;
+	double			preferred_size_rel;
+	int 			preferred_size_abs;
 
-	_action = new QAction(this);
-	_switchable = switchable;
-	_sort_asc = sort_asc;
-	_sort_desc = sort_desc;
+	SortOrder		sort_asc;
+	SortOrder		sort_desc;
+	SizeType		size_type;
+	HeaderType		type;
 
-	_size_type = SizeType::Undefined;
-	_action->setChecked(true);
-	_action->setCheckable(_switchable);
+	bool 			switchable;
+
+	Private(ColumnHeader* parent, HeaderType type, bool switchable, SortOrder sort_asc, SortOrder sort_desc) :
+		preferred_size_rel(0),
+		preferred_size_abs(0),
+		sort_asc(sort_asc),
+		sort_desc(sort_desc),
+		size_type(SizeType::Undefined),
+		type(type),
+		switchable(switchable)
+
+	{
+		action = new QAction(parent);
+		action->setChecked(true);
+		action->setCheckable(switchable);
+	}
+};
+
+ColumnHeader::ColumnHeader(HeaderType type, bool switchable, SortOrder sort_asc, SortOrder sort_desc)
+{
+	m = Pimpl::make<Private>(this, type, switchable, sort_asc, sort_desc);
 }
 
 ColumnHeader::~ColumnHeader() {}
@@ -43,55 +67,54 @@ ColumnHeader::~ColumnHeader() {}
 ColumnHeader::ColumnHeader(HeaderType type, bool switchable, Library::SortOrder sort_asc, Library::SortOrder sort_desc, int preferred_size_abs) :
 	ColumnHeader(type, switchable, sort_asc, sort_desc)
 {
-	_preferred_size_abs = preferred_size_abs;
-	_preferred_size_rel = 0;
+	m->preferred_size_abs = preferred_size_abs;
+	m->preferred_size_rel = 0;
 
-	_size_type = SizeType::Abs;
-
-	_action->setCheckable(_switchable);
+	m->size_type = SizeType::Abs;
 }
 
 ColumnHeader::ColumnHeader(HeaderType type, bool switchable, Library::SortOrder sort_asc, Library::SortOrder sort_desc, double preferred_size_rel, int min_size) :
 	ColumnHeader(type, switchable, sort_asc, sort_desc)
 {
-	_preferred_size_abs = min_size;
-	_preferred_size_rel = preferred_size_rel;
-	_size_type = SizeType::Rel;
+	m->preferred_size_abs = min_size;
+	m->preferred_size_rel = preferred_size_rel;
+
+	m->size_type = SizeType::Rel;
 }
 
-int ColumnHeader::get_preferred_size_abs() const
+int ColumnHeader::preferred_size_abs() const
 {
-	return _preferred_size_abs;
+	return m->preferred_size_abs;
 }
 
-double ColumnHeader::get_preferred_size_rel() const
+double ColumnHeader::preferred_size_rel() const
 {
-	return _preferred_size_rel;
+	return m->preferred_size_rel;
 }
 
-Library::SortOrder ColumnHeader::get_asc_sortorder() const
+Library::SortOrder ColumnHeader::sortorder_asc() const
 {
-	return _sort_asc;
+	return	m->sort_asc;
 }
 
-Library::SortOrder ColumnHeader::get_desc_sortorder() const
+Library::SortOrder ColumnHeader::sortorder_desc() const
 {
-	return _sort_desc;
+	return m->sort_desc;
 }
 
-QAction* ColumnHeader::get_action()
+QAction* ColumnHeader::action()
 {
-	_action->setText( this->get_title() );
-	return _action;
+	m->action->setText( this->title() );
+	return m->action;
 }
 
 bool ColumnHeader::is_visible() const
 {
-	if(!_switchable){
+	if(!m->switchable){
 		return true;
 	}
 
-	return _action->isChecked();
+	return m->action->isChecked();
 }
 
 bool ColumnHeader::is_hidden() const
@@ -101,16 +124,16 @@ bool ColumnHeader::is_hidden() const
 
 void ColumnHeader::retranslate()
 {
-	_action->setText(this->get_title());
+	m->action->setText(this->title());
 }
 
-ColumnHeader::SizeType ColumnHeader::get_size_type() const
+ColumnHeader::SizeType ColumnHeader::size_type() const
 {
-	return _size_type;
+	return m->size_type;
 }
 
 
-int ColumnHeaderList::get_shown_columns() const
+int ColumnHeaderList::visible_columns() const
 {
 	int count = std::count_if(this->begin(), this->end(), [](ColumnHeader* header){
 		return header->is_visible();
@@ -119,13 +142,15 @@ int ColumnHeaderList::get_shown_columns() const
 	return count;
 }
 
-int ColumnHeaderList::get_nth_shown_col(int n) const
+int ColumnHeaderList::visible_column(int n) const
 {
-	if(n < 0 || n > this->size()){
+	if(n < 0 || n > this->size())
+	{
 		return -1;
 	}
 
-	for(int i=0; i<this->size(); i++){
+	for(int i=0; i<this->size(); i++)
+	{
 		ColumnHeader* header = this->at(i);
 		if(header->is_visible()){
 			n--;
@@ -139,9 +164,9 @@ int ColumnHeaderList::get_nth_shown_col(int n) const
 	return -1;
 }
 
-QString ColumnHeader::get_title() const
+QString ColumnHeader::title() const
 {
-	switch(_type)
+	switch(m->type)
 	{
 		case ColumnHeader::Sharp:
 			return "#";

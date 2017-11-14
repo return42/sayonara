@@ -103,7 +103,7 @@ StreamHttpParser::HttpAnswer StreamWriter::parse_message()
 	return status;
 }
 
-void StreamWriter::new_audio_data(const uint8_t* data, uint64_t size)
+void StreamWriter::new_audio_data(const Byte* data, uint64_t size)
 {
 	if(!m->send_data) {
 		return;

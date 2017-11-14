@@ -23,7 +23,8 @@
 
 #include <QLabel>
 #include <QPoint>
-#include <QPixmap>
+
+#include "Utils/Pimpl.h"
 
 /**
  * @brief The RatingLabel class
@@ -32,6 +33,7 @@
 class RatingLabel : public QLabel
 {
 	Q_OBJECT
+	PIMPL(RatingLabel)
 
 signals:
 	void sig_finished(bool);
@@ -52,15 +54,6 @@ protected:
 	void mousePressEvent(QMouseEvent *ev) override;
 	void mouseReleaseEvent(QMouseEvent* ev) override;
 	void mouseMoveEvent(QMouseEvent *ev) override;
-
-
-private:
-	QWidget*	_parent=nullptr;
-	bool		_enabled;
-	int			_rating;
-    uint8_t     _icon_size;
-	QPixmap 	_pm_active;
-	QPixmap 	_pm_inactive;
 
 private:
 	void update_rating(int rating);

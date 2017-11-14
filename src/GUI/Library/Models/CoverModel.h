@@ -23,7 +23,6 @@
 
 #include "GUI/Library/Models/ItemModel.h"
 #include "Utils/Pimpl.h"
-#include "Utils/typedefs.h"
 
 class Album;
 class AlbumList;

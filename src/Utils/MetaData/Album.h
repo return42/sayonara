@@ -40,15 +40,15 @@ class Album :
 	PIMPL(Album)
 
 public:
-	QList<uint8_t>	discnumbers;
+	QList<Disc>	discnumbers;
 
-	AlbumID		id;
+	AlbumId		id;
 	uint32_t	length_sec;
 	uint16_t	num_songs;
 	uint16_t	year;
 
-	uint8_t		n_discs;
-	uint8_t		rating;
+	Disc		n_discs;
+	Rating		rating;
 	bool		is_sampler;
 
 
@@ -84,7 +84,7 @@ public:
 class AlbumList : public std::vector<Album>
 {
 public:
-	bool contains(AlbumID album_id) const;
+	bool contains(AlbumId album_id) const;
 
 	int count() const;
 	AlbumList& operator <<(const Album& album);

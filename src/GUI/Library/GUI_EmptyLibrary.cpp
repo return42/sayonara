@@ -34,7 +34,7 @@
 using namespace Library;
 
 GUI_EmptyLibrary::GUI_EmptyLibrary(QWidget* parent) :
-    QWidget(parent)
+	QWidget(parent)
 {
 	ui = new Ui::GUI_EmptyLibrary();
 	ui->setupUi(this);
@@ -42,7 +42,7 @@ GUI_EmptyLibrary::GUI_EmptyLibrary(QWidget* parent) :
 	ui->pb_progress->setVisible(false);
 
 	connect(ui->btn_setLibrary, &QPushButton::clicked,
-	        this, &GUI_EmptyLibrary::set_lib_path_clicked);
+			this, &GUI_EmptyLibrary::set_lib_path_clicked);
 }
 
 GUI_EmptyLibrary::~GUI_EmptyLibrary() {}
@@ -55,9 +55,9 @@ QFrame* GUI_EmptyLibrary::header_frame() const
 void GUI_EmptyLibrary::set_lib_path_clicked()
 {
 	QString dir = QFileDialog::getExistingDirectory(this,
-	                                                Lang::get(Lang::OpenDir),
-	                                                QDir::homePath(),
-	                                                QFileDialog::ShowDirsOnly);
+													Lang::get(Lang::OpenDir),
+													QDir::homePath(),
+													QFileDialog::ShowDirsOnly);
 	if(dir.isEmpty()){
 		return;
 	}
@@ -71,7 +71,7 @@ void GUI_EmptyLibrary::set_lib_path_clicked()
 	Manager* lib_manager = Manager::instance();
 	QString name = Manager::request_library_name(dir);
 
-	int8_t id = lib_manager->add_library(name, dir);
+	LibraryId id = lib_manager->add_library(name, dir);
 	LocalLibrary* library = lib_manager->library_instance(id);
 
 	library->reload_library(false, Library::ReloadQuality::Accurate);

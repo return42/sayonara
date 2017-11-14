@@ -24,6 +24,7 @@
 #include <QMenu>
 #include <QAction>
 #include <QList>
+#include "Utils/typedefs.h"
 
 class DiscAction : public QAction
 {
@@ -41,7 +42,7 @@ class DiscAction : public QAction
 };
 
 
-class DiscPopupMenu : public QMenu 
+class DiscPopupMenu : public QMenu
 {
 	Q_OBJECT
 
@@ -52,11 +53,11 @@ class DiscPopupMenu : public QMenu
 		void disc_pressed(int disc);
 
 
-	public: 
-		DiscPopupMenu(QWidget* parent, QList<uint8_t> discs);
+	public:
+		DiscPopupMenu(QWidget* parent, QList<Disc> discs);
 		~DiscPopupMenu();
 
-	protected: 
+	protected:
 		void mouseReleaseEvent(QMouseEvent* e);
 
 	private:

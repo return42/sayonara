@@ -308,6 +308,8 @@ void GUI_DirectoryWidget::search_button_clicked()
 		return;
 	}
 
+	m->dir_model->search_only_dirs(false);
+
 	if(m->search_term == ui->le_search->text()) {
 		m->found_idx = m->dir_model->getNextRowIndexOf(m->search_term, 0, QModelIndex());
 	}
@@ -315,7 +317,6 @@ void GUI_DirectoryWidget::search_button_clicked()
 	else {
 		m->search_term = ui->le_search->text();
 		m->found_idx = m->dir_model->getFirstRowIndexOf(m->search_term);
-
 	}
 
 	ui->tv_dirs->expand(m->found_idx);

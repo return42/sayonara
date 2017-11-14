@@ -137,7 +137,7 @@ CoverView::CoverView(QWidget* topbar, QWidget* parent) :
 	connect(m->combo_sorting, SIGNAL(activated(int)), this, SLOT(combo_sorting_changed(int)));
 	connect(m->combo_zoom, SIGNAL(activated(int)), this, SLOT(combo_zoom_changed(int)));
 
-	set_selection_type( SayonaraSelectionView::SelectionType::Items );
+	set_selection_type( SelectionViewInterface::SelectionType::Items );
 	set_metadata_interpretation(MD::Interpretation::Albums);
 
 	this->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);

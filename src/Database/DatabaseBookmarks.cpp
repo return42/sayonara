@@ -24,7 +24,7 @@
 using DB::Bookmarks;
 using DB::Query;
 
-Bookmarks::Bookmarks(const QSqlDatabase& db, uint8_t db_id) :
+Bookmarks::Bookmarks(const QSqlDatabase& db, DbId db_id) :
 	DB::Module(db, db_id) {}
 
 Bookmarks::~Bookmarks() {}

@@ -31,7 +31,7 @@ namespace DB
 	class VisualStyles : private Module
 	{
 		public:
-			VisualStyles(const QSqlDatabase& db, uint8_t db_id);
+			VisualStyles(const QSqlDatabase& db, DbId db_id);
 			~VisualStyles();
 
 			QList<RawColorStyle> get_raw_color_styles();

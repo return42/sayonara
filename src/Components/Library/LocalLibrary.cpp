@@ -49,9 +49,9 @@ struct LocalLibrary::Private
 	QString				library_path;
 	QString				library_name;
 
-	int8_t				lib_id;
+	LibraryId			lib_id;
 
-	Private(const QString& library_name, const QString& library_path, int8_t lib_id) :
+	Private(const QString& library_name, const QString& library_path, LibraryId lib_id) :
 		db(DB::Connector::instance()),
 		lib_db(db->library_db(lib_id, 0)),
 		library_path(library_path),
@@ -60,7 +60,7 @@ struct LocalLibrary::Private
 	{}
 };
 
-LocalLibrary::LocalLibrary(int8_t lib_id, const QString& library_name, const QString& library_path, QObject *parent) :
+LocalLibrary::LocalLibrary(LibraryId lib_id, const QString& library_name, const QString& library_path, QObject *parent) :
 	AbstractLibrary(parent)
 {
 	DB::Connector::instance()->register_library_db(lib_id);
@@ -194,7 +194,7 @@ void LocalLibrary::get_all_albums(AlbumList& albums, Library::Sortings so)
 }
 
 
-void LocalLibrary::get_all_albums_by_artist(IDList artist_ids, AlbumList& albums, Library::Filter filter, Library::Sortings so)
+void LocalLibrary::get_all_albums_by_artist(IdList artist_ids, AlbumList& albums, Library::Filter filter, Library::Sortings so)
 {
 	m->lib_db->getAllAlbumsByArtist(artist_ids, albums, filter, so.so_albums)	;
 }
@@ -218,13 +218,13 @@ void LocalLibrary::get_all_tracks(const QStringList& paths, MetaDataList& v_md)
 }
 
 
-void LocalLibrary::get_all_tracks_by_artist(IDList artist_ids, MetaDataList& v_md, Library::Filter filter, Library::Sortings so)
+void LocalLibrary::get_all_tracks_by_artist(IdList artist_ids, MetaDataList& v_md, Library::Filter filter, Library::Sortings so)
 {
 	m->lib_db->getAllTracksByArtist(artist_ids, v_md, filter, so.so_tracks);
 }
 
 
-void LocalLibrary::get_all_tracks_by_album(IDList album_ids, MetaDataList& v_md, Library::Filter filter, Library::Sortings so)
+void LocalLibrary::get_all_tracks_by_album(IdList album_ids, MetaDataList& v_md, Library::Filter filter, Library::Sortings so)
 {
 	m->lib_db->getAllTracksByAlbum(album_ids, v_md, filter, so.so_tracks);
 }
@@ -327,7 +327,7 @@ void LocalLibrary::import_files(const QStringList& files)
  * this is not part of this ticket.
  */
 
-void LocalLibrary::merge_artists(const SP::Set<ArtistID>& artist_ids, ArtistID target_artist)
+void LocalLibrary::merge_artists(const SP::Set<ArtistId>& artist_ids, ArtistId target_artist)
 {
 	if(artist_ids.isEmpty()) {
 		return;
@@ -369,7 +369,7 @@ void LocalLibrary::merge_artists(const SP::Set<ArtistID>& artist_ids, ArtistID t
 	tag_edit()->commit();
 }
 
-void LocalLibrary::merge_albums(const SP::Set<AlbumID>& album_ids, AlbumID target_album)
+void LocalLibrary::merge_albums(const SP::Set<AlbumId>& album_ids, AlbumId target_album)
 {
 	if(album_ids.isEmpty())	{
 		return;
@@ -475,7 +475,7 @@ QString LocalLibrary::library_path() const
 	return m->library_path;
 }
 
-int8_t LocalLibrary::library_id() const
+LibraryId LocalLibrary::library_id() const
 {
 	return m->lib_id;
 }

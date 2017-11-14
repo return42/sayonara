@@ -38,7 +38,7 @@ namespace DB
 			void init();
 
 		protected:
-			SearchMode(const QSqlDatabase& db, uint8_t db_id);
+			SearchMode(const QSqlDatabase& db, DbId db_id);
 
 		public:
 			virtual ~SearchMode();

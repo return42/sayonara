@@ -18,13 +18,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "AbstractSearchModel.h"
+#include "SearchableModel.h"
 #include "Utils/Settings/Settings.h"
 
-SearchModelFunctionality::SearchModelFunctionality() {}
-SearchModelFunctionality::~SearchModelFunctionality() {}
+SearchableModelInterface::SearchableModelInterface() {}
+SearchableModelInterface::~SearchableModelInterface() {}
 
-QModelIndex SearchModelFunctionality::getFirstRowIndexOf(const QString &substr)
+QModelIndex SearchableModelInterface::getFirstRowIndexOf(const QString &substr)
 {
 	if(!has_items()){
 		return QModelIndex();
@@ -33,7 +33,7 @@ QModelIndex SearchModelFunctionality::getFirstRowIndexOf(const QString &substr)
 	return getNextRowIndexOf(substr, 0, QModelIndex());
 }
 
-int SearchModelFunctionality::getNumberResults(const QString& str)
+int SearchableModelInterface::getNumberResults(const QString& str)
 {
 	if(str.isEmpty()){
 		return -1;
@@ -66,7 +66,7 @@ int SearchModelFunctionality::getNumberResults(const QString& str)
 	return results;
 }
 
-Library::SearchModeMask SearchModelFunctionality::search_mode() const
+Library::SearchModeMask SearchableModelInterface::search_mode() const
 {
 	return Settings::instance()->get(Set::Lib_SearchMode);
 }

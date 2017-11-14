@@ -30,7 +30,7 @@ namespace DB
 		private Module
 	{
 		public:
-			Podcasts(const QSqlDatabase& db, uint8_t db_id);
+			Podcasts(const QSqlDatabase& db, DbId db_id);
 			~Podcasts();
 
 			bool getAllPodcasts(QMap<QString, QString>& result);

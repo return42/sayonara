@@ -42,12 +42,13 @@ void DiscAction::disc_hover()
 }
 
 
-DiscPopupMenu::DiscPopupMenu(QWidget* parent, QList<uint8_t> discs): QMenu(parent){
-	std::sort(discs.begin(), discs.end(), [](uint8_t disc1, uint8_t disc2){
+DiscPopupMenu::DiscPopupMenu(QWidget* parent, QList<Disc> discs): QMenu(parent){
+	std::sort(discs.begin(), discs.end(), [](Disc disc1, Disc disc2){
 		return disc1 < disc2;
 	});
 
-	for(int i= -1; i<discs.size(); i++){
+	for(int i= -1; i<discs.size(); i++)
+	{
 		QIcon icon;
 		QString text;
 		int data;
@@ -59,7 +60,7 @@ DiscPopupMenu::DiscPopupMenu(QWidget* parent, QList<uint8_t> discs): QMenu(paren
 		}
 
 		else{
-			uint8_t disc = discs[i];
+			Disc disc = discs[i];
 			text = QString("Disc ") + QString::number(disc);
 			data = disc;
 			icon = Gui::Util::icon("cd.png");

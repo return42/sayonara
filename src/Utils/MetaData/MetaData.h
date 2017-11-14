@@ -54,18 +54,18 @@ public:
 	uint32_t filesize;
 
 	TrackID id;
-	ArtistID artist_id;
-	AlbumID album_id;
+	ArtistId artist_id;
+	AlbumId album_id;
 
 	uint32_t bitrate;
 	uint16_t track_num;
 	uint16_t year;
 
-	uint8_t discnumber;
-	uint8_t n_discs;
+	Disc discnumber;
+	Disc n_discs;
 
-	int8_t library_id;
-	uint8_t rating;
+	LibraryId library_id;
+	Rating rating;
 
 	bool played;
 	bool is_extern;
@@ -94,12 +94,12 @@ public:
 	QString filepath() const;
 	QString set_filepath(QString filepath);
 
-	ArtistID album_artist_id() const;
+	ArtistId album_artist_id() const;
 	const QString& album_artist() const;
 	bool has_album_artist() const;
 
-	void set_album_artist(const QString& album_artist, ArtistID id=-1);
-	void set_album_artist_id(ArtistID id);
+	void set_album_artist(const QString& album_artist, ArtistId id=-1);
+	void set_album_artist_id(ArtistId id);
 
 	RadioMode radio_mode() const;
 	bool is_valid() const;

@@ -64,13 +64,13 @@ namespace SC
 		void	get_all_artists_by_searchstring(::Library::Filter filter, ArtistList& artists, ::Library::Sortings so) override;
 
 		void	get_all_albums(AlbumList& albums, ::Library::Sortings so) override;
-		void	get_all_albums_by_artist(IDList artist_ids, AlbumList& albums, ::Library::Filter filter, ::Library::Sortings so) override;
+		void	get_all_albums_by_artist(IdList artist_ids, AlbumList& albums, ::Library::Filter filter, ::Library::Sortings so) override;
 		void	get_all_albums_by_searchstring(::Library::Filter filter, AlbumList& albums, ::Library::Sortings so) override;
 
 		void	get_all_tracks(const QStringList& paths, MetaDataList& v_md) override;
 		void	get_all_tracks(MetaDataList& v_md, ::Library::Sortings so) override;
-		void	get_all_tracks_by_artist(IDList artist_ids, MetaDataList& v_md, ::Library::Filter filter, ::Library::Sortings so) override;
-		void	get_all_tracks_by_album(IDList album_ids, MetaDataList& v_md, ::Library::Filter filter, ::Library::Sortings so) override;
+		void	get_all_tracks_by_artist(IdList artist_ids, MetaDataList& v_md, ::Library::Filter filter, ::Library::Sortings so) override;
+		void	get_all_tracks_by_album(IdList album_ids, MetaDataList& v_md, ::Library::Filter filter, ::Library::Sortings so) override;
 		void	get_all_tracks_by_searchstring(::Library::Filter filter, MetaDataList& v_md, ::Library::Sortings so) override;
 
 		void	update_track(const MetaData& md) override;

@@ -24,6 +24,7 @@
 #define SAYONARA_PIMPL_H_
 
 #include <memory>
+#include "Utils/typedefs.h"
 
 #define CASSIGN(x) x(other.x)
 #define CMOVE(x) x(std::move(other.x))
@@ -33,28 +34,28 @@
 
 
 #define PIMPL(Class) private: \
-    struct Private; \
-    friend struct Private; \
+	struct Private; \
+	friend struct Private; \
 	std::unique_ptr< Class ::Private> m; \
-    private:
+	private:
 
 /**
  * ingroup @Helper
  */
 namespace Pimpl
 {
-    template<typename T, typename... Args>
-    /**
-     * @brief make create an instance of the ::Private structure
-     * @param args arguments, the ::Private constructor needs
-     * @return Unique Pointer to the ::Private structure
-     */
-    std::unique_ptr<T> make(Args&&... args)
-    {
+	template<typename T, typename... Args>
+	/**
+	 * @brief make create an instance of the ::Private structure
+	 * @param args arguments, the ::Private constructor needs
+	 * @return Unique Pointer to the ::Private structure
+	 */
+	std::unique_ptr<T> make(Args&&... args)
+	{
 		return std::unique_ptr<T>(
 				new T(std::forward<Args>(args)...)
 		);
-    }
+	}
 }
 
 #endif // SAYONARA_PIMPL_H_

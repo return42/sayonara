@@ -86,8 +86,8 @@ public:
 	QString cover_download_url() const;
 	void set_cover_download_url(const QString& url);
 
-	uint8_t db_id() const;
-	void set_db_id(uint8_t id);
+	DbId db_id() const;
+	void set_db_id(DbId id);
 
 	virtual void print() const;
 

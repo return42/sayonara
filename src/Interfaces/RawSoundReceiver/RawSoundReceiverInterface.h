@@ -21,7 +21,7 @@
 #ifndef RAWSOUNDRECEIVER_H
 #define RAWSOUNDRECEIVER_H
 
-#include <cstdint>
+#include "Utils/typedefs.h"
 
 /**
  * @brief The RawSoundReceiver interface
@@ -38,7 +38,7 @@ public:
 	 * @param data audio data
 	 * @param n_bytes array size
 	 */
-	virtual void new_audio_data(const uint8_t* data, uint64_t n_bytes)=0;
+	virtual void new_audio_data(const Byte* data, uint64_t n_bytes)=0;
 };
 
 #endif // RAWSOUNDRECEIVER_H

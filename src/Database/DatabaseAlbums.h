@@ -24,7 +24,6 @@
 #include "Database/DatabaseSearchMode.h"
 #include "Database/DatabaseModule.h"
 #include "Utils/Library/Sortorder.h"
-#include "Utils/typedefs.h"
 
 namespace Library {class Filter;}
 class Album;
@@ -38,7 +37,6 @@ namespace DB
 		PIMPL(Albums)
 
 		private:
-			QString _create_order_string(::Library::SortOrder order);
 			virtual QString fetch_query_albums(bool also_empty=false) const;
 
 		protected:
@@ -47,23 +45,23 @@ namespace DB
 
 		public:
 
-			Albums(QSqlDatabase db, uint8_t db_id, int8_t library_id);
+			Albums(QSqlDatabase db, DbId db_id, LibraryId library_id);
 			virtual ~Albums();
 
 			virtual bool db_fetch_albums(Query& q, AlbumList& result);
 
-			virtual int getAlbumID (const QString& album);
+			virtual AlbumId getAlbumID (const QString& album);
 
-			virtual bool getAlbumByID(const int& id, Album& album, bool also_empty=false);
+			virtual bool getAlbumByID(AlbumId id, Album& album, bool also_empty=false);
 
 			virtual bool getAllAlbums(AlbumList& result, bool also_empty);
 			virtual bool getAllAlbums(AlbumList& result, ::Library::SortOrder sortorder=::Library::SortOrder::AlbumNameAsc, bool also_empty=false);
 
 
-			virtual bool getAllAlbumsByArtist(int artist, AlbumList& result);
-			virtual bool getAllAlbumsByArtist(int artist, AlbumList& result, const ::Library::Filter& filter, ::Library::SortOrder sortorder = ::Library::SortOrder::AlbumNameAsc);
-			virtual bool getAllAlbumsByArtist(IDList artists, AlbumList& result);
-			virtual bool getAllAlbumsByArtist(IDList artists, AlbumList& result, const ::Library::Filter& filter, ::Library::SortOrder sortorder = ::Library::SortOrder::AlbumNameAsc);
+			virtual bool getAllAlbumsByArtist(ArtistId artist, AlbumList& result);
+			virtual bool getAllAlbumsByArtist(ArtistId artist, AlbumList& result, const ::Library::Filter& filter, ::Library::SortOrder sortorder = ::Library::SortOrder::AlbumNameAsc);
+			virtual bool getAllAlbumsByArtist(IdList artists, AlbumList& result);
+			virtual bool getAllAlbumsByArtist(IdList artists, AlbumList& result, const ::Library::Filter& filter, ::Library::SortOrder sortorder = ::Library::SortOrder::AlbumNameAsc);
 
 			virtual bool getAllAlbumsBySearchString(const ::Library::Filter& filter, AlbumList& result, ::Library::SortOrder sortorder = ::Library::SortOrder::AlbumNameAsc);
 

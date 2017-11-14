@@ -86,7 +86,7 @@ void LocalLibraryContainer::init_ui()
 	m->ui = new GUI_LocalLibrary(m->library.id());
 }
 
-int8_t LocalLibraryContainer::id()
+LibraryId LocalLibraryContainer::id()
 {
 	return m->library.id();
 }

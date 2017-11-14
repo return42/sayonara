@@ -37,7 +37,7 @@ class Artist :
 	PIMPL(Artist)
 
 public:
-	ArtistID id;
+	ArtistId id;
 	uint16_t num_albums;
 	uint16_t num_songs;
 

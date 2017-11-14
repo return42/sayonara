@@ -68,6 +68,7 @@ DirectoryTreeView::DirectoryTreeView(QWidget *parent) :
 	m->model->setRootPath(root_path);
 
 	this->setModel(m->model);
+	this->setSearchModel(m->model);
 	this->setItemDelegate(new DirectoryDelegate(this));
 	this->setDragEnabled(true);
 
@@ -133,7 +134,9 @@ void DirectoryTreeView::skin_changed()
 
 void DirectoryTreeView::keyPressEvent(QKeyEvent* event)
 {
+	m->model->search_only_dirs(true);
 	event->setAccepted(false);
+
 	SearchableTreeView::keyPressEvent(event);
 }
 
@@ -198,10 +201,40 @@ QStringList DirectoryTreeView::get_selected_paths() const
 
 int DirectoryTreeView::index_by_model_index(const QModelIndex& idx) const
 {
-	return idx.row();
+	Q_UNUSED(idx)
+	return -1;
 }
 
 QModelIndex DirectoryTreeView::model_index_by_index(int idx) const
 {
-	return m->model->index(idx, 0);
+	Q_UNUSED(idx)
+	return QModelIndex();
+}
+
+void DirectoryTreeView::select_match(const QString& str, SearchDirection direction)
+{
+	QModelIndex idx;
+
+	if(direction == SearchDirection::First){
+		idx = m->model->getFirstRowIndexOf(str);
+	}
+
+	else if(direction == SearchDirection::Next){
+		idx = m->model->getNextRowIndexOf(str, 0);
+	}
+
+	else {
+		idx = m->model->getNextRowIndexOf(str, 0);
+	}
+
+	expand(idx);
+	scrollTo(idx, QAbstractItemView::PositionAtCenter);
+	selectionModel()->select(idx, QItemSelectionModel::ClearAndSelect);
+	setCurrentIndex(idx);
+
+	if(m->model->canFetchMore(idx)){
+		m->model->fetchMore(idx);
+	}
+
+
 }

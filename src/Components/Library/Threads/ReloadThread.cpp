@@ -50,13 +50,14 @@
 
 struct ReloadThread::Private
 {
-	DB::Connector*		db=nullptr;
+	DB::Connector*			db=nullptr;
 	QString					library_path;
-	int8_t					library_id;
+	LibraryId				library_id;
 	MetaDataList			v_md;
 	Library::ReloadQuality	quality;
 	bool					paused;
 	bool					running;
+	bool					may_run;
 
 	Private()
 	{
@@ -64,6 +65,7 @@ struct ReloadThread::Private
 		running = false;
 		quality = Library::ReloadQuality::Fast;
 		db = DB::Connector::instance();
+		may_run = true;
 	}
 };
 
@@ -75,7 +77,13 @@ ReloadThread::ReloadThread(QObject *parent) :
 	m->library_path = _settings->get(Set::Lib_Path);
 }
 
-ReloadThread::~ReloadThread() {}
+ReloadThread::~ReloadThread()
+{
+	this->stop();
+	while(this->isRunning()){
+		Util::sleep_ms(50);
+	}
+}
 
 static
 bool compare_md(const MetaData& md1, const MetaData& md2)
@@ -130,6 +138,10 @@ int ReloadThread::get_and_save_all_files(const QHash<QString, MetaData>& md_map_
 
 	for(const QString& filepath : files)
 	{
+		if(!m->may_run){
+			return -1;
+		}
+
 		bool file_was_read = false;
 		MetaData md(filepath);
 		md.library_id = m->library_id;
@@ -138,6 +150,8 @@ int ReloadThread::get_and_save_all_files(const QHash<QString, MetaData>& md_map_
 
 		int percent = (cur_idx_files++ * 100) / n_files;
 		emit sig_reloading_library(Lang::get(Lang::ReloadLibrary).triplePt(), percent);
+		Util::sleep_ms(200);
+
 
 		if(md_lib.id >= 0){
 			if(m->quality == Library::ReloadQuality::Fast){
@@ -250,6 +264,11 @@ void ReloadThread::goon()
 	m->paused = false;
 }
 
+void ReloadThread::stop()
+{
+	m->may_run = false;
+}
+
 bool ReloadThread::is_running() const
 {
 	return m->running;
@@ -262,6 +281,8 @@ void ReloadThread::set_quality(Library::ReloadQuality quality)
 
 void ReloadThread::run()
 {
+
+
 	if(m->library_path.isEmpty())
 	{
 		sp_log(Log::Warning, this) << "No Library path given";
@@ -274,6 +295,7 @@ void ReloadThread::run()
 
 	DB::LibraryDatabase* lib_db = m->db->library_db(m->library_id, 0);
 
+	m->may_run = true;
 	m->running = true;
 	m->paused = false;
 
@@ -283,13 +305,22 @@ void ReloadThread::run()
 	emit sig_reloading_library(tr("Delete orphaned tracks..."), 0);
 
 	lib_db->deleteInvalidTracks(m->library_path, v_md_needs_update);
+	if(!m->may_run){
+		return;
+	}
+
 	lib_db->store_metadata(v_md_needs_update);
+	if(!m->may_run){
+		return;
+	}
+
 	lib_db->getAllTracks(v_md);
 
 	sp_log(Log::Debug, this) << "Have " << v_md.size() << " tracks";
 
 	// find orphaned tracks in library && delete them
-	for(const MetaData& md : v_md){
+	for(const MetaData& md : v_md)
+	{
 		if(!Util::File::check_file(md.filepath())) {
 			v_to_delete << std::move(md);
 		}
@@ -297,10 +328,18 @@ void ReloadThread::run()
 		else{
 			v_md_map[md.filepath()] = md;
 		}
+
+		if(!m->may_run){
+			return;
+		}
 	}
 
 	if(!v_to_delete.isEmpty()){
 		lib_db->deleteTracks(v_to_delete);
+	}
+
+	if(!m->may_run){
+		return;
 	}
 
 	get_and_save_all_files(v_md_map);
@@ -309,7 +348,7 @@ void ReloadThread::run()
 	m->running = false;
 }
 
-void ReloadThread::set_library(int8_t library_id, const QString& library_path)
+void ReloadThread::set_library(LibraryId library_id, const QString& library_path)
 {
 	m->library_path = library_path;
 	m->library_id = library_id;

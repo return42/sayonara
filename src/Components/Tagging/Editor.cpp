@@ -44,18 +44,18 @@ struct Editor::Private
 	BoolList				changed_md;	// indicates if metadata at idx was changed
 	QMap<int, QImage>		cover_map;
 
-	QHash<QString, ArtistID> artist_map;
-	QHash<QString, AlbumID> album_map;
+	QHash<QString, ArtistId> artist_map;
+	QHash<QString, AlbumId> album_map;
 
 	DB::LibraryDatabase*	ldb=nullptr;	// database of LocalLibrary
 	bool						notify;
 
-	ArtistID get_artist_id(const QString& artist_name)
+	ArtistId get_artist_id(const QString& artist_name)
 	{
 		if(artist_map.contains(artist_name)){
 			return artist_map[artist_name];
 		} else {
-			ArtistID id = ldb->getArtistID(artist_name);
+			ArtistId id = ldb->getArtistID(artist_name);
 			if(id < 0){
 				id = ldb->insertArtistIntoDatabase(artist_name);
 			}
@@ -64,12 +64,12 @@ struct Editor::Private
 		}
 	}
 
-	AlbumID get_album_id(const QString& album_name)
+	AlbumId get_album_id(const QString& album_name)
 	{
 		if(album_map.contains(album_name)){
 			return album_map[album_name];
 		} else {
-			AlbumID id = ldb->getAlbumID(album_name);
+			AlbumId id = ldb->getAlbumID(album_name);
 			if(id < 0){
 				id = ldb->insertAlbumIntoDatabase(album_name);
 			}
@@ -208,9 +208,9 @@ void Editor::apply_artists_and_albums_to_md()
 
 		MetaData& md = m->v_md[i];
 
-		ArtistID artist_id = m->get_artist_id(md.artist());
-		AlbumID album_id = m->get_album_id(md.album());
-		ArtistID album_artist_id = m->get_artist_id(md.album_artist());
+		ArtistId artist_id = m->get_artist_id(md.artist());
+		AlbumId album_id = m->get_album_id(md.album());
+		ArtistId album_artist_id = m->get_artist_id(md.album_artist());
 
 		md.album_id = album_id;
 		md.artist_id = artist_id;

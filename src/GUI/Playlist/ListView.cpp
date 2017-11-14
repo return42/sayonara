@@ -287,7 +287,7 @@ void PlaylistView::async_drop_finished(bool success)
 	StreamParser* stream_parser = dynamic_cast<StreamParser*>(sender());
 
 	if(success){
-		MetaDataList v_md = stream_parser->get_metadata();
+		MetaDataList v_md = stream_parser->metadata();
 		plh->insert_tracks(v_md, m->async_drop_index+1, plh->current_index());
 	}
 

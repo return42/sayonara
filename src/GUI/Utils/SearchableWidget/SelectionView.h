@@ -39,9 +39,9 @@ namespace SP
  * @brief The SayonaraSelectionView class
  * @ingroup GUIInterfaces
  */
-class SayonaraSelectionView
+class SelectionViewInterface
 {
-	PIMPL(SayonaraSelectionView)
+	PIMPL(SelectionViewInterface)
 
 public:
 	enum class SelectionType
@@ -52,8 +52,8 @@ public:
 	};
 
 protected:
-	SayonaraSelectionView();
-	virtual ~SayonaraSelectionView();
+	SelectionViewInterface();
+	virtual ~SelectionViewInterface();
 
 	virtual QItemSelectionModel* selection_model() const=0;
 	virtual QModelIndex	model_index(int row, int col, const QModelIndex& parent=QModelIndex()) const=0;
@@ -77,8 +77,8 @@ protected:
 
 	IndexSet selected_items() const;
 
-	virtual void set_selection_type(SayonaraSelectionView::SelectionType type);
-	SayonaraSelectionView::SelectionType selection_type() const;
+	virtual void set_selection_type(SelectionViewInterface::SelectionType type);
+	SelectionViewInterface::SelectionType selection_type() const;
 
 protected:
 	virtual int index_by_model_index(const QModelIndex& idx) const=0;

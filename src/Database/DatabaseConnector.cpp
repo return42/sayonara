@@ -169,7 +169,6 @@ bool Connector::apply_fixes()
 	bool success;
 	const int LatestVersion = 16;
 
-
 	success = settings_connector()->load_setting("version", str_version);
 	version = str_version.toInt(&success);
 	sp_log(Log::Info, this)
@@ -393,7 +392,7 @@ bool Connector::apply_fixes()
 	if(version < 16)
 	{
 		bool success = check_and_insert_column("tracks", "fileCissearch", "VARCHAR(256)");
-		
+
 		if(success)
 		{
 			settings_connector()->store_setting("version", 16);
@@ -429,7 +428,7 @@ DB::LibraryDatabases Connector::library_dbs() const
 }
 
 
-DB::LibraryDatabase* Connector::library_db(int8_t library_id, uint8_t db_id)
+DB::LibraryDatabase* Connector::library_db(LibraryId library_id, DbId db_id)
 {
 	for(LibraryDatabase* db : m->library_dbs)
 	{
@@ -450,7 +449,7 @@ DB::LibraryDatabase* Connector::library_db(int8_t library_id, uint8_t db_id)
 }
 
 
-DB::LibraryDatabase *Connector::find_library_db(int8_t library_id) const
+DB::LibraryDatabase *Connector::find_library_db(LibraryId library_id) const
 {
 	for(DB::LibraryDatabase* db : m->library_dbs)
 	{
@@ -462,7 +461,7 @@ DB::LibraryDatabase *Connector::find_library_db(int8_t library_id) const
 	return nullptr;
 }
 
-DB::LibraryDatabase* Connector::register_library_db(int8_t library_id)
+DB::LibraryDatabase* Connector::register_library_db(LibraryId library_id)
 {
 	DB::LibraryDatabase* lib_db = find_library_db(library_id);
 

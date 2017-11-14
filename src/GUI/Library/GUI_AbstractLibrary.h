@@ -24,15 +24,12 @@
 #include "GUI/Utils/Delegates/ComboBoxDelegate.h"
 #include "GUI/Utils/Widgets/Widget.h"
 
-#include "Utils/typedefs.h"
-#include "Utils/SetFwd.h"
-
 #include "Utils/Library/Filter.h"
 #include "Utils/Library/Sorting.h"
 #include "Utils/Library/LibraryNamespaces.h"
 #include "Utils/MetaData/MetaDataFwd.h"
-
 #include "Utils/Pimpl.h"
+
 #include <QList>
 
 class QPushButton;
@@ -72,9 +69,9 @@ namespace Library
 	protected slots:
 		virtual void _sl_live_search_changed();
 
-		virtual void lib_tracks_ready();
-		virtual void lib_albums_ready();
-		virtual void lib_artists_ready();
+		virtual void tracks_ready();
+		virtual void albums_ready();
+		virtual void artists_ready();
 
 		virtual void artist_sel_changed(const IndexSet& indexes);
 		virtual void album_sel_changed(const IndexSet& indexes);
@@ -86,13 +83,13 @@ namespace Library
 		virtual void item_double_clicked(const QModelIndex& index);
 		virtual void tracks_double_clicked(const QModelIndex& index);
 
-		virtual void columns_title_changed();
-		virtual void columns_album_changed();
-		virtual void columns_artist_changed();
+		virtual void track_columns_changed();
+		virtual void album_columns_changed();
+		virtual void artist_columns_changed();
 
-		virtual void sortorder_title_changed(::Library::SortOrder);
-		virtual void sortorder_album_changed(::Library::SortOrder);
-		virtual void sortorder_artist_changed(::Library::SortOrder);
+		virtual void track_sortorder_changed(::Library::SortOrder);
+		virtual void album_sortorder_changed(::Library::SortOrder);
+		virtual void artist_sortorder_changed(::Library::SortOrder);
 
 		virtual void search_esc_pressed();
 		virtual void search_return_pressed();
@@ -126,6 +123,7 @@ namespace Library
 		virtual ::Library::TableView* lv_album() const=0;
 		virtual ::Library::TableView* lv_tracks() const=0;
 		virtual QLineEdit* le_search() const=0;
+
 		virtual QList<::Library::Filter::Mode> search_options() const=0;
 
 		template<typename T, typename UI>

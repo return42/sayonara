@@ -20,7 +20,7 @@
 
 #include "LocalLibraryDatabase.h"
 
-DB::LocalLibraryDatabase::LocalLibraryDatabase(int8_t library_id) :
+DB::LocalLibraryDatabase::LocalLibraryDatabase(LibraryId library_id) :
 	DB::LibraryDatabase("player.db", 0, library_id)
 {}
 

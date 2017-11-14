@@ -60,13 +60,6 @@ class AbstractStreamHandler : public QObject
 		bool parse_station(const QString& url, const QString& station_name);
 
 		/**
-		 * @brief get_tracks
-		 * @param station_name
-		 * @return
-		 */
-//		MetaDataList get_tracks(const QString& station_name);
-
-		/**
 		 * @brief Saves the station. Calls the add_stream() method.
 		 * @param station_name The station name.
 		 * @param url the station url.
@@ -103,7 +96,6 @@ class AbstractStreamHandler : public QObject
 		 * @return true if successful, false else
 		 */
 		virtual bool update_url(const QString& station_name, const QString& url)=0;
-
 
 		/**
 		 * @brief Clears all station content

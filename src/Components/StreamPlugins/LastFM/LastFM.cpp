@@ -277,7 +277,7 @@ void Base::scrobble(const MetaData& md)
 
 
 // private slot
-void Base::sl_similar_artists_available(IDList artist_ids)
+void Base::sl_similar_artists_available(IdList artist_ids)
 {
 	if(artist_ids.isEmpty()){
 		return;

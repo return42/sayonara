@@ -24,7 +24,7 @@
 using DB::Streams;
 using DB::Query;
 
-Streams::Streams(const QSqlDatabase& db, uint8_t db_id) :
+Streams::Streams(const QSqlDatabase& db, DbId db_id) :
 	Module(db, db_id) {}
 
 Streams::~Streams() {}

@@ -81,10 +81,10 @@ namespace Library
 		QList<Library::Container*> get_libraries() const;
 
 		void add_local_library(const Library::Info& library);
-		void rename_local_library(int8_t library_id, const QString& new_name);
-		void remove_local_library(int8_t library_id);
+		void rename_local_library(LibraryId library_id, const QString& new_name);
+		void remove_local_library(LibraryId library_id);
 		void move_local_library(int old_row, int new_row);
-		void change_local_library_path(int8_t library_id, const QString& path);
+		void change_local_library_path(LibraryId library_id, const QString& path);
 
 		Library::Container* current_library() const;
 		QMenu* current_library_menu() const;

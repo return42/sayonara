@@ -30,7 +30,6 @@
 #define LASTFM_H_
 
 #include "Utils/Settings/SayonaraClass.h"
-#include "Utils/typedefs.h"
 #include "Utils/Pimpl.h"
 
 #include <QMap>
@@ -42,43 +41,43 @@ class MetaData;
 
 namespace LastFM
 {
-    class Base :
-            public QObject,
-            public SayonaraClass
-    {
-        Q_OBJECT
-        PIMPL(Base)
+	class Base :
+			public QObject,
+			public SayonaraClass
+	{
+		Q_OBJECT
+		PIMPL(Base)
 
-        signals:
-            void sig_logged_in(bool);
+		signals:
+			void sig_logged_in(bool);
 
-        public slots:
-            void psl_login();
+		public slots:
+			void psl_login();
 
-        private slots:
-            void sl_login_thread_finished(bool success);
-            void sl_similar_artists_available(IDList artist_ids);
-            void sl_track_changed(const MetaData& md);
-            void sl_position_ms_changed(uint64_t pos_ms);
-            void sl_scrobble_response(const QByteArray& data);
-            void sl_scrobble_error(const QString& str);
+		private slots:
+			void sl_login_thread_finished(bool success);
+			void sl_similar_artists_available(IdList artist_ids);
+			void sl_track_changed(const MetaData& md);
+			void sl_position_ms_changed(uint64_t pos_ms);
+			void sl_scrobble_response(const QByteArray& data);
+			void sl_scrobble_error(const QString& str);
 
-        public:
-            Base();
-            ~Base();
+		public:
+			Base();
+			~Base();
 
-            bool is_logged_in();
-            static void get_login(QString& user, QString& pw);
+			bool is_logged_in();
+			static void get_login(QString& user, QString& pw);
 
-        private:
-            bool init_track_changed_thread();
-            void get_similar_artists(const QString& artist);
+		private:
+			bool init_track_changed_thread();
+			void get_similar_artists(const QString& artist);
 
-            void reset_scrobble();
-            bool check_scrobble(uint64_t pos_ms);
-            void scrobble(const MetaData& md);
-            bool update_track(const MetaData& md);
-    };
+			void reset_scrobble();
+			bool check_scrobble(uint64_t pos_ms);
+			void scrobble(const MetaData& md);
+			bool update_track(const MetaData& md);
+	};
 }
 
 #endif /* LASTFM_H_ */

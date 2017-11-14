@@ -37,7 +37,7 @@ using DB::Query;
 
 struct DB::Library::Private {};
 
-DB::Library::Library(const QSqlDatabase& db, uint8_t db_id) :
+DB::Library::Library(const QSqlDatabase& db, DbId db_id) :
 	Module(db, db_id)
 {}
 
@@ -72,7 +72,7 @@ QList<::Library::Info> DB::Library::get_all_libraries()
 
 	while(q.next())
 	{
-		int8_t id = q.value(0).toInt();
+		LibraryId id = q.value(0).toInt();
 		QString name = q.value(1).toString();
 		QString path = q.value(2).toString();
 
@@ -106,7 +106,7 @@ QList<::Library::Info> DB::Library::get_all_libraries()
 	return infos;
 }
 
-bool DB::Library::insert_library(int8_t id, const QString& library_name, const QString& library_path, int index)
+bool DB::Library::insert_library(LibraryId id, const QString& library_name, const QString& library_path, int index)
 {
 	if(library_name.isEmpty() || library_path.isEmpty())
 	{
@@ -139,7 +139,7 @@ bool DB::Library::insert_library(int8_t id, const QString& library_name, const Q
 	return success;
 }
 
-bool DB::Library::edit_library(int8_t library_id, const QString& new_name, const QString& new_path)
+bool DB::Library::edit_library(LibraryId library_id, const QString& new_name, const QString& new_path)
 {
 	if(new_name.isEmpty() || new_path.isEmpty())
 	{
@@ -173,7 +173,7 @@ bool DB::Library::edit_library(int8_t library_id, const QString& new_name, const
 	return success;
 }
 
-bool DB::Library::remove_library(int8_t library_id)
+bool DB::Library::remove_library(LibraryId library_id)
 {
 	QString query = "DELETE FROM Libraries WHERE libraryID=:library_id;";
 
@@ -194,7 +194,7 @@ bool DB::Library::remove_library(int8_t library_id)
 	return success;
 }
 
-bool DB::Library::reorder_libraries(const QMap<int8_t, int>& order)
+bool DB::Library::reorder_libraries(const QMap<LibraryId, int>& order)
 {
 	if(order.isEmpty())
 	{
@@ -203,7 +203,7 @@ bool DB::Library::reorder_libraries(const QMap<int8_t, int>& order)
 	}
 
 	bool success = true;
-	for(int8_t library_id : order.keys())
+	for(LibraryId library_id : order.keys())
 	{
 		QString query = "UPDATE Libraries "
 						"SET "

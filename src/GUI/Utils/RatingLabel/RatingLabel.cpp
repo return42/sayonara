@@ -25,24 +25,42 @@
 
 #include <QMouseEvent>
 #include <QPainter>
+#include <QPixmap>
+
 #include <algorithm>
 
 const int Offset_X = 3;
 
+struct RatingLabel::Private
+{
+	QWidget*	parent=nullptr;
 
-RatingLabel::RatingLabel(QWidget *parent, bool enabled) :
+	QPixmap 	pm_active;
+	QPixmap 	pm_inactive;
+
+	int			rating;
+	uint8_t     icon_size;
+	bool		enabled;
+
+	Private(QWidget* parent, bool enabled) :
+		parent(parent),
+		rating(0),
+		icon_size(14),
+		enabled(enabled)
+	{
+		pm_active = Gui::Util::pixmap("star.png", QSize(icon_size, icon_size), true);
+		pm_inactive = Gui::Util::pixmap("star_disabled.png", QSize(icon_size, icon_size), true);
+	}
+};
+
+RatingLabel::RatingLabel(QWidget* parent, bool enabled) :
 	QLabel(parent)
 {
-	_rating = 0;
-	_enabled = enabled;
-	_parent = parent;
-	_icon_size = 14;
-	_pm_active = Gui::Util::pixmap("star.png", QSize(_icon_size, _icon_size), true);
-	_pm_inactive = Gui::Util::pixmap("star_disabled.png", QSize(_icon_size, _icon_size), true);
+	m = Pimpl::make<Private>(parent, enabled);
 
-    QSizePolicy p(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+	QSizePolicy p(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
 
-    this->setSizePolicy(p);
+	this->setSizePolicy(p);
 	this->setMouseTracking(true);
 	this->setStyleSheet("background: transparent;");
 }
@@ -51,33 +69,35 @@ RatingLabel::~RatingLabel() {}
 
 int RatingLabel::calc_rating(QPoint pos) const
 {
-	double drating = (double) ((pos.x() * 1.0) / (_icon_size + 2.0)) + 0.5; 
+	double drating = (double) ((pos.x() * 1.0) / (m->icon_size + 2.0)) + 0.5;
 	int rating = (int) (drating);
 
 	rating=std::min(rating, 5);
 	rating=std::max(rating, 0);
 
-    return rating;
+	return rating;
 }
 
 void RatingLabel::paintEvent(QPaintEvent *e)
 {
 	QLabel::paintEvent(e);
 
-    QPainter painter(this);
+	QPainter painter(this);
 
-	painter.save(); 
-	int offset_y = (this->height() - _icon_size) / 2;
+	painter.save();
+	int offset_y = (this->height() - m->icon_size) / 2;
 
- 	painter.translate(rect().x() + Offset_X, rect().y() + offset_y );
-    for(int rating = 0; rating < _rating; rating++) { 
-		painter.drawPixmap(0, 0, _icon_size, _icon_size, _pm_active);
-		painter.translate(_icon_size + 2, 0);
+	painter.translate(rect().x() + Offset_X, rect().y() + offset_y );
+	for(int rating = 0; rating < m->rating; rating++)
+	{
+		painter.drawPixmap(0, 0, m->icon_size, m->icon_size, m->pm_active);
+		painter.translate(m->icon_size + 2, 0);
 	}
 
-	for(int rating = _rating; rating < 5; rating++) { 
-		painter.drawPixmap(0, 0, _icon_size, _icon_size, _pm_inactive);
-		painter.translate(_icon_size + 2, 0);
+	for(int rating = m->rating; rating < 5; rating++)
+	{
+		painter.drawPixmap(0, 0, m->icon_size, m->icon_size, m->pm_inactive);
+		painter.translate(m->icon_size + 2, 0);
 	}
 
 	painter.restore();
@@ -86,7 +106,7 @@ void RatingLabel::paintEvent(QPaintEvent *e)
 
 void RatingLabel::mouseMoveEvent(QMouseEvent *e)
 {
-	if(!_enabled) {
+	if(!m->enabled) {
 		return;
 	}
 
@@ -101,11 +121,11 @@ void RatingLabel::mouseMoveEvent(QMouseEvent *e)
 
 void RatingLabel::mousePressEvent(QMouseEvent *e)
 {
-	if(!_enabled) {
+	if(!m->enabled) {
 		return;
 	}
 
-    int rating = calc_rating(e->pos());
+	int rating = calc_rating(e->pos());
 	update_rating(rating);
 }
 
@@ -114,11 +134,11 @@ void RatingLabel::mouseReleaseEvent(QMouseEvent *e)
 {
 	Q_UNUSED(e);
 
-	if(!_enabled) {
+	if(!m->enabled) {
 		return;
 	}
 
-    emit sig_finished(true);
+	emit sig_finished(true);
 }
 
 
@@ -131,7 +151,7 @@ void RatingLabel::focusOutEvent(QFocusEvent* e)
 {
 	Q_UNUSED(e);
 
-	if(!_enabled) {
+	if(!m->enabled) {
 		return;
 	}
 
@@ -140,19 +160,19 @@ void RatingLabel::focusOutEvent(QFocusEvent* e)
 
 void RatingLabel::update_rating(int rating)
 {
-    _rating = rating;
-    update();
+	m->rating = rating;
+	update();
 }
 
 void RatingLabel::set_rating(int rating)
 {
-    _rating = rating;
-    update();
+	m->rating = rating;
+	update();
 }
 
 int RatingLabel::get_rating() const
 {
-    return _rating;
+	return m->rating;
 }
 
 

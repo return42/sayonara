@@ -24,9 +24,7 @@
 
 Xiph::PopularimeterFrame::PopularimeterFrame(TagLib::Tag* tag) :
 	XiphFrame<Models::Popularimeter>(tag, "RATING")
-{
-
-}
+{}
 
 Xiph::PopularimeterFrame::~PopularimeterFrame() {}
 
@@ -38,7 +36,7 @@ bool Xiph::PopularimeterFrame::map_tag_to_model(Models::Popularimeter& model)
 		return false;
 	}
 
-	uint8_t rating = (uint8_t) cvt_string(str).toInt();
+	Rating rating = (Rating) cvt_string(str).toInt();
 	if(rating < 10){
 		model.set_rating(rating);
 	}
@@ -52,7 +50,7 @@ bool Xiph::PopularimeterFrame::map_tag_to_model(Models::Popularimeter& model)
 
 bool Xiph::PopularimeterFrame::map_model_to_tag(const Models::Popularimeter& model)
 {
-	uint8_t rating = model.get_rating();
+	Rating rating = model.get_rating();
 	set_value(QString::number(rating));
 	return true;
 }

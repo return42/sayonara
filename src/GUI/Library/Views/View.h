@@ -70,7 +70,7 @@ namespace Library
 		void sig_import_files(const QStringList& files);
 		void sig_double_clicked(const IndexSet& indexes);
 		void sig_sel_changed(const IndexSet& indexes);
-		void sig_merge(const SP::Set<ID>& ids, int target_id);
+		void sig_merge(const SP::Set<Id>& ids, int target_id);
 
 	private:
 		View(const View& other)=delete;
@@ -92,7 +92,7 @@ namespace Library
 		QPixmap pixmap() const override;
 
 		void set_metadata_interpretation(MD::Interpretation type);
-		void set_selection_type(SayonaraSelectionView::SelectionType type) override;
+		void set_selection_type(SelectionViewInterface::SelectionType type) override;
 
 		void show_clear_button(bool visible);
 		void use_clear_button(bool yesno);

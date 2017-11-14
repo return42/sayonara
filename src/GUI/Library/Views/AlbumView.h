@@ -48,7 +48,7 @@ namespace Library
 
 	private:
 		void clear_discnumbers();
-		void add_discnumbers(const QList<uint8_t>& dns);
+		void add_discnumbers(const QList<Disc>& dns);
 		void calc_discmenu_point(QModelIndex idx);
 		void delete_discmenu();
 		void init_discmenu(QModelIndex idx);

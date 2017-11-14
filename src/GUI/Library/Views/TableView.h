@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef LIBRARYTABLEVIEW_H
 #define LIBRARYTABLEVIEW_H
 
@@ -49,14 +47,13 @@ namespace Library
 		~TableView();
 
 		void set_table_headers(const ColumnHeaderList& headers, const BoolList& shown_columns, Library::SortOrder sorting);
-		BoolList get_shown_columns() const;
+		BoolList shown_columns() const;
 
 	protected:
-		HeaderView*	get_header_view();
 		void resizeEvent(QResizeEvent* e) override;
 		void language_changed() override;
 
-		// SayonaraSelectionView
+		// SayonaraSelectionView.h
 		int index_by_model_index(const QModelIndex& idx) const override;
 		QModelIndex model_index_by_index(int idx) const override;
 
@@ -64,7 +61,6 @@ namespace Library
 	protected slots:
 		void header_actions_triggered();
 		void sort_by_column(int column_idx);
-
 	};
 }
 

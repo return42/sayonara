@@ -21,11 +21,9 @@
 #ifndef LIBRARYITEMMODEL_H_
 #define LIBRARYITEMMODEL_H_
 
-#include "GUI/Utils/SearchableWidget/AbstractSearchModel.h"
+#include "GUI/Utils/SearchableWidget/SearchableModel.h"
 
-#include "Utils/SetFwd.h"
 #include "Utils/Pimpl.h"
-#include "Utils/typedefs.h"
 
 namespace Cover
 {
@@ -39,12 +37,10 @@ class AbstractLibrary;
 namespace Library
 {
 	class ItemModel :
-			public AbstractSearchTableModel
+			public SearchableTableModel
 	{
 		Q_OBJECT
 		PIMPL(ItemModel)
-
-		using ExtraTriggerMap=QMap<QChar, QString>;
 
 		public:
 			ItemModel(QObject* parent, AbstractLibrary* library);

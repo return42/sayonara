@@ -24,7 +24,7 @@
 #ifndef SomaFMStationModel_H
 #define SomaFMStationModel_H
 
-#include "GUI/Utils/SearchableWidget/AbstractSearchModel.h"
+#include "GUI/Utils/SearchableWidget/SearchableModel.h"
 #include "Utils/Pimpl.h"
 
 #include <QMap>
@@ -35,7 +35,7 @@ namespace SomaFM
 {
 	class Station;
 	class StationModel :
-			public AbstractSearchTableModel
+			public SearchableTableModel
 	{
 		Q_OBJECT
 		PIMPL(StationModel)
@@ -52,18 +52,17 @@ namespace SomaFM
 			OK
 		};
 
-		// QAbstractItemModel interface
 	public:
+		// QAbstractItemModel interface
 		int rowCount(const QModelIndex& parent=QModelIndex()) const override;
 		int columnCount(const QModelIndex& parent=QModelIndex()) const override;
 		QVariant data(const QModelIndex& index, int role=Qt::DisplayRole) const override;
 		QMimeData* mimeData(const QModelIndexList &indexes) const override;
 		Qt::ItemFlags flags(const QModelIndex &index) const override;
 
-
-		// AbstractSearchModelInterface interface
 	public:
-        bool        has_items() const override;
+		// AbstractSearchModelInterface interface
+		bool		has_items() const override;
 		QModelIndex getNextRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent) override;
 		QModelIndex getPrevRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent) override;
 		QMap<QChar, QString> getExtraTriggers() override;

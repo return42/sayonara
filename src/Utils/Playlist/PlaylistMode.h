@@ -21,8 +21,9 @@
 #ifndef PLAYLISTMODE_H_
 #define PLAYLISTMODE_H_
 
-class QString;
-namespace Playlist 
+#include "Utils/Pimpl.h"
+
+namespace Playlist
 {
 	/**
 	 * @brief The Mode class
@@ -30,60 +31,54 @@ namespace Playlist
 	 */
 	class Mode final
 	{
-		public:
-		enum State
-		{
-			Off  = 0,
-			On   = 1,
-			Disabled = 2 // this has to be because of consistence
-		};
-
-		private:
-		State	_rep1;
-		State	_repAll;
-		State	_append;
-		State	_shuffle;
-		State	_dynamic;
-		State	_gapless;
-
-		Playlist::Mode::State set_state(bool active, bool enabled);
+		PIMPL(Mode)
 
 		public:
-		Playlist::Mode::State rep1() const;
-		Playlist::Mode::State repAll() const;
-		Playlist::Mode::State append() const;
-		Playlist::Mode::State shuffle() const;
-		Playlist::Mode::State dynamic() const;
-		Playlist::Mode::State gapless() const;
+			enum State
+			{
+				Off  = 0,
+				On   = 1,
+				Disabled = 2 // this has to be because of consistence
+			};
 
-		void setRep1(Playlist::Mode::State state);
-		void setRepAll(Playlist::Mode::State state);
-		void setAppend(Playlist::Mode::State state);
-		void setShuffle(Playlist::Mode::State state);
-		void setDynamic(Playlist::Mode::State state);
-		void setGapless(Playlist::Mode::State state);
+		public:
+			Mode();
+			~Mode();
+			Mode(const Mode& other);
+			Mode& operator=(const Mode& other);
 
-		void setRep1(bool on, bool enabled=true);
-		void setRepAll(bool on, bool enabled=true);
-		void setAppend(bool on, bool enabled=true);
-		void setShuffle(bool on, bool enabled=true);
-		void setDynamic(bool on, bool enabled=true);
-		void setGapless(bool on, bool enabled=true);
+			Playlist::Mode::State rep1() const;
+			Playlist::Mode::State repAll() const;
+			Playlist::Mode::State append() const;
+			Playlist::Mode::State shuffle() const;
+			Playlist::Mode::State dynamic() const;
+			Playlist::Mode::State gapless() const;
 
-		static bool isActive(Playlist::Mode::State pl);
-		static bool isEnabled(Playlist::Mode::State pl);
-		static bool isActiveAndEnabled(Playlist::Mode::State pl);
+			void setRep1(Playlist::Mode::State state);
+			void setRepAll(Playlist::Mode::State state);
+			void setAppend(Playlist::Mode::State state);
+			void setShuffle(Playlist::Mode::State state);
+			void setDynamic(Playlist::Mode::State state);
+			void setGapless(Playlist::Mode::State state);
 
-		Mode();
-		~Mode();
+			void setRep1(bool on, bool enabled=true);
+			void setRepAll(bool on, bool enabled=true);
+			void setAppend(bool on, bool enabled=true);
+			void setShuffle(bool on, bool enabled=true);
+			void setDynamic(bool on, bool enabled=true);
+			void setGapless(bool on, bool enabled=true);
 
-		void print();
+			static bool isActive(Playlist::Mode::State pl);
+			static bool isEnabled(Playlist::Mode::State pl);
+			static bool isActiveAndEnabled(Playlist::Mode::State pl);
 
-		QString toString() const;
+			void print();
 
-		static Playlist::Mode fromString(const QString& str);
+			QString toString() const;
 
-		bool operator==(const Playlist::Mode& pm) const;
+			static Playlist::Mode fromString(const QString& str);
+
+			bool operator==(const Playlist::Mode& pm) const;
 	};
 }
 

@@ -64,8 +64,6 @@ namespace Library
 	protected:
 		void showEvent(QShowEvent* e) override;
 
-		Library::ReloadQuality show_quality_dialog();
-
 		Library::TableView* lv_artist() const override;
 		Library::TableView* lv_album() const override;
 		Library::TableView* lv_tracks() const override;
@@ -88,6 +86,7 @@ namespace Library
 
 		void reload_library_requested();
 		void reload_library_requested(Library::ReloadQuality quality);
+		void reload_library_accepted(Library::ReloadQuality quality);
 		void reload_finished();
 
 		void import_dirs_requested();
@@ -111,7 +110,7 @@ namespace Library
 		void show_info_box();
 
 	protected slots:
-		void lib_albums_ready() override;
+		void albums_ready() override;
 
 	private:
 		void init_album_cover_view();

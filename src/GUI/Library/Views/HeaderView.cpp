@@ -28,15 +28,28 @@
 
 using namespace Library;
 
-HeaderView::HeaderView(Qt::Orientation orientation, QWidget* parent) :
-    WidgetTemplate<QHeaderView>(orientation, parent)
+struct HeaderView::Private
 {
-	_context_menu = new QMenu(this);
+	QMenu*				context_menu=nullptr;
+	ColumnHeaderList	column_headers;
+
+	Private(HeaderView* parent)
+	{
+		context_menu = new QMenu(parent);
+	}
+};
+
+HeaderView::HeaderView(Qt::Orientation orientation, QWidget* parent) :
+	WidgetTemplate<QHeaderView>(orientation, parent)
+{
+	m = Pimpl::make<Private>(this);
 
 	this->setSectionsClickable(true);
 	this->setStretchLastSection(true);
 	this->setHighlightSections(false);
 }
+
+HeaderView::~HeaderView() {}
 
 QSize HeaderView::sizeHint() const
 {
@@ -52,7 +65,7 @@ QSize HeaderView::sizeHint() const
 
 void HeaderView::init_header_action(ColumnHeader* header, bool is_shown)
 {
-	QAction* action = header->get_action();
+	QAction* action = header->action();
 	action->setChecked(is_shown);
 	connect(action, &QAction::toggled, this, &HeaderView::action_triggered);
 
@@ -77,17 +90,17 @@ void HeaderView::action_triggered(bool b)
 
 void HeaderView::set_column_headers(const ColumnHeaderList& column_headers, const BoolList& shown_actions, Library::SortOrder sorting)
 {
-	_column_headers = column_headers;
+	m->column_headers = column_headers;
 
 	int i=0;
 
-    for(ColumnHeader* header : _column_headers)
-    {
-		if( header->get_asc_sortorder() == sorting) {
+	for(ColumnHeader* header : m->column_headers)
+	{
+		if( header->sortorder_asc() == sorting) {
 			this->setSortIndicator(i, Qt::AscendingOrder);
 		}
 
-		else if( header->get_desc_sortorder() == sorting) {
+		else if( header->sortorder_desc() == sorting) {
 			this->setSortIndicator(i, Qt::DescendingOrder);
 		}
 
@@ -114,25 +127,26 @@ void HeaderView::refresh_sizes(QTableView* view)
 	int tolerance = 30;
 	double altogether_percentage = 0;
 
-	int n_cols = _column_headers.get_shown_columns();
+	int n_cols = m->column_headers.visible_columns();
 
-	for(int i=0; i<n_cols; i++) {
+	for(int i=0; i<n_cols; i++)
+	{
 		int preferred_size = 0;
-		int col = _column_headers.get_nth_shown_col(i);
+		int col = m->column_headers.visible_column(i);
 
-		if(!between(col, _column_headers)){
+		if(!between(col, m->column_headers)){
 			continue;
 		}
 
-		ColumnHeader* h = _column_headers[col];
+		ColumnHeader* h = m->column_headers[col];
 
-		if(h->get_size_type() == ColumnHeader::SizeType::Abs) {
-			preferred_size = h->get_preferred_size_abs();
+		if(h->size_type() == ColumnHeader::SizeType::Abs) {
+			preferred_size = h->preferred_size_abs();
 		}
 
 		else{
-			altogether_percentage += h->get_preferred_size_rel();
-			desired_width += h->get_preferred_size_abs();
+			altogether_percentage += h->preferred_size_rel();
+			desired_width += h->preferred_size_abs();
 		}
 
 		altogether_width += preferred_size;
@@ -153,17 +167,18 @@ void HeaderView::refresh_sizes(QTableView* view)
 	}
 
 	// width for percentage stuff
-	for(int i=0; i<n_cols; i++) {
-		int col = _column_headers.get_nth_shown_col(i);
+	for(int i=0; i<n_cols; i++)
+	{
+		int col = m->column_headers.visible_column(i);
 		int preferred_size = 0;
 
-		ColumnHeader* h = _column_headers[col];
-		if(h->get_size_type() == ColumnHeader::SizeType::Rel) {
-			preferred_size = (h->get_preferred_size_rel() * target_width) / altogether_percentage;
+		ColumnHeader* h = m->column_headers[col];
+		if(h->size_type() == ColumnHeader::SizeType::Rel) {
+			preferred_size = (h->preferred_size_rel() * target_width) / altogether_percentage;
 		}
 
 		else{
-			preferred_size = h->get_preferred_size_abs();
+			preferred_size = h->preferred_size_abs();
 		}
 
 		view->setColumnWidth(col, preferred_size);
@@ -173,20 +188,20 @@ void HeaderView::refresh_sizes(QTableView* view)
 BoolList HeaderView::refresh_active_columns()
 {
 	BoolList lst;
-	int n_cols = _column_headers.size();
+	int n_cols = m->column_headers.size();
 
-    for(int i=0; i<n_cols; i++)
-    {
-		ColumnHeader* section =_column_headers[i];
+	for(int i=0; i<n_cols; i++)
+	{
+		ColumnHeader* section = m->column_headers[i];
 		bool is_hidden = section->is_hidden();
 
-        if(is_hidden)
-        {
+		if(is_hidden)
+		{
 			this->hideSection(i);
 		}
 
-        else
-        {
+		else
+		{
 			this->showSection(i);
 		}
 
@@ -196,32 +211,33 @@ BoolList HeaderView::refresh_active_columns()
 	return lst;
 }
 
-BoolList HeaderView::get_shown_columns() const
+BoolList HeaderView::shown_columns() const
 {
 	BoolList lst;
-	int n_cols = _column_headers.size();
+	int n_cols = m->column_headers.size();
 
 	for(int i=0; i<n_cols; i++){
-		ColumnHeader* section =_column_headers[i];
+		ColumnHeader* section = m->column_headers[i];
 		lst.push_back(section->is_visible());
 	}
 
 	return lst;
 }
 
-ColumnHeader* HeaderView::get_column_header(int idx)
+ColumnHeader* HeaderView::column_header(int idx)
 {
-	if(!between(idx, _column_headers)){
+	if(!between(idx, m->column_headers)){
 		return nullptr;
 	}
 
-	return _column_headers[idx];
+	return m->column_headers[idx];
 }
 
 
 void HeaderView::language_changed()
 {
-	for(ColumnHeader* header : _column_headers) {
+	for(ColumnHeader* header : m->column_headers)
+	{
 		header->retranslate();
 	}
 }

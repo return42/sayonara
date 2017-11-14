@@ -31,7 +31,7 @@
 #include <QUrl>
 
 FileListModel::FileListModel(QObject* parent) :
-	AbstractSearchListModel(parent) {}
+	SearchableListModel(parent) {}
 
 FileListModel::~FileListModel() {}
 

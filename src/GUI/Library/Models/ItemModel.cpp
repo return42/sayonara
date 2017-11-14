@@ -47,7 +47,7 @@ struct ItemModel::Private
 
 
 ItemModel::ItemModel(QObject* parent, AbstractLibrary* library) :
-	AbstractSearchTableModel(parent)
+	SearchableTableModel(parent)
 {
 	m = Pimpl::make<ItemModel::Private>(library);
 }

@@ -315,7 +315,7 @@ QPair<MetaDataList, PlaylistFiles> StreamParser::parse_website(const QByteArray&
 	return QPair<MetaDataList, PlaylistFiles>(v_md, playlist_files);
 }
 
-void StreamParser::tag_metadata(MetaData &md, const QString& stream_url, const QString& cover_url) const
+void StreamParser::tag_metadata(MetaData& md, const QString& stream_url, const QString& cover_url) const
 {
 	if(m->station_name.isEmpty()) {
 		md.set_album(stream_url);
@@ -358,7 +358,7 @@ QString StreamParser::write_playlist_file(const QByteArray& data) const
 	return filename;
 }
 
-MetaDataList StreamParser::get_metadata() const
+MetaDataList StreamParser::metadata() const
 {
 	return m->v_md;
 }

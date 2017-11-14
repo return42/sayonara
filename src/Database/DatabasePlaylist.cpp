@@ -27,7 +27,7 @@
 
 using DB::Query;
 
-DB::Playlist::Playlist(const QSqlDatabase& db, uint8_t db_id) :
+DB::Playlist::Playlist(const QSqlDatabase& db, DbId db_id) :
 	Module(db, db_id) {}
 
 DB::Playlist::~Playlist() {}

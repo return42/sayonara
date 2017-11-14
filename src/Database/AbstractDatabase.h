@@ -21,9 +21,10 @@
 #ifndef ABSTRACTDATABASE_H
 #define ABSTRACTDATABASE_H
 
-#include <QObject>
-#include <QSqlDatabase>
 #include "Utils/Pimpl.h"
+#include <QObject>
+
+class QSqlDatabase;
 
 namespace DB
 {
@@ -32,7 +33,7 @@ namespace DB
 		PIMPL(Base)
 
 		public:
-			explicit Base(uint8_t db_id, const QString& db_dir, const QString& db_name, QObject *parent=nullptr);
+			explicit Base(DbId db_id, const QString& db_dir, const QString& db_name, QObject *parent=nullptr);
 			virtual ~Base();
 
 			virtual bool close_db();
@@ -42,7 +43,7 @@ namespace DB
 			virtual void commit();
 			virtual void rollback();
 
-			uint8_t db_id() const;
+			DbId db_id() const;
 
 
 		protected:

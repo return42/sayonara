@@ -48,24 +48,25 @@ class ReloadThread :
 
 signals:
 	void sig_reloading_library(const QString& message, int progress);
-    void sig_new_block_saved();
+	void sig_new_block_saved();
 
 public:
-    ReloadThread(QObject* parent);
-    ~ReloadThread();
+	ReloadThread(QObject* parent);
+	~ReloadThread();
 
 	void pause();
-    void goon();
+	void goon();
+	void stop();
 	bool is_running() const;
 	void set_quality(Library::ReloadQuality quality);
-	void set_library(int8_t lib_id, const QString& library_path);
+	void set_library(LibraryId lib_id, const QString& library_path);
 
 protected:
 	virtual void run() override;
 
 private:
 	int				get_and_save_all_files(const QHash<QString, MetaData>& v_md_map);
-	QStringList		get_files_recursive (QDir base_dir);
+	QStringList		get_files_recursive(QDir base_dir);
 	QStringList		process_sub_files(const QDir& dir, const QStringList& sub_files);
 };
 

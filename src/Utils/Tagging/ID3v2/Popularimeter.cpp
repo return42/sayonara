@@ -42,5 +42,5 @@ void ID3v2::PopularimeterFrame::map_frame_to_model(const TagLib::ID3v2::Populari
 {
 	model.playcount = frame->counter();
 	model.email = QString::fromLatin1(frame->email().toCString());
-	model.set_rating_byte((uint8_t) frame->rating());
+	model.set_rating_byte((Byte) frame->rating());
 }

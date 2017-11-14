@@ -34,7 +34,7 @@ struct AlbumView::Private
 	QPoint					discmenu_point;
 };
 
-AlbumView::AlbumView(QWidget *parent) :
+AlbumView::AlbumView(QWidget* parent) :
 	TableView(parent)
 {
 	m = Pimpl::make<Private>();
@@ -48,7 +48,7 @@ void AlbumView::context_menu_show(const QPoint & p)
 {
 	delete_discmenu();
 
-    TableView::context_menu_show(p);
+	TableView::context_menu_show(p);
 }
 
 
@@ -75,8 +75,8 @@ void AlbumView::calc_discmenu_point(QModelIndex idx)
 	QRect box = this->geometry();
 	box.moveTopLeft(this->parentWidget()->mapToGlobal(box.topLeft()));
 
-    if(!box.contains(m->discmenu_point))
-    {
+	if(!box.contains(m->discmenu_point))
+	{
 		m->discmenu_point.setX(box.x() + (box.width() * 2) / 3);
 		m->discmenu_point.setY(box.y());
 
@@ -93,7 +93,7 @@ void AlbumView::calc_discmenu_point(QModelIndex idx)
 void AlbumView::init_discmenu(QModelIndex idx)
 {
 	int row = idx.row();
-	QList<uint8_t> discnumbers;
+	QList<Disc> discnumbers;
 	delete_discmenu();
 
 	if( !idx.isValid() ||
@@ -145,7 +145,7 @@ void AlbumView::clear_discnumbers()
 	m->discnumbers.clear();
 }
 
-void AlbumView::add_discnumbers(const QList<uint8_t>& dns)
+void AlbumView::add_discnumbers(const QList<Disc>& dns)
 {
 	m->discnumbers << dns;
 }

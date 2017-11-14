@@ -40,7 +40,7 @@ signals:
 	void sig_name_changed(const QString& name);
 
 public:
-	LocalLibrary(int8_t id, const QString& library_name, const QString& library_path, QObject* parent=nullptr);
+	LocalLibrary(LibraryId id, const QString& library_name, const QString& library_path, QObject* parent=nullptr);
 	virtual ~LocalLibrary();
 
 	void clear_library();
@@ -59,8 +59,8 @@ public slots:
 	void refresh_tracks() override;
 
 	void import_files(const QStringList& files) override;
-	void merge_artists(const SP::Set<ArtistID>& artist_ids, ArtistID target_artist_id);
-	void merge_albums(const SP::Set<AlbumID>& albums_ids, AlbumID target_album_id);
+	void merge_artists(const SP::Set<ArtistId>& artist_ids, ArtistId target_artist_id);
+	void merge_albums(const SP::Set<AlbumId>& albums_ids, AlbumId target_album_id);
 
 	void show_album_artists_changed(bool show_album_artists);
 
@@ -76,13 +76,13 @@ private:
 	void		get_all_artists_by_searchstring(Library::Filter filter, ArtistList& artists, Library::Sortings so) override;
 
 	void		get_all_albums(AlbumList& albums, Library::Sortings so) override;
-	void		get_all_albums_by_artist(IDList artist_ids, AlbumList& albums, Library::Filter filter, Library::Sortings so) override;
+	void		get_all_albums_by_artist(IdList artist_ids, AlbumList& albums, Library::Filter filter, Library::Sortings so) override;
 	void		get_all_albums_by_searchstring(Library::Filter filter, AlbumList& albums, Library::Sortings so) override;
 
 	void		get_all_tracks(MetaDataList& v_md, Library::Sortings so) override;
 	void		get_all_tracks(const QStringList& paths, MetaDataList& v_md) override;
-	void		get_all_tracks_by_artist(IDList artist_ids, MetaDataList& v_md, Library::Filter filter, Library::Sortings so) override;
-	void		get_all_tracks_by_album(IDList album_ids, MetaDataList& v_md, Library::Filter filter, Library::Sortings so) override;
+	void		get_all_tracks_by_artist(IdList artist_ids, MetaDataList& v_md, Library::Filter filter, Library::Sortings so) override;
+	void		get_all_tracks_by_album(IdList album_ids, MetaDataList& v_md, Library::Filter filter, Library::Sortings so) override;
 	void		get_all_tracks_by_searchstring(Library::Filter filter, MetaDataList& v_md, Library::Sortings so) override;
 
 	void		get_album_by_id(int album_id, Album& album) override;
@@ -100,7 +100,7 @@ public:
 	void		set_library_path(const QString& library_path);
 	void		set_library_name(const QString& library_name);
 	QString		library_path() const;
-	int8_t		library_id() const;
+	LibraryId	library_id() const;
 	QString		library_name() const;
 	LibraryImporter* importer();
 };

@@ -25,7 +25,7 @@
 
 using DB::Query;
 
-DB::Settings::Settings(const QSqlDatabase& db, uint8_t db_id) :
+DB::Settings::Settings(const QSqlDatabase& db, DbId db_id) :
 	DB::Module(db, db_id) {}
 
 DB::Settings::~Settings() {}

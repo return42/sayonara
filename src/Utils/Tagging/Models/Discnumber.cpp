@@ -18,21 +18,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "Discnumber.h"
+#include <QString>
 
-Models::Discnumber::Discnumber()
-{
-	n_discs = 1;
-	disc = 1;
-}
+Models::Discnumber::Discnumber() :
+	disc(1),
+	n_discs(1)
+{}
 
-Models::Discnumber::Discnumber(uint8_t disc_, uint8_t n_discs_)
-{
-	n_discs = n_discs_;
-	disc = disc_;
-}
+Models::Discnumber::Discnumber(Disc n_discs, Disc disc) :
+	disc(disc),
+	n_discs(n_discs)
+{}
 
 
 QString Models::Discnumber::to_string() const

@@ -18,36 +18,33 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "Popularimeter.h"
 
 Models::Popularimeter::Popularimeter()
 {
-    email = "sayonara player";
+	email = "sayonara player";
 	rating = 0;
-    playcount = 0;
+	playcount = 0;
 }
 
-Models::Popularimeter::Popularimeter(const QString& email_, uint8_t rating_, int playcount_)
-{
-    playcount = playcount_;
-	rating = rating_;
-    email = email_;
-}
+Models::Popularimeter::Popularimeter(const QString& email, Rating rating, int playcount) :
+	email(email),
+	rating(rating),
+	playcount(playcount)
+{}
 
 
-void Models::Popularimeter::set_rating(uint8_t max_5)
+void Models::Popularimeter::set_rating(Rating max_5)
 {
 	rating = max_5;
 }
 
-void Models::Popularimeter::set_rating_byte(uint8_t byte)
+void Models::Popularimeter::set_rating_byte(Byte byte)
 {
 	if(byte == 0x00){
 		rating = 0;
 	}
-    else if(byte < 0x30){   //48
+	else if(byte < 0x30){   //48
 		rating = 1;
 	}
 	else if(byte < 0x60){	// 92
@@ -64,14 +61,14 @@ void Models::Popularimeter::set_rating_byte(uint8_t byte)
 	}
 }
 
-uint8_t Models::Popularimeter::get_rating() const
+Rating Models::Popularimeter::get_rating() const
 {
 	return rating;
 }
 
-uint8_t Models::Popularimeter::get_rating_byte() const
+Byte Models::Popularimeter::get_rating_byte() const
 {
-	uint8_t rating_byte;
+	Byte rating_byte;
 
 	switch(rating)
 	{

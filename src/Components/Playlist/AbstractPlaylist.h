@@ -22,7 +22,6 @@
 #define PLAYLIST_H
 
 #include "PlaylistDBInterface.h"
-#include "Utils/typedefs.h"
 #include "Utils/Playlist/PlaylistFwd.h"
 #include "Utils/Playlist/PlaylistMode.h"
 #include "Utils/Settings/SayonaraClass.h"

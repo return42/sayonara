@@ -23,14 +23,16 @@
 #include "Database/DatabaseConnector.h"
 #include "Database/LibraryDatabase.h"
 
-#include "Utils/MetaData/Artist.h"
-#include "Utils/MetaData/MetaData.h"
-#include "Utils/MetaData/MetaDataList.h"
+#include "Utils/Set.h"
 #include "Utils/Utils.h"
 #include "Utils/globals.h"
 #include "Utils/FileUtils.h"
 #include "Utils/Language.h"
 #include "Utils/SimilarArtists/SimilarArtists.h"
+#include "Utils/MetaData/Artist.h"
+#include "Utils/MetaData/MetaData.h"
+#include "Utils/MetaData/MetaDataList.h"
+
 
 #include <QFile>
 
@@ -38,9 +40,9 @@ struct ArtistInfo::Private
 {
 	Cover::Location cover_location;
 
-	uint8_t db_id;
+	DbId db_id;
 
-	Private(uint8_t db_id) :
+	Private(DbId db_id) :
 		db_id(db_id)
 	{}
 };
@@ -48,7 +50,7 @@ struct ArtistInfo::Private
 ArtistInfo::ArtistInfo(const MetaDataList& v_md) :
 	MetaDataInfo(v_md)
 {
-	uint8_t db_id = -1;
+	DbId db_id = (DbId) -1;
 	if(v_md.size() > 0){
 		db_id = v_md.first().db_id();
 	}
@@ -183,7 +185,7 @@ QString ArtistInfo::additional_infostring() const
 		DB::Connector* db = DB::Connector::instance();
 		DB::LibraryDatabase* lib_db = db->library_db(-1, m->db_id);
 
-		ArtistID id = lib_db->getArtistID(artist_name);
+		ArtistId id = lib_db->getArtistID(artist_name);
 
 		if( id >= 0 ){
 			artist_list << BOLD(artist_name);

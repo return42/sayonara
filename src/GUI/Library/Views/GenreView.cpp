@@ -39,6 +39,7 @@
 #include <QContextMenuEvent>
 #include <QInputDialog>
 #include <QStyledItemDelegate>
+#include <QTreeWidget>
 
 using StringSet=SP::Set<QString>;
 using namespace Library;
@@ -90,18 +91,18 @@ GenreView::GenreView(QWidget* parent) :
 GenreView::~GenreView() {}
 
 
-int GenreView::row_count() const
+bool GenreView::has_items() const
 {
 	int n_rows = m->genres->children.size();
 	if(n_rows == 1)
 	{
 		QString data = m->genres->children[0]->data;
 		if(data.trimmed().isEmpty()){
-			return 0;
+			return false;
 		}
 	}
 
-	return n_rows;
+	return (n_rows > 0);
 }
 
 void GenreView::set_local_library(LocalLibrary* library)
@@ -119,35 +120,6 @@ void GenreView::update_finished()
 	emit sig_progress("", -1);
 }
 
-void GenreView::reload_genres()
-{
-	QStringList genres = m->genre_fetcher->genres();
-	for(GenreNode* n : m->genres->children){
-		m->genres->remove_child(n);
-		delete n; n=nullptr;
-	}
-
-	this->clear();
-
-	// fill it on next show event
-	m->filled = false;
-
-	fill_list(genres);
-
-	emit sig_genres_reloaded();
-}
-
-void GenreView::fill_list(const QStringList& genres)
-{
-	if(m->filled){
-		return;
-	}
-
-	m->filled = true;
-
-	this->init_data(genres);
-	this->insert_genres(nullptr, m->genres);
-}
 
 void GenreView::item_expanded(QTreeWidgetItem* item)
 {
@@ -232,38 +204,37 @@ void GenreView::language_changed()
 	}
 }
 
-void GenreView::insert_genres(QTreeWidgetItem* parent_item, GenreNode* node)
+
+
+void GenreView::reload_genres()
 {
-	QTreeWidgetItem* item;
-	QStringList text = { Util::cvt_str_to_first_upper(node->data) };
-
-	if(node->parent == m->genres){
-		item = new QTreeWidgetItem(this, text);
+	QStringList genres = m->genre_fetcher->genres();
+	for(GenreNode* n : m->genres->children)
+	{
+		m->genres->remove_child(n);
+		delete n; n=nullptr;
 	}
 
-	else {
-		item = new QTreeWidgetItem(parent_item, text);
-	}
+	this->clear();
 
-	for(GenreNode* child : node->children) {
-		insert_genres(item, child);
-	}
+	// fill it on next show event
+	m->filled = false;
 
-	if(m->expanded_items.contains(node->data, Qt::CaseInsensitive)){
-		item->setExpanded(true);
-	}
+	set_genres(genres);
+
+	emit sig_genres_reloaded();
 }
 
-QTreeWidgetItem* GenreView::find_genre(const QString& genre)
+void GenreView::set_genres(const QStringList& genres)
 {
-	QList<QTreeWidgetItem*> items = this->findItems(genre, Qt::MatchRecursive);
-
-	if(items.isEmpty()){
-		sp_log(Log::Warning, this) << "Could not find item " << genre;
-		return nullptr;
+	if(m->filled){
+		return;
 	}
 
-	return items.first();
+	m->filled = true;
+
+	this->build_genre_data_tree(genres);
+	this->populate_widget(nullptr, m->genres);
 }
 
 static void build_genre_node(GenreNode* node, const QMap<QString, StringSet>& parent_nodes)
@@ -287,7 +258,7 @@ static void build_genre_node(GenreNode* node, const QMap<QString, StringSet>& pa
 }
 
 
-void GenreView::init_data(const QStringList& genres)
+void GenreView::build_genre_data_tree(const QStringList& genres)
 {
 	bool show_tree = _settings->get(Set::Lib_GenreTree);
 	SP::Set<QString> genre_set;
@@ -302,7 +273,7 @@ void GenreView::init_data(const QStringList& genres)
 		genre_set.insert(s);
 	}
 
-	for(auto it=genre_set.begin(); it != genre_set.end(); it++) 
+	for(auto it=genre_set.begin(); it != genre_set.end(); it++)
 	{
 		bool found_parent = false;
 		Genre genre(*it);
@@ -343,6 +314,43 @@ void GenreView::init_data(const QStringList& genres)
 }
 
 
+
+void GenreView::populate_widget(QTreeWidgetItem* parent_item, GenreNode* node)
+{
+	QTreeWidgetItem* item;
+	QStringList text = { Util::cvt_str_to_first_upper(node->data) };
+
+	if(node->parent == m->genres){
+		item = new QTreeWidgetItem(this, text);
+	}
+
+	else {
+		item = new QTreeWidgetItem(parent_item, text);
+	}
+
+	for(GenreNode* child : node->children) {
+		populate_widget(item, child);
+	}
+
+	if(m->expanded_items.contains(node->data, Qt::CaseInsensitive)){
+		item->setExpanded(true);
+	}
+}
+
+QTreeWidgetItem* GenreView::find_genre(const QString& genre)
+{
+	QList<QTreeWidgetItem*> items = this->findItems(genre, Qt::MatchRecursive);
+
+	if(items.isEmpty()){
+		sp_log(Log::Warning, this) << "Could not find item " << genre;
+		return nullptr;
+	}
+
+	return items.first();
+}
+
+
+
 void GenreView::init_context_menu()
 {
 	if(m->context_menu){
@@ -355,7 +363,7 @@ void GenreView::init_context_menu()
 	m->toggle_tree_action = new QAction(m->context_menu);
 	m->toggle_tree_action->setCheckable(true);
 	m->toggle_tree_action->setChecked(show_tree);
-    m->toggle_tree_action->setText(Lang::get(Lang::Tree));
+	m->toggle_tree_action->setText(Lang::get(Lang::Tree));
 
 	m->context_menu->show_actions(
 				ContextMenu::EntryDelete |
@@ -380,7 +388,6 @@ void GenreView::contextMenuEvent(QContextMenuEvent* e)
 
 	QTreeView::contextMenuEvent(e);
 }
-
 
 
 void GenreView::keyPressEvent(QKeyEvent* e)

@@ -34,7 +34,7 @@ struct Artists::Private
 	QString artistid_field;
 	QString artistname_field;
 
-	Private(int8_t library_id)
+	Private(LibraryId library_id)
 	{
 		artistid_field = "artistID";
 		artistname_field = "artistName";
@@ -52,7 +52,7 @@ struct Artists::Private
 };
 
 
-Artists::Artists(const QSqlDatabase& db, uint8_t db_id, int8_t library_id) :
+Artists::Artists(const QSqlDatabase& db, DbId db_id, LibraryId library_id) :
 	DB::SearchMode(db, db_id)
 {
 	m = Pimpl::make<Private>(library_id);
@@ -240,7 +240,7 @@ bool Artists::getAllArtistsBySearchString(const Library::Filter& filter, ArtistL
 
 int Artists::insertArtistIntoDatabase (const QString& artist)
 {
-	ArtistID id = getArtistID(artist);
+	ArtistId id = getArtistID(artist);
 	if(id >= 0){
 		return id;
 	}

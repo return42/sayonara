@@ -40,20 +40,31 @@ struct SearchableFileTreeModel::Private
 {
 	QStringList	found_strings;
 	int			cur_idx;
+	bool		search_only_dirs;
 
 	Private()
 	{
+		search_only_dirs = false;
 		cur_idx = -1;
 	}
 };
 
 SearchableFileTreeModel::SearchableFileTreeModel(QObject* parent) :
-	SearchModelInterface<QFileSystemModel>(parent)
+	SearchableModel<QFileSystemModel>(parent)
 {
 	m = Pimpl::make<Private>();
 }
 
 SearchableFileTreeModel::~SearchableFileTreeModel() {}
+
+void SearchableFileTreeModel::search_only_dirs(bool b)
+{
+	if(b != m->search_only_dirs){
+		m->cur_idx = 0;
+	}
+
+	m->search_only_dirs = b;
+}
 
 QModelIndex SearchableFileTreeModel::getFirstRowIndexOf(const QString& substr)
 {
@@ -69,7 +80,7 @@ QModelIndex SearchableFileTreeModel::getFirstRowIndexOf(const QString& substr)
 
 	for(DB::LibraryDatabase* lib_db : library_dbs)
 	{
-		int8_t lib_id = lib_db->library_id();
+		LibraryId lib_id = lib_db->library_id();
 		if(lib_id < 0){
 			continue;
 		}
@@ -84,6 +95,15 @@ QModelIndex SearchableFileTreeModel::getFirstRowIndexOf(const QString& substr)
 		for(const MetaData& md : v_md)
 		{
 			QString filepath = md.filepath();
+			QString parent = ::Library::Util::convert_search_string(Util::File::get_parent_directory(filepath), search_mode());
+
+			if(m->search_only_dirs)
+			{
+				if(!parent.contains(substr)){
+					continue;
+				}
+			}
+
 			filepath.replace(info_path, symlink_path);
 
 			m->found_strings << Util::File::get_parent_directory(filepath);

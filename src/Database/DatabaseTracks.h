@@ -22,7 +22,6 @@
 #define DATABASETRACKS_H
 
 #include "Database/DatabaseSearchMode.h"
-#include "Utils/typedefs.h"
 #include "Utils/Library/Sortorder.h"
 #include "Utils/Pimpl.h"
 
@@ -44,28 +43,28 @@ namespace DB
 			void change_artistid_field(const QString& id, const QString& name);
 			void change_track_lookup_field(const QString& track_lookup_field);
 
-			void check_track_views(int8_t library_id);
-			void check_track_view(int8_t library_id);
+			void check_track_views(LibraryId library_id);
+			void check_track_view(LibraryId library_id);
 			void check_track_search_view(const QString& track_view, const QString& track_search_view);
 
 		protected:
 			QString append_track_sort_string(QString querytext, ::Library::SortOrder sort);
 
 		public:
-			Tracks(const QSqlDatabase& db, uint8_t db_id, int8_t _library_id);
+			Tracks(const QSqlDatabase& db, DbId db_id, LibraryId _library_id);
 			~Tracks();
 
 			virtual bool db_fetch_tracks(Query& q, MetaDataList& result);
 
 			virtual bool getAllTracksByAlbum(int album, MetaDataList& result);
 			virtual bool getAllTracksByAlbum(int album, MetaDataList& result, const ::Library::Filter& filter, ::Library::SortOrder sortorder = ::Library::SortOrder::TrackArtistAsc, int discnumber=-1);
-			virtual bool getAllTracksByAlbum(IDList albums, MetaDataList& result);
-			virtual bool getAllTracksByAlbum(IDList albums, MetaDataList& result, const ::Library::Filter& filter, ::Library::SortOrder sortorder = ::Library::SortOrder::TrackArtistAsc);
+			virtual bool getAllTracksByAlbum(IdList albums, MetaDataList& result);
+			virtual bool getAllTracksByAlbum(IdList albums, MetaDataList& result, const ::Library::Filter& filter, ::Library::SortOrder sortorder = ::Library::SortOrder::TrackArtistAsc);
 
 			virtual bool getAllTracksByArtist(int artist, MetaDataList& result);
 			virtual bool getAllTracksByArtist(int artist, MetaDataList& result, const ::Library::Filter& filter, ::Library::SortOrder sortorder = ::Library::SortOrder::TrackArtistAsc);
-			virtual bool getAllTracksByArtist(IDList artists, MetaDataList& result);
-			virtual bool getAllTracksByArtist(IDList artists, MetaDataList& result, const ::Library::Filter& filter, ::Library::SortOrder sortorder = ::Library::SortOrder::TrackArtistAsc);
+			virtual bool getAllTracksByArtist(IdList artists, MetaDataList& result);
+			virtual bool getAllTracksByArtist(IdList artists, MetaDataList& result, const ::Library::Filter& filter, ::Library::SortOrder sortorder = ::Library::SortOrder::TrackArtistAsc);
 
 			virtual bool getAllTracksBySearchString(const ::Library::Filter& filter, MetaDataList& result, ::Library::SortOrder sortorder = ::Library::SortOrder::TrackArtistAsc);
 
@@ -81,7 +80,7 @@ namespace DB
 
 			virtual bool deleteTrack(int id);
 			virtual bool deleteTracks(const MetaDataList&);
-			virtual bool deleteTracks(const IDList& ids);
+			virtual bool deleteTracks(const IdList& ids);
 
 
 			// some tracks may be inserted two times

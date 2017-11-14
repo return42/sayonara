@@ -28,28 +28,44 @@ using DB::Query;
 
 struct Albums::Private
 {
-	QString artist_id_field;
-	QString artist_name_field;
+	QString artistid_field;
 	QString search_view;
 	QString track_view;
+	QMap<Library::SortOrder, QString> sort_map;
 
-	Private(int8_t library_id)
+	Private(LibraryId library_id)
 	{
-		artist_id_field = "artistID";
-		artist_name_field = "name";
-		search_view = QString("track_search_view_%1").arg(library_id);
+		artistid_field = "artistID";
 
 		if(library_id < 0) {
 			track_view = "tracks";
+			search_view = QString("track_search_view").arg(library_id);
 		}
 
 		else {
 			track_view = QString("track_view_%1").arg(library_id);
+			search_view = QString("track_search_view_%1").arg(library_id);
 		}
+
+		sort_map[Library::SortOrder::AlbumNameAsc] = "albumName ASC";
+		sort_map[Library::SortOrder::AlbumNameDesc] = "albumName DESC";
+		sort_map[Library::SortOrder::AlbumYearAsc] = "albumYear ASC, albumName ASC";
+		sort_map[Library::SortOrder::AlbumYearDesc] = "albumYear DESC, albumName ASC";
+		sort_map[Library::SortOrder::AlbumTracksAsc] = "trackCount ASC, albumName ASC";
+		sort_map[Library::SortOrder::AlbumTracksDesc] = "trackCount DESC, albumName ASC";
+		sort_map[Library::SortOrder::AlbumDurationAsc] = "albumLength ASC, albumName ASC";
+		sort_map[Library::SortOrder::AlbumDurationDesc] = "albumLength DESC, albumName ASC";
+		sort_map[Library::SortOrder::AlbumRatingAsc] = "albumRating ASC, albumName ASC";
+		sort_map[Library::SortOrder::AlbumRatingDesc] = "albumRating DESC, albumName ASC";
+	}
+
+	QString order_string(Library::SortOrder sortorder)
+	{
+		return " ORDER BY " + sort_map[sortorder] + " ";
 	}
 };
 
-Albums::Albums(QSqlDatabase db, uint8_t db_id, int8_t library_id) :
+Albums::Albums(QSqlDatabase db, DbId db_id, LibraryId library_id) :
 	DB::SearchMode(db, db_id)
 {
 	m = Pimpl::make<Private>(library_id);
@@ -132,46 +148,7 @@ bool Albums::db_fetch_albums(Query& q, AlbumList& result)
 }
 
 
-QString Albums::_create_order_string(Library::SortOrder sortorder)
-{
-	switch(sortorder)
-	{
-		case Library::SortOrder::AlbumNameAsc:
-			return QString (" ORDER BY albumName ASC ");
-
-		case Library::SortOrder::AlbumNameDesc:
-			return QString (" ORDER BY albumName DESC ");
-
-		case Library::SortOrder::AlbumYearAsc:
-			return QString (" ORDER BY albumYear ASC, albumName ASC ");
-
-		case Library::SortOrder::AlbumYearDesc:
-			return QString (" ORDER BY albumYear DESC, albumName ASC ");
-
-		case Library::SortOrder::AlbumTracksAsc:
-			return QString (" ORDER BY trackCount ASC, albumName ASC ");
-
-		case Library::SortOrder::AlbumTracksDesc:
-			return QString (" ORDER BY trackCount DESC, albumName ASC ");
-
-		case Library::SortOrder::AlbumDurationAsc:
-			return QString (" ORDER BY albumLength ASC, albumName ASC ");
-
-		case Library::SortOrder::AlbumDurationDesc:
-			return QString (" ORDER BY albumLength DESC, albumName ASC ");
-
-		case Library::SortOrder::AlbumRatingAsc:
-			return QString (" ORDER BY albumRating ASC, albumName ASC ");
-
-		case Library::SortOrder::AlbumRatingDesc:
-			return QString (" ORDER BY albumRating DESC, albumName ASC ");
-
-		default:
-			return "";
-	}
-}
-
-int Albums::getAlbumID (const QString & album)
+AlbumId Albums::getAlbumID(const QString& album)
 {
 	Query q(this);
 	int albumID = -1;
@@ -191,7 +168,7 @@ int Albums::getAlbumID (const QString & album)
 }
 
 
-bool Albums::getAlbumByID(const int& id, Album& album, bool also_empty)
+bool Albums::getAlbumByID(AlbumId id, Album& album, bool also_empty)
 {
 	if(id == -1) {
 		return false;
@@ -226,7 +203,7 @@ bool Albums::getAllAlbums(AlbumList& result, Library::SortOrder sortorder, bool 
 	QString querytext = fetch_query_albums(also_empty);
 
 	querytext += " GROUP BY albums.albumID, albums.name, albums.rating ";
-	querytext += _create_order_string(sortorder) + ";";
+	querytext += m->order_string(sortorder) + ";";
 
 	q.prepare(querytext);
 
@@ -234,13 +211,13 @@ bool Albums::getAllAlbums(AlbumList& result, Library::SortOrder sortorder, bool 
 }
 
 
-bool Albums::getAllAlbumsByArtist(IDList artists, AlbumList& result)
+bool Albums::getAllAlbumsByArtist(IdList artists, AlbumList& result)
 {
 	return getAllAlbumsByArtist(artists, result, Library::Filter());
 }
 
 
-bool Albums::getAllAlbumsByArtist(IDList artists, AlbumList& result, const Library::Filter& filter, Library::SortOrder sortorder)
+bool Albums::getAllAlbumsByArtist(IdList artists, AlbumList& result, const Library::Filter& filter, Library::SortOrder sortorder)
 {
 	if(artists.isEmpty()) {
 		return false;
@@ -285,7 +262,7 @@ bool Albums::getAllAlbumsByArtist(IDList artists, AlbumList& result, const Libra
 
 	if(!artists.isEmpty())
 	{
-		QString artist_id_field = m->search_view + "." + m->artist_id_field;
+		QString artist_id_field = m->search_view + "." + m->artistid_field;
 		query += "(" + artist_id_field + " = :artist_id_0 ";
 
 		for(int i=1; i<artists.size(); i++) {
@@ -297,7 +274,7 @@ bool Albums::getAllAlbumsByArtist(IDList artists, AlbumList& result, const Libra
 	}
 
 	query += "GROUP BY albumID, albumName ";
-	query += _create_order_string(sortorder) + ";";
+	query += m->order_string(sortorder) + ";";
 
 	q.prepare(query);
 
@@ -310,14 +287,14 @@ bool Albums::getAllAlbumsByArtist(IDList artists, AlbumList& result, const Libra
 	return db_fetch_albums(q, result);
 }
 
-bool Albums::getAllAlbumsByArtist(int artist, AlbumList& result)
+bool Albums::getAllAlbumsByArtist(ArtistId artist, AlbumList& result)
 {
 	return getAllAlbumsByArtist(artist, result, Library::Filter());
 }
 
-bool Albums::getAllAlbumsByArtist(int artist, AlbumList& result, const Library::Filter& filter, Library::SortOrder sortorder)
+bool Albums::getAllAlbumsByArtist(ArtistId artist, AlbumList& result, const Library::Filter& filter, Library::SortOrder sortorder)
 {
-	IDList list;
+	IdList list;
 	list << artist;
 	return getAllAlbumsByArtist(list, result, filter, sortorder);
 }
@@ -362,7 +339,7 @@ bool Albums::getAllAlbumsBySearchString(const Library::Filter& filter, AlbumList
 					  "GROUP BY albumID, albumName ";
 	}
 
-	query += _create_order_string(sortorder) + ";";
+	query += m->order_string(sortorder) + ";";
 
 	q.prepare(query);
 	q.bindValue(":searchterm", filter.filtertext());
@@ -470,8 +447,9 @@ int Albums::insertAlbumIntoDatabase (const Album& album)
 
 void Albums::change_artistid_field(const QString& id, const QString& name)
 {
-	m->artist_id_field = id;
-	m->artist_name_field = name;
+	Q_UNUSED(name)
+
+	m->artistid_field = id;
 }
 
 void Albums::change_track_lookup_field(const QString& search_view)

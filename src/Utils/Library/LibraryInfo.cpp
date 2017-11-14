@@ -31,7 +31,7 @@ struct Info::Private
 {
 	QString path;
 	QString name;
-	int8_t id;
+	LibraryId id;
 };
 
 Info::Info()
@@ -40,7 +40,7 @@ Info::Info()
 	m->id = -1;
 }
 
-Info::Info(const QString& name, const QString& path, int id) :
+Info::Info(const QString& name, const QString& path, LibraryId id) :
 	Info()
 {
 	m->name = name;
@@ -106,7 +106,7 @@ QString Info::symlink_path() const
 	return target;
 }
 
-int8_t Info::id() const
+LibraryId Info::id() const
 {
 	return m->id;
 }

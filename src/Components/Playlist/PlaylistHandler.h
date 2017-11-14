@@ -34,7 +34,6 @@
 
 #include "Utils/Pimpl.h"
 #include "Utils/Singleton.h"
-#include "Utils/typedefs.h"
 #include "Utils/Settings/SayonaraClass.h"
 #include "Utils/Playlist/PlaylistFwd.h"
 #include "Utils/Library/LibraryNamespaces.h"

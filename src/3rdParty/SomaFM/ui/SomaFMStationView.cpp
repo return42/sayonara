@@ -37,3 +37,10 @@ QModelIndex SomaFMStationView::model_index_by_index(int idx) const
 {
 	return this->model()->index(idx, 0);
 }
+
+void SomaFMStationView::keyPressEvent(QKeyEvent *e)
+{
+	e->setAccepted(false);
+
+	SearchableTableView::keyPressEvent(e);
+}

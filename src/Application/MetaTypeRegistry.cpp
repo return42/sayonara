@@ -38,16 +38,16 @@ MetaTypeRegistry::MetaTypeRegistry(QObject* parent) :
 {
 	qRegisterMetaType<StringPair>("StringPair");
 	qRegisterMetaType<IntList>("IntList");
-	qRegisterMetaType<IDList>("IDList");
+	qRegisterMetaType<IdList>("IDList");
 	qRegisterMetaType<IdxList>("IdxList");
 	//qRegisterMetaType<BoolList>("BoolList");
-	qRegisterMetaType<ArtistID>("ArtistID");
-	qRegisterMetaType<AlbumID>("AlbumID");
+	qRegisterMetaType<ArtistId>("ArtistID");
+	qRegisterMetaType<AlbumId>("AlbumID");
 	qRegisterMetaType<TrackID>("TrackID");
-	qRegisterMetaType<ID>("ID");
+	qRegisterMetaType<Id>("ID");
 	qRegisterMetaType<IntSet>("IntSet");
 	qRegisterMetaType<IndexSet>("IndexSet");
-	qRegisterMetaType<IDSet>("IDSet");
+	qRegisterMetaType<IdSet>("IDSet");
 
 	qRegisterMetaType<MetaData>("MetaData");
 	qRegisterMetaType<MetaDataList>("MetaDataList");

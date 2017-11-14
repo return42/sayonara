@@ -56,16 +56,16 @@ bool MoveOperation::exec()
 
 struct RenameOperation::Private
 {
-	int8_t id;
+	LibraryId id;
 	QString new_name;
 
-	Private(int8_t id, const QString& new_name) :
+	Private(LibraryId id, const QString& new_name) :
 		id(id),
 		new_name(new_name)
 	{}
 };
 
-RenameOperation::RenameOperation(int8_t id, const QString& new_name)
+RenameOperation::RenameOperation(LibraryId id, const QString& new_name)
 {
 	m = Pimpl::make<Private>(id, new_name);
 }
@@ -79,14 +79,14 @@ bool RenameOperation::exec()
 
 struct RemoveOperation::Private
 {
-	int8_t id;
+	LibraryId id;
 
-	Private(int8_t id) :
+	Private(LibraryId id) :
 		id(id)
 	{}
 };
 
-RemoveOperation::RemoveOperation(int8_t id)
+RemoveOperation::RemoveOperation(LibraryId id)
 {
 	m = Pimpl::make<Private>(id);
 }
@@ -122,16 +122,16 @@ bool AddOperation::exec()
 
 struct ChangePathOperation::Private
 {
-	int8_t id;
+	LibraryId id;
 	QString new_path;
 
-	Private(int8_t id, const QString& new_path) :
+	Private(LibraryId id, const QString& new_path) :
 		id(id),
 		new_path(new_path)
 	{}
 };
 
-ChangePathOperation::ChangePathOperation(int8_t id, const QString& new_path)
+ChangePathOperation::ChangePathOperation(LibraryId id, const QString& new_path)
 {
 	m = Pimpl::make<Private>(id, new_path);
 }

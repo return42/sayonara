@@ -29,7 +29,7 @@
 #ifndef PLAYLISTITEMMODEL_H_
 #define PLAYLISTITEMMODEL_H_
 
-#include "GUI/Utils/SearchableWidget/AbstractSearchModel.h"
+#include "GUI/Utils/SearchableWidget/SearchableModel.h"
 #include "Utils/typedefs.h"
 #include "Utils/Playlist/PlaylistFwd.h"
 #include "Utils/SetFwd.h"
@@ -42,7 +42,7 @@ class MetaDataList;
 class CustomMimeData;
 
 class PlaylistItemModel :
-		public AbstractSearchListModel
+		public SearchableListModel
 {
 	Q_OBJECT
 	PIMPL(PlaylistItemModel)

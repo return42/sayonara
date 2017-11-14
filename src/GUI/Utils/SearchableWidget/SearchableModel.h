@@ -31,47 +31,48 @@
 // table itself and this interface
 // in the Searchable View class
 
-class SearchModelFunctionality
+class SearchableModelInterface
 {
 public:
+	using ExtraTriggerMap=QMap<QChar, QString>;
+
 	virtual QModelIndex getFirstRowIndexOf(const QString& substr);
 	virtual QModelIndex getNextRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent=QModelIndex())=0;
 	virtual QModelIndex getPrevRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent=QModelIndex())=0;
-	virtual QMap<QChar, QString> getExtraTriggers()=0;
+	virtual ExtraTriggerMap getExtraTriggers()=0;
 	virtual int getNumberResults(const QString& str);
 	virtual bool has_items() const=0;
 
 	virtual ::Library::SearchModeMask search_mode() const final;
 
 protected:
-	SearchModelFunctionality();
-	virtual ~SearchModelFunctionality();
+	SearchableModelInterface();
+	virtual ~SearchableModelInterface();
 };
 
 
-template <typename AbstractModel>
-class SearchModelInterface :
-	public SearchModelFunctionality,
-	public AbstractModel
+template <typename Model>
+class SearchableModel :
+	public SearchableModelInterface,
+	public Model
 {
 	public:
+		SearchableModel(QObject* parent=nullptr) :
+			SearchableModelInterface(),
+			Model(parent)
+		{}
 
-	SearchModelInterface(QObject* parent=nullptr) :
-		SearchModelFunctionality(),
-		AbstractModel(parent)
-	{}
+		virtual ~SearchableModel() {}
 
-	virtual ~SearchModelInterface() {}
+		using Model::rowCount;
 
-	using AbstractModel::rowCount;
-
-	virtual bool has_items() const override
-	{
-		return (rowCount() > 0);
-	}
+		virtual bool has_items() const override
+		{
+			return (rowCount() > 0);
+		}
 };
 
-using AbstractSearchTableModel=SearchModelInterface<QAbstractTableModel>;
-using AbstractSearchListModel=SearchModelInterface<QAbstractListModel> ;
+using SearchableTableModel=SearchableModel<QAbstractTableModel>;
+using SearchableListModel=SearchableModel<QAbstractListModel> ;
 
 #endif

@@ -111,7 +111,7 @@ void AbstractStreamHandler::stream_parser_finished(bool success)
 
 	else {
 
-		MetaDataList v_md = stream_parser->get_metadata();
+		MetaDataList v_md = stream_parser->metadata();
 		m->station_contents[m->station_name] = v_md;
 
 		if(!v_md.isEmpty())

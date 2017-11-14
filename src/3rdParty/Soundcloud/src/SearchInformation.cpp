@@ -30,8 +30,8 @@
 
 struct SC::SearchInformation::Private
 {
-    ArtistID artist_id;
-    AlbumID album_id;
+    ArtistId artist_id;
+    AlbumId album_id;
     TrackID track_id;
 
 	QString search_string;
@@ -39,9 +39,9 @@ struct SC::SearchInformation::Private
 
 struct SC::SearchInformationList::Private
 {
-    QHash<QString, IDSet> artist_id_map;
-    QHash<QString, IDSet> album_id_map;
-    QHash<QString, IDSet> track_id_map;
+    QHash<QString, IdSet> artist_id_map;
+    QHash<QString, IdSet> album_id_map;
+    QHash<QString, IdSet> track_id_map;
 };
 
 

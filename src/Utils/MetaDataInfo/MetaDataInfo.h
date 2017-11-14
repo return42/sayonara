@@ -21,10 +21,7 @@
 #ifndef METADATAINFO_H
 #define METADATAINFO_H
 
-#include "Utils/Set.h"
 #include "Utils/Settings/SayonaraClass.h"
-#include "Utils/typedefs.h"
-
 #include "Components/Covers/CoverLocation.h"
 
 #include <QMap>
@@ -62,7 +59,6 @@ class MetaDataInfo :
 	public SayonaraClass
 {
 	PIMPL(MetaDataInfo)
-
 
 	protected:
 		QString						_header;
@@ -102,9 +98,9 @@ class MetaDataInfo :
 		const SP::Set<QString>& artists() const;
 		const SP::Set<QString>& album_artists() const;
 
-		const SP::Set<AlbumID>& album_ids() const;
-		const SP::Set<ArtistID>& artist_ids() const;
-		const SP::Set<ArtistID>& album_artist_ids() const;
+		const SP::Set<AlbumId>& album_ids() const;
+		const SP::Set<ArtistId>& artist_ids() const;
+		const SP::Set<ArtistId>& album_artist_ids() const;
 
 		QString pathsstring() const;
 
@@ -115,7 +111,6 @@ class MetaDataInfo :
 		void calc_header(const MetaDataList& lst);
 
 		QString get_info_string(InfoStrings idx) const;
-
 };
 
 #endif // METADATAINFO_H

@@ -21,7 +21,7 @@
 #ifndef FILE_LIST_MODEL_H
 #define FILE_LIST_MODEL_H
 
-#include "GUI/Utils/SearchableWidget/AbstractSearchModel.h"
+#include "GUI/Utils/SearchableWidget/SearchableModel.h"
 
 #include <QStringList>
 #include <QModelIndex>
@@ -29,7 +29,7 @@
 class QVariant;
 
 class FileListModel :
-	public AbstractSearchListModel
+	public SearchableListModel
 {
 	Q_OBJECT
 

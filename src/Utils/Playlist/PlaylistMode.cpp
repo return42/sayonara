@@ -22,127 +22,174 @@
 #include "Utils/Logger/Logger.h"
 #include <QStringList>
 
-Playlist::Mode::State
-Playlist::Mode::set_state(bool active, bool enabled)
+using Playlist::Mode;
+
+struct Mode::Private
 {
-	uint8_t ret = Playlist::Mode::Off;
-	if(active){
-		ret |= Playlist::Mode::On;
+	Mode::State	rep1;
+	Mode::State	repAll;
+	Mode::State	append;
+	Mode::State	shuffle;
+	Mode::State	dynamic;
+	Mode::State	gapless;
+
+	Private() :
+		rep1(Mode::Off),
+		repAll(Mode::On),
+		append(Mode::Off),
+		shuffle(Mode::Off),
+		dynamic(Mode::Off),
+		gapless(Mode::Off)
+	{}
+
+	Private(const Private& other) :
+		CASSIGN(rep1),
+		CASSIGN(repAll),
+		CASSIGN(append),
+		CASSIGN(shuffle),
+		CASSIGN(dynamic),
+		CASSIGN(gapless)
+	{}
+
+	Private& operator=(const Private& other)
+	{
+		ASSIGN(rep1);
+		ASSIGN(repAll);
+		ASSIGN(append);
+		ASSIGN(shuffle);
+		ASSIGN(dynamic);
+		ASSIGN(gapless);
+
+		return *this;
 	}
 
-	if(!enabled){
-		ret |= Playlist::Mode::Disabled;
+
+	static
+	Mode::State set_state(bool active, bool enabled)
+	{
+		uint8_t ret = Mode::Off;
+		if(active){
+			ret |= Mode::On;
+		}
+
+		if(!enabled){
+			ret |= Mode::Disabled;
+		}
+
+		return (Mode::State) ret;
 	}
 
-	return (Playlist::Mode::State) ret;
+};
+
+
+Mode::Mode()
+{
+	m = Pimpl::make<Private>();
 }
 
-Playlist::Mode::State Playlist::Mode::rep1() const
-{ return _rep1; }
-Playlist::Mode::State Playlist::Mode::repAll() const
-{ return _repAll; }
-Playlist::Mode::State Playlist::Mode::append() const
-{ return _append; }
-Playlist::Mode::State Playlist::Mode::shuffle() const
-{ return _shuffle; }
-Playlist::Mode::State Playlist::Mode::dynamic() const
-{ return _dynamic; }
-Playlist::Mode::State Playlist::Mode::gapless() const
-{ return _gapless; }
+Mode::~Mode() {}
 
-void Playlist::Mode::setRep1(Playlist::Mode::State state){ _rep1 = state; }
-void Playlist::Mode::setRepAll(Playlist::Mode::State state){ _repAll = state; }
-void Playlist::Mode::setAppend(Playlist::Mode::State state){ _append = state; }
-void Playlist::Mode::setShuffle(Playlist::Mode::State state){ _shuffle = state; }
-void Playlist::Mode::setDynamic(Playlist::Mode::State state){ _dynamic = state; }
-void Playlist::Mode::setGapless(Playlist::Mode::State state){ _gapless = state; }
+Mode::Mode(const Playlist::Mode& other)
+{
+	m = Pimpl::make<Private>(*(other.m));
+}
 
-void Playlist::Mode::setRep1(bool on, bool enabled){ _rep1 = set_state(on, enabled); }
-void Playlist::Mode::setRepAll(bool on, bool enabled){ _repAll = set_state(on, enabled); }
-void Playlist::Mode::setAppend(bool on, bool enabled){ _append = set_state(on, enabled); }
-void Playlist::Mode::setShuffle(bool on, bool enabled){ _shuffle = set_state(on, enabled); }
-void Playlist::Mode::setDynamic(bool on, bool enabled){ _dynamic = set_state(on, enabled); }
-void Playlist::Mode::setGapless(bool on, bool enabled){ _gapless = set_state(on, enabled); }
+Mode& Mode::operator=(const Playlist::Mode& other)
+{
+	*m = *(other.m);
+	return *this;
+}
 
-bool Playlist::Mode::isActive(Playlist::Mode::State pl)
+Mode::State Mode::rep1() const { return m->rep1; }
+Mode::State Mode::repAll() const { return m->repAll; }
+Mode::State Mode::append() const { return m->append; }
+Mode::State Mode::shuffle() const { return m->shuffle; }
+Mode::State Mode::dynamic() const { return m->dynamic; }
+Mode::State Mode::gapless() const { return m->gapless; }
+
+void Mode::setRep1(Mode::State state){ m->rep1 = state; }
+void Mode::setRepAll(Mode::State state){ m->repAll = state; }
+void Mode::setAppend(Mode::State state){ m->append = state; }
+void Mode::setShuffle(Mode::State state){ m->shuffle = state; }
+void Mode::setDynamic(Mode::State state){ m->dynamic = state; }
+void Mode::setGapless(Mode::State state){ m->gapless = state; }
+
+void Mode::setRep1(bool on, bool enabled){ m->rep1 = Private::set_state(on, enabled); }
+void Mode::setRepAll(bool on, bool enabled){ m->repAll = Private::set_state(on, enabled); }
+void Mode::setAppend(bool on, bool enabled){ m->append = Private::set_state(on, enabled); }
+void Mode::setShuffle(bool on, bool enabled){ m->shuffle = Private::set_state(on, enabled); }
+void Mode::setDynamic(bool on, bool enabled){ m->dynamic = Private::set_state(on, enabled); }
+void Mode::setGapless(bool on, bool enabled){ m->gapless = Private::set_state(on, enabled); }
+
+bool Mode::isActive(Mode::State pl)
 {
 	uint8_t ipl = (uint8_t) pl;
-	return ( ipl & Playlist::Mode::On );
+	return ( ipl & Mode::On );
 }
 
-bool Playlist::Mode::isEnabled(Playlist::Mode::State pl){
+bool Mode::isEnabled(Mode::State pl){
 	uint8_t ipl = (uint8_t) pl;
-	return (( ipl & Playlist::Mode::Disabled ) == 0);
+	return (( ipl & Mode::Disabled ) == 0);
 }
 
-bool Playlist::Mode::isActiveAndEnabled(Playlist::Mode::State pl)
+bool Mode::isActiveAndEnabled(Mode::State pl)
 {
 	return (isEnabled(pl) && isActive(pl));
 }
 
-Playlist::Mode::Mode()
+void Mode::print()
 {
-	_rep1 = Playlist::Mode::Off;
-	_repAll = Playlist::Mode::On;
-	_append = Playlist::Mode::Off;
-
-	_shuffle = Playlist::Mode::Off;
-	_gapless = Playlist::Mode::Off;
-	_dynamic = Playlist::Mode::Off;
+	sp_log(Log::Debug, this) << "rep1 = "   << (int) m->rep1 << ", "
+		<< "repAll = "  << (int) m->repAll << ", "
+		<< "append = "  << (int) m->append <<", "
+		<< "dynamic = " << (int) m->dynamic << ","
+		<< "gapless = " << (int) m->gapless;
 }
 
-Playlist::Mode::~Mode() {}
-
-void Playlist::Mode::print()
-{
-	sp_log(Log::Debug, this) << "rep1 = "   << (int) _rep1 << ", "
-		<< "repAll = "  << (int) _repAll << ", "
-		<< "append = "  << (int) _append <<", "
-		<< "dynamic = " << (int) _dynamic << ","
-		<< "gapless = " << (int) _gapless;
-}
-
-QString Playlist::Mode::toString() const
+QString Mode::toString() const
 {
 	QString str;
-	str += QString::number((int) _append)  + QString(",");
-	str += QString::number((int) _repAll)  + QString(",");
-	str += QString::number((int) _rep1)    + QString(",");
+	str += QString::number((int) m->append)  + QString(",");
+	str += QString::number((int) m->repAll)  + QString(",");
+	str += QString::number((int) m->rep1)    + QString(",");
 	str += "0,";
-	str += QString::number((int) _shuffle) + QString(",");
-	str += QString::number((int) _dynamic) + QString(",");
-	str += QString::number((int) _gapless);
+	str += QString::number((int) m->shuffle) + QString(",");
+	str += QString::number((int) m->dynamic) + QString(",");
+	str += QString::number((int) m->gapless);
 
 	return str;
 }
 
-Playlist::Mode Playlist::Mode::fromString(const QString& str){
-	Playlist::Mode plm;
+Mode Mode::fromString(const QString& str)
+{
+	Mode plm;
 	QStringList list = str.split(',');
 
-	if(list.size() < 6) return plm;
+	if(list.size() < 6) {
+		return plm;
+	}
 
-	plm.setAppend((Playlist::Mode::State) list[0].toInt());
-	plm.setRepAll((Playlist::Mode::State) list[1].toInt());
-	plm.setRep1((Playlist::Mode::State) list[2].toInt());
-	plm.setShuffle((Playlist::Mode::State) list[4].toInt());
-	plm.setDynamic((Playlist::Mode::State) list[5].toInt());
+	plm.setAppend((Mode::State) list[0].toInt());
+	plm.setRepAll((Mode::State) list[1].toInt());
+	plm.setRep1((Mode::State) list[2].toInt());
+	plm.setShuffle((Mode::State) list[4].toInt());
+	plm.setDynamic((Mode::State) list[5].toInt());
 
 	if(list.size() > 6){
-		plm.setGapless((Playlist::Mode::State) list[6].toInt());
+		plm.setGapless((Mode::State) list[6].toInt());
 	}
 
 	return plm;
 }
 
-bool Playlist::Mode::operator==(const Playlist::Mode& pm) const
+bool Mode::operator==(const Mode& pm) const
 {
-	if(pm.append() != _append) return false;
-	if(pm.repAll() != _repAll) return false;
-	if(pm.rep1() != _rep1) return false;
-	if(pm.shuffle() != _shuffle) return false;
-	if(pm.dynamic() != _dynamic) return false;
-	if(pm.gapless() != _gapless) return false;
+	if(pm.append() != m->append) return false;
+	if(pm.repAll() != m->repAll) return false;
+	if(pm.rep1() != m->rep1) return false;
+	if(pm.shuffle() != m->shuffle) return false;
+	if(pm.dynamic() != m->dynamic) return false;
+	if(pm.gapless() != m->gapless) return false;
 
 	return true;
 }

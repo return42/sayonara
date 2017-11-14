@@ -59,7 +59,7 @@ class RenameOperation :
 	PIMPL(RenameOperation)
 
 public:
-	RenameOperation(int8_t id, const QString& new_name);
+	RenameOperation(LibraryId id, const QString& new_name);
 	~RenameOperation();
 
 	bool exec() override;
@@ -71,7 +71,7 @@ class RemoveOperation :
 	PIMPL(RemoveOperation)
 
 public:
-	RemoveOperation(int8_t id);
+	RemoveOperation(LibraryId id);
 	~RemoveOperation();
 
 	bool exec() override;
@@ -95,7 +95,7 @@ class ChangePathOperation :
 	PIMPL(ChangePathOperation)
 
 public:
-	ChangePathOperation(int8_t id, const QString& new_path);
+	ChangePathOperation(LibraryId id, const QString& new_path);
 	~ChangePathOperation();
 
 	bool exec() override;

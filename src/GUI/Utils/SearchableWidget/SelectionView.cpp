@@ -18,7 +18,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "SayonaraSelectionView.h"
+#include "SelectionView.h"
 #include "Utils/Set.h"
 #include "GUI/Utils/Delegates/ComboBoxDelegate.h"
 
@@ -27,22 +27,22 @@
 
 #include <algorithm>
 
-struct SayonaraSelectionView::Private
+struct SelectionViewInterface::Private
 {
-	SayonaraSelectionView::SelectionType selection_type;
+	SelectionViewInterface::SelectionType selection_type;
 	Private() :
-		selection_type(SayonaraSelectionView::SelectionType::Rows)
+		selection_type(SelectionViewInterface::SelectionType::Rows)
 	{}
 };
 
-SayonaraSelectionView::SayonaraSelectionView()
+SelectionViewInterface::SelectionViewInterface()
 {
 	m = Pimpl::make<Private>();
 }
 
-SayonaraSelectionView::~SayonaraSelectionView() {}
+SelectionViewInterface::~SelectionViewInterface() {}
 
-void SayonaraSelectionView::select_all()
+void SelectionViewInterface::select_all()
 {
 	QItemSelectionModel* sel_model = this->selection_model();
 	if(!sel_model) {
@@ -62,7 +62,7 @@ void SayonaraSelectionView::select_all()
 
 
 
-void SayonaraSelectionView::select_rows(const IndexSet& indexes, int min_col, int max_col)
+void SelectionViewInterface::select_rows(const IndexSet& indexes, int min_col, int max_col)
 {
 	QItemSelectionModel* sel_model = this->selection_model();
 	if(!sel_model){
@@ -149,12 +149,12 @@ void SayonaraSelectionView::select_rows(const IndexSet& indexes, int min_col, in
 }
 
 
-void SayonaraSelectionView::select_row(int row)
+void SelectionViewInterface::select_row(int row)
 {
 	select_rows({row});
 }
 
-void SayonaraSelectionView::select_columns(const IndexSet& indexes, int min_row, int max_row)
+void SelectionViewInterface::select_columns(const IndexSet& indexes, int min_row, int max_row)
 {
 	QItemSelectionModel* sel_model = this->selection_model();
 	if(!sel_model){
@@ -170,13 +170,13 @@ void SayonaraSelectionView::select_columns(const IndexSet& indexes, int min_row,
 	sel_model->select(sel, QItemSelectionModel::ClearAndSelect);
 }
 
-void SayonaraSelectionView::select_column(int col)
+void SelectionViewInterface::select_column(int col)
 {
 	IndexSet indexes(col);
 	select_columns(col);
 }
 
-void SayonaraSelectionView::select_items(const IndexSet& indexes)
+void SelectionViewInterface::select_items(const IndexSet& indexes)
 {
 	QItemSelectionModel* sel_model = this->selection_model();
 	if(!sel_model){
@@ -194,7 +194,7 @@ void SayonaraSelectionView::select_items(const IndexSet& indexes)
 	sel_model->select(sel, QItemSelectionModel::ClearAndSelect);
 }
 
-void SayonaraSelectionView::clear_selection()
+void SelectionViewInterface::clear_selection()
 {
 	QItemSelectionModel* sel_model = this->selection_model();
 	if(!sel_model){
@@ -205,7 +205,7 @@ void SayonaraSelectionView::clear_selection()
 }
 
 
-IndexSet SayonaraSelectionView::selected_items() const
+IndexSet SelectionViewInterface::selected_items() const
 {
 	QItemSelectionModel* sel_model = this->selection_model();
 
@@ -225,7 +225,7 @@ IndexSet SayonaraSelectionView::selected_items() const
 }
 
 
-IndexSet SayonaraSelectionView::indexes_by_model_indexes(const QModelIndexList& indexes) const
+IndexSet SelectionViewInterface::indexes_by_model_indexes(const QModelIndexList& indexes) const
 {
 	IndexSet ret;
 
@@ -237,7 +237,7 @@ IndexSet SayonaraSelectionView::indexes_by_model_indexes(const QModelIndexList& 
 }
 
 
-QModelIndexList SayonaraSelectionView::model_indexes_by_indexes(const IndexSet& idxs) const
+QModelIndexList SelectionViewInterface::model_indexes_by_indexes(const IndexSet& idxs) const
 {
 	QModelIndexList lst;
 	for(auto it = idxs.begin(); it != idxs.end(); it++){
@@ -247,7 +247,7 @@ QModelIndexList SayonaraSelectionView::model_indexes_by_indexes(const IndexSet& 
 }
 
 
-int SayonaraSelectionView::min_selected_item() const
+int SelectionViewInterface::min_selected_item() const
 {
 	IndexSet selected = selected_items();
 	if(!selected.isEmpty()){
@@ -258,17 +258,17 @@ int SayonaraSelectionView::min_selected_item() const
 }
 
 
-void SayonaraSelectionView::set_selection_type(SayonaraSelectionView::SelectionType type)
+void SelectionViewInterface::set_selection_type(SelectionViewInterface::SelectionType type)
 {
 	m->selection_type = type;
 }
 
-SayonaraSelectionView::SelectionType SayonaraSelectionView::selection_type() const
+SelectionViewInterface::SelectionType SelectionViewInterface::selection_type() const
 {
 	return m->selection_type;
 }
 
-void SayonaraSelectionView::handle_key_press(QKeyEvent* e)
+void SelectionViewInterface::handle_key_press(QKeyEvent* e)
 {
 	e->setAccepted(false);
 

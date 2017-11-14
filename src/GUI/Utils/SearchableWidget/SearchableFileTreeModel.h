@@ -20,7 +20,7 @@
 #ifndef SEARCHABLEFILETREEMODEL_H
 #define SEARCHABLEFILETREEMODEL_H
 
-#include "AbstractSearchModel.h"
+#include "SearchableModel.h"
 #include "Utils/Pimpl.h"
 
 #include <QTreeView>
@@ -32,7 +32,7 @@
  * @ingroup GUIInterfaces
  */
 class SearchableFileTreeModel :
-	public SearchModelInterface<QFileSystemModel>
+	public SearchableModel<QFileSystemModel>
 {
 	Q_OBJECT
 	PIMPL(SearchableFileTreeModel)
@@ -40,6 +40,8 @@ class SearchableFileTreeModel :
 public:
 	explicit SearchableFileTreeModel(QObject* parent=nullptr);
 	virtual ~SearchableFileTreeModel();
+
+	void search_only_dirs(bool b);
 
 public:
 	virtual QModelIndex getFirstRowIndexOf(const QString& substr) override;

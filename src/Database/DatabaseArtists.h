@@ -48,7 +48,7 @@ namespace DB
 
 		public:
 
-			Artists(const QSqlDatabase& db, uint8_t db_id, int8_t library_id);
+			Artists(const QSqlDatabase& db, DbId db_id, LibraryId library_id);
 			~Artists();
 
 			virtual bool db_fetch_artists(Query& q, ArtistList& result);

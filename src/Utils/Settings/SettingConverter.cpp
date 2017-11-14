@@ -165,7 +165,8 @@ bool SettingConverter<QPoint>::cvt_from_string(const QString& val, QPoint& sz)
 QString SettingConverter<QByteArray>::cvt_to_string(const QByteArray& arr)
 {
 	QStringList numbers;
-	for(uint8_t item : arr){
+	for(Byte item : arr)
+	{
 		numbers << QString::number(item);
 	}
 
@@ -176,7 +177,8 @@ bool SettingConverter<QByteArray>::cvt_from_string(const QString& str, QByteArra
 {
 	QStringList numbers = str.split(",");
 
-	for(const QString& num_str : numbers){
+	for(const QString& num_str : numbers)
+	{
 		uint8_t num = num_str.toInt();
 		arr.append((char) num);
 	}

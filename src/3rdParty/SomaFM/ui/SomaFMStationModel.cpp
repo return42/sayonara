@@ -45,7 +45,7 @@ struct SomaFM::StationModel::Private
 };
 
 SomaFM::StationModel::StationModel(QObject *parent) :
-	AbstractSearchTableModel(parent)
+	SearchableTableModel(parent)
 {
 	m = Pimpl::make<SomaFM::StationModel::Private>();
 	m->status = Status::Waiting;

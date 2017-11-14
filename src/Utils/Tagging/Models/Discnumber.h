@@ -23,7 +23,8 @@
 #ifndef DISCNUMBER_MODELS_H_
 #define DISCNUMBER_MODELS_H_
 
-#include <QString>
+#include "Utils/typedefs.h"
+class QString;
 
 namespace Models
 {
@@ -31,15 +32,13 @@ namespace Models
 	 * @brief The Discnumber class
 	 * @ingroup Tagging
 	 */
-	class Discnumber
+	struct Discnumber
 	{
-	public:
-
-		uint8_t		disc;
-		uint8_t		n_discs;
+		Disc		disc;
+		Disc		n_discs;
 
 		Discnumber();
-		Discnumber(uint8_t disc, uint8_t n_discs=1);
+		Discnumber(Disc disc, Disc n_discs=1);
 		QString to_string() const;
 	};
 }

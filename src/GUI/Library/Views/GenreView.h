@@ -22,7 +22,9 @@
 #define LIBRARYGENREVIEW_H
 
 #include <QTreeWidget>
+
 #include "GUI/Utils/Widgets/WidgetTemplate.h"
+#include "GUI/Utils/SearchableWidget/SearchableView.h"
 #include "Utils/Pimpl.h"
 
 class MetaDataList;
@@ -56,15 +58,17 @@ namespace Library
 		~GenreView();
 
 		void reload_genres();
-		int row_count() const;
+		bool has_items() const;
 		void set_local_library(LocalLibrary* library);
 
 	private:
-		void fill_list(const QStringList& genres);
-		void init_data(const QStringList& genres);
-		void init_context_menu();
-		void insert_genres(QTreeWidgetItem* parent_item, GenreNode* node);
+		void set_genres(const QStringList& genres);
+		void build_genre_data_tree(const QStringList& genres);
+		void populate_widget(QTreeWidgetItem* parent_item, GenreNode* node);
+
 		QTreeWidgetItem* find_genre(const QString& genre);
+
+		void init_context_menu();
 
 	private slots:
 		void item_expanded(QTreeWidgetItem* item);
@@ -79,8 +83,6 @@ namespace Library
 
 		void tree_action_changed();
 		void tree_action_toggled(bool b);
-
-
 
 	protected:
 		void language_changed() override;

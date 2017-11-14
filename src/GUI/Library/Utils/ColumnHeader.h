@@ -27,83 +27,72 @@
 #ifndef MYCOLUMNHEADER_H_
 #define MYCOLUMNHEADER_H_
 
+#include <QObject>
+
 #include "Utils/Library/Sortorder.h"
+#include "Utils/Pimpl.h"
 
-#include <QAction>
+class QAction;
 
-class ColumnHeader : public QObject 
+class ColumnHeader : public QObject
 {
 	Q_OBJECT
+	PIMPL(ColumnHeader)
 
-public:
-	enum class SizeType : uint8_t
-	{
-		Abs=0,
-		Rel,
-		Undefined
-	};
+	public:
+		enum class SizeType : uint8_t
+		{
+			Abs=0,
+			Rel,
+			Undefined
+		};
 
-	enum HeaderType
-	{
-		Sharp,
-		Artist,
-		Album,
-		Title,
-		NumTracks,
-		Duration,
-		DurationShort,
-		Year,
-		Rating,
-		Bitrate,
-		Filesize
-	};
+		enum HeaderType
+		{
+			Sharp,
+			Artist,
+			Album,
+			Title,
+			NumTracks,
+			Duration,
+			DurationShort,
+			Year,
+			Rating,
+			Bitrate,
+			Filesize
+		};
 
+	private:
+		ColumnHeader(HeaderType type, bool switchable, Library::SortOrder sort_asc, Library::SortOrder sort_desc);
+		virtual ~ColumnHeader();
 
-private:
-	ColumnHeader(HeaderType type, bool switchable, Library::SortOrder sort_asc, Library::SortOrder sort_desc);
-	virtual ~ColumnHeader();
+	public:
+		ColumnHeader(HeaderType type, bool switchable, Library::SortOrder sort_asc, Library::SortOrder sort_desc, int preferred_size_abs);
+		ColumnHeader(HeaderType type, bool switchable, Library::SortOrder sort_asc, Library::SortOrder sort_desc, double preferred_size_rel, int min_size);
 
+		int preferred_size_abs() const;
+		double preferred_size_rel() const;
 
-private:
-	QAction*		_action=nullptr;
-	bool 			_switchable;
+		Library::SortOrder sortorder_asc() const;
+		Library::SortOrder sortorder_desc() const;
 
-	int 			_preferred_size_abs;
-	double			_preferred_size_rel;
+		ColumnHeader::SizeType size_type() const;
 
-	Library::SortOrder	_sort_asc;
-	Library::SortOrder	_sort_desc;
-	SizeType		_size_type;
-	HeaderType		_type;
+		bool is_visible() const;
+		bool is_hidden() const;
 
-public:
+		void retranslate();
 
-	ColumnHeader(HeaderType type, bool switchable, Library::SortOrder sort_asc, Library::SortOrder sort_desc, int preferred_size_abs);
-	ColumnHeader(HeaderType type, bool switchable, Library::SortOrder sort_asc, Library::SortOrder sort_desc, double preferred_size_rel, int min_size);
-
-	int get_preferred_size_abs() const;
-	double get_preferred_size_rel() const;
-
-	Library::SortOrder get_asc_sortorder() const;
-	Library::SortOrder get_desc_sortorder() const;
-
-	ColumnHeader::SizeType get_size_type() const;
-
-	bool is_visible() const;
-	bool is_hidden() const;
-
-	void retranslate();
-
-	QAction* get_action();
-	QString get_title() const;
+		QAction* action();
+		QString title() const;
 };
 
 class ColumnHeaderList :
 	public QList<ColumnHeader*>
 {
 	public:
-	   int get_shown_columns() const;
-	   int get_nth_shown_col(int n) const;
+	   int visible_columns() const;
+	   int visible_column(int n) const;
 };
 
 #endif /* MYCOLUMNHEADER_H_ */

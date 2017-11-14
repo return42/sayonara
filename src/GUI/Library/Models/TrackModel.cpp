@@ -210,7 +210,7 @@ Cover::Location TrackModel::cover(const IndexSet& indexes) const
 	}
 
 	const MetaDataList& tracks = library()->tracks();
-	SP::Set<AlbumID> album_ids;
+	SP::Set<AlbumId> album_ids;
 
 	for(int idx : indexes)
 	{

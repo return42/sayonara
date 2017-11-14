@@ -21,19 +21,12 @@
 #ifndef TYPEDEFS_H
 #define TYPEDEFS_H
 
-//#include <QList>
-//#include <QString>
-//#include <QPair>
-//#include <QtGlobal>
-
 #include <cstdint>
 #include <vector>
-
 
 class QString;
 template <typename A, typename B> struct QPair;
 template <typename T> class QList;
-
 namespace SP
 {
 	template <typename T> class Set;
@@ -45,15 +38,20 @@ namespace SP
  */
 using StringPair=QPair<QString, QString>;
 using IntList=QList<int>;
-using IDList=QList<int>;
+using IdList=QList<int>;
 using IdxList=QList<int> ;
 using BoolList=std::vector<bool> ;
-using ArtistID=int32_t;
-using AlbumID=int32_t;
+using ArtistId=int32_t;
+using AlbumId=int32_t;
 using TrackID=int32_t;
-using ID=int32_t;
+using Id=int32_t;
 using IntSet=SP::Set<int>;
 using IndexSet=SP::Set<int>;
-using IDSet=SP::Set<ID>;
+using IdSet=SP::Set<Id>;
+using LibraryId=int8_t;
+using DbId=uint8_t;
+using Byte=uint8_t;
+using Disc=uint8_t;
+using Rating=uint8_t;
 
 #endif

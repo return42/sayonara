@@ -19,7 +19,7 @@
  */
 
 #include "SearchableView.h"
-#include "AbstractSearchModel.h"
+#include "SearchableModel.h"
 #include "MiniSearcher.h"
 #include "Utils/Library/SearchMode.h"
 #include "Utils/Settings/Settings.h"
@@ -32,15 +32,14 @@
 #include <QMap>
 #include <QString>
 
-struct SearchViewFunctionality::Private :
+struct SearchableViewInterface::Private :
 		public QObject
 {
 	Q_OBJECT
 
 public:
-	Settings*					settings=nullptr;
-	SearchModelFunctionality*	search_model=nullptr;
-	SearchViewFunctionality*	search_view=nullptr;
+	SearchableModelInterface*	search_model=nullptr;
+	SearchableViewInterface*	search_view=nullptr;
 	QAbstractItemView*			view=nullptr;
 	MiniSearcher*				mini_searcher=nullptr;
 	int							cur_idx;
@@ -51,7 +50,7 @@ private slots:
 	void select_previous();
 
 public:
-	Private(SearchViewFunctionality* parent, QAbstractItemView* v) :
+	Private(SearchableViewInterface* parent, QAbstractItemView* v) :
 		QObject(v)
 	{
 		view = v;
@@ -59,7 +58,6 @@ public:
 		search_model = nullptr;
 		cur_idx = -1;
 		mini_searcher = new MiniSearcher(v);
-		settings = Settings::instance();
 
 		connect(mini_searcher, &MiniSearcher::sig_text_changed, this, &Private::edit_changed);
 		connect(mini_searcher, &MiniSearcher::sig_find_next_row, this, &Private::select_next);
@@ -68,16 +66,15 @@ public:
 };
 
 
-SearchViewFunctionality::SearchViewFunctionality(QAbstractItemView* view) :
-	SayonaraSelectionView()
+SearchableViewInterface::SearchableViewInterface(QAbstractItemView* view) :
+	SelectionViewInterface()
 {
 	m = Pimpl::make<Private>(this, view);
 }
 
+SearchableViewInterface::~SearchableViewInterface() {}
 
-SearchViewFunctionality::~SearchViewFunctionality() {}
-
-bool SearchViewFunctionality::is_minisearcher_active() const
+bool SearchableViewInterface::is_minisearcher_active() const
 {
 	if(!m->search_model){
 		return false;
@@ -86,13 +83,13 @@ bool SearchViewFunctionality::is_minisearcher_active() const
 	return m->mini_searcher->isVisible();
 }
 
-void SearchViewFunctionality::set_mini_searcher_padding(int padding)
+void SearchableViewInterface::set_mini_searcher_padding(int padding)
 {
 	m->mini_searcher->set_padding(padding);
 }
 
 
-void SearchViewFunctionality::setSearchModel(SearchModelFunctionality* model)
+void SearchableViewInterface::setSearchModel(SearchableModelInterface* model)
 {
 	 m->search_model = model;
 
@@ -103,25 +100,25 @@ void SearchViewFunctionality::setSearchModel(SearchModelFunctionality* model)
 }
 
 
-int SearchViewFunctionality::row_count(const QModelIndex& parent) const
+int SearchableViewInterface::row_count(const QModelIndex& parent) const
 {
 	return m->view->model()->rowCount(parent);
 }
 
 
-int SearchViewFunctionality::column_count(const QModelIndex& parent) const
+int SearchableViewInterface::column_count(const QModelIndex& parent) const
 {
 	return m->view->model()->columnCount(parent);
 }
 
 
-QModelIndex SearchViewFunctionality::model_index(int row, int col, const QModelIndex& parent) const
+QModelIndex SearchableViewInterface::model_index(int row, int col, const QModelIndex& parent) const
 {
 	return m->view->model()->index(row, col, parent);
 }
 
 
-QModelIndex SearchViewFunctionality::match_index(const QString& str, SearchDirection direction) const
+QModelIndex SearchableViewInterface::match_index(const QString& str, SearchDirection direction) const
 {
 	QModelIndex idx;
 	if(str.isEmpty()) {
@@ -132,7 +129,7 @@ QModelIndex SearchViewFunctionality::match_index(const QString& str, SearchDirec
 		return idx;
 	}
 
-	Library::SearchModeMask search_mode = m->settings->get(Set::Lib_SearchMode);
+	Library::SearchModeMask search_mode = Settings::instance()->get(Set::Lib_SearchMode);
 	QMap<QChar, QString> extra_triggers = m->search_model->getExtraTriggers();
 
 	QString converted_string = Library::Util::convert_search_string(str, search_mode, extra_triggers.keys());
@@ -154,7 +151,7 @@ QModelIndex SearchViewFunctionality::match_index(const QString& str, SearchDirec
 }
 
 
-void SearchViewFunctionality::select_match(const QString &str, SearchDirection direction)
+void SearchableViewInterface::select_match(const QString &str, SearchDirection direction)
 {
 	QModelIndex idx = match_index(str, direction);
 	if(!idx.isValid()){
@@ -168,13 +165,13 @@ void SearchViewFunctionality::select_match(const QString &str, SearchDirection d
 
 	switch(selection_type())
 	{
-		case SayonaraSelectionView::SelectionType::Rows:
+		case SelectionViewInterface::SelectionType::Rows:
 			select_rows(indexes);
 			break;
-		case SayonaraSelectionView::SelectionType::Columns:
+		case SelectionViewInterface::SelectionType::Columns:
 			select_columns(indexes);
 			break;
-		case SayonaraSelectionView::SelectionType::Items:
+		case SelectionViewInterface::SelectionType::Items:
 			select_items(indexes);
 			break;
 	}
@@ -196,21 +193,21 @@ void SearchViewFunctionality::select_match(const QString &str, SearchDirection d
 }
 
 
-QItemSelectionModel* SearchViewFunctionality::selection_model() const
+QItemSelectionModel* SearchableViewInterface::selection_model() const
 {
 	return m->view->selectionModel();
 }
 
 
-void SearchViewFunctionality::set_current_index(int idx)
+void SearchableViewInterface::set_current_index(int idx)
 {
 	QModelIndex index = model_index_by_index(idx);
 	m->view->setCurrentIndex(index);
 }
 
-void SearchViewFunctionality::handle_key_press(QKeyEvent* e)
+void SearchableViewInterface::handle_key_press(QKeyEvent* e)
 {
-	SayonaraSelectionView::handle_key_press(e);
+	SelectionViewInterface::handle_key_press(e);
 
 	if(e->isAccepted()) {
 		return;
@@ -224,7 +221,7 @@ void SearchViewFunctionality::handle_key_press(QKeyEvent* e)
 }
 
 
-void SearchViewFunctionality::Private::edit_changed(const QString& str)
+void SearchableViewInterface::Private::edit_changed(const QString& str)
 {
 	search_view->select_match(str, SearchDirection::First);
 
@@ -236,13 +233,13 @@ void SearchViewFunctionality::Private::edit_changed(const QString& str)
 	);
 }
 
-void SearchViewFunctionality::Private::select_next()
+void SearchableViewInterface::Private::select_next()
 {
 	QString str = mini_searcher->get_current_text();
 	search_view->select_match(str, SearchDirection::Next);
 }
 
-void SearchViewFunctionality::Private::select_previous()
+void SearchableViewInterface::Private::select_previous()
 {
 	QString str = this->mini_searcher->get_current_text();
 	search_view->select_match(str, SearchDirection::Prev);

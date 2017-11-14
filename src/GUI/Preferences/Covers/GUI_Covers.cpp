@@ -59,6 +59,8 @@ bool GUI_Covers::commit()
 
 	settings->set(Set::Cover_Server, active_items);
 	settings->set(Set::Cover_LoadFromFile, ui->cb_load_covers_from_file->isChecked());
+
+	return true;
 }
 
 void GUI_Covers::revert()

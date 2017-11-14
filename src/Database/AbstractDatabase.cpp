@@ -36,11 +36,11 @@ struct Base::Private
 	QString db_name;
 	QString db_dir;
 	QString db_path;
-	uint8_t db_id;
+	DbId	db_id;
 
 	bool initialized;
 
-	Private(uint8_t db_id, const QString& db_dir, const QString& db_name)
+	Private(DbId db_id, const QString& db_dir, const QString& db_name)
 	{
 		this->db_id = db_id;
 		this->db_dir = db_dir;
@@ -49,7 +49,7 @@ struct Base::Private
 	}
 };
 
-Base::Base(uint8_t db_id, const QString& db_dir, const QString& db_name, QObject *parent) :
+Base::Base(DbId db_id, const QString& db_dir, const QString& db_name, QObject *parent) :
 	QObject(parent)
 {
 	m = Pimpl::make<Private>(db_id, db_dir, db_name);
@@ -269,7 +269,7 @@ QSqlDatabase Base::db() const
 	return QSqlDatabase::database(m->db_path);
 }
 
-uint8_t Base::db_id() const
+DbId Base::db_id() const
 {
 	return m->db_id;
 }

@@ -21,7 +21,7 @@
 #ifndef SEARCHABLEVIEW_H
 #define SEARCHABLEVIEW_H
 
-#include "GUI/Utils/SearchableWidget/SayonaraSelectionView.h"
+#include "GUI/Utils/SearchableWidget/SelectionView.h"
 #include "Utils/Pimpl.h"
 
 #include <QKeyEvent>
@@ -31,16 +31,16 @@
 
 class QAbstractItemView;
 class QItemSelectionModel;
-class SearchModelFunctionality;
+class SearchableModelInterface;
 
 /**
  * @brief The SearchViewInterface class
  * @ingroup GUIInterfaces
  */
-class SearchViewFunctionality :
-		public SayonaraSelectionView
+class SearchableViewInterface :
+		public SelectionViewInterface
 {
-	PIMPL(SearchViewFunctionality)
+	PIMPL(SearchableViewInterface)
 
 protected:
 	enum class SearchDirection : unsigned char
@@ -51,10 +51,10 @@ protected:
 	};
 
 	public:
-		explicit SearchViewFunctionality(QAbstractItemView* view);
-		virtual ~SearchViewFunctionality();
+		explicit SearchableViewInterface(QAbstractItemView* view);
+		virtual ~SearchableViewInterface();
 
-		virtual void setSearchModel(SearchModelFunctionality* model) final;
+		virtual void setSearchModel(SearchableModelInterface* model) final;
 
 		virtual QModelIndex model_index(int row, int col, const QModelIndex& parent=QModelIndex()) const override final;
 		virtual int row_count(const QModelIndex& parent=QModelIndex()) const override final;
@@ -66,26 +66,24 @@ protected:
 		bool is_minisearcher_active() const;
 		void set_mini_searcher_padding(int padding);
 
-	private:
-		QModelIndex match_index(const QString& str, SearchDirection direction) const;
-		void select_match(const QString& str, SearchDirection direction);
-
-	protected:
+protected:
+		virtual void select_match(const QString& str, SearchDirection direction);
+		virtual QModelIndex match_index(const QString& str, SearchDirection direction) const;
 		void handle_key_press(QKeyEvent* e) override;
 
 };
 
-template<typename AbstractView>
-class SearchViewInterface :
-		public AbstractView,
-		public SearchViewFunctionality
+template<typename View>
+class SearchableView :
+		public View,
+		public SearchableViewInterface
 {
 public:
-	SearchViewInterface(QWidget* parent=nullptr) :
-		AbstractView(parent),
-		SearchViewFunctionality(this) {}
+	SearchableView(QWidget* parent=nullptr) :
+		View(parent),
+		SearchableViewInterface(this) {}
 
-	virtual ~SearchViewInterface() {}
+	virtual ~SearchableView() {}
 
 protected:
 	void keyPressEvent(QKeyEvent* e) override
@@ -97,12 +95,12 @@ protected:
 			}
 		}
 
-		AbstractView::keyPressEvent(e);
+		View::keyPressEvent(e);
 	}
 };
 
-using SearchableTableView=SearchViewInterface<QTableView>;
-using SearchableListView=SearchViewInterface<QListView>;
-using SearchableTreeView=SearchViewInterface<QTreeView>;
+using SearchableTableView=SearchableView<QTableView>;
+using SearchableListView=SearchableView<QListView>;
+using SearchableTreeView=SearchableView<QTreeView>;
 
 #endif // SEARCHABLEVIEW_H

@@ -14,10 +14,13 @@
    <item row="4" column="1">
     <widget class="QLineEdit" name="le_path">
      <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+      <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
+     </property>
+     <property name="readOnly">
+      <bool>true</bool>
      </property>
     </widget>
    </item>
@@ -32,19 +35,6 @@
     <widget class="QLabel" name="lab_path">
      <property name="text">
       <string notr="true">Path</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="2">
-    <widget class="QPushButton" name="btn_choose_dir">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="text">
-      <string notr="true">...</string>
      </property>
     </widget>
    </item>
@@ -116,12 +106,24 @@
      </item>
     </layout>
    </item>
+   <item row="4" column="2">
+    <widget class="QPushButton" name="btn_choose_dir">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string notr="true">...</string>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <tabstops>
   <tabstop>le_name</tabstop>
   <tabstop>le_path</tabstop>
-  <tabstop>btn_choose_dir</tabstop>
   <tabstop>btn_ok</tabstop>
   <tabstop>btn_cancel</tabstop>
  </tabstops>

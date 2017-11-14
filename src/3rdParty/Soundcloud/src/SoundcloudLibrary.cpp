@@ -174,7 +174,7 @@ void SC::Library::get_all_albums(AlbumList& albums, ::Library::Sortings so)
 	SC::Sorting::sort_albums(albums, so.so_albums);
 }
 
-void SC::Library::get_all_albums_by_artist(IDList artist_ids, AlbumList& albums, ::Library::Filter filter, ::Library::Sortings so)
+void SC::Library::get_all_albums_by_artist(IdList artist_ids, AlbumList& albums, ::Library::Filter filter, ::Library::Sortings so)
 {
 	Q_UNUSED(filter)
 
@@ -257,7 +257,7 @@ void SC::Library::get_all_tracks(MetaDataList& v_md, ::Library::Sortings so)
 	SC::Sorting::sort_tracks(v_md, so.so_tracks);
 }
 
-void SC::Library::get_all_tracks_by_artist(IDList artist_ids, MetaDataList& v_md, ::Library::Filter filter, ::Library::Sortings so)
+void SC::Library::get_all_tracks_by_artist(IdList artist_ids, MetaDataList& v_md, ::Library::Filter filter, ::Library::Sortings so)
 {
 	Q_UNUSED(filter)
 
@@ -278,7 +278,7 @@ void SC::Library::get_all_tracks_by_artist(IDList artist_ids, MetaDataList& v_md
 	SC::Sorting::sort_tracks(v_md, so.so_tracks);
 }
 
-void SC::Library::get_all_tracks_by_album(IDList album_ids, MetaDataList& v_md, ::Library::Filter filter, ::Library::Sortings so)
+void SC::Library::get_all_tracks_by_album(IdList album_ids, MetaDataList& v_md, ::Library::Filter filter, ::Library::Sortings so)
 {
 	Q_UNUSED(filter)
 
@@ -357,7 +357,7 @@ void SC::Library::refresh_artist()
 		return;
 	}
 
-	ArtistID artist_id = selected_artists().first();
+	ArtistId artist_id = selected_artists().first();
 
 	MetaDataList v_md;
 	get_all_tracks_by_artist({artist_id}, v_md, ::Library::Filter(), ::Library::Sortings());

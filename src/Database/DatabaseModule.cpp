@@ -26,9 +26,9 @@ using DB::Module;
 struct Module::Private
 {
 	QString connection_name;
-	uint8_t db_id;
+	DbId	db_id;
 
-	Private(const QSqlDatabase& db, uint8_t db_id) :
+	Private(const QSqlDatabase& db, DbId db_id) :
 		connection_name(db.connectionName()),
 		db_id(db_id)
 	{}
@@ -36,7 +36,7 @@ struct Module::Private
 	~Private(){}
 };
 
-Module::Module(QSqlDatabase db, uint8_t db_id)
+Module::Module(QSqlDatabase db, DbId db_id)
 {
 	m = Pimpl::make<Private>(db, db_id);
 
@@ -45,7 +45,7 @@ Module::Module(QSqlDatabase db, uint8_t db_id)
 
 Module::~Module() {}
 
-uint8_t Module::module_db_id() const
+DbId Module::module_db_id() const
 {
 	return m->db_id;
 }

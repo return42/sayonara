@@ -192,16 +192,16 @@ void GUI_AbstractLibrary::init_search_bar()
 
 void GUI_AbstractLibrary::init_connections()
 {
-	connect(m->library, &AbstractLibrary::sig_all_artists_loaded, this, &GUI_AbstractLibrary::lib_artists_ready);
-	connect(m->library, &AbstractLibrary::sig_all_albums_loaded, this, &GUI_AbstractLibrary::lib_albums_ready);
-	connect(m->library, &AbstractLibrary::sig_all_tracks_loaded, this,	&GUI_AbstractLibrary::lib_tracks_ready);
+	connect(m->library, &AbstractLibrary::sig_all_artists_loaded, this, &GUI_AbstractLibrary::artists_ready);
+	connect(m->library, &AbstractLibrary::sig_all_albums_loaded, this, &GUI_AbstractLibrary::albums_ready);
+	connect(m->library, &AbstractLibrary::sig_all_tracks_loaded, this,	&GUI_AbstractLibrary::tracks_ready);
 	connect(m->library, &AbstractLibrary::sig_delete_answer, this, &GUI_AbstractLibrary::show_delete_answer);
 
 	connect(m->lv_album, &AlbumView::doubleClicked, this, &GUI_AbstractLibrary::item_double_clicked);
 	connect(m->lv_album, &AlbumView::sig_sel_changed, this, &GUI_AbstractLibrary::album_sel_changed);
 	connect(m->lv_album, &AlbumView::sig_middle_button_clicked, this, &GUI_AbstractLibrary::item_middle_clicked);
-	connect(m->lv_album, &AlbumView::sig_sortorder_changed, this, &GUI_AbstractLibrary::sortorder_album_changed);
-	connect(m->lv_album, &AlbumView::sig_columns_changed, this, &GUI_AbstractLibrary::columns_album_changed);
+	connect(m->lv_album, &AlbumView::sig_sortorder_changed, this, &GUI_AbstractLibrary::album_sortorder_changed);
+	connect(m->lv_album, &AlbumView::sig_columns_changed, this, &GUI_AbstractLibrary::album_columns_changed);
 	connect(m->lv_album, &AlbumView::sig_delete_clicked, this, &GUI_AbstractLibrary::item_delete_clicked);
 	connect(m->lv_album, &AlbumView::sig_play_next_clicked, this, &GUI_AbstractLibrary::item_play_next_clicked);
 	connect(m->lv_album, &AlbumView::sig_append_clicked, this, &GUI_AbstractLibrary::item_append_clicked);
@@ -210,8 +210,8 @@ void GUI_AbstractLibrary::init_connections()
 	connect(m->lv_artist, &View::doubleClicked, this, &GUI_AbstractLibrary::item_double_clicked);
 	connect(m->lv_artist, &View::sig_sel_changed, this, &GUI_AbstractLibrary::artist_sel_changed);
 	connect(m->lv_artist, &View::sig_middle_button_clicked, this, &GUI_AbstractLibrary::item_middle_clicked);
-	connect(m->lv_artist, &TableView::sig_sortorder_changed, this, &GUI_AbstractLibrary::sortorder_artist_changed);
-	connect(m->lv_artist, &TableView::sig_columns_changed, this, &GUI_AbstractLibrary::columns_artist_changed);
+	connect(m->lv_artist, &TableView::sig_sortorder_changed, this, &GUI_AbstractLibrary::artist_sortorder_changed);
+	connect(m->lv_artist, &TableView::sig_columns_changed, this, &GUI_AbstractLibrary::artist_columns_changed);
 	connect(m->lv_artist, &View::sig_delete_clicked, this, &GUI_AbstractLibrary::item_delete_clicked);
 	connect(m->lv_artist, &View::sig_play_next_clicked, this, &GUI_AbstractLibrary::item_play_next_clicked);
 	connect(m->lv_artist, &View::sig_append_clicked, this, &GUI_AbstractLibrary::item_append_clicked);
@@ -220,8 +220,8 @@ void GUI_AbstractLibrary::init_connections()
 	connect(m->lv_tracks, &View::doubleClicked, this, &GUI_AbstractLibrary::tracks_double_clicked);
 	connect(m->lv_tracks, &View::sig_sel_changed, this, &GUI_AbstractLibrary::track_sel_changed);
 	connect(m->lv_tracks, &View::sig_middle_button_clicked, this, &GUI_AbstractLibrary::tracks_middle_clicked);
-	connect(m->lv_tracks, &TableView::sig_sortorder_changed, this, &GUI_AbstractLibrary::sortorder_title_changed);
-	connect(m->lv_tracks, &TableView::sig_columns_changed, this, &GUI_AbstractLibrary::columns_title_changed);
+	connect(m->lv_tracks, &TableView::sig_sortorder_changed, this, &GUI_AbstractLibrary::track_sortorder_changed);
+	connect(m->lv_tracks, &TableView::sig_columns_changed, this, &GUI_AbstractLibrary::track_columns_changed);
 	connect(m->lv_tracks, &View::sig_delete_clicked, this, &GUI_AbstractLibrary::tracks_delete_clicked);
 	connect(m->lv_tracks, &View::sig_play_next_clicked, this, &GUI_AbstractLibrary::tracks_play_next_clicked);
 	connect(m->lv_tracks, &View::sig_append_clicked, this, &GUI_AbstractLibrary::tracks_append_clicked);
@@ -323,14 +323,14 @@ void GUI_AbstractLibrary::search_mode_changed(Filter::Mode mode)
 }
 
 
-void GUI_AbstractLibrary::lib_tracks_ready()
+void GUI_AbstractLibrary::tracks_ready()
 {
 	const MetaDataList& v_md = m->library->tracks();
 
 	m->lv_tracks->fill<MetaDataList, TrackModel>(v_md);
 }
 
-void GUI_AbstractLibrary::lib_albums_ready()
+void GUI_AbstractLibrary::albums_ready()
 {
 	const AlbumList& albums = m->library->albums();
 
@@ -345,7 +345,7 @@ void GUI_AbstractLibrary::lib_albums_ready()
 }
 
 
-void GUI_AbstractLibrary::lib_artists_ready()
+void GUI_AbstractLibrary::artists_ready()
 {
 	const ArtistList& artists = m->library->artists();
 
@@ -400,48 +400,39 @@ void GUI_AbstractLibrary::tracks_double_clicked(const QModelIndex& idx)
 	m->library->prepare_current_tracks_for_playlist(false);
 }
 
-void  GUI_AbstractLibrary::columns_album_changed()
+void  GUI_AbstractLibrary::album_columns_changed()
 {
-	_settings->set(Set::Lib_ColsAlbum, m->lv_album->get_shown_columns());
+	_settings->set(Set::Lib_ColsAlbum, m->lv_album->shown_columns());
 }
 
 
-void  GUI_AbstractLibrary::columns_artist_changed()
+void  GUI_AbstractLibrary::artist_columns_changed()
 {
-	_settings->set(Set::Lib_ColsArtist, m->lv_artist->get_shown_columns());
+	_settings->set(Set::Lib_ColsArtist, m->lv_artist->shown_columns());
 }
 
 
-void  GUI_AbstractLibrary::columns_title_changed()
+void  GUI_AbstractLibrary::track_columns_changed()
 {
-	_settings->set(Set::Lib_ColsTitle, m->lv_tracks->get_shown_columns());
+	_settings->set(Set::Lib_ColsTitle, m->lv_tracks->shown_columns());
 }
 
 
-void GUI_AbstractLibrary::sortorder_artist_changed(SortOrder s)
+void GUI_AbstractLibrary::artist_sortorder_changed(SortOrder s)
 {
-	Sortings so = _settings->get(Set::Lib_Sorting);
-	so.so_artists = s;
-
-	_settings->set(Set::Lib_Sorting, so);
+	m->library->change_artist_sortorder(s);
 }
 
 
-void GUI_AbstractLibrary::sortorder_album_changed(SortOrder s)
+void GUI_AbstractLibrary::album_sortorder_changed(SortOrder s)
 {
-	Sortings so = _settings->get(Set::Lib_Sorting);
-	so.so_albums = s;
-
-	_settings->set(Set::Lib_Sorting, so);
+	m->library->change_album_sortorder(s);
 }
 
 
-void GUI_AbstractLibrary::sortorder_title_changed(SortOrder s)
+void GUI_AbstractLibrary::track_sortorder_changed(SortOrder s)
 {
-	Sortings so = _settings->get(Set::Lib_Sorting);
-	so.so_tracks = s;
-
-	_settings->set(Set::Lib_Sorting, so);
+	m->library->change_track_sortorder(s);
 }
 
 void GUI_AbstractLibrary::use_view_clear_button_changed()

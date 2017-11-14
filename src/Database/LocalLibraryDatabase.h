@@ -31,7 +31,7 @@ namespace DB
 			public LibraryDatabase
 	{
 		public:
-			LocalLibraryDatabase(int8_t library_id);
+			LocalLibraryDatabase(LibraryId library_id);
 			~LocalLibraryDatabase();
 	};
 }

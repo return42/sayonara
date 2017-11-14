@@ -21,6 +21,7 @@
 #include "MetaDataInfo.h"
 #include "Components/Library/LibraryManager.h"
 
+#include "Utils/Set.h"
 #include "Utils/Utils.h"
 #include "Utils/globals.h"
 #include "Utils/FileUtils.h"
@@ -42,9 +43,9 @@ struct MetaDataInfo::Private
 	SP::Set<QString> artists;
 	SP::Set<QString> album_artists;
 
-	SP::Set<AlbumID> album_ids;
-	SP::Set<ArtistID> artist_ids;
-	SP::Set<ArtistID> album_artist_ids;
+	SP::Set<AlbumId> album_ids;
+	SP::Set<ArtistId> artist_ids;
+	SP::Set<ArtistId> album_artist_ids;
 
 	QStringList paths;
 
@@ -442,17 +443,17 @@ const SP::Set<QString> &MetaDataInfo::album_artists() const
 	return m->album_artists;
 }
 
-const SP::Set<AlbumID> &MetaDataInfo::album_ids() const
+const SP::Set<AlbumId> &MetaDataInfo::album_ids() const
 {
 	return m->album_ids;
 }
 
-const SP::Set<ArtistID> &MetaDataInfo::artist_ids() const
+const SP::Set<ArtistId> &MetaDataInfo::artist_ids() const
 {
 	return m->artist_ids;
 }
 
-const SP::Set<ArtistID> &MetaDataInfo::album_artist_ids() const
+const SP::Set<ArtistId> &MetaDataInfo::album_artist_ids() const
 {
 	return m->album_artist_ids;
 }

@@ -297,7 +297,7 @@ Location Location::cover_location(const QString& artist)
 	return ret;
 }
 
-Location Get_cover_location(int album_id, uint8_t db_id)
+Location Get_cover_location(AlbumId album_id, DbId db_id)
 {
 	if(album_id < 0) {
 		return Location::invalid_location();

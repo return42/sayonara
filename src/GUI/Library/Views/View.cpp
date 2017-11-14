@@ -202,11 +202,11 @@ QPixmap View::pixmap() const
 	return QPixmap();
 }
 
-void View::set_selection_type(SayonaraSelectionView::SelectionType type)
+void View::set_selection_type(SelectionViewInterface::SelectionType type)
 {
-	SayonaraSelectionView::set_selection_type(type);
+	SelectionViewInterface::set_selection_type(type);
 
-	if(type == SayonaraSelectionView::SelectionType::Rows){
+	if(type == SelectionViewInterface::SelectionType::Rows){
 		setSelectionBehavior(QAbstractItemView::SelectRows);
 	}
 
@@ -306,7 +306,7 @@ void View::merge_action_triggered()
 	int id = action->data().toInt();
 
 	IndexSet selected_items = this->selected_items();
-	SP::Set<ID> ids;
+	SP::Set<Id> ids;
 
 	for(auto idx : selected_items)
 	{
