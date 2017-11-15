@@ -27,9 +27,16 @@
 class ReloadThread;
 class LibraryImporter;
 
+namespace Library
+{
+	class Manager;
+}
+
 class LocalLibrary :
 		public AbstractLibrary
 {
+	friend class Library::Manager;
+
 	Q_OBJECT
 	PIMPL(LocalLibrary)
 
@@ -39,12 +46,13 @@ signals:
 	void sig_path_changed(const QString& path);
 	void sig_name_changed(const QString& name);
 
-public:
+protected:
 	LocalLibrary(LibraryId id, const QString& library_name, const QString& library_path, QObject* parent=nullptr);
+
+public:
 	virtual ~LocalLibrary();
 
 	void clear_library();
-
 
 public slots:
 	void delete_tracks(const MetaDataList& v_md, Library::TrackDeletionMode answer) override;
@@ -64,7 +72,6 @@ public slots:
 
 	void show_album_artists_changed(bool show_album_artists);
 
-
 protected slots:
 	void library_reloading_state_new_block();
 	void reload_thread_finished();
@@ -72,36 +79,36 @@ protected slots:
 
 
 private:
-	void		get_all_artists(ArtistList& artists, Library::Sortings so) override;
-	void		get_all_artists_by_searchstring(Library::Filter filter, ArtistList& artists, Library::Sortings so) override;
+	void get_all_artists(ArtistList& artists, Library::Sortings so) override;
+	void get_all_artists_by_searchstring(Library::Filter filter, ArtistList& artists, Library::Sortings so) override;
 
-	void		get_all_albums(AlbumList& albums, Library::Sortings so) override;
-	void		get_all_albums_by_artist(IdList artist_ids, AlbumList& albums, Library::Filter filter, Library::Sortings so) override;
-	void		get_all_albums_by_searchstring(Library::Filter filter, AlbumList& albums, Library::Sortings so) override;
+	void get_all_albums(AlbumList& albums, Library::Sortings so) override;
+	void get_all_albums_by_artist(IdList artist_ids, AlbumList& albums, Library::Filter filter, Library::Sortings so) override;
+	void get_all_albums_by_searchstring(Library::Filter filter, AlbumList& albums, Library::Sortings so) override;
 
-	void		get_all_tracks(MetaDataList& v_md, Library::Sortings so) override;
-	void		get_all_tracks(const QStringList& paths, MetaDataList& v_md) override;
-	void		get_all_tracks_by_artist(IdList artist_ids, MetaDataList& v_md, Library::Filter filter, Library::Sortings so) override;
-	void		get_all_tracks_by_album(IdList album_ids, MetaDataList& v_md, Library::Filter filter, Library::Sortings so) override;
-	void		get_all_tracks_by_searchstring(Library::Filter filter, MetaDataList& v_md, Library::Sortings so) override;
+	void get_all_tracks(MetaDataList& v_md, Library::Sortings so) override;
+	void get_all_tracks(const QStringList& paths, MetaDataList& v_md) override;
+	void get_all_tracks_by_artist(IdList artist_ids, MetaDataList& v_md, Library::Filter filter, Library::Sortings so) override;
+	void get_all_tracks_by_album(IdList album_ids, MetaDataList& v_md, Library::Filter filter, Library::Sortings so) override;
+	void get_all_tracks_by_searchstring(Library::Filter filter, MetaDataList& v_md, Library::Sortings so) override;
+	void get_album_by_id(int album_id, Album& album) override;
+	void get_artist_by_id(int artist_id, Artist& artist) override;
 
-	void		get_album_by_id(int album_id, Album& album) override;
-	void		get_artist_by_id(int artist_id, Artist& artist) override;
+	void update_track(const MetaData& md) override;
+	void update_tracks(const MetaDataList& v_md) override;
+	void update_album(const Album& album) override;
 
-	void		update_track(const MetaData& md) override;
-	void 		update_tracks(const MetaDataList& v_md) override;
-	void		update_album(const Album& album) override;
-
-	void		insert_tracks(const MetaDataList& v_md) override;
-	void		apply_db_fixes();
-	void		init_reload_thread();
+	void insert_tracks(const MetaDataList& v_md) override;
+	void apply_db_fixes();
+	void init_reload_thread();
 
 public:
-	void		set_library_path(const QString& library_path);
-	void		set_library_name(const QString& library_name);
-	QString		library_path() const;
-	LibraryId	library_id() const;
-	QString		library_name() const;
+	void set_library_path(const QString& library_path);
+	void set_library_name(const QString& library_name);
+
+	QString			library_path() const;
+	LibraryId		library_id() const;
+	QString			library_name() const;
 	LibraryImporter* importer();
 };
 

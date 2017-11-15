@@ -133,7 +133,7 @@ void SC::Library::get_all_artists_by_searchstring(::Library::Filter filter, Arti
 		m->scd->getSearchInformation(m->search_information);
 	}
 
-	IntSet artist_ids = m->search_information.artist_ids(filter.filtertext());
+	IntSet artist_ids = m->search_information.artist_ids(filter.filtertext(false));
 
 	for(int artist_id : artist_ids)
 	{
@@ -209,7 +209,7 @@ void SC::Library::get_all_albums_by_searchstring(::Library::Filter filter, Album
 		m->scd->getSearchInformation(m->search_information);
 	}
 
-	IntSet album_ids = m->search_information.album_ids(filter.filtertext());
+	IntSet album_ids = m->search_information.album_ids(filter.filtertext(false));
 	for(int album_id : album_ids)
 	{
 		int idx = m->album_id_idx_map[album_id];
@@ -303,7 +303,7 @@ void SC::Library::get_all_tracks_by_searchstring(::Library::Filter filter, MetaD
 		m->scd->getSearchInformation(m->search_information);
 	}
 
-	IntSet track_ids = m->search_information.track_ids(filter.filtertext());
+	IntSet track_ids = m->search_information.track_ids(filter.filtertext(false));
 
 	for(int track_id : track_ids)
 	{

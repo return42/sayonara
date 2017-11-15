@@ -85,6 +85,8 @@ namespace Util
 		 */
 		void			split_filename(const QString& src, QString& dir, QString& filename);
 
+		QStringList		split_directories(const QString& path);
+
 		/**
 		 * @brief get file extension
 		 * @param filename filename to get the extension for

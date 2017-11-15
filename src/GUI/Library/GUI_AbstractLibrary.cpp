@@ -253,7 +253,7 @@ void GUI_AbstractLibrary::query_library()
 	Filter::Mode current_mode = static_cast<Filter::Mode>(m->le_search->property("search_mode").toInt());
 
 	filter.set_mode(current_mode);
-	filter.set_filtertext(m->le_search->text());
+	filter.set_filtertext(m->le_search->text(), _settings->get(Set::Lib_SearchMode));
 
 	m->library->change_filter(filter);
 }

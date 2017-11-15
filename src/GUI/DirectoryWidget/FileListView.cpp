@@ -22,6 +22,7 @@
 #include "FileListModel.h"
 #include "DirectoryIconProvider.h"
 #include "DirectoryDelegate.h"
+#include "SymlinkUtils.h"
 
 #include "Components/DirectoryReader/DirectoryReader.h"
 
@@ -31,6 +32,7 @@
 #include "Utils/Library/SearchMode.h"
 
 #include "GUI/Utils/ContextMenu/LibraryContextMenu.h"
+#include "GUI/Utils/CustomMimeData.h"
 
 #include <QDrag>
 #include <QDragEnterEvent>
@@ -117,7 +119,7 @@ void FileListView::init_context_menu()
 }
 
 
-QModelIndexList FileListView::get_selected_rows() const
+QModelIndexList FileListView::selected_rows() const
 {
 	QItemSelectionModel* selection_model;
 
@@ -130,25 +132,25 @@ QModelIndexList FileListView::get_selected_rows() const
 	return QModelIndexList();
 }
 
-MetaDataList FileListView::get_selected_metadata() const
+MetaDataList FileListView::selected_metadata() const
 {
-	QStringList paths = get_selected_paths();
+	QStringList paths = selected_paths();
 	DirectoryReader reader;
 
 	return reader.get_md_from_filelist(paths);
 }
 
-QStringList FileListView::get_selected_paths() const
+QStringList FileListView::selected_paths() const
 {
 	QStringList paths = m->model->get_files();
 	QStringList ret;
-	QModelIndexList selections = this->get_selected_rows();
+	QModelIndexList selections = this->selected_rows();
 
 	for(const QModelIndex& idx : selections)
 	{
 		int row = idx.row();
 		if(between(row, paths)){
-			ret << paths[row];
+			ret << SymlinkUtils::filepath_by_sympath(paths[row]);
 		}
 	}
 
@@ -191,13 +193,9 @@ void FileListView::set_parent_directory(const QString& dir, const QString& searc
 
 QMimeData* FileListView::get_mimedata() const
 {
-	QItemSelectionModel* sel_model = this->selectionModel();
-	if(sel_model)
-	{
-		return m->model->mimeData(sel_model->selectedIndexes());
-	}
-
-	return nullptr;
+	CustomMimeData* mimedata = new CustomMimeData();
+	mimedata->set_metadata(selected_metadata());
+	return mimedata;
 }
 
 
@@ -214,5 +212,13 @@ QModelIndex FileListView::model_index_by_index(int idx) const
 void FileListView::keyPressEvent(QKeyEvent *event)
 {
 	event->setAccepted(false);
+
+	if( event->key() == Qt::Key_Enter ||
+		event->key() == Qt::Key_Return)
+	{
+		event->accept();
+		emit sig_enter_pressed();
+	}
+
 	SearchableListView::keyPressEvent(event);
 }

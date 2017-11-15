@@ -372,12 +372,12 @@ bool Tracks::getAllTracksByAlbum(IdList albums, MetaDataList& returndata, const 
 				break;
 
 			case ::Library::Filter::Filename:
-				querytext += "WHERE filecissearch LIKE :searchterm AND ";
+				querytext += "WHERE filecissearch LIKE :cissearch AND ";
 				break;
 
 			case ::Library::Filter::Fulltext:
 			default:
-				querytext += "WHERE allCissearch LIKE :searchterm AND ";
+				querytext += "WHERE allCissearch LIKE :cissearch AND ";
 				break;
 		}
 	}
@@ -407,8 +407,8 @@ bool Tracks::getAllTracksByAlbum(IdList albums, MetaDataList& returndata, const 
 
 	if( !filter.cleared() )
 	{
-		QString filtertext = filter.filtertext();
-		q.bindValue(":searchterm", filtertext);
+		q.bindValue(":searchterm", filter.filtertext(true));
+		q.bindValue(":cissearch", filter.search_mode_filtertext(true));
 	}
 
 	return db_fetch_tracks(q, returndata);
@@ -450,12 +450,12 @@ bool Tracks::getAllTracksByArtist(IdList artists, MetaDataList& returndata, cons
 				break;
 
 			case ::Library::Filter::Filename:
-				querytext += "WHERE filecissearch LIKE :searchterm AND ";
+				querytext += "WHERE filecissearch LIKE :cissearch AND ";
 				break;
 
 			case ::Library::Filter::Fulltext:
 			default:
-				querytext += "WHERE allCissearch LIKE :searchterm AND ";
+				querytext += "WHERE allCissearch LIKE :cissearch AND ";
 				break;
 		}
 	}
@@ -484,8 +484,8 @@ bool Tracks::getAllTracksByArtist(IdList artists, MetaDataList& returndata, cons
 		q.bindValue(QString(":artist_id_") + QString::number(i), artists[i]);
 	}
 
-
-	q.bindValue(":searchterm", filter.filtertext());
+	q.bindValue(":searchterm", filter.filtertext(true));
+	q.bindValue(":cissearch", filter.search_mode_filtertext(true));
 
 	return db_fetch_tracks(q, returndata);
 }
@@ -503,11 +503,11 @@ bool Tracks::getAllTracksBySearchString(const ::Library::Filter& filter, MetaDat
 			break;
 
 		case ::Library::Filter::Filename:
-			querytext += "WHERE filecissearch LIKE :searchterm ";
+			querytext += "WHERE filecissearch LIKE :cissearch ";
 			break;
 
 		case ::Library::Filter::Fulltext:
-			querytext += "WHERE allCissearch LIKE :searchterm ";
+			querytext += "WHERE allCissearch LIKE :cissearch ";
 			break;
 
 		default:
@@ -517,8 +517,8 @@ bool Tracks::getAllTracksBySearchString(const ::Library::Filter& filter, MetaDat
 	querytext = append_track_sort_string(querytext, sort);
 	q.prepare(querytext);
 
-	QString filtertext = filter.filtertext();
-	q.bindValue(":searchterm", filtertext);
+	q.bindValue(":searchterm", filter.filtertext(true));
+	q.bindValue(":cissearch", filter.search_mode_filtertext(true));
 
 	return db_fetch_tracks(q, result);
 }

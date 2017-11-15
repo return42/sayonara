@@ -134,12 +134,6 @@ QModelIndex FileListModel::getPrevRowIndexOf(const QString& substr, int cur_row,
 	return QModelIndex();
 }
 
-QMap<QChar, QString> FileListModel::getExtraTriggers()
-{
-	return QMap<QChar, QString>();
-}
-
-
 QMimeData* FileListModel::mimeData(const QModelIndexList &indexes) const
 {
 	Q_UNUSED(indexes)

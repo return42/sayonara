@@ -31,7 +31,6 @@
 #include "Utils/Language.h"
 
 #include "GUI/Utils/GuiUtils.h"
-#include "GUI/Utils/CustomMimeData.h"
 #include "GUI/Utils/MimeDataUtils.h"
 #include "GUI/Utils/IconLoader/IconLoader.h"
 
@@ -180,11 +179,6 @@ QModelIndex SomaFM::StationModel::getPrevRowIndexOf(const QString& substr, int c
 	}
 
 	return QModelIndex();
-}
-
-QMap<QChar, QString> SomaFM::StationModel::getExtraTriggers()
-{
-	return QMap<QChar, QString>();
 }
 
 void SomaFM::StationModel::set_stations(const QList<SomaFM::Station>& stations)

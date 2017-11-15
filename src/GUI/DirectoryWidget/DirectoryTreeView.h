@@ -30,7 +30,7 @@
 #include <QModelIndexList>
 
 class LibraryContextMenu;
-class SearchableFileTreeModel;
+class DirectoryModel;
 class MetaDataList;
 class IconProvider;
 
@@ -53,28 +53,33 @@ signals:
 	void sig_delete_clicked();
 	void sig_play_next_clicked();
 	void sig_append_clicked();
+	void sig_directory_loaded(const QModelIndex& index);
+	void sig_enter_pressed();
 
 public:
 	explicit DirectoryTreeView(QWidget* parent=nullptr);
 	virtual ~DirectoryTreeView();
 
-	SearchableFileTreeModel* get_model() const;
+	QModelIndex		search(const QString& search_term);
+	QString			directory_name(const QModelIndex& index);
 
-	QModelIndexList		get_selected_rows() const;
-	MetaDataList 		get_selected_metadata() const;
-	QStringList			get_selected_paths() const;
+	QModelIndexList	selected_items() const;
+	MetaDataList	selected_metadata() const;
+	QStringList		selected_paths() const;
 
-	QMimeData*			get_mimedata() const override;
-
+	QMimeData*		get_mimedata() const override;
 
 private:
+	void init_context_menu();
+
+private slots:
+	void directory_loaded(const QString& dir_name);
+
+protected:
 	void keyPressEvent(QKeyEvent* event) override;
 	void mousePressEvent(QMouseEvent* event) override;
 	void mouseMoveEvent(QMouseEvent *event) override;
-	void init_context_menu();
 
-
-protected:
 	// SayonaraSelectionView
 	int index_by_model_index(const QModelIndex& idx) const override;
 	QModelIndex model_index_by_index(int idx) const override;

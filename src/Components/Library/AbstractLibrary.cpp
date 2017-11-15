@@ -64,7 +64,7 @@ AbstractLibrary::AbstractLibrary(QObject *parent) :
 	m->sortorder = _settings->get(Set::Lib_Sorting);
 
 	m->filter.set_mode(Library::Filter::Fulltext);
-	m->filter.set_filtertext("");
+	m->filter.set_filtertext("", _settings->get(Set::Lib_SearchMode));
 
 	Tagging::ChangeNotifier* mdcn = Tagging::ChangeNotifier::instance();
 	connect(mdcn, &Tagging::ChangeNotifier::sig_metadata_changed,
@@ -329,7 +329,7 @@ Library::Filter AbstractLibrary::filter() const
 
 void AbstractLibrary::change_filter(Library::Filter filter, bool force)
 {
-	QString filtertext = filter.filtertext();
+	QString filtertext = filter.filtertext(false);
 
 	if(filtertext.size() < 3){
 		filter.clear();
@@ -337,16 +337,8 @@ void AbstractLibrary::change_filter(Library::Filter filter, bool force)
 
 	else
 	{
-		if(filter.mode() == Library::Filter::Fulltext)
-		{
-			Library::SearchModeMask mask = _settings->get(Set::Lib_SearchMode);
-			filtertext = Library::Util::convert_search_string(filtertext, mask);
-		}
-
-		filtertext.prepend("%");
-		filtertext.append("%");
-
-		filter.set_filtertext(filtertext);
+		Library::SearchModeMask mask = _settings->get(Set::Lib_SearchMode);
+		filter.set_filtertext(filtertext, mask);
 	}
 
 	fetch_by_filter(filter, force);
@@ -699,15 +691,20 @@ void AbstractLibrary::delete_all_tracks()
 
 void AbstractLibrary::delete_tracks(const MetaDataList& v_md, Library::TrackDeletionMode mode)
 {
-	if(mode == Library::TrackDeletionMode::None) return;
+	if(mode == Library::TrackDeletionMode::None) {
+		return;
+	}
 
 	QString file_entry = Lang::get(Lang::Entries);
 	QString answer_str;
 
 	int n_fails = 0;
-	if(mode == Library::TrackDeletionMode::AlsoFiles){
+	if(mode == Library::TrackDeletionMode::AlsoFiles)
+	{
 		file_entry = Lang::get(Lang::Files);
-		for( const MetaData& md : v_md ){
+
+		for( const MetaData& md : v_md )
+		{
 			QFile f(md.filepath());
 			if(!f.remove()){
 				n_fails++;

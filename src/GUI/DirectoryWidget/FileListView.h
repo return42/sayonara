@@ -45,14 +45,15 @@ signals:
 	void sig_delete_clicked();
 	void sig_play_next_clicked();
 	void sig_append_clicked();
+	void sig_enter_pressed();
 
 public:
 	explicit FileListView(QWidget* parent=nullptr);
 	virtual ~FileListView();
 
-	QModelIndexList get_selected_rows() const;
-	MetaDataList get_selected_metadata() const;
-	QStringList get_selected_paths() const;
+	QModelIndexList selected_rows() const;
+	MetaDataList selected_metadata() const;
+	QStringList selected_paths() const;
 
 	void set_parent_directory(const QString& dir, const QString& search_string);
 

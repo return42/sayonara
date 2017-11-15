@@ -21,11 +21,13 @@
 #include "DirectoryTreeView.h"
 #include "DirectoryDelegate.h"
 #include "DirectoryIconProvider.h"
+#include "DirectoryModel.h"
+#include "SymlinkUtils.h"
 
 #include "Components/DirectoryReader/DirectoryReader.h"
 
 #include "GUI/Utils/ContextMenu/LibraryContextMenu.h"
-#include "GUI/Utils/SearchableWidget/SearchableFileTreeModel.h"
+#include "GUI/Utils/CustomMimeData.h"
 
 #include "Utils/MetaData/MetaDataList.h"
 #include "Utils/Settings/Settings.h"
@@ -38,9 +40,11 @@
 
 struct DirectoryTreeView::Private
 {
-	LibraryContextMenu*			context_menu=nullptr;
-	SearchableFileTreeModel*	model = nullptr;
-	IconProvider*				icon_provider = nullptr;
+	QString				last_search_term;
+
+	LibraryContextMenu*	context_menu=nullptr;
+	DirectoryModel*		model = nullptr;
+	IconProvider*		icon_provider = nullptr;
 
 	Private()
 	{
@@ -62,7 +66,7 @@ DirectoryTreeView::DirectoryTreeView(QWidget *parent) :
 
 	QString root_path = Util::sayonara_path("Libraries");
 
-	m->model = new SearchableFileTreeModel(this);
+	m->model = new DirectoryModel(this);
 	m->model->setFilter(QDir::NoDotAndDotDot | QDir::Dirs);
 	m->model->setIconProvider(m->icon_provider);
 	m->model->setRootPath(root_path);
@@ -77,6 +81,7 @@ DirectoryTreeView::DirectoryTreeView(QWidget *parent) :
 	}
 
 	this->setRootIndex(m->model->index(root_path));
+	connect(m->model, &DirectoryModel::directoryLoaded, this, &DirectoryTreeView::directory_loaded);
 }
 
 DirectoryTreeView::~DirectoryTreeView() {}
@@ -116,14 +121,14 @@ void DirectoryTreeView::mouseMoveEvent(QMouseEvent* e)
 
 QMimeData* DirectoryTreeView::get_mimedata() const
 {
-	QItemSelectionModel* sel_model = this->selectionModel();
-	if(sel_model)
-	{
-		return m->model->mimeData(sel_model->selectedIndexes());
-	}
+	CustomMimeData* cmd	= new CustomMimeData();
+	MetaDataList v_md = this->selected_metadata();
 
-	return nullptr;
+	cmd->set_metadata(v_md);
+
+	return cmd;
 }
+
 
 void DirectoryTreeView::skin_changed()
 {
@@ -134,8 +139,20 @@ void DirectoryTreeView::skin_changed()
 
 void DirectoryTreeView::keyPressEvent(QKeyEvent* event)
 {
-	m->model->search_only_dirs(true);
 	event->setAccepted(false);
+
+	switch(event->key())
+	{
+		case Qt::Key_Enter:
+		case Qt::Key_Return:
+			emit sig_enter_pressed();
+
+			return;
+
+		default: break;
+	}
+
+	m->model->search_only_dirs(true);
 
 	SearchableTreeView::keyPressEvent(event);
 }
@@ -162,13 +179,51 @@ void DirectoryTreeView::init_context_menu()
 	connect(m->context_menu, &LibraryContextMenu::sig_append_clicked, this, &DirectoryTreeView::sig_append_clicked);
 }
 
-SearchableFileTreeModel* DirectoryTreeView::get_model() const
+void DirectoryTreeView::directory_loaded(const QString& dir_name)
 {
-	return m->model;
+	QModelIndex index = m->model->index(dir_name);
+	if(index.isValid())
+	{
+		scrollTo(index, QAbstractItemView::PositionAtCenter);
+		selectionModel()->select(index, QItemSelectionModel::ClearAndSelect);
+	}
+
+	emit sig_directory_loaded(index);
 }
 
+QModelIndex DirectoryTreeView::search(const QString& search_term)
+{
+	QModelIndex found_idx;
 
-QModelIndexList DirectoryTreeView::get_selected_rows() const
+	m->model->search_only_dirs(false);
+
+	if(m->last_search_term == search_term) {
+		found_idx = m->model->getNextRowIndexOf(m->last_search_term, 0, QModelIndex());
+	}
+
+	else {
+		found_idx = m->model->getFirstRowIndexOf(search_term);
+		m->last_search_term = search_term;
+	}
+
+	expand(found_idx);
+	scrollTo(found_idx, QAbstractItemView::PositionAtCenter);
+	selectionModel()->select(found_idx, QItemSelectionModel::ClearAndSelect);
+
+	if(m->model->canFetchMore(found_idx)){
+		m->model->fetchMore(found_idx);
+	}
+
+	return found_idx;
+}
+
+QString DirectoryTreeView::directory_name(const QModelIndex &index)
+{
+	QFileInfo info = m->model->fileInfo(index);
+	return info.absoluteFilePath();
+}
+
+QModelIndexList DirectoryTreeView::selected_items() const
 {
 	QItemSelectionModel* selection_model = this->selectionModel();
 
@@ -176,24 +231,27 @@ QModelIndexList DirectoryTreeView::get_selected_rows() const
 }
 
 
-MetaDataList DirectoryTreeView::get_selected_metadata() const
+MetaDataList DirectoryTreeView::selected_metadata() const
 {
 	DirectoryReader reader;
-	QStringList paths = get_selected_paths();
+	QStringList paths = selected_paths();
 	return reader.get_md_from_filelist(paths);
 }
 
 
-QStringList DirectoryTreeView::get_selected_paths() const
+QStringList DirectoryTreeView::selected_paths() const
 {
-	QModelIndexList idx_list = this->get_selected_rows();
-	if(idx_list.isEmpty()){
+	QModelIndexList selections = this->selected_items();
+	if(selections.isEmpty()){
 		return QStringList();
 	}
 
 	QStringList paths;
-	for(const QModelIndex& idx : idx_list){
-		paths << m->model->fileInfo(idx).absoluteFilePath();
+	for(const QModelIndex& idx : selections)
+	{
+		QFileInfo info = m->model->fileInfo(idx);
+		QString sympath = info.filePath();
+		paths << SymlinkUtils::filepath_by_sympath(sympath);
 	}
 
 	return paths;
@@ -224,17 +282,24 @@ void DirectoryTreeView::select_match(const QString& str, SearchDirection directi
 	}
 
 	else {
-		idx = m->model->getNextRowIndexOf(str, 0);
+		idx = m->model->getPrevRowIndexOf(str, 0);
 	}
+
+	if(!idx.isValid()){
+		sp_log(Log::Debug, this) << "Invalid index for " << str;
+		return;
+	}
+
+	sp_log(Log::Debug, this) << "Selecting " << idx.data().toString();
 
 	expand(idx);
 	scrollTo(idx, QAbstractItemView::PositionAtCenter);
+	this->clearSelection();
+	selectionModel()->clearSelection();
 	selectionModel()->select(idx, QItemSelectionModel::ClearAndSelect);
 	setCurrentIndex(idx);
 
 	if(m->model->canFetchMore(idx)){
 		m->model->fetchMore(idx);
 	}
-
-
 }

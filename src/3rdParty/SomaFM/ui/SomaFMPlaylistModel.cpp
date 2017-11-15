@@ -22,68 +22,68 @@
 
 #include "SomaFMPlaylistModel.h"
 #include "Components/Covers/CoverLocation.h"
-#include "GUI/Utils/CustomMimeData.h"
 #include "GUI/Utils/MimeDataUtils.h"
 #include "Utils/globals.h"
 
 #include <QUrl>
+#include <QMimeData>
 
 using namespace Gui::Util;
 
 SomaFM::PlaylistModel::PlaylistModel(QObject* parent) :
-    QStringListModel(parent) {}
+	QStringListModel(parent) {}
 
 SomaFM::PlaylistModel::~PlaylistModel() {}
 
 
 void SomaFM::PlaylistModel::setStation(const SomaFM::Station& station)
 {
-    _station = station;
+	_station = station;
 
 	QStringList urls = station.urls();
-    QStringList entries;
+	QStringList entries;
 
-    for(QString& url : urls){
+	for(QString& url : urls){
 		SomaFM::Station::UrlType type = station.url_type(url);
 		if(type == SomaFM::Station::UrlType::MP3){
 			entries << station.name() + " (mp3)";
-	    }
+		}
 
 		else if(type == SomaFM::Station::UrlType::AAC){
 			entries << station.name() + " (aac)";
-	    }
+		}
 
-	    else{
-		    entries << url;
-	    }
-    }
+		else{
+			entries << url;
+		}
+	}
 
-    this->setStringList(entries);
+	this->setStringList(entries);
 }
 
 QMimeData* SomaFM::PlaylistModel::mimeData(const QModelIndexList& indexes) const
 {
-    if(indexes.isEmpty()){
-        return nullptr;
-    }
+	if(indexes.isEmpty()){
+		return nullptr;
+	}
 
 	int row = indexes.first().row();
 
 	QStringList urls = _station.urls();
 	if(!between(row, urls)){
 		return nullptr;
-    }
+	}
 
-    QUrl url( urls[row] );
+	QUrl url( urls[row] );
 
-    QMimeData* mime_data = new QMimeData();
-    Cover::Location location = _station.cover_location();
+	QMimeData* mime_data = new QMimeData();
+	Cover::Location location = _station.cover_location();
 
-    mime_data->setUrls({url});
-    if(!location.search_urls().isEmpty())
-    {
+	mime_data->setUrls({url});
+	if(!location.search_urls().isEmpty())
+	{
 		MimeData::set_cover_url(mime_data, location.search_urls().first());
 	}
 
-    return mime_data;
+	return mime_data;
 }

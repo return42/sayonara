@@ -27,11 +27,12 @@
 
 
 #include "Utils/Pimpl.h"
+#include "Utils/Library/SearchMode.h"
 
 class QString;
 namespace Library
 {
-    class DateFilter;
+	class DateFilter;
 }
 
 namespace Library
@@ -40,8 +41,8 @@ namespace Library
 	 * @brief The Filter class
 	 * @ingroup LibraryHelper
 	 */
-    class Filter
-    {
+	class Filter
+	{
 		PIMPL(Filter)
 
 		public:
@@ -50,7 +51,7 @@ namespace Library
 			{
 				Fulltext=0,
 				Filename,
-                Genre
+				Genre
 			};
 
 
@@ -58,12 +59,13 @@ namespace Library
 			~Filter();
 
 			Filter(const Filter& other);
-            Filter& operator=(const Filter& other);
+			Filter& operator=(const Filter& other);
 
-            bool operator==(const Filter& other);
+			bool operator==(const Filter& other);
 
-			QString filtertext() const;
-			void set_filtertext(const QString& str);
+			QString filtertext(bool with_percent) const;
+			QString search_mode_filtertext(bool with_percent) const;
+			void set_filtertext(const QString& str, ::Library::SearchModeMask search_mode);
 
 			Library::Filter::Mode mode() const;
 			void set_mode(Library::Filter::Mode mode);
@@ -72,7 +74,7 @@ namespace Library
 			bool cleared() const;
 
 			static QString get_text(Mode mode);
-    };
+	};
 }
 
 #endif /* FILTER_H_ */

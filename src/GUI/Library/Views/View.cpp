@@ -37,9 +37,9 @@
 #include "Utils/Set.h"
 #include "Utils/Logger/Logger.h"
 
-#include "GUI/Utils/CustomMimeData.h"
 #include "GUI/Utils/ContextMenu/LibraryContextMenu.h"
 #include "GUI/Utils/SearchableWidget/MiniSearcher.h"
+#include "GUI/Utils/CustomMimeData.h"
 
 #include <QHeaderView>
 #include <QDropEvent>

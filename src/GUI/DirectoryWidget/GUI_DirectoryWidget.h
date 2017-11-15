@@ -39,43 +39,39 @@ class GUI_DirectoryWidget :
 	PIMPL(GUI_DirectoryWidget)
 	UI_CLASS(GUI_DirectoryWidget)
 
-public:
-	explicit GUI_DirectoryWidget(QWidget* parent=nullptr);
-	~GUI_DirectoryWidget();
+	public:
+		explicit GUI_DirectoryWidget(QWidget* parent=nullptr);
+		~GUI_DirectoryWidget();
 
-	QFrame* header_frame() const;
+		QFrame* header_frame() const;
 
-private:
-	void init_shortcuts();
+	private:
+		void init_shortcuts();
 
-protected:
-	void showEvent(QShowEvent* e) override;
-	void language_changed() override;
-	void skin_changed() override;
+	protected:
+		void language_changed() override;
 
-private slots:
-	void search_button_clicked();
-	void search_term_changed(const QString& term);
-	void directory_loaded(const QString& path);
-	void init_dir_view();
-	void dir_clicked(QModelIndex idx);
-	void dir_pressed(QModelIndex idx);
-	void file_dbl_clicked(QModelIndex idx);
-	void file_pressed(QModelIndex idx);
+	private slots:
+		void search_button_clicked();
 
-	void dir_append_clicked();
-	void dir_play_next_clicked();
-	void dir_delete_clicked();
+		void dir_enter_pressed();
+		void dir_opened(QModelIndex idx);
+		void dir_pressed(QModelIndex idx);
+		void dir_append_clicked();
+		void dir_play_next_clicked();
+		void dir_delete_clicked();
 
-	void file_append_clicked();
-	void file_play_next_clicked();
-	void file_delete_clicked();
+		void file_dbl_clicked(QModelIndex idx);
+		void file_enter_pressed();
+		void file_pressed(QModelIndex idx);
+		void file_append_clicked();
+		void file_play_next_clicked();
+		void file_delete_clicked();
 
 
-	// InfoDialogContainer interface
-protected:
-	MD::Interpretation metadata_interpretation() const override;
-	MetaDataList info_dialog_data() const override;
+	protected:
+		MD::Interpretation metadata_interpretation() const override;
+		MetaDataList info_dialog_data() const override;
 };
 
 #endif // GUI_DIRECTORYWIDGET_H

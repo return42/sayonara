@@ -397,8 +397,11 @@ QMap<QChar, QString> PlaylistItemModel::getExtraTriggers()
 
 CustomMimeData* PlaylistItemModel::custom_mimedata(const QModelIndexList& indexes) const
 {
+	if(indexes.isEmpty()){
+		return nullptr;
+	}
+
 	CustomMimeData* mimedata = new CustomMimeData();
-	QList<QUrl> urls;
 
 	MetaDataList v_md;
 	v_md.reserve(indexes.size());
@@ -410,18 +413,14 @@ CustomMimeData* PlaylistItemModel::custom_mimedata(const QModelIndexList& indexe
 		}
 
 		v_md << m->pl->metadata(idx.row());
-		QUrl url(QString("file://") + m->pl->metadata(idx.row()).filepath());
-		urls << url;
 	}
 
 	if(v_md.empty()){
 		return nullptr;
 	}
 
-	mimedata->set_playlist_source_index(m->pl->index());
 	mimedata->set_metadata(v_md);
-	mimedata->setText("tracks");
-	mimedata->setUrls(urls);
+	mimedata->set_playlist_source_index(m->pl->index());
 
 	return mimedata;
 }

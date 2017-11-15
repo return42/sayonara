@@ -57,7 +57,6 @@ namespace Library
 			/** AbstractSearchTableModel **/
 			virtual QModelIndex		getNextRowIndexOf(const QString& substr, int row, const QModelIndex& parent=QModelIndex()) override;
 			virtual QModelIndex		getPrevRowIndexOf(const QString& substr, int row, const QModelIndex& parent=QModelIndex()) override;
-			virtual ExtraTriggerMap getExtraTriggers() override;
 
 			virtual bool			is_selected(int id) const final;
 			virtual const IndexSet& selections() const=0;

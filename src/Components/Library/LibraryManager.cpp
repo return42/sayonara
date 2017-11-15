@@ -135,12 +135,15 @@ struct Manager::Private
 	{
 		for(const Info& li : all_libs)
 		{
-			if(li.id() == library_id){
+			LibraryId id = li.id();
+			if(id == library_id)
+			{
 				if(lib_map.contains(library_id)){
 					return lib_map[library_id];
 				}
 
-				else {
+				else
+				{
 					LocalLibrary* lib = new LocalLibrary(library_id, li.name(), li.path());
 					lib_map[library_id] = lib;
 					return lib;

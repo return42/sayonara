@@ -107,7 +107,7 @@ public slots:
 	// Those two functions are identical (1) calls (2)
 	virtual void prepare_current_tracks_for_playlist(bool new_playlist);
 	virtual void prepare_fetched_tracks_for_playlist(bool new_playlist);
-	virtual void prepare_tracks_for_playlist(const QStringList& file_paths, bool new_playlist);
+	void prepare_tracks_for_playlist(const QStringList& file_paths, bool new_playlist);
 
 
 	/* append tracks after current played track in playlist */

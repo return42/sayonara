@@ -134,32 +134,11 @@ void ItemModel::refresh_data(int* n_rows_before, int* n_rows_after)
 }
 
 
-QMap<QChar, QString> ItemModel::getExtraTriggers()
-{
-	return QMap<QChar, QString>();
-}
-
 CustomMimeData* ItemModel::custom_mimedata() const
 {
 	CustomMimeData* mimedata = new CustomMimeData();
-	QList<QUrl> urls;
-
-	if(mimedata_tracks().isEmpty()){
-		sp_log(Log::Warning, this) << this->objectName() << " does not have any mimedata";
-		mimedata->setText("No tracks");
-	}
-
-	else
-	{
-		for(const MetaData& md : mimedata_tracks()){
-			QUrl url(QString("file://") + md.filepath());
-			urls << url;
-		}
-
-		mimedata->set_metadata(mimedata_tracks());
-		mimedata->setText("tracks");
-		mimedata->setUrls(urls);
-	}
+	MetaDataList v_md = mimedata_tracks();
+	mimedata->set_metadata(v_md);
 
 	return mimedata;
 }

@@ -205,34 +205,35 @@ bool Artists::getAllArtistsBySearchString(const Library::Filter& filter, ArtistL
 					 "COUNT(DISTINCT trackID) AS trackCount "
 					 "FROM " + m->search_view + " ";
 
-	QString search_field;
+	QString where_clause;
 
 	switch(filter.mode())
 	{
 		case Library::Filter::Genre:
-			search_field = "genre";
+			where_clause = "WHERE genre LIKE :searchterm ";
 			break;
 
 		case Library::Filter::Filename:
-			search_field = "filecissearch";
+			where_clause = "WHERE filecissearch LIKE :cissearch ";
 			break;
 
 		case Library::Filter::Fulltext:
 		default:
-			search_field = "allCissearch";
+			where_clause = "WHERE allCissearch LIKE :cissearch ";
 			break;
 	}
 
 	if(query.isEmpty()){
 			query = select +
-					"WHERE " + search_field + " LIKE :searchterm "
+					where_clause +
 					"GROUP BY " + m->artistid_field + ", " + m->artistname_field + " ";
 	}
 
 	query += _create_order_string(sortorder) + ";";
 
 	q.prepare(query);
-	q.bindValue(":searchterm", filter.filtertext());
+	q.bindValue(":searchterm", filter.filtertext(true));
+	q.bindValue(":cissearch", filter.search_mode_filtertext(true));
 
 	return db_fetch_artists(q, result);
 }

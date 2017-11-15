@@ -32,8 +32,8 @@
 #include "BookmarksMenu.h"
 
 #include "GUI/Utils/ContextMenu/LibraryContextMenu.h"
-#include "GUI/Utils/CustomMimeData.h"
 #include "GUI/Utils/Widgets/ProgressBar.h"
+#include "GUI/Utils/CustomMimeData.h"
 #include "GUI/Utils/MimeDataUtils.h"
 
 #include "Utils/Parser/StreamParser.h"
@@ -477,6 +477,7 @@ void PlaylistView::keyPressEvent(QKeyEvent* event)
 
 	bool ctrl_pressed = (event->modifiers() & Qt::ControlModifier);
 	IndexSet selections = selected_items();
+	event->setAccepted(false);
 
 	switch(event->key())
 	{
@@ -513,7 +514,6 @@ void PlaylistView::keyPressEvent(QKeyEvent* event)
 			break;
 
 		default:
-			event->setAccepted(false);
 			break;
 	}
 

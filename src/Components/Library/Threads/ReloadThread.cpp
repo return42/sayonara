@@ -150,8 +150,6 @@ int ReloadThread::get_and_save_all_files(const QHash<QString, MetaData>& md_map_
 
 		int percent = (cur_idx_files++ * 100) / n_files;
 		emit sig_reloading_library(Lang::get(Lang::ReloadLibrary).triplePt(), percent);
-		Util::sleep_ms(200);
-
 
 		if(md_lib.id >= 0){
 			if(m->quality == Library::ReloadQuality::Fast){

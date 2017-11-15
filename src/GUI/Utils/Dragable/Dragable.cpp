@@ -80,7 +80,11 @@ struct Dragable::Private
 			ret << QString::number(playlists) + " " + Lang::get(Lang::Playlists).toLower();
 		}
 
-		if(dirs >0){
+		if(dirs == 1){
+			ret << QString::number(dirs) + " " + Lang::get(Lang::Directory).toLower();
+		}
+
+		else if(dirs > 0){
 			ret << QString::number(dirs) + " " + Lang::get(Lang::Directories).toLower();
 		}
 

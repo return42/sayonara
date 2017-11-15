@@ -33,6 +33,11 @@ QModelIndex SearchableModelInterface::getFirstRowIndexOf(const QString &substr)
 	return getNextRowIndexOf(substr, 0, QModelIndex());
 }
 
+SearchableModelInterface::ExtraTriggerMap SearchableModelInterface::getExtraTriggers()
+{
+	return SearchableModelInterface::ExtraTriggerMap();
+}
+
 int SearchableModelInterface::getNumberResults(const QString& str)
 {
 	if(str.isEmpty()){

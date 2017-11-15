@@ -246,12 +246,12 @@ bool Albums::getAllAlbumsByArtist(IdList artists, AlbumList& result, const Libra
 				break;
 
 			case Library::Filter::Filename:
-				query += "WHERE filecissearch LIKE :searchterm AND ";			// track title is like filter
+				query += "WHERE filecissearch LIKE :cissearch AND ";			// track title is like filter
 
 				break;
 
 			case Library::Filter::Fulltext:
-				query += "WHERE allCissearch LIKE :searchterm AND ";
+				query += "WHERE allCissearch LIKE :cissearch AND ";
 				break;
 		}
 	}
@@ -278,7 +278,8 @@ bool Albums::getAllAlbumsByArtist(IdList artists, AlbumList& result, const Libra
 
 	q.prepare(query);
 
-	q.bindValue(":searchterm", filter.filtertext());
+	q.bindValue(":searchterm", filter.filtertext(true));
+	q.bindValue(":cissearch", filter.search_mode_filtertext(true));
 
 	for(int i=0; i<artists.size(); i++) {
 		q.bindValue(QString(":artist_id_") + QString::number(i), artists[i]);
@@ -315,34 +316,35 @@ bool Albums::getAllAlbumsBySearchString(const Library::Filter& filter, AlbumList
 					 ", GROUP_CONCAT(DISTINCT discnumber)"
 					 " FROM " + m->search_view + " ";
 	QString query;
-	QString search_field;
+	QString where_clause;
 	switch(filter.mode())
 	{
 		case Library::Filter::Genre:
-			search_field = "genre";
+			where_clause = "WHERE genre LIKE :searchterm ";
 			break;
 
 		case Library::Filter::Filename:
-			search_field = "filecissearch";
+			where_clause = "WHERE filecissearch LIKE :cissearch ";
 			break;
 
 		case Library::Filter::Fulltext:
 		default:
-			search_field = "allCissearch";
+			where_clause = "WHERE allCissearch LIKE :cissearch ";
 			break;
 	}
 
 
 	if(query.isEmpty()){
 		query = select +
-					  "WHERE " + search_field + " LIKE :searchterm " +
-					  "GROUP BY albumID, albumName ";
+				where_clause +
+				"GROUP BY albumID, albumName ";
 	}
 
 	query += m->order_string(sortorder) + ";";
 
 	q.prepare(query);
-	q.bindValue(":searchterm", filter.filtertext());
+	q.bindValue(":searchterm", filter.filtertext(true));
+	q.bindValue(":cissearch", filter.search_mode_filtertext(true));
 
 	return db_fetch_albums(q, result);
 }

@@ -189,7 +189,6 @@ void SearchableViewInterface::select_match(const QString &str, SearchDirection d
 	else if(direction == SearchDirection::Prev){
 		m->view->scrollTo(idx, QListView::ScrollHint::PositionAtCenter);
 	}
-
 }
 
 

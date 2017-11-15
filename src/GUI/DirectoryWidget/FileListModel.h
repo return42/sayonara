@@ -42,7 +42,6 @@ class FileListModel :
 
 		QModelIndex getNextRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent=QModelIndex()) override;
 		QModelIndex getPrevRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent=QModelIndex()) override;
-		QMap<QChar, QString> getExtraTriggers() override;
 
 		QVariant data(const QModelIndex &index, int role=Qt::DisplayRole) const override;
 

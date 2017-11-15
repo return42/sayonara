@@ -292,7 +292,7 @@ void SelectionViewInterface::handle_key_press(QKeyEvent* e)
 	switch(e->key())
 	{
 		case Qt::Key_Up:
-			if(this->selected_items().empty())
+			if(selected_items().empty())
 			{
 				e->accept();
 				this->select_row(this->row_count() - 1);
@@ -301,7 +301,7 @@ void SelectionViewInterface::handle_key_press(QKeyEvent* e)
 			return;
 
 		case Qt::Key_Down:
-			if(this->selected_items().empty())
+			if(selected_items().empty())
 			{
 				e->accept();
 				this->select_row(0);

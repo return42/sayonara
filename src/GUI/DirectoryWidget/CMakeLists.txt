@@ -4,10 +4,12 @@ SET(SOURCES
 	GUI_DirectoryWidget.cpp
 	DirectoryIconProvider.cpp
 	DirectoryDelegate.cpp
+	DirectoryModel.cpp
 	FileListView.cpp
 	FileListModel.cpp
 	DirectoryTreeView.cpp
 	DirectoryWidgetContainer.cpp
+	SymlinkUtils.cpp
 )
 
 QT5_WRAP_UI(UI_HEADERS
@@ -22,7 +24,7 @@ TARGET_LINK_LIBRARIES(${PROJECT_NAME}
 )
 
 IF( WITH_COTIRE )
-    cotire(${PROJECT_NAME})
+	cotire(${PROJECT_NAME})
 ENDIF()
 
 

@@ -31,21 +31,22 @@
 
 QString Util::File::clean_filename(const QString& path)
 {
+	QChar sep = QDir::separator();
 	QString ret = path;
 	while(ret.contains("/./") || ret.contains("\\.\\")){
-		ret.replace("/./", QDir::separator());
-		ret.replace("\\.\\", QDir::separator());
+		ret.replace("/./", sep);
+		ret.replace("\\.\\", sep);
 	}
 
 	while(ret.contains("//") || ret.contains("\\\\")){
-		ret.replace("//", QDir::separator());
-		ret.replace("\\\\", QDir::separator());
+		ret.replace("//", sep);
+		ret.replace("\\\\", sep);
 	}
 
-	ret.replace("/", QDir::separator());
-	ret.replace("\\", QDir::separator());
+	ret.replace("\\", sep);
 
-	if(ret.right(1) == QDir::separator()){
+	if(ret.endsWith(sep))
+	{
 		ret.remove(ret.size() - 1, 1);
 	}
 
@@ -465,6 +466,35 @@ QString Util::File::get_common_directory(const QStringList& paths)
 	for(const QString& absolute_path : absolute_paths)
 	{
 		ret = get_common_directory(ret, absolute_path);
+	}
+
+	return ret;
+}
+
+QStringList Util::File::split_directories(const QString& path)
+{
+	QStringList ret;
+
+	QString current_dir;
+	QFileInfo fi(path);
+
+	if(fi.isDir()) {
+		current_dir = path;
+	}
+
+	else if(fi.isFile()){
+		QString filename;
+		split_filename(path, current_dir, filename);
+	}
+
+	while(!QDir(current_dir).isRoot())
+	{
+		QString last_dir;
+		QString parent_dir;
+		split_filename(current_dir, parent_dir, last_dir);
+
+		ret << last_dir;
+		current_dir = parent_dir;
 	}
 
 	return ret;

@@ -25,88 +25,120 @@ using Library::Filter;
 
 struct Filter::Private
 {
-    QString         filtertext;
-    Filter::Mode    mode;
+	QString					filtertext;
+	Filter::Mode			mode;
+	Library::SearchModeMask search_mode;
 };
 
 Filter::Filter()
 {
-    m = Pimpl::make<Filter::Private>();
-    clear();
+	m = Pimpl::make<Filter::Private>();
+	clear();
 }
 
 
 Filter::Filter(const Filter& other)
 {
-    m = Pimpl::make<Filter::Private>();
-    *m = *(other.m);
+	m = Pimpl::make<Filter::Private>();
+	*m = *(other.m);
 }
 
 Filter& Filter::operator=(const Filter& other)
 {
-    *m = *(other.m);
+	*m = *(other.m);
 
-    return *this;
+	return *this;
 }
 
 Filter::~Filter() {}
 
 bool Filter::operator ==(const Filter& other)
 {
-    bool same_filtertext = false;
+	bool same_filtertext = false;
 
-    if(m->filtertext.size() < 3 && other.filtertext().size() < 3)
-    {
-        same_filtertext = true;
-    }
+	if(m->filtertext.size() < 3 && other.filtertext(false).size() < 3)
+	{
+		same_filtertext = true;
+	}
 
-    else if(m->filtertext.compare(other.filtertext(), Qt::CaseInsensitive) == 0)
-    {
-        same_filtertext = true;
-    }
+	else if(m->filtertext.compare(other.filtertext(false), Qt::CaseInsensitive) == 0)
+	{
+		same_filtertext = true;
+	}
 
-    return( same_filtertext && (m->mode == other.mode()) );
+	return( same_filtertext && (m->mode == other.mode()) );
 }
 
 
-QString Filter::filtertext() const
+QString Filter::filtertext(bool with_percent) const
 {
-    return m->filtertext;
+	QString ret(m->filtertext);
+	if(with_percent)
+	{
+		if(!ret.startsWith('%')){
+			ret.prepend('%');
+		}
+
+		if(!ret.endsWith('%')){
+			ret.append('%');
+		}
+	}
+
+	return ret;
 }
 
-void Filter::set_filtertext(const QString& str)
+QString Filter::search_mode_filtertext(bool with_percent) const
 {
-    m->filtertext = str;
+	QString ret = ::Library::Util::convert_search_string(m->filtertext, m->search_mode);
+	if(with_percent)
+	{
+		if(!ret.startsWith('%')){
+			ret.prepend('%');
+		}
+
+		if(!ret.endsWith('%')){
+			ret.append('%');
+		}
+	}
+
+	return ret;
+}
+
+void Filter::set_filtertext(const QString& str, ::Library::SearchModeMask search_mode)
+{
+
+	m->filtertext = str;
+	m->search_mode = search_mode;
 }
 
 Filter::Mode Filter::mode() const
 {
-    return m->mode;
+	return m->mode;
 }
 
 void Filter::set_mode(Filter::Mode mode)
 {
-    m->mode = mode;
+	m->mode = mode;
 }
 
 bool Filter::cleared() const
 {
-    return m->filtertext.isEmpty();
+	return m->filtertext.isEmpty();
 }
 
 QString Filter::get_text(Filter::Mode mode)
 {
 	switch(mode)
 	{
-        case Filter::Mode::Filename:
+		case Filter::Mode::Filename:
 			return Lang::get(Lang::Filename);
 
-        case Filter::Mode::Fulltext:
-            return  Lang::get(Lang::Artists) + ", " +
-                    Lang::get(Lang::Albums) + ", " +
-                    Lang::get(Lang::Tracks);
+		case Filter::Mode::Fulltext:
+			return  Lang::get(Lang::Artists) + ", " +
+					Lang::get(Lang::Albums) + ", " +
+					Lang::get(Lang::Tracks);
 
-        case Filter::Mode::Genre:
+		case Filter::Mode::Genre:
 			return Lang::get(Lang::Genre);
 
 		default:
@@ -116,8 +148,8 @@ QString Filter::get_text(Filter::Mode mode)
 
 void Filter::clear()
 {
-    m->filtertext = QString();
-    m->mode = Mode::Fulltext;
+	m->filtertext = QString();
+	m->mode = Mode::Fulltext;
 }
 
 

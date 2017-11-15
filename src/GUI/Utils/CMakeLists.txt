@@ -35,7 +35,6 @@ SET(SOURCES
 
 	SearchableWidget/SearchableView.cpp
 	SearchableWidget/SearchableModel.cpp
-	SearchableWidget/SearchableFileTreeModel.cpp
 	SearchableWidget/SelectionView.cpp
 	SearchableWidget/MiniSearcher.cpp
 

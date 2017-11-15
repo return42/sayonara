@@ -21,6 +21,9 @@
 #include "CustomMimeData.h"
 #include "Utils/MetaData/MetaDataList.h"
 #include "GUI/Utils/MimeDataUtils.h"
+#include "Utils/FileUtils.h"
+
+#include <QUrl>
 
 #include <algorithm>
 
@@ -47,6 +50,30 @@ CustomMimeData::~CustomMimeData() {}
 void CustomMimeData::set_metadata(const MetaDataList& v_md)
 {
 	m->v_md = v_md;
+
+	QList<QUrl> urls;
+	for(const MetaData& md : v_md)
+	{
+		QString filepath = md.filepath();
+		if(Util::File::is_url(filepath))
+		{
+			urls << QUrl(filepath);
+		}
+
+		else {
+			urls << QUrl(QString("file://") + md.filepath());
+		}
+	}
+
+	this->setUrls(urls);
+
+	if(v_md.isEmpty()){
+		this->setText("No tracks");
+	}
+
+	else{
+		this->setText("tracks");
+	}
 }
 
 const MetaDataList& CustomMimeData::metadata() const
