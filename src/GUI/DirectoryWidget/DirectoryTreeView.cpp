@@ -22,12 +22,12 @@
 #include "DirectoryDelegate.h"
 #include "DirectoryIconProvider.h"
 #include "DirectoryModel.h"
-#include "SymlinkUtils.h"
 
 #include "Components/DirectoryReader/DirectoryReader.h"
 
 #include "GUI/Utils/ContextMenu/LibraryContextMenu.h"
 #include "GUI/Utils/CustomMimeData.h"
+#include "GUI/Utils/MimeDataUtils.h"
 
 #include "Utils/MetaData/MetaDataList.h"
 #include "Utils/Settings/Settings.h"
@@ -74,7 +74,7 @@ DirectoryTreeView::DirectoryTreeView(QWidget *parent) :
 	this->setModel(m->model);
 	this->setSearchModel(m->model);
 	this->setItemDelegate(new DirectoryDelegate(this));
-	this->setDragEnabled(true);
+
 
 	for(int i=1; i<4; i++){
 		this->hideColumn(i);
@@ -86,49 +86,21 @@ DirectoryTreeView::DirectoryTreeView(QWidget *parent) :
 
 DirectoryTreeView::~DirectoryTreeView() {}
 
-
-void DirectoryTreeView::mousePressEvent(QMouseEvent* event)
+LibraryId DirectoryTreeView::library_id(const QModelIndex& index) const
 {
-	QTreeView::mousePressEvent(event);
-
-	if(event->buttons() & Qt::LeftButton)
-	{
-		Dragable::drag_pressed( event->pos() );
-	}
-
-	if(event->button() & Qt::RightButton){
-		QPoint pos = QWidget::mapToGlobal( event->pos() );
-
-		if(!m->context_menu){
-			init_context_menu();
-		}
-
-		m->context_menu->exec(pos);
-	}
+	return m->model->library_id(index);
 }
 
-
-void DirectoryTreeView::mouseMoveEvent(QMouseEvent* e)
-{
-	QDrag* drag = Dragable::drag_moving(e->pos());
-	if(drag){
-		connect(drag, &QDrag::destroyed, [=]()
-{
-			this->drag_released(Dragable::ReleaseReason::Destroyed);
-		});
-	}
-}
 
 QMimeData* DirectoryTreeView::get_mimedata() const
 {
-	CustomMimeData* cmd	= new CustomMimeData();
+	CustomMimeData* cmd	= new CustomMimeData(this);
 	MetaDataList v_md = this->selected_metadata();
 
 	cmd->set_metadata(v_md);
 
 	return cmd;
 }
-
 
 void DirectoryTreeView::skin_changed()
 {
@@ -249,25 +221,13 @@ QStringList DirectoryTreeView::selected_paths() const
 	QStringList paths;
 	for(const QModelIndex& idx : selections)
 	{
-		QFileInfo info = m->model->fileInfo(idx);
-		QString sympath = info.filePath();
-		paths << SymlinkUtils::filepath_by_sympath(sympath);
+		paths << m->model->filepath_origin(idx);
 	}
 
 	return paths;
 }
 
-int DirectoryTreeView::index_by_model_index(const QModelIndex& idx) const
-{
-	Q_UNUSED(idx)
-	return -1;
-}
 
-QModelIndex DirectoryTreeView::model_index_by_index(int idx) const
-{
-	Q_UNUSED(idx)
-	return QModelIndex();
-}
 
 void DirectoryTreeView::select_match(const QString& str, SearchDirection direction)
 {
@@ -302,4 +262,132 @@ void DirectoryTreeView::select_match(const QString& str, SearchDirection directi
 	if(m->model->canFetchMore(idx)){
 		m->model->fetchMore(idx);
 	}
+}
+
+void DirectoryTreeView::mousePressEvent(QMouseEvent* event)
+{
+	QTreeView::mousePressEvent(event);
+
+	if(event->buttons() & Qt::LeftButton)
+	{
+		Dragable::drag_pressed( event->pos() );
+	}
+
+	if(event->button() & Qt::RightButton){
+		QPoint pos = QWidget::mapToGlobal( event->pos() );
+
+		if(!m->context_menu){
+			init_context_menu();
+		}
+
+		m->context_menu->exec(pos);
+	}
+}
+
+
+void DirectoryTreeView::mouseMoveEvent(QMouseEvent* e)
+{
+	QDrag* drag = Dragable::drag_moving(e->pos());
+	if(drag){
+		connect(drag, &QDrag::destroyed, [=]()
+{
+			this->drag_released(Dragable::ReleaseReason::Destroyed);
+		});
+	}
+}
+
+void DirectoryTreeView::dragEnterEvent(QDragEnterEvent* event)
+{
+	event->accept();
+}
+
+void DirectoryTreeView::dragMoveEvent(QDragMoveEvent* event)
+{
+	const QMimeData* mime_data = event->mimeData();
+	const CustomMimeData* cmd = Gui::Util::MimeData::custom_mimedata(mime_data);
+	if(cmd){
+		event->setAccepted(false);
+		return;
+	}
+
+	else{
+		event->accept();
+	}
+
+	QModelIndex index = this->indexAt(event->pos());
+	if(index.isValid()){
+		this->expand(index);
+		this->selectionModel()->select(index, QItemSelectionModel::ClearAndSelect);
+	}
+}
+
+void DirectoryTreeView::dropEvent(QDropEvent* event)
+{
+	event->accept();
+
+	QModelIndex index = this->indexAt(event->pos());
+	if(!index.isValid()){
+		sp_log(Log::Debug, this) << "Drop: Invalid index";
+		return;
+	}
+
+	const QMimeData* mime_data = event->mimeData();
+	if(!mime_data){
+		sp_log(Log::Debug, this) << "Drop: No Mimedata";
+		return;
+	}
+
+	const CustomMimeData* cmd = Gui::Util::MimeData::custom_mimedata(mime_data);
+	if(cmd)
+	{
+		if(cmd->has_source(this))
+		{
+			sp_log(Log::Debug, this) << "Drop: Internal item view drag";
+		}
+		else
+		{
+			sp_log(Log::Debug, this) << "Drop: Internal player drag";
+		}
+
+		return;
+	}
+
+	if(!mime_data->hasUrls())
+	{
+		sp_log(Log::Debug, this) << "Drop: No Urls";
+		return;
+	}
+
+	LibraryId lib_id = m->model->library_id(index);
+	QString target_dir = m->model->filepath_origin(index);
+
+	QStringList files;
+
+	for(const QUrl& url : mime_data->urls()){
+		QString local_file = url.toLocalFile();
+		if(!local_file.isEmpty()){
+			files << local_file;
+		}
+	}
+
+	sp_log(Log::Debug, this) << "Drop: " << files.size() << " files into library " << lib_id;
+
+	if(lib_id < 0){
+		return;
+	}
+
+	emit sig_import_requested(lib_id, files, target_dir);
+}
+
+
+int DirectoryTreeView::index_by_model_index(const QModelIndex& idx) const
+{
+	Q_UNUSED(idx)
+	return -1;
+}
+
+QModelIndex DirectoryTreeView::model_index_by_index(int idx) const
+{
+	Q_UNUSED(idx)
+	return QModelIndex();
 }

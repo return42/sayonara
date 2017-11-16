@@ -72,12 +72,12 @@ struct GUI_LocalLibrary::Private
 };
 
 
-GUI_LocalLibrary::GUI_LocalLibrary(int id, QWidget* parent) :
+GUI_LocalLibrary::GUI_LocalLibrary(LibraryId id, QWidget* parent) :
 	GUI_AbstractLibrary(Manager::instance()->library_instance(id), parent)
 {
-	setup_parent(this, &ui);
-
 	m = Pimpl::make<Private>();
+
+	setup_parent(this, &ui);
 
 	m->library = Manager::instance()->library_instance(id);
 	m->library_menu = new LocalLibraryMenu(
@@ -386,10 +386,15 @@ void GUI_LocalLibrary::path_changed(const QString& path)
 	m->library_menu->refresh_path(path);
 }
 
-void GUI_LocalLibrary::import_dialog_requested()
+void GUI_LocalLibrary::import_dialog_requested(const QString& target_dir)
 {
+	if(!this->isVisible()){
+		return;
+	}
+
 	if(!m->ui_importer){
 		m->ui_importer = new GUI_ImportFolder(m->library, true, this);
+		m->ui_importer->set_target_dir(target_dir);
 	}
 
 	m->ui_importer->show();
@@ -516,9 +521,6 @@ QList<Library::Filter::Mode> GUI_LocalLibrary::search_options() const
 		::Library::Filter::Genre
 	};
 }
-
-
-
 
 void GUI_LocalLibrary::showEvent(QShowEvent* e)
 {

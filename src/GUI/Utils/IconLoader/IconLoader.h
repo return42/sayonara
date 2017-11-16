@@ -104,6 +104,9 @@ namespace IconLoader
 	QPixmap pixmap(IconName name);
 	QPixmap pixmap(IconName name, IconMode mode);
 
+	void set_standard_theme(const QString& name);
+	QString standard_theme();
+
 	void change_theme();
 }
 

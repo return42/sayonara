@@ -42,7 +42,7 @@ public:
 	LibraryImporter(LocalLibrary* library);
 	~LibraryImporter();
 
-	enum class ImportStatus : uint8_t 
+	enum class ImportStatus : uint8_t
 	{
 			 Cancelled,
 			 Rollback,
@@ -59,10 +59,11 @@ signals:
 	void sig_got_library_dirs(const QStringList& library_dirs);
 	void sig_progress(int percent);
 	void sig_triggered();
+	void sig_target_dir_changed(const QString& target_dir);
 
 
 public:
-	void import_files(const QStringList& files);
+	void import_files(const QStringList& files, const QString& target_dir);
 	void accept_import(const QString& target_dir);
 	void cancel_import();
 

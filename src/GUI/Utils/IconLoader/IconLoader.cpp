@@ -29,6 +29,8 @@
 #include <QMap>
 #include <QPair>
 
+static char* s_standard_theme=nullptr;
+
 using P=QPair<QString, QString>;
 
 static QMap<IconLoader::IconName, QPair<QString, QString>> s_icon_map =
@@ -82,7 +84,6 @@ static QMap<IconLoader::IconName, QPair<QString, QString>> s_icon_map =
 	{IconLoader::VolMute,	P("audio-volume-muted", "vol_mute_dark")},
 };
 
-static QString s_theme;
 
 #ifdef Q_OS_WIN
 QString get_win_icon_name(const QString& name)
@@ -150,10 +151,6 @@ void IconLoader::change_theme()
 	Settings* s = Settings::instance();
 	QString theme = s->get(Set::Icon_Theme);
 
-	if(s_theme == theme){
-		return;
-	}
-
 	QIcon::setThemeName(theme);
 }
 
@@ -207,4 +204,14 @@ QPixmap IconLoader::pixmap(IconLoader::IconName spec, IconLoader::IconMode mode)
 	}
 
 	return Gui::Util::pixmap(dark_name);
+}
+
+void IconLoader::set_standard_theme(const QString& name)
+{
+	s_standard_theme = strdup(name.toLocal8Bit().data());
+}
+
+QString IconLoader::standard_theme()
+{
+	return QString(s_standard_theme);
 }

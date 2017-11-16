@@ -41,14 +41,16 @@ using OrderMap=QMap<LibraryId, int>;
 
 struct Manager::Private
 {
-	QList<Info> all_libs;
+private:
 	QMap<LibraryId, LocalLibrary*> lib_map;
+	Library::PluginHandler* lph=nullptr;
 
-	PluginHandler* lph=nullptr;
+public:
+	QList<Info> all_libs;
 
 	Private()
 	{
-		lph = PluginHandler::instance();
+		lph = Library::PluginHandler::instance();
 	}
 
 	bool contains_path(const QString& path) const
@@ -63,31 +65,64 @@ struct Manager::Private
 		return false;
 	}
 
-	void rename_library(LibraryId library_id, const QString& name)
+	LibraryId add_library(const QString& name, const QString& path)
+	{
+		if(path.isEmpty() || name.isEmpty()){
+			return -1;
+		}
+
+		if(this->contains_path(path)){
+			return -1;
+		}
+
+		LibraryId id = this->get_next_id();
+		Info info(name, path, id);
+
+		all_libs << info;
+		lph->add_local_library(info);
+
+		::Util::File::create_symlink(info.path(), info.symlink_path());
+
+		return id;
+	}
+
+	bool rename_library(LibraryId library_id, const QString& name)
 	{
 		for(int i=0; i<all_libs.size(); i++)
 		{
-			const Info& info = all_libs[i];
+			Info info = all_libs[i];
 
 			if(info.id() != library_id){
 				continue;
 			}
 
 			if(info.name() == name){
-				break;
+				return false;
+			}
+
+			Info new_info(name, info.path(), info.id());
+
+			if(lib_map.contains(library_id))
+			{
+				LocalLibrary* local_library = lib_map[library_id];
+				if(local_library){
+					lib_map[library_id]->set_library_name(name);
+				}
 			}
 
 			QFile::remove(info.symlink_path());
+			::Util::File::create_symlink(new_info.path(), new_info.symlink_path());
 
-			all_libs[i] = Info(name, info.path(), info.id());
-			lib_map[library_id]->set_library_name(name);
+			all_libs[i] = new_info;
 
-			::Util::File::create_symlink(all_libs[i].path(), all_libs[i].symlink_path());
-			break;
+			lph->rename_local_library(library_id, name);
+
+			return true;
 		}
 
-		lph->rename_local_library(library_id, name);
+		return false;
 	}
+
 
 	void change_library_path(LibraryId library_id, const QString& new_path)
 	{
@@ -106,8 +141,11 @@ struct Manager::Private
 			Info new_info(info.name(), new_path, info.id());
 			all_libs[i] = new_info;
 
-			LocalLibrary* library = lib_map[info.id()];
-			library->set_library_path(new_path);
+			if(lib_map.contains(info.id()))
+			{
+				LocalLibrary* library = lib_map[info.id()];
+				library->set_library_path(new_path);
+			}
 
 			QFile::remove(info.symlink_path());
 			::Util::File::create_symlink(new_info.path(), new_info.symlink_path());
@@ -120,11 +158,14 @@ struct Manager::Private
 	{
 		LibraryId id=0;
 		QList<LibraryId> ids;
-		for(const Info& li : all_libs){
+
+		for(const Info& li : all_libs)
+		{
 			ids << li.id();
 		}
 
-		while(ids.contains(id)){
+		while(ids.contains(id))
+		{
 			id++;
 		}
 
@@ -133,22 +174,33 @@ struct Manager::Private
 
 	LocalLibrary* get_library(LibraryId library_id)
 	{
-		for(const Info& li : all_libs)
+		for(const Info& info : all_libs)
 		{
-			LibraryId id = li.id();
-			if(id == library_id)
-			{
-				if(lib_map.contains(library_id)){
-					return lib_map[library_id];
-				}
+			if(info.id() != library_id){
+				continue;
+			}
 
-				else
-				{
-					LocalLibrary* lib = new LocalLibrary(library_id, li.name(), li.path());
-					lib_map[library_id] = lib;
-					return lib;
+			LocalLibrary* lib = nullptr;
+
+			if(lib_map.contains(library_id))
+			{
+				lib = lib_map[library_id];
+				if(lib == nullptr){
+					sp_log(Log::Error, this) << "Cannot fetch library";
 				}
 			}
+
+			else
+			{
+				lib = new LocalLibrary(library_id, info.name(), info.path());
+				lib_map[library_id] = lib;
+
+				if(!lib){
+					sp_log(Log::Error, this) << "Cannot create library";
+				}
+			}
+
+			return lib;
 		}
 
 		return nullptr;
@@ -156,19 +208,77 @@ struct Manager::Private
 
 	Info get_library_info(LibraryId id)
 	{
-		for(const Info& li : all_libs)
+		for(const Info& info : all_libs)
 		{
-			if(li.id() == id){
-				return li;
+			if(info.id() == id){
+				return info;
 			}
 		}
 
 		return Info();
 	}
 
-	void move_library(int row, int new_row)
+	Info get_library_info_by_path(const QString& path)
 	{
-		all_libs.move(row, new_row);
+		Info ret;
+
+		for(const Info& info : all_libs)
+		{
+			if( path.startsWith(info.path()) &&
+				path.length() > ret.path().length())
+			{
+				ret = info;
+			}
+		}
+
+		return ret;
+	}
+
+
+	Info get_library_info_by_sympath(const QString& sympath)
+	{
+		Info ret;
+
+		for(const Info& info : all_libs)
+		{
+			if( sympath.startsWith(info.symlink_path()) &&
+				sympath.length() > ret.symlink_path().length())
+			{
+				ret = info;
+			}
+		}
+
+		return ret;
+	}
+
+	void move_library(int old_row, int new_row)
+	{
+		all_libs.move(old_row, new_row);
+		lph->move_local_library(old_row, new_row);
+	}
+
+	void remove_library(LibraryId id)
+	{
+		if(lib_map.contains(id))
+		{
+			LocalLibrary* lib = lib_map[id];
+			lib_map.remove(id);
+
+			lib->clear_library();
+			delete lib; lib=nullptr;
+		}
+
+		for(int i=0; i<all_libs.size(); i++)
+		{
+			if(all_libs[i].id() == id)
+			{
+				Library::Info info = all_libs.takeAt(i);
+				lph->remove_local_library(id);
+				QFile::remove(info.symlink_path());
+
+				return;
+			}
+		}
 	}
 
 	void init_symlinks()
@@ -224,26 +334,15 @@ Manager::~Manager() {}
 
 LibraryId Manager::add_library(const QString& name, const QString& path)
 {
-	if(path.isEmpty() || name.isEmpty()){
+	LibraryId id = m->add_library(name, path);
+	if(id == -1){
 		return -1;
 	}
-
-	if(m->contains_path(path)){
-		return -1;
-	}
-
-	LibraryId id = m->get_next_id();
-	Info li(name, path, id);
-
-	m->all_libs << li;
-	m->lph->add_local_library(li);
 
 	DB::Library* ldb = DB::Connector::instance()->library_connector();
 
 	bool success = ldb->insert_library(id, name, path, 0);
 	success = success && ldb->reorder_libraries(m->order_map());
-
-	::Util::File::create_symlink(li.path(), li.symlink_path());
 
 	if(!success){
 		return -1;
@@ -270,34 +369,7 @@ bool Manager::rename_library(LibraryId id, const QString& new_name)
 
 bool Manager::remove_library(LibraryId id)
 {
-	for(int i=0; i<m->all_libs.size(); i++)
-	{
-		if(m->all_libs[i].id() != id) {
-			continue;
-		}
-
-		m->lph->remove_local_library(id);
-
-		Info info = m->all_libs.takeAt(i);
-		QFile::remove(info.symlink_path());
-
-		LocalLibrary* library;
-
-		if(!m->lib_map.contains(info.id())){
-			library = nullptr;
-		}
-
-		else{
-			library = m->lib_map.take(info.id());
-		}
-
-		if(library){
-			library->clear_library();
-			delete library; library=nullptr;
-		}
-
-		break;
-	}
+	m->remove_library(id);
 
 	bool success = true;
 	DB::Library* ldb = DB::Connector::instance()->library_connector();
@@ -313,9 +385,11 @@ bool Manager::move_library(int old_row, int new_row)
 {
 	m->move_library(old_row, new_row);
 
-	DB::Library* ldb = DB::Connector::instance()->library_connector();
-	bool success = ldb->reorder_libraries(m->order_map());
+	OrderMap order_map = m->order_map();
 
+	DB::Library* ldb = DB::Connector::instance()->library_connector();
+
+	bool success = ldb->reorder_libraries(order_map);
 	m->all_libs = ldb->get_all_libraries();
 
 	return success;
@@ -358,6 +432,16 @@ int Manager::count() const
 Info Manager::library_info(LibraryId id) const
 {
 	return m->get_library_info(id);
+}
+
+Library::Info Manager::library_info_by_path(const QString& path) const
+{
+	return m->get_library_info_by_path(path);
+}
+
+Library::Info Manager::library_info_by_sympath(const QString& sympath) const
+{
+	return m->get_library_info_by_sympath(sympath);
 }
 
 LocalLibrary* Manager::library_instance(LibraryId id) const

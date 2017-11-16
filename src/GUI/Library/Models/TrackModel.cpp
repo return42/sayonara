@@ -172,7 +172,10 @@ bool TrackModel::setData(const QModelIndex &index, const QVariant &value, int ro
 
 int TrackModel::rowCount(const QModelIndex&) const
 {
-	return library()->tracks().count();
+	const AbstractLibrary* l = library();
+	const MetaDataList& v_md = l->tracks();
+
+	return v_md.count();
 }
 
 

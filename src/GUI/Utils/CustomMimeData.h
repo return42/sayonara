@@ -36,11 +36,19 @@ class CustomMimeData : public QMimeData
 private:
 	PIMPL(CustomMimeData)
 
+	CustomMimeData(const void* p);
+	const void* ptr() const;
+
 public:
 	/**
 	 * @brief Constructor
 	 */
-	CustomMimeData();
+
+	template<typename T>
+	CustomMimeData(const T* class_instance) :
+		CustomMimeData(static_cast<const void*>(class_instance))
+	{}
+
 	virtual ~CustomMimeData();
 
 	/**
@@ -64,6 +72,18 @@ public:
 
 	void set_playlist_source_index(int playlist_idx);
 	int playlist_source_index() const;
+
+	template<typename T>
+	bool has_source(const T* class_instance) const
+	{
+		const void* void_ptr = ptr();
+		const T* p = static_cast<const T*>(void_ptr);
+		if(!p){
+			return false;
+		}
+
+		return (p == class_instance);
+	}
 };
 
 #endif

@@ -21,11 +21,12 @@
 #include "ContextMenu.h"
 #include "GUI/Utils/IconLoader/IconLoader.h"
 #include "GUI/Utils/GuiUtils.h"
+
+#include "Utils/Utils.h"
 #include "Utils/Settings/Settings.h"
 #include "Utils/Language.h"
 
 #include <QTimer>
-#include <algorithm>
 
 using namespace Gui;
 
@@ -162,7 +163,7 @@ void ContextMenu::show_action(ContextMenu::Entry entry, bool visible)
 
 bool ContextMenu::has_actions()
 {
-	return std::any_of(m->actions.begin(), m->actions.end(), [](QAction* a){
+	return ::Util::contains(m->actions, [](QAction* a){
 		return a->isVisible();
 	});
 }

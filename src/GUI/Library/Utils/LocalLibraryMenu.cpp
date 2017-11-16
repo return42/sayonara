@@ -118,9 +118,9 @@ void LocalLibraryMenu::init_menu()
 	connect(m->show_album_cover_view, &QAction::triggered, this, &LocalLibraryMenu::show_album_cover_view_changed);
 
 	QList<QAction*> actions;
-	actions <<    m->edit_action <<
-				  this->addSeparator() <<
+	actions <<
 				  m->info_action <<
+				  m->edit_action <<
 				  this->addSeparator() <<
 				  m->import_file_action <<
 				  m->import_folder_action <<

@@ -25,6 +25,7 @@
 #include "DirectoryModel.h"
 
 #include "GUI/Utils/ContextMenu/LibraryContextMenu.h"
+#include "GUI/Library/ImportFolderDialog/GUI_ImportFolder.h"
 
 #include "Components/Library/LibraryManager.h"
 #include "Components/Library/LocalLibrary.h"
@@ -80,14 +81,25 @@ GUI_DirectoryWidget::GUI_DirectoryWidget(QWidget *parent) :
 	connect(ui->le_search, &QLineEdit::returnPressed, this, &GUI_DirectoryWidget::search_button_clicked);
 
 	ui->tv_dirs->setExpandsOnDoubleClick(true);
+	ui->tv_dirs->setDragEnabled(true);
+	ui->tv_dirs->setAcceptDrops(true);
+	ui->tv_dirs->setDragDropMode(QAbstractItemView::DragDrop);
+	ui->tv_dirs->setDropIndicatorShown(true);
+
+	ui->lv_files->setDragEnabled(true);
+	ui->lv_files->setAcceptDrops(true);
+	ui->lv_files->setDragDropMode(QAbstractItemView::DragDrop);
+	ui->lv_files->setDropIndicatorShown(true);
 
 	connect(ui->tv_dirs, &QTreeView::clicked, this, &GUI_DirectoryWidget::dir_opened);
 	connect(ui->tv_dirs, &QTreeView::pressed, this, &GUI_DirectoryWidget::dir_pressed);
+	connect(ui->tv_dirs, &DirectoryTreeView::sig_import_requested, this, &GUI_DirectoryWidget::import_requested);
 	connect(ui->tv_dirs, &DirectoryTreeView::sig_enter_pressed, this, &GUI_DirectoryWidget::dir_enter_pressed);
 	connect(ui->tv_dirs, &DirectoryTreeView::sig_append_clicked, this, &GUI_DirectoryWidget::dir_append_clicked);
 	connect(ui->tv_dirs, &DirectoryTreeView::sig_play_next_clicked, this, &GUI_DirectoryWidget::dir_play_next_clicked);
 	connect(ui->tv_dirs, &DirectoryTreeView::sig_delete_clicked, this, &GUI_DirectoryWidget::dir_delete_clicked);
 	connect(ui->tv_dirs, &DirectoryTreeView::sig_directory_loaded, this, &GUI_DirectoryWidget::dir_opened);
+
 	connect(ui->tv_dirs, &DirectoryTreeView::sig_info_clicked, [=]()
 	{
 		m->selected_widget = Private::SelectedWidget::Dirs;
@@ -108,6 +120,7 @@ GUI_DirectoryWidget::GUI_DirectoryWidget(QWidget *parent) :
 
 	connect(ui->lv_files, &QListView::doubleClicked, this, &GUI_DirectoryWidget::file_dbl_clicked);
 	connect(ui->lv_files, &QListView::pressed, this, &GUI_DirectoryWidget::file_pressed);
+	connect(ui->lv_files, &FileListView::sig_import_requested, this, &GUI_DirectoryWidget::import_requested);
 	connect(ui->lv_files, &FileListView::sig_enter_pressed, this, &GUI_DirectoryWidget::file_enter_pressed);
 	connect(ui->lv_files, &FileListView::sig_append_clicked, this, &GUI_DirectoryWidget::file_append_clicked);
 	connect(ui->lv_files, &FileListView::sig_play_next_clicked, this, &GUI_DirectoryWidget::file_play_next_clicked);
@@ -198,7 +211,8 @@ void GUI_DirectoryWidget::dir_pressed(QModelIndex idx)
 void GUI_DirectoryWidget::dir_opened(QModelIndex idx)
 {
 	QString dir = ui->tv_dirs->directory_name(idx);
-	ui->lv_files->set_parent_directory(dir, ui->le_search->text());
+	ui->lv_files->set_parent_directory(ui->tv_dirs->library_id(idx), dir);
+	ui->lv_files->set_search_filter(ui->le_search->text());
 }
 
 
@@ -269,7 +283,38 @@ void GUI_DirectoryWidget::file_delete_clicked()
 	Util::File::delete_files(files);
 }
 
+void GUI_DirectoryWidget::import_requested(LibraryId id, const QStringList& paths, const QString& target_dir)
+{
+	Library::Manager* library_manager = Library::Manager::instance();
+	LocalLibrary* library = library_manager->library_instance(id);
+	if(!library){
+		return;
+	}
 
+	connect(library, &LocalLibrary::sig_import_dialog_requested,
+			this, &GUI_DirectoryWidget::import_dialog_requested);
+
+	library->import_files(paths, target_dir);
+}
+
+void GUI_DirectoryWidget::import_dialog_requested(const QString& target_dir)
+{
+	if(!this->isVisible()){
+		return;
+	}
+
+	LocalLibrary* library = dynamic_cast<LocalLibrary*>(sender());
+	if(!library){
+		return;
+	}
+
+	GUI_ImportFolder* importer = new GUI_ImportFolder(library, true, this);
+
+	connect(importer, &GUI_ImportFolder::sig_closed, importer, &GUI_ImportFolder::deleteLater);
+
+	importer->set_target_dir(target_dir);
+	importer->show();
+}
 
 void GUI_DirectoryWidget::file_pressed(QModelIndex idx)
 {

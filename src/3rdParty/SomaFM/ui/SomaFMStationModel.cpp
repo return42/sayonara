@@ -32,6 +32,7 @@
 
 #include "GUI/Utils/GuiUtils.h"
 #include "GUI/Utils/MimeDataUtils.h"
+#include "GUI/Utils/CustomMimeData.h"
 #include "GUI/Utils/IconLoader/IconLoader.h"
 
 #include <QUrl>
@@ -257,7 +258,7 @@ QMimeData* SomaFM::StationModel::mimeData(const QModelIndexList& indexes) const
 		}
 	}
 
-	QMimeData* mime_data = new QMimeData();
+	QMimeData* mime_data = new CustomMimeData(this);
 
 	Gui::Util::MimeData::set_cover_url(mime_data, cover_url);
 	mime_data->setUrls(urls);

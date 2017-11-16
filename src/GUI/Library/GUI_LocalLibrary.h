@@ -54,7 +54,7 @@ namespace Library
 
 	public:
 
-		explicit GUI_LocalLibrary(int id, QWidget* parent=nullptr);
+		explicit GUI_LocalLibrary(LibraryId id, QWidget* parent=nullptr);
 		virtual ~GUI_LocalLibrary();
 
 		QMenu*		menu() const;
@@ -98,7 +98,7 @@ namespace Library
 		void path_changed(const QString& path);
 
 		// importer requests dialog
-		void import_dialog_requested();
+		void import_dialog_requested(const QString& target_dir);
 
 		void splitter_artist_moved(int pos, int idx);
 		void splitter_tracks_moved(int pos, int idx);

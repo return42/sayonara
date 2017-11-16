@@ -54,8 +54,8 @@ namespace Library
 		virtual ~GUI_AbstractLibrary();
 
 	private:
-		void init();
-		void init_search_bar();
+		virtual void init();
+		virtual void init_search_bar();
 
 
 	protected:

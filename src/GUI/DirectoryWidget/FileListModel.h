@@ -22,6 +22,7 @@
 #define FILE_LIST_MODEL_H
 
 #include "GUI/Utils/SearchableWidget/SearchableModel.h"
+#include "Utils/Pimpl.h"
 
 #include <QStringList>
 #include <QModelIndex>
@@ -32,13 +33,21 @@ class FileListModel :
 	public SearchableListModel
 {
 	Q_OBJECT
+	PIMPL(FileListModel)
 
 	public:
 		explicit FileListModel(QObject* parent=nullptr);
 		virtual ~FileListModel();
 
-		void set_parent_directory(const QString& dir);
-		QStringList get_files() const;
+		void set_parent_directory(LibraryId, const QString& dir);
+
+		LibraryId library_id() const;
+		QString parent_directory() const;
+		QString parent_directory_origin() const;
+		QString filepath_origin(const QModelIndex& index) const;
+
+		QStringList files() const;
+
 
 		QModelIndex getNextRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent=QModelIndex()) override;
 		QModelIndex getPrevRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent=QModelIndex()) override;
@@ -49,9 +58,6 @@ class FileListModel :
 
 		QMimeData* mimeData(const QModelIndexList &indexes) const override;
 		Qt::ItemFlags flags(const QModelIndex& index) const override;
-
-	private:
-		QStringList _files;
 };
 
 #endif

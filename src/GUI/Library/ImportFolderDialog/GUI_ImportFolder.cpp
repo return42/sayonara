@@ -78,6 +78,14 @@ GUI_ImportFolder::GUI_ImportFolder(LocalLibrary* library, bool copy_enabled, QWi
 
 GUI_ImportFolder::~GUI_ImportFolder() {}
 
+void GUI_ImportFolder::set_target_dir(const QString& target_dir)
+{
+	QString subdir = target_dir;
+	subdir.remove(m->library->library_path() + "/");
+
+	ui->le_directory->setText(subdir);
+}
+
 void GUI_ImportFolder::language_changed()
 {
 	ui->retranslateUi(this);
@@ -138,11 +146,11 @@ void GUI_ImportFolder::set_status(LibraryImporter::ImportStatus status)
 	}
 
 	if(thread_active){
-        ui->btn_cancel->setText(Lang::get(Lang::Cancel));
+		ui->btn_cancel->setText(Lang::get(Lang::Cancel));
 	}
 
 	else{
-        ui->btn_cancel->setText(Lang::get(Lang::Close));
+		ui->btn_cancel->setText(Lang::get(Lang::Close));
 	}
 }
 
@@ -164,6 +172,7 @@ void GUI_ImportFolder::set_progress(int val)
 
 	emit sig_progress(val);
 }
+
 
 void GUI_ImportFolder::bb_accepted()
 {

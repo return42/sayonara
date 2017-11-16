@@ -49,6 +49,10 @@ public:
 	virtual QModelIndex getPrevRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent=QModelIndex()) override;
 
 	virtual int getNumberResults(const QString &str) override;
+	Qt::ItemFlags flags(const QModelIndex &index) const override;
+
+	LibraryId library_id(const QModelIndex& index) const;
+	QString filepath_origin(const QModelIndex& index) const;
 
 private:
 	void create_file_list(const QString& substr);

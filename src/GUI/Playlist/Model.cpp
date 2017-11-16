@@ -401,7 +401,7 @@ CustomMimeData* PlaylistItemModel::custom_mimedata(const QModelIndexList& indexe
 		return nullptr;
 	}
 
-	CustomMimeData* mimedata = new CustomMimeData();
+	CustomMimeData* mimedata = new CustomMimeData(this);
 
 	MetaDataList v_md;
 	v_md.reserve(indexes.size());

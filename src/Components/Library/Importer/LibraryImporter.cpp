@@ -68,9 +68,14 @@ LibraryImporter::LibraryImporter(LocalLibrary* library) :
 
 LibraryImporter::~LibraryImporter() {}
 
-void LibraryImporter::import_files(const QStringList& files)
+void LibraryImporter::import_files(const QStringList& files, const QString& target_dir)
 {
 	emit_status(ImportStatus::Caching);
+
+	if(!target_dir.isEmpty())
+	{
+		emit sig_target_dir_changed(target_dir);
+	}
 
 	CachingThread* thread = new CachingThread(files, m->library->library_path());
 	connect(thread, &CachingThread::finished, this, &LibraryImporter::caching_thread_finished);

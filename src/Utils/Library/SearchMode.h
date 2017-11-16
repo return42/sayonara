@@ -31,14 +31,14 @@ namespace Library
 	 * @brief The SearchMode enum
 	 * @ingroup LibraryHelper
 	 */
-    enum SearchMode
-    {
-		CaseInsensitve=(1<<0),
-		NoSpecialChars=(1<<1),
-		NoDiacriticChars=(1<<2)
-    };
+	enum SearchMode
+	{
+		CaseInsensitve		= (1<<0),
+		NoSpecialChars		= (1<<1),
+		NoDiacriticChars	= (1<<2)
+	};
 
-    using SearchModeMask = int;
+	using SearchModeMask = int;
 
 	namespace Util
 	{

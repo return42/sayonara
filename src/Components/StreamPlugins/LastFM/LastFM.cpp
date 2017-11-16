@@ -32,6 +32,7 @@
 #include "LFMLoginThread.h"
 #include "LFMWebAccess.h"
 
+#include "Utils/Utils.h"
 #include "Utils/RandomGenerator.h"
 #include "Utils/Playlist/PlaylistMode.h"
 #include "Utils/Settings/Settings.h"
@@ -309,7 +310,7 @@ void Base::sl_similar_artists_available(IdList artist_ids)
 			MetaData md = artist_tracks.take_at(rnd_track);
 
 			// two times the same track is not allowed
-			bool track_exists = std::any_of(v_md.begin(), v_md.end(), [md](const MetaData& it_md){
+			bool track_exists = Util::contains(v_md, [md](const MetaData& it_md){
 				return (md.id == it_md.id);
 			});
 

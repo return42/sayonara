@@ -33,6 +33,7 @@
 
 #include "GUI/Utils/ContextMenu/LibraryContextMenu.h"
 #include "GUI/Utils/CustomMimeData.h"
+#include "GUI/Utils/MimeDataUtils.h"
 
 #include <QDrag>
 #include <QDragEnterEvent>
@@ -95,6 +96,63 @@ void FileListView::mouseMoveEvent(QMouseEvent* event)
 	}
 }
 
+void FileListView::dragEnterEvent(QDragEnterEvent *event)
+{
+	event->accept();
+}
+
+void FileListView::dragMoveEvent(QDragMoveEvent *event)
+{
+	const QMimeData* mime_data = event->mimeData();
+	const CustomMimeData* cmd = Gui::Util::MimeData::custom_mimedata(mime_data);
+	if(cmd){
+		event->setAccepted(false);
+	}
+
+	else{
+		event->setAccepted(true);
+	}
+}
+
+void FileListView::dropEvent(QDropEvent *event)
+{
+	event->accept();
+
+	if(m->model->library_id() < 0){
+		return;
+	}
+
+	const QMimeData* mime_data = event->mimeData();
+	if(!mime_data){
+		sp_log(Log::Debug, this) << "Drop: No Mimedata";
+		return;
+	}
+
+	if(Gui::Util::MimeData::is_player_drag(mime_data)){
+		sp_log(Log::Debug, this) << "Drop: Internal player drag";
+		return;
+	}
+
+	if(!mime_data->hasUrls())
+	{
+		sp_log(Log::Debug, this) << "Drop: No Urls";
+		return;
+	}
+
+	QStringList files;
+	for(const QUrl& url : mime_data->urls())
+	{
+		QString local_file = url.toLocalFile();
+		if(!local_file.isEmpty()){
+			files << local_file;
+		}
+	}
+
+	sp_log(Log::Debug, this) << "Drop: " << files.size() << " files into library " << m->model->library_id();
+
+	emit sig_import_requested(m->model->library_id(), files, m->model->parent_directory_origin());
+}
+
 
 void FileListView::init_context_menu()
 {
@@ -142,7 +200,7 @@ MetaDataList FileListView::selected_metadata() const
 
 QStringList FileListView::selected_paths() const
 {
-	QStringList paths = m->model->get_files();
+	QStringList paths = m->model->files();
 	QStringList ret;
 	QModelIndexList selections = this->selected_rows();
 
@@ -157,13 +215,20 @@ QStringList FileListView::selected_paths() const
 	return ret;
 }
 
-
-void FileListView::set_parent_directory(const QString& dir, const QString& search_string)
+void FileListView::set_parent_directory(LibraryId library_id, const QString& dir)
 {
 	this->selectionModel()->clear();
 
-	m->model->set_parent_directory(dir);
+	m->model->set_parent_directory(library_id, dir);
+}
 
+QString FileListView::parent_directory() const
+{
+	return m->model->parent_directory();
+}
+
+void FileListView::set_search_filter(const QString& search_string)
+{
 	if(search_string.isEmpty()){
 		return;
 	}
@@ -193,7 +258,7 @@ void FileListView::set_parent_directory(const QString& dir, const QString& searc
 
 QMimeData* FileListView::get_mimedata() const
 {
-	CustomMimeData* mimedata = new CustomMimeData();
+	CustomMimeData* mimedata = new CustomMimeData(this);
 	mimedata->set_metadata(selected_metadata());
 	return mimedata;
 }
