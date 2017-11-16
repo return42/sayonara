@@ -61,6 +61,11 @@ struct Albums::Private
 
 	QString order_string(Library::SortOrder sortorder)
 	{
+		QString order = sort_map[sortorder];
+		if(order.isEmpty()){
+			return QString();
+		}
+
 		return " ORDER BY " + sort_map[sortorder] + " ";
 	}
 };
