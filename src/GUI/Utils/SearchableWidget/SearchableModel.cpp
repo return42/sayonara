@@ -46,6 +46,10 @@ int SearchableModelInterface::getNumberResults(const QString& str)
 
 	QModelIndex first_idx = this->getFirstRowIndexOf(str);
 	QModelIndex found_idx = first_idx;
+	int first_row = found_idx.row();
+	int first_column = found_idx.column();
+	int row = first_row;
+	int column = first_column;
 
 	int results=1;
 	if(!first_idx.isValid()) {
@@ -54,10 +58,13 @@ int SearchableModelInterface::getNumberResults(const QString& str)
 
 	while(true)
 	{
-		int row = found_idx.row();
 		found_idx = getNextRowIndexOf(str, row + 1);
-		bool same_idx = ((found_idx.row() == first_idx.row()) &&
-						(found_idx.column() == first_idx.column()));
+
+		row = found_idx.row();
+		column = found_idx.column();
+
+		bool same_idx = ((row == first_row) &&
+						(column == first_column));
 
 		if( same_idx || (!found_idx.isValid())) {
 			break;

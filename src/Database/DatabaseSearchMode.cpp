@@ -29,10 +29,9 @@ struct SearchMode::Private
 	bool initialized;
 	Library::SearchModeMask search_mode;
 
-
 	Private() :
 		initialized(false),
-		search_mode(Library::CaseInsensitve)
+		search_mode(0)
 	{}
 };
 
@@ -51,17 +50,27 @@ void SearchMode::init()
 		return;
 	}
 
-	AbstrSetting* s = Settings::instance()->setting(SettingKey::Lib_SearchMode);
+	Settings* settings = Settings::instance();
+	AbstrSetting* s = settings->setting(SettingKey::Lib_SearchMode);
 	QString db_key = s->db_key();
 
-	Query q(this);
-	q.prepare("SELECT value FROM settings WHERE key = '" + db_key + "';");
-
-	if(q.exec()) {
-		if (q.next()) {
+	Query q_select(this);
+	q_select.prepare("SELECT value FROM settings WHERE key = :key;");
+	q_select.bindValue(":key", db_key);
+	if(q_select.exec())
+	{
+		if(q_select.next()){
+			m->search_mode = q_select.value(0).toInt();
 			m->initialized = true;
-			m->search_mode = q.value(0).toInt();
 		}
+
+		else {
+			sp_log(Log::Warning, this) << "Cannot find library search mode";
+		}
+	}
+
+	else {
+		q_select.show_error("Cannot fetch library search mode");
 	}
 }
 
@@ -74,6 +83,20 @@ Library::SearchModeMask SearchMode::search_mode()
 
 void SearchMode::update_search_mode()
 {
-	m->initialized = false;
-	init();
+	Settings* settings = Settings::instance();
+	AbstrSetting* s = settings->setting(SettingKey::Lib_SearchMode);
+	QString db_key = s->db_key();
+
+	Library::SearchModeMask search_mode = settings->get(Set::Lib_SearchMode);
+
+	Query q_update(this);
+	q_update.prepare("UPDATE settings SET value=:search_mode WHERE key = :key;");
+	q_update.bindValue(":search_mode", search_mode);
+	q_update.bindValue(":key", db_key);
+	if(!q_update.exec()){
+		q_update.show_error("Cannot update search mode");
+	}
+
+	m->search_mode = search_mode;
+	m->initialized = true;
 }

@@ -660,6 +660,8 @@ void Tracks::updateTrackCissearch()
 {
 	SearchMode::update_search_mode();
 
+	sp_log(Log::Debug, this) << "UPdate track cissearch " << search_mode();
+
 	MetaDataList v_md;
 	getAllTracks(v_md);
 

@@ -113,14 +113,19 @@ QString Library::Util::convert_search_string(const QString& str, Library::Search
 
 	if(mode & Library::NoSpecialChars)
 	{
-		QString special_chars =
-				QString::fromUtf8("\\.|'|\"|&|!|\\$|\\+|\\*|\\s|/|\\(|\\)|\\=|-|_|;|:|,|\\?|<|>|\\[|\\]|\\{|\\}|@|€");
+		QList<QChar> special_chars =
+		{
+				'.', '\'', '\"', '&', '!', '$', '+', '*', '\t', '\n', '\r', '/', '(', ')', '=', '-', '_', ';', 
+				':', ',', '?', '<', '>', '[', ']', '{', '}', '@', '|', '~', '^'
+		};
 
-		for(const QChar& c : ignored_chars){
-			special_chars.remove(c);
+		for(QChar c : ignored_chars){
+			special_chars.removeAll(c);
 		}
 
-		ret.remove(QRegExp(special_chars));
+		for(QChar c : special_chars){
+			ret.remove(c);
+		}
 	}
 
 	if(mode & Library::NoDiacriticChars)
