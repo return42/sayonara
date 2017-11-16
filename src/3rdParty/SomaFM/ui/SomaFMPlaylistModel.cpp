@@ -22,11 +22,13 @@
 
 #include "SomaFMPlaylistModel.h"
 #include "Components/Covers/CoverLocation.h"
-#include "GUI/Utils/MimeDataUtils.h"
+
 #include "Utils/globals.h"
 
+#include "GUI/Utils/MimeDataUtils.h"
+#include "GUI/Utils/CustomMimeData.h"
+
 #include <QUrl>
-#include <QMimeData>
 
 using namespace Gui::Util;
 
@@ -76,7 +78,7 @@ QMimeData* SomaFM::PlaylistModel::mimeData(const QModelIndexList& indexes) const
 
 	QUrl url( urls[row] );
 
-	QMimeData* mime_data = new QMimeData();
+	QMimeData* mime_data = new CustomMimeData(this);
 	Cover::Location location = _station.cover_location();
 
 	mime_data->setUrls({url});

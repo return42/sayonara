@@ -263,7 +263,9 @@ void PluginHandler::set_current_library(Container* cur_library)
 
 	for(Container* container : m->all_libraries())
 	{
-		if(container->name() != cur_library->name()) {
+		QString name = container->name();
+		QString cur_name = cur_library->name();
+		if(name.compare(cur_name) != 0) {
 			container->hide();
 		}
 
@@ -309,9 +311,9 @@ void PluginHandler::rename_local_library(LibraryId library_id, const QString& ne
 {
 	for(LocalLibraryContainer* llc : m->local_libraries)
 	{
-		if(llc->id() == library_id) {
+		if(llc->id() == library_id)
+		{
 			llc->set_name(new_name);
-			set_current_library(llc);
 
 			break;
 		}

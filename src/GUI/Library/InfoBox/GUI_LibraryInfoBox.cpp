@@ -60,6 +60,8 @@ GUI_LibraryInfoBox::GUI_LibraryInfoBox(LibraryId library_id, QWidget* parent) :
 
 	ui = new Ui::GUI_LibraryInfoBox();
 	ui->setupUi(this);
+
+	ui->lab_icon->setScaledContents(true);
 	ui->lab_icon->setPixmap(
 		Gui::Util::pixmap("logo.png", QSize(24,24), true)
 	);

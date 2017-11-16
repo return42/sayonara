@@ -38,11 +38,11 @@
 #include "Utils/MetaDataInfo/MetaDataInfo.h"
 #include "Utils/MetaDataInfo/AlbumInfo.h"
 #include "Utils/MetaDataInfo/ArtistInfo.h"
+#include "Utils/Utils.h"
 #include "Utils/FileUtils.h"
 #include "Utils/Language.h"
 #include "Utils/globals.h"
 
-#include <algorithm>
 
 struct GUI_InfoDialog::Private
 {
@@ -227,7 +227,7 @@ void GUI_InfoDialog::show(GUI_InfoDialog::Tab tab)
 	prepare_cover(Cover::Location::invalid_location());
 
 	bool lyric_enabled = (m->v_md.size() == 1);
-	bool tag_edit_enabled = std::any_of(m->v_md.begin(), m->v_md.end(), [](const MetaData& md){
+	bool tag_edit_enabled = Util::contains(m->v_md, [](const MetaData& md){
 		return (!Util::File::is_www(md.filepath()));
 	});
 

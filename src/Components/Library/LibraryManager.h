@@ -52,11 +52,15 @@ namespace Library
 
 		static QString request_library_name(const QString& path);
 		QList<Info> all_libraries() const;
+
 		Info library_info(LibraryId id) const;
+		Info library_info_by_path(const QString& path) const;
+		Info library_info_by_sympath(const QString& path) const;
 
 		int count() const;
 
 		LocalLibrary* library_instance(LibraryId id) const;
+
 
 		void revert();
 	};

@@ -30,7 +30,7 @@ using namespace Library;
 struct LocalLibraryContainer::Private
 {
 	GUI_LocalLibrary*   ui=nullptr;
-	Info			library;
+	Info				library;
 	QString				name;
 	QString				library_path;
 
@@ -47,12 +47,7 @@ LocalLibraryContainer::LocalLibraryContainer(const Library::Info& library, QObje
 	m = Pimpl::make<Private>(library);
 }
 
-LocalLibraryContainer::~LocalLibraryContainer()
-{
-	/*if(m->ui) {
-		delete m->ui; m->ui=nullptr;
-	}*/
-}
+LocalLibraryContainer::~LocalLibraryContainer() {}
 
 QString LocalLibraryContainer::name() const
 {
@@ -83,6 +78,10 @@ QMenu*LocalLibraryContainer::menu()
 
 void LocalLibraryContainer::init_ui()
 {
+	if(m->ui){
+		return;
+	}
+
 	m->ui = new GUI_LocalLibrary(m->library.id());
 }
 

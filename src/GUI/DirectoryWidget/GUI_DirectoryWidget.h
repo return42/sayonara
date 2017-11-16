@@ -68,10 +68,14 @@ class GUI_DirectoryWidget :
 		void file_play_next_clicked();
 		void file_delete_clicked();
 
+		void import_requested(LibraryId library_id, const QStringList& paths, const QString& target_dir);
+		void import_dialog_requested(const QString& target_dir);
 
-	protected:
+		protected:
 		MD::Interpretation metadata_interpretation() const override;
 		MetaDataList info_dialog_data() const override;
+
+
 };
 
 #endif // GUI_DIRECTORYWIDGET_H

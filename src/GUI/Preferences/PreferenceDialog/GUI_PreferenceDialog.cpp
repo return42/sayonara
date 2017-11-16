@@ -137,8 +137,11 @@ bool GUI_PreferenceDialog::commit()
 			if(!iface->commit())
 			{
 				QString error_string = iface->error_string();
-				GlobalMessage::warning(iface->action_name() + "\n\n" + error_string, iface->action_name());
-				success = false;
+				if(!error_string.isEmpty())
+				{
+					GlobalMessage::warning(iface->action_name() + "\n\n" + error_string, iface->action_name());
+					success = false;
+				}
 			}
 		}
 	}

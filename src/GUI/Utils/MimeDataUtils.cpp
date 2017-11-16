@@ -149,3 +149,8 @@ bool MimeData::is_drag_from_playlist(const QMimeData *data)
 	int source_idx = cmd->playlist_source_index();
 	return (source_idx != -1);
 }
+
+bool MimeData::is_player_drag(const QMimeData* data)
+{
+	return (custom_mimedata(data) != nullptr);
+}

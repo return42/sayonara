@@ -247,7 +247,7 @@ bool Util::File::is_soundfile(const QString& filename)
 {
 	QStringList exts = Util::soundfile_extensions(true);
 
-	return std::any_of(exts.begin(), exts.end(), [&filename](const QString& ext)
+	return Util::contains(exts, [&filename](const QString& ext)
 	{
 		return (filename.toLower().endsWith(ext.right(4)));
 	});
@@ -258,7 +258,7 @@ bool Util::File::is_playlistfile(const QString& filename)
 {
 	QStringList exts = Util::playlist_extensions(true);
 
-	return std::any_of(exts.begin(), exts.end(), [&filename](const QString& ext)
+	return Util::contains(exts, [&filename](const QString& ext)
 	{
 		return (filename.toLower().endsWith(ext.right(4)));
 	});

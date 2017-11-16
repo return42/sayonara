@@ -29,6 +29,7 @@
 #define _HELPER_H
 
 #include <QObject>
+#include <algorithm>
 
 class QDateTime;
 /**
@@ -163,6 +164,12 @@ namespace Util
 	 */
 	void set_environment(const QString& key, const QString& value);
 	void unset_environment(const QString& key);
+
+	template<typename T, typename FN>
+	bool contains(const T& container, FN fn)
+	{
+		return std::any_of(container.begin(), container.end(), fn);
+	}
 }
 
 #endif

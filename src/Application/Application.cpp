@@ -108,6 +108,8 @@ struct Application::Private
 
 	Private()
 	{
+		IconLoader::set_standard_theme(QIcon::themeName());
+
 		metatype_registry = new MetaTypeRegistry();
 		qRegisterMetaType<uint64_t>("uint64_t");
 

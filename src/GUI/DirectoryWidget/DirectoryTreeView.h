@@ -33,6 +33,7 @@ class LibraryContextMenu;
 class DirectoryModel;
 class MetaDataList;
 class IconProvider;
+class QStringList;
 
 namespace Library
 {
@@ -55,6 +56,7 @@ signals:
 	void sig_append_clicked();
 	void sig_directory_loaded(const QModelIndex& index);
 	void sig_enter_pressed();
+	void sig_import_requested(LibraryId lib_id, const QStringList& v_md, const QString& target_dir);
 
 public:
 	explicit DirectoryTreeView(QWidget* parent=nullptr);
@@ -68,6 +70,7 @@ public:
 	QStringList		selected_paths() const;
 
 	QMimeData*		get_mimedata() const override;
+	LibraryId		library_id(const QModelIndex& index) const;
 
 private:
 	void init_context_menu();
@@ -79,6 +82,10 @@ protected:
 	void keyPressEvent(QKeyEvent* event) override;
 	void mousePressEvent(QMouseEvent* event) override;
 	void mouseMoveEvent(QMouseEvent *event) override;
+
+	void dragEnterEvent(QDragEnterEvent *event) override;
+	void dragMoveEvent(QDragMoveEvent *event) override;
+	void dropEvent(QDropEvent *event) override;
 
 	// SayonaraSelectionView
 	int index_by_model_index(const QModelIndex& idx) const override;

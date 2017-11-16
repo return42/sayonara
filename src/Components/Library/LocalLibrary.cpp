@@ -305,12 +305,18 @@ void LocalLibrary::refresh_tracks() {}
 
 void LocalLibrary::import_files(const QStringList& files)
 {
+	import_files(files, QString());
+}
+
+void LocalLibrary::import_files(const QStringList &files, const QString &target_dir)
+{
 	if(!m->library_importer){
 		m->library_importer = new LibraryImporter(this);
 	}
 
-	m->library_importer->import_files(files);
-	emit sig_import_dialog_requested();
+	m->library_importer->import_files(files, target_dir);
+
+	emit sig_import_dialog_requested(target_dir);
 }
 
 
@@ -457,10 +463,10 @@ void LocalLibrary::set_library_name(const QString& library_name)
 		return;
 	}
 
+	m->library_name = library_name;
+
 	Library::Manager* library_manager = Library::Manager::instance();
 	library_manager->rename_library(this->library_id(), library_name);
-
-	m->library_name = library_name;
 
 	emit sig_name_changed(library_name);
 }

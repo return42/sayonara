@@ -25,8 +25,7 @@
 #include "Utils/globals.h"
 #include "Utils/Playlist/CustomPlaylist.h"
 #include "Utils/Settings/Settings.h"
-
-#include <algorithm>
+#include "Utils/Utils.h"
 
 using Playlist::Loader;
 
@@ -93,7 +92,7 @@ Loader::Loader(QObject* parent) :
 		return;
 	}
 
-	has_playlist_id = std::any_of(m->playlists.begin(), m->playlists.end(), [&saved_playlist_id](const CustomPlaylist& pl){
+	has_playlist_id = Util::contains(m->playlists, [&saved_playlist_id](const CustomPlaylist& pl){
 		return (saved_playlist_id == pl.id());
 	});
 

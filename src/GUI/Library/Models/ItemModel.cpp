@@ -136,7 +136,7 @@ void ItemModel::refresh_data(int* n_rows_before, int* n_rows_after)
 
 CustomMimeData* ItemModel::custom_mimedata() const
 {
-	CustomMimeData* mimedata = new CustomMimeData();
+	CustomMimeData* mimedata = new CustomMimeData(this);
 	MetaDataList v_md = mimedata_tracks();
 	mimedata->set_metadata(v_md);
 
@@ -202,10 +202,20 @@ QModelIndex ItemModel::getPrevRowIndexOf(const QString& substr, int row, const Q
 
 AbstractLibrary* ItemModel::library()
 {
+	if(!m){
+		sp_log(Log::Develop, this) << "Member is zero";
+		return nullptr;
+	}
+
 	return m->library;
 }
 
-const AbstractLibrary *ItemModel::library() const
+const AbstractLibrary* ItemModel::library() const
 {
+	if(!m){
+		sp_log(Log::Develop, this) << "MemberC is zero";
+		return nullptr;
+	}
+
 	return m->library;
 }

@@ -9,7 +9,6 @@ SET(SOURCES
 	FileListModel.cpp
 	DirectoryTreeView.cpp
 	DirectoryWidgetContainer.cpp
-	SymlinkUtils.cpp
 )
 
 QT5_WRAP_UI(UI_HEADERS

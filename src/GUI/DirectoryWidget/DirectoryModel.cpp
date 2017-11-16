@@ -21,6 +21,7 @@
 
 #include "GUI/Utils/SearchableWidget/MiniSearcher.h"
 
+#include "Utils/Utils.h"
 #include "Utils/FileUtils.h"
 #include "Utils/Settings/Settings.h"
 #include "Utils/Library/SearchMode.h"
@@ -35,8 +36,6 @@
 
 #include <QDirIterator>
 #include <QPair>
-
-#include <algorithm>
 
 
 using StringPair=QPair<QString, QString>;
@@ -113,7 +112,7 @@ void DirectoryModel::create_file_list(const QString& substr)
 			Util::File::split_filename(md.filepath(), parent_dir, pure_filename);
 			Util::File::split_filename(sym_filepath, sym_parent_dir, pure_filename);
 
-			bool contains = std::any_of(m->all_dirs.begin(), m->all_dirs.end(), [&sym_parent_dir](const StringPair& sp){
+			bool contains = Util::contains(m->all_dirs, [&sym_parent_dir](const StringPair& sp){
 				return (sym_parent_dir.compare(sp.first) == 0);
 			});
 
@@ -253,4 +252,31 @@ int DirectoryModel::getNumberResults(const QString& str)
 {
 	Q_UNUSED(str)
 	return m->found_strings.size();
+}
+
+Qt::ItemFlags DirectoryModel::flags(const QModelIndex& index) const
+{
+	if(index.isValid()){
+		return (QAbstractItemModel::flags(index) | Qt::ItemIsDropEnabled);
+	}
+
+	return (QAbstractItemModel::flags(index) & ~Qt::ItemIsDropEnabled);
+}
+
+LibraryId DirectoryModel::library_id(const QModelIndex& index) const
+{
+	QString sympath = filePath(index);
+	Library::Info info = Library::Manager::instance()->library_info_by_sympath(sympath);
+	return info.id();
+}
+
+QString DirectoryModel::filepath_origin(const QModelIndex& index) const
+{
+	QString sympath = filePath(index);
+	Library::Info info = Library::Manager::instance()->library_info_by_sympath(sympath);
+
+	QString ret(sympath);
+	ret.replace(info.symlink_path(), info.path());
+
+	return ret;
 }

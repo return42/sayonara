@@ -33,16 +33,24 @@ struct CustomMimeData::Private
 {
 	MetaDataList	v_md;
 	int				playlist_source_index;
+	QString			source;
+	const void*		ptr;
 
-	Private() :
-		playlist_source_index(-1)
+	Private(const void* ptr) :
+		playlist_source_index(-1),
+		ptr(ptr)
 	{}
 };
 
-CustomMimeData::CustomMimeData() :
+CustomMimeData::CustomMimeData(const void* ptr) :
 	QMimeData()
 {
-	m = Pimpl::make<Private>();
+	m = Pimpl::make<Private>(ptr);
+}
+
+const void* CustomMimeData::ptr() const
+{
+	return m->ptr;
 }
 
 CustomMimeData::~CustomMimeData() {}

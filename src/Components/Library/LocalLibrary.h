@@ -41,7 +41,7 @@ class LocalLibrary :
 	PIMPL(LocalLibrary)
 
 signals:
-	void sig_import_dialog_requested();
+	void sig_import_dialog_requested(const QString& target_dir);
 
 	void sig_path_changed(const QString& path);
 	void sig_name_changed(const QString& name);
@@ -67,6 +67,7 @@ public slots:
 	void refresh_tracks() override;
 
 	void import_files(const QStringList& files) override;
+	void import_files(const QStringList& files, const QString& target_dir);
 	void merge_artists(const SP::Set<ArtistId>& artist_ids, ArtistId target_artist_id);
 	void merge_albums(const SP::Set<AlbumId>& albums_ids, AlbumId target_album_id);
 

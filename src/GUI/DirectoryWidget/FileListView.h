@@ -46,6 +46,7 @@ signals:
 	void sig_play_next_clicked();
 	void sig_append_clicked();
 	void sig_enter_pressed();
+	void sig_import_requested(LibraryId lib_id, const QStringList& files, const QString& target_dir);
 
 public:
 	explicit FileListView(QWidget* parent=nullptr);
@@ -55,7 +56,10 @@ public:
 	MetaDataList selected_metadata() const;
 	QStringList selected_paths() const;
 
-	void set_parent_directory(const QString& dir, const QString& search_string);
+	void set_parent_directory(LibraryId id, const QString& dir);
+	QString parent_directory() const;
+
+	void set_search_filter(const QString& search_string);
 
 	QMimeData* get_mimedata() const override;
 
@@ -64,6 +68,11 @@ protected:
 	void keyPressEvent(QKeyEvent* event) override;
 	void mousePressEvent(QMouseEvent* event) override;
 	void mouseMoveEvent(QMouseEvent* event) override;
+
+	void dragEnterEvent(QDragEnterEvent* event) override;
+	void dragMoveEvent(QDragMoveEvent* event) override;
+	void dropEvent(QDropEvent* event) override;
+
 
 	// SayonaraSelectionView
 	int index_by_model_index(const QModelIndex& idx) const override;

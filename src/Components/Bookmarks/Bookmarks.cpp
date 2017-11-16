@@ -123,7 +123,7 @@ Bookmarks::CreationStatus Bookmarks::create()
 		return Bookmarks::CreationStatus::OtherError;
 	}
 
-	bool already_there = std::any_of(m->bookmarks.begin(), m->bookmarks.end(), [&cur_time](const Bookmark& bm){
+	bool already_there = Util::contains(m->bookmarks, [&cur_time](const Bookmark& bm){
 		return (bm.get_time() == cur_time);
 	});
 
