@@ -39,7 +39,7 @@ struct Albums::Private
 
 		if(library_id < 0) {
 			track_view = "tracks";
-			search_view = QString("track_search_view").arg(library_id);
+			search_view = QString("track_search_view");
 		}
 
 		else {

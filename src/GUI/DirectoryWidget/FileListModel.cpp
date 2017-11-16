@@ -102,11 +102,11 @@ QModelIndex FileListModel::getNextRowIndexOf(const QString& substr, int cur_row,
 
 	for(int i=0; i<_files.size(); i++)
 	{
-		cur_row = (cur_row + 1) % rowCount();
+		int row = (cur_row + i) % _files.size();
 
-		QString converted_filepath = Library::Util::convert_search_string(_files[cur_row], search_mode());
+		QString converted_filepath = Library::Util::convert_search_string(_files[row], search_mode());
 		if( converted_filepath.contains(converted_string) ){
-			return index(cur_row, 0);
+			return index(row, 0);
 		}
 	}
 
@@ -120,14 +120,14 @@ QModelIndex FileListModel::getPrevRowIndexOf(const QString& substr, int cur_row,
 
 	for(int i=0; i<_files.size(); i++)
 	{
-		cur_row = (cur_row - 1);
-		if(cur_row == -1){
-			cur_row = rowCount() - 1;
+		int row = (cur_row - i);
+		if(row == -1) {
+			row = rowCount() - 1;
 		}
 
-		QString converted_filepath = Library::Util::convert_search_string(_files[cur_row], search_mode());
+		QString converted_filepath = Library::Util::convert_search_string(_files[row], search_mode());
 		if( converted_filepath.contains(converted_string) ){
-			return index(cur_row, 0);
+			return index(row, 0);
 		}
 	}
 
