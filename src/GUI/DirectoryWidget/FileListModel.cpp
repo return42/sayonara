@@ -123,6 +123,18 @@ QStringList FileListModel::files() const
 	return m->files;
 }
 
+QStringList FileListModel::files_origin() const
+{
+	QStringList ret;
+	for(QString path : m->files){
+		path.replace(m->parent_directory_origin, m->parent_directory);
+		ret << path;
+	}
+
+	return ret;
+}
+
+
 LibraryId FileListModel::library_id() const
 {
 	return m->library_id;

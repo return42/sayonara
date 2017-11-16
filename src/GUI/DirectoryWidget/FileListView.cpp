@@ -22,7 +22,6 @@
 #include "FileListModel.h"
 #include "DirectoryIconProvider.h"
 #include "DirectoryDelegate.h"
-#include "SymlinkUtils.h"
 
 #include "Components/DirectoryReader/DirectoryReader.h"
 
@@ -200,7 +199,7 @@ MetaDataList FileListView::selected_metadata() const
 
 QStringList FileListView::selected_paths() const
 {
-	QStringList paths = m->model->files();
+	QStringList paths = m->model->files_origin();
 	QStringList ret;
 	QModelIndexList selections = this->selected_rows();
 
@@ -208,7 +207,7 @@ QStringList FileListView::selected_paths() const
 	{
 		int row = idx.row();
 		if(between(row, paths)){
-			ret << SymlinkUtils::filepath_by_sympath(paths[row]);
+			ret << paths[row];
 		}
 	}
 

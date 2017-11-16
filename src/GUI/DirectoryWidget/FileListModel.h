@@ -47,6 +47,7 @@ class FileListModel :
 		QString filepath_origin(const QModelIndex& index) const;
 
 		QStringList files() const;
+		QStringList files_origin() const;
 
 
 		QModelIndex getNextRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent=QModelIndex()) override;
