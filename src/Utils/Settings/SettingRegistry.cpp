@@ -187,6 +187,7 @@ bool SettingRegistry::init()
 	register_setting( Set::Cover_LoadFromFile, "cover_load_from_file", true);
 
 	register_setting( Set::Icon_Theme, "icon_theme", QString());
+	register_setting( Set::Icon_ForceInDarkTheme, "icon_force_in_dark_theme", false);
 
 	register_setting( Set::Proxy_Active, "proxy_active", false);
 	register_setting( Set::Proxy_Hostname, "proxy_hostname", QString());

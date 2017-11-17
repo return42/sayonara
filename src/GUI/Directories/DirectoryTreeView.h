@@ -23,7 +23,7 @@
 
 #include "GUI/Utils/SearchableWidget/SearchableView.h"
 #include "GUI/Utils/Widgets/WidgetTemplate.h"
-#include "GUI/Utils/Dragable/Dragable.h"
+#include "GUI/Utils/Widgets/Dragable.h"
 #include "Utils/Pimpl.h"
 
 #include <QTreeView>
@@ -64,12 +64,13 @@ public:
 
 	QModelIndex		search(const QString& search_term);
 	QString			directory_name(const QModelIndex& index);
+	QString			directory_name_origin(const QModelIndex& index);
 
 	QModelIndexList	selected_items() const;
 	MetaDataList	selected_metadata() const;
 	QStringList		selected_paths() const;
 
-	QMimeData*		get_mimedata() const override;
+	QMimeData*		dragable_mimedata() const override;
 	LibraryId		library_id(const QModelIndex& index) const;
 
 private:

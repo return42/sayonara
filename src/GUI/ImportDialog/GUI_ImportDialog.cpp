@@ -18,8 +18,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "GUI_ImportFolder.h"
-#include "GUI/Library/ui_GUI_ImportFolder.h"
+#include "GUI_ImportDialog.h"
+#include "GUI/ImportDialog/ui_GUI_ImportDialog.h"
 #include "GUI/TagEdit/GUI_TagEdit.h"
 
 #include "Components/Tagging/Editor.h"
@@ -37,18 +37,18 @@
 #include <QShowEvent>
 
 
-struct GUI_ImportFolder::Private
+struct GUI_ImportDialog::Private
 {
 	LibraryImporter*	importer=nullptr;
 	GUI_TagEdit*		tag_edit=nullptr;
 	LocalLibrary*		library=nullptr;
 };
 
-GUI_ImportFolder::GUI_ImportFolder(LocalLibrary* library, bool copy_enabled, QWidget* parent) :
+GUI_ImportDialog::GUI_ImportDialog(LocalLibrary* library, bool copy_enabled, QWidget* parent) :
 	Dialog(parent)
 {
 	m = Pimpl::make<Private>();
-	ui = new Ui::ImportFolder();
+	ui = new Ui::GUI_ImportDialog();
 	ui->setupUi(this);
 
 	m->library = library;
@@ -63,22 +63,25 @@ GUI_ImportFolder::GUI_ImportFolder(LocalLibrary* library, bool copy_enabled, QWi
 	ui->pb_progress->setVisible(false);
 	//ui->btn_edit->setVisible(false);
 
-	connect(ui->btn_ok, &QPushButton::clicked, this, &GUI_ImportFolder::bb_accepted);
-	connect(ui->btn_choose_dir, &QPushButton::clicked, this, &GUI_ImportFolder::choose_dir);
-	connect(ui->btn_cancel, &QPushButton::clicked, this, &GUI_ImportFolder::bb_rejected);
-	connect(ui->btn_edit, &QPushButton::clicked, this, &GUI_ImportFolder::edit_pressed);
+	connect(ui->btn_ok, &QPushButton::clicked, this, &GUI_ImportDialog::bb_accepted);
+	connect(ui->btn_choose_dir, &QPushButton::clicked, this, &GUI_ImportDialog::choose_dir);
+	connect(ui->btn_cancel, &QPushButton::clicked, this, &GUI_ImportDialog::bb_rejected);
+	connect(ui->btn_edit, &QPushButton::clicked, this, &GUI_ImportDialog::edit_pressed);
 
-	connect(m->importer, &LibraryImporter::sig_got_metadata, this, &GUI_ImportFolder::set_metadata);
-	connect(m->importer, &LibraryImporter::sig_status_changed, this, &GUI_ImportFolder::set_status);
-	connect(m->importer, &LibraryImporter::sig_progress, this, &GUI_ImportFolder::set_progress);
-	connect(m->importer, &LibraryImporter::sig_triggered, this, &GUI_ImportFolder::show);
+	connect(m->importer, &LibraryImporter::sig_got_metadata, this, &GUI_ImportDialog::set_metadata);
+	connect(m->importer, &LibraryImporter::sig_status_changed, this, &GUI_ImportDialog::set_status);
+	connect(m->importer, &LibraryImporter::sig_progress, this, &GUI_ImportDialog::set_progress);
+	connect(m->importer, &LibraryImporter::sig_triggered, this, &GUI_ImportDialog::show);
 
 	setModal(true);
 }
 
-GUI_ImportFolder::~GUI_ImportFolder() {}
+GUI_ImportDialog::~GUI_ImportDialog()
+{
+	delete ui; ui = nullptr;
+}
 
-void GUI_ImportFolder::set_target_dir(const QString& target_dir)
+void GUI_ImportDialog::set_target_dir(const QString& target_dir)
 {
 	QString subdir = target_dir;
 	subdir.remove(m->library->library_path() + "/");
@@ -86,14 +89,14 @@ void GUI_ImportFolder::set_target_dir(const QString& target_dir)
 	ui->le_directory->setText(subdir);
 }
 
-void GUI_ImportFolder::language_changed()
+void GUI_ImportDialog::language_changed()
 {
 	ui->retranslateUi(this);
 	ui->btn_edit->setText(Lang::get(Lang::Edit));
 	ui->btn_cancel->setText(Lang::get(Lang::Cancel));
 }
 
-void GUI_ImportFolder::set_metadata(const MetaDataList& v_md)
+void GUI_ImportDialog::set_metadata(const MetaDataList& v_md)
 {
 	if(!v_md.isEmpty()){
 		ui->lab_status->setText(tr("%1 tracks available").arg(v_md.size()));
@@ -103,12 +106,14 @@ void GUI_ImportFolder::set_metadata(const MetaDataList& v_md)
 	ui->btn_edit->setVisible( !v_md.isEmpty() );
 }
 
-void GUI_ImportFolder::set_status(LibraryImporter::ImportStatus status)
+void GUI_ImportDialog::set_status(LibraryImporter::ImportStatus status)
 {
 	ui->pb_progress->hide();
 	ui->lab_status->show();
 
 	bool thread_active = false;
+	ui->btn_ok->setEnabled(false);
+	ui->btn_cancel->setEnabled(true);
 
 	switch(status){
 		case LibraryImporter::ImportStatus::Caching:
@@ -138,10 +143,12 @@ void GUI_ImportFolder::set_status(LibraryImporter::ImportStatus status)
 
 		case LibraryImporter::ImportStatus::Rollback:
 			ui->lab_status->setText(tr("Rollback"));
+			ui->btn_cancel->setEnabled(false);
 			thread_active = true;
 			break;
 
 		default:
+			ui->btn_ok->setEnabled(true);
 			break;
 	}
 
@@ -154,7 +161,7 @@ void GUI_ImportFolder::set_status(LibraryImporter::ImportStatus status)
 	}
 }
 
-void GUI_ImportFolder::set_progress(int val)
+void GUI_ImportDialog::set_progress(int val)
 {
 	if(val) {
 		ui->pb_progress->show();
@@ -174,7 +181,7 @@ void GUI_ImportFolder::set_progress(int val)
 }
 
 
-void GUI_ImportFolder::bb_accepted()
+void GUI_ImportDialog::bb_accepted()
 {
 	m->tag_edit->commit();
 
@@ -183,7 +190,7 @@ void GUI_ImportFolder::bb_accepted()
 	m->importer->accept_import(target_dir);
 }
 
-void GUI_ImportFolder::bb_rejected()
+void GUI_ImportDialog::bb_rejected()
 {
 	//m->tag_edit->cancel();
 	LibraryImporter::ImportStatus status = m->importer->get_status();
@@ -199,7 +206,7 @@ void GUI_ImportFolder::bb_rejected()
 }
 
 
-void GUI_ImportFolder::choose_dir()
+void GUI_ImportDialog::choose_dir()
 {
 	QString library_path = m->library->library_path();
 	QString dialog_title = tr("Choose target directory");
@@ -233,7 +240,7 @@ void GUI_ImportFolder::choose_dir()
 	ui->le_directory->setText(dir);
 }
 
-void GUI_ImportFolder::edit_pressed()
+void GUI_ImportDialog::edit_pressed()
 {
 	Dialog* dialog = m->tag_edit->box_into_dialog();
 
@@ -244,13 +251,13 @@ void GUI_ImportFolder::edit_pressed()
 	dialog->exec();
 }
 
-void GUI_ImportFolder::closeEvent(QCloseEvent* e)
+void GUI_ImportDialog::closeEvent(QCloseEvent* e)
 {
 	Dialog::closeEvent(e);
 	m->importer->cancel_import();
 }
 
-void GUI_ImportFolder::showEvent(QShowEvent* e)
+void GUI_ImportDialog::showEvent(QShowEvent* e)
 {
 	Dialog::showEvent(e);
 	ui->lab_target_path->setText( m->library->library_path() );

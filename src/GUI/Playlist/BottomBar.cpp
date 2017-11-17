@@ -18,11 +18,12 @@
  */
 
 #include "BottomBar.h"
-#include "GUI/Utils/IconLoader/IconLoader.h"
+
+#include "GUI/Utils/Icons.h"
+
 #include "Utils/Playlist/PlaylistMode.h"
 #include "Utils/Settings/Settings.h"
 #include "Utils/Language.h"
-
 #include "Utils/Message/Message.h"
 
 #ifdef WITH_SHUTDOWN
@@ -78,13 +79,14 @@ GUI_PlaylistBottomBar::GUI_PlaylistBottomBar(QWidget *parent) :
 {
 	m = Pimpl::make<Private>();
 
-	m->btn_rep1 = new QPushButton(IconLoader::icon(IconLoader::Repeat1, IconLoader::ForceSayonaraIcon), "", this);
-	m->btn_repAll = new QPushButton(IconLoader::icon(IconLoader::RepeatAll, IconLoader::ForceSayonaraIcon), "", this);
-	m->btn_append = new QPushButton(IconLoader::icon(IconLoader::Append, IconLoader::ForceSayonaraIcon), "", this);
-	m->btn_dynamic = new QPushButton(IconLoader::icon(IconLoader::Dynamic, IconLoader::ForceSayonaraIcon), "", this);
-	m->btn_shuffle = new QPushButton(IconLoader::icon(IconLoader::Shuffle, IconLoader::ForceSayonaraIcon), "", this);
-	m->btn_gapless = new QPushButton(IconLoader::icon(IconLoader::Gapless, IconLoader::ForceSayonaraIcon), "", this);
-	m->btn_shutdown = new QPushButton(IconLoader::icon(IconLoader::Shutdown), "", this);
+	using namespace Gui;
+	m->btn_rep1 = new QPushButton(Icons::icon(Icons::Repeat1, Icons::ForceSayonaraIcon), "", this);
+	m->btn_repAll = new QPushButton(Icons::icon(Icons::RepeatAll, Icons::ForceSayonaraIcon), "", this);
+	m->btn_append = new QPushButton(Icons::icon(Icons::Append, Icons::ForceSayonaraIcon), "", this);
+	m->btn_dynamic = new QPushButton(Icons::icon(Icons::Dynamic, Icons::ForceSayonaraIcon), "", this);
+	m->btn_shuffle = new QPushButton(Icons::icon(Icons::Shuffle, Icons::ForceSayonaraIcon), "", this);
+	m->btn_gapless = new QPushButton(Icons::icon(Icons::Gapless, Icons::ForceSayonaraIcon), "", this);
+	m->btn_shutdown = new QPushButton(Icons::icon(Icons::Shutdown), "", this);
 
 	for(QPushButton* btn : m->buttons())
 	{

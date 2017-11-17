@@ -175,6 +175,7 @@ enum class SettingKey : unsigned short
 	Cover_Server,
 	Cover_LoadFromFile,
 	Icon_Theme,
+	Icon_ForceInDarkTheme,
 
 	Proxy_Active,
 	Proxy_Username,
@@ -332,6 +333,7 @@ namespace Set
 	INST(QStringList,		Cover_Server);				/* Cover server */
 	INST(bool,				Cover_LoadFromFile);		/* load covers from audio file, if available */
 	INST(QString,			Icon_Theme);				/* Current icon theme */
+	INST(bool,				Icon_ForceInDarkTheme);		/* Current icon theme */
 
 	INST(bool,				Proxy_Active);				/* Is proxy server active */
 	INST(QString,			Proxy_Username);			/* Proxy Username */

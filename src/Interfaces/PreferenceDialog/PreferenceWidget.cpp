@@ -105,6 +105,11 @@ QAction *Base::action()
 	return m->action;
 }
 
+bool Base::has_error() const
+{
+	return false;
+}
+
 QString Base::error_string() const
 {
 	return QString();

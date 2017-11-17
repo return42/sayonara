@@ -23,7 +23,7 @@
 #ifndef ALBUMCOVERVIEW_H
 #define ALBUMCOVERVIEW_H
 
-#include "GUI/Library/Views/View.h"
+#include "GUI/Library/Views/ItemView.h"
 #include "Utils/Pimpl.h"
 #include "Utils/Library/Sortorder.h"
 
@@ -31,7 +31,7 @@ namespace Library
 {
 	class CoverModel;
 	class CoverView :
-			public Library::View
+			public Library::ItemView
 	{
 		Q_OBJECT
 		PIMPL(CoverView)

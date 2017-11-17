@@ -18,9 +18,11 @@
  */
 
 #include "GUI_ShortcutEntry.h"
+
 #include "GUI/Preferences/ui_GUI_ShortcutEntry.h"
-#include "GUI/Utils/IconLoader/IconLoader.h"
+#include "GUI/Utils/Icons.h"
 #include "GUI/Utils/Shortcuts/ShortcutHandler.h"
+
 #include "Utils/Language.h"
 
 #include <QKeySequence>
@@ -117,9 +119,10 @@ void GUI_ShortcutEntry::language_changed()
 
 void GUI_ShortcutEntry::skin_changed()
 {
-	ui->btn_default->setIcon(IconLoader::icon(IconLoader::Undo));
-	ui->btn_edit->setIcon(IconLoader::icon(IconLoader::Edit));
-	ui->btn_test->setIcon(IconLoader::icon(IconLoader::Info));
+	using namespace Gui;
+	ui->btn_default->setIcon(Icons::icon(Icons::Undo));
+	ui->btn_edit->setIcon(Icons::icon(Icons::Edit));
+	ui->btn_test->setIcon(Icons::icon(Icons::Info));
 }
 
 

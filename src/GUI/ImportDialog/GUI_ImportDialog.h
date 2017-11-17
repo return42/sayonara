@@ -18,8 +18,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef GUIIMPORTFOLDER_H_
-#define GUIIMPORTFOLDER_H_
+#ifndef GUIIMPORTDIALOG_H_
+#define GUIIMPORTDIALOG_H_
 
 #include "GUI/Utils/Widgets/Dialog.h"
 #include "Components/Library/Importer/LibraryImporter.h"
@@ -29,21 +29,21 @@ class MetaDataList;
 class GUI_TagEdit;
 class LocalLibrary;
 
-UI_FWD(ImportFolder)
+UI_FWD(GUI_ImportDialog)
 
-class GUI_ImportFolder :
+class GUI_ImportDialog :
 		public Gui::Dialog
 {
 	Q_OBJECT
-	UI_CLASS(ImportFolder)
-	PIMPL(GUI_ImportFolder)
+	UI_CLASS(GUI_ImportDialog)
+	PIMPL(GUI_ImportDialog)
 
 signals:
 	void sig_progress(int);
 
 public:
-	GUI_ImportFolder(LocalLibrary* library, bool copy_enabled, QWidget* parent);
-	virtual ~GUI_ImportFolder();
+	GUI_ImportDialog(LocalLibrary* library, bool copy_enabled, QWidget* parent);
+	virtual ~GUI_ImportDialog();
 
 	void set_target_dir(const QString& target_dir);
 

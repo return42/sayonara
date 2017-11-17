@@ -115,6 +115,8 @@ namespace Util
 	 */
 	QStringList podcast_extensions(bool with_asterisk=true);
 
+	QStringList image_extensions(bool with_asterisk=true);
+
 
 	/**
 	 * @brief get a random val between min max

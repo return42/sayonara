@@ -35,9 +35,9 @@
 
 #include <algorithm>
 
-using namespace Gui::Util;
+using namespace Gui;
 
-MetaDataList MimeData::get_metadata(const QMimeData *data)
+MetaDataList MimeData::metadata(const QMimeData* data)
 {
 	if(!data){
 		return MetaDataList();
@@ -72,7 +72,7 @@ MetaDataList MimeData::get_metadata(const QMimeData *data)
 	return MetaDataList();
 }
 
-QStringList MimeData::get_playlists(const QMimeData *data)
+QStringList MimeData::playlists(const QMimeData* data)
 {
 	if(!data){
 		return QStringList();
@@ -94,36 +94,51 @@ QStringList MimeData::get_playlists(const QMimeData *data)
 	return www_playlists;
 }
 
-QString MimeData::cover_url(const QMimeData *data)
+QString MimeData::cover_url(const QMimeData* data)
 {
 	if(!data){
 		return QString();
 	}
 
-	return data->property("cover_url").toString();
+	QString cover_url;
+	const CustomMimeData* cmd = custom_mimedata(data);
+	if(cmd){
+		cover_url = cmd->cover_url();
+	}
+
+	if(cover_url.isEmpty()){
+		cover_url = data->property("cover_url").toString();
+	}
+
+	return cover_url;
 }
 
-void MimeData::set_cover_url(QMimeData *data, const QString &url)
+void MimeData::set_cover_url(QMimeData* data, const QString &url)
 {
 	if(!data){
 		return;
 	}
 
+	CustomMimeData* cmd = custom_mimedata(data);
+	if(cmd){
+		cmd->set_cover_url(url);
+	}
+
 	data->setProperty("cover_url", url);
 }
 
-CustomMimeData* MimeData::custom_mimedata(QMimeData *data)
+CustomMimeData* MimeData::custom_mimedata(QMimeData* data)
 {
 	return dynamic_cast<CustomMimeData*>(data);
 }
 
-const CustomMimeData* MimeData::custom_mimedata(const QMimeData *data)
+const CustomMimeData* MimeData::custom_mimedata(const QMimeData* data)
 {
 	return dynamic_cast<const CustomMimeData*>(data);
 }
 
 
-bool MimeData::is_inner_drag_drop(const QMimeData *data, int target_playlist_idx)
+bool MimeData::is_inner_drag_drop(const QMimeData* data, int target_playlist_idx)
 {
 	const CustomMimeData* cmd = custom_mimedata(data);
 	if(!cmd){
@@ -139,7 +154,7 @@ bool MimeData::is_inner_drag_drop(const QMimeData *data, int target_playlist_idx
 	return (source_idx == target_playlist_idx);
 }
 
-bool MimeData::is_drag_from_playlist(const QMimeData *data)
+bool MimeData::is_drag_from_playlist(const QMimeData* data)
 {
 	const CustomMimeData* cmd = custom_mimedata(data);
 	if(!cmd){

@@ -30,7 +30,7 @@
 
 #include <QUrl>
 
-using namespace Gui::Util;
+using namespace Gui;
 
 SomaFM::PlaylistModel::PlaylistModel(QObject* parent) :
 	QStringListModel(parent) {}
@@ -78,13 +78,13 @@ QMimeData* SomaFM::PlaylistModel::mimeData(const QModelIndexList& indexes) const
 
 	QUrl url( urls[row] );
 
-	QMimeData* mime_data = new CustomMimeData(this);
+	CustomMimeData* mime_data = new CustomMimeData(this);
 	Cover::Location location = _station.cover_location();
 
 	mime_data->setUrls({url});
 	if(!location.search_urls().isEmpty())
 	{
-		MimeData::set_cover_url(mime_data, location.search_urls().first());
+		mime_data->set_cover_url(location.search_urls().first());
 	}
 
 	return mime_data;

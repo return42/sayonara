@@ -74,7 +74,6 @@ public:
 	const MetaData& metadata(int row) const;
 	MetaDataList metadata(const IndexSet& rows) const;
 
-	CustomMimeData* custom_mimedata(const QModelIndexList& indexes) const;
 	QMimeData* mimeData(const QModelIndexList& indexes) const override;
 
 	bool has_local_media(const IndexSet& rows) const;

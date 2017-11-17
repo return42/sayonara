@@ -46,7 +46,7 @@ struct TableView::Private
 };
 
 TableView::TableView(QWidget* parent) :
-	Library::View(parent)
+	Library::ItemView(parent)
 {
 	m = Pimpl::make<Private>();
 
@@ -82,8 +82,6 @@ BoolList TableView::shown_columns() const
 {
 	return m->shown_columns;
 }
-
-
 
 void TableView::header_actions_triggered()
 {
@@ -134,7 +132,7 @@ void TableView::language_changed()
 
 void TableView::resizeEvent(QResizeEvent* event)
 {
-	View::resizeEvent(event);
+	ItemView::resizeEvent(event);
 	m->header->refresh_sizes(this);
 }
 

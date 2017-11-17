@@ -34,6 +34,8 @@
 #include "GUI/Library/Views/CoverView.h"
 #include "GUI/Library/Models/CoverModel.h"
 
+#include "GUI/ImportDialog/GUI_ImportDialog.h"
+
 #include "GUI/Utils/ContextMenu/LibraryContextMenu.h"
 #include "GUI/Utils/Library/LibraryDeleteDialog.h"
 #include "GUI/Utils/SearchableWidget/SearchableView.h"
@@ -41,7 +43,7 @@
 #include "Components/Library/LocalLibrary.h"
 #include "Components/Library/LibraryManager.h"
 #include "InfoBox/GUI_LibraryInfoBox.h"
-#include "ImportFolderDialog/GUI_ImportFolder.h"
+
 
 #include "Utils/Utils.h"
 #include "Utils/Settings/Settings.h"
@@ -64,7 +66,7 @@ struct GUI_LocalLibrary::Private
 {
 	LocalLibrary*			library=nullptr;
 	GUI_LibraryInfoBox*		library_info_box=nullptr;
-	GUI_ImportFolder*		ui_importer=nullptr;
+	GUI_ImportDialog*		ui_importer=nullptr;
 
 	LocalLibraryMenu*		library_menu=nullptr;
 	CoverView*				acv = nullptr;
@@ -107,11 +109,11 @@ GUI_LocalLibrary::GUI_LocalLibrary(LibraryId id, QWidget* parent) :
 
 	connect(ui->lv_album, &AlbumView::sig_disc_pressed, this, &GUI_LocalLibrary::disc_pressed);
 	connect(ui->lv_album, &AlbumView::sig_import_files, this, &GUI_LocalLibrary::import_files);
-	connect(ui->lv_album, &View::sig_merge, m->library, &LocalLibrary::merge_albums);
+	connect(ui->lv_album, &ItemView::sig_merge, m->library, &LocalLibrary::merge_albums);
 
-	connect(ui->lv_artist, &View::sig_import_files, this, &GUI_LocalLibrary::import_files);
-	connect(ui->lv_artist, &View::sig_merge, m->library, &LocalLibrary::merge_artists);
-	connect(ui->tb_title, &View::sig_import_files, this, &GUI_LocalLibrary::import_files);
+	connect(ui->lv_artist, &ItemView::sig_import_files, this, &GUI_LocalLibrary::import_files);
+	connect(ui->lv_artist, &ItemView::sig_merge, m->library, &LocalLibrary::merge_artists);
+	connect(ui->tb_title, &ItemView::sig_import_files, this, &GUI_LocalLibrary::import_files);
 	connect(ui->lv_genres, &QAbstractItemView::clicked, this, &GUI_LocalLibrary::genre_selection_changed);
 	connect(ui->lv_genres, &QAbstractItemView::activated, this, &GUI_LocalLibrary::genre_selection_changed);
 	connect(ui->lv_genres, &GenreView::sig_progress, this, &GUI_LocalLibrary::progress_changed);
@@ -372,8 +374,15 @@ void GUI_LocalLibrary::change_library_name(const QString& name)
 
 void GUI_LocalLibrary::change_library_path(const QString& path)
 {
-	m->library->set_library_path(path);
-	reload_library_requested(Library::ReloadQuality::Accurate);
+	bool success = m->library->set_library_path(path);
+
+	if(success){
+		reload_library_requested(Library::ReloadQuality::Accurate);
+	}
+
+	else{
+		Message::warning(tr("Cannot change library path"));
+	}
 }
 
 void GUI_LocalLibrary::name_changed(const QString& name)
@@ -393,7 +402,7 @@ void GUI_LocalLibrary::import_dialog_requested(const QString& target_dir)
 	}
 
 	if(!m->ui_importer){
-		m->ui_importer = new GUI_ImportFolder(m->library, true, this);
+		m->ui_importer = new GUI_ImportDialog(m->library, true, this);
 		m->ui_importer->set_target_dir(target_dir);
 	}
 
@@ -451,12 +460,12 @@ void GUI_LocalLibrary::init_album_cover_view()
 			LibraryContextMenu::EntryCoverView);
 	m->acv->show_context_menu_actions(entries);
 
-	connect(m->acv, &View::sig_sel_changed, this, &GUI_LocalLibrary::album_sel_changed);
-	connect(m->acv, &View::doubleClicked, this, &GUI_LocalLibrary::item_double_clicked);
-	connect(m->acv, &View::sig_middle_button_clicked, this, &GUI_LocalLibrary::item_middle_clicked);
-	connect(m->acv, &View::sig_play_next_clicked, this, &GUI_LocalLibrary::item_play_next_clicked);
-	connect(m->acv, &View::sig_append_clicked, this, &GUI_LocalLibrary::item_append_clicked);
-	connect(m->acv, &View::sig_merge, m->library, &LocalLibrary::merge_albums);
+	connect(m->acv, &ItemView::sig_sel_changed, this, &GUI_LocalLibrary::album_sel_changed);
+	connect(m->acv, &ItemView::doubleClicked, this, &GUI_LocalLibrary::item_double_clicked);
+	connect(m->acv, &ItemView::sig_middle_button_clicked, this, &GUI_LocalLibrary::item_middle_clicked);
+	connect(m->acv, &ItemView::sig_play_next_clicked, this, &GUI_LocalLibrary::item_play_next_clicked);
+	connect(m->acv, &ItemView::sig_append_clicked, this, &GUI_LocalLibrary::item_append_clicked);
+	connect(m->acv, &ItemView::sig_merge, m->library, &LocalLibrary::merge_albums);
 
 	m->acv->show();
 }

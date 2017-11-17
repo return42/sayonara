@@ -103,7 +103,7 @@ void FileListView::dragEnterEvent(QDragEnterEvent *event)
 void FileListView::dragMoveEvent(QDragMoveEvent *event)
 {
 	const QMimeData* mime_data = event->mimeData();
-	const CustomMimeData* cmd = Gui::Util::MimeData::custom_mimedata(mime_data);
+	const CustomMimeData* cmd = Gui::MimeData::custom_mimedata(mime_data);
 	if(cmd){
 		event->setAccepted(false);
 	}
@@ -127,7 +127,7 @@ void FileListView::dropEvent(QDropEvent *event)
 		return;
 	}
 
-	if(Gui::Util::MimeData::is_player_drag(mime_data)){
+	if(Gui::MimeData::is_player_drag(mime_data)){
 		sp_log(Log::Debug, this) << "Drop: Internal player drag";
 		return;
 	}
@@ -149,7 +149,7 @@ void FileListView::dropEvent(QDropEvent *event)
 
 	sp_log(Log::Debug, this) << "Drop: " << files.size() << " files into library " << m->model->library_id();
 
-	emit sig_import_requested(m->model->library_id(), files, m->model->parent_directory_origin());
+	emit sig_import_requested(m->model->library_id(), files, m->model->parent_directory());
 }
 
 
@@ -199,7 +199,7 @@ MetaDataList FileListView::selected_metadata() const
 
 QStringList FileListView::selected_paths() const
 {
-	QStringList paths = m->model->files_origin();
+	QStringList paths = m->model->files();
 	QStringList ret;
 	QModelIndexList selections = this->selected_rows();
 
@@ -213,6 +213,7 @@ QStringList FileListView::selected_paths() const
 
 	return ret;
 }
+
 
 void FileListView::set_parent_directory(LibraryId library_id, const QString& dir)
 {
@@ -255,7 +256,7 @@ void FileListView::set_search_filter(const QString& search_string)
 	}
 }
 
-QMimeData* FileListView::get_mimedata() const
+QMimeData* FileListView::dragable_mimedata() const
 {
 	CustomMimeData* mimedata = new CustomMimeData(this);
 	mimedata->set_metadata(selected_metadata());

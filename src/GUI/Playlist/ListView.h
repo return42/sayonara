@@ -30,8 +30,10 @@
 #define PLAYLISTVIEW_H_
 
 #include "GUI/Utils/SearchableWidget/SearchableView.h"
-#include "GUI/Utils/Dragable/Dragable.h"
+#include "GUI/Utils/Widgets/Dragable.h"
+
 #include "GUI/InfoDialog/InfoDialogContainer.h"
+
 #include "Utils/Playlist/PlaylistFwd.h"
 #include "Utils/MetaData/MetaDataFwd.h"
 #include "Utils/Pimpl.h"
@@ -105,7 +107,7 @@ private:
 
 	MD::Interpretation metadata_interpretation() const override;
 	MetaDataList info_dialog_data() const override;
-	QMimeData* get_mimedata() const override;
+	QMimeData* dragable_mimedata() const override;
 
 
 private slots:

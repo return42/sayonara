@@ -164,12 +164,12 @@
   <customwidget>
    <class>DirectoryTreeView</class>
    <extends>QTreeView</extends>
-   <header>GUI/DirectoryWidget/DirectoryTreeView.h</header>
+   <header>GUI/Directories/DirectoryTreeView.h</header>
   </customwidget>
   <customwidget>
    <class>FileListView</class>
    <extends>QListView</extends>
-   <header>GUI/DirectoryWidget/FileListView.h</header>
+   <header>GUI/Directories/FileListView.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

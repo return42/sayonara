@@ -22,7 +22,7 @@
 #include "GUI/Utils/GuiUtils.h"
 
 #include "GUI_DirectoryWidget.h"
-#include "GUI/Utils/IconLoader/IconLoader.h"
+#include "GUI/Utils/Icons.h"
 #include "Utils/Language.h"
 
 #include <QIcon>
@@ -63,5 +63,5 @@ QFrame* DirectoryContainer::header() const
 
 QPixmap DirectoryContainer::icon() const
 {
-	return IconLoader::pixmap(IconLoader::FileManager);
+	return Gui::Icons::pixmap(Gui::Icons::FileManager);
 }

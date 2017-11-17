@@ -240,7 +240,7 @@ void PlaylistView::handle_drop(QDropEvent* event)
 		return;
 	}
 
-	bool is_inner_drag_drop = Util::MimeData::is_inner_drag_drop(mimedata, m->playlist_index);
+	bool is_inner_drag_drop = MimeData::is_inner_drag_drop(mimedata, m->playlist_index);
 
 	if(is_inner_drag_drop)
 	{
@@ -249,14 +249,14 @@ void PlaylistView::handle_drop(QDropEvent* event)
 		return;
 	}
 
-	MetaDataList v_md = Util::MimeData::get_metadata(mimedata);
+	MetaDataList v_md = MimeData::metadata(mimedata);
 	if(!v_md.isEmpty())
 	{
 		Playlist::Handler* plh = Playlist::Handler::instance();
 		plh->insert_tracks(v_md, row+1, plh->current_index());
 	}
 
-	QStringList playlists = Util::MimeData::get_playlists(mimedata);
+	QStringList playlists = MimeData::playlists(mimedata);
 	if(!playlists.isEmpty())
 	{
 		this->setEnabled(false);
@@ -267,7 +267,7 @@ void PlaylistView::handle_drop(QDropEvent* event)
 		m->progress->show();
 		m->async_drop_index = row;
 
-		QString cover_url = Util::MimeData::cover_url(mimedata);
+		QString cover_url = MimeData::cover_url(mimedata);
 
 		StreamParser* stream_parser = new StreamParser();
 		stream_parser->set_cover_url(cover_url);
@@ -446,9 +446,9 @@ void PlaylistView::mouseMoveEvent(QMouseEvent* event)
 }
 
 
-QMimeData* PlaylistView::get_mimedata() const
+QMimeData* PlaylistView::dragable_mimedata() const
 {
-	return m->model->custom_mimedata(this->selectedIndexes());
+	return m->model->mimeData(this->selectedIndexes());
 }
 
 

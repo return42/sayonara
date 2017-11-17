@@ -22,8 +22,7 @@
 #define GUI_EMPTYLIBRARY_H
 
 #include "Utils/Pimpl.h"
-#include "GUI/Utils/GUIClass.h"
-#include <QWidget>
+#include "GUI/Utils/Widgets/Widget.h"
 
 UI_FWD(GUI_EmptyLibrary)
 
@@ -32,7 +31,7 @@ class QFrame;
 namespace Library
 {
 	class GUI_EmptyLibrary :
-		public QWidget
+		public Gui::Widget
 	{
 		Q_OBJECT
 		UI_CLASS(GUI_EmptyLibrary)
@@ -46,6 +45,7 @@ namespace Library
 
 	private slots:
 		void set_lib_path_clicked();
+		void new_library_created();
 	};
 }
 

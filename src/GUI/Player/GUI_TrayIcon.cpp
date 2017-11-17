@@ -21,6 +21,7 @@
 #include "GUI_TrayIcon.h"
 
 #include "GUI/Utils/GuiUtils.h"
+#include "GUI/Utils/Icons.h"
 #include "GUI/Utils/Style.h"
 #include "Utils/MetaData/MetaData.h"
 #include "Utils/Settings/Settings.h"
@@ -78,25 +79,10 @@ GUI_TrayIcon::GUI_TrayIcon (QObject *parent) :
 	bool muted = m->play_manager->is_muted();
 	mute_changed(muted);
 
-	Set::listen(Set::Player_Language, this, &GUI_TrayIcon::language_changed);
-	Set::listen(Set::Player_Style, this, &GUI_TrayIcon::skin_changed);
-
 	NotificationHandler::instance()->register_notificator(this);
 }
 
 GUI_TrayIcon::~GUI_TrayIcon() {}
-
-void GUI_TrayIcon::language_changed()
-{
-	m->play_action->setText(Lang::get(Lang::PlayPause));
-	m->fwd_action->setText(Lang::get(Lang::NextTrack));
-	m->bwd_action->setText(Lang::get(Lang::PreviousTrack));
-	m->stop_action->setText(Lang::get(Lang::Stop));
-	m->mute_action->setText(Lang::get(Lang::MuteOn));
-	m->close_action->setText(Lang::get(Lang::Close));
-	m->show_action->setText(Lang::get(Lang::Show));
-	m->cur_song_action->setText(tr("Current song"));
-}
 
 void GUI_TrayIcon::init_context_menu()
 {
@@ -104,21 +90,14 @@ void GUI_TrayIcon::init_context_menu()
 		return;
 	}
 
-	m->play_action = new QAction(Lang::get(Lang::PlayPause), this);
-	m->play_action->setIcon(Util::icon("play"));
-	m->stop_action = new QAction(Lang::get(Lang::Stop), this);
-	m->stop_action->setIcon(Util::icon("stop"));
-	m->bwd_action = new QAction(Lang::get(Lang::PreviousTrack), this);
-	m->bwd_action->setIcon(Util::icon("bwd"));
-	m->fwd_action = new QAction(Lang::get(Lang::NextTrack), this);
-	m->fwd_action->setIcon(Util::icon("fwd"));
-	m->mute_action = new QAction(Lang::get(Lang::MuteOn), this);
-	m->mute_action->setIcon(Util::icon("vol_mute"));
-	m->show_action = new QAction(Lang::get(Lang::Show), this);
-	m->cur_song_action = new QAction(tr("Current song"), this);
-	m->cur_song_action->setIcon(Util::icon("info"));
-	m->close_action = new QAction(Lang::get(Lang::Close), this);
-	m->close_action->setIcon(Util::icon("power_off"));
+	m->play_action = new QAction(this);
+	m->stop_action = new QAction(this);
+	m->bwd_action = new QAction(this);
+	m->fwd_action = new QAction(this);
+	m->mute_action = new QAction(this);
+	m->show_action = new QAction(this);
+	m->cur_song_action = new QAction(this);
+	m->close_action = new QAction(this);
 
 	m->context_menu = new QMenu();
 	m->context_menu->addAction(m->play_action);
@@ -145,8 +124,37 @@ void GUI_TrayIcon::init_context_menu()
 	connect(m->cur_song_action, &QAction::triggered, this, &GUI_TrayIcon::cur_song_clicked);
 	connect(m->show_action, &QAction::triggered, this, &GUI_TrayIcon::show_clicked);
 
+	Set::listen(Set::Player_Language, this, &GUI_TrayIcon::language_changed);
 	Set::listen(Set::Player_Style, this, &GUI_TrayIcon::skin_changed);
+	Set::listen(Set::Player_FontName, this, &GUI_TrayIcon::skin_changed);
+	Set::listen(Set::Player_FontSize, this, &GUI_TrayIcon::skin_changed);
+	Set::listen(Set::Lib_FontSize, this, &GUI_TrayIcon::skin_changed);
+	Set::listen(Set::Lib_FontBold, this, &GUI_TrayIcon::skin_changed);
+	Set::listen(Set::Icon_Theme, this, &GUI_TrayIcon::skin_changed);
+	Set::listen(Set::Icon_ForceInDarkTheme, this, &GUI_TrayIcon::skin_changed);
 }
+
+
+void GUI_TrayIcon::language_changed()
+{
+	m->play_action->setText(Lang::get(Lang::PlayPause));
+	m->fwd_action->setText(Lang::get(Lang::NextTrack));
+	m->bwd_action->setText(Lang::get(Lang::PreviousTrack));
+	m->stop_action->setText(Lang::get(Lang::Stop));
+
+	if(m->play_manager->is_muted()){
+		m->mute_action->setText(Lang::get(Lang::MuteOff));
+	}
+
+	else {
+		m->mute_action->setText(Lang::get(Lang::MuteOn));
+	}
+
+	m->close_action->setText(Lang::get(Lang::Close));
+	m->show_action->setText(Lang::get(Lang::Show));
+	m->cur_song_action->setText(tr("Current song"));
+}
+
 
 void GUI_TrayIcon::skin_changed()
 {
@@ -156,7 +164,24 @@ void GUI_TrayIcon::skin_changed()
 	m->context_menu->setStyleSheet(stylesheet);
 
 	mute_changed( _settings->get(Set::Engine_Mute) );
+
+	using namespace Gui;
+	m->play_action->setIcon(Icons::icon(Icons::Play));
+	m->stop_action->setIcon(Icons::icon(Icons::Stop));
+	m->bwd_action->setIcon(Icons::icon(Icons::Previous));
+	m->fwd_action->setIcon(Icons::icon(Icons::Next));
+	m->cur_song_action->setIcon(Icons::icon(Icons::Info));
+	m->close_action->setIcon(Icons::icon(Icons::Exit));
+
+	if(m->play_manager->is_muted()){
+		m->mute_action->setIcon(Icons::icon(Icons::Vol3));
+	}
+
+	else {
+		m->mute_action->setIcon(Icons::icon(Icons::VolMute));
+	}
 }
+
 
 
 bool GUI_TrayIcon::event ( QEvent * e )
@@ -202,14 +227,15 @@ void GUI_TrayIcon::notify(const QString &title, const QString &message, const QS
 
 void GUI_TrayIcon::playstate_changed(PlayState state)
 {
+	using namespace Gui;
 	switch(state)
 	{
 		case PlayState::Playing:
 
-			setIcon(Util::icon("play"));
+			setIcon(Icons::icon(Icons::Play));
 
 			if(m->play_action){
-				m->play_action->setIcon(Util::icon("pause"));
+				m->play_action->setIcon(Icons::icon(Icons::Pause));
 				m->play_action->setText(Lang::get(Lang::Pause));
 			}
 
@@ -218,7 +244,7 @@ void GUI_TrayIcon::playstate_changed(PlayState state)
 		default:
 			setIcon(Util::icon("pause"));
 			if(m->play_action){
-				m->play_action->setIcon(Util::icon("play"));
+				m->play_action->setIcon(Icons::icon(Icons::Play));
 				m->play_action->setText(Lang::get(Lang::Play));
 			}
 
@@ -286,21 +312,15 @@ void GUI_TrayIcon::cur_song_clicked()
 
 void GUI_TrayIcon::mute_changed(bool muted)
 {
-	QString suffix = "";
-	int style = _settings->get(Set::Player_Style);
-
-	if(style == 1) {
-		suffix = "_dark";
-	}
-
+	using namespace Gui;
 	if(m->mute_action){
 		if(!muted) {
-			m->mute_action->setIcon(Util::icon("vol_mute" + suffix));
+			m->mute_action->setIcon(Icons::icon(Icons::VolMute));
 			m->mute_action->setText(Lang::get(Lang::MuteOn));
 		}
 
 		else {
-			m->mute_action->setIcon(Util::icon("vol_3" + suffix));
+			m->mute_action->setIcon(Icons::icon(Icons::Vol3));
 			m->mute_action->setText(Lang::get(Lang::MuteOff));
 		}
 	}

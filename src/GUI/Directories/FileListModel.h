@@ -35,6 +35,9 @@ class FileListModel :
 	Q_OBJECT
 	PIMPL(FileListModel)
 
+	private:
+		bool check_row_for_searchstring(int row, const QString& substr) const;
+
 	public:
 		explicit FileListModel(QObject* parent=nullptr);
 		virtual ~FileListModel();
@@ -43,12 +46,8 @@ class FileListModel :
 
 		LibraryId library_id() const;
 		QString parent_directory() const;
-		QString parent_directory_origin() const;
-		QString filepath_origin(const QModelIndex& index) const;
 
 		QStringList files() const;
-		QStringList files_origin() const;
-
 
 		QModelIndex getNextRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent=QModelIndex()) override;
 		QModelIndex getPrevRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent=QModelIndex()) override;

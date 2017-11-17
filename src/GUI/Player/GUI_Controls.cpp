@@ -3,7 +3,7 @@
 
 #include "GUI_TrayIcon.h"
 #include "GUI/Utils/GuiUtils.h"
-#include "GUI/Utils/IconLoader/IconLoader.h"
+#include "GUI/Utils/Icons.h"
 #include "GUI/Utils/Shortcuts/Shortcut.h"
 #include "GUI/Utils/Shortcuts/ShortcutHandler.h"
 #include "GUI/Utils/Style.h"
@@ -75,11 +75,6 @@ GUI_Controls::GUI_Controls(QWidget* parent) :
 	Set::listen(Set::Engine_SR_Active, this, &GUI_Controls::sr_active_changed);
 	Set::listen(Set::Engine_Pitch, this, &GUI_Controls::file_info_changed);
 	Set::listen(Set::Engine_SpeedActive, this, &GUI_Controls::file_info_changed, false);
-	Set::listen(Set::Player_FontName, this, &GUI_Controls::skin_changed);
-	Set::listen(Set::Player_FontSize, this, &GUI_Controls::skin_changed, false);
-	Set::listen(Set::PL_FontSize, this, &GUI_Controls::skin_changed, false);
-	Set::listen(Set::Lib_FontSize, this, &GUI_Controls::skin_changed, false);
-	Set::listen(Set::Lib_FontBold, this, &GUI_Controls::skin_changed, false);
 }
 
 GUI_Controls::~GUI_Controls() {}
@@ -141,15 +136,46 @@ void GUI_Controls::play_clicked()
 }
 
 
+QIcon GUI_Controls::icon(Gui::Icons::IconName name)
+{
+	using namespace Gui;
+
+	bool dark = (_settings->get(Set::Player_Style) == 1);
+
+	Icons::IconMode mode = Icons::Automatic;
+
+	if(dark){
+		mode = Icons::ForceSayonaraIcon;
+	}
+
+	switch(name)
+	{
+		case Icons::Play:
+		case Icons::Pause:
+		case Icons::Stop:
+		case Icons::Next:
+		case Icons::Previous:
+		case Icons::Forward:
+		case Icons::Backward:
+		case Icons::Record:
+			mode = Icons::ForceSayonaraIcon;
+
+		default:
+			mode = Icons::Automatic;
+	}
+
+	return Icons::icon(name, mode);
+}
+
 void GUI_Controls::played()
 {
-	ui->btn_play->setIcon(IconLoader::icon(IconLoader::Pause));
+	ui->btn_play->setIcon(icon(Gui::Icons::Pause));
 }
 
 
 void GUI_Controls::paused()
 {
-	ui->btn_play->setIcon(IconLoader::icon(IconLoader::Play));
+	ui->btn_play->setIcon(icon(Gui::Icons::Play));
 }
 
 
@@ -163,7 +189,7 @@ void GUI_Controls::stopped()
 {
 	setWindowTitle("Sayonara");
 
-	ui->btn_play->setIcon(IconLoader::icon(IconLoader::Play));
+	ui->btn_play->setIcon(icon(Gui::Icons::Play));
 
 	ui->progress_widget->setCurrentIndex(0);
 
@@ -353,22 +379,24 @@ void GUI_Controls::volume_changed(int val)
 
 void GUI_Controls::setup_volume_button(int percent)
 {
+	using namespace Gui;
+
 	QIcon icon;
 
 	if (percent <= 1) {
-		icon = IconLoader::icon(IconLoader::VolMute);
+		icon = Icons::icon(Icons::VolMute);
 	}
 
 	else if (percent < 40) {
-		icon = IconLoader::icon(IconLoader::Vol1);
+		icon = Icons::icon(Icons::Vol1);
 	}
 
 	else if (percent < 80) {
-		icon = IconLoader::icon(IconLoader::Vol2);
+		icon = Icons::icon(Icons::Vol2);
 	}
 
 	else {
-		icon = IconLoader::icon(IconLoader::Vol3);
+		icon = Icons::icon(Icons::Vol3);
 	}
 
 	ui->btn_mute->setIcon(icon);
@@ -518,16 +546,23 @@ void GUI_Controls::file_info_changed()
 		rating_text += QString::number(_settings->get(Set::Engine_Pitch)) + "Hz";
 	}
 
-	if(md.bitrate / 1000 > 0){
-		QString bitrate = QString::number(md.bitrate / 1000) + " kBit/s";
-		ui->lab_bitrate->setText(bitrate);
-	}
 
+	QString sBitrate;
+	if(md.bitrate / 1000 > 0){
+		sBitrate = QString::number(md.bitrate / 1000) + " kBit/s";
+		ui->lab_bitrate->setText(sBitrate);
+	}
+	ui->lab_bitrate->setVisible(!sBitrate.isEmpty());
+
+
+	QString sFilesize;
 	if(md.filesize > 0)
 	{
-		QString filesize = QString::number( (double) (md.filesize / 1024) / 1024.0, 'f', 2) + " MB";
-		ui->lab_filesize->setText(filesize);
+		sFilesize = QString::number( (double) (md.filesize / 1024) / 1024.0, 'f', 2) + " MB";
+		ui->lab_filesize->setText(sFilesize);
 	}
+	ui->lab_filesize->setVisible(!sFilesize.isEmpty());
+
 
 //	ui->lab_rating->set_rating(md.rating);
 }
@@ -535,34 +570,31 @@ void GUI_Controls::file_info_changed()
 
 void GUI_Controls::skin_changed()
 {
+	using namespace Gui;
 	bool dark = (_settings->get(Set::Player_Style) == 1);
 
 	QString stylesheet = Style::style(dark);
 
 	this->setStyleSheet(stylesheet);
 
-	ui->btn_fw->setIcon(IconLoader::icon(IconLoader::Forward));
-	ui->btn_bw->setIcon(IconLoader::icon(IconLoader::Backward));
+	ui->btn_fw->setIcon(icon(Icons::Forward));
+	ui->btn_bw->setIcon(icon(Icons::Backward));
 
 	if(PlayManager::instance()->playstate() == PlayState::Playing){
-		ui->btn_play->setIcon(IconLoader::icon(IconLoader::Pause));
+		ui->btn_play->setIcon(icon(Icons::Pause));
 	}
 
 	else{
-		ui->btn_play->setIcon(IconLoader::icon(IconLoader::Play));
+		ui->btn_play->setIcon(icon(Icons::Play));
 	}
 
-	ui->btn_stop->setIcon(IconLoader::icon(IconLoader::Stop));
-	ui->btn_rec->setIcon(IconLoader::icon(IconLoader::Record));
+	ui->btn_stop->setIcon(icon(Icons::Stop));
+	ui->btn_rec->setIcon(icon(Icons::Record));
 
 	setup_volume_button(ui->sli_volume->value());
 }
 
 void GUI_Controls::language_changed() {}
-
-
-
-
 
 void GUI_Controls::resizeEvent(QResizeEvent* e)
 {

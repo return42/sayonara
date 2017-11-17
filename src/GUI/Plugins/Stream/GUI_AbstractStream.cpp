@@ -21,7 +21,7 @@
 #include "GUI_AbstractStream.h"
 
 #include "GUI/Utils/Widgets/ProgressBar.h"
-#include "GUI/Utils/IconLoader/IconLoader.h"
+#include "GUI/Utils/Icons.h"
 #include "GUI/Utils/MenuTool/MenuTool.h"
 #include "GUI/Utils/Style.h"
 
@@ -171,10 +171,10 @@ void GUI_AbstractStream::set_searching(bool searching)
 	m->btn_play->setDisabled(false);
 
 	if(!searching) {
-		m->btn_play->setIcon( IconLoader::icon(IconLoader::Play));
+		m->btn_play->setIcon( Icons::icon(Icons::Play));
 		m->lab_listen->setText(Lang::get(Lang::Listen));
 	} else {
-		m->btn_play->setIcon( IconLoader::icon(IconLoader::Stop));
+		m->btn_play->setIcon( Icons::icon(Icons::Stop));
 		m->lab_listen->setText(Lang::get(Lang::Stop));
 	}
 

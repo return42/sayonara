@@ -150,6 +150,7 @@ void GUI_LibraryPreferences::showEvent(QShowEvent* e)
 	this->revert();
 }
 
+
 QString GUI_LibraryPreferences::error_string() const
 {
 	return tr("Cannot edit library");

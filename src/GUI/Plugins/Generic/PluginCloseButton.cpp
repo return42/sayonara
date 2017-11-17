@@ -23,7 +23,7 @@
 #include "PluginCloseButton.h"
 #include "Utils/Settings/Settings.h"
 #include "GUI/Utils/GuiUtils.h"
-#include "GUI/Utils/IconLoader/IconLoader.h"
+#include "GUI/Utils/Icons.h"
 #include "Utils/Language.h"
 
 #include <QEvent>
@@ -58,9 +58,9 @@ void PluginCloseButton::enterEvent(QEvent* e){
 	}
 
 	else{
-		icon = IconLoader::icon(IconLoader::Close);
+		icon = Gui::Icons::icon(Gui::Icons::Close);
 		if(icon.isNull()){
-			icon = IconLoader::icon(IconLoader::Exit);
+			icon = Gui::Icons::icon(Gui::Icons::Exit);
 		}
 	}
 
@@ -99,9 +99,9 @@ void PluginCloseButton::set_std_icon()
 	}
 
 	else{
-		icon = IconLoader::icon(IconLoader::Close);
+		icon = Gui::Icons::icon(Gui::Icons::Close);
 		if(icon.isNull()){
-			icon = IconLoader::icon(IconLoader::Exit);
+			icon = Gui::Icons::icon(Gui::Icons::Exit);
 		}
 	}
 

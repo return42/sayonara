@@ -27,7 +27,7 @@
 
 #include "TabWidget.h"
 #include "ListView.h"
-#include "GUI/Utils/IconLoader/IconLoader.h"
+#include "GUI/Utils/Icons.h"
 #include "GUI/Utils/Library/LibraryDeleteDialog.h"
 
 #include "Utils/Utils.h"
@@ -565,7 +565,7 @@ void GUI_Playlist::check_tab_icon()
 		return;
 	}
 
-	QIcon icon = IconLoader::icon(IconLoader::PlayBorder);
+	QIcon icon = Gui::Icons::icon(Gui::Icons::PlayBorder);
 
 	ui->tw_playlists->tabBar()->setTabIcon(active_idx, icon);
 }

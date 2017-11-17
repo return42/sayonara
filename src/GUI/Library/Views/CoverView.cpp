@@ -25,7 +25,7 @@
 #include "GUI/Library/Models/CoverModel.h"
 #include "GUI/Library/Delegates/CoverDelegate.h"
 #include "GUI/Utils/Widgets/ComboBox.h"
-#include "GUI/Utils/IconLoader/IconLoader.h"
+#include "GUI/Utils/Icons.h"
 
 #include "Utils/Library/Sorting.h"
 #include "Utils/Settings/Settings.h"
@@ -108,7 +108,7 @@ struct CoverView::Private
 };
 
 CoverView::CoverView(QWidget* topbar, QWidget* parent) :
-	View(parent)
+	ItemView(parent)
 {
 	m = Pimpl::make<Private>();
 
@@ -179,8 +179,8 @@ void CoverView::setModel(CoverModel* model)
 {
 	m->model = model;
 
-	View::setModel(m->model);
-	View::setSearchModel(m->model);
+	ItemView::setModel(m->model);
+	ItemView::setSearchModel(m->model);
 }
 
 void CoverView::change_zoom(int zoom)
@@ -242,7 +242,7 @@ void CoverView::refresh()
 
 void CoverView::language_changed()
 {
-	View::language_changed();
+	ItemView::language_changed();
 	init_sorting_actions();
 
 	m->combo_zoom->setToolTip(tr("Use Ctrl + mouse wheel to zoom"));
@@ -273,7 +273,7 @@ void CoverView::timed_out()
 
 QStyleOptionViewItem CoverView::viewOptions() const
 {
-	QStyleOptionViewItem option = View::viewOptions();
+	QStyleOptionViewItem option = ItemView::viewOptions();
 	option.decorationAlignment = Qt::AlignHCenter;
 	option.displayAlignment = Qt::AlignHCenter;
 	option.decorationPosition = QStyleOptionViewItem::Top;
@@ -283,7 +283,7 @@ QStyleOptionViewItem CoverView::viewOptions() const
 
 void CoverView::init_context_menu()
 {
-	View::init_context_menu();
+	ItemView::init_context_menu();
 	if(m->menu_sortings){
 		return;
 	}
@@ -485,7 +485,7 @@ void CoverView::setModel(QAbstractItemModel* m)
 
 void CoverView::setModel(ItemModel* m)
 {
-	View::setModel(m);
+	ItemView::setModel(m);
 }
 
 void CoverView::wheelEvent(QWheelEvent* e)
@@ -506,19 +506,19 @@ void CoverView::wheelEvent(QWheelEvent* e)
 	}
 
 	else {
-		View::wheelEvent(e);
+		ItemView::wheelEvent(e);
 	}
 }
 
 void CoverView::resizeEvent(QResizeEvent* e)
 {
-	View::resizeEvent(e);
+	ItemView::resizeEvent(e);
 	change_zoom();
 }
 
 void CoverView::showEvent(QShowEvent* e)
 {
-	View::showEvent(e);
+	ItemView::showEvent(e);
 	refresh();
 }
 

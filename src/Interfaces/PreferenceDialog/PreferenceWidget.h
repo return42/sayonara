@@ -21,7 +21,7 @@
 #ifndef PREFERENCEWIDGETINTERFACE_H
 #define PREFERENCEWIDGETINTERFACE_H
 
-#include "GUI/Utils/GUIClass.h"
+#include "GUI/Utils/GuiClass.h"
 #include "GUI/Utils/Widgets/Widget.h"
 #include "Utils/Pimpl.h"
 
@@ -159,6 +159,7 @@ namespace Preferences
 		virtual void retranslate_ui()=0;
 
 
+		virtual bool has_error() const;
 		virtual QString error_string() const;
 
 	};

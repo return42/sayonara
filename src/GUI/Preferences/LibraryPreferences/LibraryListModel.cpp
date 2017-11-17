@@ -185,20 +185,16 @@ void LibraryListModel::reset()
 
 bool LibraryListModel::commit()
 {
+	bool success = true;
 	for(ChangeOperation* op : m->operations)
 	{
-		bool success = op->exec();
-
-		if(!success)
-		{
-			m->operations.clear();
-			m->reload();
-
-			return false;
+		if(!op->exec()){
+			success = false;
 		}
 	}
 
 	m->reload();
-	return true;
+
+	return success;
 }
 

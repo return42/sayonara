@@ -19,7 +19,7 @@
  */
 
 #include "ContextMenu.h"
-#include "GUI/Utils/IconLoader/IconLoader.h"
+#include "GUI/Utils/Icons.h"
 #include "GUI/Utils/GuiUtils.h"
 
 #include "Utils/Utils.h"
@@ -115,15 +115,15 @@ void ContextMenu::language_changed()
 void ContextMenu::skin_changed()
 {
 	;
-	m->action_open->setIcon(IconLoader::icon(IconLoader::Open));
-	m->action_edit->setIcon(IconLoader::icon(IconLoader::Edit));
-	m->action_new->setIcon(IconLoader::icon(IconLoader::New));
-	m->action_undo->setIcon(IconLoader::icon(IconLoader::Undo));
-	m->action_default->setIcon(IconLoader::icon(IconLoader::Undo));
-	m->action_save->setIcon(IconLoader::icon(IconLoader::Save));
-	m->action_save_as->setIcon(IconLoader::icon(IconLoader::SaveAs));
-	m->action_rename->setIcon(IconLoader::icon(IconLoader::Edit));
-	m->action_delete->setIcon(IconLoader::icon(IconLoader::Delete));
+	m->action_open->setIcon(Icons::icon(Icons::Open));
+	m->action_edit->setIcon(Icons::icon(Icons::Edit));
+	m->action_new->setIcon(Icons::icon(Icons::New));
+	m->action_undo->setIcon(Icons::icon(Icons::Undo));
+	m->action_default->setIcon(Icons::icon(Icons::Undo));
+	m->action_save->setIcon(Icons::icon(Icons::Save));
+	m->action_save_as->setIcon(Icons::icon(Icons::SaveAs));
+	m->action_rename->setIcon(Icons::icon(Icons::Edit));
+	m->action_delete->setIcon(Icons::icon(Icons::Delete));
 }
 
 void ContextMenu::register_action(QAction *action)

@@ -443,32 +443,40 @@ void LocalLibrary::change_track_rating(int idx, int rating)
 	tag_edit()->commit();
 }
 
-void LocalLibrary::set_library_path(const QString& library_path)
+bool LocalLibrary::set_library_path(const QString& library_path)
 {
 	if(library_path == m->library_path){
-		return;
+		return false;
 	}
 
 	Library::Manager* library_manager = Library::Manager::instance();
-	library_manager->change_library_path(this->library_id(), library_path);
 
-	m->library_path = library_path;
+	bool success = library_manager->change_library_path(this->library_id(), library_path);
+	if(success)
+	{
+		m->library_path = library_path;
+		emit sig_path_changed(library_path);
+	}
 
-	emit sig_path_changed(library_path);
+	return success;
 }
 
-void LocalLibrary::set_library_name(const QString& library_name)
+bool LocalLibrary::set_library_name(const QString& library_name)
 {
 	if(library_name == m->library_name){
-		return;
+		return false;
 	}
 
 	m->library_name = library_name;
 
 	Library::Manager* library_manager = Library::Manager::instance();
-	library_manager->rename_library(this->library_id(), library_name);
+	bool success = library_manager->rename_library(this->library_id(), library_name);
 
-	emit sig_name_changed(library_name);
+	if(success) {
+		emit sig_name_changed(library_name);
+	}
+
+	return success;
 }
 
 QString LocalLibrary::library_name() const

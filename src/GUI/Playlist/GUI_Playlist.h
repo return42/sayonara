@@ -34,7 +34,6 @@
 #include "Utils/Playlist/PlaylistFwd.h"
 #include "Utils/Pimpl.h"
 
-#include "GUI/Utils/GUIClass.h"
 #include "GUI/Utils/Widgets/Widget.h"
 
 #include "Components/PlayManager/PlayState.h"

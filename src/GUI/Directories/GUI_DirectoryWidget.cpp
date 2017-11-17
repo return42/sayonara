@@ -19,13 +19,13 @@
  */
 
 #include "GUI_DirectoryWidget.h"
-#include "GUI/DirectoryWidget/ui_GUI_DirectoryWidget.h"
-
 #include "FileListModel.h"
 #include "DirectoryModel.h"
 
+#include "GUI/Directories/ui_GUI_DirectoryWidget.h"
+
+#include "GUI/ImportDialog/GUI_ImportDialog.h"
 #include "GUI/Utils/ContextMenu/LibraryContextMenu.h"
-#include "GUI/Library/ImportFolderDialog/GUI_ImportFolder.h"
 
 #include "Components/Library/LibraryManager.h"
 #include "Components/Library/LocalLibrary.h"
@@ -210,7 +210,8 @@ void GUI_DirectoryWidget::dir_pressed(QModelIndex idx)
 
 void GUI_DirectoryWidget::dir_opened(QModelIndex idx)
 {
-	QString dir = ui->tv_dirs->directory_name(idx);
+	QString dir = ui->tv_dirs->directory_name_origin(idx);
+
 	ui->lv_files->set_parent_directory(ui->tv_dirs->library_id(idx), dir);
 	ui->lv_files->set_search_filter(ui->le_search->text());
 }
@@ -308,9 +309,9 @@ void GUI_DirectoryWidget::import_dialog_requested(const QString& target_dir)
 		return;
 	}
 
-	GUI_ImportFolder* importer = new GUI_ImportFolder(library, true, this);
+	GUI_ImportDialog* importer = new GUI_ImportDialog(library, true, this);
 
-	connect(importer, &GUI_ImportFolder::sig_closed, importer, &GUI_ImportFolder::deleteLater);
+	connect(importer, &GUI_ImportDialog::sig_closed, importer, &GUI_ImportDialog::deleteLater);
 
 	importer->set_target_dir(target_dir);
 	importer->show();

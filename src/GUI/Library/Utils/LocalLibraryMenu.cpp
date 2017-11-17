@@ -19,11 +19,14 @@
  */
 
 #include "LocalLibraryMenu.h"
+
 #include "GUI/Utils/GuiUtils.h"
-#include "GUI/Utils/IconLoader/IconLoader.h"
+#include "GUI/Utils/Icons.h"
 #include "GUI/Utils/Library/GUI_EditLibrary.h"
+
 #include "Utils/Settings/Settings.h"
 #include "Utils/Language.h"
+
 #include "Database/DatabaseConnector.h"
 #include "Database/LibraryDatabase.h"
 
@@ -166,11 +169,12 @@ void LocalLibraryMenu::skin_changed()
 		return;
 	}
 
-	m->reload_library_action->setIcon(IconLoader::icon(IconLoader::Refresh));
-	m->import_file_action->setIcon(IconLoader::icon(IconLoader::Open));
-	m->import_folder_action->setIcon(IconLoader::icon(IconLoader::Open));
-	m->info_action->setIcon(IconLoader::icon(IconLoader::Info));
-	m->edit_action->setIcon(IconLoader::icon(IconLoader::Edit));
+	using namespace Gui;
+	m->reload_library_action->setIcon(Icons::icon(Icons::Refresh));
+	m->import_file_action->setIcon(Icons::icon(Icons::Open));
+	m->import_folder_action->setIcon(Icons::icon(Icons::Open));
+	m->info_action->setIcon(Icons::icon(Icons::Info));
+	m->edit_action->setIcon(Icons::icon(Icons::Edit));
 }
 
 void LocalLibraryMenu::realtime_search_changed()

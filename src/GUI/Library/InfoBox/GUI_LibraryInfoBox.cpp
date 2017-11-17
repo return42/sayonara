@@ -24,7 +24,7 @@
 
 #include "GUI_LibraryInfoBox.h"
 #include "GUI/Library/ui_GUI_LibraryInfoBox.h"
-#include "GUI/Utils/IconLoader/IconLoader.h"
+#include "GUI/Utils/Icons.h"
 
 #include "Components/Library/LibraryManager.h"
 #include "Database/DatabaseConnector.h"
@@ -95,7 +95,7 @@ void GUI_LibraryInfoBox::skin_changed()
 	bool dark = (_settings->get(Set::Player_Style) == 1);
 
 	ui->lab_path->setText(Util::create_link(info.path(), dark));
-	ui->lab_icon->setPixmap(IconLoader::pixmap(IconLoader::LocalLibrary));
+	ui->lab_icon->setPixmap(Gui::Icons::pixmap(Gui::Icons::LocalLibrary));
 }
 
 

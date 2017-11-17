@@ -315,6 +315,30 @@ QStringList Util::podcast_extensions(bool with_asterisk)
 	return filters;
 }
 
+QStringList Util::image_extensions(bool with_asterisk)
+{
+	QStringList filters;
+
+	filters << "jpg"
+			<< "jpeg"
+			<< "png"
+			<< "bmp"
+			<< "tiff"
+			<< "tif";
+
+	QStringList upper_filters;
+	for(QString& filter : filters) {
+		if(with_asterisk) {
+			filter.prepend("*.");
+		}
+		upper_filters << filter.toUpper();
+	}
+
+	filters.append(upper_filters);
+
+	return filters;
+}
+
 
 QString Util::easy_tag_finder(const QString& tag, const QString& xml_doc)
 {
@@ -424,3 +448,5 @@ QString Util::random_string(int max_chars)
 
 	return ret;
 }
+
+

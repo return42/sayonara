@@ -22,7 +22,6 @@
 #define GUI_PreferenceDialog_H
 
 #include "Utils/Pimpl.h"
-#include "GUI/Utils/GUIClass.h"
 #include "Interfaces/PreferenceDialog/PreferenceDialog.h"
 
 class QString;

@@ -19,7 +19,8 @@
  */
 
 #include "RatingDelegate.h"
-#include "GUI/Utils/RatingLabel/RatingLabel.h"
+#include "GUI/Utils/RatingLabel.h"
+
 #include <QPainter>
 #include <QStyle>
 
@@ -76,7 +77,7 @@ QWidget* RatingDelegate::createEditor(QWidget *parent, const QStyleOptionViewIte
 
 	label->set_rating(index.data(Qt::EditRole).toInt());
 
-    return label;
+	return label;
 }
 
 
@@ -84,13 +85,13 @@ void RatingDelegate::destroy_editor(bool save)
 {
 	Q_UNUSED(save)
 
-    RatingLabel *label = qobject_cast<RatingLabel *>(sender());
-    if(!label) return;
+	RatingLabel *label = qobject_cast<RatingLabel *>(sender());
+	if(!label) return;
 
 	disconnect(label, &RatingLabel::sig_finished, this, &RatingDelegate::destroy_editor);
 
 	emit commitData(label);
-    emit closeEditor(label);
+	emit closeEditor(label);
 }
 
 
@@ -107,7 +108,7 @@ void RatingDelegate::setEditorData(QWidget *editor, const QModelIndex & index) c
 
 void RatingDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex & index) const
 {
-    RatingLabel* label = qobject_cast<RatingLabel *>(editor);
-    if(!label) return;
-    model->setData(index, label->get_rating());
+	RatingLabel* label = qobject_cast<RatingLabel *>(editor);
+	if(!label) return;
+	model->setData(index, label->get_rating());
 }

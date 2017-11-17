@@ -218,7 +218,7 @@ LanguageString Lang::get(Lang::Term term, bool* ok)
 		case Months:
 			return l.tr("Months");
 		case MuteOn:
-			return l.tr("Mute on");
+			return l.tr("Mute");
 		case MuteOff:
 			return l.tr("Mute off");
 		case Name:

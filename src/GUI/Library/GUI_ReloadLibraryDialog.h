@@ -2,7 +2,7 @@
 #define GUI_RELOADLIBRARYDIALOG_H
 
 #include "GUI/Utils/Widgets/Dialog.h"
-#include "GUI/Utils/GUIClass.h"
+
 #include "Utils/Pimpl.h"
 #include "Utils/Library/LibraryNamespaces.h"
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>ImportFolder</class>
- <widget class="QDialog" name="ImportFolder">
+ <class>GUI_ImportDialog</class>
+ <widget class="QDialog" name="GUI_ImportDialog">
   <property name="geometry">
    <rect>
     <x>0</x>

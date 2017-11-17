@@ -20,7 +20,7 @@
 
 #include "MenuButton.h"
 #include "GUI/Utils/GuiUtils.h"
-#include "GUI/Utils/IconLoader/IconLoader.h"
+#include "GUI/Utils/Icons.h"
 #include "Utils/Settings/Settings.h"
 #include "Utils/Language.h"
 
@@ -29,48 +29,48 @@
 using namespace Gui;
 
 MenuButton::MenuButton(QWidget* parent) :
-    WidgetTemplate<QPushButton>(parent)
+	WidgetTemplate<QPushButton>(parent)
 {
-    this->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-    this->setIconSize(QSize(10, 10));
-    this->setToolTip(Lang::get(Lang::Menu));
-    this->setMaximumWidth(28);
+	this->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+	this->setIconSize(QSize(10, 10));
+	this->setToolTip(Lang::get(Lang::Menu));
+	this->setMaximumWidth(28);
 }
 
 MenuButton::~MenuButton() {}
 
 void MenuButton::show_menu(QPoint pos)
 {
-    Q_UNUSED(pos)
-    this->setAttribute( Qt::WA_Hover, false);
-    this->setAttribute( Qt::WA_UnderMouse, false);
-    return;
+	Q_UNUSED(pos)
+	this->setAttribute( Qt::WA_Hover, false);
+	this->setAttribute( Qt::WA_UnderMouse, false);
+	return;
 }
 
 bool MenuButton::prove_enabled()
 {
-    return true;
+	return true;
 }
 
 
 void MenuButton::mousePressEvent(QMouseEvent* e)
 {
-    QPushButton::mousePressEvent(e);
+	QPushButton::mousePressEvent(e);
 
-    QPoint globalPoint = this->mapToGlobal(this->pos()) - this->pos();
+	QPoint globalPoint = this->mapToGlobal(this->pos()) - this->pos();
 
-    emit sig_triggered(globalPoint);
+	emit sig_triggered(globalPoint);
 
-    show_menu(globalPoint);
+	show_menu(globalPoint);
 }
 
 void MenuButton::skin_changed() {}
 
 void MenuButton::language_changed()
 {
-    this->setToolTip(Lang::get(Lang::Menu));
+	this->setToolTip(Lang::get(Lang::Menu));
 
-    if(!this->text().isEmpty()){
-        this->setText("...");
-    }
+	if(!this->text().isEmpty()){
+		this->setText("...");
+	}
 }

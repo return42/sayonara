@@ -22,7 +22,7 @@
 #define STYLESETTINGS_H
 
 #include "Utils/Pimpl.h"
-#include "GUI/Utils/GUIClass.h"
+#include "GUI/Utils/GuiClass.h"
 #include "GUI/Utils/Widgets/Dialog.h"
 
 UI_FWD(GUI_Style)

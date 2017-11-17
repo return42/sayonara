@@ -20,9 +20,9 @@
 
 #include "LibraryContextMenu.h"
 
-#include "GUI/Utils/IconLoader/IconLoader.h"
+#include "GUI/Utils/Icons.h"
 #include "GUI/Utils/GuiUtils.h"
-#include "GUI/Utils/RatingLabel/RatingLabel.h"
+#include "GUI/Utils/RatingLabel.h"
 
 #include "Utils/Settings/Settings.h"
 #include "Utils/Language.h"
@@ -145,28 +145,29 @@ void LibraryContextMenu::language_changed()
 
 void LibraryContextMenu::skin_changed()
 {
-	_info_action->setIcon(IconLoader::icon(IconLoader::Info));
-	_lyrics_action->setIcon(IconLoader::icon(IconLoader::Lyrics));
-	_edit_action->setIcon(IconLoader::icon(IconLoader::Edit));
-	_remove_action->setIcon(IconLoader::icon(IconLoader::Remove));
-	_delete_action->setIcon(IconLoader::icon(IconLoader::Delete));
-	_play_next_action->setIcon(IconLoader::icon(IconLoader::PlaySmall));
-	_append_action->setIcon(IconLoader::icon(IconLoader::Append));
-	_refresh_action->setIcon(IconLoader::icon(IconLoader::Undo));
-	_clear_action->setIcon(IconLoader::icon(IconLoader::Clear));
-	_rating_action->setIcon(IconLoader::icon(IconLoader::Star));
-	_clear_selection_action->setIcon(IconLoader::icon(IconLoader::Clear));
+	using namespace Gui;
+	_info_action->setIcon(Icons::icon(Icons::Info));
+	_lyrics_action->setIcon(Icons::icon(Icons::Lyrics));
+	_edit_action->setIcon(Icons::icon(Icons::Edit));
+	_remove_action->setIcon(Icons::icon(Icons::Remove));
+	_delete_action->setIcon(Icons::icon(Icons::Delete));
+	_play_next_action->setIcon(Icons::icon(Icons::PlaySmall));
+	_append_action->setIcon(Icons::icon(Icons::Append));
+	_refresh_action->setIcon(Icons::icon(Icons::Undo));
+	_clear_action->setIcon(Icons::icon(Icons::Clear));
+	_rating_action->setIcon(Icons::icon(Icons::Star));
+	_clear_selection_action->setIcon(Icons::icon(Icons::Clear));
 
 	bool show_covers = _settings->get(Set::Lib_ShowAlbumCovers);
 
 	if(show_covers)
 	{
-		_cover_view_action->setIcon(IconLoader::icon(IconLoader::Table));
+		_cover_view_action->setIcon(Icons::icon(Icons::Table));
 	}
 
 	else
 	{
-		_cover_view_action->setIcon(IconLoader::icon(IconLoader::Image));
+		_cover_view_action->setIcon(Icons::icon(Icons::Image));
 	}
 
 }

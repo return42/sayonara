@@ -27,14 +27,16 @@
 
 #include <algorithm>
 
-using namespace Gui::Util;
+using namespace Gui;
 
 struct CustomMimeData::Private
 {
 	MetaDataList	v_md;
 	int				playlist_source_index;
 	QString			source;
+	QString			cover_url;
 	const void*		ptr;
+
 
 	Private(const void* ptr) :
 		playlist_source_index(-1),
@@ -103,3 +105,14 @@ int CustomMimeData::playlist_source_index() const
 {
 	return m->playlist_source_index;
 }
+
+QString CustomMimeData::cover_url() const
+{
+	return m->cover_url;
+}
+
+void CustomMimeData::set_cover_url(const QString& url)
+{
+	m->cover_url = url;
+}
+

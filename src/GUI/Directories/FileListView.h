@@ -22,7 +22,7 @@
 #define FILELISTVIEW_H
 
 #include "GUI/Utils/SearchableWidget/SearchableView.h"
-#include "GUI/Utils/Dragable/Dragable.h"
+#include "GUI/Utils/Widgets/Dragable.h"
 #include "GUI/Utils/Widgets/WidgetTemplate.h"
 
 #include "Utils/Pimpl.h"
@@ -54,6 +54,7 @@ public:
 
 	QModelIndexList selected_rows() const;
 	MetaDataList selected_metadata() const;
+
 	QStringList selected_paths() const;
 
 	void set_parent_directory(LibraryId id, const QString& dir);
@@ -61,7 +62,7 @@ public:
 
 	void set_search_filter(const QString& search_string);
 
-	QMimeData* get_mimedata() const override;
+	QMimeData* dragable_mimedata() const override;
 
 
 protected:

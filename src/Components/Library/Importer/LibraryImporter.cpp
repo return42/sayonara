@@ -110,7 +110,7 @@ void LibraryImporter::caching_thread_finished()
 	}
 
 	else {
-		emit_status(ImportStatus::Sleeping);
+		emit_status(ImportStatus::WaitForUser);
 	}
 
 	emit sig_got_metadata(v_md);
@@ -144,7 +144,7 @@ void LibraryImporter::copy_thread_finished()
 
 	MetaDataList v_md = copy_thread->get_copied_metadata();
 
-	emit_status(ImportStatus::Sleeping);
+	emit_status(ImportStatus::WaitForUser);
 
 	// no tracks were copied or rollback was finished
 	if(v_md.isEmpty()) {

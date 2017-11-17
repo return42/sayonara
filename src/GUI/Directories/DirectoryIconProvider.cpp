@@ -24,7 +24,7 @@
 #include "Utils/Settings/Settings.h"
 
 #include "GUI/Utils/GuiUtils.h"
-#include "GUI/Utils/IconLoader/IconLoader.h"
+#include "GUI/Utils/Icons.h"
 
 IconProvider::IconProvider() :
 	QFileIconProvider()
@@ -38,8 +38,8 @@ QIcon IconProvider::icon(IconType type) const
 {
 	if(type==IconType::Folder)
 	{
-		QPixmap pm = IconLoader::pixmap(IconLoader::Folder);
-		QPixmap pm_open = IconLoader::pixmap(IconLoader::FolderVisiting);
+		QPixmap pm = Gui::Icons::pixmap(Gui::Icons::Folder);
+		QPixmap pm_open = Gui::Icons::pixmap(Gui::Icons::FolderVisiting);
 
 		QIcon icon;
 
@@ -61,8 +61,8 @@ QIcon IconProvider::icon(const QFileInfo &info) const
 
 	if(info.isDir())
 	{
-		QPixmap pm = IconLoader::pixmap(IconLoader::Folder);
-		QPixmap pm_open = IconLoader::pixmap(IconLoader::FolderVisiting);
+		QPixmap pm = Gui::Icons::pixmap(Gui::Icons::Folder);
+		QPixmap pm_open = Gui::Icons::pixmap(Gui::Icons::FolderVisiting);
 
 		QIcon icon;
 
@@ -74,7 +74,7 @@ QIcon IconProvider::icon(const QFileInfo &info) const
 
 	if(info.isFile() && Util::File::is_playlistfile(info.filePath()))
 	{
-		return IconLoader::icon(IconLoader::PlaylistFile);
+		return Gui::Icons::icon(Gui::Icons::PlaylistFile);
 	}
 
 	return QFileIconProvider::icon(info);

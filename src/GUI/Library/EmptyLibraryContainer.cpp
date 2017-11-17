@@ -19,7 +19,7 @@
  */
 
 #include "EmptyLibraryContainer.h"
-#include "GUI/Utils/IconLoader/IconLoader.h"
+#include "GUI/Utils/Icons.h"
 #include "GUI/Library/GUI_EmptyLibrary.h"
 #include "GUI/Library/EmptyLibraryContainer.h"
 
@@ -76,5 +76,5 @@ QFrame* EmptyLibraryContainer::header() const
 
 QPixmap EmptyLibraryContainer::icon() const
 {
-	return IconLoader::icon(IconLoader::New).pixmap(32, 32);
+	return Gui::Icons::icon(Gui::Icons::New).pixmap(32, 32);
 }

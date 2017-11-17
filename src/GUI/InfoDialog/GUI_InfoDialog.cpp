@@ -29,7 +29,7 @@
 
 #include "GUI/TagEdit/GUI_TagEdit.h"
 #include "GUI/InfoDialog/GUI_Lyrics.h"
-#include "GUI/Utils/IconLoader/IconLoader.h"
+#include "GUI/Utils/Icons.h"
 
 #include "Components/Covers/CoverLocation.h"
 #include "Components/Tagging/Editor.h"
@@ -91,9 +91,10 @@ void GUI_InfoDialog::skin_changed()
 	QTabBar* tab_bar = ui->tab_widget->tabBar();
 	if(tab_bar)
 	{
-		tab_bar->setTabIcon(0, IconLoader::icon(IconLoader::Info));
-		tab_bar->setTabIcon(1, IconLoader::icon(IconLoader::Lyrics));
-		tab_bar->setTabIcon(2, IconLoader::icon(IconLoader::Edit));
+		using namespace Gui;
+		tab_bar->setTabIcon(0, Icons::icon(Icons::Info));
+		tab_bar->setTabIcon(1, Icons::icon(Icons::Lyrics));
+		tab_bar->setTabIcon(2, Icons::icon(Icons::Edit));
 	}
 }
 

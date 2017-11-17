@@ -19,7 +19,7 @@
  */
 
 #include "GUI_AbstractLibrary.h"
-#include "Views/View.h"
+#include "Views/ItemView.h"
 #include "Views/AlbumView.h"
 #include "Delegates/RatingDelegate.h"
 #include "Models/AlbumModel.h"
@@ -207,25 +207,25 @@ void GUI_AbstractLibrary::init_connections()
 	connect(m->lv_album, &AlbumView::sig_append_clicked, this, &GUI_AbstractLibrary::item_append_clicked);
 	connect(m->lv_album, &AlbumView::sig_refresh_clicked, this, &GUI_AbstractLibrary::refresh_album);
 
-	connect(m->lv_artist, &View::doubleClicked, this, &GUI_AbstractLibrary::item_double_clicked);
-	connect(m->lv_artist, &View::sig_sel_changed, this, &GUI_AbstractLibrary::artist_sel_changed);
-	connect(m->lv_artist, &View::sig_middle_button_clicked, this, &GUI_AbstractLibrary::item_middle_clicked);
+	connect(m->lv_artist, &ItemView::doubleClicked, this, &GUI_AbstractLibrary::item_double_clicked);
+	connect(m->lv_artist, &ItemView::sig_sel_changed, this, &GUI_AbstractLibrary::artist_sel_changed);
+	connect(m->lv_artist, &ItemView::sig_middle_button_clicked, this, &GUI_AbstractLibrary::item_middle_clicked);
 	connect(m->lv_artist, &TableView::sig_sortorder_changed, this, &GUI_AbstractLibrary::artist_sortorder_changed);
 	connect(m->lv_artist, &TableView::sig_columns_changed, this, &GUI_AbstractLibrary::artist_columns_changed);
-	connect(m->lv_artist, &View::sig_delete_clicked, this, &GUI_AbstractLibrary::item_delete_clicked);
-	connect(m->lv_artist, &View::sig_play_next_clicked, this, &GUI_AbstractLibrary::item_play_next_clicked);
-	connect(m->lv_artist, &View::sig_append_clicked, this, &GUI_AbstractLibrary::item_append_clicked);
-	connect(m->lv_artist, &View::sig_refresh_clicked, this, &GUI_AbstractLibrary::refresh_artist);
+	connect(m->lv_artist, &ItemView::sig_delete_clicked, this, &GUI_AbstractLibrary::item_delete_clicked);
+	connect(m->lv_artist, &ItemView::sig_play_next_clicked, this, &GUI_AbstractLibrary::item_play_next_clicked);
+	connect(m->lv_artist, &ItemView::sig_append_clicked, this, &GUI_AbstractLibrary::item_append_clicked);
+	connect(m->lv_artist, &ItemView::sig_refresh_clicked, this, &GUI_AbstractLibrary::refresh_artist);
 
-	connect(m->lv_tracks, &View::doubleClicked, this, &GUI_AbstractLibrary::tracks_double_clicked);
-	connect(m->lv_tracks, &View::sig_sel_changed, this, &GUI_AbstractLibrary::track_sel_changed);
-	connect(m->lv_tracks, &View::sig_middle_button_clicked, this, &GUI_AbstractLibrary::tracks_middle_clicked);
+	connect(m->lv_tracks, &ItemView::doubleClicked, this, &GUI_AbstractLibrary::tracks_double_clicked);
+	connect(m->lv_tracks, &ItemView::sig_sel_changed, this, &GUI_AbstractLibrary::track_sel_changed);
+	connect(m->lv_tracks, &ItemView::sig_middle_button_clicked, this, &GUI_AbstractLibrary::tracks_middle_clicked);
 	connect(m->lv_tracks, &TableView::sig_sortorder_changed, this, &GUI_AbstractLibrary::track_sortorder_changed);
 	connect(m->lv_tracks, &TableView::sig_columns_changed, this, &GUI_AbstractLibrary::track_columns_changed);
-	connect(m->lv_tracks, &View::sig_delete_clicked, this, &GUI_AbstractLibrary::tracks_delete_clicked);
-	connect(m->lv_tracks, &View::sig_play_next_clicked, this, &GUI_AbstractLibrary::tracks_play_next_clicked);
-	connect(m->lv_tracks, &View::sig_append_clicked, this, &GUI_AbstractLibrary::tracks_append_clicked);
-	connect(m->lv_tracks, &View::sig_refresh_clicked, this, &GUI_AbstractLibrary::refresh_tracks);
+	connect(m->lv_tracks, &ItemView::sig_delete_clicked, this, &GUI_AbstractLibrary::tracks_delete_clicked);
+	connect(m->lv_tracks, &ItemView::sig_play_next_clicked, this, &GUI_AbstractLibrary::tracks_play_next_clicked);
+	connect(m->lv_tracks, &ItemView::sig_append_clicked, this, &GUI_AbstractLibrary::tracks_append_clicked);
+	connect(m->lv_tracks, &ItemView::sig_refresh_clicked, this, &GUI_AbstractLibrary::refresh_tracks);
 
 	Set::listen(Set::Lib_LiveSearch, this, &GUI_AbstractLibrary::_sl_live_search_changed);
 }

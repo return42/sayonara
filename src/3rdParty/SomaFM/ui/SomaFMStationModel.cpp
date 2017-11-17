@@ -33,7 +33,7 @@
 #include "GUI/Utils/GuiUtils.h"
 #include "GUI/Utils/MimeDataUtils.h"
 #include "GUI/Utils/CustomMimeData.h"
-#include "GUI/Utils/IconLoader/IconLoader.h"
+#include "GUI/Utils/Icons.h"
 
 #include <QUrl>
 #include <QIcon>
@@ -100,14 +100,14 @@ QVariant SomaFM::StationModel::data(const QModelIndex& index, int role) const
 		}
 
 		if(m->status == Status::Error){
-			return IconLoader::icon(IconLoader::Undo);
+			return Gui::Icons::icon(Gui::Icons::Undo);
 		}
 
 		if(m->stations[row].is_loved()){
-			return IconLoader::icon(IconLoader::Star);
+			return Gui::Icons::icon(Gui::Icons::Star);
 		}
 
-		return IconLoader::icon(IconLoader::StarDisabled);
+		return Gui::Icons::icon(Gui::Icons::StarDisabled);
 	}
 
 	else if(role == Qt::DisplayRole && col == 1)
@@ -150,7 +150,8 @@ bool SomaFM::StationModel::has_items() const
 QModelIndex SomaFM::StationModel::getNextRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent)
 {
 	Q_UNUSED(parent)
-	for(int i=cur_row; i<m->stations.size(); i++){
+	for(int i=cur_row; i<m->stations.size(); i++)
+	{
 		QString name = m->stations[i].name();
 		QString desc = m->stations[i].description();
 
@@ -258,9 +259,9 @@ QMimeData* SomaFM::StationModel::mimeData(const QModelIndexList& indexes) const
 		}
 	}
 
-	QMimeData* mime_data = new CustomMimeData(this);
+	CustomMimeData* mime_data = new CustomMimeData(this);
 
-	Gui::Util::MimeData::set_cover_url(mime_data, cover_url);
+	mime_data->set_cover_url(cover_url);
 	mime_data->setUrls(urls);
 
 	return mime_data;

@@ -21,7 +21,7 @@
 #ifndef LIBRARYTABLEVIEW_H
 #define LIBRARYTABLEVIEW_H
 
-#include "View.h"
+#include "ItemView.h"
 #include "Utils/Library/Sortorder.h"
 #include "Utils/Pimpl.h"
 
@@ -29,7 +29,7 @@ namespace Library
 {
 	class HeaderView;
 	class TableView :
-			public Library::View
+		public Library::ItemView
 	{
 		Q_OBJECT
 		PIMPL(TableView)

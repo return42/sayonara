@@ -21,7 +21,7 @@
 #include "GUI_Player.h"
 #include "GUI_Logger.h"
 #include "GUI_TrayIcon.h"
-#include "GUI/Utils/IconLoader/IconLoader.h"
+#include "GUI/Utils/Icons.h"
 #include "GUI/Utils/GuiUtils.h"
 #include "GUI/Utils/Style.h"
 
@@ -480,9 +480,10 @@ void GUI_Player::skin_changed()
 	QString stylesheet = Style::style(dark);
 	this->setStyleSheet(stylesheet);
 
-	action_OpenFile->setIcon(IconLoader::icon(IconLoader::Open));
-	action_OpenFolder->setIcon(IconLoader::icon(IconLoader::Open));
-	action_Close->setIcon(IconLoader::icon(IconLoader::Exit));
+	using namespace Gui;
+	action_OpenFile->setIcon(Icons::icon(Icons::Open));
+	action_OpenFolder->setIcon(Icons::icon(Icons::Open));
+	action_Close->setIcon(Icons::icon(Icons::Exit));
 }
 
 void GUI_Player::skin_toggled(bool on)

@@ -29,10 +29,11 @@
 
 #include "Utils/Pimpl.h"
 #include "Utils/MetaData/RadioMode.h"
-#include "GUI/Utils/GUIClass.h"
+
 #include "GUI/Utils/Shortcuts/ShortcutWidget.h"
 #include "GUI/Utils/Widgets/Widget.h"
 #include "GUI/InfoDialog/InfoDialogContainer.h"
+#include "GUI/Utils/Icons.h"
 
 UI_FWD(GUI_Controls)
 
@@ -49,6 +50,8 @@ class GUI_Controls :
 	UI_CLASS(GUI_Controls)
 
 private:
+	QIcon icon(Gui::Icons::IconName name);
+
 	void played();
 	void paused();
 	void stopped();

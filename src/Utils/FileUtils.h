@@ -174,6 +174,7 @@ namespace Util
 		bool is_dir(const QString& filename);
 		bool is_soundfile(const QString& filename);
 		bool is_playlistfile(const QString& filename);
+		bool is_imagefile(const QString& filename);
 	}
 }
 

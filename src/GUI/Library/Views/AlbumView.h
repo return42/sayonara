@@ -65,7 +65,7 @@ namespace Library
 				add_discnumbers(album.discnumbers);
 			}
 
-			View::fill<T, ModelType>(input_data);
+			ItemView::fill<T, ModelType>(input_data);
 		}
 	};
 }

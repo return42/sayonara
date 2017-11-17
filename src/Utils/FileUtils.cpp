@@ -264,6 +264,16 @@ bool Util::File::is_playlistfile(const QString& filename)
 	});
 }
 
+bool Util::File::is_imagefile(const QString& filename)
+{
+	QStringList exts = Util::image_extensions(true);
+
+	return Util::contains(exts, [&filename](const QString& ext)
+	{
+		return (filename.toLower().endsWith(ext.right(4)));
+	});
+}
+
 
 bool Util::File::create_directories(const QString& path)
 {
@@ -499,3 +509,5 @@ QStringList Util::File::split_directories(const QString& path)
 
 	return ret;
 }
+
+

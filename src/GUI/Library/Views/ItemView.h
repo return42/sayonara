@@ -26,14 +26,13 @@
  *      Author: Lucio Carreras
  */
 
-#ifndef MYTABLEVIEW_H_
-#define MYTABLEVIEW_H_
-
-
+#ifndef ITEM_VIEW_H_
+#define ITEM_VIEW_H_
 
 #include "GUI/Utils/Widgets/WidgetTemplate.h"
+#include "GUI/Utils/Widgets/Dragable.h"
 #include "GUI/Utils/SearchableWidget/SearchableView.h"
-#include "GUI/Utils/Dragable/Dragable.h"
+
 #include "GUI/InfoDialog/InfoDialogContainer.h"
 #include "GUI/Library/Models/ItemModel.h"
 
@@ -49,13 +48,13 @@ class QMenu;
 
 namespace Library
 {
-	class View :
+	class ItemView :
 			public Gui::WidgetTemplate<SearchableTableView>,
 			public InfoDialogContainer,
 			protected Dragable
 	{
 		Q_OBJECT
-		PIMPL(View)
+		PIMPL(ItemView)
 
 	protected:
 		ItemModel* _model=nullptr;
@@ -73,12 +72,12 @@ namespace Library
 		void sig_merge(const SP::Set<Id>& ids, int target_id);
 
 	private:
-		View(const View& other)=delete;
-		View& operator =(const View& other)=delete;
+		ItemView(const ItemView& other)=delete;
+		ItemView& operator =(const ItemView& other)=delete;
 
 	public:
-		explicit View(QWidget* parent=nullptr);
-		virtual ~View();
+		explicit ItemView(QWidget* parent=nullptr);
+		virtual ~ItemView();
 
 		using QTableView::setModel;
 		virtual void setModel(ItemModel* model);
@@ -88,7 +87,7 @@ namespace Library
 		void remove_context_action(QAction* action);
 
 		/** Dragable **/
-		QMimeData* get_mimedata() const override;
+		QMimeData* dragable_mimedata() const override;
 		QPixmap pixmap() const override;
 
 		void set_metadata_interpretation(MD::Interpretation type);
@@ -153,4 +152,4 @@ namespace Library
 	};
 }
 
-#endif /* MYLISTVIEW_H_ */
+#endif /* ITEM_VIEW_H_ */

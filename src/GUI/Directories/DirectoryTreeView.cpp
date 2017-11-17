@@ -92,7 +92,7 @@ LibraryId DirectoryTreeView::library_id(const QModelIndex& index) const
 }
 
 
-QMimeData* DirectoryTreeView::get_mimedata() const
+QMimeData* DirectoryTreeView::dragable_mimedata() const
 {
 	CustomMimeData* cmd	= new CustomMimeData(this);
 	MetaDataList v_md = this->selected_metadata();
@@ -191,8 +191,12 @@ QModelIndex DirectoryTreeView::search(const QString& search_term)
 
 QString DirectoryTreeView::directory_name(const QModelIndex &index)
 {
-	QFileInfo info = m->model->fileInfo(index);
-	return info.absoluteFilePath();
+	return m->model->filePath(index);
+}
+
+QString DirectoryTreeView::directory_name_origin(const QModelIndex& index)
+{
+	return m->model->filepath_origin(index);
 }
 
 QModelIndexList DirectoryTreeView::selected_items() const
@@ -304,8 +308,8 @@ void DirectoryTreeView::dragEnterEvent(QDragEnterEvent* event)
 void DirectoryTreeView::dragMoveEvent(QDragMoveEvent* event)
 {
 	const QMimeData* mime_data = event->mimeData();
-	const CustomMimeData* cmd = Gui::Util::MimeData::custom_mimedata(mime_data);
-	if(cmd){
+	const CustomMimeData* cmd = Gui::MimeData::custom_mimedata(mime_data);
+	if(cmd){ // CustomMimeData would mean internal drag drop event
 		event->setAccepted(false);
 		return;
 	}
@@ -337,7 +341,7 @@ void DirectoryTreeView::dropEvent(QDropEvent* event)
 		return;
 	}
 
-	const CustomMimeData* cmd = Gui::Util::MimeData::custom_mimedata(mime_data);
+	const CustomMimeData* cmd = Gui::MimeData::custom_mimedata(mime_data);
 	if(cmd)
 	{
 		if(cmd->has_source(this))

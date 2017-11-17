@@ -73,6 +73,9 @@ public:
 	void set_playlist_source_index(int playlist_idx);
 	int playlist_source_index() const;
 
+	QString cover_url() const;
+	void set_cover_url(const QString& url);
+
 	template<typename T>
 	bool has_source(const T* class_instance) const
 	{

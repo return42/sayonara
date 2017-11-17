@@ -22,7 +22,7 @@
 
 #include "GUI_IconPreferences.h"
 #include "GUI/Preferences/ui_GUI_IconPreferences.h"
-#include "GUI/Utils/IconLoader/IconLoader.h"
+#include "GUI/Utils/Icons.h"
 #include "Components/DirectoryReader/DirectoryReader.h"
 
 #include "Utils/Language.h"
@@ -128,7 +128,7 @@ void GUI_IconPreferences::init_ui()
 
 	setup_parent(this, &ui);
 
-	QString standard_theme(IconLoader::standard_theme());
+	QString standard_theme(Gui::Icons::standard_theme());
 
 	QWidget* widget = ui->scroll_area_widget;
 	QLayout* layout = widget->layout();
@@ -205,7 +205,7 @@ void GUI_IconPreferences::init_ui()
 
 void GUI_IconPreferences::retranslate_ui()
 {
-	QString standard_theme(IconLoader::standard_theme());
+	QString standard_theme(Gui::Icons::standard_theme());
 	IconRadioButton* rb = m->rb_map[standard_theme];
 	if(rb){
 		rb->setText(
@@ -231,9 +231,13 @@ bool GUI_IconPreferences::commit()
 			rb->setStyleSheet("font-weight: bold;");
 			m->original_theme = rb->data();
 
-			IconLoader::change_theme();
+			Gui::Icons::change_theme();
 		}
 	}
+
+	bool force_std_icons = ui->cb_force_in_dark_theme->isChecked();
+	Gui::Icons::force_standard_icons(force_std_icons);
+	_settings->set(Set::Icon_ForceInDarkTheme, force_std_icons);
 
 	return true;
 }
@@ -245,6 +249,8 @@ void GUI_IconPreferences::revert()
 		IconRadioButton* rb = m->rb_map[key];
 		rb->setChecked(key.compare(m->original_theme) == 0);
 	}
+
+	ui->cb_force_in_dark_theme->setChecked(_settings->get(Set::Icon_ForceInDarkTheme));
 
 	QIcon::setThemeName(m->original_theme);
 }

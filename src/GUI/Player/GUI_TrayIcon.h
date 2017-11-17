@@ -31,6 +31,7 @@
 
 #include <QSystemTrayIcon>
 
+
 class QTimer;
 class QAction;
 class MetaData;

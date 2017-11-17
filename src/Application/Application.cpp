@@ -22,7 +22,7 @@
 #include "InstanceThread.h"
 #include "MetaTypeRegistry.h"
 
-#include "GUI/Utils/IconLoader/IconLoader.h"
+#include "GUI/Utils/Icons.h"
 
 #ifdef WITH_DBUS
 #include "Components/DBus/DBusHandler.h"
@@ -47,7 +47,7 @@
 
 #include "GUI/Player/GUI_Player.h"
 #include "GUI/Library/LocalLibraryContainer.h"
-#include "GUI/DirectoryWidget/DirectoryWidgetContainer.h"
+#include "GUI/Directories/DirectoryWidgetContainer.h"
 
 #include "GUI/Plugins/PlaylistChooser/GUI_PlaylistChooser.h"
 #include "GUI/Plugins/Engine/AudioConverter/GUI_AudioConverter.h"
@@ -108,8 +108,6 @@ struct Application::Private
 
 	Private()
 	{
-		IconLoader::set_standard_theme(QIcon::themeName());
-
 		metatype_registry = new MetaTypeRegistry();
 		qRegisterMetaType<uint64_t>("uint64_t");
 
@@ -118,6 +116,9 @@ struct Application::Private
 
 		db = DB::Connector::instance();
 		db->settings_connector()->load_settings();
+
+		Gui::Icons::set_standard_theme(QIcon::themeName());
+		Gui::Icons::force_standard_icons(Settings::instance()->get(Set::Icon_ForceInDarkTheme));
 
 		if( !settings_initialized )
 		{
@@ -204,7 +205,7 @@ bool Application::init(const QStringList& files_to_play)
 	settings->set(Set::Player_Version, version);
 
 	init_translator();
-	IconLoader::change_theme();
+	Gui::Icons::change_theme();
 	Proxy::instance()->init();
 
 	init_player(m->translator);
@@ -281,19 +282,22 @@ void Application::init_preferences()
 
 	preferences->register_preference_dialog(new GUI_LanguageChooser("language"));
 	preferences->register_preference_dialog(new GUI_FontConfig("fonts"));
+	preferences->register_preference_dialog(new GUI_IconPreferences("icons"));
+	preferences->register_preference_dialog(new GUI_Shortcuts("shortcuts"));
+
 	preferences->register_preference_dialog(new GUI_PlayerPreferences("player"));
 	preferences->register_preference_dialog(new GUI_PlaylistPreferences("playlist"));
 	preferences->register_preference_dialog(new GUI_LibraryPreferences("library"));
 	preferences->register_preference_dialog(new GUI_Covers("covers"));
+
+	preferences->register_preference_dialog(new GUI_Proxy("proxy"));
 	preferences->register_preference_dialog(new GUI_StreamPreferences("streams"));
 	preferences->register_preference_dialog(new GUI_StreamRecorder("streamrecorder"));
 	preferences->register_preference_dialog(new GUI_BroadcastSetup("broadcast"));
-	preferences->register_preference_dialog(new GUI_Shortcuts("shortcuts"));
-	preferences->register_preference_dialog(new GUI_Notifications("notifications"));
 	preferences->register_preference_dialog(new GUI_RemoteControl("remotecontrol"));
+
+	preferences->register_preference_dialog(new GUI_Notifications("notifications"));
 	preferences->register_preference_dialog(new GUI_LastFM("lastfm", new LastFM::Base()));
-	preferences->register_preference_dialog(new GUI_IconPreferences("icons"));
-	preferences->register_preference_dialog(new GUI_Proxy("proxy"));
 
 	sp_log(Log::Debug, this) << "Preference dialogs loaded: " << m->timer->elapsed() << "ms";
 }

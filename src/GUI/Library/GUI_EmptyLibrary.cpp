@@ -20,12 +20,15 @@
 
 #include "GUI_EmptyLibrary.h"
 #include "GUI/Library/ui_GUI_EmptyLibrary.h"
-#include "Utils/Language.h"
-#include "Utils/Message/Message.h"
-#include "Utils/Library/LibraryNamespaces.h"
+#include "GUI/Utils/Library/GUI_EditLibrary.h"
+
 #include "Components/Library/LibraryManager.h"
 #include "Components/Library/LocalLibrary.h"
 #include "Interfaces/LibraryInterface/LibraryPluginHandler.h"
+
+#include "Utils/Language.h"
+#include "Utils/Message/Message.h"
+#include "Utils/Library/LibraryNamespaces.h"
 
 #include <QDir>
 #include <QFileDialog>
@@ -34,7 +37,7 @@
 using namespace Library;
 
 GUI_EmptyLibrary::GUI_EmptyLibrary(QWidget* parent) :
-	QWidget(parent)
+	Gui::Widget(parent)
 {
 	ui = new Ui::GUI_EmptyLibrary();
 	ui->setupUi(this);
@@ -54,13 +57,34 @@ QFrame* GUI_EmptyLibrary::header_frame() const
 
 void GUI_EmptyLibrary::set_lib_path_clicked()
 {
-	QString dir = QFileDialog::getExistingDirectory(this,
-													Lang::get(Lang::OpenDir),
-													QDir::homePath(),
-													QFileDialog::ShowDirsOnly);
-	if(dir.isEmpty()){
+	GUI_EditLibrary* new_library = new GUI_EditLibrary(this);
+	new_library->show();
+
+	connect(new_library, &GUI_EditLibrary::sig_accepted, this, &GUI_EmptyLibrary::new_library_created);
+
+
+}
+
+void GUI_EmptyLibrary::new_library_created()
+{
+	GUI_EditLibrary* new_library = dynamic_cast<GUI_EditLibrary*>(sender());
+	if(!new_library) {
 		return;
 	}
+
+	QString name = new_library->name();
+	QString path = new_library->path();
+
+
+
+	Manager* lib_manager = Manager::instance();
+
+	LibraryId id = lib_manager->add_library(name, dir);
+	if(id < 0){
+		return;
+	}
+
+
 
 	GlobalMessage::Answer answer = Message::question_yn(tr("Do you want to reload the Library?"), "Library");
 
@@ -68,12 +92,7 @@ void GUI_EmptyLibrary::set_lib_path_clicked()
 		return;
 	}
 
-	Manager* lib_manager = Manager::instance();
-	QString name = Manager::request_library_name(dir);
-
-	LibraryId id = lib_manager->add_library(name, dir);
 	LocalLibrary* library = lib_manager->library_instance(id);
-
 	library->reload_library(false, Library::ReloadQuality::Accurate);
 
 	//LibraryPluginHandler::instance()->set_current_index(0);

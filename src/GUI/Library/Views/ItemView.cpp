@@ -20,13 +20,11 @@
 
 
 /*
- * LibraryView.cpp
- *
  *  Created on: Jun 26, 2011
  *      Author: Lucio Carreras
  */
 
-#include "View.h"
+#include "ItemView.h"
 #include "HeaderView.h"
 #include "Components/Covers/CoverLocation.h"
 #include "GUI/Library/Utils/ColumnHeader.h"
@@ -51,7 +49,7 @@
 
 using namespace Library;
 
-struct Library::View::Private
+struct Library::ItemView::Private
 {
 	QPushButton*		btn_clear_selection=nullptr;
 	QAction*			merge_action=nullptr;
@@ -69,7 +67,7 @@ struct Library::View::Private
 	{}
 };
 
-View::View(QWidget* parent) :
+ItemView::ItemView(QWidget* parent) :
 	WidgetTemplate<SearchableTableView>(parent),
 	InfoDialogContainer(),
 	Dragable(this)
@@ -90,15 +88,15 @@ View::View(QWidget* parent) :
 	clearSelection();
 }
 
-View::~View() {}
+ItemView::~ItemView() {}
 
-void View::setModel(ItemModel* model)
+void ItemView::setModel(ItemModel* model)
 {
 	SearchableTableView::setModel(model);
 	_model = model;
 }
 
-void View::selectionChanged(const QItemSelection& selected, const QItemSelection& deselected )
+void ItemView::selectionChanged(const QItemSelection& selected, const QItemSelection& deselected )
 {
 	show_clear_button(!selected.empty());
 
@@ -120,7 +118,7 @@ void View::selectionChanged(const QItemSelection& selected, const QItemSelection
 
 
 // Right click stuff
-void View::init_context_menu()
+void ItemView::init_context_menu()
 {
 	m->context_menu = new LibraryContextMenu(this);
 
@@ -144,18 +142,18 @@ void View::init_context_menu()
 		clear_selection();
 	});
 
-	connect(m->context_menu, &LibraryContextMenu::sig_delete_clicked, this, &View::sig_delete_clicked);
-	connect(m->context_menu, &LibraryContextMenu::sig_play_next_clicked, this, &View::sig_play_next_clicked);
-	connect(m->context_menu, &LibraryContextMenu::sig_append_clicked, this, &View::sig_append_clicked);
-	connect(m->context_menu, &LibraryContextMenu::sig_refresh_clicked, this, &View::sig_refresh_clicked);
+	connect(m->context_menu, &LibraryContextMenu::sig_delete_clicked, this, &ItemView::sig_delete_clicked);
+	connect(m->context_menu, &LibraryContextMenu::sig_play_next_clicked, this, &ItemView::sig_play_next_clicked);
+	connect(m->context_menu, &LibraryContextMenu::sig_append_clicked, this, &ItemView::sig_append_clicked);
+	connect(m->context_menu, &LibraryContextMenu::sig_refresh_clicked, this, &ItemView::sig_refresh_clicked);
 }
 
-QMenu* View::context_menu() const
+QMenu* ItemView::context_menu() const
 {
 	return m->context_menu;
 }
 
-void View::show_context_menu_actions(int entries)
+void ItemView::show_context_menu_actions(int entries)
 {
 	if(!m->context_menu) {
 		init_context_menu();
@@ -165,7 +163,7 @@ void View::show_context_menu_actions(int entries)
 	m->context_menu->show_action(LibraryContextMenu::EntryClearSelection, !selected_items().isEmpty());
 }
 
-void View::add_context_action(QAction *action)
+void ItemView::add_context_action(QAction *action)
 {
 	if(!m->context_menu) {
 		init_context_menu();
@@ -174,7 +172,7 @@ void View::add_context_action(QAction *action)
 	m->context_menu->addAction(action);
 }
 
-void View::remove_context_action(QAction *action)
+void ItemView::remove_context_action(QAction *action)
 {
 	if(!m->context_menu) {
 		init_context_menu();
@@ -183,12 +181,12 @@ void View::remove_context_action(QAction *action)
 	m->context_menu->removeAction(action);
 }
 
-QMimeData* View::get_mimedata() const
+QMimeData* ItemView::dragable_mimedata() const
 {
 	return _model->custom_mimedata();
 }
 
-QPixmap View::pixmap() const
+QPixmap ItemView::pixmap() const
 {
 	Cover::Location cl = _model->cover(
 				selected_items()
@@ -202,7 +200,7 @@ QPixmap View::pixmap() const
 	return QPixmap();
 }
 
-void View::set_selection_type(SelectionViewInterface::SelectionType type)
+void ItemView::set_selection_type(SelectionViewInterface::SelectionType type)
 {
 	SelectionViewInterface::set_selection_type(type);
 
@@ -217,7 +215,7 @@ void View::set_selection_type(SelectionViewInterface::SelectionType type)
 }
 
 
-void View::show_clear_button(bool visible)
+void ItemView::show_clear_button(bool visible)
 {
 	if(!m->use_clear_button)
 	{
@@ -258,7 +256,7 @@ void View::show_clear_button(bool visible)
 
 }
 
-void View::use_clear_button(bool yesno)
+void ItemView::use_clear_button(bool yesno)
 {
 	m->use_clear_button = yesno;
 	if(m->btn_clear_selection)
@@ -272,35 +270,35 @@ void View::use_clear_button(bool yesno)
 	}
 }
 
-bool View::is_valid_drag_position(const QPoint &p) const
+bool ItemView::is_valid_drag_position(const QPoint &p) const
 {
 	QModelIndex idx = this->indexAt(p);
 	return (idx.isValid() && (this->model()->flags(idx) & Qt::ItemFlag::ItemIsSelectable));
 }
 
-void View::context_menu_show(const QPoint& p)
+void ItemView::context_menu_show(const QPoint& p)
 {
 	m->context_menu->exec(p);
 }
 
 
-void View::set_metadata_interpretation(MD::Interpretation type)
+void ItemView::set_metadata_interpretation(MD::Interpretation type)
 {
 	m->type = type;
 }
 
-MetaDataList View::info_dialog_data() const
+MetaDataList ItemView::info_dialog_data() const
 {
 	return _model->mimedata_tracks();
 }
 
 
-MD::Interpretation View::metadata_interpretation() const
+MD::Interpretation ItemView::metadata_interpretation() const
 {
 	return m->type;
 }
 
-void View::merge_action_triggered()
+void ItemView::merge_action_triggered()
 {
 	QAction* action = dynamic_cast<QAction*>(sender());
 	int id = action->data().toInt();
@@ -316,7 +314,7 @@ void View::merge_action_triggered()
 	emit sig_merge(ids, id);
 }
 
-void View::resize_rows_to_contents()
+void ItemView::resize_rows_to_contents()
 {
 	if(!_model || _model->rowCount() == 0) {
 		return;
@@ -328,7 +326,7 @@ void View::resize_rows_to_contents()
 	}
 }
 
-void View::resize_rows_to_contents(int first_row, int count)
+void ItemView::resize_rows_to_contents(int first_row, int count)
 {
 	if(!_model || _model->rowCount() == 0) {
 		return;
@@ -345,7 +343,7 @@ void View::resize_rows_to_contents(int first_row, int count)
 
 
 // mouse events
-void View::mousePressEvent(QMouseEvent* event)
+void ItemView::mousePressEvent(QMouseEvent* event)
 {
 	if(_model->rowCount() == 0)
 	{
@@ -370,7 +368,7 @@ void View::mousePressEvent(QMouseEvent* event)
 }
 
 
-void View::mouseMoveEvent(QMouseEvent* event)
+void ItemView::mouseMoveEvent(QMouseEvent* event)
 {
 	QDrag* drag = this->drag_moving(event->pos());
 	if(drag)
@@ -384,7 +382,7 @@ void View::mouseMoveEvent(QMouseEvent* event)
 
 // keyboard events
 
-void View::keyPressEvent(QKeyEvent* event)
+void ItemView::keyPressEvent(QKeyEvent* event)
 {
 	int key = event->key();
 
@@ -436,7 +434,7 @@ void View::keyPressEvent(QKeyEvent* event)
 	SearchableTableView::keyPressEvent(event);
 }
 
-void View::contextMenuEvent(QContextMenuEvent* event)
+void ItemView::contextMenuEvent(QContextMenuEvent* event)
 {
 	if(!m->context_menu)
 	{
@@ -485,7 +483,7 @@ void View::contextMenuEvent(QContextMenuEvent* event)
 				QAction* action = new QAction(name, m->merge_menu);
 				action->setData(id);
 				m->merge_menu->addAction(action);
-				connect(action, &QAction::triggered, this, &View::merge_action_triggered);
+				connect(action, &QAction::triggered, this, &ItemView::merge_action_triggered);
 			}
 
 			m->merge_action->setVisible(n_selections > 1);
@@ -499,17 +497,17 @@ void View::contextMenuEvent(QContextMenuEvent* event)
 // keyboard end
 
 
-void View::dragEnterEvent(QDragEnterEvent *event)
+void ItemView::dragEnterEvent(QDragEnterEvent *event)
 {
 	event->accept();
 }
 
-void  View::dragMoveEvent(QDragMoveEvent *event)
+void ItemView::dragMoveEvent(QDragMoveEvent *event)
 {
 	event->accept();
 }
 
-void View::dropEvent(QDropEvent *event)
+void ItemView::dropEvent(QDropEvent *event)
 {
 	event->accept();
 
@@ -541,7 +539,7 @@ void View::dropEvent(QDropEvent *event)
 	emit sig_import_files(filelist);
 }
 
-void View::changeEvent(QEvent* event)
+void ItemView::changeEvent(QEvent* event)
 {
 	SearchableTableView::changeEvent(event);
 	QEvent::Type type = event->type();
@@ -552,7 +550,7 @@ void View::changeEvent(QEvent* event)
 	}
 }
 
-void View::resizeEvent(QResizeEvent *event)
+void ItemView::resizeEvent(QResizeEvent *event)
 {
 	SearchableTableView::resizeEvent(event);
 

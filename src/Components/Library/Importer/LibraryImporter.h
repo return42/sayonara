@@ -48,7 +48,7 @@ public:
 			 Rollback,
 			 Caching,
 			 NoTracks,
-			 Sleeping,
+			 WaitForUser,
 			 Importing,
 			 Imported
 	};

@@ -395,7 +395,7 @@ QMap<QChar, QString> PlaylistItemModel::getExtraTriggers()
 }
 
 
-CustomMimeData* PlaylistItemModel::custom_mimedata(const QModelIndexList& indexes) const
+QMimeData* PlaylistItemModel::mimeData(const QModelIndexList& indexes) const
 {
 	if(indexes.isEmpty()){
 		return nullptr;
@@ -423,12 +423,6 @@ CustomMimeData* PlaylistItemModel::custom_mimedata(const QModelIndexList& indexe
 	mimedata->set_playlist_source_index(m->pl->index());
 
 	return mimedata;
-}
-
-QMimeData* PlaylistItemModel::mimeData(const QModelIndexList& indexes) const
-{
-	CustomMimeData* cmd =  custom_mimedata(indexes);
-	return static_cast<QMimeData*> (cmd);
 }
 
 bool PlaylistItemModel::has_local_media(const IndexSet& rows) const

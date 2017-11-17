@@ -134,7 +134,7 @@ QDrag* Dragable::drag_moving(const QPoint& p)
 	m->start_drag_pos = QPoint();
 	m->drag = new QDrag(m->parent);
 
-	QMimeData* data = get_mimedata();
+	QMimeData* data = dragable_mimedata();
 	if(data == nullptr)
 	{
 		return m->drag;

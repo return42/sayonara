@@ -53,6 +53,31 @@ public:
 		lph = Library::PluginHandler::instance();
 	}
 
+	bool check_new_path(const QString& path) const
+	{
+		if(path.isEmpty()){
+			return false;
+		}
+
+		QString sayonara_path = ::Util::sayonara_path("Libraries");
+		if(path.contains(sayonara_path, Qt::CaseInsensitive)){
+			return false;
+		}
+
+		for(const Info& info : all_libs)
+		{
+			if(info.path().contains(path)){
+				return false;
+			}
+
+			if(path.contains(info.path())){
+				return false;
+			}
+		}
+
+		return true;
+	}
+
 	bool contains_path(const QString& path) const
 	{
 		for(const Info& info : all_libs)
@@ -67,11 +92,12 @@ public:
 
 	LibraryId add_library(const QString& name, const QString& path)
 	{
-		if(path.isEmpty() || name.isEmpty()){
+		if(!check_new_path(path))
+		{
 			return -1;
 		}
 
-		if(this->contains_path(path)){
+		if(name.isEmpty()){
 			return -1;
 		}
 
@@ -124,18 +150,18 @@ public:
 	}
 
 
-	void change_library_path(LibraryId library_id, const QString& new_path)
+	bool change_library_path(LibraryId library_id, const QString& new_path)
 	{
+		if(!check_new_path(new_path)){
+			return false;
+		}
+
 		for(int i=0; i<all_libs.size(); i++)
 		{
 			Info info = all_libs[i];
 
 			if(info.id() != library_id){
 				continue;
-			}
-
-			if(info.path() == new_path){
-				break;
 			}
 
 			Info new_info(info.name(), new_path, info.id());
@@ -150,8 +176,10 @@ public:
 			QFile::remove(info.symlink_path());
 			::Util::File::create_symlink(new_info.path(), new_info.symlink_path());
 
-			break;
+			return true;
 		}
+
+		return false;
 	}
 
 	int get_next_id() const
@@ -374,7 +402,11 @@ bool Manager::remove_library(LibraryId id)
 	bool success = true;
 	DB::Library* ldb = DB::Connector::instance()->library_connector();
 	success = success && ldb->remove_library(id);
-	success = success && ldb->reorder_libraries(m->order_map());
+
+	OrderMap order_map = m->order_map();
+	if(!order_map.isEmpty()){
+		success = success && ldb->reorder_libraries(order_map);
+	}
 
 	m->all_libs = ldb->get_all_libraries();
 
@@ -397,7 +429,10 @@ bool Manager::move_library(int old_row, int new_row)
 
 bool Manager::change_library_path(LibraryId id, const QString& path)
 {
-	m->change_library_path(id, path);
+	bool success = m->change_library_path(id, path);
+	if(!success){
+		return false;
+	}
 
 	Library::Info info = m->get_library_info(id);
 	if(info.valid())
@@ -483,8 +518,15 @@ void Manager::revert()
 
 	for(int i=m->all_libs.size() - 1; i>=0; i--)
 	{
+
 		if(!m->all_libs[i].valid()){
 			m->all_libs.removeAt(i);
+		}
+
+		else{
+			if(!QFile::exists(m->all_libs[i].symlink_path())){
+				::Util::File::create_symlink(m->all_libs[i].path(), m->all_libs[i].symlink_path());
+			}
 		}
 	}
 }

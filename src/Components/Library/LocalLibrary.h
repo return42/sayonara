@@ -104,8 +104,8 @@ private:
 	void init_reload_thread();
 
 public:
-	void set_library_path(const QString& library_path);
-	void set_library_name(const QString& library_name);
+	bool set_library_path(const QString& library_path);
+	bool set_library_name(const QString& library_name);
 
 	QString			library_path() const;
 	LibraryId		library_id() const;
