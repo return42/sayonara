@@ -267,8 +267,8 @@ void CoverView::timed_out()
 	this->verticalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
 	this->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
 
-	m->blocked = false;
 	m->buffer_timer->stop();
+	m->blocked = false;
 }
 
 QStyleOptionViewItem CoverView::viewOptions() const

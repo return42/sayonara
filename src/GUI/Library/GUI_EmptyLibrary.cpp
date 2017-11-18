@@ -36,9 +36,16 @@
 
 using namespace Library;
 
+struct GUI_EmptyLibrary::Private
+{
+	GUI_EditLibrary* new_library=nullptr;
+};
+
 GUI_EmptyLibrary::GUI_EmptyLibrary(QWidget* parent) :
 	Gui::Widget(parent)
 {
+	m = Pimpl::make<Private>();
+
 	ui = new Ui::GUI_EmptyLibrary();
 	ui->setupUi(this);
 
@@ -57,12 +64,14 @@ QFrame* GUI_EmptyLibrary::header_frame() const
 
 void GUI_EmptyLibrary::set_lib_path_clicked()
 {
-	GUI_EditLibrary* new_library = new GUI_EditLibrary(this);
-	new_library->show();
+	if(!m->new_library)
+	{
+		m->new_library = new GUI_EditLibrary(this);
+		connect(m->new_library, &GUI_EditLibrary::sig_accepted, this, &GUI_EmptyLibrary::new_library_created);
+	}
 
-	connect(new_library, &GUI_EditLibrary::sig_accepted, this, &GUI_EmptyLibrary::new_library_created);
-
-
+	m->new_library->reset();
+	m->new_library->show();
 }
 
 void GUI_EmptyLibrary::new_library_created()
@@ -75,16 +84,12 @@ void GUI_EmptyLibrary::new_library_created()
 	QString name = new_library->name();
 	QString path = new_library->path();
 
-
-
 	Manager* lib_manager = Manager::instance();
 
-	LibraryId id = lib_manager->add_library(name, dir);
+	LibraryId id = lib_manager->add_library(name, path);
 	if(id < 0){
 		return;
 	}
-
-
 
 	GlobalMessage::Answer answer = Message::question_yn(tr("Do you want to reload the Library?"), "Library");
 

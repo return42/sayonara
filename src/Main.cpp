@@ -154,17 +154,20 @@ int main(int argc, char *argv[])
 		return 0;
 	}
 
-    QSharedMemory memory("SayonaraMemory");
-	bool has_other_instance = check_for_other_instance(cmd_data, &memory);
-	if(has_other_instance){
-		return 0;
-	}
-
-	if(memory.data())
+	if(!cmd_data.multiple_instances)
 	{
-		memory.lock();
-		memcpy(memory.data(), "Sayonara", 8);
-		memory.unlock();
+		QSharedMemory memory("SayonaraMemory");
+		bool has_other_instance = check_for_other_instance(cmd_data, &memory);
+		if(has_other_instance){
+			return 0;
+		}
+
+		if(memory.data())
+		{
+			memory.lock();
+			memcpy(memory.data(), "Sayonara", 8);
+			memory.unlock();
+		}
 	}
 
 #ifdef Q_OS_WIN

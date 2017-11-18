@@ -43,8 +43,13 @@ signals:
 public:
 
 	explicit GUI_EditLibrary(const QString& name, const QString& path, QWidget *parent = 0);
-	explicit GUI_EditLibrary(QWidget *parent = 0);
+	explicit GUI_EditLibrary(QWidget* parent=nullptr);
 	~GUI_EditLibrary();
+
+	/**
+	 * @brief Same as GUI_EditLibrary(QWidget* parent=nullptr)
+	 */
+	void reset();
 
     enum class EditMode
     {

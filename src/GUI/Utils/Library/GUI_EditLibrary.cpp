@@ -145,6 +145,16 @@ GUI_EditLibrary::EditMode GUI_EditLibrary::edit_mode() const
 	return m->edit_mode;
 }
 
+void GUI_EditLibrary::reset()
+{
+	m->old_name = QString();
+	m->old_path = QString();
+	m->edit_mode = EditMode::New;
+
+	ui->le_name->setText(QString());
+	ui->le_path->setText(QString());
+}
+
 void GUI_EditLibrary::language_changed()
 {
 	Dialog::language_changed();

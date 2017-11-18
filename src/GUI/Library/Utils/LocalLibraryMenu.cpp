@@ -36,7 +36,7 @@ struct LocalLibraryMenu::Private
 {
 	QString name;
 	QString path;
-	bool initialized;
+	bool	initialized;
 
 	QAction* reload_library_action=nullptr;
 	QAction* import_file_action=nullptr;
@@ -74,11 +74,19 @@ void LocalLibraryMenu::refresh_path(const QString& path)
 
 void LocalLibraryMenu::set_show_album_covers_checked(bool checked)
 {
+	if(!m->initialized){
+		return;
+	}
+
 	m->show_album_cover_view->setChecked(checked);
 }
 
 void LocalLibraryMenu::set_library_busy(bool b)
 {
+	if(!m->initialized){
+		return;
+	}
+
 	m->reload_library_action->setEnabled(!b);
 	m->edit_action->setEnabled(!b);
 	m->import_file_action->setEnabled(!b);
@@ -179,11 +187,19 @@ void LocalLibraryMenu::skin_changed()
 
 void LocalLibraryMenu::realtime_search_changed()
 {
+	if(!m->initialized){
+		return;
+	}
+
 	_settings->set(Set::Lib_LiveSearch, m->livesearch_action->isChecked());
 }
 
 void LocalLibraryMenu::edit_clicked()
 {
+	if(!m->initialized){
+		return;
+	}
+
 	GUI_EditLibrary* edit_dialog = new GUI_EditLibrary(m->name, m->path, this);
 
 	connect(edit_dialog, &GUI_EditLibrary::sig_accepted, this, &LocalLibraryMenu::edit_accepted);
@@ -213,17 +229,29 @@ void LocalLibraryMenu::edit_accepted()
 
 void LocalLibraryMenu::show_album_covers_changed()
 {
+	if(!m->initialized){
+		return;
+	}
+
 	bool show_covers = Settings::instance()->get(Set::Lib_ShowAlbumCovers);
 	m->show_album_cover_view->setChecked(show_covers);
 }
 
 void LocalLibraryMenu::show_album_cover_view_changed()
 {
+	if(!m->initialized){
+		return;
+	}
+
 	_settings->set(Set::Lib_ShowAlbumCovers, m->show_album_cover_view->isChecked());
 }
 
 void LocalLibraryMenu::show_album_artists_changed()
 {
+	if(!m->initialized){
+		return;
+	}
+
 	bool show_album_artist = m->show_album_artists_action->isChecked();
 	_settings->set(Set::Lib_ShowAlbumArtists, show_album_artist);
 

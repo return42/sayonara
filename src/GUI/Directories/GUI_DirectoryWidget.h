@@ -53,6 +53,7 @@ class GUI_DirectoryWidget :
 
 	private slots:
 		void search_button_clicked();
+		void search_text_edited(const QString& text);
 
 		void dir_enter_pressed();
 		void dir_opened(QModelIndex idx);

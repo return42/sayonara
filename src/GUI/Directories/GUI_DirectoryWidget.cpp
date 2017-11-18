@@ -54,6 +54,12 @@ struct GUI_DirectoryWidget::Private
 	} selected_widget;
 
 	QList<LocalLibrary*> local_libraries;
+	bool	is_search_active;
+
+	Private() :
+		selected_widget(None),
+		is_search_active(false)
+	{}
 };
 
 GUI_DirectoryWidget::GUI_DirectoryWidget(QWidget *parent) :
@@ -79,6 +85,7 @@ GUI_DirectoryWidget::GUI_DirectoryWidget(QWidget *parent) :
 
 	connect(ui->btn_search, &QPushButton::clicked, this, &GUI_DirectoryWidget::search_button_clicked);
 	connect(ui->le_search, &QLineEdit::returnPressed, this, &GUI_DirectoryWidget::search_button_clicked);
+	connect(ui->le_search, &QLineEdit::textChanged, this, &GUI_DirectoryWidget::search_text_edited);
 
 	ui->tv_dirs->setExpandsOnDoubleClick(true);
 	ui->tv_dirs->setDragEnabled(true);
@@ -354,13 +361,23 @@ void GUI_DirectoryWidget::file_enter_pressed()
 void GUI_DirectoryWidget::search_button_clicked()
 {
 	if(ui->le_search->text().isEmpty()){
+		m->is_search_active	= true;
 		return;
 	}
 
 	QModelIndex found_idx = ui->tv_dirs->search(ui->le_search->text());
 	if(found_idx.isValid()){
 		dir_opened(found_idx);
+		ui->btn_search->setText(Lang::get(Lang::SearchNext));
+		m->is_search_active	= true;
 	}
+}
+
+void GUI_DirectoryWidget::search_text_edited(const QString& text)
+{
+	Q_UNUSED(text)
+	m->is_search_active = false;
+	ui->btn_search->setText(Lang::get(Lang::Search));
 }
 
 
@@ -372,5 +389,11 @@ void GUI_DirectoryWidget::init_shortcuts()
 
 void GUI_DirectoryWidget::language_changed()
 {
-	ui->btn_search->setText(Lang::get(Lang::Search));
+	if(m->is_search_active) {
+		ui->btn_search->setText(Lang::get(Lang::SearchNext));
+	}
+
+	else{
+		ui->btn_search->setText(Lang::get(Lang::Search));
+	}
 }

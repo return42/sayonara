@@ -35,6 +35,7 @@ namespace Library
 	{
 		Q_OBJECT
 		UI_CLASS(GUI_EmptyLibrary)
+		PIMPL(GUI_EmptyLibrary)
 
 	public:
 		explicit GUI_EmptyLibrary(QWidget* parent=nullptr);
