@@ -27,91 +27,88 @@ class QString;
 class QByteArray;
 class QStringList;
 
-
 namespace Cover
 {
 
 namespace Fetcher
 {
+	/**
+	 * @brief The CoverFetcherInterface interface
+	 * @ingroup Covers
+	 */
+	class Base
+	{
 
+		public:
+			/**
+			 * @brief Can the cover be fetched from the adress without starting a two-stage query?
+			 * @return
+			 */
+			virtual bool can_fetch_cover_directly() const=0;
 
-/**
- * @brief The CoverFetcherInterface interface
- * @ingroup Covers
- */
-class Base
-{
+			/**
+			 * @brief  Get addresses from the downloaded website.
+			 * If can_fetch_cover_directly returns true, this method is not called
+			 * @param website website data
+			 * @return
+			 */
+			virtual QStringList calc_addresses_from_website(const QByteArray& website) const=0;
 
-public:
-    /**
-     * @brief Can the cover be fetched from the adress without starting a two-stage query?
-     * @return
-     */
-    virtual bool can_fetch_cover_directly() const=0;
+			/**
+			 * @brief get name of CoverFetcherInterface like e.g. Discogs
+			 * @return
+			 */
+			virtual QString keyword() const=0;
 
-    /**
-     * @brief  Get addresses from the downloaded website.
-     * If can_fetch_cover_directly returns true, this method is not called
-     * @param website website data
-     * @return
-     */
-    virtual QStringList calc_addresses_from_website(const QByteArray& website) const=0;
+			/**
+			 * @brief Get the artist search url.
+			 * This is called if is_artist_supported returns true.
+			 * @param artist artist name
+			 * @return
+			 */
+			virtual QString artist_address(const QString& artist) const=0;
 
-    /**
-     * @brief get name of CoverFetcherInterface like e.g. Discogs
-     * @return
-     */
-	virtual QString keyword() const=0;
+			/**
+			 * @brief Get the album search url.
+			 * This is called if is_album_supported returns true.
+			 * @param artist artist name
+			 * @param album album name
+			 * @return
+			 */
+			virtual QString album_address(const QString& artist, const QString& album) const=0;
 
-    /**
-     * @brief Get the artist search url.
-     * This is called if is_artist_supported returns true.
-     * @param artist artist name
-     * @return
-     */
-	virtual QString artist_address(const QString& artist) const=0;
+			/**
+			 * @brief Get a custom search address
+			 * This is called if is_search_supported returns true
+			 * @param str search string
+			 * @return
+			 */
+			virtual QString search_address(const QString& str) const=0;
 
-    /**
-     * @brief Get the album search url.
-     * This is called if is_album_supported returns true.
-     * @param artist artist name
-     * @param album album name
-     * @return
-     */
-	virtual QString album_address(const QString& artist, const QString& album) const=0;
+			/**
+			 * @brief Is text search supported
+			 * @return true, if free text search is supported
+			 */
+			virtual bool is_search_supported() const=0;
 
-    /**
-     * @brief Get a custom search address
-     * This is called if is_search_supported returns true
-     * @param str search string
-     * @return
-     */
-	virtual QString search_address(const QString& str) const=0;
+			/**
+			 * @brief is album search supported
+			 * @return  true if album search is supported
+			 */
+			virtual bool is_album_supported() const=0;
 
-    /**
-     * @brief Is text search supported
-     * @return true, if free text search is supported
-     */
-    virtual bool is_search_supported() const=0;
+			/**
+			 * @brief is artist search supported
+			 * @return true if artist search is supported
+			 */
+			virtual bool is_artist_supported() const=0;
 
-    /**
-     * @brief is album search supported
-     * @return  true if album search is supported
-     */
-    virtual bool is_album_supported() const=0;
-
-    /**
-     * @brief is artist search supported
-     * @return true if artist search is supported
-     */
-    virtual bool is_artist_supported() const=0;
-
-    /**
-     * @brief get_estimated_size. Rough image size of the CoverFetchInterface
-     * @return e.g. 300px
-     */
-	virtual int estimated_size() const=0;
-};
+			/**
+			 * @brief get_estimated_size. Rough image size of the CoverFetchInterface
+			 * @return e.g. 300px
+			 */
+			virtual int estimated_size() const=0;
+	};
 } // Fetcher
 } // Cover
 

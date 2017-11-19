@@ -70,7 +70,6 @@ GUI_Player::GUI_Player(QTranslator* translator, QWidget* parent) :
 	Set::listen(Set::PL_FontSize, this, &GUI_Player::skin_changed);
 	Set::listen(Set::Lib_FontSize, this, &GUI_Player::skin_changed);
 	Set::listen(Set::Lib_FontBold, this, &GUI_Player::skin_changed);
-
 }
 
 
@@ -275,13 +274,13 @@ void GUI_Player::check_library_menu_action()
 
 	for(Library::Container* container : libraries)
 	{
-		QAction* action;
 		Library::Container* library = lph->current_library();
 		QMenu* menu = lph->current_library_menu();
 		if(!menu){
 			continue;
 		}
 
+		QAction* action;
 		if( library == container && library_visible)
 		{
 			action = menubar->insertMenu(menu_about->menuAction(), menu);
@@ -308,18 +307,13 @@ void GUI_Player::check_library_menu_action()
 /** LIBRARY AND PLAYLIST END **/
 void GUI_Player::register_preference_dialog(PreferenceDialog* dialog)
 {
-	QList<QAction*> actions = menu_file->actions();
-	QAction* sep = actions[actions.size() - 3];
-
 	dialog->setParent(this);
-	menu_file->insertAction(sep, dialog->action());
 
-	QMenu* pref_menu = new QMenu(this->menuBar());
-	pref_menu->addActions(dialog->actions());
+	QList<QAction*> actions = dialog->actions(this);
 
-	QAction* action = menuBar()->insertMenu(menu_about->menuAction(), pref_menu);
-	action->setText("Preferences");
-	action->setVisible(true);
+	connect(action_preferences, &QAction::triggered, dialog, &PreferenceDialog::show);
+
+	menu_preferences->addActions(actions);
 }
 
 
@@ -328,7 +322,7 @@ void GUI_Player::playstate_changed(PlayState state)
 	switch(state)
 	{
 		case PlayState::Stopped:
-			setWindowTitle("Sayonara");
+			setWindowTitle("Sayonara Player");
 			break;
 		default:
 			break;
@@ -340,7 +334,7 @@ void GUI_Player::play_error(const QString& message)
 {
 	const MetaData& md = PlayManager::instance()->current_track();
 	QString err = message + "\n\n" + md.filepath();
-	Message::warning(err, "Player");
+	Message::warning(err, Lang::get(Lang::Play));
 }
 
 

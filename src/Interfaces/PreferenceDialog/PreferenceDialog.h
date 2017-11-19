@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef PREFERENCEDIALOG_H
 #define PREFERENCEDIALOG_H
 
@@ -44,11 +42,12 @@ public:
 
 	virtual QString action_name() const=0;
 	virtual QAction* action()=0;
+	virtual QList<QAction*> actions(QWidget* parent)=0;
 
 	virtual void register_preference_dialog(Preferences::Base* dialog)=0;
 	virtual void show_preference_dialog(const QString& identifier)=0;
 
-	virtual QList<QAction*> actions()=0;
+
 };
 
 #endif // PREFERENCEDIALOG_H

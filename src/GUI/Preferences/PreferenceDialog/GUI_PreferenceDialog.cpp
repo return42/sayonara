@@ -126,18 +126,18 @@ QAction* GUI_PreferenceDialog::action()
 	return m->action;
 }
 
-QList<QAction*> GUI_PreferenceDialog::actions()
+QList<QAction*> GUI_PreferenceDialog::actions(QWidget* parent)
 {
 	QList<QAction*> ret;
 	for(Preferences::Base* dialog : m->pref_widgets)
 	{
 		QString action_name = dialog->action_name();
 		QString identifier = dialog->identifier();
-		QAction* action = new QAction(nullptr);
+		QAction* action = new QAction(parent);
 		action->setText(action_name);
 		ret << action;
 
-		connect(action, &QAction::triggered, this, [=](bool b){
+		connect(action, &QAction::triggered, this, [=](){
 			show_preference_dialog(identifier);
 		});
 	}

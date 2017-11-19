@@ -18,6 +18,7 @@ SET(SOURCES
 	Shortcuts/GUI_Shortcuts.cpp
 	Shortcuts/GUI_ShortcutEntry.cpp
 	Shortcuts/ShortcutLineEdit.cpp
+	Search/GUI_SearchPreferences.cpp
 	StreamRecorder/GUI_StreamRecorder.cpp
 	Covers/GUI_Covers.cpp
 	Streams/GUI_StreamPreferences.cpp
@@ -38,6 +39,7 @@ QT5_WRAP_UI(UI_FILES
 	RemoteControl/GUI_RemoteControl.ui
 	Shortcuts/GUI_Shortcuts.ui
 	Shortcuts/GUI_ShortcutEntry.ui
+	Search/GUI_SearchPreferences.ui
 	StreamRecorder/GUI_StreamRecorder.ui
 	Covers/GUI_Covers.ui
 	Streams/GUI_StreamPreferences.ui

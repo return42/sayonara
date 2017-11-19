@@ -66,7 +66,8 @@ void GUI_LibraryPreferences::init_ui()
 	ui->lv_libs->setModel(m->model);
 	ui->lv_libs->setItemDelegate(
 				new Gui::StyledItemDelegate(ui->lv_libs)
-				);
+	);
+
 	ui->tab_widget->setCurrentIndex(0);
 
 	QItemSelectionModel* sel_model = ui->lv_libs->selectionModel();
@@ -92,26 +93,11 @@ QString GUI_LibraryPreferences::action_name() const
 
 bool GUI_LibraryPreferences::commit()
 {
-	Library::SearchModeMask mask = 0;
-
-	if(ui->cb_case_insensitive->isChecked()){
-		mask |= Library::CaseInsensitve;
-	}
-
-	if(ui->cb_no_special_chars->isChecked()){
-		mask |= Library::NoSpecialChars;
-	}
-
-	if(ui->cb_no_accents->isChecked()){
-		mask |= Library::NoDiacriticChars;
-	}
-
 	_settings->set(Set::Lib_DC_DoNothing, ui->rb_dc_do_nothing->isChecked());
 	_settings->set(Set::Lib_DC_PlayIfStopped, ui->rb_dc_play_if_stopped->isChecked());
 	_settings->set(Set::Lib_DC_PlayImmediately, ui->rb_dc_play_immediately->isChecked());
 	_settings->set(Set::Lib_DD_DoNothing, ui->rb_dd_do_nothing->isChecked());
 	_settings->set(Set::Lib_DD_PlayIfStoppedAndEmpty, ui->rb_dd_start_if_stopped_and_empty->isChecked());
-	_settings->set(Set::Lib_SearchMode, mask);
 	_settings->set(Set::Lib_UseViewClearButton, ui->cb_show_clear_buttons->isChecked());
 
 	return m->model->commit();
@@ -119,12 +105,6 @@ bool GUI_LibraryPreferences::commit()
 
 void GUI_LibraryPreferences::revert()
 {
-	Library::SearchModeMask mask = _settings->get(Set::Lib_SearchMode);
-
-	ui->cb_case_insensitive->setChecked(mask & Library::CaseInsensitve);
-	ui->cb_no_special_chars->setChecked(mask & Library::NoSpecialChars);
-	ui->cb_no_accents->setChecked(mask & Library::NoDiacriticChars);
-
 	ui->rb_dc_do_nothing->setChecked(_settings->get(Set::Lib_DC_DoNothing));
 	ui->rb_dc_play_if_stopped->setChecked(_settings->get(Set::Lib_DC_PlayIfStopped));
 	ui->rb_dc_play_immediately->setChecked(_settings->get(Set::Lib_DC_PlayImmediately));

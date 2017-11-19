@@ -69,7 +69,7 @@
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
-      <widget class="QWidget" name="">
+      <widget class="QWidget" name="layoutWidget">
        <layout class="QVBoxLayout" name="verticalLayout">
         <property name="spacing">
          <number>3</number>
@@ -141,7 +141,7 @@
      <x>0</x>
      <y>0</y>
      <width>1038</width>
-     <height>27</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_file">
@@ -174,8 +174,16 @@
     <addaction name="action_help"/>
     <addaction name="action_about"/>
    </widget>
+   <widget class="QMenu" name="menu_preferences">
+    <property name="title">
+     <string>Preferences</string>
+    </property>
+    <addaction name="action_preferences"/>
+    <addaction name="separator"/>
+   </widget>
    <addaction name="menu_file"/>
    <addaction name="menu_view"/>
+   <addaction name="menu_preferences"/>
    <addaction name="menu_about"/>
   </widget>
   <action name="action_OpenFile">
@@ -273,6 +281,11 @@
   <action name="action_logger">
    <property name="text">
     <string notr="true">Logger</string>
+   </property>
+  </action>
+  <action name="action_preferences">
+   <property name="text">
+    <string>Preferences</string>
    </property>
   </action>
  </widget>

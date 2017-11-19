@@ -85,7 +85,6 @@ void GUI_LastFM::retranslate_ui()
 	ui->retranslateUi(this);
 	ui->lab_activate->setText(Lang::get(Lang::Activate));
 	ui->lab_sec->setText(Lang::get(Lang::Seconds));
-
 }
 
 bool GUI_LastFM::commit()

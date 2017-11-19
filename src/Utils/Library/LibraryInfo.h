@@ -31,24 +31,24 @@ namespace Library
 	{
 		PIMPL(Info)
 
-	public:
-		Info();
-		Info(const QString& name, const QString& path, LibraryId id);
-		Info(const Info& other);
-		~Info();
+		public:
+			Info();
+			Info(const QString& name, const QString& path, LibraryId id);
+			Info(const Info& other);
+			~Info();
 
-		Info& operator =(const Info& other);
+			Info& operator =(const Info& other);
 
-		QString name() const;
-		QString path() const;
-		QString symlink_path() const;
-		LibraryId id() const;
-		bool valid() const;
+			QString name() const;
+			QString path() const;
+			QString symlink_path() const;
+			LibraryId id() const;
+			bool valid() const;
 
-		static Info fromString(const QString& str);
-		QString toString() const;
+			static Info fromString(const QString& str);
+			QString toString() const;
 
-		bool operator==(const Info& other) const;
+			bool operator==(const Info& other) const;
 	};
 }
 

@@ -77,6 +77,7 @@
 #include "GUI/Preferences/Icons/GUI_IconPreferences.h"
 #include "GUI/Preferences/ProxyPreferences/GUI_Proxy.h"
 #include "GUI/Preferences/Streams/GUI_StreamPreferences.h"
+#include "GUI/Preferences/Search/GUI_SearchPreferences.h"
 
 #include "Utils/FileUtils.h"
 #include "Utils/Utils.h"
@@ -287,6 +288,7 @@ void Application::init_preferences()
 	preferences->register_preference_dialog(new GUI_PlaylistPreferences("playlist"));
 	preferences->register_preference_dialog(new GUI_LibraryPreferences("library"));
 	preferences->register_preference_dialog(new GUI_Covers("covers"));
+	preferences->register_preference_dialog(new GUI_SearchPreferences("search"));
 
 	preferences->register_preference_dialog(new GUI_Proxy("proxy"));
 	preferences->register_preference_dialog(new GUI_StreamPreferences("streams"));
