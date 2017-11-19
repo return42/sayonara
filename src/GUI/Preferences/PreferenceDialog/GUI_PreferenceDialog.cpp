@@ -28,6 +28,7 @@
 #include "Utils/Message/GlobalMessage.h"
 
 #include <QLayout>
+#include <QMenu>
 
 using Preferences::Base;
 using Preferences::Action;
@@ -59,12 +60,17 @@ void GUI_PreferenceDialog::register_preference_dialog(Base* pref_widget)
 
 void GUI_PreferenceDialog::show_preference_dialog(const QString& identifier)
 {
+	init_ui();
+
 	int i=0;
 	for(Preferences::Base* pwi : m->pref_widgets)
 	{
-		if(identifier.compare(pwi->identifier()) == 0)
+		QString dialog_id = pwi->identifier();
+		if(identifier.compare(dialog_id) == 0)
 		{
+			ui->list_preferences->setCurrentRow(i);
 			row_changed(i);
+			show();
 			return;
 		}
 
@@ -72,6 +78,8 @@ void GUI_PreferenceDialog::show_preference_dialog(const QString& identifier)
 	}
 
 	sp_log(Log::Warning, this) << "Cannot find preference widget " << identifier;
+
+
 }
 
 
@@ -116,6 +124,25 @@ QAction* GUI_PreferenceDialog::action()
 
 	m->action->setText(name + "...");
 	return m->action;
+}
+
+QList<QAction*> GUI_PreferenceDialog::actions()
+{
+	QList<QAction*> ret;
+	for(Preferences::Base* dialog : m->pref_widgets)
+	{
+		QString action_name = dialog->action_name();
+		QString identifier = dialog->identifier();
+		QAction* action = new QAction(nullptr);
+		action->setText(action_name);
+		ret << action;
+
+		connect(action, &QAction::triggered, this, [=](bool b){
+			show_preference_dialog(identifier);
+		});
+	}
+
+	return ret;
 }
 
 

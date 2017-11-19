@@ -24,9 +24,11 @@
 #define PREFERENCEDIALOG_H
 
 #include "GUI/Utils/Widgets/Dialog.h"
+#include <QList>
 
 class QString;
 class QAction;
+class QMenu;
 
 namespace Preferences
 {
@@ -45,7 +47,8 @@ public:
 
 	virtual void register_preference_dialog(Preferences::Base* dialog)=0;
 	virtual void show_preference_dialog(const QString& identifier)=0;
+
+	virtual QList<QAction*> actions()=0;
 };
 
 #endif // PREFERENCEDIALOG_H
-

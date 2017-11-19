@@ -198,7 +198,7 @@ void GUI_SomaFM::station_index_changed(const QModelIndex& idx)
 	SomaFM::Station station = get_station(idx.row());
 
 	pl_model = static_cast<SomaFM::PlaylistModel*>(ui->lv_playlists->model());
-	pl_model->setStation(station);
+	pl_model->set_station(station);
 
 	ui->lab_description->setText(station.description());
 

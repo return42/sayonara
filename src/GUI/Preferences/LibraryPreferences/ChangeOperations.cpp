@@ -18,10 +18,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "ChangeOperations.h"
 #include "Components/Library/LibraryManager.h"
+
+#include <QString>
 
 ChangeOperation::ChangeOperation() {}
 

@@ -25,25 +25,26 @@
 #define SOMAFMPLAYLISTMODEL_H
 
 #include <QStringListModel>
-#include "3rdParty/SomaFM/SomaFMStation.h"
+
+#include "Utils/Pimpl.h"
 
 class QMimeData;
 
 namespace SomaFM
 {
 	class Station;
-	class PlaylistModel : public QStringListModel
+	class PlaylistModel :
+			public QStringListModel
 	{
-	private:
-		SomaFM::Station _station;
+		PIMPL(PlaylistModel)
 
 	public:
 		explicit PlaylistModel(QObject* parent=nullptr);
 		~PlaylistModel();
 
-		QMimeData* mimeData(const QModelIndexList &indexes) const override;
+		QMimeData* mimeData(const QModelIndexList& indexes) const override;
 
-		void setStation(const SomaFM::Station& station);
+		void set_station(const SomaFM::Station& station);
 	};
 }
 

@@ -21,6 +21,7 @@
 /* SomaFMPlaylistModel.cpp */
 
 #include "SomaFMPlaylistModel.h"
+#include "3rdParty/SomaFM/SomaFMStation.h"
 #include "Components/Covers/CoverLocation.h"
 
 #include "Utils/globals.h"
@@ -31,17 +32,24 @@
 #include <QUrl>
 
 using namespace Gui;
+using SomaFM::PlaylistModel;
+
+struct SomaFM::PlaylistModel::Private
+{
+	SomaFM::Station station;
+};
 
 SomaFM::PlaylistModel::PlaylistModel(QObject* parent) :
-	QStringListModel(parent) {}
+	QStringListModel(parent)
+{
+	m = Pimpl::make<Private>();
+}
 
 SomaFM::PlaylistModel::~PlaylistModel() {}
 
 
-void SomaFM::PlaylistModel::setStation(const SomaFM::Station& station)
+void SomaFM::PlaylistModel::set_station(const SomaFM::Station& station)
 {
-	_station = station;
-
 	QStringList urls = station.urls();
 	QStringList entries;
 
@@ -71,7 +79,7 @@ QMimeData* SomaFM::PlaylistModel::mimeData(const QModelIndexList& indexes) const
 
 	int row = indexes.first().row();
 
-	QStringList urls = _station.urls();
+	QStringList urls = m->station.urls();
 	if(!between(row, urls)){
 		return nullptr;
 	}
@@ -79,7 +87,7 @@ QMimeData* SomaFM::PlaylistModel::mimeData(const QModelIndexList& indexes) const
 	QUrl url( urls[row] );
 
 	CustomMimeData* mime_data = new CustomMimeData(this);
-	Cover::Location location = _station.cover_location();
+	Cover::Location location = m->station.cover_location();
 
 	mime_data->setUrls({url});
 	if(!location.search_urls().isEmpty())

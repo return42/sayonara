@@ -278,8 +278,6 @@ void Application::init_preferences()
 {
 	PreferenceDialog* preferences = new GUI_PreferenceDialog(m->player);
 
-	m->player->register_preference_dialog(preferences);
-
 	preferences->register_preference_dialog(new GUI_LanguageChooser("language"));
 	preferences->register_preference_dialog(new GUI_FontConfig("fonts"));
 	preferences->register_preference_dialog(new GUI_IconPreferences("icons"));
@@ -298,6 +296,8 @@ void Application::init_preferences()
 
 	preferences->register_preference_dialog(new GUI_Notifications("notifications"));
 	preferences->register_preference_dialog(new GUI_LastFM("lastfm", new LastFM::Base()));
+
+	m->player->register_preference_dialog(preferences);
 
 	sp_log(Log::Debug, this) << "Preference dialogs loaded: " << m->timer->elapsed() << "ms";
 }

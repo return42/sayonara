@@ -21,10 +21,8 @@
 #include "GUI_Player.h"
 #include "GUI_Logger.h"
 #include "GUI_TrayIcon.h"
-#include "GUI/Utils/Icons.h"
-#include "GUI/Utils/GuiUtils.h"
-#include "GUI/Utils/Style.h"
 
+#include "Components/PlayManager/PlayManager.h"
 
 #include "Utils/Message/Message.h"
 #include "Utils/Logger/Logger.h"
@@ -35,7 +33,9 @@
 #include "Utils/Settings/Settings.h"
 #include "Utils/MetaData/MetaData.h"
 
-#include "Components/PlayManager/PlayManager.h"
+#include "GUI/Utils/Icons.h"
+#include "GUI/Utils/GuiUtils.h"
+#include "GUI/Utils/Style.h"
 
 #include "Interfaces/LibraryInterface/LibraryPluginHandler.h"
 #include "Interfaces/LibraryInterface/LibraryContainer/LibraryContainer.h"
@@ -313,6 +313,13 @@ void GUI_Player::register_preference_dialog(PreferenceDialog* dialog)
 
 	dialog->setParent(this);
 	menu_file->insertAction(sep, dialog->action());
+
+	QMenu* pref_menu = new QMenu(this->menuBar());
+	pref_menu->addActions(dialog->actions());
+
+	QAction* action = menuBar()->insertMenu(menu_about->menuAction(), pref_menu);
+	action->setText("Preferences");
+	action->setVisible(true);
 }
 
 

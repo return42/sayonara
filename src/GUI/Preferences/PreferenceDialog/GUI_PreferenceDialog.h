@@ -55,6 +55,8 @@ class GUI_PreferenceDialog :
 		QString action_name() const override;
 		QAction* action() override;
 
+		QList<QAction*> actions() override;
+
 		void register_preference_dialog(Preferences::Base* dialog) override;
 		void show_preference_dialog(const QString& identifier) override;
 

@@ -22,6 +22,8 @@
 #include "CoverLookupAlternative.h"
 #include "CoverLocation.h"
 
+#include <QStringList>
+
 using Cover::AlternativeLookup;
 using Cover::Location;
 using Cover::Lookup;
