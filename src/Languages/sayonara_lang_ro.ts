@@ -79,7 +79,7 @@
         <location line="+42"/>
         <location filename="../../build/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="+2"/>
         <source>Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Server</translation>
     </message>
     <message>
         <location line="+20"/>
@@ -91,13 +91,13 @@
         <location line="+12"/>
         <location filename="../../build/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="-1"/>
         <source>Select and preview multiple covers</source>
-        <translation type="unfinished">Alege și previzualizează multiple coperți</translation>
+        <translation>Alege și previzualizează multiple coperți</translation>
     </message>
     <message>
         <location line="+194"/>
         <location filename="../../build/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="+4"/>
         <source>Alternative Cover</source>
-        <translation type="unfinished">Copertile alternativ</translation>
+        <translation>Copertile alternativ</translation>
     </message>
 </context>
 <context>
@@ -110,7 +110,7 @@
     <message>
         <location line="+41"/>
         <source>Best</source>
-        <translation type="unfinished"></translation>
+        <translation>Cel mai bun</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -162,7 +162,7 @@
         <location filename="../GUI/Plugins/Broadcasting/GUI_Broadcast.ui" line="+54"/>
         <location filename="../../build/src/GUI/Plugins/Broadcasting/ui_GUI_Broadcast.h" line="+114"/>
         <source>...</source>
-        <translation type="unfinished">...</translation>
+        <translation>...</translation>
     </message>
     <message>
         <location line="+34"/>
@@ -222,28 +222,28 @@
         <location filename="../GUI/Player/GUI_Controls.ui" line="+529"/>
         <location filename="../../build/src/GUI/Player/ui_GUI_Controls.h" line="+454"/>
         <source>Written by Lucio Carreras</source>
-        <translation type="unfinished">Scris de către Lucio Carreras</translation>
+        <translation>Scris de către Lucio Carreras</translation>
     </message>
     <message>
         <location line="-88"/>
         <location filename="../../build/src/GUI/Player/ui_GUI_Controls.h" line="-2"/>
         <source>Copyright 2011-2017</source>
-        <translation type="unfinished">Drepturi autor 2011-2017</translation>
+        <translation>Drepturi autor 2011-2017</translation>
     </message>
     <message>
         <location filename="../GUI/Player/GUI_Controls.cpp" line="+49"/>
         <source>Sayonara Player</source>
-        <translation type="unfinished">Sayonara Player</translation>
+        <translation>Sayonara Player</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Written by</source>
-        <translation type="unfinished">Scris de către</translation>
+        <translation>Scris de către</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Copyright</source>
-        <translation type="unfinished">Drept de autor</translation>
+        <translation>Drept de autor</translation>
     </message>
 </context>
 <context>
@@ -273,12 +273,12 @@
     <message>
         <location filename="../GUI/Utils/Library/GUI_DeleteDialog.cpp" line="+87"/>
         <source>Only from library</source>
-        <translation type="unfinished">Doar din librărie</translation>
+        <translation>Doar din librărie</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>You are about to delete %1 files</source>
-        <translation type="unfinished">Vei șterge %1 fișiere</translation>
+        <translation>Vei șterge %1 fișiere</translation>
     </message>
 </context>
 <context>
@@ -287,13 +287,13 @@
         <location filename="../GUI/Library/GUI_EmptyLibrary.ui" line="+26"/>
         <location filename="../../build/src/GUI/Library/ui_GUI_EmptyLibrary.h" line="+134"/>
         <source>Set library path</source>
-        <translation type="unfinished">Alege calea pentru librărie</translation>
+        <translation>Alege calea pentru librărie</translation>
     </message>
     <message>
         <location line="+17"/>
         <location filename="../../build/src/GUI/Library/ui_GUI_EmptyLibrary.h" line="+1"/>
         <source>You haven&apos;t specified a library path yet</source>
-        <translation type="unfinished">Încă nu ai ales o cale pentru librărie</translation>
+        <translation>Încă nu ai ales o cale pentru librărie</translation>
     </message>
 </context>
 <context>
@@ -355,30 +355,30 @@
         <location filename="../GUI/ImportDialog/GUI_ImportDialog.ui" line="+14"/>
         <location filename="../../build/src/GUI/ImportDialog/ui_GUI_ImportDialog.h" line="+156"/>
         <source>Import</source>
-        <translation type="unfinished">Importă</translation>
+        <translation>Importă</translation>
     </message>
     <message>
         <location line="+13"/>
         <location filename="../../build/src/GUI/ImportDialog/ui_GUI_ImportDialog.h" line="+1"/>
         <source>Import tracks to library</source>
-        <translation type="unfinished">Importă melodiile în librărie</translation>
+        <translation>Importă melodiile în librărie</translation>
     </message>
     <message>
         <location line="+7"/>
         <location filename="../../build/src/GUI/ImportDialog/ui_GUI_ImportDialog.h" line="+1"/>
         <source>Select target folder</source>
-        <translation type="unfinished">Alege dosarul țintă</translation>
+        <translation>Alege dosarul țintă</translation>
     </message>
     <message>
         <location line="+43"/>
         <location filename="../../build/src/GUI/ImportDialog/ui_GUI_ImportDialog.h" line="+2"/>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
     <message>
         <location filename="../GUI/ImportDialog/GUI_ImportDialog.cpp" line="+102"/>
         <source>%1 tracks available</source>
-        <translation type="unfinished">%1 melodii gata</translation>
+        <translation>%1 melodii gata</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -388,37 +388,37 @@
     <message>
         <location line="+6"/>
         <source>Importing</source>
-        <translation type="unfinished"></translation>
+        <translation>Import</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Finished</source>
-        <translation type="unfinished">Finalizate</translation>
+        <translation>Finalizate</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Cancelled</source>
-        <translation type="unfinished">Abandonat</translation>
+        <translation>Abandonat</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>No tracks</source>
-        <translation type="unfinished">Nicio piesă</translation>
+        <translation>Nicio piesă</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Rollback</source>
-        <translation type="unfinished">Întoarcere</translation>
+        <translation>Întoarcere</translation>
     </message>
     <message>
         <location line="+67"/>
         <source>Choose target directory</source>
-        <translation type="unfinished">Alege directorul țintă</translation>
+        <translation>Alege directorul țintă</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>%1&lt;br /&gt;is no library directory</source>
-        <translation type="unfinished">%1&lt;br /&gt;nu este director librărie</translation>
+        <translation>%1&lt;br /&gt;nu este director librărie</translation>
     </message>
 </context>
 <context>
@@ -491,7 +491,7 @@
     <message>
         <location filename="../3rdParty/Soundcloud/ui/GUI_SoundcloudLibrary.cpp" line="+49"/>
         <source>Add artist</source>
-        <translation type="unfinished"></translation>
+        <translation>Adaugă interpret</translation>
     </message>
 </context>
 <context>
@@ -512,13 +512,13 @@
         <location line="+20"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
         <source>New</source>
-        <translation type="unfinished">Noi</translation>
+        <translation>Noi</translation>
     </message>
     <message>
         <location line="+14"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
         <source>Delete</source>
-        <translation type="unfinished">Delete</translation>
+        <translation>Delete</translation>
     </message>
     <message>
         <location line="+20"/>
@@ -617,7 +617,7 @@
         <location filename="../GUI/InfoDialog/GUI_Lyrics.ui" line="+28"/>
         <location filename="../../build/src/GUI/InfoDialog/ui_GUI_Lyrics.h" line="+212"/>
         <source>Save Lyrics</source>
-        <translation type="unfinished"></translation>
+        <translation>Salvează versuri</translation>
     </message>
     <message>
         <location line="+125"/>
@@ -644,7 +644,7 @@
     <message>
         <location line="+14"/>
         <source>Source</source>
-        <translation type="unfinished"></translation>
+        <translation>Sursa</translation>
     </message>
 </context>
 <context>
@@ -979,7 +979,7 @@
         <location filename="../GUI/Preferences/ProxyPreferences/GUI_Proxy.ui" line="+30"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_Proxy.h" line="+125"/>
         <source>Password</source>
-        <translation type="unfinished">Parolă</translation>
+        <translation>Parolă</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -991,30 +991,30 @@
         <location line="+7"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_Proxy.h" line="+1"/>
         <source>Active</source>
-        <translation type="unfinished">Activ</translation>
+        <translation>Activ</translation>
     </message>
     <message>
         <location line="+13"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_Proxy.h" line="+1"/>
         <source>Port</source>
-        <translation type="unfinished">Port</translation>
+        <translation>Port</translation>
     </message>
     <message>
         <location line="+7"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_Proxy.h" line="+1"/>
         <source>Username</source>
-        <translation type="unfinished">Nume de utilizator</translation>
+        <translation>Nume de utilizator</translation>
     </message>
     <message>
         <location line="+27"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_Proxy.h" line="+1"/>
         <source>Host</source>
-        <translation type="unfinished"></translation>
+        <translation>Gazda</translation>
     </message>
     <message>
         <location filename="../GUI/Preferences/ProxyPreferences/GUI_Proxy.cpp" line="+55"/>
         <source>Proxy</source>
-        <translation type="unfinished"></translation>
+        <translation>Proxy</translation>
     </message>
 </context>
 <context>
@@ -1316,12 +1316,12 @@
     <message>
         <location filename="../GUI/Preferences/Streams/GUI_StreamPreferences.cpp" line="+51"/>
         <source>Streams</source>
-        <translation type="unfinished">Flux web</translation>
+        <translation>Flux web</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Podcasts</source>
-        <translation type="unfinished">Podcasturi</translation>
+        <translation>Podcasturi</translation>
     </message>
     <message>
         <location filename="../GUI/Preferences/Streams/GUI_StreamPreferences.ui" line="+17"/>
@@ -1333,7 +1333,7 @@
         <location line="+7"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_StreamPreferences.h" line="+1"/>
         <source>Show history</source>
-        <translation type="unfinished"></translation>
+        <translation>Arată Istoric</translation>
     </message>
 </context>
 <context>
@@ -1360,7 +1360,7 @@
         <location line="-55"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="+6"/>
         <source>General</source>
-        <translation type="unfinished"></translation>
+        <translation>Opțiuni generale</translation>
     </message>
     <message>
         <location line="+106"/>
@@ -1390,7 +1390,7 @@
         <location line="+24"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="+1"/>
         <source>Example</source>
-        <translation type="unfinished">Exemplu</translation>
+        <translation>Exemplu</translation>
     </message>
     <message>
         <location filename="../GUI/Preferences/StreamRecorder/GUI_StreamRecorder.cpp" line="+151"/>
@@ -1568,7 +1568,7 @@ Te rog alege alt dosar</translation>
         <location line="+324"/>
         <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+4"/>
         <source>Album artist</source>
-        <translation type="unfinished"></translation>
+        <translation>Interpret album</translation>
     </message>
     <message>
         <location line="-635"/>
@@ -1864,7 +1864,7 @@ Te rog alege alt dosar</translation>
     <message>
         <location line="+6"/>
         <source>Album artists</source>
-        <translation type="unfinished"></translation>
+        <translation>Interpret album</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -1874,7 +1874,7 @@ Te rog alege alt dosar</translation>
     <message>
         <location line="+4"/>
         <source>Application</source>
-        <translation type="unfinished"></translation>
+        <translation>Aplicație</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -1884,7 +1884,7 @@ Te rog alege alt dosar</translation>
     <message>
         <location line="+6"/>
         <source>Ascending</source>
-        <translation type="unfinished"></translation>
+        <translation>Crescător</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -1899,7 +1899,7 @@ Te rog alege alt dosar</translation>
     <message>
         <location line="+2"/>
         <source>Date</source>
-        <translation type="unfinished">Data:</translation>
+        <translation>Data</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -1909,7 +1909,7 @@ Te rog alege alt dosar</translation>
     <message>
         <location line="+9"/>
         <source>Descending</source>
-        <translation type="unfinished"></translation>
+        <translation>Descrescător</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -1964,7 +1964,7 @@ Te rog alege alt dosar</translation>
     <message>
         <location line="+2"/>
         <source>Filename</source>
-        <translation type="unfinished"></translation>
+        <translation>Denumire fișier</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2044,17 +2044,17 @@ Te rog alege alt dosar</translation>
     <message>
         <location line="+2"/>
         <source>Loading</source>
-        <translation type="unfinished"></translation>
+        <translation>Se încarcă</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Loading %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Se încarcă %1</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Invalid characters</source>
-        <translation type="unfinished"></translation>
+        <translation>Caracters invalid</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2114,7 +2114,7 @@ Te rog alege alt dosar</translation>
     <message>
         <location line="+2"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Denumire</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2144,7 +2144,7 @@ Te rog alege alt dosar</translation>
     <message>
         <location line="+2"/>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -2169,7 +2169,7 @@ Te rog alege alt dosar</translation>
     <message>
         <location line="+2"/>
         <source>or</source>
-        <translation type="unfinished"></translation>
+        <translation>sau</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2214,7 +2214,7 @@ Te rog alege alt dosar</translation>
     <message>
         <location line="+2"/>
         <source>Preferences</source>
-        <translation type="unfinished">Editare preferințe...</translation>
+        <translation>Preferințe</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2274,7 +2274,7 @@ Te rog alege alt dosar</translation>
     <message>
         <location line="+14"/>
         <source>Save to file</source>
-        <translation type="unfinished"></translation>
+        <translation>Salvare în fișier</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -2284,7 +2284,7 @@ Te rog alege alt dosar</translation>
     <message>
         <location line="+15"/>
         <source>Sort by</source>
-        <translation type="unfinished"></translation>
+        <translation>Sortează după</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -2324,7 +2324,7 @@ Te rog alege alt dosar</translation>
     <message>
         <location line="-57"/>
         <source>Mute</source>
-        <translation type="unfinished"></translation>
+        <translation>Flaut</translation>
     </message>
     <message>
         <location line="+71"/>
@@ -2395,7 +2395,7 @@ Te rog alege alt dosar</translation>
     <message>
         <location line="+2"/>
         <source>Show album artists</source>
-        <translation type="unfinished"></translation>
+        <translation>Arată interpret album</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2521,7 +2521,7 @@ Te rog alege alt dosar</translation>
     <message>
         <location filename="../GUI/Library/GUI_EmptyLibrary.cpp" line="+94"/>
         <source>Do you want to reload the Library?</source>
-        <translation type="unfinished">Vrei să reîncarci Librăria?</translation>
+        <translation>Vrei să reîncarci Librăria?</translation>
     </message>
 </context>
 <context>
@@ -2542,12 +2542,12 @@ Te rog alege alt dosar</translation>
     <message>
         <location filename="../GUI/Library/Views/ItemView.cpp" line="+126"/>
         <source>Merge</source>
-        <translation type="unfinished">Combinație</translation>
+        <translation>Combinație</translation>
     </message>
     <message>
         <location line="+105"/>
         <source>Clear selection</source>
-        <translation type="unfinished"></translation>
+        <translation>Elimină selecția</translation>
     </message>
 </context>
 <context>
@@ -2555,7 +2555,7 @@ Te rog alege alt dosar</translation>
     <message>
         <location filename="../GUI/Library/Utils/LocalLibraryMenu.cpp" line="+188"/>
         <source>Live search</source>
-        <translation type="unfinished">Căutare directă în librărie</translation>
+        <translation>Căutare directă în librărie</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2568,7 +2568,7 @@ Te rog alege alt dosar</translation>
     <message>
         <location filename="../GUI/Utils/ContextMenu/LibraryContextMenu.cpp" line="+148"/>
         <source>Clear selection</source>
-        <translation type="unfinished"></translation>
+        <translation>Elimină selecția</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -2639,7 +2639,7 @@ Te rog alege alt dosar</translation>
     <message>
         <location line="+1"/>
         <source>Esc</source>
-        <translation type="unfinished"></translation>
+        <translation>Esc</translation>
     </message>
 </context>
 <context>
@@ -2677,7 +2677,7 @@ Te rog alege alt dosar</translation>
     <message>
         <location filename="../3rdParty/Soundcloud/src/SoundcloudData.cpp" line="+250"/>
         <source>Purchase Url</source>
-        <translation type="unfinished">Cumpăra de</translation>
+        <translation>Cumpăra de</translation>
     </message>
 </context>
 <context>
@@ -2690,22 +2690,22 @@ Te rog alege alt dosar</translation>
     <message>
         <location line="+78"/>
         <source>No artists found</source>
-        <translation type="unfinished">Nu gesit artist</translation>
+        <translation>Nu gesit artist</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Found %1 artists</source>
-        <translation type="unfinished">Găsite%1 artists</translation>
+        <translation>Găsite%1 artists</translation>
     </message>
     <message>
         <location line="+48"/>
         <source>%1 tracks found</source>
-        <translation type="unfinished">Găsite%1 piece</translation>
+        <translation>Găsite%1 piece</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>%1 playlists found</source>
-        <translation type="unfinished">Găsite%1 liste</translation>
+        <translation>Găsite%1 liste</translation>
     </message>
 </context>
 <context>
@@ -2719,18 +2719,18 @@ Te rog alege alt dosar</translation>
         <location line="+4"/>
         <location line="+218"/>
         <source>Permalink Url</source>
-        <translation type="unfinished">Website permanent</translation>
+        <translation>Website permanent</translation>
     </message>
     <message>
         <location line="-205"/>
         <source>Followers/Following</source>
-        <translation type="unfinished">Urmaritori</translation>
+        <translation>Urmaritori</translation>
     </message>
     <message>
         <location line="+84"/>
         <location line="+125"/>
         <source>Purchase Url</source>
-        <translation type="unfinished">Cumpăra de</translation>
+        <translation>Cumpăra de</translation>
     </message>
 </context>
 <context>
@@ -2783,7 +2783,7 @@ Te rog alege alt dosar</translation>
         <location line="+10"/>
         <location filename="../../build/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
         <source>Preferences</source>
-        <translation type="unfinished">Editare preferințe...</translation>
+        <translation>Preferințe</translation>
     </message>
 </context>
 <context>
@@ -2813,12 +2813,12 @@ Te rog alege alt dosar</translation>
     <message>
         <location filename="../GUI/Plugins/Stream/GUI_AbstractStream.cpp" line="-266"/>
         <source>Streams</source>
-        <translation type="unfinished">Flux web</translation>
+        <translation>Flux web</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Podcasts</source>
-        <translation type="unfinished">Podcasturi</translation>
+        <translation>Podcasturi</translation>
     </message>
 </context>
 <context>
