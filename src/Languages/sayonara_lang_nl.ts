@@ -86,7 +86,7 @@
         <location line="+42"/>
         <location filename="../../build/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="+2"/>
         <source>Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Server</translation>
     </message>
     <message>
         <location line="+20"/>
@@ -98,13 +98,13 @@
         <location line="+12"/>
         <location filename="../../build/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="-1"/>
         <source>Select and preview multiple covers</source>
-        <translation type="unfinished">Selecteer en bekijk meerdere afbeeldingen</translation>
+        <translation>Selecteer en bekijk meerdere afbeeldingen</translation>
     </message>
     <message>
         <location line="+194"/>
         <location filename="../../build/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="+4"/>
         <source>Alternative Cover</source>
-        <translation type="unfinished">Andere afbeelding</translation>
+        <translation>Andere afbeelding</translation>
     </message>
 </context>
 <context>
@@ -118,7 +118,7 @@
     <message>
         <location line="+41"/>
         <source>Best</source>
-        <translation type="unfinished"></translation>
+        <translation>Beste</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -157,7 +157,7 @@
         <location filename="../GUI/Plugins/Bookmarks/GUI_Bookmarks.cpp" line="+74"/>
         <location line="+52"/>
         <source>No bookmarks found</source>
-        <translation type="unfinished"></translation>
+        <translation>Geen bladwijzers gevonden</translation>
     </message>
     <message>
         <location line="+122"/>
@@ -172,7 +172,7 @@
         <location filename="../GUI/Plugins/Broadcasting/GUI_Broadcast.ui" line="+54"/>
         <location filename="../../build/src/GUI/Plugins/Broadcasting/ui_GUI_Broadcast.h" line="+114"/>
         <source>...</source>
-        <translation type="unfinished">...</translation>
+        <translation>...</translation>
     </message>
     <message>
         <location line="+34"/>
@@ -241,28 +241,28 @@
         <location filename="../GUI/Player/GUI_Controls.ui" line="+529"/>
         <location filename="../../build/src/GUI/Player/ui_GUI_Controls.h" line="+454"/>
         <source>Written by Lucio Carreras</source>
-        <translation type="unfinished">Geschreven door Lucio Carreras</translation>
+        <translation>Geschreven door Lucio Carreras</translation>
     </message>
     <message>
         <location line="-88"/>
         <location filename="../../build/src/GUI/Player/ui_GUI_Controls.h" line="-2"/>
         <source>Copyright 2011-2017</source>
-        <translation type="unfinished">Copyright 2011-2017</translation>
+        <translation>Copyright 2011-2017</translation>
     </message>
     <message>
         <location filename="../GUI/Player/GUI_Controls.cpp" line="+49"/>
         <source>Sayonara Player</source>
-        <translation type="unfinished">Sayonara Player</translation>
+        <translation>Sayonara Player</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Written by</source>
-        <translation type="unfinished">Geschreven door</translation>
+        <translation>Geschreven door</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Copyright</source>
-        <translation type="unfinished">Copyright</translation>
+        <translation>Copyright</translation>
     </message>
 </context>
 <context>
@@ -293,12 +293,12 @@
     <message>
         <location filename="../GUI/Utils/Library/GUI_DeleteDialog.cpp" line="+87"/>
         <source>Only from library</source>
-        <translation type="unfinished">Enkel van de bibliotheek</translation>
+        <translation>Enkel van de bibliotheek</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>You are about to delete %1 files</source>
-        <translation type="unfinished">U staat op het punt %1 bestanden te verwijderen</translation>
+        <translation>U staat op het punt %1 bestanden te verwijderen</translation>
     </message>
 </context>
 <context>
@@ -307,13 +307,13 @@
         <location filename="../GUI/Library/GUI_EmptyLibrary.ui" line="+26"/>
         <location filename="../../build/src/GUI/Library/ui_GUI_EmptyLibrary.h" line="+134"/>
         <source>Set library path</source>
-        <translation type="unfinished">Stel het pad naar de bibliotheek in</translation>
+        <translation>Stel het pad naar de bibliotheek in</translation>
     </message>
     <message>
         <location line="+17"/>
         <location filename="../../build/src/GUI/Library/ui_GUI_EmptyLibrary.h" line="+1"/>
         <source>You haven&apos;t specified a library path yet</source>
-        <translation type="unfinished">Je hebt nog geen pad naar de bibliotheek opgegeven</translation>
+        <translation>Je hebt nog geen pad naar de bibliotheek opgegeven</translation>
     </message>
 </context>
 <context>
@@ -361,7 +361,7 @@
     <message>
         <location filename="../GUI/Preferences/Icons/GUI_IconPreferences.cpp" line="+219"/>
         <source>Icons</source>
-        <translation type="unfinished"></translation>
+        <translation>Pictogrammen</translation>
     </message>
     <message>
         <location filename="../GUI/Preferences/Icons/GUI_IconPreferences.ui" line="+38"/>
@@ -376,70 +376,70 @@
         <location filename="../GUI/ImportDialog/GUI_ImportDialog.ui" line="+14"/>
         <location filename="../../build/src/GUI/ImportDialog/ui_GUI_ImportDialog.h" line="+156"/>
         <source>Import</source>
-        <translation type="unfinished">Importeren</translation>
+        <translation>Importeren</translation>
     </message>
     <message>
         <location line="+13"/>
         <location filename="../../build/src/GUI/ImportDialog/ui_GUI_ImportDialog.h" line="+1"/>
         <source>Import tracks to library</source>
-        <translation type="unfinished">Importeer nummer naar bibliotheek</translation>
+        <translation>Importeer nummer naar bibliotheek</translation>
     </message>
     <message>
         <location line="+7"/>
         <location filename="../../build/src/GUI/ImportDialog/ui_GUI_ImportDialog.h" line="+1"/>
         <source>Select target folder</source>
-        <translation type="unfinished">Kies doelmap</translation>
+        <translation>Kies doelmap</translation>
     </message>
     <message>
         <location line="+43"/>
         <location filename="../../build/src/GUI/ImportDialog/ui_GUI_ImportDialog.h" line="+2"/>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <location filename="../GUI/ImportDialog/GUI_ImportDialog.cpp" line="+102"/>
         <source>%1 tracks available</source>
-        <translation type="unfinished">%1 nummers beschikbaar</translation>
+        <translation>%1 nummers beschikbaar</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Loading tracks</source>
-        <translation type="unfinished"></translation>
+        <translation>Laden tracks</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Importing</source>
-        <translation type="unfinished"></translation>
+        <translation>Importeren</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Finished</source>
-        <translation type="unfinished">Beëindigd</translation>
+        <translation>Beëindigd</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Cancelled</source>
-        <translation type="unfinished">Geannuleerd</translation>
+        <translation>Geannuleerd</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>No tracks</source>
-        <translation type="unfinished">Geen nummers</translation>
+        <translation>Geen nummers</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Rollback</source>
-        <translation type="unfinished">Terugdraaien</translation>
+        <translation>Terugdraaien</translation>
     </message>
     <message>
         <location line="+67"/>
         <source>Choose target directory</source>
-        <translation type="unfinished">Kies doel map</translation>
+        <translation>Kies doel map</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>%1&lt;br /&gt;is no library directory</source>
-        <translation type="unfinished">%1&lt;br/&gt; is geen map in de bibliotheek</translation>
+        <translation>%1&lt;br/&gt; is geen map in de bibliotheek</translation>
     </message>
 </context>
 <context>
@@ -516,7 +516,7 @@
     <message>
         <location filename="../3rdParty/Soundcloud/ui/GUI_SoundcloudLibrary.cpp" line="+49"/>
         <source>Add artist</source>
-        <translation type="unfinished">Artist toevoegen</translation>
+        <translation>Artist toevoegen</translation>
     </message>
 </context>
 <context>
@@ -537,13 +537,13 @@
         <location line="+20"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
         <source>New</source>
-        <translation type="unfinished">Nieuw</translation>
+        <translation>Nieuw</translation>
     </message>
     <message>
         <location line="+14"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
         <source>Delete</source>
-        <translation type="unfinished">Verwijderen</translation>
+        <translation>Verwijderen</translation>
     </message>
     <message>
         <location line="+20"/>
@@ -599,7 +599,7 @@
         <location line="+24"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+3"/>
         <source>Other</source>
-        <translation type="unfinished"></translation>
+        <translation>Overig</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -650,7 +650,7 @@
         <location filename="../GUI/InfoDialog/GUI_Lyrics.ui" line="+28"/>
         <location filename="../../build/src/GUI/InfoDialog/ui_GUI_Lyrics.h" line="+212"/>
         <source>Save Lyrics</source>
-        <translation type="unfinished"></translation>
+        <translation>Opslaan liedteksten</translation>
     </message>
     <message>
         <location line="+125"/>
@@ -672,12 +672,12 @@
     <message>
         <location line="+4"/>
         <source>Save lyrics</source>
-        <translation type="unfinished"></translation>
+        <translation>Opslaan liedteksten</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Source</source>
-        <translation type="unfinished"></translation>
+        <translation>Bron</translation>
     </message>
 </context>
 <context>
@@ -873,7 +873,7 @@
         <location filename="../GUI/Plugins/PlaylistChooser/GUI_PlaylistChooser.cpp" line="+90"/>
         <location line="+37"/>
         <source>No playlists found</source>
-        <translation type="unfinished"></translation>
+        <translation>Geen afspeellijst gevonden</translation>
     </message>
 </context>
 <context>
@@ -938,13 +938,13 @@
         <location line="-56"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+5"/>
         <source>Behavior</source>
-        <translation type="unfinished"></translation>
+        <translation>Gedrag</translation>
     </message>
     <message>
         <location line="+80"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="-2"/>
         <source>Stop behaviour</source>
-        <translation type="unfinished"></translation>
+        <translation>Stoppen gedrag</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -1038,42 +1038,42 @@
         <location filename="../GUI/Preferences/ProxyPreferences/GUI_Proxy.ui" line="+30"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_Proxy.h" line="+125"/>
         <source>Password</source>
-        <translation type="unfinished">Wachtwoord</translation>
+        <translation>Wachtwoord</translation>
     </message>
     <message>
         <location line="+7"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_Proxy.h" line="+1"/>
         <source>Save username/password</source>
-        <translation type="unfinished"></translation>
+        <translation>Opslaan Gebruikersnaam/Wachtwoord</translation>
     </message>
     <message>
         <location line="+7"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_Proxy.h" line="+1"/>
         <source>Active</source>
-        <translation type="unfinished">Actief</translation>
+        <translation>Actief</translation>
     </message>
     <message>
         <location line="+13"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_Proxy.h" line="+1"/>
         <source>Port</source>
-        <translation type="unfinished">Poort</translation>
+        <translation>Poort</translation>
     </message>
     <message>
         <location line="+7"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_Proxy.h" line="+1"/>
         <source>Username</source>
-        <translation type="unfinished">Gebruikersnaam</translation>
+        <translation>Gebruikersnaam</translation>
     </message>
     <message>
         <location line="+27"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_Proxy.h" line="+1"/>
         <source>Host</source>
-        <translation type="unfinished"></translation>
+        <translation>Host</translation>
     </message>
     <message>
         <location filename="../GUI/Preferences/ProxyPreferences/GUI_Proxy.cpp" line="+55"/>
         <source>Proxy</source>
-        <translation type="unfinished"></translation>
+        <translation>Proxy</translation>
     </message>
 </context>
 <context>
@@ -1081,17 +1081,17 @@
     <message>
         <location filename="../GUI/Library/GUI_ReloadLibraryDialog.cpp" line="+54"/>
         <source>Select reload mode</source>
-        <translation type="unfinished">Kies herlaad modus</translation>
+        <translation>Kies herlaad modus</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Check for changed files (fast)</source>
-        <translation type="unfinished">Zoek naar gewijzigde bestanden (snel)</translation>
+        <translation>Zoek naar gewijzigde bestanden (snel)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Deep scan (slow)</source>
-        <translation type="unfinished">Diepe scan (traag)</translation>
+        <translation>Diepe scan (traag)</translation>
     </message>
 </context>
 <context>
@@ -1129,31 +1129,31 @@
         <location filename="../GUI/Preferences/Search/GUI_SearchPreferences.ui" line="+23"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_SearchPreferences.h" line="+118"/>
         <source>Example</source>
-        <translation type="unfinished">Voorbeeld</translation>
+        <translation>Voorbeeld</translation>
     </message>
     <message>
         <location line="+7"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_SearchPreferences.h" line="+1"/>
         <source>Case insensitive</source>
-        <translation type="unfinished">Hoofdlettergevoelig</translation>
+        <translation>Hoofdlettergevoelig</translation>
     </message>
     <message>
         <location line="+13"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_SearchPreferences.h" line="+1"/>
         <source>Option</source>
-        <translation type="unfinished">Optie</translation>
+        <translation>Optie</translation>
     </message>
     <message>
         <location line="+10"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_SearchPreferences.h" line="+1"/>
         <source>Ignore accents</source>
-        <translation type="unfinished">Negeer accenten</translation>
+        <translation>Negeer accenten</translation>
     </message>
     <message>
         <location line="+27"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_SearchPreferences.h" line="+1"/>
         <source>Ignore special characters</source>
-        <translation type="unfinished">Negeer speciale karakters</translation>
+        <translation>Negeer speciale karakters</translation>
     </message>
 </context>
 <context>
@@ -1161,7 +1161,7 @@
     <message>
         <location filename="../GUI/Preferences/Shortcuts/GUI_ShortcutEntry.cpp" line="+41"/>
         <source>Enter shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation>Druk sneltoets</translation>
     </message>
     <message>
         <location line="+25"/>
@@ -1194,7 +1194,7 @@
     <message>
         <location line="+85"/>
         <source>Double shortcuts found</source>
-        <translation type="unfinished"></translation>
+        <translation>Sneltoets wordt al gebruikt</translation>
     </message>
 </context>
 <context>
@@ -1398,12 +1398,12 @@
     <message>
         <location filename="../GUI/Preferences/Streams/GUI_StreamPreferences.cpp" line="+51"/>
         <source>Streams</source>
-        <translation type="unfinished">Stromen</translation>
+        <translation>Stromen</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Podcasts</source>
-        <translation type="unfinished">Podcasts</translation>
+        <translation>Podcasts</translation>
     </message>
     <message>
         <location filename="../GUI/Preferences/Streams/GUI_StreamPreferences.ui" line="+17"/>
@@ -1474,7 +1474,7 @@
         <location line="+24"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="+1"/>
         <source>Example</source>
-        <translation type="unfinished">Voorbeeld</translation>
+        <translation>Voorbeeld</translation>
     </message>
     <message>
         <location filename="../GUI/Preferences/StreamRecorder/GUI_StreamRecorder.cpp" line="+151"/>
@@ -1995,7 +1995,7 @@ Kies aub een andere map</translation>
     <message>
         <location line="+4"/>
         <source>Application</source>
-        <translation type="unfinished"></translation>
+        <translation>Toepassing</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2005,7 +2005,7 @@ Kies aub een andere map</translation>
     <message>
         <location line="+6"/>
         <source>Ascending</source>
-        <translation type="unfinished"></translation>
+        <translation>Oplopend</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -2020,7 +2020,7 @@ Kies aub een andere map</translation>
     <message>
         <location line="+2"/>
         <source>Date</source>
-        <translation type="unfinished">Datum</translation>
+        <translation>Datum</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2030,7 +2030,7 @@ Kies aub een andere map</translation>
     <message>
         <location line="+9"/>
         <source>Descending</source>
-        <translation type="unfinished"></translation>
+        <translation>Aflopend</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -2046,7 +2046,7 @@ Kies aub een andere map</translation>
     <message>
         <location line="+2"/>
         <source>Empty input</source>
-        <translation type="unfinished"></translation>
+        <translation>Leeg invoer</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2088,7 +2088,7 @@ Kies aub een andere map</translation>
     <message>
         <location line="+2"/>
         <source>Filename</source>
-        <translation type="unfinished"></translation>
+        <translation>Bestandsnaam</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2169,17 +2169,17 @@ Kies aub een andere map</translation>
     <message>
         <location line="+2"/>
         <source>Loading</source>
-        <translation type="unfinished"></translation>
+        <translation>Laden</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Loading %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Laden %1</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Invalid characters</source>
-        <translation type="unfinished"></translation>
+        <translation>Ongeldig tekens</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2241,7 +2241,7 @@ Kies aub een andere map</translation>
     <message>
         <location line="+2"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Naam</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2272,7 +2272,7 @@ Kies aub een andere map</translation>
     <message>
         <location line="+2"/>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -2299,7 +2299,7 @@ Kies aub een andere map</translation>
     <message>
         <location line="+2"/>
         <source>or</source>
-        <translation type="unfinished"></translation>
+        <translation>of</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2346,7 +2346,7 @@ Kies aub een andere map</translation>
     <message>
         <location line="+2"/>
         <source>Preferences</source>
-        <translation type="unfinished">Voorkeuren</translation>
+        <translation>Voorkeuren</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2408,7 +2408,7 @@ Kies aub een andere map</translation>
     <message>
         <location line="+14"/>
         <source>Save to file</source>
-        <translation type="unfinished"></translation>
+        <translation>Opslaan naar bestand</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -2418,12 +2418,12 @@ Kies aub een andere map</translation>
     <message>
         <location line="+15"/>
         <source>Sort by</source>
-        <translation type="unfinished"></translation>
+        <translation>Sorteren naar</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Stream URL</source>
-        <translation type="unfinished"></translation>
+        <translation>Stromen URL</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -2433,7 +2433,7 @@ Kies aub een andere map</translation>
     <message>
         <location line="+10"/>
         <source>Unknown placeholder</source>
-        <translation type="unfinished"></translation>
+        <translation>Onbekend plaatshouder</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -2459,7 +2459,7 @@ Kies aub een andere map</translation>
     <message>
         <location line="-57"/>
         <source>Mute</source>
-        <translation type="unfinished"></translation>
+        <translation>Dempen</translation>
     </message>
     <message>
         <location line="+71"/>
@@ -2660,7 +2660,7 @@ Kies aub een andere map</translation>
     <message>
         <location filename="../GUI/Library/GUI_EmptyLibrary.cpp" line="+94"/>
         <source>Do you want to reload the Library?</source>
-        <translation type="unfinished">Wenst u de bibliotheek opnieuw te laden?</translation>
+        <translation>Wenst u de bibliotheek opnieuw te laden?</translation>
     </message>
 </context>
 <context>
@@ -2668,7 +2668,7 @@ Kies aub een andere map</translation>
     <message>
         <location filename="../GUI/Library/Views/GenreView.cpp" line="+117"/>
         <source>Updating genres</source>
-        <translation type="unfinished">Genres aan het bijwerken</translation>
+        <translation>Genres aan het bijwerken</translation>
     </message>
     <message>
         <location line="+72"/>
@@ -2681,12 +2681,12 @@ Kies aub een andere map</translation>
     <message>
         <location filename="../GUI/Library/Views/ItemView.cpp" line="+126"/>
         <source>Merge</source>
-        <translation type="unfinished">Samenvoegen</translation>
+        <translation>Samenvoegen</translation>
     </message>
     <message>
         <location line="+105"/>
         <source>Clear selection</source>
-        <translation type="unfinished"></translation>
+        <translation>Selectie wissen</translation>
     </message>
 </context>
 <context>
@@ -2694,7 +2694,7 @@ Kies aub een andere map</translation>
     <message>
         <location filename="../GUI/Library/Utils/LocalLibraryMenu.cpp" line="+188"/>
         <source>Live search</source>
-        <translation type="unfinished">Onmiddellijk zoeken</translation>
+        <translation>Onmiddellijk zoeken</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2707,7 +2707,7 @@ Kies aub een andere map</translation>
     <message>
         <location filename="../GUI/Utils/ContextMenu/LibraryContextMenu.cpp" line="+148"/>
         <source>Clear selection</source>
-        <translation type="unfinished"></translation>
+        <translation>Selectie wissen</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -2766,7 +2766,7 @@ Kies aub een andere map</translation>
     <message>
         <location line="+0"/>
         <source>Previous search result</source>
-        <translation type="unfinished"></translation>
+        <translation>Vorig zoeken</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2776,12 +2776,12 @@ Kies aub een andere map</translation>
     <message>
         <location line="+0"/>
         <source>Next search result</source>
-        <translation type="unfinished"></translation>
+        <translation>Volgende zoeken</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Esc</source>
-        <translation type="unfinished"></translation>
+        <translation>Esc</translation>
     </message>
 </context>
 <context>
@@ -2790,7 +2790,7 @@ Kies aub een andere map</translation>
         <location filename="../Interfaces/PlayerPlugin/PlayerPlugin.cpp" line="+80"/>
         <location line="+34"/>
         <source>Close plugin</source>
-        <translation type="unfinished">Invoegtoepassing sluiten</translation>
+        <translation>Invoegtoepassing sluiten</translation>
     </message>
 </context>
 <context>
@@ -2822,7 +2822,7 @@ Kies aub een andere map</translation>
     <message>
         <location filename="../3rdParty/Soundcloud/src/SoundcloudData.cpp" line="+250"/>
         <source>Purchase Url</source>
-        <translation type="unfinished">Aankoop Url</translation>
+        <translation>Aankoop Url</translation>
     </message>
 </context>
 <context>
@@ -2830,27 +2830,27 @@ Kies aub een andere map</translation>
     <message>
         <location filename="../3rdParty/Soundcloud/ui/GUI_SoundcloudArtistSearch.cpp" line="+76"/>
         <source>Query too short</source>
-        <translation type="unfinished">Zoekopdracht te kort</translation>
+        <translation>Zoekopdracht te kort</translation>
     </message>
     <message>
         <location line="+78"/>
         <source>No artists found</source>
-        <translation type="unfinished">Geen artiesten gevonden</translation>
+        <translation>Geen artiesten gevonden</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Found %1 artists</source>
-        <translation type="unfinished">%1 artisten gevonden</translation>
+        <translation>%1 artisten gevonden</translation>
     </message>
     <message>
         <location line="+48"/>
         <source>%1 tracks found</source>
-        <translation type="unfinished">%1 nummers gevonden</translation>
+        <translation>%1 nummers gevonden</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>%1 playlists found</source>
-        <translation type="unfinished">%1 afspeellijsten gevonden</translation>
+        <translation>%1 afspeellijsten gevonden</translation>
     </message>
 </context>
 <context>
@@ -2858,24 +2858,24 @@ Kies aub een andere map</translation>
     <message>
         <location filename="../3rdParty/Soundcloud/src/SoundcloudJsonParser.cpp" line="+117"/>
         <source>Website</source>
-        <translation type="unfinished">Website</translation>
+        <translation>Website</translation>
     </message>
     <message>
         <location line="+4"/>
         <location line="+218"/>
         <source>Permalink Url</source>
-        <translation type="unfinished">Vaste Url</translation>
+        <translation>Vaste Url</translation>
     </message>
     <message>
         <location line="-205"/>
         <source>Followers/Following</source>
-        <translation type="unfinished">Volgers/Volgend</translation>
+        <translation>Volgers/Volgend</translation>
     </message>
     <message>
         <location line="+84"/>
         <location line="+125"/>
         <source>Purchase Url</source>
-        <translation type="unfinished">Aankoop Url</translation>
+        <translation>Aankoop Url</translation>
     </message>
 </context>
 <context>
@@ -2929,7 +2929,7 @@ Kies aub een andere map</translation>
         <location line="+10"/>
         <location filename="../../build/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
         <source>Preferences</source>
-        <translation type="unfinished">Voorkeuren</translation>
+        <translation>Voorkeuren</translation>
     </message>
 </context>
 <context>
@@ -2952,7 +2952,7 @@ Kies aub een andere map</translation>
     <message>
         <location filename="../3rdParty/SomaFM/ui/SomaFMStationModel.cpp" line="+122"/>
         <source>Cannot fetch stations</source>
-        <translation type="unfinished">Kan stations niet ophalen</translation>
+        <translation>Kan stations niet ophalen</translation>
     </message>
 </context>
 <context>
@@ -2960,12 +2960,12 @@ Kies aub een andere map</translation>
     <message>
         <location filename="../GUI/Plugins/Stream/GUI_AbstractStream.cpp" line="-266"/>
         <source>Streams</source>
-        <translation type="unfinished">Stromen</translation>
+        <translation>Stromen</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Podcasts</source>
-        <translation type="unfinished">Podcasts</translation>
+        <translation>Podcasts</translation>
     </message>
 </context>
 <context>
