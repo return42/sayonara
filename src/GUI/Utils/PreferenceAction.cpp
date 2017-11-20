@@ -15,7 +15,7 @@ struct PreferenceAction::Private
 };
 
 PreferenceAction::PreferenceAction(const QString& text, const QString& identifier, QWidget* parent) :
-	QAction(text, parent)
+	QAction(QString(Lang::get(Lang::Preferences) + ": " + text), parent)
 {
 	m = Pimpl::make<Private>(identifier);
 
@@ -40,11 +40,11 @@ QString PreferenceAction::identifier() const
 
 void PreferenceAction::language_changed()
 {
-	this->setText(this->display_name());
+	this->setText(this->label());
 }
 
 LibraryPreferenceAction::LibraryPreferenceAction(QWidget* parent) :
-	PreferenceAction(label(), identifier(), parent)
+	PreferenceAction(Lang::get(Lang::Library), identifier(), parent)
 {}
 
 QString LibraryPreferenceAction::display_name() const
@@ -58,7 +58,7 @@ QString LibraryPreferenceAction::identifier() const
 }
 
 PlaylistPreferenceAction::PlaylistPreferenceAction(QWidget* parent) :
-	PreferenceAction(label(), identifier(), parent)
+	PreferenceAction(Lang::get(Lang::Playlist), identifier(), parent)
 {}
 
 
@@ -73,7 +73,7 @@ QString PlaylistPreferenceAction::identifier() const
 }
 
 SearchPreferenceAction::SearchPreferenceAction(QWidget* parent) :
-	PreferenceAction(label(), identifier(), parent)
+	PreferenceAction(Lang::get(Lang::SearchNoun), identifier(), parent)
 {}
 
 QString SearchPreferenceAction::display_name() const
@@ -87,7 +87,7 @@ QString SearchPreferenceAction::identifier() const
 }
 
 CoverPreferenceAction::CoverPreferenceAction(QWidget* parent) :
-	   PreferenceAction(label(), identifier(), parent)
+	   PreferenceAction(Lang::get(Lang::Covers), identifier(), parent)
 {}
 
 QString CoverPreferenceAction::display_name() const
@@ -101,7 +101,7 @@ QString CoverPreferenceAction::identifier() const
 }
 
 PlayerPreferencesAction::PlayerPreferencesAction(QWidget* parent) :
-	PreferenceAction(label(), identifier(), parent)
+	PreferenceAction(Lang::get(Lang::Application), identifier(), parent)
 {
 
 }

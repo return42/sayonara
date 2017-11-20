@@ -48,7 +48,7 @@ class StreamPreferenceAction :
 		public PreferenceAction
 {
 public:
-	StreamPreferenceAction(QWidget* parent) : PreferenceAction(label(), identifier(), parent) {}
+	StreamPreferenceAction(QWidget* parent) : PreferenceAction(QString(tr("Streams") + " && " + tr("Podcasts")), identifier(), parent) {}
 
 	QString identifier() const override { return "streams"; }
 

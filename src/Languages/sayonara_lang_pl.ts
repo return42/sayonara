@@ -591,25 +591,25 @@
         <location line="+24"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+3"/>
         <source>Other</source>
-        <translation>Inne...</translation>
+        <translation>Inne</translation>
     </message>
     <message>
         <location line="+6"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="-1"/>
         <source>Show &quot;Clear selection&quot; buttons</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokaż przyciski &quot;Wyczyść zaznaczenie&quot;</translation>
     </message>
     <message>
         <location line="-85"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="-1"/>
         <source>Library-Playlist Interaction</source>
         <translatorcomment>The header for this options dialog. Be creative :)</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Interakcja z biblioteką-playlistą</translation>
     </message>
     <message>
         <location filename="../GUI/Preferences/LibraryPreferences/GUI_LibraryPreferences.cpp" line="+136"/>
         <source>Cannot edit library</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie można edytować biblioteki</translation>
     </message>
 </context>
 <context>
@@ -642,7 +642,7 @@
         <location filename="../GUI/InfoDialog/GUI_Lyrics.ui" line="+28"/>
         <location filename="../../build/src/GUI/InfoDialog/ui_GUI_Lyrics.h" line="+212"/>
         <source>Save Lyrics</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapisz teksty</translation>
     </message>
     <message>
         <location line="+125"/>
@@ -659,7 +659,7 @@
     <message>
         <location filename="../GUI/InfoDialog/GUI_Lyrics.cpp" line="+294"/>
         <source>Overwrite lyrics</source>
-        <translation type="unfinished"></translation>
+        <translation>Zastąp teksty</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -669,7 +669,7 @@
     <message>
         <location line="+14"/>
         <source>Source</source>
-        <translation type="unfinished"></translation>
+        <translation>Źródło</translation>
     </message>
 </context>
 <context>
@@ -859,7 +859,7 @@
         <location filename="../GUI/Plugins/PlaylistChooser/GUI_PlaylistChooser.cpp" line="+90"/>
         <location line="+37"/>
         <source>No playlists found</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie znaleziono playlist</translation>
     </message>
 </context>
 <context>
@@ -917,25 +917,25 @@
         <location line="-56"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+5"/>
         <source>Behavior</source>
-        <translation type="unfinished"></translation>
+        <translation>Zachowanie</translation>
     </message>
     <message>
         <location line="+80"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="-2"/>
         <source>Stop behaviour</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location line="+6"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
         <source>Load last track after pressing stop</source>
-        <translation type="unfinished"></translation>
+        <translation>Załaduj ostatni ślad po naciśnięciu klawisza stop</translation>
     </message>
     <message>
         <location line="+53"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+2"/>
         <source>&apos;italic text&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;kursywą&quot;</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -947,18 +947,18 @@
         <location line="+27"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
         <source>*bold text*</source>
-        <translation type="unfinished"></translation>
+        <translation>*pogrubiony tekst*</translation>
     </message>
     <message>
         <location line="+92"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+2"/>
         <source>Show clear button</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokaż wyraźny przycisk</translation>
     </message>
     <message>
         <location filename="../GUI/Preferences/PlaylistPreferences/GUI_PlaylistPreferences.cpp" line="+195"/>
         <source>Playlist look: Invalid expression</source>
-        <translation type="unfinished"></translation>
+        <translation>Wygląd playlisty: nieprawidłowe wyrażenie</translation>
     </message>
 </context>
 <context>
@@ -968,7 +968,7 @@
         <location filename="../../build/src/GUI/Plugins/Stream/ui_GUI_Podcasts.h" line="+106"/>
         <source>Start stream</source>
         <translatorcomment>start an audio stream</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Rozpocznij transmisję</translation>
     </message>
     <message>
         <location filename="../GUI/Plugins/Stream/GUI_Podcasts.cpp" line="+44"/>
@@ -978,7 +978,7 @@
     <message>
         <location line="+16"/>
         <source>Podcast</source>
-        <translation type="unfinished"></translation>
+        <translation>Podcast</translation>
     </message>
 </context>
 <context>
@@ -1015,42 +1015,42 @@
         <location filename="../GUI/Preferences/ProxyPreferences/GUI_Proxy.ui" line="+30"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_Proxy.h" line="+125"/>
         <source>Password</source>
-        <translation type="unfinished">Hasło</translation>
+        <translation>Hasło</translation>
     </message>
     <message>
         <location line="+7"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_Proxy.h" line="+1"/>
         <source>Save username/password</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapisz nazwę użytkownika / hasło</translation>
     </message>
     <message>
         <location line="+7"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_Proxy.h" line="+1"/>
         <source>Active</source>
-        <translation type="unfinished">Aktywna</translation>
+        <translation>Aktywna</translation>
     </message>
     <message>
         <location line="+13"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_Proxy.h" line="+1"/>
         <source>Port</source>
-        <translation type="unfinished">Port</translation>
+        <translation>Port</translation>
     </message>
     <message>
         <location line="+7"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_Proxy.h" line="+1"/>
         <source>Username</source>
-        <translation type="unfinished">Nazwa użytkownika</translation>
+        <translation>Nazwa użytkownika</translation>
     </message>
     <message>
         <location line="+27"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_Proxy.h" line="+1"/>
         <source>Host</source>
-        <translation type="unfinished"></translation>
+        <translation>Serwer</translation>
     </message>
     <message>
         <location filename="../GUI/Preferences/ProxyPreferences/GUI_Proxy.cpp" line="+55"/>
         <source>Proxy</source>
-        <translation type="unfinished"></translation>
+        <translation>Pośrednik sieciowy</translation>
     </message>
 </context>
 <context>
@@ -1058,17 +1058,17 @@
     <message>
         <location filename="../GUI/Library/GUI_ReloadLibraryDialog.cpp" line="+54"/>
         <source>Select reload mode</source>
-        <translation type="unfinished">Wybierz tryb ładowania</translation>
+        <translation>Wybierz tryb ładowania</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Check for changed files (fast)</source>
-        <translation type="unfinished">Sprawdź zmienione pliki (szybo)</translation>
+        <translation>Sprawdź zmienione pliki (szybo)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Deep scan (slow)</source>
-        <translation type="unfinished">Głębokie skanowanie (wolno)</translation>
+        <translation>Głębokie skanowanie (wolno)</translation>
     </message>
 </context>
 <context>
@@ -1103,31 +1103,31 @@
         <location filename="../GUI/Preferences/Search/GUI_SearchPreferences.ui" line="+23"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_SearchPreferences.h" line="+118"/>
         <source>Example</source>
-        <translation type="unfinished">Przykład</translation>
+        <translation>Przykład</translation>
     </message>
     <message>
         <location line="+7"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_SearchPreferences.h" line="+1"/>
         <source>Case insensitive</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozróżnianie wielkości liter</translation>
     </message>
     <message>
         <location line="+13"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_SearchPreferences.h" line="+1"/>
         <source>Option</source>
-        <translation type="unfinished">Opcja</translation>
+        <translation>Opcja</translation>
     </message>
     <message>
         <location line="+10"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_SearchPreferences.h" line="+1"/>
         <source>Ignore accents</source>
-        <translation type="unfinished"></translation>
+        <translation>Ignoruj akcenty</translation>
     </message>
     <message>
         <location line="+27"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_SearchPreferences.h" line="+1"/>
         <source>Ignore special characters</source>
-        <translation type="unfinished"></translation>
+        <translation>Zignoruj znaki specjalne</translation>
     </message>
 </context>
 <context>
@@ -1135,7 +1135,7 @@
     <message>
         <location filename="../GUI/Preferences/Shortcuts/GUI_ShortcutEntry.cpp" line="+41"/>
         <source>Enter shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation>Wprowadź skrót</translation>
     </message>
     <message>
         <location line="+25"/>
@@ -1167,7 +1167,7 @@
     <message>
         <location line="+85"/>
         <source>Double shortcuts found</source>
-        <translation type="unfinished"></translation>
+        <translation>Znaleziono podwójne skróty</translation>
     </message>
 </context>
 <context>
@@ -1220,7 +1220,7 @@
         <location filename="../../build/src/3rdParty/SomaFM/ui_GUI_SomaFM.h" line="+200"/>
         <source>Donate to Soma.fm</source>
         <translatorcomment>Give some money to soma.fm</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Przekaż darowiznę na rzecz Soma.fm</translation>
     </message>
     <message>
         <location line="+102"/>
@@ -1237,7 +1237,7 @@
         <location filename="../../build/src/3rdParty/Soundcloud/ui_GUI_SoundcloudArtistSearch.h" line="+169"/>
         <source>Search Soundcloud</source>
         <translatorcomment>search some artists in the soundcloud</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Szukaj w Soundcloud</translation>
     </message>
     <message>
         <location line="+31"/>
@@ -1289,7 +1289,7 @@
         <location filename="../GUI/Plugins/Engine/Speed/GUI_Speed.ui" line="+84"/>
         <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_Speed.h" line="+146"/>
         <source>Preserve pitch</source>
-        <translation type="unfinished"></translation>
+        <translation>Zachowaj wysokość</translation>
     </message>
     <message>
         <location line="+30"/>
@@ -1309,7 +1309,7 @@
         <location filename="../GUI/Plugins/Engine/Speed/GUI_Speed.cpp" line="+64"/>
         <location line="+1"/>
         <source>%1 not found</source>
-        <translation type="unfinished"></translation>
+        <translation>% 1 nie znaleziono</translation>
     </message>
 </context>
 <context>
@@ -1366,24 +1366,24 @@
     <message>
         <location filename="../GUI/Preferences/Streams/GUI_StreamPreferences.cpp" line="+51"/>
         <source>Streams</source>
-        <translation type="unfinished">Strumień internetowy</translation>
+        <translation>Strumień internetowy</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Podcasts</source>
-        <translation type="unfinished">Podcasty</translation>
+        <translation>Podcasty</translation>
     </message>
     <message>
         <location filename="../GUI/Preferences/Streams/GUI_StreamPreferences.ui" line="+17"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_StreamPreferences.h" line="+61"/>
         <source>Open Streams in new tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Otwórz strumienie w nowej karcie</translation>
     </message>
     <message>
         <location line="+7"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_StreamPreferences.h" line="+1"/>
         <source>Show history</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokaż historię</translation>
     </message>
 </context>
 <context>
@@ -1405,13 +1405,13 @@
         <location line="-7"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="-1"/>
         <source>Automatic recording</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatyczne nagrywanie</translation>
     </message>
     <message>
         <location line="-55"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="+6"/>
         <source>General</source>
-        <translation type="unfinished"></translation>
+        <translation>Ogólne</translation>
     </message>
     <message>
         <location line="+106"/>
@@ -1424,7 +1424,7 @@
         <location line="+8"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="+5"/>
         <source>Session Folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Folder sesji</translation>
     </message>
     <message>
         <location line="+22"/>
@@ -1847,7 +1847,7 @@ Proszę wybrać inny folder</translation>
     <message>
         <location line="+2"/>
         <source>Broadcast</source>
-        <translation type="unfinished"></translation>
+        <translation>Nadawanie</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1857,7 +1857,7 @@ Proszę wybrać inny folder</translation>
     <message>
         <location line="+4"/>
         <source>Cannot find Lame MP3 encoder</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie można odnaleźć kodera Lame MP3</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -1887,7 +1887,7 @@ Proszę wybrać inny folder</translation>
     <message>
         <location line="+9"/>
         <source>d</source>
-        <translation type="unfinished"></translation>
+        <translation>d</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -1942,7 +1942,7 @@ Proszę wybrać inny folder</translation>
     <message>
         <location line="+4"/>
         <source>Application</source>
-        <translation type="unfinished"></translation>
+        <translation>Program</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -1952,7 +1952,7 @@ Proszę wybrać inny folder</translation>
     <message>
         <location line="+6"/>
         <source>Ascending</source>
-        <translation type="unfinished"></translation>
+        <translation>Rosnąco</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -1962,12 +1962,12 @@ Proszę wybrać inny folder</translation>
     <message>
         <location line="+14"/>
         <source>Covers</source>
-        <translation type="unfinished"></translation>
+        <translation>Okładki</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Date</source>
-        <translation type="unfinished">Data</translation>
+        <translation>Data</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -1977,7 +1977,7 @@ Proszę wybrać inny folder</translation>
     <message>
         <location line="+9"/>
         <source>Descending</source>
-        <translation type="unfinished"></translation>
+        <translation>Malejąco</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -1992,7 +1992,7 @@ Proszę wybrać inny folder</translation>
     <message>
         <location line="+2"/>
         <source>Empty input</source>
-        <translation type="unfinished"></translation>
+        <translation>Puste wejście</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2032,7 +2032,7 @@ Proszę wybrać inny folder</translation>
     <message>
         <location line="+2"/>
         <source>Filename</source>
-        <translation type="unfinished"></translation>
+        <translation>Nazwa pliku</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2042,7 +2042,7 @@ Proszę wybrać inny folder</translation>
     <message>
         <location line="+2"/>
         <source>Filesize</source>
-        <translation type="unfinished"></translation>
+        <translation>Nazwa pliku</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2062,7 +2062,7 @@ Proszę wybrać inny folder</translation>
     <message>
         <location line="+2"/>
         <source>Fulltext</source>
-        <translation type="unfinished"></translation>
+        <translation>Pełny tekst</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2122,7 +2122,7 @@ Proszę wybrać inny folder</translation>
     <message>
         <location line="+2"/>
         <source>Invalid characters</source>
-        <translation type="unfinished"></translation>
+        <translation>Nieprawidłowe znaki</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2167,7 +2167,7 @@ Proszę wybrać inny folder</translation>
     <message>
         <location line="+2"/>
         <source>Missing</source>
-        <translation type="unfinished"></translation>
+        <translation>Brak</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2182,7 +2182,7 @@ Proszę wybrać inny folder</translation>
     <message>
         <location line="+2"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nazwa</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2237,7 +2237,7 @@ Proszę wybrać inny folder</translation>
     <message>
         <location line="+2"/>
         <source>or</source>
-        <translation type="unfinished"></translation>
+        <translation>lub</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2262,7 +2262,7 @@ Proszę wybrać inny folder</translation>
     <message>
         <location line="+2"/>
         <source>Playing time</source>
-        <translation type="unfinished"></translation>
+        <translation>Czas odtwarzania</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2297,7 +2297,7 @@ Proszę wybrać inny folder</translation>
     <message>
         <location line="+2"/>
         <source>Radio Station</source>
-        <translation type="unfinished"></translation>
+        <translation>Stacja radiowa</translation>
     </message>
     <message>
         <location line="+2"/>

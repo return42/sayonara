@@ -34,7 +34,7 @@ class BroadcastAction :
 		public PreferenceAction
 {
 public:
-	BroadcastAction(QWidget* parent) : PreferenceAction(label(), identifier(), parent) {}
+	BroadcastAction(QWidget* parent) : PreferenceAction(Lang::get(Lang::Broadcast), identifier(), parent) {}
 
 	QString identifier() const override { return "broadcast"; }
 
