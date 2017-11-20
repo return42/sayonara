@@ -61,7 +61,7 @@ MetaDataList MimeData::metadata(const QMimeData* data)
 			{
 				QStringList file_list;
 				file_list << url.toLocalFile();
-				MetaDataList v_md_tmp = reader.get_md_from_filelist(file_list);
+				MetaDataList v_md_tmp = reader.metadata_from_filelist(file_list);
 				v_md << std::move(v_md_tmp);
 			}
 		}

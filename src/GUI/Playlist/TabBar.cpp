@@ -347,7 +347,7 @@ void PlaylistTabBar::dropEvent(QDropEvent* e)
 			files << url.toLocalFile();
 		}
 
-		v_md = dir_reader.get_md_from_filelist(files);
+		v_md = dir_reader.metadata_from_filelist(files);
 		emit sig_metadata_dropped(tab, v_md);
 
 		return;

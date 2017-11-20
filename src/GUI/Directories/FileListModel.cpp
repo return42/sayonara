@@ -38,6 +38,7 @@
 #include <QMimeData>
 #include <QUrl>
 #include <QIcon>
+#include <QDir>
 
 struct FileListModel::Private
 {
@@ -79,7 +80,7 @@ void FileListModel::set_parent_directory(LibraryId id, const QString& dir)
 
 	DirectoryReader reader;
 	reader.set_filter(extensions);
-	reader.get_files_in_dir(base_dir, m->files);
+	reader.files_in_directory(base_dir, m->files);
 
 	if(m->files.size() > old_rowcount){
 		beginInsertRows(QModelIndex(), old_rowcount, m->files.size());

@@ -381,18 +381,30 @@ LibraryId Manager::add_library(const QString& name, const QString& path)
 
 bool Manager::rename_library(LibraryId id, const QString& new_name)
 {
-	m->rename_library(id, new_name);
+	bool success = m->rename_library(id, new_name);
+	if(!success){
+		sp_log(Log::Warning, this) << "Cannot rename library (1)";
+		return false;
+	}
 
 	Library::Info info = m->get_library_info(id);
+	success = info.valid();
 
 	if(info.valid())
 	{
 		DB::Library* ldb = DB::Connector::instance()->library_connector();
-		return ldb->edit_library(id, new_name, info.path());
+		success = ldb->edit_library(id, new_name, info.path());
 	}
 
-	sp_log(Log::Warning, this) << "Cannot rename library";
-	return false;
+	if(success){
+		emit sig_name_changed(id);
+	}
+
+	else {
+		sp_log(Log::Warning, this) << "Cannot rename library (2)";
+	}
+
+	return success;
 }
 
 bool Manager::remove_library(LibraryId id)
@@ -438,13 +450,19 @@ bool Manager::change_library_path(LibraryId id, const QString& path)
 	if(info.valid())
 	{
 		DB::Library* ldb = DB::Connector::instance()->library_connector();
-		return ldb->edit_library(id, info.name(), path);
+		success = ldb->edit_library(id, info.name(), path);
 	}
 
 	else {
 		sp_log(Log::Warning, this) << "Cannot change library path";
-		return false;
+		success = false;
 	}
+
+	if(success){
+		emit sig_path_changed(id);
+	}
+
+	return success;
 }
 
 

@@ -307,13 +307,11 @@ void GUI_Player::check_library_menu_action()
 /** LIBRARY AND PLAYLIST END **/
 void GUI_Player::register_preference_dialog(PreferenceDialog* dialog)
 {
+	QList<QAction*> actions = menu_file->actions();
+	QAction* sep = actions[actions.size() - 3];
+
 	dialog->setParent(this);
-
-	QList<QAction*> actions = dialog->actions(this);
-
-	connect(action_preferences, &QAction::triggered, dialog, &PreferenceDialog::show);
-
-	menu_preferences->addActions(actions);
+	menu_file->insertAction(sep, dialog->action());
 }
 
 

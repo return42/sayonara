@@ -206,7 +206,7 @@ int Handler::create_playlist(const MetaDataList& v_md, const QString& name, bool
 int Handler::create_playlist(const QStringList& pathlist, const QString& name, bool temporary, Playlist::Type type)
 {
 	DirectoryReader reader;
-	MetaDataList v_md = reader.get_md_from_filelist(pathlist);
+	MetaDataList v_md = reader.metadata_from_filelist(pathlist);
 	return create_playlist(v_md, name, temporary, type);
 }
 

@@ -21,8 +21,11 @@
 #ifndef DIRECTORY_READER
 #define DIRECTORY_READER
 
-#include <QDir>
+#include "Utils/Pimpl.h"
 
+class QStringList;
+class QString;
+class QDir;
 class MetaDataList;
 
 /**
@@ -31,6 +34,8 @@ class MetaDataList;
  */
 class DirectoryReader final
 {
+	PIMPL(DirectoryReader)
+
     public:
 		DirectoryReader();
 		~DirectoryReader();
@@ -52,10 +57,10 @@ class DirectoryReader final
 		 * @param base_dir the directory of interest
 		 * @param files this array will be filled with the found absolute file paths
 		 */
-		void get_files_in_dir_rec(QDir base_dir, QStringList& files) const;
+		void files_in_directory_recursive(const QDir& base_dir, QStringList& files) const;
 
 
-		void get_files_in_dir(const QDir base_dir, QStringList& files) const;
+		void files_in_directory(const QDir& base_dir, QStringList& files) const;
 
 
 		/**
@@ -63,8 +68,7 @@ class DirectoryReader final
 		 * @param paths List of filepaths
 		 * @return A list of MetaData extracted from paths
 		 */
-		MetaDataList get_md_from_filelist(const QStringList& paths);
-
+		MetaDataList metadata_from_filelist(const QStringList& paths);
 
 		/**
 		 * @brief Finds files recursively in the given directory with the given filter
@@ -72,14 +76,7 @@ class DirectoryReader final
 		 * @param filename filenames to find
 		 * @return list of all found files
 		 */
-		QStringList find_files_rec(QDir dir, const QString& filename);
-
-
-	private:
-		/**
-		 * @brief _name_filters may begin with *
-		 */
-		QStringList		_name_filters;
+		QStringList find_files_rec(const QDir& dir, const QString& filename);
 };
 
 #endif

@@ -35,11 +35,12 @@ struct GUI_EditLibrary::Private
 	QString old_path;
 
 	EditMode edit_mode;
+	bool name_edited;
 
-	Private()
-	{
-
-	}
+	Private() :
+		edit_mode(EditMode::New),
+		name_edited(false)
+	{}
 };
 
 GUI_EditLibrary::GUI_EditLibrary(QWidget *parent) :
@@ -52,10 +53,12 @@ GUI_EditLibrary::GUI_EditLibrary(QWidget *parent) :
 	m->edit_mode = EditMode::New;
 
 	ui->btn_choose_dir->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+	ui->le_path->setFocus();
 
 	connect(ui->btn_ok, &QPushButton::clicked, this, &GUI_EditLibrary::ok_clicked);
 	connect(ui->btn_cancel, &QPushButton::clicked, this, &GUI_EditLibrary::cancel_clicked);
 	connect(ui->btn_choose_dir, &QPushButton::clicked, this, &GUI_EditLibrary::choose_dir_clicked);
+	connect(ui->le_name, &QLineEdit::textEdited, this, &GUI_EditLibrary::name_edited);
 }
 
 GUI_EditLibrary::GUI_EditLibrary(const QString& name, const QString& path, QWidget* parent) :
@@ -82,17 +85,17 @@ GUI_EditLibrary::~GUI_EditLibrary()
 
 void GUI_EditLibrary::ok_clicked()
 {
-	emit sig_accepted();
 	close();
+	emit sig_accepted();
 }
 
 void GUI_EditLibrary::cancel_clicked()
 {
 	ui->le_path->clear();
 	ui->le_name->clear();
+	close();
 
 	emit sig_recected();
-	close();
 }
 
 void GUI_EditLibrary::choose_dir_clicked()
@@ -107,17 +110,26 @@ void GUI_EditLibrary::choose_dir_clicked()
 														old_dir,
 														QFileDialog::ShowDirsOnly);
 
-	if(new_dir.isEmpty()){
+	if(new_dir.isEmpty()) {
 		new_dir = m->old_path;
 	}
 
 	if(m->edit_mode == EditMode::New)
 	{
 		QString str = Util::File::get_filename_of_path(new_dir);
-		ui->le_name->setText(str);
+
+		if(!m->name_edited)
+		{
+			ui->le_name->setText(str);
+		}
 	}
 
 	ui->le_path->setText(new_dir);
+}
+
+void GUI_EditLibrary::name_edited(const QString& text)
+{
+	m->name_edited = (text.size() > 0);
 }
 
 QString GUI_EditLibrary::name() const
@@ -147,12 +159,13 @@ GUI_EditLibrary::EditMode GUI_EditLibrary::edit_mode() const
 
 void GUI_EditLibrary::reset()
 {
+	ui->le_name->setText(QString());
+	ui->le_path->setText(QString());
+
 	m->old_name = QString();
 	m->old_path = QString();
 	m->edit_mode = EditMode::New;
-
-	ui->le_name->setText(QString());
-	ui->le_path->setText(QString());
+	m->name_edited = false;
 }
 
 void GUI_EditLibrary::language_changed()

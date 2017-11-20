@@ -174,16 +174,8 @@
     <addaction name="action_help"/>
     <addaction name="action_about"/>
    </widget>
-   <widget class="QMenu" name="menu_preferences">
-    <property name="title">
-     <string>Preferences</string>
-    </property>
-    <addaction name="action_preferences"/>
-    <addaction name="separator"/>
-   </widget>
    <addaction name="menu_file"/>
    <addaction name="menu_view"/>
-   <addaction name="menu_preferences"/>
    <addaction name="menu_about"/>
   </widget>
   <action name="action_OpenFile">

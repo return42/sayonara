@@ -194,7 +194,7 @@ MetaDataList FileListView::selected_metadata() const
 	QStringList paths = selected_paths();
 	DirectoryReader reader;
 
-	return reader.get_md_from_filelist(paths);
+	return reader.metadata_from_filelist(paths);
 }
 
 QStringList FileListView::selected_paths() const

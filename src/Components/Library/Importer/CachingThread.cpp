@@ -26,6 +26,8 @@
 #include "Utils/MetaData/MetaDataList.h"
 #include "Utils/Logger/Logger.h"
 
+#include <QDir>
+
 struct CachingThread::Private
 {
 	QString			library_path;
@@ -45,11 +47,12 @@ struct CachingThread::Private
 				return;
 			}
 
-			if(Util::File::is_dir(filename)){
+			if(Util::File::is_dir(filename))
+			{
 				QStringList dir_files;
 				QDir dir(filename);
 
-				dr.get_files_in_dir_rec(dir, dir_files);
+				dr.files_in_directory_recursive(dir, dir_files);
 
 				for(const QString& dir_file : dir_files){
 					cache->add_standard_file(dir_file, filename);

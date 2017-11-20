@@ -28,6 +28,7 @@
 #include "Utils/Settings/SayonaraClass.h"
 
 #include <QList>
+#include <QObject>
 
 class LocalLibrary;
 class LocalLibraryContainer;
@@ -36,12 +37,18 @@ namespace Library
 {
 	class Info;
 	class Manager :
+			public QObject,
 			public SayonaraClass
 	{
+		Q_OBJECT
 		PIMPL(Manager)
 		SINGLETON(Manager)
 
 		friend class LocalLibrary;
+
+	signals:
+		void sig_path_changed(LibraryId library_id);
+		void sig_name_changed(LibraryId library_id);
 
 	public:
 		LibraryId add_library(const QString& name, const QString& path);

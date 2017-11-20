@@ -73,6 +73,7 @@ private slots:
 	void ok_clicked();
 	void cancel_clicked();
 	void choose_dir_clicked();
+	void name_edited(const QString& text);
 };
 
 #endif // GUI_EDITLIBRARY_H
