@@ -185,6 +185,10 @@ void LibraryListModel::reset()
 
 bool LibraryListModel::commit()
 {
+	if(m->operations.isEmpty()){
+		return true;
+	}
+
 	bool success = true;
 	for(ChangeOperation* op : m->operations)
 	{
@@ -194,6 +198,9 @@ bool LibraryListModel::commit()
 	}
 
 	m->reload();
+	m->operations.clear();
+
+	emit dataChanged(index(0), index(rowCount()));
 
 	return success;
 }

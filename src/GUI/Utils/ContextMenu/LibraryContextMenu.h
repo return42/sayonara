@@ -28,6 +28,7 @@
 
 using LibraryContexMenuEntries=int;
 
+class PreferenceAction;
 class QAction;
 /**
  * @brief Context menu used for Library and playlist windows
@@ -36,8 +37,8 @@ class QAction;
 class LibraryContextMenu :
 		public Gui::WidgetTemplate<QMenu>
 {
-    Q_OBJECT
-    PIMPL(LibraryContextMenu)
+	Q_OBJECT
+	PIMPL(LibraryContextMenu)
 
 public:
 	explicit LibraryContextMenu(QWidget *parent=nullptr);
@@ -47,7 +48,7 @@ public:
 	/**
 	 * @brief This enum indicates which entries should be visible
 	 */
-	enum Entry 
+	enum Entry
 	{
 		EntryNone=0,
 		EntryInfo=(1<<0),
@@ -60,9 +61,9 @@ public:
 		EntryRefresh=(1<<7),
 		EntryClear=(1<<8),
 		EntryRating=(1<<9),
-        EntryClearSelection=(1<<10),
-        EntryCoverView=(1<<11),
-        EntryLast=(1<<12)
+		EntryClearSelection=(1<<10),
+		EntryCoverView=(1<<11),
+		EntryLast=(1<<12)
 	};
 
 	/**
@@ -95,48 +96,34 @@ public:
 	 */
 	void set_rating(int rating);
 
-    QAction* get_action(Entry entry) const;
+	QAction* get_action(Entry entry) const;
 
-    
+	void add_preference_action(PreferenceAction* action);
+
+
 signals:
-    void sig_info_clicked();
-    void sig_edit_clicked();
+	void sig_info_clicked();
+	void sig_edit_clicked();
 	void sig_lyrics_clicked();
-    void sig_remove_clicked();
-    void sig_delete_clicked();
+	void sig_remove_clicked();
+	void sig_delete_clicked();
 	void sig_play_next_clicked();
-    void sig_append_clicked();
+	void sig_append_clicked();
 	void sig_refresh_clicked();
 	void sig_clear_clicked();
 	void sig_rating_changed(int rating);
-    void sig_clear_selection_clicked();
+	void sig_clear_selection_clicked();
 
-
-
-private:
-	QAction* 			_info_action=nullptr;
-	QAction* 			_lyrics_action=nullptr;
-	QAction* 			_edit_action=nullptr;
-	QAction* 			_remove_action=nullptr;
-	QAction* 			_delete_action=nullptr;
-	QAction*            _play_next_action=nullptr;
-	QAction*            _append_action=nullptr;
-	QAction*            _refresh_action=nullptr;
-	QAction*			_clear_action=nullptr;
-	QAction*			_rating_action=nullptr;
-    QAction*            _cover_view_action=nullptr;
-    QAction*            _clear_selection_action=nullptr;
-	QMenu*				_rating_menu=nullptr;
 
 private slots:
-    void show_covers_changed();
-    void cover_view_action_triggered();
+	void show_covers_changed();
+	void cover_view_action_triggered();
 
 protected:
 	QAction* init_rating_action(int rating);
 
-    void skin_changed() override;
-    void language_changed() override;
+	void skin_changed() override;
+	void language_changed() override;
 
 
 };

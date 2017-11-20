@@ -34,12 +34,14 @@
 #include "Utils/Logger/Logger.h"
 #include "Utils/Language.h"
 #include "Utils/Settings/Settings.h"
+#include "Utils/Message/Message.h"
 
 #include <QDropEvent>
 #include <QContextMenuEvent>
 #include <QInputDialog>
 #include <QStyledItemDelegate>
 #include <QTreeWidget>
+
 
 using StringSet=SP::Set<QString>;
 using namespace Library;
@@ -140,7 +142,7 @@ void GenreView::new_pressed()
 					QLineEdit::Normal, QString(), &ok);
 
 	if(ok && !new_name.isEmpty()){
-		m->genre_fetcher->create_genre(new_name);
+		m->genre_fetcher->create_genre(Genre(new_name));
 	}
 }
 
@@ -161,7 +163,7 @@ void GenreView::rename_pressed()
 						Lang::get(Lang::Rename) + " " + text + ": ",
 						QLineEdit::Normal, QString(), &ok);
 		if(ok && !new_name.isEmpty()){
-			m->genre_fetcher->rename_genre(text, new_name);
+			m->genre_fetcher->rename_genre(Genre(text), Genre(new_name));
 		}
 	}
 }
@@ -174,8 +176,27 @@ void GenreView::delete_pressed()
 		return;
 	}
 
-	QTreeWidgetItem* item = selected_items.first();
-	m->genre_fetcher->delete_genre(item->text(0));
+	SP::Set<Genre> genres;
+	QStringList genre_names;
+
+	for(QTreeWidgetItem* twi : selected_items){
+		Genre g(twi->text(0));
+		genres.insert(g);
+		genre_names << g.name();
+	}
+
+	GlobalMessage::Answer answer = Message::question_yn(
+			tr("Do you really want to remove %1 from all tracks?").arg(genre_names.join(", ")),
+			Lang::get(Lang::Genres)
+	);
+
+	if(answer == GlobalMessage::Answer::Yes)
+	{
+		for(const Genre& genre : genres)
+		{
+			m->genre_fetcher->delete_genre(Genre(genre));
+		}
+	}
 }
 
 void GenreView::tree_action_changed()
@@ -204,11 +225,10 @@ void GenreView::language_changed()
 	}
 }
 
-
-
 void GenreView::reload_genres()
 {
-	QStringList genres = m->genre_fetcher->genres();
+	SP::Set<Genre> genres = m->genre_fetcher->genres();
+
 	for(GenreNode* n : m->genres->children)
 	{
 		m->genres->remove_child(n);
@@ -225,7 +245,7 @@ void GenreView::reload_genres()
 	emit sig_genres_reloaded();
 }
 
-void GenreView::set_genres(const QStringList& genres)
+void GenreView::set_genres(const SP::Set<Genre>& genres)
 {
 	if(m->filled){
 		return;
@@ -258,10 +278,10 @@ static void build_genre_node(GenreNode* node, const QMap<QString, StringSet>& pa
 }
 
 
-void GenreView::build_genre_data_tree(const QStringList& genres)
+void GenreView::build_genre_data_tree(const SP::Set<Genre>& genres)
 {
 	bool show_tree = _settings->get(Set::Lib_GenreTree);
-	SP::Set<QString> genre_set;
+
 	if(m->genres){
 		delete m->genres;
 	}
@@ -269,24 +289,18 @@ void GenreView::build_genre_data_tree(const QStringList& genres)
 	m->genres = new GenreNode("");
 	QMap<QString, StringSet> children;
 
-	for(const QString& s : genres) {
-		genre_set.insert(s);
-	}
-
-	for(auto it=genre_set.begin(); it != genre_set.end(); it++)
+	for(const Genre& genre : genres)
 	{
 		bool found_parent = false;
-		Genre genre(*it);
+
 		if(genre.name().isEmpty()){
 			continue;
 		}
 
 		if(show_tree)
 		{
-			for(auto subit=genre_set.begin(); subit != genre_set.end(); subit++)
+			for(const Genre& parent_genre : genres)
 			{
-				Genre parent_genre(*subit);
-
 				if( parent_genre.name().isEmpty() ||
 					parent_genre == genre)
 				{
@@ -453,9 +467,8 @@ void GenreView::dropEvent(QDropEvent *e)
 
 	this->setAcceptDrops(false);
 
-	QString genre = idx.data().toString();
+	Genre genre(idx.data().toString());
 	MetaDataList v_md(std::move(cmd->metadata()));
 
 	m->genre_fetcher->add_genre_to_md(v_md, genre);
-
 }

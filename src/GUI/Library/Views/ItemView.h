@@ -114,7 +114,7 @@ namespace Library
 
 		virtual void selectionChanged (const QItemSelection& selected, const QItemSelection& deselected ) override;
 		virtual void init_context_menu();
-		QMenu* context_menu() const;
+		LibraryContextMenu* context_menu() const;
 
 		// InfoDialogContainer
 		virtual MD::Interpretation metadata_interpretation() const override final;

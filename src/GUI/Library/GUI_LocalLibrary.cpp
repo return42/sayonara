@@ -37,7 +37,7 @@
 #include "GUI/ImportDialog/GUI_ImportDialog.h"
 
 #include "GUI/Utils/ContextMenu/LibraryContextMenu.h"
-#include "GUI/Utils/Library/LibraryDeleteDialog.h"
+#include "GUI/Utils/Library/GUI_DeleteDialog.h"
 #include "GUI/Utils/SearchableWidget/SearchableView.h"
 
 #include "Components/Library/LocalLibrary.h"
@@ -126,9 +126,7 @@ GUI_LocalLibrary::GUI_LocalLibrary(LibraryId id, QWidget* parent) :
 	connect(m->library_menu, &LocalLibraryMenu::sig_import_folder, this, &GUI_LocalLibrary::import_dirs_requested);
 	connect(m->library_menu, &LocalLibraryMenu::sig_info, this, &GUI_LocalLibrary::show_info_box);
 	connect(m->library_menu, &LocalLibraryMenu::sig_show_album_artists_changed, m->library, &LocalLibrary::show_album_artists_changed);
-	connect(m->library_menu, &LocalLibraryMenu::sig_reload_library, [=](){
-		this->reload_library_requested();
-	});
+	connect(m->library_menu, &LocalLibraryMenu::sig_reload_library, [=](){ this->reload_library_requested(); });
 
 	connect(ui->splitter_artist_album, &QSplitter::splitterMoved, this, &GUI_LocalLibrary::splitter_artist_moved);
 	connect(ui->splitter_tracks, &QSplitter::splitterMoved, this, &GUI_LocalLibrary::splitter_tracks_moved);
@@ -191,8 +189,9 @@ void GUI_LocalLibrary::genre_selection_changed(const QModelIndex& index)
 
 Library::TrackDeletionMode GUI_LocalLibrary::show_delete_dialog(int n_tracks)
 {
-	LibraryDeleteDialog dialog(n_tracks, this);
+	GUI_DeleteDialog dialog(n_tracks, this);
 	dialog.exec();
+
 	return dialog.answer();
 }
 
@@ -249,8 +248,7 @@ void GUI_LocalLibrary::reload_library_requested(Library::ReloadQuality quality)
 	dialog->set_quality(quality);
 	dialog->show();
 
-	connect(dialog, &GUI_ReloadLibraryDialog::sig_accepted,
-			this, &GUI_LocalLibrary::reload_library_accepted);
+	connect(dialog, &GUI_ReloadLibraryDialog::sig_accepted, this, &GUI_LocalLibrary::reload_library_accepted);
 }
 
 void GUI_LocalLibrary::reload_library_accepted(Library::ReloadQuality quality)
@@ -374,15 +372,7 @@ void GUI_LocalLibrary::change_library_name(const QString& name)
 
 void GUI_LocalLibrary::change_library_path(const QString& path)
 {
-	bool success = m->library->set_library_path(path);
-
-	if(success){
-		reload_library_requested(Library::ReloadQuality::Accurate);
-	}
-
-	else{
-		Message::warning(tr("Cannot change library path"));
-	}
+	m->library->set_library_path(path);
 }
 
 void GUI_LocalLibrary::name_changed(const QString& name)
@@ -393,6 +383,10 @@ void GUI_LocalLibrary::name_changed(const QString& name)
 void GUI_LocalLibrary::path_changed(const QString& path)
 {
 	m->library_menu->refresh_path(path);
+
+	if(this->isVisible()){
+		reload_library_requested(Library::ReloadQuality::Accurate);
+	}
 }
 
 void GUI_LocalLibrary::import_dialog_requested(const QString& target_dir)

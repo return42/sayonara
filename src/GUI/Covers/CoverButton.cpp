@@ -29,6 +29,8 @@
 #include "Utils/Utils.h"
 #include "Utils/Settings/Settings.h"
 
+#include <QMenu>
+
 using Cover::Location;
 using Cover::Lookup;
 using Cover::ChangeNotfier;
@@ -60,8 +62,6 @@ CoverButton::CoverButton(QWidget* parent) :
 
 	m->current_cover_path = Location::invalid_location().preferred_path();
 	m->search_cover_location = Location::invalid_location();
-
-
 
 	this->setIconSize(this->size());
 	this->setIcon(get_cur_icon());

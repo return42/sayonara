@@ -2,6 +2,7 @@ PROJECT( say_gui_preferences )
 
 SET(SOURCES
 	Broadcast/GUI_BroadcastSetup.cpp
+	Covers/GUI_Covers.cpp
 	Fonts/GUI_FontConfig.cpp
 	Icons/GUI_IconPreferences.cpp
 	Language/GUI_LanguageChooser.cpp
@@ -15,17 +16,17 @@ SET(SOURCES
 	PreferenceDialog/GUI_PreferenceDialog.cpp
 	ProxyPreferences/GUI_Proxy.cpp
 	RemoteControl/GUI_RemoteControl.cpp
+	#Search/GUI_SearchPreferences.cpp
 	Shortcuts/GUI_Shortcuts.cpp
 	Shortcuts/GUI_ShortcutEntry.cpp
 	Shortcuts/ShortcutLineEdit.cpp
-	Search/GUI_SearchPreferences.cpp
 	StreamRecorder/GUI_StreamRecorder.cpp
-	Covers/GUI_Covers.cpp
 	Streams/GUI_StreamPreferences.cpp
 )
 
 QT5_WRAP_UI(UI_FILES
 	Broadcast/GUI_BroadcastSetup.ui
+	Covers/GUI_Covers.ui
 	Fonts/GUI_FontConfig.ui
 	Icons/GUI_IconPreferences.ui
 	Language/GUI_LanguageChooser.ui
@@ -39,14 +40,14 @@ QT5_WRAP_UI(UI_FILES
 	RemoteControl/GUI_RemoteControl.ui
 	Shortcuts/GUI_Shortcuts.ui
 	Shortcuts/GUI_ShortcutEntry.ui
-	Search/GUI_SearchPreferences.ui
+	#Search/GUI_SearchPreferences.ui
 	StreamRecorder/GUI_StreamRecorder.ui
-	Covers/GUI_Covers.ui
 	Streams/GUI_StreamPreferences.ui
 )
 
 ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES} ${UI_FILES})
 TARGET_LINK_LIBRARIES(${PROJECT_NAME}
+	say_comp_preferences
 	say_comp_streamplugins_lastfm
 	say_comp_covers
 	say_comp_library

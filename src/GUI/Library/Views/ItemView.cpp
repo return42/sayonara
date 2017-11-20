@@ -38,6 +38,7 @@
 #include "GUI/Utils/ContextMenu/LibraryContextMenu.h"
 #include "GUI/Utils/SearchableWidget/MiniSearcher.h"
 #include "GUI/Utils/CustomMimeData.h"
+#include "GUI/Utils/PreferenceAction.h"
 
 #include <QHeaderView>
 #include <QDropEvent>
@@ -146,9 +147,11 @@ void ItemView::init_context_menu()
 	connect(m->context_menu, &LibraryContextMenu::sig_play_next_clicked, this, &ItemView::sig_play_next_clicked);
 	connect(m->context_menu, &LibraryContextMenu::sig_append_clicked, this, &ItemView::sig_append_clicked);
 	connect(m->context_menu, &LibraryContextMenu::sig_refresh_clicked, this, &ItemView::sig_refresh_clicked);
+
+	m->context_menu->add_preference_action(new LibraryPreferenceAction(m->context_menu));
 }
 
-QMenu* ItemView::context_menu() const
+LibraryContextMenu* ItemView::context_menu() const
 {
 	return m->context_menu;
 }

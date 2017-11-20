@@ -18,29 +18,39 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef LIBRARYDELETEDIALOG_H
 #define LIBRARYDELETEDIALOG_H
 
 #include <QMessageBox>
 #include "Utils/Library/LibraryNamespaces.h"
+#include "GUI/Utils/Widgets/Dialog.h"
 
-class LibraryDeleteDialog :
-	public QMessageBox
+#include "Utils/Pimpl.h"
+
+UI_FWD(GUI_DeleteDialog)
+
+class GUI_DeleteDialog :
+	public Gui::Dialog
 {
-private:
-    Library::TrackDeletionMode _answer;
-    int	_n_tracks;
+	Q_OBJECT
+	PIMPL(GUI_DeleteDialog)
+	UI_CLASS(GUI_DeleteDialog)
 
 public:
-    LibraryDeleteDialog(int n_tracks, QWidget* parent=nullptr);
-    virtual ~LibraryDeleteDialog();
+	GUI_DeleteDialog(int n_tracks, QWidget* parent=nullptr);
+	virtual ~GUI_DeleteDialog();
 
-    void set_num_tracks(int n_tracks);
+	void set_num_tracks(int n_tracks);
 
-    int exec() override;
-    Library::TrackDeletionMode answer() const;
+	Library::TrackDeletionMode answer() const;
+
+private slots:
+	void yes_clicked();
+	void only_from_library_clicked();
+	void no_clicked();
+
+protected:
+	void showEvent(QShowEvent* e);
 };
 
 

@@ -21,6 +21,7 @@
 #include "ContextMenu.h"
 #include "GUI/Utils/Icons.h"
 #include "GUI/Utils/GuiUtils.h"
+#include "GUI/Utils/PreferenceAction.h"
 
 #include "Utils/Utils.h"
 #include "Utils/Settings/Settings.h"
@@ -44,8 +45,10 @@ struct ContextMenu::Private
 
 	QList<QAction*>		actions;
 	QTimer*				timer=nullptr;
+	bool				has_preference_action;
 
-	Private(QObject* parent)
+	Private(QObject* parent) :
+		has_preference_action(false)
 	{
 		timer = new QTimer(parent);
 	}
@@ -114,7 +117,6 @@ void ContextMenu::language_changed()
 
 void ContextMenu::skin_changed()
 {
-	;
 	m->action_open->setIcon(Icons::icon(Icons::Open));
 	m->action_edit->setIcon(Icons::icon(Icons::Edit));
 	m->action_new->setIcon(Icons::icon(Icons::New));
@@ -209,6 +211,20 @@ void ContextMenu::show_all()
 	for(QAction* action: m->actions){
 		action->setVisible(true);
 	}
+}
+
+void ContextMenu::add_preference_action(PreferenceAction* action)
+{
+	QList<QAction*> actions;
+
+	if(!m->has_preference_action){
+		actions << this->addSeparator();
+	}
+
+	actions << action;
+
+	this->addActions(actions);
+	m->has_preference_action = true;
 }
 
 void ContextMenu::showEvent(QShowEvent* e)

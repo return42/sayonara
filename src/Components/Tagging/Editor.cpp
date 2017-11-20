@@ -132,7 +132,7 @@ int Editor::count() const
 	return m->v_md.size();
 }
 
-void Editor::add_genre(int idx, const QString &genre)
+void Editor::add_genre(int idx, const Genre& genre)
 {
 	if(!between(idx, m->v_md)){
 		return;
@@ -140,35 +140,35 @@ void Editor::add_genre(int idx, const QString &genre)
 
 	MetaData& md = m->v_md[idx];
 
-	if(md.add_genre(Genre(genre))){
+	if(md.add_genre(genre)){
 		m->changed_md[idx] = true;
 	}
 }
 
-void Editor::delete_genre(int idx, const QString& genre)
+void Editor::delete_genre(int idx, const Genre& genre)
 {
 	if(!between(idx, m->v_md)){
 		return;
 	}
 
 	MetaData& md = m->v_md[idx];
-	if(md.remove_genre(Genre(genre))){
+	if(md.remove_genre(genre)){
 		m->changed_md[idx] = true;
 	}
 }
 
-void Editor::rename_genre(int idx, const QString& genre, const QString& new_name)
+void Editor::rename_genre(int idx, const Genre& genre, const Genre& new_genre)
 {
 	if(!between(idx, m->v_md)){
 		return;
 	}
 
 	MetaData& md = m->v_md[idx];
-	if(md.remove_genre(Genre(genre))){
+	if(md.remove_genre(genre)){
 		m->changed_md[idx] = true;
 	}
 
-	if(md.add_genre(Genre(new_name))){
+	if(md.add_genre(new_genre)){
 		m->changed_md[idx] = true;
 	}
 }

@@ -31,6 +31,7 @@
 #include "Delegate.h"
 #include "BookmarksMenu.h"
 
+#include "GUI/Utils/PreferenceAction.h"
 #include "GUI/Utils/ContextMenu/LibraryContextMenu.h"
 #include "GUI/Utils/Widgets/ProgressBar.h"
 #include "GUI/Utils/CustomMimeData.h"
@@ -131,6 +132,8 @@ void PlaylistView::init_context_menu()
 	connect(m->bookmarks_menu, &BookmarksMenu::sig_bookmark_pressed, [](uint32_t time){
 		PlayManager::instance()->seek_abs_ms(time * 1000);
 	});
+
+	m->context_menu->add_preference_action(new PlaylistPreferenceAction(m->context_menu));
 }
 
 

@@ -24,6 +24,7 @@
 #include "GUI/Utils/Icons.h"
 #include "GUI/Utils/MenuTool/MenuTool.h"
 #include "GUI/Utils/Style.h"
+#include "GUI/Utils/PreferenceAction.h"
 
 #include "Utils/Parser/PlaylistParser.h"
 #include "Utils/Parser/PodcastParser.h"
@@ -40,7 +41,20 @@
 #include <QLabel>
 #include <QAbstractItemView>
 
+
 using namespace Gui;
+
+class StreamPreferenceAction :
+		public PreferenceAction
+{
+public:
+	StreamPreferenceAction(QWidget* parent) : PreferenceAction(label(), identifier(), parent) {}
+
+	QString identifier() const override { return "streams"; }
+
+protected:
+	QString display_name() const override { return tr("Streams") + " && " + tr("Podcasts"); }
+};
 
 struct GUI_AbstractStream::Private
 {
@@ -81,6 +95,8 @@ void GUI_AbstractStream::init_connections()
 	setTabOrder(m->le_url, m->btn_play);
 
 	m->btn_tool->show_action(ContextMenu::EntryNew, true);
+	m->btn_tool->register_action(new StreamPreferenceAction(m->btn_tool));
+
 
 	connect(m->btn_play, &QPushButton::clicked, this, &GUI_AbstractStream::listen_clicked);
 	connect(m->btn_tool, &MenuToolButton::sig_save, this, &GUI_AbstractStream::save_clicked);

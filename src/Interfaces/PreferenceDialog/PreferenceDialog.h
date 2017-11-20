@@ -21,12 +21,13 @@
 #ifndef PREFERENCEDIALOG_H
 #define PREFERENCEDIALOG_H
 
-#include "GUI/Utils/Widgets/Dialog.h"
+#include "Components/Preferences/PreferenceRegistry.h"
 #include <QList>
 
 class QString;
 class QAction;
 class QMenu;
+class QWidget;
 
 namespace Preferences
 {
@@ -34,20 +35,14 @@ namespace Preferences
 }
 
 class PreferenceDialog :
-	public Gui::Dialog
+		public PreferenceUi
 {
+	public:
+		virtual QString action_name() const=0;
+		virtual QAction* action()=0;
+		virtual QList<QAction*> actions(QWidget* parent)=0;
 
-public:
-	using Gui::Dialog::Dialog;
-
-	virtual QString action_name() const=0;
-	virtual QAction* action()=0;
-	virtual QList<QAction*> actions(QWidget* parent)=0;
-
-	virtual void register_preference_dialog(Preferences::Base* dialog)=0;
-	virtual void show_preference_dialog(const QString& identifier)=0;
-
-
+		virtual void register_preference_dialog(Preferences::Base* dialog)=0;
 };
 
 #endif // PREFERENCEDIALOG_H

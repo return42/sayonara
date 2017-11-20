@@ -31,6 +31,7 @@
 #include "Utils/Library/SearchMode.h"
 
 #include "GUI/Utils/ContextMenu/LibraryContextMenu.h"
+#include "GUI/Utils/PreferenceAction.h"
 #include "GUI/Utils/CustomMimeData.h"
 #include "GUI/Utils/MimeDataUtils.h"
 
@@ -155,6 +156,10 @@ void FileListView::dropEvent(QDropEvent *event)
 
 void FileListView::init_context_menu()
 {
+	if(m->context_menu){
+		return;
+	}
+
 	m->context_menu = new LibraryContextMenu(this);
 
 	LibraryContexMenuEntries entries =
@@ -173,6 +178,8 @@ void FileListView::init_context_menu()
 	connect(m->context_menu, &LibraryContextMenu::sig_delete_clicked, this, &FileListView::sig_delete_clicked);
 	connect(m->context_menu, &LibraryContextMenu::sig_play_next_clicked, this, &FileListView::sig_play_next_clicked);
 	connect(m->context_menu, &LibraryContextMenu::sig_append_clicked, this, &FileListView::sig_append_clicked);
+
+	m->context_menu->add_preference_action(new LibraryPreferenceAction(m->context_menu));
 }
 
 

@@ -26,6 +26,8 @@
 #include "GUI/Library/Delegates/CoverDelegate.h"
 #include "GUI/Utils/Widgets/ComboBox.h"
 #include "GUI/Utils/Icons.h"
+#include "GUI/Utils/ContextMenu/LibraryContextMenu.h"
+#include "GUI/Utils/PreferenceAction.h"
 
 #include "Utils/Library/Sorting.h"
 #include "Utils/Settings/Settings.h"
@@ -288,7 +290,9 @@ void CoverView::init_context_menu()
 		return;
 	}
 
-	QMenu* menu = context_menu();
+	LibraryContextMenu* menu = context_menu();
+
+	menu->add_preference_action(new CoverPreferenceAction(menu));
 
 	menu->addSeparator();
 

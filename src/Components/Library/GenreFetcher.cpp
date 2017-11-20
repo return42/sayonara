@@ -28,13 +28,14 @@
 #include "Database/LibraryDatabase.h"
 
 #include "Utils/MetaData/MetaDataList.h"
+#include "Utils/Set.h"
 
 struct GenreFetcher::Private
 {
-	LocalLibrary* local_library=nullptr;
-	QStringList genres;
-	QStringList additional_genres; // empty genres that are inserted
-	Tagging::Editor* tag_edit=nullptr;
+	LocalLibrary*		local_library=nullptr;
+	SP::Set<Genre>		genres;
+	SP::Set<Genre>		additional_genres; // empty genres that are inserted
+	Tagging::Editor*	tag_edit=nullptr;
 
 	Private() {}
 
@@ -80,10 +81,13 @@ void GenreFetcher::reload_genres()
 	emit sig_genres_fetched();
 }
 
-QStringList GenreFetcher::genres() const
+SP::Set<Genre> GenreFetcher::genres() const
 {
-	QStringList genres(m->genres);
-	genres << m->additional_genres;
+	SP::Set<Genre> genres(m->genres);
+	for(const Genre& genre : m->additional_genres)
+	{
+		genres.insert(genre);
+	}
 
 	return genres;
 }
@@ -110,7 +114,7 @@ void GenreFetcher::tag_edit_finished()
 	reload_genres();
 }
 
-void GenreFetcher::add_genre_to_md(const MetaDataList& v_md, const QString& genre)
+void GenreFetcher::add_genre_to_md(const MetaDataList& v_md, const Genre& genre)
 {
 	m->tag_edit->set_metadata(v_md);
 
@@ -123,23 +127,23 @@ void GenreFetcher::add_genre_to_md(const MetaDataList& v_md, const QString& genr
 	emit sig_progress(0);
 }
 
-void GenreFetcher::create_genre(const QString& genre)
+void GenreFetcher::create_genre(const Genre& genre)
 {
 	m->additional_genres << genre;
 	emit sig_genres_fetched();
 }
 
-void GenreFetcher::delete_genre(const QString& genre)
+void GenreFetcher::delete_genre(const Genre& genre)
 {
 	if(m->local_library){
 		m->local_library->delete_genre(genre);
 	}
 }
 
-void GenreFetcher::rename_genre(const QString& old_name, const QString& new_name)
+void GenreFetcher::rename_genre(const Genre& old_genre, const Genre& new_genre)
 {
 	if(m->local_library){
-		m->local_library->rename_genre(old_name, new_name);
+		m->local_library->rename_genre(old_genre, new_genre);
 	}
 }
 

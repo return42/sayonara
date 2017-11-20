@@ -82,6 +82,8 @@ LanguageString Lang::get(Lang::Term term, bool* ok)
 			return l.tr("All");
 		case Append:
 			return l.tr("Append");
+		case Application:
+			return l.tr("Application");
 		case Apply:
 			return l.tr("Apply");
 		case Artist:
@@ -262,6 +264,8 @@ LanguageString Lang::get(Lang::Term term, bool* ok)
 			return l.tr("Playlists");
 		case PlayNext:
 			return l.tr("Play next");
+		case Preferences:
+			return l.tr("Preferences");
 		case PreviousTrack:
 			return l.tr("Previous track");
 		case Radio:
@@ -300,8 +304,10 @@ LanguageString Lang::get(Lang::Term term, bool* ok)
 			return l.tr("Save as");
 		case SaveToFile:
 			return l.tr("Save to file");
-		case Search:
-			return l.tr("Search");
+		case SearchNoun:
+			return l.tr("Search");			// the noun of search
+		case SearchVerb:
+			return l.tr("Search");			// the verb of the searching process
 		case SearchNext:
 			return l.tr("Search next");
 		case Second:

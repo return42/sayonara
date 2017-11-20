@@ -25,7 +25,8 @@
 #include "Utils/Pimpl.h"
 
 #include <QMenu>
-#include <QAction>
+
+class PreferenceAction;
 
 class PlaylistTabMenu :
 		public Gui::WidgetTemplate<QMenu>
@@ -57,6 +58,8 @@ public:
 
 	void show_menu_items(PlaylistMenuEntries entries);
 	void show_close(bool b);
+
+	void add_preference_action(PreferenceAction* action);
 };
 
 #endif // PLAYLISTTABMENU_H

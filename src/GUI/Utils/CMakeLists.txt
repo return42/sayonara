@@ -16,8 +16,8 @@ SET(SOURCES
 	Delegates/ComboBoxDelegate.cpp
 	Delegates/StyledItemDelegate.cpp
 
-	Library/LibraryDeleteDialog.cpp
 	Library/GUI_EditLibrary.cpp
+	Library/GUI_DeleteDialog.cpp
 
 	MenuTool/MenuButton.cpp
 	MenuTool/MenuTool.cpp
@@ -40,10 +40,12 @@ SET(SOURCES
 	Shortcuts/ShortcutHandler.cpp
 	Shortcuts/ShortcutWidget.cpp
 
+	PreferenceAction.cpp
 )
 
 QT5_WRAP_UI(UI_FILES
 	Library/GUI_EditLibrary.ui
+	Library/GUI_DeleteDialog.ui
 )
 
 ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES} ${UI_FILES})

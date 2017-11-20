@@ -7,6 +7,8 @@
 #include "GUI/Utils/Shortcuts/Shortcut.h"
 #include "GUI/Utils/Shortcuts/ShortcutHandler.h"
 #include "GUI/Utils/Style.h"
+#include "GUI/Utils/PreferenceAction.h"
+#include "GUI/Utils/ContextMenu/LibraryContextMenu.h"
 
 #include "Components/PlayManager/PlayManager.h"
 #include "Components/Covers/CoverLocation.h"
@@ -18,7 +20,7 @@
 #include "Utils/MetaData/MetaData.h"
 #include "Utils/MetaData/MetaDataList.h"
 #include "Utils/Language.h"
-#include "GUI/Utils/ContextMenu/LibraryContextMenu.h"
+
 
 #include <QToolTip>
 #include <QPushButton>
@@ -796,6 +798,9 @@ void GUI_Controls::contextMenuEvent(QContextMenuEvent* e)
 		connect(m->context_menu, &LibraryContextMenu::sig_lyrics_clicked, [=](){
 			show_lyrics();
 		});
+
+		m->context_menu->add_preference_action(new PlayerPreferencesAction(m->context_menu));
+		m->context_menu->add_preference_action(new CoverPreferenceAction(m->context_menu));
 	}
 
 	m->context_menu->exec(e->globalPos());

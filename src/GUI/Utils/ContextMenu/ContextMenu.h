@@ -27,6 +27,7 @@
 #include "Utils/Pimpl.h"
 
 class QAction;
+class PreferenceAction;
 
 /**
  * @brief Combination of ContextMenu::Entry values
@@ -42,14 +43,14 @@ class ContextMenu :
 		public Gui::WidgetTemplate<QMenu>
 {
 	Q_OBJECT
-    PIMPL(ContextMenu)
+	PIMPL(ContextMenu)
 
 public:
 
 	/**
 	 * @brief The Entry enum
 	 */
-	enum Entry 
+	enum Entry
 	{
 		EntryNone	=0,
 		EntryNew	=(1<<0),
@@ -109,8 +110,8 @@ public:
 
 protected:
 	void showEvent(QShowEvent* e) override;
-    void language_changed() override;
-    void skin_changed() override;
+	void language_changed() override;
+	void skin_changed() override;
 
 
 public slots:
@@ -131,6 +132,8 @@ public slots:
 	 * @brief show all actions
 	 */
 	void show_all();
+
+	void add_preference_action(PreferenceAction* action);
 
 
 private slots:

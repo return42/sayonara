@@ -23,6 +23,7 @@
 #include "GUI/Utils/GuiUtils.h"
 #include "GUI/Utils/Icons.h"
 #include "GUI/Utils/Library/GUI_EditLibrary.h"
+#include "GUI/Utils/PreferenceAction.h"
 
 #include "Utils/Settings/Settings.h"
 #include "Utils/Language.h"
@@ -47,10 +48,13 @@ struct LocalLibraryMenu::Private
 	QAction* show_album_artists_action=nullptr;
 	QAction* show_album_cover_view=nullptr;
 
+	bool has_preference_action;
+
 	Private(const QString& name, const QString& path) :
 		name(name),
 		path(path),
-		initialized(false)
+		initialized(false),
+		has_preference_action(false)
 	{}
 };
 
@@ -93,6 +97,20 @@ void LocalLibraryMenu::set_library_busy(bool b)
 	m->import_folder_action->setEnabled(!b);
 }
 
+void LocalLibraryMenu::add_preference_action(PreferenceAction* action)
+{
+	QList<QAction*> actions;
+
+	if(!m->has_preference_action){
+		actions << this->addSeparator();
+	}
+
+	actions << action;
+
+	this->addActions(actions);
+	m->has_preference_action = true;
+}
+
 
 void LocalLibraryMenu::init_menu()
 {
@@ -130,18 +148,19 @@ void LocalLibraryMenu::init_menu()
 
 	QList<QAction*> actions;
 	actions <<
-				  m->info_action <<
-				  m->edit_action <<
-				  this->addSeparator() <<
-				  m->import_file_action <<
-				  m->import_folder_action <<
-				  m->reload_library_action <<
-				  this->addSeparator() <<
-				  m->show_album_cover_view <<
-				  m->livesearch_action <<
-				  m->show_album_artists_action;
+		m->info_action <<
+		m->edit_action <<
+		this->addSeparator() <<
+		m->import_file_action <<
+		m->import_folder_action <<
+		m->reload_library_action <<
+		this->addSeparator() <<
+		m->show_album_cover_view <<
+		m->livesearch_action <<
+		m->show_album_artists_action;
 
 	this->addActions(actions);
+	this->add_preference_action(new LibraryPreferenceAction(this));
 
 	Set::listen(Set::Lib_ShowAlbumCovers, this, &LocalLibraryMenu::show_album_covers_changed);
 

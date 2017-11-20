@@ -31,7 +31,7 @@ private:
 
 public:
 	Genre();
-	Genre(const QString& name);
+	explicit Genre(const QString& name);
 	Genre(const Genre& other);
 
 	~Genre();

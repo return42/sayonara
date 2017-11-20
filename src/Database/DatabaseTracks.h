@@ -24,11 +24,14 @@
 #include "Database/DatabaseSearchMode.h"
 #include "Utils/Library/Sortorder.h"
 #include "Utils/Pimpl.h"
+#include "Utils/SetFwd.h"
 
 #include <QString>
+#include <QList>
 
 namespace Library {class Filter;}
 
+class Genre;
 class MetaData;
 class MetaDataList;
 
@@ -91,7 +94,7 @@ namespace DB
 
 			virtual QString fetch_query_tracks() const;
 
-			virtual QStringList getAllGenres();
+			virtual SP::Set<Genre> getAllGenres();
 			virtual void updateTrackCissearch();
 
 			void deleteAllTracks();

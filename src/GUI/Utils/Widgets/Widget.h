@@ -40,6 +40,10 @@ namespace Gui
 	{
 		Q_OBJECT
 
+	signals:
+		void sig_shown();
+		void sig_closed();
+
 	public:
 		explicit Widget(QWidget* parent=nullptr);
 		virtual ~Widget();
@@ -48,6 +52,9 @@ namespace Gui
 
 	protected:
 		Dialog* _boxed_dialog=nullptr;
+
+		virtual void showEvent(QShowEvent* e);
+		virtual void closeEvent(QCloseEvent* e);
 	};
 
 	/**

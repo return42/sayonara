@@ -40,6 +40,7 @@
 #include "GUI/Library/Utils/ColumnIndex.h"
 #include "GUI/Utils/Delegates/StyledItemDelegate.h"
 #include "GUI/Utils/EventFilter.h"
+#include "GUI/Utils/PreferenceAction.h"
 
 #include <QLineEdit>
 #include <QMenu>
@@ -179,6 +180,9 @@ void GUI_AbstractLibrary::init_search_bar()
 	}
 
 	QMenu* menu = new QMenu(m->le_search);
+	actions << menu->addSeparator();
+	actions << new SearchPreferenceAction(menu);
+
 	menu->addActions(actions);
 
 	ContextMenuFilter* cm_filter = new ContextMenuFilter(m->le_search);
@@ -314,7 +318,7 @@ void GUI_AbstractLibrary::search_esc_pressed()
 
 void GUI_AbstractLibrary::search_mode_changed(Filter::Mode mode)
 {
-	QString text = Lang::get(Lang::Search) + ": " + Filter::get_text(mode);
+	QString text = Lang::get(Lang::SearchNoun) + ": " + Filter::get_text(mode);
 
 	m->le_search->setPlaceholderText(text);
 	m->le_search->setProperty("search_mode", (int) mode);

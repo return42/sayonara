@@ -145,9 +145,9 @@ public slots:
 	virtual void change_album_sortorder(Library::SortOrder s);
 	virtual void change_artist_sortorder(Library::SortOrder s);
 
-	virtual void add_genre(const IdSet ids, const QString& genre);
-	virtual void delete_genre(const QString& genre);
-	virtual void rename_genre(const QString& genre, const QString& new_name);
+	virtual void add_genre(const IdSet ids, const Genre& genre);
+	virtual void delete_genre(const Genre& genre);
+	virtual void rename_genre(const Genre& genre, const Genre& new_genre);
 
 	/* Check for current selected artist if out of date and
 	 * fetch new data */

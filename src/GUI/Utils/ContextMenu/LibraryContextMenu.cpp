@@ -23,6 +23,7 @@
 #include "GUI/Utils/Icons.h"
 #include "GUI/Utils/GuiUtils.h"
 #include "GUI/Utils/RatingLabel.h"
+#include "GUI/Utils/PreferenceAction.h"
 
 #include "Utils/Settings/Settings.h"
 #include "Utils/Language.h"
@@ -32,6 +33,26 @@
 struct LibraryContextMenu::Private
 {
 	QMap<LibraryContextMenu::Entry, QAction*> entry_action_map;
+
+	QAction*	info_action=nullptr;
+	QAction*	lyrics_action=nullptr;
+	QAction*	edit_action=nullptr;
+	QAction*	remove_action=nullptr;
+	QAction*	delete_action=nullptr;
+	QAction*	play_next_action=nullptr;
+	QAction*	append_action=nullptr;
+	QAction*	refresh_action=nullptr;
+	QAction*	clear_action=nullptr;
+	QAction*	rating_action=nullptr;
+	QAction*	cover_view_action=nullptr;
+	QAction*	clear_selection_action=nullptr;
+	QMenu*		rating_menu=nullptr;
+
+	bool has_preference_actions;
+
+	Private() :
+		has_preference_actions(false)
+	{}
 };
 
 LibraryContextMenu::LibraryContextMenu(QWidget* parent) :
@@ -39,17 +60,17 @@ LibraryContextMenu::LibraryContextMenu(QWidget* parent) :
 {
 	m = Pimpl::make<Private>();
 
-	_info_action = new QAction(this);
-	_lyrics_action  = new QAction(this);
-	_edit_action = new QAction(this);
-	_remove_action = new QAction(this);
-	_delete_action = new QAction(this);
-	_play_next_action = new QAction(this);
-	_append_action = new QAction(this);
-	_refresh_action = new QAction(this);
-	_clear_action = new QAction(this);
-	_clear_selection_action = new QAction(this);
-	_cover_view_action = new QAction(this);
+	m->info_action = new QAction(this);
+	m->lyrics_action  = new QAction(this);
+	m->edit_action = new QAction(this);
+	m->remove_action = new QAction(this);
+	m->delete_action = new QAction(this);
+	m->play_next_action = new QAction(this);
+	m->append_action = new QAction(this);
+	m->refresh_action = new QAction(this);
+	m->clear_action = new QAction(this);
+	m->clear_selection_action = new QAction(this);
+	m->cover_view_action = new QAction(this);
 
 	QList<QAction*> rating_actions;
 	for(int i=0; i<=5; i++)
@@ -57,56 +78,53 @@ LibraryContextMenu::LibraryContextMenu(QWidget* parent) :
 		rating_actions << init_rating_action(i);
 	}
 
-	_rating_menu = new QMenu(this);
-	_rating_menu->addActions(rating_actions);
+	m->rating_menu = new QMenu(this);
+	m->rating_menu->addActions(rating_actions);
+	m->rating_action = this->addMenu(m->rating_menu);
 
-	connect(_info_action, &QAction::triggered, this, &LibraryContextMenu::sig_info_clicked);
-	connect(_lyrics_action, &QAction::triggered, this, &LibraryContextMenu::sig_lyrics_clicked);
-	connect(_edit_action, &QAction::triggered, this, &LibraryContextMenu::sig_edit_clicked);
-	connect(_remove_action, &QAction::triggered, this, &LibraryContextMenu::sig_remove_clicked);
-	connect(_delete_action, &QAction::triggered, this, &LibraryContextMenu::sig_delete_clicked);
-	connect(_play_next_action, &QAction::triggered, this, &LibraryContextMenu::sig_play_next_clicked);
-	connect(_append_action, &QAction::triggered, this, &LibraryContextMenu::sig_append_clicked);
-	connect(_refresh_action, &QAction::triggered, this, &LibraryContextMenu::sig_refresh_clicked);
-	connect(_clear_action, &QAction::triggered, this, &LibraryContextMenu::sig_clear_clicked);
-	connect(_clear_selection_action, &QAction::triggered, this, &LibraryContextMenu::sig_clear_selection_clicked);
-	connect(_cover_view_action, &QAction::triggered, this, &LibraryContextMenu::cover_view_action_triggered);
-
+	connect(m->info_action, &QAction::triggered, this, &LibraryContextMenu::sig_info_clicked);
+	connect(m->lyrics_action, &QAction::triggered, this, &LibraryContextMenu::sig_lyrics_clicked);
+	connect(m->edit_action, &QAction::triggered, this, &LibraryContextMenu::sig_edit_clicked);
+	connect(m->remove_action, &QAction::triggered, this, &LibraryContextMenu::sig_remove_clicked);
+	connect(m->delete_action, &QAction::triggered, this, &LibraryContextMenu::sig_delete_clicked);
+	connect(m->play_next_action, &QAction::triggered, this, &LibraryContextMenu::sig_play_next_clicked);
+	connect(m->append_action, &QAction::triggered, this, &LibraryContextMenu::sig_append_clicked);
+	connect(m->refresh_action, &QAction::triggered, this, &LibraryContextMenu::sig_refresh_clicked);
+	connect(m->clear_action, &QAction::triggered, this, &LibraryContextMenu::sig_clear_clicked);
+	connect(m->clear_selection_action, &QAction::triggered, this, &LibraryContextMenu::sig_clear_selection_clicked);
+	connect(m->cover_view_action, &QAction::triggered, this, &LibraryContextMenu::cover_view_action_triggered);
 
 	QList<QAction*> actions;
-	actions << _info_action
-			<< _lyrics_action
-			<< _edit_action
-			<< _remove_action
-			<< _delete_action
-			<< _cover_view_action
+	actions << m->info_action
+			<< m->lyrics_action
+			<< m->edit_action
+			<< m->rating_action
 			<< addSeparator()
-			<< _play_next_action
-			<< _append_action
-			<< _refresh_action
+			<< m->play_next_action
+			<< m->append_action
+			<< m->refresh_action
+			<< m->remove_action
+			<< m->clear_action
+			<< m->delete_action
 			<< addSeparator()
-			<< _clear_action
-			<< _clear_selection_action
-			   ;
+			<< m->clear_selection_action
+			<< m->cover_view_action
+	;
 
 	this->addActions(actions);
 
-	_rating_action = this->insertMenu(_remove_action, _rating_menu);
-	_rating_action->setIcon(Gui::Util::icon("star.png"));
-	_rating_action->setText(Lang::get(Lang::Rating));
-
-	m->entry_action_map[EntryInfo] = _info_action;
-	m->entry_action_map[EntryEdit] = _edit_action;
-	m->entry_action_map[EntryLyrics] = _lyrics_action;
-	m->entry_action_map[EntryRemove] = _remove_action;
-	m->entry_action_map[EntryDelete] = _delete_action;
-	m->entry_action_map[EntryPlayNext] = _play_next_action;
-	m->entry_action_map[EntryAppend] = _append_action;
-	m->entry_action_map[EntryRefresh] = _refresh_action;
-	m->entry_action_map[EntryClear] = _clear_action;
-	m->entry_action_map[EntryRating] = _rating_action;
-	m->entry_action_map[EntryClearSelection] = _clear_selection_action;
-	m->entry_action_map[EntryCoverView] = _cover_view_action;
+	m->entry_action_map[EntryInfo] = m->info_action;
+	m->entry_action_map[EntryEdit] = m->edit_action;
+	m->entry_action_map[EntryLyrics] = m->lyrics_action;
+	m->entry_action_map[EntryRemove] = m->remove_action;
+	m->entry_action_map[EntryDelete] = m->delete_action;
+	m->entry_action_map[EntryPlayNext] = m->play_next_action;
+	m->entry_action_map[EntryAppend] = m->append_action;
+	m->entry_action_map[EntryRefresh] = m->refresh_action;
+	m->entry_action_map[EntryClear] = m->clear_action;
+	m->entry_action_map[EntryRating] = m->rating_action;
+	m->entry_action_map[EntryClearSelection] = m->clear_selection_action;
+	m->entry_action_map[EntryCoverView] = m->cover_view_action;
 
 	for(QAction* action : actions){
 		action->setVisible(action->isSeparator());
@@ -117,28 +135,28 @@ LibraryContextMenu::~LibraryContextMenu() {}
 
 void LibraryContextMenu::language_changed()
 {
-	_info_action->setText(Lang::get(Lang::Info));
-	_lyrics_action->setText(Lang::get(Lang::Lyrics));
-	_edit_action->setText(Lang::get(Lang::Edit));
-	_remove_action->setText(Lang::get(Lang::Remove));
-	_delete_action->setText(Lang::get(Lang::Delete));
-	_play_next_action->setText(Lang::get(Lang::PlayNext));
-	_append_action->setText(Lang::get(Lang::Append));
-	_refresh_action->setText(Lang::get(Lang::Refresh));
-	_clear_action->setText(Lang::get(Lang::Clear));
-	_rating_action->setText(Lang::get(Lang::Rating));
-	_clear_selection_action->setText(tr("Clear selection"));
+	m->info_action->setText(Lang::get(Lang::Info));
+	m->lyrics_action->setText(Lang::get(Lang::Lyrics));
+	m->edit_action->setText(Lang::get(Lang::Edit));
+	m->remove_action->setText(Lang::get(Lang::Remove));
+	m->delete_action->setText(Lang::get(Lang::Delete));
+	m->play_next_action->setText(Lang::get(Lang::PlayNext));
+	m->append_action->setText(Lang::get(Lang::Append));
+	m->refresh_action->setText(Lang::get(Lang::Refresh));
+	m->clear_action->setText(Lang::get(Lang::Clear));
+	m->rating_action->setText(Lang::get(Lang::Rating));
+	m->clear_selection_action->setText(tr("Clear selection"));
 
 	bool show_covers = _settings->get(Set::Lib_ShowAlbumCovers);
 
 	if(show_covers)
 	{
-		_cover_view_action->setText(tr("Table view"));
+		m->cover_view_action->setText(tr("Table view"));
 	}
 
 	else
 	{
-		_cover_view_action->setText(tr("Cover view"));
+		m->cover_view_action->setText(tr("Cover view"));
 	}
 }
 
@@ -146,30 +164,29 @@ void LibraryContextMenu::language_changed()
 void LibraryContextMenu::skin_changed()
 {
 	using namespace Gui;
-	_info_action->setIcon(Icons::icon(Icons::Info));
-	_lyrics_action->setIcon(Icons::icon(Icons::Lyrics));
-	_edit_action->setIcon(Icons::icon(Icons::Edit));
-	_remove_action->setIcon(Icons::icon(Icons::Remove));
-	_delete_action->setIcon(Icons::icon(Icons::Delete));
-	_play_next_action->setIcon(Icons::icon(Icons::PlaySmall));
-	_append_action->setIcon(Icons::icon(Icons::Append));
-	_refresh_action->setIcon(Icons::icon(Icons::Undo));
-	_clear_action->setIcon(Icons::icon(Icons::Clear));
-	_rating_action->setIcon(Icons::icon(Icons::Star));
-	_clear_selection_action->setIcon(Icons::icon(Icons::Clear));
+	m->info_action->setIcon(Icons::icon(Icons::Info));
+	m->lyrics_action->setIcon(Icons::icon(Icons::Lyrics));
+	m->edit_action->setIcon(Icons::icon(Icons::Edit));
+	m->remove_action->setIcon(Icons::icon(Icons::Remove));
+	m->delete_action->setIcon(Icons::icon(Icons::Delete));
+	m->play_next_action->setIcon(Icons::icon(Icons::PlaySmall));
+	m->append_action->setIcon(Icons::icon(Icons::Append));
+	m->refresh_action->setIcon(Icons::icon(Icons::Undo));
+	m->clear_action->setIcon(Icons::icon(Icons::Clear));
+	m->rating_action->setIcon(Icons::icon(Icons::Star));
+	m->clear_selection_action->setIcon(Icons::icon(Icons::Clear));
 
 	bool show_covers = _settings->get(Set::Lib_ShowAlbumCovers);
 
 	if(show_covers)
 	{
-		_cover_view_action->setIcon(Icons::icon(Icons::Table));
+		m->cover_view_action->setIcon(Icons::icon(Icons::Table));
 	}
 
 	else
 	{
-		_cover_view_action->setIcon(Icons::icon(Icons::Image));
+		m->cover_view_action->setIcon(Icons::icon(Icons::Image));
 	}
-
 }
 
 LibraryContexMenuEntries LibraryContextMenu::get_entries() const
@@ -232,7 +249,7 @@ QAction* LibraryContextMenu::init_rating_action(int rating)
 
 void LibraryContextMenu::set_rating(int rating)
 {
-	QList<QAction*> actions = _rating_menu->actions();
+	QList<QAction*> actions = m->rating_menu->actions();
 	for(QAction* action : actions){
 		int data = action->data().toInt();
 		action->setChecked(data == rating);
@@ -240,11 +257,11 @@ void LibraryContextMenu::set_rating(int rating)
 
 	QString rating_text = Lang::get(Lang::Rating);
 	if(rating > 0){
-		_rating_action->setText(rating_text + " (" + QString::number(rating) + ")");
+		m->rating_action->setText(rating_text + " (" + QString::number(rating) + ")");
 	}
 
 	else{
-		_rating_action->setText(rating_text);
+		m->rating_action->setText(rating_text);
 	}
 }
 
@@ -253,18 +270,32 @@ QAction* LibraryContextMenu::get_action(LibraryContextMenu::Entry entry) const
 	return m->entry_action_map[entry];
 }
 
+void LibraryContextMenu::add_preference_action(PreferenceAction* action)
+{
+	QList<QAction*> actions;
+
+	if(!m->has_preference_actions){
+		actions << this->addSeparator();
+	}
+
+	actions << action;
+
+	this->addActions(actions);
+	m->has_preference_actions = true;
+}
+
 void LibraryContextMenu::show_covers_changed()
 {
 	bool show_covers = _settings->get(Set::Lib_ShowAlbumCovers);
 
 	if(show_covers)
 	{
-		_cover_view_action->setText(tr("Table view"));
+		m->cover_view_action->setText(tr("Table view"));
 	}
 
 	else
 	{
-		_cover_view_action->setText(tr("Cover view"));
+		m->cover_view_action->setText(tr("Cover view"));
 	}
 }
 

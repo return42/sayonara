@@ -47,7 +47,7 @@ signals:
 	void sig_name_changed(const QString& name);
 
 protected:
-	LocalLibrary(LibraryId id, const QString& library_name, const QString& library_path, QObject* parent=nullptr);
+	LocalLibrary(LibraryId id, QObject* parent=nullptr);
 
 public:
 	virtual ~LocalLibrary();
@@ -102,6 +102,10 @@ private:
 	void insert_tracks(const MetaDataList& v_md) override;
 	void apply_db_fixes();
 	void init_reload_thread();
+
+protected:
+	void library_path_changed(const QString& library_path);
+	void library_name_changed(const QString& name);
 
 public:
 	bool set_library_path(const QString& library_path);

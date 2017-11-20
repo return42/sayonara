@@ -377,7 +377,7 @@ void GUI_DirectoryWidget::search_text_edited(const QString& text)
 {
 	Q_UNUSED(text)
 	m->is_search_active = false;
-	ui->btn_search->setText(Lang::get(Lang::Search));
+	ui->btn_search->setText(Lang::get(Lang::SearchVerb));
 }
 
 
@@ -394,6 +394,6 @@ void GUI_DirectoryWidget::language_changed()
 	}
 
 	else{
-		ui->btn_search->setText(Lang::get(Lang::Search));
+		ui->btn_search->setText(Lang::get(Lang::SearchVerb));
 	}
 }

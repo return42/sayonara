@@ -53,7 +53,7 @@ public:
 		lph = Library::PluginHandler::instance();
 	}
 
-	bool check_new_path(const QString& path) const
+	bool check_new_path(const QString& path, LibraryId library_id=-5) const
 	{
 		if(path.isEmpty()){
 			return false;
@@ -66,6 +66,10 @@ public:
 
 		for(const Info& info : all_libs)
 		{
+			if(info.id() == library_id){
+				continue;
+			}
+
 			if(info.path().contains(path)){
 				return false;
 			}
@@ -76,18 +80,6 @@ public:
 		}
 
 		return true;
-	}
-
-	bool contains_path(const QString& path) const
-	{
-		for(const Info& info : all_libs)
-		{
-			if(path.compare(info.path(), Qt::CaseInsensitive) == 0){
-				return true;
-			}
-		}
-
-		return false;
 	}
 
 	LibraryId add_library(const QString& name, const QString& path)
@@ -132,7 +124,7 @@ public:
 			{
 				LocalLibrary* local_library = lib_map[library_id];
 				if(local_library){
-					lib_map[library_id]->set_library_name(name);
+					lib_map[library_id]->library_name_changed(name);
 				}
 			}
 
@@ -152,7 +144,7 @@ public:
 
 	bool change_library_path(LibraryId library_id, const QString& new_path)
 	{
-		if(!check_new_path(new_path)){
+		if(!check_new_path(new_path, library_id)){
 			return false;
 		}
 
@@ -170,7 +162,7 @@ public:
 			if(lib_map.contains(info.id()))
 			{
 				LocalLibrary* library = lib_map[info.id()];
-				library->set_library_path(new_path);
+				library->library_path_changed(new_path);
 			}
 
 			QFile::remove(info.symlink_path());
@@ -220,7 +212,7 @@ public:
 
 			else
 			{
-				lib = new LocalLibrary(library_id, info.name(), info.path());
+				lib = new LocalLibrary(library_id);
 				lib_map[library_id] = lib;
 
 				if(!lib){

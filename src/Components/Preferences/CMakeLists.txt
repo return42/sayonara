@@ -1,0 +1,10 @@
+PROJECT(say_comp_preferences)
+
+SET(SOURCES
+	PreferenceRegistry.cpp
+)
+
+ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES})
+TARGET_LINK_LIBRARIES(${PROJECT_NAME}
+	Qt5::Core
+)

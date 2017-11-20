@@ -741,9 +741,8 @@ void AbstractLibrary::delete_tracks_by_idx(const IndexSet& indexes, Library::Tra
 }
 
 
-void AbstractLibrary::add_genre(SP::Set<Id> ids, const QString& genre)
+void AbstractLibrary::add_genre(SP::Set<Id> ids, const Genre& genre)
 {
-	Genre g(genre);
 	MetaDataList v_md;
 	get_all_tracks(v_md, Library::Sortings());
 
@@ -760,7 +759,7 @@ void AbstractLibrary::add_genre(SP::Set<Id> ids, const QString& genre)
 }
 
 
-void AbstractLibrary::delete_genre(const QString& genre)
+void AbstractLibrary::delete_genre(const Genre& genre)
 {
 	MetaDataList v_md;
 
@@ -777,10 +776,9 @@ void AbstractLibrary::delete_genre(const QString& genre)
 	tag_edit()->commit();
 }
 
-void AbstractLibrary::rename_genre(const QString& genre, const QString& new_genre)
+void AbstractLibrary::rename_genre(const Genre& genre, const Genre& new_genre)
 {
 	MetaDataList v_md;
-	Genre g(genre);
 
 	sp_log(Log::Debug, this) << "Rename genre: Fetch all tracks";
 	get_all_tracks(v_md, Library::Sortings());
@@ -788,7 +786,7 @@ void AbstractLibrary::rename_genre(const QString& genre, const QString& new_genr
 
 	for(int i=0; i<v_md.count(); i++)
 	{
-		if(v_md[i].has_genre(g)){
+		if(v_md[i].has_genre(genre)){
 			tag_edit()->delete_genre(i, genre);
 			tag_edit()->add_genre(i, new_genre);
 		}

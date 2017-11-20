@@ -41,10 +41,10 @@ using Gui::Completer;
 
 struct GUI_Lyrics::Private
 {
-    Lyrics*         lyrics=nullptr;
-    ProgressBar*    loading_bar=nullptr;
-    qreal           font_size;
-    qreal           initial_font_size;
+	Lyrics*         lyrics=nullptr;
+	ProgressBar*    loading_bar=nullptr;
+	qreal           font_size;
+	qreal           initial_font_size;
 
 	Private()
 	{
@@ -226,7 +226,7 @@ void GUI_Lyrics::set_metadata(const MetaData &md)
 		ui->le_artist->completer()->deleteLater();
 	}
 
-    ui->le_artist->setCompleter( new Gui::Completer(completer_entries, ui->le_artist) );
+	ui->le_artist->setCompleter( new Gui::Completer(completer_entries, ui->le_artist) );
 
 	setup_sources();
 	prepare_lyrics();
@@ -311,7 +311,7 @@ void GUI_Lyrics::language_changed()
 	ui->lab_zoom->setText(Lang::get(Lang::Zoom));
 	ui->lab_source->setText(tr("Source"));
 	ui->btn_close->setText(Lang::get(Lang::Close));
-	ui->btn_search->setText(Lang::get(Lang::Search));
+	ui->btn_search->setText(Lang::get(Lang::SearchVerb));
 
 	setup_sources();
 	set_save_button_text();

@@ -65,6 +65,7 @@ GUI_EditLibrary::GUI_EditLibrary(const QString& name, const QString& path, QWidg
 	GUI_EditLibrary(parent)
 {
 	m->edit_mode = EditMode::Edit;
+	m->name_edited = true;
 
 	m->old_name = name;
 	m->old_path = path;

@@ -21,6 +21,8 @@
 
 #include "GUI/Utils/Icons.h"
 #include "GUI/Utils/GuiUtils.h"
+#include "GUI/Utils/PreferenceAction.h"
+
 #include "Utils/Settings/Settings.h"
 #include "Utils/Language.h"
 
@@ -39,6 +41,12 @@ struct PlaylistTabMenu::Private
 	QAction*	action_close_others=nullptr;
 	QAction*	action_rename=nullptr;
 	QAction*	action_clear=nullptr;
+
+	bool has_preference_action;
+
+	Private() :
+		has_preference_action(false)
+	{}
 };
 
 PlaylistTabMenu::PlaylistTabMenu(QWidget* parent) :
@@ -57,7 +65,6 @@ PlaylistTabMenu::PlaylistTabMenu(QWidget* parent) :
 	m->action_clear = new QAction(this);
 	m->action_close = new QAction(this);
 	m->action_close_others = new QAction(this);
-
 
 	QList<QAction*> actions;
 	actions << m->action_open_file
@@ -89,6 +96,8 @@ PlaylistTabMenu::PlaylistTabMenu(QWidget* parent) :
 	connect(m->action_clear, &QAction::triggered, this, &PlaylistTabMenu::sig_clear_clicked);
 	connect(m->action_close, &QAction::triggered, this, &PlaylistTabMenu::sig_close_clicked);
 	connect(m->action_close_others, &QAction::triggered, this, &PlaylistTabMenu::sig_close_others_clicked);
+
+	add_preference_action(new PlaylistPreferenceAction(this));
 }
 
 PlaylistTabMenu::~PlaylistTabMenu()
@@ -149,3 +158,16 @@ void PlaylistTabMenu::show_close(bool b)
 	m->action_close_others->setVisible(b);
 }
 
+void PlaylistTabMenu::add_preference_action(PreferenceAction* action)
+{
+	QList<QAction*> actions;
+
+	if(!m->has_preference_action){
+		actions << this->addSeparator();
+	}
+
+	actions << action;
+
+	this->addActions(actions);
+	m->has_preference_action = true;
+}

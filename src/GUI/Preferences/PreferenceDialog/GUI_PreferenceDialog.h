@@ -23,6 +23,7 @@
 
 #include "Utils/Pimpl.h"
 #include "Interfaces/PreferenceDialog/PreferenceDialog.h"
+#include "GUI/Utils/Widgets/Dialog.h"
 
 class QString;
 namespace Preferences
@@ -33,13 +34,14 @@ namespace Preferences
 
 UI_FWD(GUI_PreferenceDialog)
 
-
 /**
  * @brief The Preference Dialog. Register new Preference dialogs with the register_preference_dialog() method.
  * @ingroup Preferences
  */
 class GUI_PreferenceDialog :
+		public Gui::Dialog,
 		public PreferenceDialog
+
 {
 	Q_OBJECT
 	UI_CLASS(GUI_PreferenceDialog)
@@ -58,7 +60,7 @@ class GUI_PreferenceDialog :
 		QList<QAction*> actions(QWidget* parent) override;
 
 		void register_preference_dialog(Preferences::Base* dialog) override;
-		void show_preference_dialog(const QString& identifier) override;
+		void show_preference(const QString& identifier) override;
 
 	protected slots:
 		void commit_and_close();
@@ -74,6 +76,7 @@ class GUI_PreferenceDialog :
 	private:
 		bool commit();
 		void revert();
+
 };
 
 #endif // GUI_PreferenceDialog_H

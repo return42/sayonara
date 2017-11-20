@@ -136,6 +136,7 @@ QString GUI_LibraryPreferences::error_string() const
 	return tr("Cannot edit library");
 }
 
+
 void GUI_LibraryPreferences::current_item_changed(int row)
 {
 	ui->lab_current_path->setVisible(row >= 0);

@@ -21,6 +21,7 @@
 #include "GUI_PlayerPreferences.h"
 #include "GUI/Preferences/ui_GUI_PlayerPreferences.h"
 #include "Utils/Settings/Settings.h"
+#include "Utils/Language.h"
 
 
 GUI_PlayerPreferences::GUI_PlayerPreferences(const QString& identifier) :
@@ -47,7 +48,7 @@ void GUI_PlayerPreferences::init_ui()
 
 QString GUI_PlayerPreferences::action_name() const
 {
-	return tr("Player");
+	return Lang::get(Lang::Application);
 }
 
 

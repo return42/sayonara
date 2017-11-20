@@ -14,13 +14,6 @@
    <property name="verticalSpacing">
     <number>10</number>
    </property>
-   <item row="3" column="0">
-    <widget class="Line" name="line">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </item>
    <item row="1" column="0">
     <widget class="QScrollArea" name="scroll_area">
      <property name="widgetResizable">
@@ -39,7 +32,14 @@
      </widget>
     </widget>
    </item>
-   <item row="2" column="0">
+   <item row="0" column="0">
+    <widget class="QCheckBox" name="cb_force_in_dark_theme">
+     <property name="text">
+      <string>Also use selected icon theme in Sayonara's dark mode</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0">
     <layout class="QHBoxLayout" name="horizontalLayout">
      <property name="leftMargin">
       <number>5</number>
@@ -109,10 +109,10 @@
      </item>
     </layout>
    </item>
-   <item row="0" column="0">
-    <widget class="QCheckBox" name="cb_force_in_dark_theme">
-     <property name="text">
-      <string>Also use selected icon theme in Sayonara's dark mode</string>
+   <item row="2" column="0">
+    <widget class="Line" name="line">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
      </property>
     </widget>
    </item>

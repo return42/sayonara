@@ -17,7 +17,7 @@ PKG_CHECK_MODULES(GSTREAMER_BASE_APP gstreamer-app-1.0 REQUIRED)
 SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 
-IF( NOT DEFINED CMAKE_BUILD_TYPE OR NOT CMAKE_BUILD_TYPE ) 
+IF( NOT DEFINED CMAKE_BUILD_TYPE OR NOT CMAKE_BUILD_TYPE )
 	MESSAGE("Use standard build type \"Release\"")
 	SET(CMAKE_BUILD_TYPE "Release")
 ENDIF()
@@ -50,12 +50,12 @@ ADD_DEFINITIONS(${QT_DEFINITIONS})
 ADD_DEFINITIONS(-DLIB_INSTALL_DIR="${CMAKE_INSTALL_PREFIX}/lib/sayonara")
 
 IF(WIN32)
-    MESSAGE("Windows: host Will compile without dbus and shutdown support")
+	MESSAGE("Windows: host Will compile without dbus and shutdown support")
 
 ELSE()
-    MESSAGE("No Windows: Will compile with dbus and shutdown support")
-    ADD_DEFINITIONS(-DWITH_DBUS)
-    SET(WIN32 0)
+	MESSAGE("No Windows: Will compile with dbus and shutdown support")
+	ADD_DEFINITIONS(-DWITH_DBUS)
+	SET(WIN32 0)
 ENDIF()
 
 LINK_DIRECTORIES(${GSTREAMER_LIBRARY_DIRS})
@@ -81,7 +81,7 @@ ADD_SUBDIRECTORY(Languages)
 ADD_SUBDIRECTORY(3rdParty)
 
 SET(SOURCES
-    Main.cpp
+	Main.cpp
 )
 
 ADD_EXECUTABLE(${PROJECT_NAME} ${SOURCES} ${QM_FILES})
@@ -91,18 +91,18 @@ ADD_EXECUTABLE(${PROJECT_NAME} ${SOURCES} ${QM_FILES})
 
 IF(WIN32)
 	SET(OS_LIBRARIES
-	    api-ms-win-core-winrt-l1-1-0
-	    api-ms-win-core-winrt-string-l1-1-0
-	    ${GIO_LIBRARIES}
+		api-ms-win-core-winrt-l1-1-0
+		api-ms-win-core-winrt-string-l1-1-0
+		${GIO_LIBRARIES}
 	)
 ENDIF()
 
 
 TARGET_LINK_LIBRARIES(${PROJECT_NAME}
-    say_application
-    say_gui_resources
-    say_lang
-    ${OS_LIBRARIES}
+	say_application
+	say_gui_resources
+	say_lang
+	${OS_LIBRARIES}
 )
 
 

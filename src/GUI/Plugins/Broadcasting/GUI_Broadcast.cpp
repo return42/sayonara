@@ -26,7 +26,21 @@
 #include "Utils/Language.h"
 #include "Utils/Settings/Settings.h"
 
+#include "GUI/Utils/PreferenceAction.h"
+
 #include "GUI/Plugins/Broadcasting/ui_GUI_Broadcast.h"
+
+class BroadcastAction :
+		public PreferenceAction
+{
+public:
+	BroadcastAction(QWidget* parent) : PreferenceAction(label(), identifier(), parent) {}
+
+	QString identifier() const override { return "broadcast"; }
+
+protected:
+	QString display_name() const override { return Lang::get(Lang::Broadcast); }
+};
 
 struct GUI_Broadcast::Private
 {
@@ -89,11 +103,12 @@ void GUI_Broadcast::init_ui()
 	m->action_dismiss = new QAction(tr("Dismiss"), ui->btn_menu);
 	m->action_dismiss_all = new QAction(tr("Dismiss all"), ui->btn_menu);
 
-	m->action_dismiss->setEnabled(false);
-	m->action_dismiss_all->setEnabled(false);
+	m->action_dismiss->setVisible(false);
+	m->action_dismiss_all->setVisible(false);
 
 	ui->btn_menu->register_action(m->action_dismiss);
 	ui->btn_menu->register_action(m->action_dismiss_all);
+	ui->btn_menu->register_action(new BroadcastAction(ui->btn_menu));
 
 	connect(m->action_dismiss, &QAction::triggered, this, &GUI_Broadcast::dismiss_clicked);
 	connect(m->action_dismiss_all, &QAction::triggered, this, &GUI_Broadcast::dismiss_all_clicked);
@@ -137,7 +152,7 @@ void GUI_Broadcast::connection_established(const QString& ip)
 	ui->combo_clients->addItem(ip);
 	set_status_label();
 	ui->combo_clients->setCurrentIndex(ui->combo_clients->count() -1);
-	m->action_dismiss_all->setEnabled(true);
+	m->action_dismiss_all->setVisible(true);
 }
 
 
@@ -167,8 +182,8 @@ void GUI_Broadcast::connection_closed(const QString& ip)
 	ui->combo_clients->removeItem(idx);
 
 	if(ui->combo_clients->count() == 0){
-		m->action_dismiss->setEnabled(false);
-		m->action_dismiss_all->setEnabled(false);
+		m->action_dismiss->setVisible(false);
+		m->action_dismiss_all->setVisible(false);
 	}
 
 	set_status_label();
@@ -219,7 +234,7 @@ void GUI_Broadcast::dismiss_clicked()
 {
 	int idx = ui->combo_clients->currentIndex();
 	dismiss_at(idx);
-	m->action_dismiss->setEnabled(false);
+	m->action_dismiss->setVisible(false);
 }
 
 
@@ -229,8 +244,8 @@ void GUI_Broadcast::dismiss_all_clicked()
 		dismiss_at(idx);
 	}
 
-	m->action_dismiss_all->setEnabled(false);
-	m->action_dismiss->setEnabled(false);
+	m->action_dismiss_all->setVisible(false);
+	m->action_dismiss->setVisible(false);
 }
 
 
@@ -240,10 +255,10 @@ void GUI_Broadcast::combo_changed(int idx)
 	QString text = ui->combo_clients->currentText();
 
 	if(text.startsWith("(d)")){
-		m->action_dismiss->setEnabled(false);
+		m->action_dismiss->setVisible(false);
 	}
 	else{
-		m->action_dismiss->setEnabled(true);
+		m->action_dismiss->setVisible(true);
 	}
 }
 

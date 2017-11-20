@@ -27,6 +27,7 @@
 #include "Utils/Utils.h"
 #include "Utils/FileUtils.h"
 #include "Utils/Library/Filter.h"
+#include "Utils/Set.h"
 
 #include <QFileInfo>
 #include <QDateTime>
@@ -624,35 +625,31 @@ bool Tracks::deleteInvalidTracks(const QString& library_path, MetaDataList& doub
 	return false;
 }
 
-QStringList Tracks::getAllGenres()
+SP::Set<Genre> Tracks::getAllGenres()
 {
+	SP::Set<Genre> genres;
 	sp_log(Log::Debug, this) << "Load all genres";
-	QString querystring;
-	bool success;
 
 	Query q(this);
+	q.prepare("SELECT genre FROM " + m->track_view + " GROUP BY genre;");
 
-	querystring = "SELECT genre FROM " + m->track_view + " GROUP BY genre;";
-	q.prepare(querystring);
-
-	success = q.exec();
+	bool success = q.exec();
 	if(!success){
-		return QStringList();
+		return genres;
 	}
 
-	QHash<QString, bool> hash;
 	while(q.next())
 	{
-		QString genre = q.value("genre").toString();
+		QString genre = q.value(0).toString();
 		QStringList subgenres = genre.split(",");
 
 		for(const QString& g: subgenres){
-			hash[g.toLower()] = true;
+			genres.insert( Genre(g) );
 		}
 	}
 
 	sp_log(Log::Debug, this) << "Load all genres finished";
-	return QStringList(hash.keys());
+	return genres;
 }
 
 

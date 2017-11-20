@@ -124,7 +124,7 @@ bool Tagging::Util::getMetaDataOfFile(MetaData& md, Quality quality)
 	QString genre = QString::fromUtf8(tag->genre().toCString(true));
 
 	QString album_artist;
-	QString lyrics;
+
 	Models::Discnumber discnumber;
 	Models::Popularimeter popularimeter;
 	if(tag_type == TagType::ID3v2)

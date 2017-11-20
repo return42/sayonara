@@ -26,9 +26,10 @@
 #include "GUI/Utils/Widgets/WidgetTemplate.h"
 #include "GUI/Utils/SearchableWidget/SearchableView.h"
 #include "Utils/Pimpl.h"
+#include "Utils/SetFwd.h"
 
 class MetaDataList;
-class Edit;
+class Genre;
 class TreeDelegate;
 class QStringList;
 class LocalLibrary;
@@ -62,8 +63,8 @@ namespace Library
 		void set_local_library(LocalLibrary* library);
 
 	private:
-		void set_genres(const QStringList& genres);
-		void build_genre_data_tree(const QStringList& genres);
+		void set_genres(const SP::Set<Genre>& genres);
+		void build_genre_data_tree(const SP::Set<Genre>& genres);
 		void populate_widget(QTreeWidgetItem* parent_item, GenreNode* node);
 
 		QTreeWidgetItem* find_genre(const QString& genre);

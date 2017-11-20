@@ -46,7 +46,7 @@ static QMap<Icons::IconName, QPair<QString, QString>> s_icon_map =
 	{Icons::Delete,	P("edit-delete", "delete")},
 	{Icons::Dynamic,	P("dynamic", "dynamic")},
 	{Icons::Edit,		P("accessories-text-editor", "edit")},
-	{Icons::Exit,		P("application-exit", "close")},
+	{Icons::Exit,		P("application-exit", "power_on")},
 	{Icons::File,		P("text-x-generic", "file")},
 	{Icons::FileManager, P("system-file-manager", "folder")},
 	{Icons::Folder,		P("folder", "folder")},

@@ -20,6 +20,7 @@
 
 #include "LocalLibrary.h"
 #include "LibraryManager.h"
+
 #include "Importer/LibraryImporter.h"
 #include "Threads/ReloadThread.h"
 #include "Threads/IndexDirectoriesThread.h"
@@ -33,6 +34,7 @@
 
 #include "Utils/Settings/Settings.h"
 #include "Utils/Library/SearchMode.h"
+#include "Utils/Library/LibraryInfo.h"
 #include "Utils/Logger/Logger.h"
 #include "Utils/globals.h"
 
@@ -46,26 +48,22 @@ struct LocalLibrary::Private
 
 	ReloadThread* 		reload_thread=nullptr;
 	LibraryImporter*	library_importer=nullptr;
-	QString				library_path;
-	QString				library_name;
 
 	LibraryId			lib_id;
 
-	Private(const QString& library_name, const QString& library_path, LibraryId lib_id) :
+	Private(LibraryId lib_id) :
 		db(DB::Connector::instance()),
 		lib_db(db->library_db(lib_id, 0)),
-		library_path(library_path),
-		library_name(library_name),
 		lib_id(lib_id)
 	{}
 };
 
-LocalLibrary::LocalLibrary(LibraryId lib_id, const QString& library_name, const QString& library_path, QObject *parent) :
+LocalLibrary::LocalLibrary(LibraryId lib_id, QObject *parent) :
 	AbstractLibrary(parent)
 {
 	DB::Connector::instance()->register_library_db(lib_id);
 
-	m = Pimpl::make<Private>(library_name, library_path, lib_id);
+	m = Pimpl::make<Private>(lib_id);
 
 	apply_db_fixes();
 
@@ -445,48 +443,36 @@ void LocalLibrary::change_track_rating(int idx, int rating)
 
 bool LocalLibrary::set_library_path(const QString& library_path)
 {
-	if(library_path == m->library_path){
-		return false;
-	}
-
 	Library::Manager* library_manager = Library::Manager::instance();
+	return library_manager->change_library_path(m->lib_id, library_path);
+}
 
-	bool success = library_manager->change_library_path(this->library_id(), library_path);
-	if(success)
-	{
-		m->library_path = library_path;
-		emit sig_path_changed(library_path);
-	}
-
-	return success;
+void LocalLibrary::library_path_changed(const QString& library_path)
+{
+	emit sig_path_changed(library_path);
 }
 
 bool LocalLibrary::set_library_name(const QString& library_name)
 {
-	if(library_name == m->library_name){
-		return false;
-	}
-
-	m->library_name = library_name;
-
 	Library::Manager* library_manager = Library::Manager::instance();
-	bool success = library_manager->rename_library(this->library_id(), library_name);
+	return library_manager->rename_library(this->library_id(), library_name);
+}
 
-	if(success) {
-		emit sig_name_changed(library_name);
-	}
-
-	return success;
+void LocalLibrary::library_name_changed(const QString& name)
+{
+	emit sig_name_changed(name);
 }
 
 QString LocalLibrary::library_name() const
 {
-	return m->library_name;
+	Library::Info info = Library::Manager::instance()->library_info(this->library_id());
+	return info.name();
 }
 
 QString LocalLibrary::library_path() const
 {
-	return m->library_path;
+	Library::Info info = Library::Manager::instance()->library_info(this->library_id());
+	return info.path();
 }
 
 LibraryId LocalLibrary::library_id() const

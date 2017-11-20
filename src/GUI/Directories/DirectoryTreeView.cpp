@@ -25,6 +25,7 @@
 
 #include "Components/DirectoryReader/DirectoryReader.h"
 
+#include "GUI/Utils/PreferenceAction.h"
 #include "GUI/Utils/ContextMenu/LibraryContextMenu.h"
 #include "GUI/Utils/CustomMimeData.h"
 #include "GUI/Utils/MimeDataUtils.h"
@@ -131,6 +132,10 @@ void DirectoryTreeView::keyPressEvent(QKeyEvent* event)
 
 void DirectoryTreeView::init_context_menu()
 {
+	if(m->context_menu){
+		return;
+	}
+
 	m->context_menu = new LibraryContextMenu(this);
 
 	LibraryContexMenuEntries entries =
@@ -149,6 +154,8 @@ void DirectoryTreeView::init_context_menu()
 	connect(m->context_menu, &LibraryContextMenu::sig_delete_clicked, this, &DirectoryTreeView::sig_delete_clicked);
 	connect(m->context_menu, &LibraryContextMenu::sig_play_next_clicked, this, &DirectoryTreeView::sig_play_next_clicked);
 	connect(m->context_menu, &LibraryContextMenu::sig_append_clicked, this, &DirectoryTreeView::sig_append_clicked);
+
+	m->context_menu->add_preference_action(new LibraryPreferenceAction(m->context_menu));
 }
 
 void DirectoryTreeView::directory_loaded(const QString& dir_name)

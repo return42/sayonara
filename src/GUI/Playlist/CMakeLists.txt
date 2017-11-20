@@ -20,6 +20,7 @@ QT5_WRAP_UI(FORMS_UIC
 
 SET(LINK_LIBS
 	say_comp_playlist
+	say_comp_preferences
 	say_gui_info_dialog
 	say_gui_shutdown_dialog
 	say_gui_utils

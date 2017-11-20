@@ -45,6 +45,7 @@
 
 #include <QTranslator>
 #include <QAction>
+#include <QHBoxLayout>
 
 GUI_Player::GUI_Player(QTranslator* translator, QWidget* parent) :
 	Gui::MainWindow(parent),
@@ -310,8 +311,9 @@ void GUI_Player::register_preference_dialog(PreferenceDialog* dialog)
 	QList<QAction*> actions = menu_file->actions();
 	QAction* sep = actions[actions.size() - 3];
 
-	dialog->setParent(this);
-	menu_file->insertAction(sep, dialog->action());
+	QAction* preference_action = dialog->action();
+
+	menu_file->insertAction(sep, preference_action);
 }
 
 

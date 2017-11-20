@@ -39,10 +39,13 @@ struct GUI_PreferenceDialog::Private
 	Action*			action=nullptr;
 };
 
-GUI_PreferenceDialog::GUI_PreferenceDialog(QWidget *parent) :
-	PreferenceDialog(parent)
+GUI_PreferenceDialog::GUI_PreferenceDialog(QWidget* parent) :
+	Gui::Dialog(parent),
+	PreferenceDialog()
 {
 	m = Pimpl::make<Private>();
+
+	PreferenceRegistry::instance()->set_user_interface(this);
 }
 
 GUI_PreferenceDialog::~GUI_PreferenceDialog()
@@ -56,9 +59,10 @@ GUI_PreferenceDialog::~GUI_PreferenceDialog()
 void GUI_PreferenceDialog::register_preference_dialog(Base* pref_widget)
 {
 	m->pref_widgets << pref_widget;
+	PreferenceRegistry::instance()->register_preference(pref_widget->identifier());
 }
 
-void GUI_PreferenceDialog::show_preference_dialog(const QString& identifier)
+void GUI_PreferenceDialog::show_preference(const QString& identifier)
 {
 	init_ui();
 
@@ -138,7 +142,7 @@ QList<QAction*> GUI_PreferenceDialog::actions(QWidget* parent)
 		ret << action;
 
 		connect(action, &QAction::triggered, this, [=](){
-			show_preference_dialog(identifier);
+			show_preference(identifier);
 		});
 	}
 
@@ -224,7 +228,7 @@ void GUI_PreferenceDialog::hide_all()
 void GUI_PreferenceDialog::showEvent(QShowEvent* e)
 {
 	init_ui();
-	Dialog::showEvent(e);
+	Gui::Dialog::showEvent(e);
 }
 
 

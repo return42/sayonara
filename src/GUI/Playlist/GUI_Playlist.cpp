@@ -28,7 +28,7 @@
 #include "TabWidget.h"
 #include "ListView.h"
 #include "GUI/Utils/Icons.h"
-#include "GUI/Utils/Library/LibraryDeleteDialog.h"
+#include "GUI/Utils/Library/GUI_DeleteDialog.h"
 
 #include "Utils/Utils.h"
 #include "Utils/Set.h"
@@ -348,7 +348,7 @@ void GUI_Playlist::_sl_show_clear_button_changed()
 
 void GUI_Playlist::delete_tracks_clicked(const IndexSet& rows)
 {
-	LibraryDeleteDialog dialog((int) rows.size(), this);
+	GUI_DeleteDialog dialog(rows.count(), this);
 	dialog.exec();
 
 	Library::TrackDeletionMode deletion_mode = dialog.answer();
