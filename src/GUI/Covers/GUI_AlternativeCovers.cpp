@@ -211,6 +211,7 @@ void GUI_AlternativeCovers::language_changed()
 {
 	ui->retranslateUi(this);
 
+	ui->btn_ok->setText(Lang::get(Lang::OK));
 	ui->btn_search->setText(Lang::get(Lang::SearchVerb));
 	ui->btn_close->setText(Lang::get(Lang::Close));
 	ui->btn_apply->setText(Lang::get(Lang::Apply));

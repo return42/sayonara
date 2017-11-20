@@ -18,10 +18,9 @@ GUI_SearchPreferences::~GUI_SearchPreferences()
 	}
 }
 
-
 QString GUI_SearchPreferences::action_name() const
 {
-	return Lang::get(Lang::Search);
+	return Lang::get(Lang::SearchNoun);
 }
 
 bool GUI_SearchPreferences::commit()

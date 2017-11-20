@@ -74,7 +74,7 @@
 #include "GUI/Preferences/PreferenceDialog/GUI_PreferenceDialog.h"
 #include "GUI/Preferences/ProxyPreferences/GUI_Proxy.h"
 #include "GUI/Preferences/RemoteControl/GUI_RemoteControl.h"
-//#include "GUI/Preferences/Search/GUI_SearchPreferences.h"
+#include "GUI/Preferences/Search/GUI_SearchPreferences.h"
 #include "GUI/Preferences/Shortcuts/GUI_Shortcuts.h"
 #include "GUI/Preferences/Streams/GUI_StreamPreferences.h"
 #include "GUI/Preferences/StreamRecorder/GUI_StreamRecorder.h"
@@ -288,7 +288,7 @@ void Application::init_preferences()
 	preferences->register_preference_dialog(new GUI_PlaylistPreferences("playlist"));
 	preferences->register_preference_dialog(new GUI_LibraryPreferences("library"));
 	preferences->register_preference_dialog(new GUI_Covers("covers"));
-	//preferences->register_preference_dialog(new GUI_SearchPreferences("search"));
+	preferences->register_preference_dialog(new GUI_SearchPreferences("search"));
 
 	preferences->register_preference_dialog(new GUI_Proxy("proxy"));
 	preferences->register_preference_dialog(new GUI_StreamPreferences("streams"));

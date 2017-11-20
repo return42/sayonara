@@ -16,7 +16,7 @@ SET(SOURCES
 	PreferenceDialog/GUI_PreferenceDialog.cpp
 	ProxyPreferences/GUI_Proxy.cpp
 	RemoteControl/GUI_RemoteControl.cpp
-	#Search/GUI_SearchPreferences.cpp
+	Search/GUI_SearchPreferences.cpp
 	Shortcuts/GUI_Shortcuts.cpp
 	Shortcuts/GUI_ShortcutEntry.cpp
 	Shortcuts/ShortcutLineEdit.cpp
@@ -40,7 +40,7 @@ QT5_WRAP_UI(UI_FILES
 	RemoteControl/GUI_RemoteControl.ui
 	Shortcuts/GUI_Shortcuts.ui
 	Shortcuts/GUI_ShortcutEntry.ui
-	#Search/GUI_SearchPreferences.ui
+	Search/GUI_SearchPreferences.ui
 	StreamRecorder/GUI_StreamRecorder.ui
 	Streams/GUI_StreamPreferences.ui
 )
