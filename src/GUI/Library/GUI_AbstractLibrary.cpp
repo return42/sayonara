@@ -19,12 +19,7 @@
  */
 
 #include "GUI_AbstractLibrary.h"
-#include "Views/ItemView.h"
-#include "Views/AlbumView.h"
-#include "Delegates/RatingDelegate.h"
-#include "Models/AlbumModel.h"
-#include "Models/ArtistModel.h"
-#include "Models/TrackModel.h"
+#include "Views/TableView.h"
 
 #include "Components/Library/AbstractLibrary.h"
 
@@ -33,14 +28,11 @@
 #include "Utils/Library/Filter.h"
 #include "Utils/Settings/Settings.h"
 #include "Utils/Language.h"
-#include "Utils/MetaData/MetaDataList.h"
 #include "Utils/Logger/Logger.h"
 
-#include "GUI/Library/Utils/ColumnHeader.h"
-#include "GUI/Library/Utils/ColumnIndex.h"
-#include "GUI/Utils/Delegates/StyledItemDelegate.h"
 #include "GUI/Utils/EventFilter.h"
 #include "GUI/Utils/PreferenceAction.h"
+#include "GUI/Utils/GuiUtils.h"
 
 #include <QLineEdit>
 #include <QMenu>
@@ -50,13 +42,8 @@ using namespace Library;
 
 struct GUI_AbstractLibrary::Private
 {
-	AbstractLibrary* library = nullptr;
-
-	TableView* lv_album=nullptr;
-	TableView* lv_artist=nullptr;
-	TableView* lv_tracks=nullptr;
-
-	QLineEdit* le_search=nullptr;
+	AbstractLibrary*	library = nullptr;
+	QLineEdit*			le_search=nullptr;
 
 	Private(AbstractLibrary* library) :
 		library(library)
@@ -73,89 +60,24 @@ GUI_AbstractLibrary::~GUI_AbstractLibrary() {}
 
 void GUI_AbstractLibrary::init()
 {
-	m->lv_album = lv_album();
-	m->lv_artist = lv_artist();
-	m->lv_tracks = lv_tracks();
 	m->le_search = le_search();
 
-	Set::listen(Set::Lib_UseViewClearButton, this, &GUI_AbstractLibrary::use_view_clear_button_changed);
+	lv_tracks()->init(m->library);
+	lv_album()->init(m->library);
+	lv_artist()->init(m->library);
 
-	init_views();
-	init_headers();
 	init_search_bar();
 	init_shortcuts();
-	init_connections();
+
+	connect(m->library, &AbstractLibrary::sig_delete_answer, this, &GUI_AbstractLibrary::show_delete_answer);
+
+	connect(lv_artist(), &ItemView::sig_delete_clicked, this, &GUI_AbstractLibrary::item_delete_clicked);
+	connect(lv_album(), &ItemView::sig_delete_clicked, this, &GUI_AbstractLibrary::item_delete_clicked);
+	connect(lv_tracks(), &ItemView::sig_delete_clicked, this, &GUI_AbstractLibrary::tracks_delete_clicked);
+
+	Set::listen(Set::Lib_LiveSearch, this, &GUI_AbstractLibrary::_sl_live_search_changed);
 }
 
-
-void GUI_AbstractLibrary::init_views()
-{
-	TrackModel* track_model = new TrackModel(m->lv_tracks, m->library);
-	RatingDelegate* track_delegate = new RatingDelegate(m->lv_tracks, (int) ColumnIndex::Track::Rating, true);
-
-	m->lv_tracks->setModel(track_model);
-	m->lv_tracks->setSearchModel(track_model);
-	m->lv_tracks->setItemDelegate(track_delegate);
-	m->lv_tracks->set_metadata_interpretation(MD::Interpretation::Tracks);
-
-	ArtistModel* artist_model = new ArtistModel(m->lv_artist, m->library);
-	m->lv_artist->setModel(artist_model);
-	m->lv_artist->setSearchModel(artist_model);
-	m->lv_artist->setItemDelegate(new Gui::StyledItemDelegate(m->lv_artist));
-	m->lv_artist->set_metadata_interpretation(MD::Interpretation::Artists);
-
-	AlbumModel* album_model = new AlbumModel(m->lv_album, m->library);
-	RatingDelegate* album_delegate = new RatingDelegate(m->lv_album, (int) ColumnIndex::Album::Rating, true);
-
-	m->lv_album->setModel(album_model);
-	m->lv_album->setSearchModel(album_model);
-	m->lv_album->setItemDelegate(album_delegate);
-	m->lv_album->set_metadata_interpretation(MD::Interpretation::Albums);
-}
-
-void GUI_AbstractLibrary::init_headers()
-{
-	Sortings so = _settings->get(Set::Lib_Sorting);
-
-	ColumnHeader* t_h0 = new ColumnHeader(ColumnHeader::Sharp, true, SortOrder::TrackNumAsc, SortOrder::TrackNumDesc, 25);
-	ColumnHeader* t_h1 = new ColumnHeader(ColumnHeader::Title, false, SortOrder::TrackTitleAsc, SortOrder::TrackTitleDesc, 0.4, 200);
-	ColumnHeader* t_h2 = new ColumnHeader(ColumnHeader::Artist, true, SortOrder::TrackArtistAsc, SortOrder::TrackArtistDesc, 0.3, 160);
-	ColumnHeader* t_h3 = new ColumnHeader(ColumnHeader::Album, true, SortOrder::TrackAlbumAsc, SortOrder::TrackAlbumDesc, 0.3, 160);
-	ColumnHeader* t_h4 = new ColumnHeader(ColumnHeader::Year, true, SortOrder::TrackYearAsc, SortOrder::TrackYearDesc, 50);
-	ColumnHeader* t_h5 = new ColumnHeader(ColumnHeader::DurationShort, true, SortOrder::TrackLenghtAsc, SortOrder::TrackLengthDesc, 50);
-	ColumnHeader* t_h6 = new ColumnHeader(ColumnHeader::Bitrate, true, SortOrder::TrackBitrateAsc, SortOrder::TrackBitrateDesc, 75);
-	ColumnHeader* t_h7 = new ColumnHeader(ColumnHeader::Filesize, true, SortOrder::TrackSizeAsc, SortOrder::TrackSizeDesc, 75);
-	ColumnHeader* t_h8 = new ColumnHeader(ColumnHeader::Rating, true, SortOrder::TrackRatingAsc, SortOrder::TrackRatingDesc, 80);
-
-	ColumnHeader* al_h0 = new ColumnHeader(ColumnHeader::Sharp, true, SortOrder::NoSorting, SortOrder::NoSorting, 20);
-	ColumnHeader* al_h1 = new ColumnHeader(ColumnHeader::Album, false, SortOrder::AlbumNameAsc, SortOrder::AlbumNameDesc, 1.0, 160);
-	ColumnHeader* al_h2 = new ColumnHeader(ColumnHeader::Duration, true, SortOrder::AlbumDurationAsc, SortOrder::AlbumDurationDesc, 90);
-	ColumnHeader* al_h3 = new ColumnHeader(ColumnHeader::NumTracks, true, SortOrder::AlbumTracksAsc, SortOrder::AlbumTracksDesc, 80);
-	ColumnHeader* al_h4 = new ColumnHeader(ColumnHeader::Year, true, SortOrder::AlbumYearAsc, SortOrder::AlbumYearDesc, 50);
-	ColumnHeader* al_h5 = new ColumnHeader(ColumnHeader::Rating, true, SortOrder::AlbumRatingAsc, SortOrder::AlbumRatingDesc, 80);
-
-	ColumnHeader* ar_h0 = new ColumnHeader(ColumnHeader::Sharp, true, SortOrder::NoSorting, SortOrder::NoSorting, 20);
-	ColumnHeader* ar_h1 = new ColumnHeader(ColumnHeader::Artist, false, SortOrder::ArtistNameAsc, SortOrder::ArtistNameDesc, 1.0, 160 );
-	ColumnHeader* ar_h2 = new ColumnHeader(ColumnHeader::NumTracks, true, SortOrder::ArtistTrackcountAsc, SortOrder::ArtistTrackcountDesc, 80);
-
-	ColumnHeaderList track_columns, album_columns, artist_columns;
-
-	track_columns  << t_h0  << t_h1  << t_h2  << t_h3  <<t_h4  << t_h5  << t_h6 << t_h7 << t_h8;
-	album_columns  << al_h0 << al_h1 << al_h2 << al_h3 << al_h4 << al_h5;
-	artist_columns << ar_h0 << ar_h1 << ar_h2;
-
-	BoolList shown_cols_albums = _settings->get(Set::Lib_ColsAlbum);
-	BoolList shown_cols_artist = _settings->get(Set::Lib_ColsArtist);
-	BoolList shown_cols_tracks = _settings->get(Set::Lib_ColsTitle);
-
-	shown_cols_artist[0] = false;
-
-	m->lv_tracks->set_table_headers(track_columns, shown_cols_tracks, so.so_tracks);
-	m->lv_artist->set_table_headers(artist_columns, shown_cols_artist, so.so_artists);
-	m->lv_album->set_table_headers(album_columns, shown_cols_albums, so.so_albums);
-}
-
-#include "GUI/Utils/GuiUtils.h"
 void GUI_AbstractLibrary::init_search_bar()
 {
 	m->le_search->setFocusPolicy(Qt::ClickFocus);
@@ -194,45 +116,6 @@ void GUI_AbstractLibrary::init_search_bar()
 	search_mode_changed(Filter::Fulltext);
 }
 
-void GUI_AbstractLibrary::init_connections()
-{
-	connect(m->library, &AbstractLibrary::sig_all_artists_loaded, this, &GUI_AbstractLibrary::artists_ready);
-	connect(m->library, &AbstractLibrary::sig_all_albums_loaded, this, &GUI_AbstractLibrary::albums_ready);
-	connect(m->library, &AbstractLibrary::sig_all_tracks_loaded, this,	&GUI_AbstractLibrary::tracks_ready);
-	connect(m->library, &AbstractLibrary::sig_delete_answer, this, &GUI_AbstractLibrary::show_delete_answer);
-
-	connect(m->lv_album, &AlbumView::doubleClicked, this, &GUI_AbstractLibrary::item_double_clicked);
-	connect(m->lv_album, &AlbumView::sig_sel_changed, this, &GUI_AbstractLibrary::album_sel_changed);
-	connect(m->lv_album, &AlbumView::sig_middle_button_clicked, this, &GUI_AbstractLibrary::item_middle_clicked);
-	connect(m->lv_album, &AlbumView::sig_sortorder_changed, this, &GUI_AbstractLibrary::album_sortorder_changed);
-	connect(m->lv_album, &AlbumView::sig_columns_changed, this, &GUI_AbstractLibrary::album_columns_changed);
-	connect(m->lv_album, &AlbumView::sig_delete_clicked, this, &GUI_AbstractLibrary::item_delete_clicked);
-	connect(m->lv_album, &AlbumView::sig_play_next_clicked, this, &GUI_AbstractLibrary::item_play_next_clicked);
-	connect(m->lv_album, &AlbumView::sig_append_clicked, this, &GUI_AbstractLibrary::item_append_clicked);
-	connect(m->lv_album, &AlbumView::sig_refresh_clicked, this, &GUI_AbstractLibrary::refresh_album);
-
-	connect(m->lv_artist, &ItemView::doubleClicked, this, &GUI_AbstractLibrary::item_double_clicked);
-	connect(m->lv_artist, &ItemView::sig_sel_changed, this, &GUI_AbstractLibrary::artist_sel_changed);
-	connect(m->lv_artist, &ItemView::sig_middle_button_clicked, this, &GUI_AbstractLibrary::item_middle_clicked);
-	connect(m->lv_artist, &TableView::sig_sortorder_changed, this, &GUI_AbstractLibrary::artist_sortorder_changed);
-	connect(m->lv_artist, &TableView::sig_columns_changed, this, &GUI_AbstractLibrary::artist_columns_changed);
-	connect(m->lv_artist, &ItemView::sig_delete_clicked, this, &GUI_AbstractLibrary::item_delete_clicked);
-	connect(m->lv_artist, &ItemView::sig_play_next_clicked, this, &GUI_AbstractLibrary::item_play_next_clicked);
-	connect(m->lv_artist, &ItemView::sig_append_clicked, this, &GUI_AbstractLibrary::item_append_clicked);
-	connect(m->lv_artist, &ItemView::sig_refresh_clicked, this, &GUI_AbstractLibrary::refresh_artist);
-
-	connect(m->lv_tracks, &ItemView::doubleClicked, this, &GUI_AbstractLibrary::tracks_double_clicked);
-	connect(m->lv_tracks, &ItemView::sig_sel_changed, this, &GUI_AbstractLibrary::track_sel_changed);
-	connect(m->lv_tracks, &ItemView::sig_middle_button_clicked, this, &GUI_AbstractLibrary::tracks_middle_clicked);
-	connect(m->lv_tracks, &TableView::sig_sortorder_changed, this, &GUI_AbstractLibrary::track_sortorder_changed);
-	connect(m->lv_tracks, &TableView::sig_columns_changed, this, &GUI_AbstractLibrary::track_columns_changed);
-	connect(m->lv_tracks, &ItemView::sig_delete_clicked, this, &GUI_AbstractLibrary::tracks_delete_clicked);
-	connect(m->lv_tracks, &ItemView::sig_play_next_clicked, this, &GUI_AbstractLibrary::tracks_play_next_clicked);
-	connect(m->lv_tracks, &ItemView::sig_append_clicked, this, &GUI_AbstractLibrary::tracks_append_clicked);
-	connect(m->lv_tracks, &ItemView::sig_refresh_clicked, this, &GUI_AbstractLibrary::refresh_tracks);
-
-	Set::listen(Set::Lib_LiveSearch, this, &GUI_AbstractLibrary::_sl_live_search_changed);
-}
 
 void GUI_AbstractLibrary::init_shortcuts()
 {
@@ -262,7 +145,6 @@ void GUI_AbstractLibrary::query_library()
 	m->library->change_filter(filter);
 }
 
-
 void GUI_AbstractLibrary::search_return_pressed()
 {
 	query_library();
@@ -281,7 +163,6 @@ void GUI_AbstractLibrary::search_edited(const QString& search)
 
 		search_icon_initialized = true;
 	}
-
 
 	if(search.startsWith("f:", Qt::CaseInsensitive))
 	{
@@ -315,7 +196,6 @@ void GUI_AbstractLibrary::search_esc_pressed()
 	query_library();
 }
 
-
 void GUI_AbstractLibrary::search_mode_changed(Filter::Mode mode)
 {
 	QString text = Lang::get(Lang::SearchNoun) + ": " + Filter::get_text(mode);
@@ -324,126 +204,6 @@ void GUI_AbstractLibrary::search_mode_changed(Filter::Mode mode)
 	m->le_search->setProperty("search_mode", (int) mode);
 
 	query_library();
-}
-
-
-void GUI_AbstractLibrary::tracks_ready()
-{
-	const MetaDataList& v_md = m->library->tracks();
-
-	m->lv_tracks->fill<MetaDataList, TrackModel>(v_md);
-}
-
-void GUI_AbstractLibrary::albums_ready()
-{
-	const AlbumList& albums = m->library->albums();
-
-	AlbumView* view = dynamic_cast<AlbumView*>(m->lv_album);
-	if(view){
-		view->fill<AlbumList, AlbumModel>(albums);
-	}
-
-	else{
-		m->lv_album->fill<AlbumList, AlbumModel>(albums);
-	}
-}
-
-
-void GUI_AbstractLibrary::artists_ready()
-{
-	const ArtistList& artists = m->library->artists();
-
-	m->lv_artist->fill<ArtistList, ArtistModel>(artists);
-}
-
-
-void GUI_AbstractLibrary::artist_sel_changed(const IndexSet& lst)
-{
-	m->library->selected_artists_changed(lst);
-}
-
-
-void GUI_AbstractLibrary::album_sel_changed(const IndexSet& lst)
-{
-	m->library->selected_albums_changed(lst);
-}
-
-void GUI_AbstractLibrary::track_sel_changed(const IndexSet& lst)
-{
-	m->library->selected_tracks_changed(lst);
-}
-
-
-void GUI_AbstractLibrary::item_middle_clicked(const QPoint& pt)
-{
-	Q_UNUSED(pt)
-
-	m->library->prepare_fetched_tracks_for_playlist(true);
-}
-
-void GUI_AbstractLibrary::tracks_middle_clicked(const QPoint& pt)
-{
-	Q_UNUSED(pt)
-
-	m->library->prepare_current_tracks_for_playlist(true);
-}
-
-
-void GUI_AbstractLibrary::item_double_clicked(const QModelIndex& idx)
-{
-	Q_UNUSED(idx)
-
-	m->library->prepare_fetched_tracks_for_playlist(false);
-}
-
-
-void GUI_AbstractLibrary::tracks_double_clicked(const QModelIndex& idx)
-{
-	Q_UNUSED(idx)
-
-	m->library->prepare_current_tracks_for_playlist(false);
-}
-
-void  GUI_AbstractLibrary::album_columns_changed()
-{
-	_settings->set(Set::Lib_ColsAlbum, m->lv_album->shown_columns());
-}
-
-
-void  GUI_AbstractLibrary::artist_columns_changed()
-{
-	_settings->set(Set::Lib_ColsArtist, m->lv_artist->shown_columns());
-}
-
-
-void  GUI_AbstractLibrary::track_columns_changed()
-{
-	_settings->set(Set::Lib_ColsTitle, m->lv_tracks->shown_columns());
-}
-
-
-void GUI_AbstractLibrary::artist_sortorder_changed(SortOrder s)
-{
-	m->library->change_artist_sortorder(s);
-}
-
-
-void GUI_AbstractLibrary::album_sortorder_changed(SortOrder s)
-{
-	m->library->change_album_sortorder(s);
-}
-
-
-void GUI_AbstractLibrary::track_sortorder_changed(SortOrder s)
-{
-	m->library->change_track_sortorder(s);
-}
-
-void GUI_AbstractLibrary::use_view_clear_button_changed()
-{
-	bool use_clear_button = _settings->get(Set::Lib_UseViewClearButton);
-	m->lv_album->use_clear_button(use_clear_button);
-	m->lv_artist->use_clear_button(use_clear_button);
 }
 
 
@@ -466,44 +226,6 @@ void GUI_AbstractLibrary::tracks_delete_clicked()
 		m->library->delete_current_tracks(answer);
 	}
 }
-
-void GUI_AbstractLibrary::item_append_clicked()
-{
-	m->library->append_fetched_tracks();
-}
-
-
-void GUI_AbstractLibrary::tracks_append_clicked()
-{
-	m->library->append_current_tracks();
-}
-
-
-void GUI_AbstractLibrary::item_play_next_clicked()
-{
-	m->library->play_next_fetched_tracks();
-}
-
-void GUI_AbstractLibrary::tracks_play_next_clicked()
-{
-	m->library->play_next_current_tracks();
-}
-
-void GUI_AbstractLibrary::refresh_artist()
-{
-	m->library->refresh_artist();
-}
-
-void GUI_AbstractLibrary::refresh_album()
-{
-	m->library->refresh_albums();
-}
-
-void GUI_AbstractLibrary::refresh_tracks()
-{
-	m->library->refresh_tracks();
-}
-
 
 void GUI_AbstractLibrary::id3_tags_changed()
 {

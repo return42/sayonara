@@ -107,8 +107,8 @@ LibraryContextMenu::LibraryContextMenu(QWidget* parent) :
 			<< m->clear_action
 			<< m->delete_action
 			<< addSeparator()
-			<< m->clear_selection_action
 			<< m->cover_view_action
+			<< m->clear_selection_action
 	;
 
 	this->addActions(actions);

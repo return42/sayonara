@@ -45,7 +45,7 @@
     <number>5</number>
    </property>
    <item row="4" column="0" colspan="4">
-    <widget class="Library::TableView" name="tb_title">
+    <widget class="Library::TrackView" name="tb_title">
      <property name="font">
       <font>
        <weight>75</weight>
@@ -188,7 +188,7 @@
     </widget>
    </item>
    <item row="2" column="0" colspan="2">
-    <widget class="Library::TableView" name="lv_artist">
+    <widget class="Library::ArtistView" name="lv_artist">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
        <horstretch>1</horstretch>
@@ -344,14 +344,19 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>Library::TableView</class>
-   <extends>QTableView</extends>
-   <header>GUI/Library/Views/TableView.h</header>
-  </customwidget>
-  <customwidget>
    <class>Library::AlbumView</class>
    <extends>QTableView</extends>
    <header>GUI/Library/Views/AlbumView.h</header>
+  </customwidget>
+  <customwidget>
+   <class>Library::TrackView</class>
+   <extends>QTableView</extends>
+   <header>GUI/Library/Views/TrackView.h</header>
+  </customwidget>
+  <customwidget>
+   <class>Library::ArtistView</class>
+   <extends>QTableView</extends>
+   <header>GUI/Library/Views/ArtistView.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

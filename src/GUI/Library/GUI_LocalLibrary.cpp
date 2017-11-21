@@ -32,7 +32,6 @@
 
 #include "GUI/Library/Utils/LocalLibraryMenu.h"
 #include "GUI/Library/Views/CoverView.h"
-#include "GUI/Library/Models/CoverModel.h"
 
 #include "GUI/ImportDialog/GUI_ImportDialog.h"
 
@@ -70,7 +69,6 @@ struct GUI_LocalLibrary::Private
 
 	LocalLibraryMenu*		library_menu=nullptr;
 	CoverView*				acv = nullptr;
-	CoverModel*				acm = nullptr;
 };
 
 
@@ -121,7 +119,6 @@ GUI_LocalLibrary::GUI_LocalLibrary(LibraryId id, QWidget* parent) :
 
 	connect(m->library_menu, &LocalLibraryMenu::sig_path_changed, this, &GUI_LocalLibrary::change_library_path);
 	connect(m->library_menu, &LocalLibraryMenu::sig_name_changed, this, &GUI_LocalLibrary::change_library_name);
-
 	connect(m->library_menu, &LocalLibraryMenu::sig_import_file, this, &GUI_LocalLibrary::import_files_requested);
 	connect(m->library_menu, &LocalLibraryMenu::sig_import_folder, this, &GUI_LocalLibrary::import_dirs_requested);
 	connect(m->library_menu, &LocalLibraryMenu::sig_info, this, &GUI_LocalLibrary::show_info_box);
@@ -194,7 +191,6 @@ Library::TrackDeletionMode GUI_LocalLibrary::show_delete_dialog(int n_tracks)
 
 	return dialog.answer();
 }
-
 
 void GUI_LocalLibrary::disc_pressed(int disc)
 {
@@ -437,14 +433,12 @@ void GUI_LocalLibrary::init_album_cover_view()
 		return;
 	}
 
-	m->acv = new Library::CoverView(ui->cover_topbar, ui->page_cover);
+	m->acv = new Library::CoverView(m->library, ui->cover_topbar, ui->page_cover);
+
 	QLayout* layout = ui->page_cover->layout();
 	if(layout){
 		layout->addWidget(m->acv);
 	}
-
-	m->acm = new Library::CoverModel(m->acv, m->library);
-	m->acv->setModel(m->acm);
 
 	int entries = (LibraryContextMenu::EntryInfo |
 			LibraryContextMenu::EntryEdit |
@@ -452,13 +446,9 @@ void GUI_LocalLibrary::init_album_cover_view()
 			LibraryContextMenu::EntryPlayNext |
 			LibraryContextMenu::EntryAppend |
 			LibraryContextMenu::EntryCoverView);
+
 	m->acv->show_context_menu_actions(entries);
 
-	connect(m->acv, &ItemView::sig_sel_changed, this, &GUI_LocalLibrary::album_sel_changed);
-	connect(m->acv, &ItemView::doubleClicked, this, &GUI_LocalLibrary::item_double_clicked);
-	connect(m->acv, &ItemView::sig_middle_button_clicked, this, &GUI_LocalLibrary::item_middle_clicked);
-	connect(m->acv, &ItemView::sig_play_next_clicked, this, &GUI_LocalLibrary::item_play_next_clicked);
-	connect(m->acv, &ItemView::sig_append_clicked, this, &GUI_LocalLibrary::item_append_clicked);
 	connect(m->acv, &ItemView::sig_merge, m->library, &LocalLibrary::merge_albums);
 
 	m->acv->show();
@@ -484,16 +474,6 @@ void GUI_LocalLibrary::switch_album_view()
 	}
 
 	ui->sw_album_covers->setCurrentIndex( idx );
-}
-
-void GUI_LocalLibrary::albums_ready()
-{
-	GUI_AbstractLibrary::albums_ready();
-
-	if(m->acv && m->acv->isVisible())
-	{
-		m->acv->refresh();
-	}
 }
 
 Library::TableView* GUI_LocalLibrary::lv_artist() const

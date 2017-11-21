@@ -59,11 +59,13 @@ TableView::TableView(QWidget* parent) :
 
 TableView::~TableView() {}
 
-void TableView::set_table_headers(
-		const ColumnHeaderList& headers, const BoolList& shown_columns, Library::SortOrder sorting)
+void TableView::init(AbstractLibrary* library)
 {
-	m->shown_columns = shown_columns;
-	m->sortorder = sorting;
+	init_view(library);
+
+	ColumnHeaderList headers = column_headers();
+	m->shown_columns = shown_columns();
+	m->sortorder = sortorder();
 
 	QStringList header_names;
 	for(ColumnHeader* header : headers)
@@ -73,15 +75,11 @@ void TableView::set_table_headers(
 
 	_model->set_header_data(header_names);
 
-	m->header->set_column_headers(headers, shown_columns, sorting);
+	m->header->set_column_headers(headers, m->shown_columns, m->sortorder);
 
 	language_changed();
 }
 
-BoolList TableView::shown_columns() const
-{
-	return m->shown_columns;
-}
 
 void TableView::header_actions_triggered()
 {
@@ -92,7 +90,7 @@ void TableView::header_actions_triggered()
 	});
 
 	m->shown_columns = m->header->shown_columns();
-	emit sig_columns_changed();
+	columns_changed();
 }
 
 
@@ -111,7 +109,7 @@ void TableView::sort_by_column(int column_idx)
 
 	switch_sorters( m->sortorder, asc_sortorder, desc_sortorder );
 
-	emit sig_sortorder_changed(m->sortorder);
+	sortorder_changed(m->sortorder);
 }
 
 
@@ -136,7 +134,6 @@ void TableView::resizeEvent(QResizeEvent* event)
 	m->header->refresh_sizes(this);
 }
 
-
 int TableView::index_by_model_index(const QModelIndex& idx) const
 {
 	return idx.row();
@@ -152,4 +149,14 @@ QModelIndex TableView::model_index_by_index(int idx) const
 	}
 
 	return _model->index(idx, first_col);
+}
+
+void TableView::columns_changed()
+{
+	emit sig_columns_changed();
+}
+
+void TableView::sortorder_changed(SortOrder s)
+{
+	emit sig_sortorder_changed(s);
 }

@@ -53,6 +53,7 @@ TARGET_LINK_LIBRARIES(${PROJECT_NAME}
 	Qt5::Widgets
 	say_utils
 	say_comp_directory_reader
+	say_comp_preferences
 )
 
 IF( WITH_COTIRE )

@@ -21,11 +21,14 @@
 #include "GUI_PreferenceDialog.h"
 #include "GUI/Preferences/ui_GUI_PreferenceDialog.h"
 
-#include "GUI/Utils/Delegates/StyledItemDelegate.h"
 #include "Interfaces/PreferenceDialog/PreferenceWidget.h"
 #include "Interfaces/PreferenceDialog/PreferenceAction.h"
+
 #include "Utils/globals.h"
 #include "Utils/Message/GlobalMessage.h"
+
+#include "GUI/Utils/Icons.h"
+#include "GUI/Utils/Delegates/StyledItemDelegate.h"
 
 #include <QLayout>
 #include <QMenu>
@@ -127,6 +130,8 @@ QAction* GUI_PreferenceDialog::action()
 	}
 
 	m->action->setText(name + "...");
+	m->action->setIcon(Gui::Icons::icon(Gui::Icons::Preferences));
+
 	return m->action;
 }
 

@@ -112,8 +112,9 @@ void ItemView::selectionChanged(const QItemSelection& selected, const QItemSelec
 		m->context_menu->show_action(LibraryContextMenu::EntryClearSelection, !selected.isEmpty());
 	}
 
-	emit sig_sel_changed(indexes);
+	selection_changed(indexes);
 }
+
 
 // selections end
 
@@ -140,13 +141,12 @@ void ItemView::init_context_menu()
 	});
 
 	connect(m->context_menu, &LibraryContextMenu::sig_clear_selection_clicked, [=](){
-		clear_selection();
+		this->clear_selection();
 	});
-
-	connect(m->context_menu, &LibraryContextMenu::sig_delete_clicked, this, &ItemView::sig_delete_clicked);
-	connect(m->context_menu, &LibraryContextMenu::sig_play_next_clicked, this, &ItemView::sig_play_next_clicked);
-	connect(m->context_menu, &LibraryContextMenu::sig_append_clicked, this, &ItemView::sig_append_clicked);
-	connect(m->context_menu, &LibraryContextMenu::sig_refresh_clicked, this, &ItemView::sig_refresh_clicked);
+	connect(m->context_menu, &LibraryContextMenu::sig_delete_clicked, this, &ItemView::delete_clicked);
+	connect(m->context_menu, &LibraryContextMenu::sig_play_next_clicked, this, &ItemView::play_next_clicked);
+	connect(m->context_menu, &LibraryContextMenu::sig_append_clicked, this, &ItemView::append_clicked);
+	connect(m->context_menu, &LibraryContextMenu::sig_refresh_clicked, this, &ItemView::refresh_clicked);
 
 	m->context_menu->add_preference_action(new LibraryPreferenceAction(m->context_menu));
 }
@@ -296,6 +296,7 @@ MetaDataList ItemView::info_dialog_data() const
 }
 
 
+
 MD::Interpretation ItemView::metadata_interpretation() const
 {
 	return m->type;
@@ -316,6 +317,37 @@ void ItemView::merge_action_triggered()
 
 	emit sig_merge(ids, id);
 }
+
+void ItemView::play_next_clicked()
+{
+	emit sig_play_next_clicked();
+}
+
+void ItemView::delete_clicked()
+{
+	emit sig_delete_clicked();
+}
+
+void ItemView::middle_clicked()
+{
+	emit sig_middle_button_clicked();
+}
+
+void ItemView::append_clicked()
+{
+	emit sig_append_clicked();
+}
+
+void ItemView::refresh_clicked()
+{
+	emit sig_refresh_clicked();
+}
+
+void ItemView::selection_changed(const IndexSet& indexes)
+{
+	emit sig_sel_changed(indexes);
+}
+
 
 void ItemView::resize_rows_to_contents()
 {
@@ -354,7 +386,6 @@ void ItemView::mousePressEvent(QMouseEvent* event)
 	}
 
 	QPoint pos_org = event->pos();
-	QPoint pos = QWidget::mapToGlobal(pos_org);
 
 	if(event->button() == Qt::LeftButton){
 		this->drag_pressed(pos_org);
@@ -366,7 +397,7 @@ void ItemView::mousePressEvent(QMouseEvent* event)
 		// item has to be marked as selected first,
 		// so the signal is emmited after calling
 		// SearchableTableView::mousePressEvent(event);
-		emit sig_middle_button_clicked(pos);
+		middle_clicked();
 	}
 }
 
@@ -416,11 +447,11 @@ void ItemView::keyPressEvent(QKeyEvent* event)
 
 			// enter with shift
 			else if(shift_pressed && !alt_pressed) {
-				emit sig_append_clicked();
+				append_clicked();
 			}
 
 			else if(alt_pressed) {
-				emit sig_play_next_clicked();
+				play_next_clicked();
 			}
 
 			return;

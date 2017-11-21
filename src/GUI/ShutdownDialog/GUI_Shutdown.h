@@ -21,17 +21,18 @@
 #ifndef GUI_SHUTDOWN_H
 #define GUI_SHUTDOWN_H
 
-#include "GUI/ShutdownDialog/ui_GUI_Shutdown.h"
 #include "GUI/Utils/Widgets/Dialog.h"
-#include "Utils/Shutdown/Shutdown.h"
+#include "GUI/Utils/GuiClass.h"
 
 #ifdef WITH_SHUTDOWN
 
+UI_FWD(GUI_Shutdown)
+
 class GUI_Shutdown :
-		public Gui::Dialog,
-		protected Ui::GUI_Shutdown
+		public Gui::Dialog
 {
 	Q_OBJECT
+	UI_CLASS(GUI_Shutdown)
 
 signals:
 	void sig_closed();
@@ -45,6 +46,9 @@ private slots:
 public:
 	explicit GUI_Shutdown(QWidget* parent=nullptr);
 	~GUI_Shutdown();
+
+protected:
+	void skin_changed();
 };
 
 #endif

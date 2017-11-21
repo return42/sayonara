@@ -13,6 +13,8 @@ SET(SOURCES
 	Views/HeaderView.cpp
 	Views/CoverView.cpp
 	Views/GenreView.cpp
+	Views/TrackView.cpp
+	Views/ArtistView.cpp
 
 	Models/ItemModel.cpp
 	Models/AlbumModel.cpp
@@ -20,6 +22,7 @@ SET(SOURCES
 	Models/TrackModel.cpp
 	Models/CoverModel.cpp
 	Models/AlbumCoverFetchThread.cpp
+
 
 	Delegates/RatingDelegate.cpp
 	Delegates/CoverDelegate.cpp

@@ -76,6 +76,7 @@ namespace Gui
 			PlayBorder,
 			PlaylistFile,
 			PlaySmall,
+			Preferences,
 			Previous,
 			Record,
 			Refresh,

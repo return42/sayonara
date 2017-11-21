@@ -21,12 +21,7 @@
 #ifndef SHUTDOWN_H
 #define SHUTDOWN_H
 
-#ifdef WITH_DBUS
-	#define WITH_SHUTDOWN
-#endif
-
 #ifdef WITH_SHUTDOWN
-
 
 #include "Utils/Singleton.h"
 #include "Utils/Settings/SayonaraClass.h"

@@ -49,13 +49,13 @@ Dialog* Widget::box_into_dialog()
 
 void Widget::showEvent(QShowEvent* e)
 {
-	QWidget::showEvent(e);
+	WidgetTemplate<QWidget>::showEvent(e);
 	emit sig_shown();
 }
 
 void Widget::closeEvent(QCloseEvent* e)
 {
-	QWidget::closeEvent(e);
+	WidgetTemplate<QWidget>::closeEvent(e);
 	emit sig_closed();
 }
 

@@ -19,29 +19,38 @@
  */
 
 #include "GUI_Shutdown.h"
+#include "GUI/ShutdownDialog/ui_GUI_Shutdown.h"
+
+#include "GUI/Utils/Icons.h"
+
 #include "Utils/Shutdown/Shutdown.h"
 
 #ifdef WITH_SHUTDOWN
 
 GUI_Shutdown::GUI_Shutdown(QWidget* parent):
-	Dialog(parent),
-	Ui::GUI_Shutdown()
+	Gui::Dialog(parent)
 {
-	setupUi(this);
+	ui = new Ui::GUI_Shutdown();
+	ui->setupUi(this);
 
-	connect(btn_ok, &QPushButton::clicked, this, &GUI_Shutdown::ok_clicked);
-	connect(btn_cancel, &QPushButton::clicked, this, &GUI_Shutdown::cancel_clicked);
-	connect(rb_after_finished, &QRadioButton::clicked, this, &GUI_Shutdown::rb_after_finished_clicked);
-	connect(rb_after_minutes, &QRadioButton::clicked, this, &GUI_Shutdown::rb_after_minutes_clicked);
+	connect(ui->btn_ok, &QPushButton::clicked, this, &GUI_Shutdown::ok_clicked);
+	connect(ui->btn_cancel, &QPushButton::clicked, this, &GUI_Shutdown::cancel_clicked);
+	connect(ui->rb_after_finished, &QRadioButton::clicked, this, &GUI_Shutdown::rb_after_finished_clicked);
+	connect(ui->rb_after_minutes, &QRadioButton::clicked, this, &GUI_Shutdown::rb_after_minutes_clicked);
 }
 
 GUI_Shutdown::~GUI_Shutdown() {}
 
+void GUI_Shutdown::skin_changed()
+{
+	ui->lab_icon->setPixmap(Gui::Icons::pixmap(Gui::Icons::Shutdown));
+}
+
 
 void GUI_Shutdown::ok_clicked()
 {
-	if(sb_minutes->isEnabled()){
-		uint64_t msec = sb_minutes->value() * 60 * 1000;
+	if(ui->sb_minutes->isEnabled()){
+		uint64_t msec = ui->sb_minutes->value() * 60 * 1000;
 		Shutdown::instance()->shutdown(msec);
 	}
 
@@ -60,16 +69,18 @@ void GUI_Shutdown::cancel_clicked()
 	emit sig_closed();
 }
 
-void GUI_Shutdown::rb_after_finished_clicked(bool b){
+void GUI_Shutdown::rb_after_finished_clicked(bool b)
+{
 	Q_UNUSED(b)
-	rb_after_minutes->setChecked(false);
-	sb_minutes->setEnabled(false);
+	ui->rb_after_minutes->setChecked(false);
+	ui->sb_minutes->setEnabled(false);
 }
 
-void GUI_Shutdown::rb_after_minutes_clicked(bool b){
+void GUI_Shutdown::rb_after_minutes_clicked(bool b)
+{
 	Q_UNUSED(b)
-	rb_after_minutes->setChecked(false);
-	sb_minutes->setEnabled(true);
+	ui->rb_after_minutes->setChecked(false);
+	ui->sb_minutes->setEnabled(true);
 }
 
 #endif // WITH_SHUTDOWN

@@ -91,11 +91,15 @@ void GUI_Player::init_gui()
 	action_Dark->setShortcut(QKeySequence("F10"));
 
 	action_Fullscreen->setShortcut(QKeySequence("F11"));
-	_action_shutdown = new QAction(Lang::get(Lang::Shutdown).triplePt(), this);
 
+#ifdef WITH_SHUTDOWN
 	QList<QAction*> actions = menu_file->actions();
 	QAction* sep = actions[actions.size() - 1];
-	menu_file->insertAction(sep, _action_shutdown);
+	QAction* action_shutdown = new QAction(Gui::Icons::icon(Gui::Icons::Shutdown), Lang::get(Lang::Shutdown).triplePt(), this);
+	connect(action_shutdown, &QAction::triggered, this, &GUI_Player::shutdown_clicked);
+
+	menu_file->insertAction(sep, action_shutdown);
+#endif
 
 	bool library_visible = _settings->get(Set::Lib_Show);
 	show_library(library_visible);
@@ -189,7 +193,7 @@ void GUI_Player::setup_connections()
 	connect(action_OpenFile, &QAction::triggered, this, &GUI_Player::open_files_clicked);
 	connect(action_OpenFolder, &QAction::triggered, this, &GUI_Player::open_dir_clicked);
 	connect(action_Close, &QAction::triggered, this, &GUI_Player::really_close);
-	connect(_action_shutdown, &QAction::triggered, this, &GUI_Player::shutdown_clicked);
+
 
 	// view
 	connect(action_viewLibrary, &QAction::toggled, this, &GUI_Player::show_library);

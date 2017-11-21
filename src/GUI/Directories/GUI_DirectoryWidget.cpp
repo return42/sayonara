@@ -26,6 +26,7 @@
 
 #include "GUI/ImportDialog/GUI_ImportDialog.h"
 #include "GUI/Utils/ContextMenu/LibraryContextMenu.h"
+#include "GUI/Utils/Icons.h"
 
 #include "Components/Library/LibraryManager.h"
 #include "Components/Library/LocalLibrary.h"
@@ -396,4 +397,10 @@ void GUI_DirectoryWidget::language_changed()
 	else{
 		ui->btn_search->setText(Lang::get(Lang::SearchVerb));
 	}
+}
+
+void GUI_DirectoryWidget::skin_changed()
+{
+	using namespace Gui;
+	ui->btn_search->setIcon(Icons::icon(Icons::Search));
 }

@@ -21,6 +21,7 @@
 #include "CoverView.h"
 
 #include "Components/Covers/CoverChangeNotifier.h"
+#include "Components/Library/AbstractLibrary.h"
 
 #include "GUI/Library/Models/CoverModel.h"
 #include "GUI/Library/Delegates/CoverDelegate.h"
@@ -74,6 +75,8 @@ struct CoverView::Private
 	QAction*			action_zoom=nullptr;
 	QAction*			action_show_utils=nullptr;
 
+	AbstractLibrary*	library=nullptr;
+
 	QList<ActionPair>	sorting_actions;
 	QStringList			zoom_actions;
 
@@ -109,11 +112,16 @@ struct CoverView::Private
 	}
 };
 
-CoverView::CoverView(QWidget* topbar, QWidget* parent) :
+CoverView::CoverView(AbstractLibrary* library, QWidget* topbar, QWidget* parent) :
 	ItemView(parent)
 {
 	m = Pimpl::make<Private>();
 
+	m->model = new Library::CoverModel(this, library);
+	ItemView::setModel(m->model);
+	ItemView::setSearchModel(m->model);
+
+	m->library = library;
 	m->topbar = topbar;
 
 	m->label_sorting = new QLabel(m->topbar);
@@ -138,6 +146,8 @@ CoverView::CoverView(QWidget* topbar, QWidget* parent) :
 
 	connect(m->combo_sorting, SIGNAL(activated(int)), this, SLOT(combo_sorting_changed(int)));
 	connect(m->combo_zoom, SIGNAL(activated(int)), this, SLOT(combo_zoom_changed(int)));
+	connect(this, &ItemView::doubleClicked, this, &CoverView::double_clicked);
+	connect(m->library, &AbstractLibrary::sig_all_albums_loaded, this, &CoverView::albums_ready);
 
 	set_selection_type( SelectionViewInterface::SelectionType::Items );
 	set_metadata_interpretation(MD::Interpretation::Albums);
@@ -177,13 +187,6 @@ QModelIndex CoverView::model_index_by_index(int idx) const
 	return model()->index(row, col);
 }
 
-void CoverView::setModel(CoverModel* model)
-{
-	m->model = model;
-
-	ItemView::setModel(m->model);
-	ItemView::setSearchModel(m->model);
-}
 
 void CoverView::change_zoom(int zoom)
 {
@@ -416,7 +419,6 @@ void CoverView::init_sorting_actions()
 }
 
 
-
 void CoverView::change_sortorder(SortOrder so)
 {
 	for(QAction* a : m->menu_sortings->actions())
@@ -432,9 +434,7 @@ void CoverView::change_sortorder(SortOrder so)
 		}
 	}
 
-	::Library::Sortings sortings = _settings->get(Set::Lib_Sorting);
-	sortings.so_albums = so;
-	_settings->set(Set::Lib_Sorting, sortings);
+	m->library->change_album_sortorder(so);
 }
 
 void CoverView::menu_sorting_triggered()
@@ -482,10 +482,6 @@ void CoverView::show_utils_triggered()
 	_settings->set(Set::Lib_CoverShowUtils, b);
 }
 
-void CoverView::setModel(QAbstractItemModel* m)
-{
-	QTableView::setModel(m);
-}
 
 void CoverView::setModel(ItemModel* m)
 {
@@ -532,3 +528,42 @@ void Library::CoverView::cover_changed()
 	m->model->reload();
 	refresh();
 }
+
+
+void CoverView::middle_clicked()
+{
+	ItemView::middle_clicked();
+	m->library->prepare_fetched_tracks_for_playlist(true);
+}
+
+void CoverView::play_next_clicked()
+{
+	ItemView::play_next_clicked();
+	m->library->play_next_fetched_tracks();
+}
+
+void CoverView::append_clicked()
+{
+	ItemView::append_clicked();
+	m->library->append_fetched_tracks();
+}
+
+
+void CoverView::double_clicked(const QModelIndex& index)
+{
+	Q_UNUSED(index)
+	m->library->prepare_fetched_tracks_for_playlist(false);
+}
+
+void CoverView::selection_changed(const IndexSet& indexes)
+{
+	m->library->selected_albums_changed(indexes);
+}
+
+void CoverView::albums_ready()
+{
+	if(this->isVisible()){
+		this->refresh();
+	}
+}
+

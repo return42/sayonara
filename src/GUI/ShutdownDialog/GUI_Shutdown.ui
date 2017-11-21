@@ -75,7 +75,7 @@
       <number>10</number>
      </property>
      <item>
-      <widget class="QLabel" name="label_3">
+      <widget class="QLabel" name="lab_icon">
        <property name="maximumSize">
         <size>
          <width>30</width>

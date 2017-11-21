@@ -19,8 +19,14 @@
  */
 
 #include "AlbumView.h"
+#include "GUI/Library/Models/AlbumModel.h"
+#include "GUI/Library/Delegates/RatingDelegate.h"
 #include "GUI/Library/Utils/DiscPopupMenu.h"
 #include "GUI/Library/Utils/ColumnIndex.h"
+#include "GUI/Library/Utils/ColumnHeader.h"
+#include "Utils/Settings/Settings.h"
+
+#include "Components/Library/AbstractLibrary.h"
 
 #include <QHeaderView>
 #include <QVBoxLayout>
@@ -29,6 +35,7 @@ using namespace Library;
 
 struct AlbumView::Private
 {
+	AbstractLibrary*		library=nullptr;
 	QList< QList<uint8_t> >	discnumbers;
 	DiscPopupMenu*			discmenu=nullptr;
 	QPoint					discmenu_point;
@@ -44,13 +51,57 @@ AlbumView::AlbumView(QWidget* parent) :
 
 AlbumView::~AlbumView() {}
 
+void AlbumView::init_view(AbstractLibrary* library)
+{
+	m->library = library;
+
+	AlbumModel* album_model = new AlbumModel(this, m->library);
+	RatingDelegate* album_delegate = new RatingDelegate(this, (int) ColumnIndex::Album::Rating, true);
+
+	this->setModel(album_model);
+	this->setSearchModel(album_model);
+	this->setItemDelegate(album_delegate);
+	this->set_metadata_interpretation(MD::Interpretation::Albums);
+
+	connect(this, &AlbumView::doubleClicked, this, &AlbumView::double_clicked);
+	connect(m->library, &AbstractLibrary::sig_all_albums_loaded, this, &AlbumView::albums_ready);
+
+	Set::listen(Set::Lib_UseViewClearButton, this, &AlbumView::use_clear_button_changed);
+}
+
+ColumnHeaderList AlbumView::column_headers() const
+{
+	ColumnHeaderList album_columns;
+
+	ColumnHeader* al_h0 = new ColumnHeader(ColumnHeader::Sharp, true, SortOrder::NoSorting, SortOrder::NoSorting, 20);
+	ColumnHeader* al_h1 = new ColumnHeader(ColumnHeader::Album, false, SortOrder::AlbumNameAsc, SortOrder::AlbumNameDesc, 1.0, 160);
+	ColumnHeader* al_h2 = new ColumnHeader(ColumnHeader::Duration, true, SortOrder::AlbumDurationAsc, SortOrder::AlbumDurationDesc, 90);
+	ColumnHeader* al_h3 = new ColumnHeader(ColumnHeader::NumTracks, true, SortOrder::AlbumTracksAsc, SortOrder::AlbumTracksDesc, 80);
+	ColumnHeader* al_h4 = new ColumnHeader(ColumnHeader::Year, true, SortOrder::AlbumYearAsc, SortOrder::AlbumYearDesc, 50);
+	ColumnHeader* al_h5 = new ColumnHeader(ColumnHeader::Rating, true, SortOrder::AlbumRatingAsc, SortOrder::AlbumRatingDesc, 80);
+
+	album_columns  << al_h0 << al_h1 << al_h2 << al_h3 << al_h4 << al_h5;
+	return album_columns;
+}
+
+BoolList AlbumView::shown_columns() const
+{
+	return _settings->get(Set::Lib_ColsAlbum);
+}
+
+SortOrder AlbumView::sortorder() const
+{
+	Sortings so = _settings->get(Set::Lib_Sorting);
+	return so.so_albums;
+}
+
+
 void AlbumView::context_menu_show(const QPoint & p)
 {
 	delete_discmenu();
 
 	TableView::context_menu_show(p);
 }
-
 
 void AlbumView::index_clicked(const QModelIndex &idx)
 {
@@ -148,4 +199,65 @@ void AlbumView::clear_discnumbers()
 void AlbumView::add_discnumbers(const QList<Disc>& dns)
 {
 	m->discnumbers << dns;
+}
+
+void AlbumView::sortorder_changed(SortOrder s)
+{
+	TableView::sortorder_changed(s);
+	m->library->change_album_sortorder(s);
+}
+
+void AlbumView::columns_changed()
+{
+	TableView::columns_changed();
+	_settings->set(Set::Lib_ColsAlbum, this->shown_columns());
+}
+
+void AlbumView::middle_clicked()
+{
+	TableView::middle_clicked();
+	m->library->prepare_fetched_tracks_for_playlist(true);
+}
+
+void AlbumView::play_next_clicked()
+{
+	TableView::play_next_clicked();
+	m->library->play_next_fetched_tracks();
+}
+
+void AlbumView::append_clicked()
+{
+	TableView::append_clicked();
+	m->library->append_fetched_tracks();
+}
+
+void AlbumView::selection_changed(const IndexSet& indexes)
+{
+	TableView::selection_changed(indexes);
+	m->library->selected_albums_changed(indexes);
+}
+
+void AlbumView::refresh_clicked()
+{
+	TableView::refresh_clicked();
+	m->library->refresh_albums();
+}
+
+void AlbumView::double_clicked(const QModelIndex& index)
+{
+	Q_UNUSED(index)
+	m->library->prepare_fetched_tracks_for_playlist(false);
+}
+
+void AlbumView::albums_ready()
+{
+	const AlbumList& albums = m->library->albums();
+
+	this->fill<AlbumList, AlbumModel>(albums);
+}
+
+void AlbumView::use_clear_button_changed()
+{
+	bool b = _settings->get(Set::Lib_UseViewClearButton);
+	use_clear_button(b);
 }

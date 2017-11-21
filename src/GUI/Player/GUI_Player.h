@@ -72,8 +72,6 @@ private:
 	QMessageBox*				_about_box=nullptr;
 	GUI_Logger*					_logger=nullptr;
 
-	QAction*					_action_shutdown=nullptr;
-
 
 private:
 	void init_gui();

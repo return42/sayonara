@@ -109,9 +109,6 @@ namespace Library
 
 		void show_info_box();
 
-	protected slots:
-		void albums_ready() override;
-
 	private:
 		void init_album_cover_view();
 	};

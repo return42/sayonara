@@ -55,6 +55,7 @@ IF(WIN32)
 ELSE()
 	MESSAGE("No Windows: Will compile with dbus and shutdown support")
 	ADD_DEFINITIONS(-DWITH_DBUS)
+	ADD_DEFINITIONS(-DWITH_SHUTDOWN)
 	SET(WIN32 0)
 ENDIF()
 

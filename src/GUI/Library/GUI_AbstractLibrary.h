@@ -59,37 +59,11 @@ namespace Library
 
 
 	protected:
-		virtual void init_headers();
-		virtual void init_views();
 		virtual void init_shortcuts();
-		virtual void init_connections();
-
 		virtual ::Library::TrackDeletionMode show_delete_dialog(int n_tracks)=0;
 
 	protected slots:
 		virtual void _sl_live_search_changed();
-
-		virtual void tracks_ready();
-		virtual void albums_ready();
-		virtual void artists_ready();
-
-		virtual void artist_sel_changed(const IndexSet& indexes);
-		virtual void album_sel_changed(const IndexSet& indexes);
-		virtual void track_sel_changed(const IndexSet& indexes);
-
-		virtual void item_middle_clicked(const QPoint& p);
-		virtual void tracks_middle_clicked(const QPoint& p);
-
-		virtual void item_double_clicked(const QModelIndex& index);
-		virtual void tracks_double_clicked(const QModelIndex& index);
-
-		virtual void track_columns_changed();
-		virtual void album_columns_changed();
-		virtual void artist_columns_changed();
-
-		virtual void track_sortorder_changed(::Library::SortOrder);
-		virtual void album_sortorder_changed(::Library::SortOrder);
-		virtual void artist_sortorder_changed(::Library::SortOrder);
 
 		virtual void search_esc_pressed();
 		virtual void search_return_pressed();
@@ -97,21 +71,9 @@ namespace Library
 		virtual void search_mode_changed(::Library::Filter::Mode mode);
 		virtual void query_library();
 
-		virtual void tracks_delete_clicked();
 		virtual void item_delete_clicked();
-
-		virtual void refresh_artist();
-		virtual void refresh_album();
-		virtual void refresh_tracks();
-
-		virtual void item_append_clicked();
-		virtual void tracks_append_clicked();
-
-		virtual void item_play_next_clicked();
-		virtual void tracks_play_next_clicked();
-
+		void tracks_delete_clicked();
 		virtual void show_delete_answer(QString);
-		void use_view_clear_button_changed();
 
 
 	public slots:

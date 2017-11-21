@@ -43,7 +43,7 @@
       </property>
       <widget class="QStackedWidget" name="sw_album_covers">
        <property name="currentIndex">
-        <number>1</number>
+        <number>0</number>
        </property>
        <widget class="QWidget" name="page_3">
         <layout class="QGridLayout" name="gridLayout_7">
@@ -64,7 +64,7 @@
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
-           <widget class="Library::TableView" name="lv_artist">
+           <widget class="Library::ArtistView" name="lv_artist">
             <property name="sizePolicy">
              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
               <horstretch>0</horstretch>
@@ -229,7 +229,7 @@
         </layout>
        </widget>
       </widget>
-      <widget class="Library::TableView" name="tb_title">
+      <widget class="Library::TrackView" name="tb_title">
        <property name="sizePolicy">
         <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
          <horstretch>0</horstretch>
@@ -505,14 +505,19 @@
    <header>GUI/Library/Views/GenreView.h</header>
   </customwidget>
   <customwidget>
-   <class>Library::TableView</class>
-   <extends>QTableView</extends>
-   <header>GUI/Library/Views/TableView.h</header>
-  </customwidget>
-  <customwidget>
    <class>Library::AlbumView</class>
    <extends>QTableView</extends>
    <header>GUI/Library/Views/AlbumView.h</header>
+  </customwidget>
+  <customwidget>
+   <class>Library::TrackView</class>
+   <extends>QTableView</extends>
+   <header>GUI/Library/Views/TrackView.h</header>
+  </customwidget>
+  <customwidget>
+   <class>Library::ArtistView</class>
+   <extends>QTableView</extends>
+   <header>GUI/Library/Views/ArtistView.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

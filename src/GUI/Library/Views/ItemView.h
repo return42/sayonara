@@ -60,7 +60,7 @@ namespace Library
 		ItemModel* _model=nullptr;
 
 	signals:
-		void sig_middle_button_clicked(const QPoint&);
+		void sig_middle_button_clicked();
 		void sig_all_selected();
 		void sig_delete_clicked();
 		void sig_play_next_clicked();
@@ -120,9 +120,16 @@ namespace Library
 		virtual MD::Interpretation metadata_interpretation() const override final;
 		MetaDataList info_dialog_data() const override;
 
+		virtual void selection_changed(const IndexSet& indexes);
+
 	protected slots:
 		virtual void context_menu_show(const QPoint&);
 		virtual void merge_action_triggered();
+		virtual void play_next_clicked();
+		virtual void delete_clicked();
+		virtual void middle_clicked();
+		virtual void append_clicked();
+		virtual void refresh_clicked();
 
 
 	public:

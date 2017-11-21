@@ -48,9 +48,6 @@ class GUI_DirectoryWidget :
 	private:
 		void init_shortcuts();
 
-	protected:
-		void language_changed() override;
-
 	private slots:
 		void search_button_clicked();
 		void search_text_edited(const QString& text);
@@ -73,10 +70,11 @@ class GUI_DirectoryWidget :
 		void import_dialog_requested(const QString& target_dir);
 
 		protected:
-		MD::Interpretation metadata_interpretation() const override;
-		MetaDataList info_dialog_data() const override;
+			MD::Interpretation metadata_interpretation() const override;
+			MetaDataList info_dialog_data() const override;
 
-
+			void language_changed() override;
+			void skin_changed() override;
 };
 
 #endif // GUI_DIRECTORYWIDGET_H

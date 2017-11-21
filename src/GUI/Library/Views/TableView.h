@@ -23,6 +23,7 @@
 
 #include "ItemView.h"
 #include "Utils/Library/Sortorder.h"
+#include "GUI/Library/Utils/ColumnHeader.h"
 #include "Utils/Pimpl.h"
 
 namespace Library
@@ -46,16 +47,23 @@ namespace Library
 		explicit TableView(QWidget* parent=nullptr);
 		~TableView();
 
-		void set_table_headers(const ColumnHeaderList& headers, const BoolList& shown_columns, Library::SortOrder sorting);
-		BoolList shown_columns() const;
+		virtual void init(AbstractLibrary* library);
 
 	protected:
+		virtual void init_view(AbstractLibrary* library)=0;
+		virtual ColumnHeaderList column_headers() const=0;
+		virtual BoolList shown_columns() const=0;
+		virtual Library::SortOrder sortorder() const=0;
+
 		void resizeEvent(QResizeEvent* e) override;
 		void language_changed() override;
 
 		// SayonaraSelectionView.h
 		int index_by_model_index(const QModelIndex& idx) const override;
 		QModelIndex model_index_by_index(int idx) const override;
+
+		virtual void columns_changed();
+		virtual void sortorder_changed(SortOrder s);
 
 
 	protected slots:

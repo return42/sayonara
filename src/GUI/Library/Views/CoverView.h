@@ -19,7 +19,6 @@
  */
 
 
-
 #ifndef ALBUMCOVERVIEW_H
 #define ALBUMCOVERVIEW_H
 
@@ -37,10 +36,9 @@ namespace Library
 		PIMPL(CoverView)
 
 	public:
-		explicit CoverView(QWidget* topbar, QWidget* parent=nullptr);
+		explicit CoverView(AbstractLibrary* library, QWidget* topbar, QWidget* parent=nullptr);
 		virtual ~CoverView();
 
-		void setModel(Library::CoverModel* model);
 		void refresh();
 		void language_changed() override;
 
@@ -63,10 +61,16 @@ namespace Library
 	private:
 		void change_zoom(int zoom=-1);
 
-		void setModel(QAbstractItemModel* m) override;
 		void setModel(Library::ItemModel* m) override;
 
+		void middle_clicked() override;
+		void play_next_clicked() override;
+		void append_clicked() override;
+		void selection_changed(const IndexSet& indexes) override;
+
+
 	private slots:
+		void albums_ready();
 		void timed_out();
 		void change_sortorder(::Library::SortOrder so);
 		void menu_sorting_triggered();
@@ -74,6 +78,8 @@ namespace Library
 		void combo_zoom_changed(int idx);
 		void show_utils_triggered();
 		void cover_changed();
+
+		void double_clicked(const QModelIndex& index);
 	};
 }
 

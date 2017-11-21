@@ -1,6 +1,7 @@
 #include "PreferenceAction.h"
 #include "Utils/Settings/Settings.h"
 #include "Utils/Language.h"
+#include "GUI/Utils/Icons.h"
 #include "Components/Preferences/PreferenceRegistry.h"
 
 #include <QFont>
@@ -18,6 +19,7 @@ PreferenceAction::PreferenceAction(const QString& text, const QString& identifie
 	QAction(QString(Lang::get(Lang::Preferences) + ": " + text), parent)
 {
 	m = Pimpl::make<Private>(identifier);
+	this->setIcon(Gui::Icons::icon(Gui::Icons::Preferences));
 
 	connect(this, &QAction::triggered, [=](){
 		PreferenceRegistry::instance()->show_preference(this->identifier());

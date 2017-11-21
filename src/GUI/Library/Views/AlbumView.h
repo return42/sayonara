@@ -41,19 +41,40 @@ namespace Library
 
 	protected slots:
 		void index_clicked(const QModelIndex& idx);
+		void albums_ready();
 
 	public:
 		explicit AlbumView(QWidget *parent=nullptr);
 		virtual ~AlbumView();
 
 	private:
+		// Library::TableView
+		void init_view(AbstractLibrary* library) override;
+		ColumnHeaderList column_headers() const override;
+		BoolList shown_columns() const override;
+		SortOrder sortorder() const override;
+
+		void sortorder_changed(SortOrder s) override;
+		void columns_changed() override;
+
+		// Library::ItemView
+		void middle_clicked() override;
+		void play_next_clicked() override;
+		void append_clicked() override;
+		void selection_changed(const IndexSet& indexes) override;
+		void refresh_clicked() override;
+
 		void clear_discnumbers();
 		void add_discnumbers(const QList<Disc>& dns);
 		void calc_discmenu_point(QModelIndex idx);
 		void delete_discmenu();
 		void init_discmenu(QModelIndex idx);
 		void show_discmenu();
-		void context_menu_show(const QPoint& p);
+		void context_menu_show(const QPoint& p) override;
+
+	private slots:
+		void double_clicked(const QModelIndex& index);
+		void use_clear_button_changed();
 
 	public:
 		template <typename T, typename ModelType>
