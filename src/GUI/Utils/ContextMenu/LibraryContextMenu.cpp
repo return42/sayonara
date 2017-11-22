@@ -270,7 +270,7 @@ QAction* LibraryContextMenu::get_action(LibraryContextMenu::Entry entry) const
 	return m->entry_action_map[entry];
 }
 
-void LibraryContextMenu::add_preference_action(PreferenceAction* action)
+QAction* LibraryContextMenu::add_preference_action(PreferenceAction* action)
 {
 	QList<QAction*> actions;
 
@@ -282,6 +282,8 @@ void LibraryContextMenu::add_preference_action(PreferenceAction* action)
 
 	this->addActions(actions);
 	m->has_preference_actions = true;
+
+	return action;
 }
 
 void LibraryContextMenu::show_covers_changed()

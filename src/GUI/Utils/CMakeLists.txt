@@ -16,6 +16,8 @@ SET(SOURCES
 	Delegates/ComboBoxDelegate.cpp
 	Delegates/StyledItemDelegate.cpp
 
+	InputDialog/LineInputDialog.cpp
+
 	Library/GUI_EditLibrary.cpp
 	Library/GUI_DeleteDialog.cpp
 

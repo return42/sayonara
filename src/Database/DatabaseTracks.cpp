@@ -681,6 +681,7 @@ void Tracks::updateTrackCissearch()
 	module_db().commit();
 }
 
+
 void Tracks::deleteAllTracks()
 {
 	if(m->library_id >= 0)
@@ -716,43 +717,43 @@ bool Tracks::updateTrack(const MetaData& md)
 
 	q.prepare("UPDATE tracks "
 			  "SET "
+			  "albumArtistID=:albumArtistID, "
 			  "albumID=:albumID, "
 			  "artistID=:artistID, "
-			  "albumID=:albumID, "
-			  "albumArtistID=:albumArtistID, "
-			  "title=:title, "
-			  "year=:year, "
-			  "length=:length, "
 			  "bitrate=:bitrate, "
-			  "track=:track, "
-			  "genre=:genre, "
-			  "filesize=:filesize, "
-			  "discnumber=:discnumber, "
 			  "cissearch=:cissearch, "
+			  "discnumber=:discnumber, "
 			  "filecissearch=:filecissearch, "
-			  "rating=:rating, "
+			  "filename=:filename, "
+			  "filesize=:filesize, "
+			  "genre=:genre, "
+			  "length=:length, "
+			  "libraryID=:libraryID, "
 			  "modifydate=:modifydate, "
-			  "libraryID=:libraryID "
-
+			  "rating=:rating, "
+			  "title=:title, "
+			  "track=:track, "
+			  "year=:year "
 			  "WHERE TrackID = :trackID;");
 
+	q.bindValue(":albumArtistID",	md.album_artist_id());
 	q.bindValue(":albumID",			md.album_id);
 	q.bindValue(":artistID",		md.artist_id);
-	q.bindValue(":albumArtistID",	md.album_artist_id());
+	q.bindValue(":bitrate",			md.bitrate);
+	q.bindValue(":cissearch",		cissearch);
+	q.bindValue(":discnumber",		md.discnumber);
+	q.bindValue(":filecissearch",	file_cissearch);
+	q.bindValue(":filename",		md.filepath());
+	q.bindValue(":filesize",		(uint32_t) md.filesize);
+	q.bindValue(":genre",			md.genres_to_string());
+	q.bindValue(":length",			(uint32_t) md.length_ms);
+	q.bindValue(":libraryID",		md.library_id);
+	q.bindValue(":modifydate",		(quint64) Util::current_date_to_int());
+	q.bindValue(":rating",			md.rating);
 	q.bindValue(":title",			md.title());
 	q.bindValue(":track",			md.track_num);
-	q.bindValue(":length",			(uint32_t) md.length_ms);
-	q.bindValue(":bitrate",			md.bitrate);
-	q.bindValue(":year",			md.year);
 	q.bindValue(":trackID",			md.id);
-	q.bindValue(":genre",			md.genres_to_string());
-	q.bindValue(":filesize",		(uint32_t) md.filesize);
-	q.bindValue(":discnumber",		md.discnumber);
-	q.bindValue(":cissearch",		cissearch);
-	q.bindValue(":filecissearch",	file_cissearch);
-	q.bindValue(":rating",			md.rating);
-	q.bindValue(":modifydate",		(quint64) Util::current_date_to_int());
-	q.bindValue(":libraryID",		md.library_id);
+	q.bindValue(":year",			md.year);
 
 	if (!q.exec()) {
 		q.show_error(QString("Cannot update track ") + md.filepath());

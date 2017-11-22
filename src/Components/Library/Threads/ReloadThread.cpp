@@ -55,6 +55,7 @@ struct ReloadThread::Private
 	LibraryId				library_id;
 	MetaDataList			v_md;
 	Library::ReloadQuality	quality;
+
 	bool					paused;
 	bool					running;
 	bool					may_run;
@@ -113,7 +114,7 @@ bool compare_md(const MetaData& md1, const MetaData& md2)
 			md1.track_num == md2.track_num &&
 			md1.album_artist() == md2.album_artist() &&
 			md1.album_artist_id() == md2.album_artist_id()
-			);
+	);
 }
 
 int ReloadThread::get_and_save_all_files(const QHash<QString, MetaData>& md_map_lib)
@@ -131,7 +132,7 @@ int ReloadThread::get_and_save_all_files(const QHash<QString, MetaData>& md_map_
 	QDir dir(library_path);
 
 	MetaDataList v_md_to_store;
-	QStringList files = get_files_recursive (dir);
+	QStringList files = get_files_recursive(dir);
 
 	int n_files = files.size();
 	int cur_idx_files=0;
@@ -151,25 +152,27 @@ int ReloadThread::get_and_save_all_files(const QHash<QString, MetaData>& md_map_
 		int percent = (cur_idx_files++ * 100) / n_files;
 		emit sig_reloading_library(Lang::get(Lang::ReloadLibrary).triplePt(), percent);
 
-		if(md_lib.id >= 0){
+		if(md_lib.id >= 0) // found in library
+		{
 			if(m->quality == Library::ReloadQuality::Fast){
 				continue;
 			}
 
+			// fetch some metadata and check if we have the same data already in library in the next step
 			file_was_read = Tagging::Util::getMetaDataOfFile(md, Tagging::Util::Quality::Dirty);
-
-			if(!file_was_read){
+			if(!file_was_read) {
 				continue;
 			}
 
+			// file is already in library
 			if( md_lib.length_ms > 1000 && md_lib.length_ms < 3600000 && compare_md(md, md_lib)){
 				continue;
 			}
 		}
 
 		file_was_read = Tagging::Util::getMetaDataOfFile(md, Tagging::Util::Quality::Quality);
-
-		if(file_was_read){
+		if(file_was_read)
+		{
 			v_md_to_store << md;
 
 			if(v_md_to_store.size() >= N_FILES_TO_STORE)
@@ -180,7 +183,8 @@ int ReloadThread::get_and_save_all_files(const QHash<QString, MetaData>& md_map_
 		}
 	}
 
-	if(!v_md_to_store.isEmpty()){
+	if(!v_md_to_store.isEmpty())
+	{
 		lib_db->store_metadata(v_md_to_store);
 		v_md_to_store.clear();
 	}
@@ -279,8 +283,6 @@ void ReloadThread::set_quality(Library::ReloadQuality quality)
 
 void ReloadThread::run()
 {
-
-
 	if(m->library_path.isEmpty())
 	{
 		sp_log(Log::Warning, this) << "No Library path given";
@@ -319,7 +321,8 @@ void ReloadThread::run()
 	// find orphaned tracks in library && delete them
 	for(const MetaData& md : v_md)
 	{
-		if(!Util::File::check_file(md.filepath())) {
+		if(!Util::File::check_file(md.filepath()))
+		{
 			v_to_delete << std::move(md);
 		}
 

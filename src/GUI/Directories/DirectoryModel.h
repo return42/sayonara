@@ -54,6 +54,10 @@ public:
 	LibraryId library_id(const QModelIndex& index) const;
 	QString filepath_origin(const QModelIndex& index) const;
 
+	bool move_dirs(const QStringList& source_dirs, const QString& target_dir);
+	bool copy_dirs(const QStringList& source_dirs, const QString& target_dir);
+	bool rename_dir(const QString& source_dir, const QString& target_dir);
+
 private:
 	void create_file_list(const QString& substr);
 };

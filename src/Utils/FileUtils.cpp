@@ -26,6 +26,7 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QStringList>
+#include <QCryptographicHash>
 
 #include <algorithm>
 
@@ -72,8 +73,8 @@ void Util::File::remove_files_in_directory(const QString& dir_name, const QStrin
 	dir.setNameFilters(filters);
 
 	QFileInfoList info_lst = dir.entryInfoList(
-			(QDir::Filters)(QDir::Files | QDir::Dirs | QDir::NoDotAndDotDot)
-	);
+								 (QDir::Filters)(QDir::Files | QDir::Dirs | QDir::NoDotAndDotDot)
+								 );
 
 	for(const QFileInfo& info : info_lst){
 		QString path = info.absoluteFilePath();
@@ -101,7 +102,7 @@ void Util::File::delete_files(const QStringList& paths)
 {
 	QStringList sorted_paths = paths;
 	std::sort(sorted_paths.begin(), sorted_paths.end(), [](const QString& str1, const QString& str2){
-			return (str1.size() > str2.size());
+		return (str1.size() > str2.size());
 	});
 
 	for(const QString& path : sorted_paths)
@@ -523,33 +524,30 @@ bool Util::File::create_dir(const QString& dir_name)
 
 bool Util::File::copy_dir(const QString& source_dir, const QString& target_dir)
 {
-	if(target_dir.contains(source_dir)){
+	if(!can_copy_dir(source_dir, target_dir)){
 		return false;
 	}
 
-	if(target_dir.compare(get_parent_directory(source_dir)) == 0){
-		return false;
-	}
-
+	sp_log(Log::Debug, "File") << "Copy " << source_dir << " to " << target_dir;
 	sp_log(Log::Debug, "File") << "Create dir: " << target_dir;
 	if(!create_dir(target_dir)){
 		return false;
 	}
 
 	QDir src(source_dir);
-
-	sp_log(Log::Debug, "File") << "Create dir 2: " << target_dir + "/" + src.dirName();
-	create_dir(target_dir + "/" + src.dirName());
-
 	QString copy_to = target_dir + "/" + src.dirName();
+
+	sp_log(Log::Debug, "File") << "Create dir: " << copy_to;
+	if(!create_dir(copy_to)) {
+		return false;
+	}
+
 	QFileInfoList src_infos	= src.entryInfoList(QStringList(), (QDir::Files | QDir::Dirs | QDir::Filter::NoDotAndDotDot));
 	for(const QFileInfo& info : src_infos)
 	{
 		if(info.isDir())
 		{
-			create_dir(target_dir + "/" + info.fileName());
-			sp_log(Log::Debug, "File") << "Create dir 3: " << copy_to + "/" + info.fileName();
-			bool success = copy_dir(info.filePath(), copy_to + "/" + info.fileName());
+			bool success = copy_dir(info.filePath(), copy_to);
 			if(!success){
 				return false;
 			}
@@ -574,10 +572,48 @@ bool Util::File::copy_dir(const QString& source_dir, const QString& target_dir)
 
 bool Util::File::move_dir(const QString& source_dir, const QString& target_dir)
 {
-	bool success = copy_dir(source_dir, target_dir);
-	if(success){
-		delete_files({source_dir});
+	QDir s(source_dir);
+	QDir t(target_dir);
+
+	return rename_dir(source_dir, t.filePath(s.dirName()));
+}
+
+bool Util::File::can_copy_dir(const QString& src_dir, const QString& target_dir)
+{
+	if(src_dir.isEmpty()){
+		return false;
 	}
 
-	return success;
+	if(target_dir.isEmpty()){
+		return false;
+	}
+
+	if(QString(target_dir + "/").startsWith(src_dir + "/")){
+		return false;
+	}
+
+	if(!QFile::exists(src_dir)){
+		return false;
+	}
+
+	return true;
+}
+
+bool Util::File::rename_dir(const QString& src_dir, const QString& new_dir)
+{
+	return QDir().rename(src_dir, new_dir);
+}
+
+QByteArray Util::File::calc_md5_sum(const QString& filename)
+{
+	QFile f(filename);
+	if (f.open(QFile::ReadOnly))
+	{
+		QCryptographicHash hash(QCryptographicHash::Md5);
+		if (hash.addData(&f)) {
+			return hash.result();
+		}
+	}
+
+	return QByteArray();
 }

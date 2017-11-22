@@ -98,7 +98,7 @@ public:
 
 	QAction* get_action(Entry entry) const;
 
-	void add_preference_action(PreferenceAction* action);
+	QAction* add_preference_action(PreferenceAction* action);
 
 
 signals:
