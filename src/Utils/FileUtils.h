@@ -167,6 +167,10 @@ namespace Util
 		QString get_common_directory(const QStringList& paths);
 		QString get_common_directory(QString dir1, QString dir2);
 
+		bool create_dir(const QString& dir_name);
+		bool copy_dir(const QString& src_dir, const QString& target_dir);
+		bool move_dir(const QString& src_dir, const QString& target_dir);
+
 		// Everything clear
 		bool is_url(const QString& str);
 		bool is_www(const QString& str);

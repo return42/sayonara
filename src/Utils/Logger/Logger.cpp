@@ -184,9 +184,10 @@ Logger& Logger::operator << (const QString& msg)
 
 Logger& Logger::operator << (const QStringList& lst)
 {
-	for(const QString& str : lst){
+	(*this) << lst.join(",");
+	/*for(const QString& str : lst){
 		(*this) << str << ", ";
-	}
+	}*/
 
 	return *this;
 }

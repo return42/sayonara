@@ -34,10 +34,13 @@
 #include "Utils/Settings/Settings.h"
 #include "Utils/Library/LibraryInfo.h"
 #include "Utils/Utils.h"
+#include "Utils/FileUtils.h"
+#include "Utils/Language.h"
 
 #include <QDir>
 #include <QMouseEvent>
 #include <QDrag>
+
 
 struct DirectoryTreeView::Private
 {
@@ -93,16 +96,6 @@ LibraryId DirectoryTreeView::library_id(const QModelIndex& index) const
 }
 
 
-QMimeData* DirectoryTreeView::dragable_mimedata() const
-{
-	CustomMimeData* cmd	= new CustomMimeData(this);
-	MetaDataList v_md = this->selected_metadata();
-
-	cmd->set_metadata(v_md);
-
-	return cmd;
-}
-
 void DirectoryTreeView::skin_changed()
 {
 	if(m && m->model){
@@ -157,6 +150,7 @@ void DirectoryTreeView::init_context_menu()
 
 	m->context_menu->add_preference_action(new LibraryPreferenceAction(m->context_menu));
 }
+
 
 void DirectoryTreeView::directory_loaded(const QString& dir_name)
 {
@@ -299,9 +293,9 @@ void DirectoryTreeView::mousePressEvent(QMouseEvent* event)
 void DirectoryTreeView::mouseMoveEvent(QMouseEvent* e)
 {
 	QDrag* drag = Dragable::drag_moving(e->pos());
-	if(drag){
-		connect(drag, &QDrag::destroyed, [=]()
-{
+	if(drag)
+	{
+		connect(drag, &QDrag::destroyed, [=]() {
 			this->drag_released(Dragable::ReleaseReason::Destroyed);
 		});
 	}
@@ -309,21 +303,18 @@ void DirectoryTreeView::mouseMoveEvent(QMouseEvent* e)
 
 void DirectoryTreeView::dragEnterEvent(QDragEnterEvent* event)
 {
+	const QMimeData* mime_data = event->mimeData();
+	if(!mime_data->hasUrls()){
+		sp_log(Log::Warning, this) << "DragMove: No Mimedata";
+		return;
+	}
+
 	event->accept();
 }
 
 void DirectoryTreeView::dragMoveEvent(QDragMoveEvent* event)
 {
-	const QMimeData* mime_data = event->mimeData();
-	const CustomMimeData* cmd = Gui::MimeData::custom_mimedata(mime_data);
-	if(cmd){ // CustomMimeData would mean internal drag drop event
-		event->setAccepted(false);
-		return;
-	}
-
-	else{
-		event->accept();
-	}
+	event->accept();
 
 	QModelIndex index = this->indexAt(event->pos());
 	if(index.isValid()){
@@ -338,22 +329,57 @@ void DirectoryTreeView::dropEvent(QDropEvent* event)
 
 	QModelIndex index = this->indexAt(event->pos());
 	if(!index.isValid()){
-		sp_log(Log::Debug, this) << "Drop: Invalid index";
+		sp_log(Log::Warning, this) << "Drop: Invalid index";
 		return;
 	}
 
 	const QMimeData* mime_data = event->mimeData();
 	if(!mime_data){
-		sp_log(Log::Debug, this) << "Drop: No Mimedata";
+		sp_log(Log::Warning, this) << "Drop: No Mimedata";
 		return;
 	}
 
+	QString target_dir = m->model->filepath_origin(index);
 	const CustomMimeData* cmd = Gui::MimeData::custom_mimedata(mime_data);
 	if(cmd)
 	{
-		if(cmd->has_source(this))
+		if(cmd->has_source(this) && mime_data->hasUrls())
 		{
-			sp_log(Log::Debug, this) << "Drop: Internal item view drag";
+			QList<QUrl> urls = mime_data->urls();
+			QStringList source_dirs;
+			for(const QUrl& url : urls)
+			{
+				QString source_dir = url.toLocalFile();
+				if(target_dir.contains(source_dir)){
+					continue;
+				}
+
+				if(Util::File::get_parent_directory(source_dir).contains(target_dir))
+				{
+					continue;
+				}
+
+				source_dirs << url.toLocalFile();
+			}
+
+			if(source_dirs.isEmpty()){
+				return;
+			}
+
+			DirectoryTreeView::DropAction drop_action = show_drop_menu(QCursor::pos());
+			switch(drop_action)
+			{
+				case DirectoryTreeView::DropAction::Copy:
+					Util::File::copy_dir(source_dirs.first(), target_dir);
+					sp_log(Log::Debug, this) << "Copy files " << source_dirs.first() << " to " << target_dir;
+					break;
+				case DirectoryTreeView::DropAction::Move:
+					Util::File::move_dir(source_dirs.first(), target_dir);
+					sp_log(Log::Debug, this) << "Move files " << source_dirs.first() << " to " << target_dir;
+					break;
+				default:
+					break;
+			}
 		}
 		else
 		{
@@ -370,11 +396,10 @@ void DirectoryTreeView::dropEvent(QDropEvent* event)
 	}
 
 	LibraryId lib_id = m->model->library_id(index);
-	QString target_dir = m->model->filepath_origin(index);
-
 	QStringList files;
 
-	for(const QUrl& url : mime_data->urls()){
+	for(const QUrl& url : mime_data->urls())
+	{
 		QString local_file = url.toLocalFile();
 		if(!local_file.isEmpty()){
 			files << local_file;
@@ -390,6 +415,50 @@ void DirectoryTreeView::dropEvent(QDropEvent* event)
 	emit sig_import_requested(lib_id, files, target_dir);
 }
 
+DirectoryTreeView::DropAction DirectoryTreeView::show_drop_menu(const QPoint& pos)
+{
+	QMenu* menu = new QMenu(this);
+
+	QList<QAction*> actions;
+	actions << new QAction(tr("Copy here"), menu);
+	actions << new QAction(tr("Move here"), menu);
+	actions << new QAction(Lang::get(Lang::Cancel), menu);
+	menu->addActions(actions);
+
+	QAction* action = menu->exec(pos);
+	DirectoryTreeView::DropAction drop_action = DirectoryTreeView::DropAction::Cancel;
+
+	if(action == actions[0]){
+		drop_action = DirectoryTreeView::DropAction::Copy;
+	}
+
+	else if(action == actions[1]){
+		drop_action = DirectoryTreeView::DropAction::Move;
+	}
+
+	menu->deleteLater();
+
+	return drop_action;
+}
+
+QMimeData* DirectoryTreeView::dragable_mimedata() const
+{
+	CustomMimeData* cmd	= new CustomMimeData(this);
+	MetaDataList v_md = this->selected_metadata();
+
+	cmd->set_metadata(v_md);
+
+	QList<QUrl> urls;
+	QModelIndexList selected_items = this->selected_items();
+	for(const QModelIndex& index : selected_items){
+		urls << QUrl::fromLocalFile(m->model->filepath_origin(index));
+		sp_log(Log::Debug, this) << "Dragging " << m->model->filepath_origin(index);
+	}
+
+	cmd->setUrls(urls);
+
+	return cmd;
+}
 
 int DirectoryTreeView::index_by_model_index(const QModelIndex& idx) const
 {

@@ -511,3 +511,73 @@ QStringList Util::File::split_directories(const QString& path)
 }
 
 
+bool Util::File::create_dir(const QString& dir_name)
+{
+	if(QDir(dir_name).exists()){
+		return true;
+	}
+
+	return QDir().mkdir(dir_name);
+}
+
+
+bool Util::File::copy_dir(const QString& source_dir, const QString& target_dir)
+{
+	if(target_dir.contains(source_dir)){
+		return false;
+	}
+
+	if(target_dir.compare(get_parent_directory(source_dir)) == 0){
+		return false;
+	}
+
+	sp_log(Log::Debug, "File") << "Create dir: " << target_dir;
+	if(!create_dir(target_dir)){
+		return false;
+	}
+
+	QDir src(source_dir);
+
+	sp_log(Log::Debug, "File") << "Create dir 2: " << target_dir + "/" + src.dirName();
+	create_dir(target_dir + "/" + src.dirName());
+
+	QString copy_to = target_dir + "/" + src.dirName();
+	QFileInfoList src_infos	= src.entryInfoList(QStringList(), (QDir::Files | QDir::Dirs | QDir::Filter::NoDotAndDotDot));
+	for(const QFileInfo& info : src_infos)
+	{
+		if(info.isDir())
+		{
+			create_dir(target_dir + "/" + info.fileName());
+			sp_log(Log::Debug, "File") << "Create dir 3: " << copy_to + "/" + info.fileName();
+			bool success = copy_dir(info.filePath(), copy_to + "/" + info.fileName());
+			if(!success){
+				return false;
+			}
+		}
+
+		else
+		{
+			QString old_filename = info.filePath();
+			QString new_filename(old_filename);
+
+			new_filename.remove(source_dir);
+			new_filename.prepend(copy_to);
+
+			QFile f(old_filename);
+			sp_log(Log::Debug, "File") << "Copy file " << old_filename << " to " << new_filename;
+			f.copy(new_filename);
+		}
+	}
+
+	return true;
+}
+
+bool Util::File::move_dir(const QString& source_dir, const QString& target_dir)
+{
+	bool success = copy_dir(source_dir, target_dir);
+	if(success){
+		delete_files({source_dir});
+	}
+
+	return success;
+}

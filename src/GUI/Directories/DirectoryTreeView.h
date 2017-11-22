@@ -74,7 +74,15 @@ public:
 	LibraryId		library_id(const QModelIndex& index) const;
 
 private:
+	enum class DropAction
+	{
+		Copy,
+		Move,
+		Cancel
+	};
+
 	void init_context_menu();
+	DropAction show_drop_menu(const QPoint& pos);
 
 private slots:
 	void directory_loaded(const QString& dir_name);
