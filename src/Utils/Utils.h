@@ -172,6 +172,12 @@ namespace Util
 	{
 		return std::any_of(container.begin(), container.end(), fn);
 	}
+
+	template<typename T, typename FN>
+	void sort(T& container, FN fn)
+	{
+		std::sort(container.begin(), container.end(), fn);
+	}
 }
 
 #endif

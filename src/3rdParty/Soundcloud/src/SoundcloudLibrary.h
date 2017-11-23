@@ -28,7 +28,7 @@
 
 namespace Cover
 {
-    class Location;
+	class Location;
 }
 
 
@@ -60,24 +60,24 @@ namespace SC
 		void  	get_artist_by_id(int artist_id, Artist& artist) override;
 
 	protected:
-		void	get_all_artists(ArtistList& artists, ::Library::Sortings so=::Library::Sortings()) override;
-		void	get_all_artists_by_searchstring(::Library::Filter filter, ArtistList& artists, ::Library::Sortings so) override;
+		void	get_all_artists(ArtistList& artists) override;
+		void	get_all_artists_by_searchstring(::Library::Filter filter, ArtistList& artists) override;
 
-		void	get_all_albums(AlbumList& albums, ::Library::Sortings so) override;
-		void	get_all_albums_by_artist(IdList artist_ids, AlbumList& albums, ::Library::Filter filter, ::Library::Sortings so) override;
-		void	get_all_albums_by_searchstring(::Library::Filter filter, AlbumList& albums, ::Library::Sortings so) override;
+		void	get_all_albums(AlbumList& albums) override;
+		void	get_all_albums_by_artist(IdList artist_ids, AlbumList& albums, ::Library::Filter filter) override;
+		void	get_all_albums_by_searchstring(::Library::Filter filter, AlbumList& albums) override;
 
 		void	get_all_tracks(const QStringList& paths, MetaDataList& v_md) override;
-		void	get_all_tracks(MetaDataList& v_md, ::Library::Sortings so) override;
-		void	get_all_tracks_by_artist(IdList artist_ids, MetaDataList& v_md, ::Library::Filter filter, ::Library::Sortings so) override;
-		void	get_all_tracks_by_album(IdList album_ids, MetaDataList& v_md, ::Library::Filter filter, ::Library::Sortings so) override;
-		void	get_all_tracks_by_searchstring(::Library::Filter filter, MetaDataList& v_md, ::Library::Sortings so) override;
+		void	get_all_tracks(MetaDataList& v_md) override;
+		void	get_all_tracks_by_artist(IdList artist_ids, MetaDataList& v_md, ::Library::Filter filter) override;
+		void	get_all_tracks_by_album(IdList album_ids, MetaDataList& v_md, ::Library::Filter filter) override;
+		void	get_all_tracks_by_searchstring(::Library::Filter filter, MetaDataList& v_md) override;
 
 		void	update_track(const MetaData& md) override;
 		void	update_album(const Album& album) override;
 		void	delete_tracks(const MetaDataList& v_md, ::Library::TrackDeletionMode mode) override;
 
-        void    refetch() override;
+		void    refetch() override;
 
 		void	apply_artist_and_album_to_md();
 
@@ -86,7 +86,7 @@ namespace SC
 		void	artists_fetched(const ArtistList& artists);
 		void	tracks_fetched(const MetaDataList& v_md);
 		void	albums_fetched(const AlbumList& albums);
-        void	cover_found(const Cover::Location& cl);
+		void	cover_found(const Cover::Location& cl);
 
 	public slots:
 		void	reload_library(bool clear_first, ::Library::ReloadQuality quality) override;

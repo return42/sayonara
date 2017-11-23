@@ -23,7 +23,7 @@
 #include "DirectoryModel.h"
 
 #include "GUI/Directories/ui_GUI_DirectoryWidget.h"
-
+#include "GUI/Library/Models/TrackModel.h"
 #include "GUI/ImportDialog/GUI_ImportDialog.h"
 #include "GUI/Utils/ContextMenu/LibraryContextMenu.h"
 #include "GUI/Utils/Icons.h"
@@ -33,12 +33,16 @@
 #include "Components/Playlist/PlaylistHandler.h"
 #include "Components/DirectoryReader/DirectoryReader.h"
 
+#include "Database/LibraryDatabase.h"
+#include "Database/DatabaseConnector.h"
+
 #include "Utils/Message/GlobalMessage.h"
 #include "Utils/Library/LibraryNamespaces.h"
 #include "Utils/Library/LibraryInfo.h"
 #include "Utils/FileUtils.h"
 #include "Utils/globals.h"
 #include "Utils/Language.h"
+#include "Utils/Settings/Settings.h"
 
 #include <QItemSelectionModel>
 #include <QApplication>
@@ -54,8 +58,9 @@ struct GUI_DirectoryWidget::Private
 		Files
 	} selected_widget;
 
-	QList<LocalLibrary*> local_libraries;
-	bool	is_search_active;
+	QList<LocalLibrary*>	local_libraries;
+	LocalLibrary*			generic_library=nullptr;
+	bool					is_search_active;
 
 	Private() :
 		selected_widget(None),
@@ -70,12 +75,16 @@ GUI_DirectoryWidget::GUI_DirectoryWidget(QWidget *parent) :
 	ui = new Ui::GUI_DirectoryWidget();
 	ui->setupUi(this);
 
+	ui->splitter_dir_files->restoreState(_settings->get(Set::Dir_SplitterDirFile));
+	ui->splitter_tracks->restoreState(_settings->get(Set::Dir_SplitterTracks));
+
 	m = Pimpl::make<GUI_DirectoryWidget::Private>();
 
 	m->selected_widget = Private::SelectedWidget::None;
 	Library::Manager* library_manager = Library::Manager::instance();
 	QList<Library::Info> all_libraries = library_manager->all_libraries();
 
+	m->generic_library = library_manager->library_instance(-1);
 	for(const Library::Info& info : all_libraries)
 	{
 		LocalLibrary* l = library_manager->library_instance(info.id());
@@ -83,6 +92,16 @@ GUI_DirectoryWidget::GUI_DirectoryWidget(QWidget *parent) :
 			m->local_libraries << l;
 		}
 	}
+
+	ui->tb_title->init(m->generic_library);
+
+	int entries = (LibraryContextMenu::EntryInfo |
+			LibraryContextMenu::EntryEdit |
+			LibraryContextMenu::EntryDelete |
+			LibraryContextMenu::EntryPlayNext |
+			LibraryContextMenu::EntryAppend);
+
+	ui->tb_title->show_context_menu_actions(entries | LibraryContextMenu::EntryLyrics);
 
 	connect(ui->btn_search, &QPushButton::clicked, this, &GUI_DirectoryWidget::search_button_clicked);
 	connect(ui->le_search, &QLineEdit::returnPressed, this, &GUI_DirectoryWidget::search_button_clicked);
@@ -99,7 +118,7 @@ GUI_DirectoryWidget::GUI_DirectoryWidget(QWidget *parent) :
 	ui->lv_files->setDragDropMode(QAbstractItemView::DragDrop);
 	ui->lv_files->setDropIndicatorShown(true);
 
-	connect(ui->tv_dirs, &QTreeView::clicked, this, &GUI_DirectoryWidget::dir_opened);
+	connect(ui->tv_dirs, &QTreeView::clicked, this, &GUI_DirectoryWidget::dir_clicked);
 	connect(ui->tv_dirs, &QTreeView::pressed, this, &GUI_DirectoryWidget::dir_pressed);
 	connect(ui->tv_dirs, &DirectoryTreeView::sig_import_requested, this, &GUI_DirectoryWidget::import_requested);
 	connect(ui->tv_dirs, &DirectoryTreeView::sig_enter_pressed, this, &GUI_DirectoryWidget::dir_enter_pressed);
@@ -151,6 +170,7 @@ GUI_DirectoryWidget::GUI_DirectoryWidget(QWidget *parent) :
 		show_lyrics();
 	});
 
+	connect(ui->splitter_dir_files, &QSplitter::splitterMoved, this, &GUI_DirectoryWidget::splitter_moved);
 	init_shortcuts();
 }
 
@@ -204,16 +224,25 @@ void GUI_DirectoryWidget::dir_pressed(QModelIndex idx)
 
 	Qt::MouseButtons buttons = QApplication::mouseButtons();
 
+	QStringList paths = ui->tv_dirs->selected_paths();
 	if(buttons & Qt::MiddleButton)
 	{
-		QStringList paths = ui->tv_dirs->selected_paths();
-
 		if(!paths.isEmpty())
 		{
 			LocalLibrary* l = m->local_libraries.first();
 			l->prepare_tracks_for_playlist(paths, true);
 		}
 	}
+
+}
+
+void GUI_DirectoryWidget::dir_clicked(QModelIndex idx)
+{
+	m->is_search_active = false;
+	ui->le_search->clear();
+	ui->lv_files->clearSelection();
+
+	dir_opened(idx);
 }
 
 void GUI_DirectoryWidget::dir_opened(QModelIndex idx)
@@ -222,6 +251,11 @@ void GUI_DirectoryWidget::dir_opened(QModelIndex idx)
 
 	ui->lv_files->set_parent_directory(ui->tv_dirs->library_id(idx), dir);
 	ui->lv_files->set_search_filter(ui->le_search->text());
+
+	if(ui->lv_files->selected_metadata().isEmpty())
+	{
+		m->generic_library->fetch_tracks_by_paths({dir});
+	}
 }
 
 
@@ -330,14 +364,15 @@ void GUI_DirectoryWidget::file_pressed(QModelIndex idx)
 	Q_UNUSED(idx)
 
 	Qt::MouseButtons buttons = QApplication::mouseButtons();
+	QStringList paths = ui->lv_files->selected_paths();
 
 	if(buttons & Qt::MiddleButton)
 	{
-		QStringList paths = ui->lv_files->selected_paths();
-
 		LocalLibrary* l = m->local_libraries.first();
 		l->prepare_tracks_for_playlist(paths, true);
 	}
+
+	m->generic_library->fetch_tracks_by_paths(paths);
 }
 
 
@@ -362,9 +397,14 @@ void GUI_DirectoryWidget::file_enter_pressed()
 void GUI_DirectoryWidget::search_button_clicked()
 {
 	if(ui->le_search->text().isEmpty()){
-		m->is_search_active	= true;
+		m->is_search_active	= false;
 		return;
 	}
+
+	Library::Filter filter;
+	filter.set_filtertext(ui->le_search->text(), _settings->get(Set::Lib_SearchMode));
+	filter.set_mode(Library::Filter::Mode::Filename);
+	m->generic_library->change_filter(filter);
 
 	QModelIndex found_idx = ui->tv_dirs->search(ui->le_search->text());
 	if(found_idx.isValid()){
@@ -403,4 +443,14 @@ void GUI_DirectoryWidget::skin_changed()
 {
 	using namespace Gui;
 	ui->btn_search->setIcon(Icons::icon(Icons::Search));
+}
+
+
+void GUI_DirectoryWidget::splitter_moved(int pos, int index)
+{
+	Q_UNUSED(pos)
+	Q_UNUSED(index)
+
+	_settings->set(Set::Dir_SplitterDirFile, ui->splitter_dir_files->saveState());
+	_settings->set(Set::Dir_SplitterTracks, ui->splitter_tracks->saveState());
 }

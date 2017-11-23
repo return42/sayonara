@@ -26,6 +26,7 @@
 #include "Utils/typedefs.h"
 #include "Utils/SetFwd.h"
 #include "Utils/Pimpl.h"
+#include "Utils/Library/Sortorder.h"
 
 #include <vector>
 
@@ -57,11 +58,11 @@ public:
 
 	bool contains(const MetaData& md) const;
 	MetaDataList& remove_track(int idx);
-    MetaDataList& remove_tracks(const IndexSet& rows);
+	MetaDataList& remove_tracks(const IndexSet& rows);
 	MetaDataList& remove_tracks(int first, int last);
 
-    MetaDataList& move_tracks(const IndexSet& indexes, int tgt_idx);
-    MetaDataList& copy_tracks(const IndexSet& indexes, int tgt_idx);
+	MetaDataList& move_tracks(const IndexSet& indexes, int tgt_idx);
+	MetaDataList& copy_tracks(const IndexSet& indexes, int tgt_idx);
 	MetaDataList& insert_track(const MetaData& md, int tgt_idx);
 	MetaDataList& insert_tracks(const MetaDataList& v_md, int tgt_idx);
 
@@ -85,6 +86,8 @@ public:
 	const MetaData& last() const;
 
 	int count() const;
+
+	void sort(Library::SortOrder so);
 };
 
 

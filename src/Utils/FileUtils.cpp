@@ -101,7 +101,7 @@ void Util::File::remove_files_in_directory(const QString& dir_name, const QStrin
 void Util::File::delete_files(const QStringList& paths)
 {
 	QStringList sorted_paths = paths;
-	std::sort(sorted_paths.begin(), sorted_paths.end(), [](const QString& str1, const QString& str2){
+	Util::sort(sorted_paths, [](const QString& str1, const QString& str2){
 		return (str1.size() > str2.size());
 	});
 

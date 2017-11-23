@@ -26,10 +26,13 @@
 #include "Components/Tagging/Editor.h"
 
 #include "Utils/MetaData/Genre.h"
+#include "Utils/MetaData/MetaDataSorting.h"
 #include "Utils/Settings/Settings.h"
 #include "Utils/Logger/Logger.h"
 #include "Utils/Language.h"
 #include "Utils/Library/SearchMode.h"
+#include "Utils/Utils.h"
+
 
 #include <QHash>
 
@@ -77,9 +80,9 @@ void AbstractLibrary::load()
 {
 	m->filter.clear();
 
-	get_all_artists(_artists, m->sortorder);
-	get_all_albums(_albums, m->sortorder);
-	get_all_tracks(_tracks, m->sortorder);
+	get_all_artists(_artists);
+	get_all_albums(_albums);
+	get_all_tracks(_tracks);
 
 	emit_stuff();
 
@@ -94,6 +97,10 @@ bool AbstractLibrary::is_loaded() const
 
 void AbstractLibrary::emit_stuff()
 {
+	_artists.sort(m->sortorder.so_artists);
+	_albums.sort(m->sortorder.so_albums);
+	_tracks.sort(m->sortorder.so_tracks);
+
 	emit sig_all_albums_loaded();
 	emit sig_all_artists_loaded();
 	emit sig_all_tracks_loaded();
@@ -110,9 +117,9 @@ void AbstractLibrary::refetch()
 	_artists.clear();
 	_tracks.clear();
 
-	get_all_tracks(_tracks, m->sortorder);
-	get_all_albums(_albums, m->sortorder);
-	get_all_artists(_artists, m->sortorder);
+	get_all_tracks(_tracks);
+	get_all_albums(_albums);
+	get_all_artists(_artists);
 
 	emit_stuff();
 }
@@ -264,23 +271,21 @@ void AbstractLibrary::change_artist_selection(const IndexSet& indexes)
 	m->selected_artists = selected_artists;
 
 	if(m->selected_artists.size() > 0) {
-		get_all_tracks_by_artist(m->selected_artists.toList(), _tracks, m->filter, m->sortorder);
-		get_all_albums_by_artist(m->selected_artists.toList(), _albums, m->filter, m->sortorder);
+		get_all_tracks_by_artist(m->selected_artists.toList(), _tracks, m->filter);
+		get_all_albums_by_artist(m->selected_artists.toList(), _albums, m->filter);
 	}
 
 	else if(!m->filter.cleared()) {
-		get_all_tracks_by_searchstring(m->filter, _tracks, m->sortorder);
-		get_all_albums_by_searchstring(m->filter, _albums, m->sortorder);
-		get_all_artists_by_searchstring(m->filter, _artists, m->sortorder);
+		get_all_tracks_by_searchstring(m->filter, _tracks);
+		get_all_albums_by_searchstring(m->filter, _albums);
+		get_all_artists_by_searchstring(m->filter, _artists);
 	}
 
 	else{
-		get_all_tracks(_tracks, m->sortorder);
-		get_all_albums(_albums, m->sortorder);
+		get_all_tracks(_tracks);
+		get_all_albums(_albums);
 	}
 }
-
-
 
 const MetaDataList& AbstractLibrary::tracks() const
 {
@@ -341,6 +346,10 @@ void AbstractLibrary::change_filter(Library::Filter filter, bool force)
 		filter.set_filtertext(filtertext, mask);
 	}
 
+	if(filter == m->filter){
+		return;
+	}
+
 	fetch_by_filter(filter, force);
 	emit_stuff();
 }
@@ -383,7 +392,7 @@ void AbstractLibrary::change_album_selection(const IndexSet& indexes)
 		{
 			MetaDataList v_md;
 
-			get_all_tracks_by_album(m->selected_albums.toList(), v_md, m->filter, m->sortorder);
+			get_all_tracks_by_album(m->selected_albums.toList(), v_md, m->filter);
 
 			// filter by artist
 
@@ -404,23 +413,23 @@ void AbstractLibrary::change_album_selection(const IndexSet& indexes)
 		}
 
 		else{
-			get_all_tracks_by_artist(m->selected_artists.toList(), _tracks, m->filter, m->sortorder);
+			get_all_tracks_by_artist(m->selected_artists.toList(), _tracks, m->filter);
 		}
 	}
 
 	// only album is selected
 	else if(m->selected_albums.size() > 0) {
-		get_all_tracks_by_album(m->selected_albums.toList(), _tracks, m->filter, m->sortorder);
+		get_all_tracks_by_album(m->selected_albums.toList(), _tracks, m->filter);
 	}
 
 	// neither album nor artist, but searchstring
 	else if(!m->filter.cleared()) {
-		get_all_tracks_by_searchstring(m->filter, _tracks, m->sortorder);
+		get_all_tracks_by_searchstring(m->filter, _tracks);
 	}
 
 	// no album, no artist, no searchstring
 	else{
-		get_all_tracks(_tracks, m->sortorder);
+		get_all_tracks(_tracks);
 	}
 }
 
@@ -477,16 +486,37 @@ void AbstractLibrary::fetch_by_filter(Library::Filter filter, bool force)
 	m->selected_artists.clear();
 
 	if(m->filter.cleared()) {
-		get_all_artists(_artists, m->sortorder);
-		get_all_albums(_albums, m->sortorder);
-		get_all_tracks(_tracks, m->sortorder);
+		get_all_artists(_artists);
+		get_all_albums(_albums);
+		get_all_tracks(_tracks);
 	}
 
 	else {
-		get_all_artists_by_searchstring(m->filter, _artists, m->sortorder);
-		get_all_albums_by_searchstring(m->filter, _albums, m->sortorder);
-		get_all_tracks_by_searchstring(m->filter, _tracks, m->sortorder);
+		get_all_artists_by_searchstring(m->filter, _artists);
+		get_all_albums_by_searchstring(m->filter, _albums);
+		get_all_tracks_by_searchstring(m->filter, _tracks);
 	}
+}
+
+void AbstractLibrary::fetch_tracks_by_paths(const QStringList& paths)
+{
+	_tracks.clear();
+
+	MetaDataList tracks;
+	get_all_tracks(tracks);
+
+	for(const MetaData& md : tracks)
+	{
+		for(const QString& path : paths)
+		{
+			if(md.filepath().startsWith(path))
+			{
+				_tracks << md;
+			}
+		}
+	}
+
+	emit_stuff();
 }
 
 
@@ -512,24 +542,9 @@ void AbstractLibrary::change_track_sortorder(Library::SortOrder s)
 	Library::Sortings so = _settings->get(Set::Lib_Sorting);
 	so.so_tracks = s;
 	_settings->set(Set::Lib_Sorting, so);
-
 	m->sortorder = so;
-	_tracks.clear();
 
-	if(m->selected_albums.size() > 0) {
-		get_all_tracks_by_album(m->selected_albums.toList(), _tracks, m->filter, m->sortorder);
-	}
-	else if(m->selected_artists.size() > 0) {
-		get_all_tracks_by_artist(m->selected_artists.toList(), _tracks, m->filter, m->sortorder);
-	}
-
-	else if(!m->filter.cleared()) {
-		get_all_tracks_by_searchstring(m->filter, _tracks, m->sortorder);
-	}
-
-	else {
-		get_all_tracks(_tracks, m->sortorder);
-	}
+	_tracks.sort(s);
 
 	emit sig_all_tracks_loaded();
 }
@@ -545,22 +560,8 @@ void AbstractLibrary::change_album_sortorder(Library::SortOrder s)
 	_settings->set(Set::Lib_Sorting, so);
 
 	m->sortorder = so;
-	_albums.clear();
 
-	// selected artists and maybe filter
-	if (m->selected_artists.size() > 0) {
-		get_all_albums_by_artist(m->selected_artists.toList(), _albums, m->filter, m->sortorder);
-	}
-
-	// only filter
-	else if( !m->filter.cleared() ) {
-		get_all_albums_by_searchstring(m->filter, _albums, m->sortorder);
-	}
-
-	// all albums
-	else{
-		get_all_albums(_albums, m->sortorder);
-	}
+	_albums.sort(s);
 
 	emit sig_all_albums_loaded();
 }
@@ -576,15 +577,8 @@ void AbstractLibrary::change_artist_sortorder(Library::SortOrder s)
 	_settings->set(Set::Lib_Sorting, so);
 
 	m->sortorder = so;
-	_artists.clear();
 
-	if(!m->filter.cleared()) {
-		get_all_artists_by_searchstring(m->filter, _artists, m->sortorder);
-	}
-
-	else{
-		get_all_artists(_artists, m->sortorder);
-	}
+	_artists.sort(s);
 
 	emit sig_all_artists_loaded();
 }
@@ -684,7 +678,7 @@ void AbstractLibrary::delete_fetched_tracks(Library::TrackDeletionMode mode)
 void AbstractLibrary::delete_all_tracks()
 {
 	MetaDataList v_md;
-	get_all_tracks(v_md, m->sortorder);
+	get_all_tracks(v_md);
 	delete_tracks(v_md, Library::TrackDeletionMode::OnlyLibrary);
 }
 
@@ -744,7 +738,7 @@ void AbstractLibrary::delete_tracks_by_idx(const IndexSet& indexes, Library::Tra
 void AbstractLibrary::add_genre(SP::Set<Id> ids, const Genre& genre)
 {
 	MetaDataList v_md;
-	get_all_tracks(v_md, Library::Sortings());
+	get_all_tracks(v_md);
 
 	tag_edit()->set_metadata(v_md);
 
@@ -764,7 +758,7 @@ void AbstractLibrary::delete_genre(const Genre& genre)
 	MetaDataList v_md;
 
 	sp_log(Log::Debug, this) << "Delete genre: Fetch all tracks";
-	get_all_tracks(v_md, Library::Sortings());
+	get_all_tracks(v_md);
 	sp_log(Log::Debug, this) << "Delete genre: Set Metadata";
 	tag_edit()->set_metadata(v_md);
 
@@ -781,7 +775,7 @@ void AbstractLibrary::rename_genre(const Genre& genre, const Genre& new_genre)
 	MetaDataList v_md;
 
 	sp_log(Log::Debug, this) << "Rename genre: Fetch all tracks";
-	get_all_tracks(v_md, Library::Sortings());
+	get_all_tracks(v_md);
 	tag_edit()->set_metadata(v_md);
 
 	for(int i=0; i<v_md.count(); i++)

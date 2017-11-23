@@ -20,6 +20,7 @@
 
 #include "Utils/MetaData/Genre.h"
 #include "Utils/MetaData/MetaData.h"
+#include "Utils/MetaData/MetaDataSorting.h"
 #include "Utils/Logger/Logger.h"
 #include "Utils/Set.h"
 
@@ -330,6 +331,7 @@ QString MetaData::to_string() const
 
 	return lst.join(" - ");
 }
+
 
 QVariant MetaData::toVariant(const MetaData& md)
 {

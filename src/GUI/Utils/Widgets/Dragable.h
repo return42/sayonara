@@ -56,7 +56,11 @@ protected:
 
 	virtual QMimeData*	dragable_mimedata() const=0;
 	virtual bool		is_valid_drag_position(const QPoint& p) const;
-	virtual QPixmap		pixmap() const;
+	virtual QPixmap		drag_pixmap() const;
+	virtual bool		has_drag_label() const;
+	virtual QString		drag_label() const;
 };
+
+
 
 #endif // DRAGGABLE_H

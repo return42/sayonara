@@ -85,7 +85,6 @@ private:
 	DropAction show_drop_menu(const QPoint& pos);
 
 private slots:
-	void directory_loaded(const QString& dir_name);
 	void drag_move_timer_finished();
 	void create_dir_clicked();
 	void rename_dir_clicked();
@@ -105,8 +104,15 @@ protected:
 
 	void select_match(const QString& str, SearchDirection direction) override;
 
+	// Dragable
+	bool has_drag_label() const override;
+	QString drag_label() const override;
+
+
 	void skin_changed() override;
 	void language_changed() override;
+
+
 };
 
 #endif // DIRECTORYTREEVIEW_H

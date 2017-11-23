@@ -194,36 +194,26 @@ public:
 
 	LocalLibrary* get_library(LibraryId library_id)
 	{
+		LocalLibrary* lib = nullptr;
 		for(const Info& info : all_libs)
 		{
 			if(info.id() != library_id){
 				continue;
 			}
 
-			LocalLibrary* lib = nullptr;
-
 			if(lib_map.contains(library_id))
 			{
 				lib = lib_map[library_id];
-				if(lib == nullptr){
-					sp_log(Log::Error, this) << "Cannot fetch library";
-				}
 			}
-
-			else
-			{
-				lib = new LocalLibrary(library_id);
-				lib_map[library_id] = lib;
-
-				if(!lib){
-					sp_log(Log::Error, this) << "Cannot create library";
-				}
-			}
-
-			return lib;
 		}
 
-		return nullptr;
+		if(lib == nullptr){
+			sp_log(Log::Error, this) << "Cannot fetch library";
+			lib = new LocalLibrary(library_id);
+			lib_map[library_id] = lib;
+		}
+
+		return lib;
 	}
 
 	Info get_library_info(LibraryId id)

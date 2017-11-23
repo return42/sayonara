@@ -31,6 +31,7 @@
 #include "Utils/MetaData/LibraryItem.h"
 #include "Utils/MetaData/RadioMode.h"
 #include "Utils/MetaData/Genre.h"
+#include "Utils/Library/Sortorder.h"
 #include "Utils/SetFwd.h"
 #include "Utils/Pimpl.h"
 

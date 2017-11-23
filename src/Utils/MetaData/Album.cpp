@@ -19,6 +19,7 @@
  */
 
 #include "Utils/MetaData/Album.h"
+#include "Utils/MetaData/MetaDataSorting.h"
 
 #include <QVariant>
 #include <QStringList>
@@ -274,4 +275,9 @@ Album AlbumList::first() const
 	}
 
 	return this->at(0);
+}
+
+void AlbumList::sort(Library::SortOrder so)
+{
+	MetaDataSorting::sort_albums(*this, so);
 }

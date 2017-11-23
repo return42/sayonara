@@ -17,45 +17,46 @@ ELSE()
 ENDIF()
 
 SET(SOURCES
-    EqualizerPresets.cpp
-    FileUtils.cpp
-    Language.cpp
-    Utils.cpp
-    Set.cpp
-    Tree.cpp
+	EqualizerPresets.cpp
+	FileUtils.cpp
+	Language.cpp
+	Utils.cpp
+	Set.cpp
+	Tree.cpp
 
-    Library/Filter.cpp
-    Library/SearchMode.cpp
-    Library/Sorting.cpp
+	Library/Filter.cpp
+	Library/SearchMode.cpp
+	Library/Sorting.cpp
 	Library/LibraryInfo.cpp
 
-    Logger/Logger.cpp
+	Logger/Logger.cpp
 
-    Message/Message.cpp
-    Message/GlobalMessage.cpp
-    Message/GlobalMessageReceiverInterface.cpp
+	Message/Message.cpp
+	Message/GlobalMessage.cpp
+	Message/GlobalMessageReceiverInterface.cpp
 
-    MetaData/LibraryItem.cpp
-    MetaData/MetaData.cpp
-    MetaData/MetaDataList.cpp
-    MetaData/Album.cpp
-    MetaData/Artist.cpp
-    MetaData/Genre.cpp
+	MetaData/LibraryItem.cpp
+	MetaData/MetaData.cpp
+	MetaData/MetaDataList.cpp
+	MetaData/Album.cpp
+	MetaData/Artist.cpp
+	MetaData/Genre.cpp
+	MetaData/MetaDataSorting.cpp
 
-    Parser/AbstractPlaylistParser.cpp
-    Parser/M3UParser.cpp
-    Parser/PLSParser.cpp
-    Parser/ASXParser.cpp
-    Parser/PlaylistParser.cpp
-    Parser/PodcastParser.cpp
-    Parser/StreamParser.cpp
-    Parser/CommandLineParser.cpp
+	Parser/AbstractPlaylistParser.cpp
+	Parser/M3UParser.cpp
+	Parser/PLSParser.cpp
+	Parser/ASXParser.cpp
+	Parser/PlaylistParser.cpp
+	Parser/PodcastParser.cpp
+	Parser/StreamParser.cpp
+	Parser/CommandLineParser.cpp
 
-    Playlist/CustomPlaylist.cpp
-    Playlist/CustomPlaylistSkeleton.cpp
-    Playlist/PlaylistMode.cpp
+	Playlist/CustomPlaylist.cpp
+	Playlist/CustomPlaylistSkeleton.cpp
+	Playlist/PlaylistMode.cpp
 
-    RandomGenerator.cpp
+	RandomGenerator.cpp
 
 	Settings/SayonaraClass.cpp
 	Settings/Setting.cpp
@@ -64,7 +65,7 @@ SET(SOURCES
 	Settings/SettingNotifier.cpp
 	Settings/SettingRegistry.cpp
 
-    SimilarArtists/SimilarArtists.cpp
+	SimilarArtists/SimilarArtists.cpp
 
 	StreamRecorder/StreamRecorderUtils.cpp
 
@@ -87,8 +88,8 @@ SET(SOURCES
 	Tagging/Models/Cover.cpp
 	Tagging/Models/Popularimeter.cpp
 
-    WebAccess/AsyncWebAccess.cpp
-    WebAccess/IcyWebAccess.cpp
+	WebAccess/AsyncWebAccess.cpp
+	WebAccess/IcyWebAccess.cpp
 	WebAccess/Proxy.cpp
 )
 
@@ -97,11 +98,11 @@ SET(SOURCES
 
 ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES})
 TARGET_LINK_LIBRARIES(${PROJECT_NAME}
-    Qt5::Network
-    Qt5::Xml
-    Qt5::DBus
-    Qt5::Gui
-    tag
+	Qt5::Network
+	Qt5::Xml
+	Qt5::DBus
+	Qt5::Gui
+	tag
 )
 
 IF( WITH_COTIRE )

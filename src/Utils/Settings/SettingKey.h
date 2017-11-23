@@ -92,6 +92,10 @@ enum class SettingKey : unsigned short
 	Lib_AllLibraries,				// deprecated
 	Lib_UseViewClearButton,
 
+	Dir_ShowTracks,
+	Dir_SplitterDirFile,
+	Dir_SplitterTracks,
+
 	Player_Version,
 	Player_Language,
 	Player_FontName,
@@ -253,6 +257,10 @@ namespace Set
 	INST(QList<::Library::Info>, Lib_AllLibraries);		// deprecated
 	INST(int,				Lib_LastIndex);				/* Last selected library */
 	INST(bool,				Lib_UseViewClearButton);	/* Show clear button in single view */
+
+	INST(bool,				Dir_ShowTracks);			/* show tracks panel in directory view */
+	INST(QByteArray,		Dir_SplitterDirFile);		/* Splitter state between dirs and files */
+	INST(QByteArray,		Dir_SplitterTracks);		/* Splitter between upper and track view */
 
 
 	INST(QString,			Player_Version);			/* Version string of player */

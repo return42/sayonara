@@ -22,6 +22,7 @@
 #define _ALBUM_H_
 
 #include "Utils/MetaData/LibraryItem.h"
+#include "Utils/Library/Sortorder.h"
 #include <QMetaType>
 
 class QVariant;
@@ -89,6 +90,8 @@ public:
 	int count() const;
 	AlbumList& operator <<(const Album& album);
 	Album first() const;
+
+	void sort(Library::SortOrder so);
 };
 
 #endif

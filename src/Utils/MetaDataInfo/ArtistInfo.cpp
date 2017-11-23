@@ -165,7 +165,7 @@ QString ArtistInfo::additional_infostring() const
 		}
 	}
 
-	std::sort(sim_artists.begin(), sim_artists.end(), [](const QString& artist1, const QString artist2){
+	Util::sort(sim_artists, [](const QString& artist1, const QString artist2){
 		return (artist1 > artist2);
 	});
 

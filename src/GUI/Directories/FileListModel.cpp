@@ -93,7 +93,7 @@ void FileListModel::set_parent_directory(LibraryId id, const QString& dir)
 		endRemoveRows();
 	}
 
-	std::sort(m->files.begin(), m->files.end(), [](const QString& f1, const QString& f2){
+	Util::sort(m->files, [](const QString& f1, const QString& f2){
 		bool is_soundfile1 = Util::File::is_soundfile(f1);
 		bool is_soundfile2 = Util::File::is_soundfile(f2);
 

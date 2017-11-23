@@ -189,7 +189,7 @@ QMimeData* ItemView::dragable_mimedata() const
 	return _model->custom_mimedata();
 }
 
-QPixmap ItemView::pixmap() const
+QPixmap ItemView::drag_pixmap() const
 {
 	Cover::Location cl = _model->cover(
 				selected_items()

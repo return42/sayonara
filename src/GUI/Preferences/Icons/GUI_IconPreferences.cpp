@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "GUI_IconPreferences.h"
 #include "GUI/Preferences/ui_GUI_IconPreferences.h"
 #include "GUI/Utils/Icons.h"
@@ -28,6 +26,7 @@
 #include "Utils/Language.h"
 #include "Utils/Logger/Logger.h"
 #include "Utils/Settings/Settings.h"
+#include "Utils/Utils.h"
 
 #include <QStringList>
 #include <QIcon>
@@ -147,7 +146,7 @@ void GUI_IconPreferences::init_ui()
 	m->rb_map[standard_theme] = rb_automatic;
 
 	QStringList icon_paths = QIcon::themeSearchPaths();
-	std::sort(icon_paths.begin(), icon_paths.end(), [](const QString& s1, const QString& s2){
+	Util::sort(icon_paths, [](const QString& s1, const QString& s2){
 		return (s1.size() < s2.size() || s1 < s2);
 	});
 	QIcon::setThemeSearchPaths(icon_paths);

@@ -30,7 +30,7 @@ namespace Library
 	 * @brief The Sortings class
 	 * @ingroup LibraryHelper
 	 */
-    class Sortings
+	class Sortings
 	{
 		public:
 			Library::SortOrder so_albums;
@@ -46,7 +46,7 @@ namespace Library
 		QString toString() const;
 
 		static Library::Sortings fromString(const QString& str);
-    };
+	};
 }
 
 #endif // SORTING_H

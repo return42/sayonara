@@ -88,7 +88,7 @@ namespace Library
 
 		/** Dragable **/
 		QMimeData* dragable_mimedata() const override;
-		QPixmap pixmap() const override;
+		QPixmap drag_pixmap() const override;
 
 		void set_metadata_interpretation(MD::Interpretation type);
 		void set_selection_type(SelectionViewInterface::SelectionType type) override;

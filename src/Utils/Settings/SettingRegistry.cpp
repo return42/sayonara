@@ -105,6 +105,10 @@ bool SettingRegistry::init()
 	register_setting( Set::Lib_FontSize ,"lib_font_size", -1);
 #endif
 
+	register_setting( Set::Dir_ShowTracks, "dir_show_tracks", true);
+	register_setting( Set::Dir_SplitterDirFile, "dir_splitter_dir_file", QByteArray());
+	register_setting( Set::Dir_SplitterTracks, "dir_splitter_tracks", QByteArray());
+
 	register_setting( Set::Lib_UseViewClearButton, "lib_view_clear_button", false);
 
 	register_setting( Set::Player_Version, "player_version", QString(SAYONARA_VERSION));

@@ -169,44 +169,46 @@ void LocalLibrary::psl_disc_pressed(int disc)
 		}
 	}
 
+	_tracks.sort(sortorder().so_tracks);
+
 	emit sig_all_tracks_loaded();
 }
 
 
 
 
-void LocalLibrary::get_all_artists(ArtistList& artists, Library::Sortings so)
+void LocalLibrary::get_all_artists(ArtistList& artists)
 {
-	m->lib_db->getAllArtists(artists, so.so_artists);
+	m->lib_db->getAllArtists(artists, Library::SortOrder::NoSorting);
 }
 
-void LocalLibrary::get_all_artists_by_searchstring(Library::Filter filter, ArtistList& artists, Library::Sortings so)
+void LocalLibrary::get_all_artists_by_searchstring(Library::Filter filter, ArtistList& artists)
 {
-	m->lib_db->getAllArtistsBySearchString(filter, artists, so.so_artists);
-}
-
-
-void LocalLibrary::get_all_albums(AlbumList& albums, Library::Sortings so)
-{
-	m->lib_db->getAllAlbums(albums, so.so_albums);
+	m->lib_db->getAllArtistsBySearchString(filter, artists, Library::SortOrder::NoSorting);
 }
 
 
-void LocalLibrary::get_all_albums_by_artist(IdList artist_ids, AlbumList& albums, Library::Filter filter, Library::Sortings so)
+void LocalLibrary::get_all_albums(AlbumList& albums)
 {
-	m->lib_db->getAllAlbumsByArtist(artist_ids, albums, filter, so.so_albums)	;
+	m->lib_db->getAllAlbums(albums, Library::SortOrder::NoSorting);
 }
 
 
-void LocalLibrary::get_all_albums_by_searchstring(Library::Filter filter, AlbumList& albums, Library::Sortings so)
+void LocalLibrary::get_all_albums_by_artist(IdList artist_ids, AlbumList& albums, Library::Filter filter)
 {
-	m->lib_db->getAllAlbumsBySearchString(filter, albums, so.so_albums);
+	m->lib_db->getAllAlbumsByArtist(artist_ids, albums, filter, Library::SortOrder::NoSorting);
 }
 
 
-void LocalLibrary::get_all_tracks(MetaDataList& v_md, Library::Sortings so)
+void LocalLibrary::get_all_albums_by_searchstring(Library::Filter filter, AlbumList& albums)
 {
-	m->lib_db->getAllTracks(v_md, so.so_tracks);
+	m->lib_db->getAllAlbumsBySearchString(filter, albums, Library::SortOrder::NoSorting);
+}
+
+
+void LocalLibrary::get_all_tracks(MetaDataList& v_md)
+{
+	m->lib_db->getAllTracks(v_md, Library::SortOrder::NoSorting);
 }
 
 
@@ -216,21 +218,21 @@ void LocalLibrary::get_all_tracks(const QStringList& paths, MetaDataList& v_md)
 }
 
 
-void LocalLibrary::get_all_tracks_by_artist(IdList artist_ids, MetaDataList& v_md, Library::Filter filter, Library::Sortings so)
+void LocalLibrary::get_all_tracks_by_artist(IdList artist_ids, MetaDataList& v_md, Library::Filter filter)
 {
-	m->lib_db->getAllTracksByArtist(artist_ids, v_md, filter, so.so_tracks);
+	m->lib_db->getAllTracksByArtist(artist_ids, v_md, filter, Library::SortOrder::NoSorting);
 }
 
 
-void LocalLibrary::get_all_tracks_by_album(IdList album_ids, MetaDataList& v_md, Library::Filter filter, Library::Sortings so)
+void LocalLibrary::get_all_tracks_by_album(IdList album_ids, MetaDataList& v_md, Library::Filter filter)
 {
-	m->lib_db->getAllTracksByAlbum(album_ids, v_md, filter, so.so_tracks);
+	m->lib_db->getAllTracksByAlbum(album_ids, v_md, filter, Library::SortOrder::NoSorting);
 }
 
 
-void LocalLibrary::get_all_tracks_by_searchstring(Library::Filter filter, MetaDataList& v_md, Library::Sortings so)
+void LocalLibrary::get_all_tracks_by_searchstring(Library::Filter filter, MetaDataList& v_md)
 {
-	m->lib_db->getAllTracksBySearchString(filter, v_md, so.so_tracks);
+	m->lib_db->getAllTracksBySearchString(filter, v_md, Library::SortOrder::NoSorting);
 }
 
 
@@ -352,7 +354,7 @@ void LocalLibrary::merge_artists(const SP::Set<ArtistId>& artist_ids, ArtistId t
 
 	MetaDataList v_md;
 
-	get_all_tracks_by_artist(artist_ids.toList(), v_md, filter(), sortorder());
+	get_all_tracks_by_artist(artist_ids.toList(), v_md, filter());
 	tag_edit()->set_metadata(v_md);
 
 	for(int idx=0; idx<v_md.count(); idx++)
@@ -391,7 +393,7 @@ void LocalLibrary::merge_albums(const SP::Set<AlbumId>& album_ids, AlbumId targe
 	}
 
 	MetaDataList v_md;
-	get_all_tracks_by_album(album_ids.toList(), v_md, filter(), sortorder());
+	get_all_tracks_by_album(album_ids.toList(), v_md, filter());
 
 	tag_edit()->set_metadata(v_md);
 

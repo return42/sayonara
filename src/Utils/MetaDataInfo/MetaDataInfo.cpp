@@ -397,7 +397,7 @@ QString MetaDataInfo::pathsstring() const
 		lib_paths << li.path();
 	}
 
-	std::sort(lib_paths.begin(), lib_paths.end(), [](const QString& lp1, const QString& lp2){
+	Util::sort(lib_paths, [](const QString& lp1, const QString& lp2){
 		return (lp1.length() > lp2.length());
 	});
 

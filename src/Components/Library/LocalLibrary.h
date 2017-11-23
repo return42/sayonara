@@ -80,18 +80,19 @@ protected slots:
 
 
 private:
-	void get_all_artists(ArtistList& artists, Library::Sortings so) override;
-	void get_all_artists_by_searchstring(Library::Filter filter, ArtistList& artists, Library::Sortings so) override;
+	void get_all_artists(ArtistList& artists) override;
+	void get_all_artists_by_searchstring(Library::Filter filter, ArtistList& artists) override;
 
-	void get_all_albums(AlbumList& albums, Library::Sortings so) override;
-	void get_all_albums_by_artist(IdList artist_ids, AlbumList& albums, Library::Filter filter, Library::Sortings so) override;
-	void get_all_albums_by_searchstring(Library::Filter filter, AlbumList& albums, Library::Sortings so) override;
+	void get_all_albums(AlbumList& albums) override;
+	void get_all_albums_by_artist(IdList artist_ids, AlbumList& albums, Library::Filter filter) override;
+	void get_all_albums_by_searchstring(Library::Filter filter, AlbumList& albums) override;
 
-	void get_all_tracks(MetaDataList& v_md, Library::Sortings so) override;
+	void get_all_tracks(MetaDataList& v_md) override;
 	void get_all_tracks(const QStringList& paths, MetaDataList& v_md) override;
-	void get_all_tracks_by_artist(IdList artist_ids, MetaDataList& v_md, Library::Filter filter, Library::Sortings so) override;
-	void get_all_tracks_by_album(IdList album_ids, MetaDataList& v_md, Library::Filter filter, Library::Sortings so) override;
-	void get_all_tracks_by_searchstring(Library::Filter filter, MetaDataList& v_md, Library::Sortings so) override;
+	void get_all_tracks_by_artist(IdList artist_ids, MetaDataList& v_md, Library::Filter filter) override;
+	void get_all_tracks_by_album(IdList album_ids, MetaDataList& v_md, Library::Filter filter) override;
+	void get_all_tracks_by_searchstring(Library::Filter filter, MetaDataList& v_md) override;
+
 	void get_album_by_id(int album_id, Album& album) override;
 	void get_artist_by_id(int artist_id, Artist& artist) override;
 

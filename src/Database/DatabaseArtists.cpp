@@ -39,13 +39,13 @@ struct Artists::Private
 		artistid_field = "artistID";
 		artistname_field = "artistName";
 
-		search_view = QString("track_search_view_%1").arg(library_id);
-
 		if(library_id < 0) {
+			search_view = QString("track_search_view");
 			track_view = QString("tracks");
 		}
 
 		else {
+			search_view = QString("track_search_view_%1").arg(library_id);
 			track_view = QString("track_view_%1").arg(library_id);
 		}
 	}

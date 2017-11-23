@@ -55,6 +55,7 @@ class GUI_DirectoryWidget :
 		void dir_enter_pressed();
 		void dir_opened(QModelIndex idx);
 		void dir_pressed(QModelIndex idx);
+		void dir_clicked(QModelIndex idx);
 		void dir_append_clicked();
 		void dir_play_next_clicked();
 		void dir_delete_clicked();
@@ -68,6 +69,8 @@ class GUI_DirectoryWidget :
 
 		void import_requested(LibraryId library_id, const QStringList& paths, const QString& target_dir);
 		void import_dialog_requested(const QString& target_dir);
+
+		void splitter_moved(int pos, int index);
 
 		protected:
 			MD::Interpretation metadata_interpretation() const override;

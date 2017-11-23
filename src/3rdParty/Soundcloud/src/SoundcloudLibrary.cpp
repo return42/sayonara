@@ -101,11 +101,11 @@ void SC::Library::load()
 }
 
 
-void SC::Library::get_all_artists(ArtistList& artists, ::Library::Sortings so)
+void SC::Library::get_all_artists(ArtistList& artists)
 {
 	if(m->artists.empty())
 	{
-		m->scd->getAllArtists(artists, so.so_artists);
+		m->scd->getAllArtists(artists, ::Library::SortOrder::NoSorting);
 		m->artists = artists;
 
 		for(int i=0; i<m->artists.count(); i++)
@@ -120,10 +120,10 @@ void SC::Library::get_all_artists(ArtistList& artists, ::Library::Sortings so)
 		artists = m->artists;
 	}
 
-	SC::Sorting::sort_artists(artists, so.so_artists);
+	artists.sort(sortorder().so_artists);
 }
 
-void SC::Library::get_all_artists_by_searchstring(::Library::Filter filter, ArtistList& artists, ::Library::Sortings so)
+void SC::Library::get_all_artists_by_searchstring(::Library::Filter filter, ArtistList& artists)
 {
 	if(filter.mode() != ::Library::Filter::Mode::Fulltext){
 		return;
@@ -144,10 +144,10 @@ void SC::Library::get_all_artists_by_searchstring(::Library::Filter filter, Arti
 		artists << artist;
 	}
 
-	SC::Sorting::sort_artists(artists, so.so_artists);
+	artists.sort(sortorder().so_artists);
 }
 
-void SC::Library::get_all_albums(AlbumList& albums, ::Library::Sortings so)
+void SC::Library::get_all_albums(AlbumList& albums)
 {
 	if(m->albums.empty())
 	{
@@ -171,10 +171,10 @@ void SC::Library::get_all_albums(AlbumList& albums, ::Library::Sortings so)
 		albums = m->albums;
 	}
 
-	SC::Sorting::sort_albums(albums, so.so_albums);
+	albums.sort(sortorder().so_albums);
 }
 
-void SC::Library::get_all_albums_by_artist(IdList artist_ids, AlbumList& albums, ::Library::Filter filter, ::Library::Sortings so)
+void SC::Library::get_all_albums_by_artist(IdList artist_ids, AlbumList& albums, ::Library::Filter filter)
 {
 	Q_UNUSED(filter)
 
@@ -196,10 +196,10 @@ void SC::Library::get_all_albums_by_artist(IdList artist_ids, AlbumList& albums,
 		}
 	}
 
-	SC::Sorting::sort_albums(albums, so.so_albums);
+	albums.sort(sortorder().so_albums);
 }
 
-void SC::Library::get_all_albums_by_searchstring(::Library::Filter filter, AlbumList& albums, ::Library::Sortings so)
+void SC::Library::get_all_albums_by_searchstring(::Library::Filter filter, AlbumList& albums)
 {
 	if(filter.mode() != ::Library::Filter::Mode::Fulltext){
 		return;
@@ -222,7 +222,7 @@ void SC::Library::get_all_albums_by_searchstring(::Library::Filter filter, Album
 		}
 	}
 
-	SC::Sorting::sort_albums(albums, so.so_albums);
+	albums.sort(sortorder().so_albums);
 }
 
 void SC::Library::get_all_tracks(const QStringList& paths, MetaDataList& v_md)
@@ -232,11 +232,11 @@ void SC::Library::get_all_tracks(const QStringList& paths, MetaDataList& v_md)
 	return;
 }
 
-void SC::Library::get_all_tracks(MetaDataList& v_md, ::Library::Sortings so)
+void SC::Library::get_all_tracks(MetaDataList& v_md)
 {
 	if(m->v_md.isEmpty())
 	{
-		m->scd->getAllTracks(v_md, so.so_tracks);
+		m->scd->getAllTracks(v_md);
 		m->v_md = v_md;
 
 		for(int i=0; i<m->v_md.count(); i++)
@@ -254,10 +254,10 @@ void SC::Library::get_all_tracks(MetaDataList& v_md, ::Library::Sortings so)
 		v_md = m->v_md;
 	}
 
-	SC::Sorting::sort_tracks(v_md, so.so_tracks);
+	v_md.sort(sortorder().so_tracks);
 }
 
-void SC::Library::get_all_tracks_by_artist(IdList artist_ids, MetaDataList& v_md, ::Library::Filter filter, ::Library::Sortings so)
+void SC::Library::get_all_tracks_by_artist(IdList artist_ids, MetaDataList& v_md, ::Library::Filter filter)
 {
 	Q_UNUSED(filter)
 
@@ -275,10 +275,10 @@ void SC::Library::get_all_tracks_by_artist(IdList artist_ids, MetaDataList& v_md
 		}
 	}
 
-	SC::Sorting::sort_tracks(v_md, so.so_tracks);
+	v_md.sort(sortorder().so_tracks);
 }
 
-void SC::Library::get_all_tracks_by_album(IdList album_ids, MetaDataList& v_md, ::Library::Filter filter, ::Library::Sortings so)
+void SC::Library::get_all_tracks_by_album(IdList album_ids, MetaDataList& v_md, ::Library::Filter filter)
 {
 	Q_UNUSED(filter)
 
@@ -290,10 +290,10 @@ void SC::Library::get_all_tracks_by_album(IdList album_ids, MetaDataList& v_md, 
 		}
 	}
 
-	SC::Sorting::sort_tracks(v_md, so.so_tracks);
+	v_md.sort(sortorder().so_tracks);
 }
 
-void SC::Library::get_all_tracks_by_searchstring(::Library::Filter filter, MetaDataList& v_md, ::Library::Sortings so)
+void SC::Library::get_all_tracks_by_searchstring(::Library::Filter filter, MetaDataList& v_md)
 {
 	if(filter.mode() != ::Library::Filter::Mode::Fulltext){
 		return;
@@ -311,7 +311,7 @@ void SC::Library::get_all_tracks_by_searchstring(::Library::Filter filter, MetaD
 		v_md << m->v_md[idx];
 	}
 
-	SC::Sorting::sort_tracks(v_md, so.so_tracks);
+	v_md.sort(sortorder().so_tracks);
 }
 
 void SC::Library::update_track(const MetaData& md)
@@ -360,7 +360,7 @@ void SC::Library::refresh_artist()
 	ArtistId artist_id = selected_artists().first();
 
 	MetaDataList v_md;
-	get_all_tracks_by_artist({artist_id}, v_md, ::Library::Filter(), ::Library::Sortings());
+	get_all_tracks_by_artist({artist_id}, v_md, ::Library::Filter());
 	delete_tracks(v_md, ::Library::TrackDeletionMode::None);
 
 	sp_log(Log::Debug, this) << "Deleted " << v_md.size() << " soundcloud tracks";

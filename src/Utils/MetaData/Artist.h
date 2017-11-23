@@ -23,6 +23,7 @@
 
 #include "Utils/MetaData/LibraryItem.h"
 #include "Utils/Pimpl.h"
+#include "Utils/Library/Sortorder.h"
 
 #include <QStringList>
 #include <QMetaType>
@@ -94,6 +95,8 @@ public:
 	int count() const;
 	ArtistList& operator <<(const Artist& artist);
 	Artist first() const;
+
+	void sort(Library::SortOrder so);
 };
 
 #endif

@@ -195,12 +195,13 @@ QModelIndex DirectoryModel::getFirstRowIndexOf(const QString& substr)
 		m->cur_idx = 0;
 	}
 
-	QModelIndex idx = index(str);
-	if(canFetchMore(idx)){
-		fetchMore(idx);
+	QModelIndex found_idx = index(str);
+	sp_log(Log::Debug, this) << "Data@found idx: " << found_idx.data().toString() << " Data to search: " << str;
+	if(canFetchMore(found_idx)){
+		fetchMore(found_idx);
 	}
 
-	return idx;
+	return found_idx;
 }
 
 
@@ -220,7 +221,13 @@ QModelIndex DirectoryModel::getNextRowIndexOf(const QString& substr, int cur_row
 
 	str = m->found_strings[m->cur_idx];
 
-	return index(str);
+	QModelIndex found_idx = index(str);
+	sp_log(Log::Debug, this) << "Data@found idx: " << found_idx.data().toString() << " Data to search: " << str;
+	if(canFetchMore(found_idx)){
+		fetchMore(found_idx);
+	}
+
+	return found_idx;
 }
 
 
@@ -246,7 +253,13 @@ QModelIndex DirectoryModel::getPrevRowIndexOf(const QString& substr, int cur_row
 
 	str = m->found_strings[m->cur_idx];
 
-	return index(str);
+	QModelIndex found_idx = index(str);
+	sp_log(Log::Debug, this) << "Data@found idx: " << found_idx.data().toString() << " Data to search: " << str;
+	if(canFetchMore(found_idx)){
+		fetchMore(found_idx);
+	}
+
+	return found_idx;
 }
 
 

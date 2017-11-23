@@ -20,6 +20,7 @@
 
 #include "DiscPopupMenu.h"
 #include "GUI/Utils/GuiUtils.h"
+#include "Utils/Utils.h"
 
 #include <QMouseEvent>
 #include <algorithm>
@@ -42,8 +43,9 @@ void DiscAction::disc_hover()
 }
 
 
-DiscPopupMenu::DiscPopupMenu(QWidget* parent, QList<Disc> discs): QMenu(parent){
-	std::sort(discs.begin(), discs.end(), [](Disc disc1, Disc disc2){
+DiscPopupMenu::DiscPopupMenu(QWidget* parent, QList<Disc> discs): QMenu(parent)
+{
+	Util::sort(discs, [](Disc disc1, Disc disc2){
 		return disc1 < disc2;
 	});
 

@@ -140,7 +140,15 @@ QDrag* Dragable::drag_moving(const QPoint& p)
 		return m->drag;
 	}
 
-	QStringList strings = m->get_strings(data);
+	QStringList strings;
+	if(!has_drag_label()){
+		strings = m->get_strings(data);
+	}
+
+	else{
+		strings.clear();
+		strings << drag_label();
+	}
 
 	QFontMetrics fm(QApplication::font());
 	const int logo_height = 24;
@@ -161,7 +169,7 @@ QDrag* Dragable::drag_moving(const QPoint& p)
 	pm_width += logo_width + 22;
 
 
-	QPixmap cover = pixmap();
+	QPixmap cover = drag_pixmap();
 	if(cover.isNull()){
 		cover = Gui::Util::pixmap("logo.png", logo_size, true);
 	}
@@ -215,7 +223,17 @@ bool Dragable::is_valid_drag_position(const QPoint &p) const
 }
 
 
-QPixmap Dragable::pixmap() const
+QPixmap Dragable::drag_pixmap() const
 {
 	return QPixmap();
+}
+
+bool Dragable::has_drag_label() const
+{
+	return false;
+}
+
+QString Dragable::drag_label() const
+{
+	return QString();
 }
