@@ -219,6 +219,18 @@ void AlbumView::middle_clicked()
 	m->library->prepare_fetched_tracks_for_playlist(true);
 }
 
+void AlbumView::play_clicked()
+{
+	TableView::play_clicked();
+	doubleClicked(QModelIndex());
+}
+
+void AlbumView::play_new_tab_clicked()
+{
+	TableView::play_new_tab_clicked();
+	m->library->prepare_fetched_tracks_for_playlist(true);
+}
+
 void AlbumView::play_next_clicked()
 {
 	TableView::play_next_clicked();

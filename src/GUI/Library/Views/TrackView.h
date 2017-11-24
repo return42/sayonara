@@ -29,6 +29,8 @@ namespace Library
 		void columns_changed() override;
 
 		// from Library::ItemView
+		void play_clicked() override;
+		void play_new_tab_clicked() override;
 		void middle_clicked() override;
 		void play_next_clicked() override;
 		void append_clicked() override;

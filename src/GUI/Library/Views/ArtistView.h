@@ -23,6 +23,8 @@ namespace Library
 			void middle_clicked() override;
 			void append_clicked() override;
 			void refresh_clicked() override;
+			void play_clicked() override;
+			void play_new_tab_clicked() override;
 
 		// TableView interface
 		protected:

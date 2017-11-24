@@ -63,7 +63,9 @@ namespace Library
 		void sig_middle_button_clicked();
 		void sig_all_selected();
 		void sig_delete_clicked();
+		void sig_play_clicked();
 		void sig_play_next_clicked();
+		void sig_play_new_tab_clicked();
 		void sig_append_clicked();
 		void sig_refresh_clicked();
 		void sig_import_files(const QStringList& files);
@@ -125,6 +127,8 @@ namespace Library
 	protected slots:
 		virtual void context_menu_show(const QPoint&);
 		virtual void merge_action_triggered();
+		virtual void play_clicked();
+		virtual void play_new_tab_clicked();
 		virtual void play_next_clicked();
 		virtual void delete_clicked();
 		virtual void middle_clicked();

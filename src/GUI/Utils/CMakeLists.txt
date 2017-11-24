@@ -54,7 +54,7 @@ ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES} ${UI_FILES})
 TARGET_LINK_LIBRARIES(${PROJECT_NAME}
 	Qt5::Widgets
 	say_utils
-	say_comp_directory_reader
+	say_comp_directories
 	say_comp_preferences
 )
 

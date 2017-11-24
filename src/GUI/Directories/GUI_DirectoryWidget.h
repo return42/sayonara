@@ -26,6 +26,7 @@
 #include "Utils/MetaData/MetaDataFwd.h"
 #include "Utils/Pimpl.h"
 
+class QPoint;
 class QFrame;
 class QComboBox;
 
@@ -57,14 +58,18 @@ class GUI_DirectoryWidget :
 		void dir_pressed(QModelIndex idx);
 		void dir_clicked(QModelIndex idx);
 		void dir_append_clicked();
+		void dir_play_clicked();
 		void dir_play_next_clicked();
+		void dir_play_new_tab_clicked();
 		void dir_delete_clicked();
 
 		void file_dbl_clicked(QModelIndex idx);
 		void file_enter_pressed();
 		void file_pressed(QModelIndex idx);
 		void file_append_clicked();
+		void file_play_clicked();
 		void file_play_next_clicked();
+		void file_play_new_tab_clicked();
 		void file_delete_clicked();
 
 		void import_requested(LibraryId library_id, const QStringList& paths, const QString& target_dir);

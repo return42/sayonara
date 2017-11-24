@@ -63,7 +63,9 @@ public:
 		EntryRating=(1<<9),
 		EntryClearSelection=(1<<10),
 		EntryCoverView=(1<<11),
-		EntryLast=(1<<12)
+		EntryPlay=(1<<12),
+		EntryPlayNewTab=(1<<13),
+		EntryLast=(1<<14)
 	};
 
 	/**
@@ -107,6 +109,8 @@ signals:
 	void sig_lyrics_clicked();
 	void sig_remove_clicked();
 	void sig_delete_clicked();
+	void sig_play_clicked();
+	void sig_play_new_tab_clicked();
 	void sig_play_next_clicked();
 	void sig_append_clicked();
 	void sig_refresh_clicked();

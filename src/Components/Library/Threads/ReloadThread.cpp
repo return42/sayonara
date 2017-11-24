@@ -30,7 +30,7 @@
 
 #include "ReloadThread.h"
 
-#include "Components/DirectoryReader/DirectoryReader.h"
+#include "Components/Directories/DirectoryReader.h"
 
 #include "Database/DatabaseConnector.h"
 #include "Database/DatabaseLibrary.h"

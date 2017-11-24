@@ -27,6 +27,7 @@
 #include <QThread>
 #include <QFileSystemModel>
 
+
 /**
  * @brief The SearchableFileTreeModel class
  * @ingroup GUIInterfaces
@@ -54,12 +55,11 @@ public:
 	LibraryId library_id(const QModelIndex& index) const;
 	QString filepath_origin(const QModelIndex& index) const;
 
-	bool move_dirs(const QStringList& source_dirs, const QString& target_dir);
-	bool copy_dirs(const QStringList& source_dirs, const QString& target_dir);
-	bool rename_dir(const QString& source_dir, const QString& target_dir);
+	bool is_root(const QModelIndex& index) const;
 
 private:
 	void create_file_list(const QString& substr);
+
 };
 
 #endif // SEARCHABLEFileTreeView_H

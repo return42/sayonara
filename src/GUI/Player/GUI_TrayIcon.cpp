@@ -232,7 +232,7 @@ void GUI_TrayIcon::playstate_changed(PlayState state)
 	{
 		case PlayState::Playing:
 
-			setIcon(Icons::icon(Icons::Play));
+			setIcon(Icons::icon(Icons::Play, Icons::ForceSayonaraIcon));
 
 			if(m->play_action){
 				m->play_action->setIcon(Icons::icon(Icons::Pause));
@@ -242,7 +242,8 @@ void GUI_TrayIcon::playstate_changed(PlayState state)
 			break;
 
 		default:
-			setIcon(Util::icon("pause"));
+			setIcon(Icons::icon(Icons::Pause, Icons::ForceSayonaraIcon));
+
 			if(m->play_action){
 				m->play_action->setIcon(Icons::icon(Icons::Play));
 				m->play_action->setText(Lang::get(Lang::Play));

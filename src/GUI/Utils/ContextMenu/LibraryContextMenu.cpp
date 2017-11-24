@@ -39,6 +39,8 @@ struct LibraryContextMenu::Private
 	QAction*	edit_action=nullptr;
 	QAction*	remove_action=nullptr;
 	QAction*	delete_action=nullptr;
+	QAction*	play_action=nullptr;
+	QAction*	play_new_tab_action=nullptr;
 	QAction*	play_next_action=nullptr;
 	QAction*	append_action=nullptr;
 	QAction*	refresh_action=nullptr;
@@ -65,6 +67,8 @@ LibraryContextMenu::LibraryContextMenu(QWidget* parent) :
 	m->edit_action = new QAction(this);
 	m->remove_action = new QAction(this);
 	m->delete_action = new QAction(this);
+	m->play_action = new QAction(this);
+	m->play_new_tab_action = new QAction(this);
 	m->play_next_action = new QAction(this);
 	m->append_action = new QAction(this);
 	m->refresh_action = new QAction(this);
@@ -87,6 +91,8 @@ LibraryContextMenu::LibraryContextMenu(QWidget* parent) :
 	connect(m->edit_action, &QAction::triggered, this, &LibraryContextMenu::sig_edit_clicked);
 	connect(m->remove_action, &QAction::triggered, this, &LibraryContextMenu::sig_remove_clicked);
 	connect(m->delete_action, &QAction::triggered, this, &LibraryContextMenu::sig_delete_clicked);
+	connect(m->play_action, &QAction::triggered, this, &LibraryContextMenu::sig_play_clicked);
+	connect(m->play_new_tab_action, &QAction::triggered, this, &LibraryContextMenu::sig_play_new_tab_clicked);
 	connect(m->play_next_action, &QAction::triggered, this, &LibraryContextMenu::sig_play_next_clicked);
 	connect(m->append_action, &QAction::triggered, this, &LibraryContextMenu::sig_append_clicked);
 	connect(m->refresh_action, &QAction::triggered, this, &LibraryContextMenu::sig_refresh_clicked);
@@ -95,13 +101,18 @@ LibraryContextMenu::LibraryContextMenu(QWidget* parent) :
 	connect(m->cover_view_action, &QAction::triggered, this, &LibraryContextMenu::cover_view_action_triggered);
 
 	QList<QAction*> actions;
-	actions << m->info_action
+	actions << m->play_action
+			<< m->play_new_tab_action
+			<< m->play_next_action
+			<< m->append_action
+			<< addSeparator()
+
+			<< m->info_action
 			<< m->lyrics_action
 			<< m->edit_action
 			<< m->rating_action
 			<< addSeparator()
-			<< m->play_next_action
-			<< m->append_action
+
 			<< m->refresh_action
 			<< m->remove_action
 			<< m->clear_action
@@ -118,6 +129,8 @@ LibraryContextMenu::LibraryContextMenu(QWidget* parent) :
 	m->entry_action_map[EntryLyrics] = m->lyrics_action;
 	m->entry_action_map[EntryRemove] = m->remove_action;
 	m->entry_action_map[EntryDelete] = m->delete_action;
+	m->entry_action_map[EntryPlay] = m->play_action;
+	m->entry_action_map[EntryPlayNewTab] = m->play_new_tab_action;
 	m->entry_action_map[EntryPlayNext] = m->play_next_action;
 	m->entry_action_map[EntryAppend] = m->append_action;
 	m->entry_action_map[EntryRefresh] = m->refresh_action;
@@ -140,6 +153,8 @@ void LibraryContextMenu::language_changed()
 	m->edit_action->setText(Lang::get(Lang::Edit));
 	m->remove_action->setText(Lang::get(Lang::Remove));
 	m->delete_action->setText(Lang::get(Lang::Delete));
+	m->play_action->setText(Lang::get(Lang::Play));
+	m->play_new_tab_action->setText(tr("Play in new tab"));
 	m->play_next_action->setText(Lang::get(Lang::PlayNext));
 	m->append_action->setText(Lang::get(Lang::Append));
 	m->refresh_action->setText(Lang::get(Lang::Refresh));
@@ -169,6 +184,8 @@ void LibraryContextMenu::skin_changed()
 	m->edit_action->setIcon(Icons::icon(Icons::Edit));
 	m->remove_action->setIcon(Icons::icon(Icons::Remove));
 	m->delete_action->setIcon(Icons::icon(Icons::Delete));
+	m->play_action->setIcon(Icons::icon(Icons::PlaySmall));
+	m->play_new_tab_action->setIcon(Icons::icon(Icons::PlaySmall));
 	m->play_next_action->setIcon(Icons::icon(Icons::PlaySmall));
 	m->append_action->setIcon(Icons::icon(Icons::Append));
 	m->refresh_action->setIcon(Icons::icon(Icons::Undo));

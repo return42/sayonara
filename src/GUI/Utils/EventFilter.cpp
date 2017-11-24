@@ -60,6 +60,7 @@ bool ContextMenuFilter::eventFilter(QObject *o, QEvent *e)
 		QContextMenuEvent* cme = static_cast<QContextMenuEvent*>(e);
 
 		emit sig_context_menu(cme->globalPos(), nullptr);
+		return true;
 	}
 
 	return QObject::eventFilter(o, e);

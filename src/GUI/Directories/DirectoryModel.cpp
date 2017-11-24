@@ -107,7 +107,7 @@ void DirectoryModel::create_file_list(const QString& substr)
 			m->all_files << StringPair(
 								sym_filepath,
 								QString(sym_filepath).remove(info.symlink_path() + "/")
-							);
+								);
 
 			QString parent_dir, sym_parent_dir, pure_filename;
 
@@ -125,7 +125,7 @@ void DirectoryModel::create_file_list(const QString& substr)
 					m->all_dirs << StringPair(
 									   sym_parent_dir,
 									   QString(sym_parent_dir).remove(info.symlink_path() + "/")
-									);
+									   );
 
 					Util::File::split_filename(QString(sym_parent_dir), sym_parent_dir, pure_filename);
 				}
@@ -296,95 +296,18 @@ QString DirectoryModel::filepath_origin(const QModelIndex& index) const
 	return ret;
 }
 
-bool DirectoryModel::copy_dirs(const QStringList& source_dirs, const QString& target_dir)
+bool DirectoryModel::is_root(const QModelIndex& index) const
 {
-	Library::Info target_info = Library::Manager::instance()->library_info_by_path(target_dir);
-	LibraryId target_id = target_info.id();
+	QString dir_path = filePath(index);
+	QDir d(dir_path);
+	d.cdUp();
+	QString d_abs = d.absolutePath();
 
-	sp_log(Log::Debug, this) << "Copy files " << source_dirs << " to " << target_dir;
-	for(const QString& source_dir : source_dirs)
-	{
-		Util::File::copy_dir(source_dir, target_dir);
-	}
-
-	if(target_id >= 0)
-	{
-		LocalLibrary* library = Library::Manager::instance()->library_instance(target_id);
-		if(library){
-			library->reload_library(false, Library::ReloadQuality::Fast);
-		}
-	}
-
-	return true;
+	QDir r(rootPath());
+	QString r_abs = r.absolutePath();
+	return(
+		Util::File::clean_filename(d_abs) ==
+		Util::File::clean_filename(r_abs)
+	);
 }
 
-
-bool DirectoryModel::move_dirs(const QStringList& source_dirs, const QString& target_dir)
-{
-	QString cleaned_target_dir = Util::File::clean_filename(target_dir);
-
-	sp_log(Log::Debug, this) << "Move files " << source_dirs << " to " << cleaned_target_dir;
-
-	MetaDataList v_md, v_md_to_update;
-	DB::Connector* db = DB::Connector::instance();
-	DB::LibraryDatabase* library_db = db->library_db(-1, db->db_id());
-	if(library_db)
-	{
-		library_db->getAllTracks(v_md);
-	}
-
-	for(const QString& source_dir : source_dirs)
-	{
-		QString cleaned_source_dir = Util::File::clean_filename(source_dir);
-
-		Util::File::move_dir(source_dir, cleaned_target_dir);
-
-		for(MetaData md : v_md)
-		{
-			QString filepath = Util::File::clean_filename(md.filepath());
-
-			if(filepath.startsWith(cleaned_source_dir + "/"))
-			{
-				filepath.replace(cleaned_source_dir, cleaned_target_dir);
-				md.set_filepath(filepath);
-				v_md_to_update << md;
-			}
-		}
-	}
-
-	library_db->updateTracks(v_md_to_update);
-
-	return true;
-}
-
-
-bool DirectoryModel::rename_dir(const QString& source_dir, const QString& target_dir)
-{
-	QString cleaned_source_dir = Util::File::clean_filename(source_dir);
-	QString cleaned_target_dir = Util::File::clean_filename(target_dir);
-
-	bool success = Util::File::rename_dir(source_dir, cleaned_target_dir);
-
-	DB::Connector* db = DB::Connector::instance();
-	DB::LibraryDatabase* library_db = db->library_db(-1, db->db_id());
-	if(library_db)
-	{
-		MetaDataList v_md, v_md_to_update;
-		library_db->getAllTracks(v_md);
-		for(MetaData md : v_md)
-		{
-			QString filepath = Util::File::clean_filename(md.filepath());
-
-			if(filepath.startsWith(cleaned_source_dir + "/"))
-			{
-				filepath.replace(cleaned_source_dir, cleaned_target_dir);
-				md.set_filepath(filepath);
-				v_md_to_update << md;
-			}
-		}
-
-		library_db->updateTracks(v_md_to_update);
-	}
-
-	return success;
-}

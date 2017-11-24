@@ -23,7 +23,7 @@
 #include "DirectoryIconProvider.h"
 #include "DirectoryDelegate.h"
 
-#include "Components/DirectoryReader/DirectoryReader.h"
+#include "Components/Directories/DirectoryReader.h"
 
 #include "Utils/globals.h"
 #include "Utils/MetaData/MetaDataList.h"
@@ -162,8 +162,10 @@ void FileListView::init_context_menu()
 
 	m->context_menu = new LibraryContextMenu(this);
 
-	LibraryContexMenuEntries entries =
-			(LibraryContextMenu::EntryDelete |
+	LibraryContexMenuEntries entries = (
+			LibraryContextMenu::EntryPlay |
+			LibraryContextMenu::EntryPlayNewTab |
+			LibraryContextMenu::EntryDelete |
 			LibraryContextMenu::EntryInfo |
 			LibraryContextMenu::EntryEdit |
 			LibraryContextMenu::EntryLyrics |
@@ -176,6 +178,8 @@ void FileListView::init_context_menu()
 	connect(m->context_menu, &LibraryContextMenu::sig_lyrics_clicked, this, &FileListView::sig_lyrics_clicked);
 	connect(m->context_menu, &LibraryContextMenu::sig_edit_clicked, this, &FileListView::sig_edit_clicked);
 	connect(m->context_menu, &LibraryContextMenu::sig_delete_clicked, this, &FileListView::sig_delete_clicked);
+	connect(m->context_menu, &LibraryContextMenu::sig_play_clicked, this, &FileListView::sig_play_clicked);
+	connect(m->context_menu, &LibraryContextMenu::sig_play_new_tab_clicked, this, &FileListView::sig_play_new_tab_clicked);
 	connect(m->context_menu, &LibraryContextMenu::sig_play_next_clicked, this, &FileListView::sig_play_next_clicked);
 	connect(m->context_menu, &LibraryContextMenu::sig_append_clicked, this, &FileListView::sig_append_clicked);
 

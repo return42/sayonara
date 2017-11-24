@@ -25,7 +25,7 @@
 #include "GUI/Utils/Shortcuts/ShortcutHandler.h"
 #include "GUI/Utils/Shortcuts/Shortcut.h"
 
-#include "Components/DirectoryReader/DirectoryReader.h"
+#include "Components/Directories/DirectoryReader.h"
 #include "Utils/MetaData/MetaDataList.h"
 #include "Utils/FileUtils.h"
 #include "Utils/Language.h"

@@ -43,6 +43,8 @@ signals:
 	void sig_edit_clicked();
 	void sig_lyrics_clicked();
 	void sig_delete_clicked();
+	void sig_play_clicked();
+	void sig_play_new_tab_clicked();
 	void sig_play_next_clicked();
 	void sig_append_clicked();
 	void sig_enter_pressed();

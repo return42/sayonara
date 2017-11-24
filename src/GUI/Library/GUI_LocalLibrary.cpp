@@ -88,7 +88,10 @@ GUI_LocalLibrary::GUI_LocalLibrary(LibraryId id, QWidget* parent) :
 	ui->pb_progress->setVisible(false);
 	ui->lab_progress->setVisible(false);
 
-	int entries = (LibraryContextMenu::EntryInfo |
+	int entries = (
+			LibraryContextMenu::EntryPlay |
+			LibraryContextMenu::EntryPlayNewTab |
+			LibraryContextMenu::EntryInfo |
 			LibraryContextMenu::EntryEdit |
 			LibraryContextMenu::EntryDelete |
 			LibraryContextMenu::EntryPlayNext |

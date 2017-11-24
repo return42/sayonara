@@ -22,16 +22,19 @@
 #include "FileListModel.h"
 #include "DirectoryModel.h"
 
+
 #include "GUI/Directories/ui_GUI_DirectoryWidget.h"
 #include "GUI/Library/Models/TrackModel.h"
 #include "GUI/ImportDialog/GUI_ImportDialog.h"
 #include "GUI/Utils/ContextMenu/LibraryContextMenu.h"
 #include "GUI/Utils/Icons.h"
+#include "GUI/Utils/EventFilter.h"
+#include "GUI/Utils/PreferenceAction.h"
 
 #include "Components/Library/LibraryManager.h"
 #include "Components/Library/LocalLibrary.h"
 #include "Components/Playlist/PlaylistHandler.h"
-#include "Components/DirectoryReader/DirectoryReader.h"
+#include "Components/Directories/DirectoryReader.h"
 
 #include "Database/LibraryDatabase.h"
 #include "Database/DatabaseConnector.h"
@@ -48,6 +51,7 @@
 #include <QApplication>
 #include <QMouseEvent>
 #include <QShortcut>
+#include <QMenu>
 
 struct GUI_DirectoryWidget::Private
 {
@@ -95,7 +99,8 @@ GUI_DirectoryWidget::GUI_DirectoryWidget(QWidget *parent) :
 
 	ui->tb_title->init(m->generic_library);
 
-	int entries = (LibraryContextMenu::EntryInfo |
+	int entries = (LibraryContextMenu::EntryPlayNewTab |
+			LibraryContextMenu::EntryInfo |
 			LibraryContextMenu::EntryEdit |
 			LibraryContextMenu::EntryDelete |
 			LibraryContextMenu::EntryPlayNext |
@@ -123,7 +128,9 @@ GUI_DirectoryWidget::GUI_DirectoryWidget(QWidget *parent) :
 	connect(ui->tv_dirs, &DirectoryTreeView::sig_import_requested, this, &GUI_DirectoryWidget::import_requested);
 	connect(ui->tv_dirs, &DirectoryTreeView::sig_enter_pressed, this, &GUI_DirectoryWidget::dir_enter_pressed);
 	connect(ui->tv_dirs, &DirectoryTreeView::sig_append_clicked, this, &GUI_DirectoryWidget::dir_append_clicked);
+	connect(ui->tv_dirs, &DirectoryTreeView::sig_play_clicked, this, &GUI_DirectoryWidget::dir_play_clicked);
 	connect(ui->tv_dirs, &DirectoryTreeView::sig_play_next_clicked, this, &GUI_DirectoryWidget::dir_play_next_clicked);
+	connect(ui->tv_dirs, &DirectoryTreeView::sig_play_new_tab_clicked, this, &GUI_DirectoryWidget::dir_play_new_tab_clicked);
 	connect(ui->tv_dirs, &DirectoryTreeView::sig_delete_clicked, this, &GUI_DirectoryWidget::dir_delete_clicked);
 	connect(ui->tv_dirs, &DirectoryTreeView::sig_directory_loaded, this, &GUI_DirectoryWidget::dir_opened);
 
@@ -150,7 +157,9 @@ GUI_DirectoryWidget::GUI_DirectoryWidget(QWidget *parent) :
 	connect(ui->lv_files, &FileListView::sig_import_requested, this, &GUI_DirectoryWidget::import_requested);
 	connect(ui->lv_files, &FileListView::sig_enter_pressed, this, &GUI_DirectoryWidget::file_enter_pressed);
 	connect(ui->lv_files, &FileListView::sig_append_clicked, this, &GUI_DirectoryWidget::file_append_clicked);
+	connect(ui->lv_files, &FileListView::sig_play_clicked, this, &GUI_DirectoryWidget::file_play_clicked);
 	connect(ui->lv_files, &FileListView::sig_play_next_clicked, this, &GUI_DirectoryWidget::file_play_next_clicked);
+	connect(ui->lv_files, &FileListView::sig_play_new_tab_clicked, this, &GUI_DirectoryWidget::file_play_new_tab_clicked);
 	connect(ui->lv_files, &FileListView::sig_delete_clicked, this, &GUI_DirectoryWidget::file_delete_clicked);
 	connect(ui->lv_files, &FileListView::sig_info_clicked, [=]()
 	{
@@ -171,6 +180,15 @@ GUI_DirectoryWidget::GUI_DirectoryWidget(QWidget *parent) :
 	});
 
 	connect(ui->splitter_dir_files, &QSplitter::splitterMoved, this, &GUI_DirectoryWidget::splitter_moved);
+
+	QMenu* search_context_menu = new QMenu(ui->le_search);
+	QAction* action = new SearchPreferenceAction(ui->le_search);
+	search_context_menu->addActions({action});
+
+	ContextMenuFilter* cmf = new ContextMenuFilter(ui->le_search);
+	connect(cmf, &ContextMenuFilter::sig_context_menu, search_context_menu, &QMenu::popup);
+	ui->le_search->installEventFilter(cmf);
+
 	init_shortcuts();
 }
 
@@ -233,7 +251,6 @@ void GUI_DirectoryWidget::dir_pressed(QModelIndex idx)
 			l->prepare_tracks_for_playlist(paths, true);
 		}
 	}
-
 }
 
 void GUI_DirectoryWidget::dir_clicked(QModelIndex idx)
@@ -266,12 +283,26 @@ void GUI_DirectoryWidget::dir_append_clicked()
 	plh->append_tracks(v_md, plh->current_index());
 }
 
+void GUI_DirectoryWidget::dir_play_clicked()
+{
+	QStringList paths = ui->tv_dirs->selected_paths();
+	LocalLibrary* l = m->local_libraries.first();
+	l->prepare_tracks_for_playlist(paths, false);
+
+}
 
 void GUI_DirectoryWidget::dir_play_next_clicked()
 {
 	MetaDataList v_md = ui->tv_dirs->selected_metadata();
 	Playlist::Handler* plh = Playlist::Handler::instance();
 	plh->play_next(v_md);
+}
+
+void GUI_DirectoryWidget::dir_play_new_tab_clicked()
+{
+	MetaDataList v_md = ui->tv_dirs->selected_metadata();
+	Playlist::Handler* plh = Playlist::Handler::instance();
+	plh->create_playlist(v_md, plh->request_new_playlist_name());
 }
 
 
@@ -300,12 +331,26 @@ void GUI_DirectoryWidget::file_append_clicked()
 	plh->append_tracks(v_md, plh->current_index());
 }
 
+void GUI_DirectoryWidget::file_play_clicked()
+{
+	QStringList paths = ui->lv_files->selected_paths();
+	LocalLibrary* l = m->local_libraries.first();
+	l->prepare_tracks_for_playlist(paths, false);
+}
+
 
 void GUI_DirectoryWidget::file_play_next_clicked()
 {
 	MetaDataList v_md = ui->lv_files->selected_metadata();
 	Playlist::Handler* plh = Playlist::Handler::instance();
 	plh->play_next(v_md);
+}
+
+void GUI_DirectoryWidget::file_play_new_tab_clicked()
+{
+	MetaDataList v_md = ui->lv_files->selected_metadata();
+	Playlist::Handler* plh = Playlist::Handler::instance();
+	plh->create_playlist(v_md, plh->request_new_playlist_name());
 }
 
 
@@ -454,3 +499,4 @@ void GUI_DirectoryWidget::splitter_moved(int pos, int index)
 	_settings->set(Set::Dir_SplitterDirFile, ui->splitter_dir_files->saveState());
 	_settings->set(Set::Dir_SplitterTracks, ui->splitter_tracks->saveState());
 }
+

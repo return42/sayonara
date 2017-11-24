@@ -144,7 +144,9 @@ void ItemView::init_context_menu()
 		this->clear_selection();
 	});
 	connect(m->context_menu, &LibraryContextMenu::sig_delete_clicked, this, &ItemView::delete_clicked);
+	connect(m->context_menu, &LibraryContextMenu::sig_play_clicked, this, &ItemView::play_clicked);
 	connect(m->context_menu, &LibraryContextMenu::sig_play_next_clicked, this, &ItemView::play_next_clicked);
+	connect(m->context_menu, &LibraryContextMenu::sig_play_new_tab_clicked, this, &ItemView::play_new_tab_clicked);
 	connect(m->context_menu, &LibraryContextMenu::sig_append_clicked, this, &ItemView::append_clicked);
 	connect(m->context_menu, &LibraryContextMenu::sig_refresh_clicked, this, &ItemView::refresh_clicked);
 
@@ -316,6 +318,16 @@ void ItemView::merge_action_triggered()
 	}
 
 	emit sig_merge(ids, id);
+}
+
+void ItemView::play_clicked()
+{
+	emit sig_play_clicked();
+}
+
+void ItemView::play_new_tab_clicked()
+{
+	emit sig_play_new_tab_clicked();
 }
 
 void ItemView::play_next_clicked()

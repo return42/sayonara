@@ -570,12 +570,18 @@ bool Util::File::copy_dir(const QString& source_dir, const QString& target_dir)
 	return true;
 }
 
-bool Util::File::move_dir(const QString& source_dir, const QString& target_dir)
+QString Util::File::move_dir(const QString& source_dir, const QString& target_dir)
 {
 	QDir s(source_dir);
 	QDir t(target_dir);
 
-	return rename_dir(source_dir, t.filePath(s.dirName()));
+	bool success = rename_dir(source_dir, t.filePath(s.dirName()));
+
+	if(success) {
+		return t.filePath(s.dirName());
+	}
+
+	return QString();
 }
 
 bool Util::File::can_copy_dir(const QString& src_dir, const QString& target_dir)
@@ -616,4 +622,75 @@ QByteArray Util::File::calc_md5_sum(const QString& filename)
 	}
 
 	return QByteArray();
+}
+
+bool Util::File::move_files(const QStringList& files, const QString& dir)
+{
+	bool success = true;
+	for(const QString& file : files){
+		success = move_file(file, dir);
+		if(!success){
+			break;
+		}
+	}
+
+	return success;
+}
+
+bool Util::File::rename_file(const QString& old_name, const QString& new_name)
+{
+	QFileInfo info(old_name);
+	if(!info.isFile()){
+		return false;
+	}
+
+	QFile f(old_name);
+	return f.rename(new_name);
+}
+
+bool Util::File::copy_files(const QStringList& files, const QString& dir)
+{
+	bool success = true;
+	for(const QString& file : files){
+		success = copy_file(file, dir);
+		if(!success){
+			break;
+		}
+	}
+
+	return success;
+}
+
+bool Util::File::move_file(const QString& file, const QString& dir)
+{
+	bool success = copy_file(file, dir);
+	if(success){
+		QFile f(file);
+		return f.remove();
+	}
+
+	return success;
+}
+
+bool Util::File::copy_file(const QString& file, const QString& dir)
+{
+	QFileInfo di(dir);
+	if(!di.isDir()){
+		return false;
+	}
+
+	QFileInfo fi(file);
+	if(!fi.isFile()){
+		return false;
+	}
+
+	QDir d(dir);
+	QFile f(file);
+
+
+	QString pure_filename = get_filename_of_path(file);
+	QString target_filename = d.absoluteFilePath(pure_filename);
+
+	bool success = f.copy(target_filename);
+	return success;
 }

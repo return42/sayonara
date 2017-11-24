@@ -22,7 +22,7 @@
 
 #include "MimeDataUtils.h"
 
-#include "Components/DirectoryReader/DirectoryReader.h"
+#include "Components/Directories/DirectoryReader.h"
 
 #include "GUI/Utils/CustomMimeData.h"
 

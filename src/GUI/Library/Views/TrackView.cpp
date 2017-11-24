@@ -86,6 +86,7 @@ void TrackView::columns_changed()
 	_settings->set(Set::Lib_ColsTitle, this->shown_columns());
 }
 
+
 void TrackView::selection_changed(const IndexSet& lst)
 {
 	TableView::selection_changed(lst);
@@ -104,6 +105,18 @@ void TrackView::middle_clicked()
 	TableView::middle_clicked();
 	m->library->prepare_current_tracks_for_playlist(true);
 }
+
+void TrackView::play_clicked()
+{
+	double_clicked(QModelIndex());
+}
+
+void TrackView::play_new_tab_clicked()
+{
+	TableView::play_new_tab_clicked();
+	m->library->prepare_current_tracks_for_playlist(true);
+}
+
 
 void TrackView::play_next_clicked()
 {

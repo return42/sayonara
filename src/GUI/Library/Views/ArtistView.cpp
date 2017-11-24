@@ -73,8 +73,18 @@ void ArtistView::selection_changed(const IndexSet& indexes)
 	m->library->selected_artists_changed(indexes);
 }
 
-void ArtistView::merge_action_triggered()
+void ArtistView::merge_action_triggered() {}
+
+void ArtistView::play_clicked()
 {
+	TableView::play_clicked();
+	doubleClicked(QModelIndex());
+}
+
+void ArtistView::play_new_tab_clicked()
+{
+	TableView::play_new_tab_clicked();
+	m->library->prepare_fetched_tracks_for_playlist(true);
 }
 
 void ArtistView::play_next_clicked()
@@ -87,7 +97,6 @@ void ArtistView::middle_clicked()
 {
 	TableView::middle_clicked();
 	m->library->prepare_fetched_tracks_for_playlist(true);
-
 }
 
 void ArtistView::append_clicked()

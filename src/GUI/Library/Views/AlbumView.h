@@ -59,6 +59,8 @@ namespace Library
 
 		// Library::ItemView
 		void middle_clicked() override;
+		void play_clicked() override;
+		void play_new_tab_clicked() override;
 		void play_next_clicked() override;
 		void append_clicked() override;
 		void selection_changed(const IndexSet& indexes) override;

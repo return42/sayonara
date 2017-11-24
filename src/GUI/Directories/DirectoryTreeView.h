@@ -52,11 +52,16 @@ signals:
 	void sig_edit_clicked();
 	void sig_lyrics_clicked();
 	void sig_delete_clicked();
+	void sig_play_clicked();
+	void sig_play_new_tab_clicked();
 	void sig_play_next_clicked();
 	void sig_append_clicked();
 	void sig_directory_loaded(const QModelIndex& index);
 	void sig_enter_pressed();
 	void sig_import_requested(LibraryId lib_id, const QStringList& v_md, const QString& target_dir);
+
+	void sig_copy_started();
+	void sig_copy_finished();
 
 public:
 	explicit DirectoryTreeView(QWidget* parent=nullptr);
@@ -88,6 +93,8 @@ private slots:
 	void drag_move_timer_finished();
 	void create_dir_clicked();
 	void rename_dir_clicked();
+	void copy_started();
+	void copy_finished();
 
 protected:
 	void keyPressEvent(QKeyEvent* event) override;

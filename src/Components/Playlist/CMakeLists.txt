@@ -1,23 +1,23 @@
 PROJECT(say_comp_playlist)
 
 SET(SOURCES
-    AbstractPlaylist.cpp
-    StdPlaylist.cpp
-    StreamPlaylist.cpp
-    PlaylistHandler.cpp
-    PlaylistLoader.cpp
-    PlaylistDBInterface.cpp
-    PlaylistDBWrapper.cpp
+	AbstractPlaylist.cpp
+	StdPlaylist.cpp
+	StreamPlaylist.cpp
+	PlaylistHandler.cpp
+	PlaylistLoader.cpp
+	PlaylistDBInterface.cpp
+	PlaylistDBWrapper.cpp
 )
 
 ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES})
 TARGET_LINK_LIBRARIES(${PROJECT_NAME}
-	say_comp_directory_reader
 	say_db
-    say_comp_playmanager
+	say_comp_playmanager
+	say_comp_directories
 )
 
 IF( WITH_COTIRE )
-    cotire(${PROJECT_NAME})
+	cotire(${PROJECT_NAME})
 ENDIF()
 

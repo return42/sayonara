@@ -52,7 +52,8 @@ public:
 	explicit ContextMenuFilter(QObject* parent=nullptr);
 
 signals:
-	void sig_context_menu(const QPoint& p, QAction* a);
+	// directly connect this signal to QMenu::popup
+	void sig_context_menu(const QPoint& p, QAction* action);
 
 protected:
 	bool eventFilter(QObject* o , QEvent* e);

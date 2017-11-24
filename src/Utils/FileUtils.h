@@ -171,9 +171,15 @@ namespace Util
 
 		bool create_dir(const QString& dir_name);
 		bool copy_dir(const QString& src_dir, const QString& target_dir);
-		bool move_dir(const QString& src_dir, const QString& target_dir);
+		QString move_dir(const QString& src_dir, const QString& target_dir);
 		bool rename_dir(const QString& src_dir, const QString& new_name);
 		bool can_copy_dir(const QString& src_dir, const QString& target_dir);
+
+		bool move_file(const QString& file, const QString& dir);
+		bool copy_file(const QString& file, const QString& dir);
+		bool move_files(const QStringList& files, const QString& dir);
+		bool rename_file(const QString& old_name, const QString& new_name);
+		bool copy_files(const QStringList& files, const QString& dir);
 
 
 		// Everything clear
