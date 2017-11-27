@@ -76,6 +76,9 @@ protected:
 	void dragMoveEvent(QDragMoveEvent* event) override;
 	void dropEvent(QDropEvent* event) override;
 
+	void language_changed() override;
+	void skin_changed() override;
+
 
 	// SayonaraSelectionView
 	int index_by_model_index(const QModelIndex& idx) const override;
@@ -83,6 +86,10 @@ protected:
 
 private:
 	void init_context_menu();
+
+private slots:
+	void rename_file_clicked();
+
 };
 
 #endif // FILELISTVIEW_H

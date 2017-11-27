@@ -4,7 +4,7 @@
 <context>
     <name>AbstractLibrary</name>
     <message>
-        <location filename="../Components/Library/AbstractLibrary.cpp" line="+716"/>
+        <location filename="../Components/Library/AbstractLibrary.cpp" line="+710"/>
         <source>All %1 could be removed</source>
         <translatorcomment>The %1 is a place holder. In this case this will result in a string like &quot;All files could be removed&quot; or &quot;All entries could be removed&quot;. Just place the placeholder there, where it needs to be in polish language</translatorcomment>
         <translation type="unfinished"></translation>
@@ -17,10 +17,47 @@
     </message>
 </context>
 <context>
+    <name>DirectoryTreeView</name>
+    <message>
+        <location filename="../GUI/Directories/DirectoryTreeView.cpp" line="+129"/>
+        <source>Create directory</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Collapse all</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+289"/>
+        <location line="+28"/>
+        <source>Enter new name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+190"/>
+        <source>Copy here</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Move here</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>EmptyLibraryContainer</name>
     <message>
         <location filename="../GUI/Library/EmptyLibraryContainer.cpp" line="+53"/>
         <source>Empty Library</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>FileListView</name>
+    <message>
+        <location filename="../GUI/Directories/FileListView.cpp" line="+374"/>
+        <source>Enter new name</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -355,7 +392,7 @@
 <context>
     <name>GUI_IconPreferences</name>
     <message>
-        <location filename="../GUI/Preferences/Icons/GUI_IconPreferences.cpp" line="+219"/>
+        <location filename="../GUI/Preferences/Icons/GUI_IconPreferences.cpp" line="+218"/>
         <source>Icons</source>
         <translation>Ikony</translation>
     </message>
@@ -616,7 +653,7 @@
     <name>GUI_LocalLibrary</name>
     <message>
         <location filename="../GUI/Library/GUI_LocalLibrary.ui" line="+26"/>
-        <location filename="../../build/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+326"/>
+        <location filename="../../build/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+327"/>
         <source>Library</source>
         <translation>Biblioteka</translation>
     </message>
@@ -701,7 +738,7 @@
 <context>
     <name>GUI_Player</name>
     <message>
-        <location filename="../GUI/Player/GUI_Player.cpp" line="+425"/>
+        <location filename="../GUI/Player/GUI_Player.cpp" line="+429"/>
         <source>A new version is available!</source>
         <translation>Nowa wersja programu, jest dostępna!</translation>
     </message>
@@ -986,7 +1023,7 @@
     <message>
         <location filename="../GUI/Preferences/PreferenceDialog/GUI_PreferenceDialog.ui" line="+133"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_PreferenceDialog.h" line="+182"/>
-        <location filename="../GUI/Preferences/PreferenceDialog/GUI_PreferenceDialog.cpp" line="+117"/>
+        <location filename="../GUI/Preferences/PreferenceDialog/GUI_PreferenceDialog.cpp" line="+120"/>
         <source>Preferences</source>
         <translation>Ustawienia</translation>
     </message>
@@ -1263,7 +1300,7 @@
     <name>GUI_SoundcloudLibrary</name>
     <message>
         <location filename="../3rdParty/Soundcloud/ui/GUI_SoundcloudLibrary.ui" line="+26"/>
-        <location filename="../../build/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="+199"/>
+        <location filename="../../build/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="+200"/>
         <source>Library</source>
         <translation>Biblioteka</translation>
     </message>
@@ -1765,12 +1802,12 @@ Proszę wybrać inny folder</translation>
     <message>
         <location line="+2"/>
         <source>Select target folder</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Wybierz folder docelowy</translation>
     </message>
     <message>
         <location line="-1"/>
         <source>Import tracks to library</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Importuj utwory do biblioteki</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -2574,13 +2611,13 @@ Proszę wybrać inny folder</translation>
 <context>
     <name>Library::CoverView</name>
     <message>
-        <location filename="../GUI/Library/Views/CoverView.cpp" line="+250"/>
+        <location filename="../GUI/Library/Views/CoverView.cpp" line="+253"/>
         <source>Use Ctrl + mouse wheel to zoom</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Show utils</source>
+        <source>Show toolbar</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2608,12 +2645,12 @@ Proszę wybrać inny folder</translation>
 <context>
     <name>Library::ItemView</name>
     <message>
-        <location filename="../GUI/Library/Views/ItemView.cpp" line="+126"/>
+        <location filename="../GUI/Library/Views/ItemView.cpp" line="+127"/>
         <source>Merge</source>
         <translation type="unfinished">Połącz</translation>
     </message>
     <message>
-        <location line="+105"/>
+        <location line="+106"/>
         <source>Clear selection</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2634,19 +2671,24 @@ Proszę wybrać inny folder</translation>
 <context>
     <name>LibraryContextMenu</name>
     <message>
-        <location filename="../GUI/Utils/ContextMenu/LibraryContextMenu.cpp" line="+148"/>
+        <location filename="../GUI/Utils/ContextMenu/LibraryContextMenu.cpp" line="+157"/>
+        <source>Play in new tab</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+6"/>
         <source>Clear selection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+6"/>
-        <location line="+139"/>
+        <location line="+143"/>
         <source>Table view</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-134"/>
-        <location line="+139"/>
+        <location line="-138"/>
+        <location line="+143"/>
         <source>Cover view</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2689,7 +2731,7 @@ Proszę wybrać inny folder</translation>
     <message>
         <location filename="../GUI/Utils/SearchableWidget/MiniSearcher.cpp" line="+238"/>
         <source>Up</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">W górę</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -2699,7 +2741,7 @@ Proszę wybrać inny folder</translation>
     <message>
         <location line="+1"/>
         <source>Down</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">W dół</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -2733,13 +2775,13 @@ Proszę wybrać inny folder</translation>
 <context>
     <name>ReloadThread</name>
     <message>
-        <location filename="../Components/Library/Threads/ReloadThread.cpp" line="+199"/>
+        <location filename="../Components/Library/Threads/ReloadThread.cpp" line="+203"/>
         <source>Reading files from file system</source>
         <translatorcomment>player is currently reading/loading files from filesystem</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+104"/>
+        <location line="+102"/>
         <source>Delete orphaned tracks...</source>
         <translatorcomment>Delete tracks from library which do not exist on hard disk anymore</translatorcomment>
         <translation type="unfinished"></translation>
@@ -2884,12 +2926,14 @@ Proszę wybrać inny folder</translation>
 <context>
     <name>StreamPreferenceAction</name>
     <message>
-        <location filename="../GUI/Plugins/Stream/GUI_AbstractStream.cpp" line="-266"/>
+        <location filename="../GUI/Plugins/Stream/GUI_AbstractStream.cpp" line="-271"/>
+        <location line="+5"/>
         <source>Streams</source>
         <translation type="unfinished">Strumień internetowy</translation>
     </message>
     <message>
-        <location line="+0"/>
+        <location line="-5"/>
+        <location line="+5"/>
         <source>Podcasts</source>
         <translation type="unfinished">Podcasty</translation>
     </message>

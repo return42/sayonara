@@ -24,17 +24,23 @@
 #include "DirectoryDelegate.h"
 
 #include "Components/Directories/DirectoryReader.h"
+#include "Components/Directories/FileOperations.h"
 
 #include "Utils/globals.h"
 #include "Utils/MetaData/MetaDataList.h"
 #include "Utils/Settings/Settings.h"
 #include "Utils/Library/SearchMode.h"
+#include "Utils/FileUtils.h"
+#include "Utils/Language.h"
 
+#include "GUI/Utils/InputDialog/LineInputDialog.h"
 #include "GUI/Utils/ContextMenu/LibraryContextMenu.h"
 #include "GUI/Utils/PreferenceAction.h"
 #include "GUI/Utils/CustomMimeData.h"
 #include "GUI/Utils/MimeDataUtils.h"
+#include "GUI/Utils/Icons.h"
 
+#include <QDir>
 #include <QDrag>
 #include <QDragEnterEvent>
 #include <QDragMoveEvent>
@@ -42,18 +48,26 @@
 #include <QMimeData>
 #include <QApplication>
 
+
 struct FileListView::Private
 {
+	QAction*			action_rename_file=nullptr;
 	LibraryContextMenu*	context_menu=nullptr;
 	FileListModel*		model=nullptr;
+	FileOperations*		file_operations=nullptr;
+
+	Private(FileListView* parent)
+	{
+		model = new FileListModel(parent);
+		file_operations = new FileOperations(parent);
+	}
 };
 
 FileListView::FileListView(QWidget* parent) :
 	Gui::WidgetTemplate<SearchableListView>(parent),
 	Dragable(this)
 {
-	m = Pimpl::make<Private>();
-	m->model = new FileListModel(this);
+	m = Pimpl::make<Private>(this);
 
 	this->setModel(m->model);
 	this->setSearchModel(m->model);
@@ -61,6 +75,12 @@ FileListView::FileListView(QWidget* parent) :
 	this->setSelectionMode(QAbstractItemView::ExtendedSelection);
 	this->setDragEnabled(true);
 	this->setIconSize(QSize(16, 16));
+
+	QAction* action = new QAction(this);
+	connect(action, &QAction::triggered, this, &FileListView::rename_file_clicked);
+	action->setShortcut(QKeySequence("F2"));
+	action->setShortcutContext(Qt::WidgetShortcut);
+	this->addAction(action);
 }
 
 FileListView::~FileListView() {}
@@ -153,6 +173,21 @@ void FileListView::dropEvent(QDropEvent *event)
 	emit sig_import_requested(m->model->library_id(), files, m->model->parent_directory());
 }
 
+void FileListView::language_changed()
+{
+	if(m->action_rename_file){
+		m->action_rename_file->setText(Lang::get(Lang::Rename));
+	}
+}
+
+void FileListView::skin_changed()
+{
+	using namespace Gui;
+	if(m->action_rename_file){
+		m->action_rename_file->setIcon(Icons::icon(Icons::Rename));
+	}
+}
+
 
 void FileListView::init_context_menu()
 {
@@ -161,6 +196,7 @@ void FileListView::init_context_menu()
 	}
 
 	m->context_menu = new LibraryContextMenu(this);
+	m->action_rename_file = new QAction(m->context_menu);
 
 	LibraryContexMenuEntries entries = (
 			LibraryContextMenu::EntryPlay |
@@ -173,6 +209,15 @@ void FileListView::init_context_menu()
 			LibraryContextMenu::EntryPlayNext);
 
 	m->context_menu->show_actions(entries);
+	QAction* separator = m->context_menu->addSeparator();
+
+	QAction* action	= m->context_menu->get_action(LibraryContextMenu::EntryDelete);
+	if(action){
+		m->context_menu->insertActions(
+			action,
+			{separator, m->action_rename_file}
+		);
+	}
 
 	connect(m->context_menu, &LibraryContextMenu::sig_info_clicked, this, &FileListView::sig_info_clicked);
 	connect(m->context_menu, &LibraryContextMenu::sig_lyrics_clicked, this, &FileListView::sig_lyrics_clicked);
@@ -182,9 +227,14 @@ void FileListView::init_context_menu()
 	connect(m->context_menu, &LibraryContextMenu::sig_play_new_tab_clicked, this, &FileListView::sig_play_new_tab_clicked);
 	connect(m->context_menu, &LibraryContextMenu::sig_play_next_clicked, this, &FileListView::sig_play_next_clicked);
 	connect(m->context_menu, &LibraryContextMenu::sig_append_clicked, this, &FileListView::sig_append_clicked);
+	connect(m->action_rename_file, &QAction::triggered, this, &FileListView::rename_file_clicked);
 
 	m->context_menu->add_preference_action(new LibraryPreferenceAction(m->context_menu));
+
+	language_changed();
+	skin_changed();
 }
+
 
 
 QModelIndexList FileListView::selected_rows() const
@@ -297,4 +347,51 @@ void FileListView::keyPressEvent(QKeyEvent *event)
 	}
 
 	SearchableListView::keyPressEvent(event);
+}
+
+
+void FileListView::rename_file_clicked()
+{
+	QModelIndexList indexes = this->selected_rows();
+	if(indexes.size() != 1){
+		return;
+	}
+
+	QModelIndex index = indexes.first();
+	int row = index.row();
+
+	QStringList files = m->model->files();
+	if(!between(row, files)){
+		return;
+	}
+
+	QString file = Util::File::get_filename_of_path(files[row]);
+	QString ext = Util::File::calc_file_extension(file);
+
+	int last_dot = file.lastIndexOf(".");
+	file = file.left(last_dot);
+
+	LineInputDialog dialog(Lang::get(Lang::Rename), tr("Enter new name"), file, this);
+	dialog.exec();
+
+	QString file_renamed = dialog.textValue();
+
+	if(!file_renamed.isEmpty())
+	{
+
+		QDir d(files[row]);
+		d.cdUp();
+		QString new_filename = d.filePath(file_renamed) + "." + ext;
+
+		sp_log(Log::Debug, this) << "Will rename " << files[row] << " to " << new_filename;
+
+		m->file_operations->rename_file(files[row], new_filename);
+		m->model->set_parent_directory(m->model->library_id(), m->model->parent_directory());
+
+		files = m->model->files();
+		int new_file_index = files.indexOf(new_filename);
+		if(between(new_file_index, files)){
+			this->select_row(new_file_index);
+		}
+	}
 }

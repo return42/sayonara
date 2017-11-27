@@ -34,6 +34,7 @@ class DirectoryModel;
 class MetaDataList;
 class IconProvider;
 class QStringList;
+class CustomMimeData;
 
 namespace Library
 {
@@ -102,8 +103,10 @@ protected:
 	void mouseMoveEvent(QMouseEvent *event) override;
 
 	void dragEnterEvent(QDragEnterEvent *event) override;
+	void dragLeaveEvent(QDragLeaveEvent* event) override;
 	void dragMoveEvent(QDragMoveEvent *event) override;
 	void dropEvent(QDropEvent *event) override;
+
 
 	// SayonaraSelectionView
 	int index_by_model_index(const QModelIndex& idx) const override;
@@ -115,9 +118,10 @@ protected:
 	bool has_drag_label() const override;
 	QString drag_label() const override;
 
-
 	void skin_changed() override;
 	void language_changed() override;
+
+	void handle_sayonara_drop(const CustomMimeData* mimedata, const QString& target_dir);
 
 
 };

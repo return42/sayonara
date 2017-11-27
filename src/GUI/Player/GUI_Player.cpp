@@ -95,10 +95,10 @@ void GUI_Player::init_gui()
 #ifdef WITH_SHUTDOWN
 	QList<QAction*> actions = menu_file->actions();
 	QAction* sep = actions[actions.size() - 1];
-	QAction* action_shutdown = new QAction(Gui::Icons::icon(Gui::Icons::Shutdown), Lang::get(Lang::Shutdown).triplePt(), this);
-	connect(action_shutdown, &QAction::triggered, this, &GUI_Player::shutdown_clicked);
+	_action_shutdown = new QAction(Gui::Icons::icon(Gui::Icons::Shutdown), Lang::get(Lang::Shutdown).triplePt(), this);
+	connect(_action_shutdown, &QAction::triggered, this, &GUI_Player::shutdown_clicked);
 
-	menu_file->insertAction(sep, action_shutdown);
+	menu_file->insertAction(sep, _action_shutdown);
 #endif
 
 	bool library_visible = _settings->get(Set::Lib_Show);
@@ -344,8 +344,6 @@ void GUI_Player::play_error(const QString& message)
 
 void GUI_Player::register_player_plugin_handler(PlayerPlugin::Handler* pph)
 {
-	_pph = pph;
-
 	QList<PlayerPlugin::Base*> lst = pph->get_all_plugins();
 	QList<QAction*> actions;
 
@@ -360,8 +358,8 @@ void GUI_Player::register_player_plugin_handler(PlayerPlugin::Handler* pph)
 		i++;
 	}
 
-	connect(_pph, &PlayerPlugin::Handler::sig_plugin_closed, this, &GUI_Player::plugin_closed);
-	connect(_pph, &PlayerPlugin::Handler::sig_plugin_action_triggered, this, &GUI_Player::plugin_action_triggered);
+	connect(pph, &PlayerPlugin::Handler::sig_plugin_closed, this, &GUI_Player::plugin_closed);
+	connect(pph, &PlayerPlugin::Handler::sig_plugin_action_triggered, this, &GUI_Player::plugin_action_triggered);
 
 	menu_view->insertActions(action_Dark, actions);
 	menu_view->insertSeparator(action_Dark);
@@ -475,6 +473,10 @@ void GUI_Player::language_changed()
 	action_viewLibrary->setText(Lang::get(Lang::Library));
 	action_logger->setText(Lang::get(Lang::Logger));
 	action_about->setText(Lang::get(Lang::About).triplePt());
+
+	if(_action_shutdown){
+		_action_shutdown->setText(Lang::get(Lang::Shutdown));
+	}
 }
 
 

@@ -180,6 +180,7 @@ GUI_DirectoryWidget::GUI_DirectoryWidget(QWidget *parent) :
 	});
 
 	connect(ui->splitter_dir_files, &QSplitter::splitterMoved, this, &GUI_DirectoryWidget::splitter_moved);
+	connect(ui->splitter_tracks, &QSplitter::splitterMoved, this, &GUI_DirectoryWidget::splitter_moved);
 
 	QMenu* search_context_menu = new QMenu(ui->le_search);
 	QAction* action = new SearchPreferenceAction(ui->le_search);
@@ -264,14 +265,20 @@ void GUI_DirectoryWidget::dir_clicked(QModelIndex idx)
 
 void GUI_DirectoryWidget::dir_opened(QModelIndex idx)
 {
+	QModelIndexList selected_items = ui->tv_dirs->selected_items();
+
 	QString dir = ui->tv_dirs->directory_name_origin(idx);
+	QStringList dirs;
+	for(const QModelIndex& index : selected_items){
+		dirs << ui->tv_dirs->directory_name_origin(index);
+	 }
 
 	ui->lv_files->set_parent_directory(ui->tv_dirs->library_id(idx), dir);
 	ui->lv_files->set_search_filter(ui->le_search->text());
 
 	if(ui->lv_files->selected_metadata().isEmpty())
 	{
-		m->generic_library->fetch_tracks_by_paths({dir});
+		m->generic_library->fetch_tracks_by_paths(dirs);
 	}
 }
 

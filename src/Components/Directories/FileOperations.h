@@ -58,6 +58,8 @@ public:
 	bool move_files(const QStringList& files, const QString& target_dir);
 	bool copy_files(const QStringList& files, const QString& target_dir);
 
+	bool rename_file(const QString& old_name, const QString& new_name);
+
 private slots:
 	void copy_dir_thread_finished();
 	void copy_file_thread_finished();

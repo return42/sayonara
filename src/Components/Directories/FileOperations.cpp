@@ -245,6 +245,31 @@ bool FileOperations::copy_files(const QStringList& files, const QString& target_
 	return true;
 }
 
+bool FileOperations::rename_file(const QString& old_name, const QString& new_name)
+{
+	bool success = Util::File::rename_file(old_name, new_name);
+	if(!success){
+		return false;
+	}
+
+	DB::Connector* db = DB::Connector::instance();
+	DB::LibraryDatabase* library_db = db->library_db(-1, db->db_id());
+
+	MetaData md = library_db->getTrackByPath(Util::File::clean_filename(old_name));
+	if(md.id < 0){
+		Util::File::rename_file(new_name, old_name);
+		return false;
+	}
+
+	md.set_filepath(new_name);
+	success = library_db->updateTrack(md);
+	if(!success){
+		Util::File::rename_file(new_name, old_name);
+	}
+
+	return false;
+}
+
 void FileOperations::copy_file_thread_finished()
 {
 	FileCopyThread* t = static_cast<FileCopyThread*>(sender());
