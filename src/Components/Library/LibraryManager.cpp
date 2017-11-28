@@ -19,14 +19,16 @@
  */
 
 #include "LibraryManager.h"
+#include "LocalLibrary.h"
+
 #include "Interfaces/LibraryInterface/LibraryPluginHandler.h"
 #include "Database/DatabaseConnector.h"
 #include "Database/DatabaseLibrary.h"
+
 #include "Utils/Library/LibraryInfo.h"
 #include "Utils/Utils.h"
 #include "Utils/FileUtils.h"
 #include "Utils/Settings/Settings.h"
-#include "LocalLibrary.h"
 
 #include <QDir>
 #include <QFile>
@@ -293,7 +295,6 @@ public:
 
 	void init_symlinks()
 	{
-
 		QString dir = ::Util::sayonara_path("Libraries");
 		QDir d(dir);
 
@@ -336,11 +337,60 @@ Manager::Manager() :
 {
 	m = Pimpl::make<Private>();
 
-	revert();
+	reset();
 	m->init_symlinks();
 }
 
 Manager::~Manager() {}
+
+
+void Manager::reset()
+{
+	DB::Library* ldb = DB::Connector::instance()->library_connector();
+	m->all_libs = ldb->get_all_libraries();
+
+	if(m->all_libs.isEmpty())
+	{
+		m->all_libs = _settings->get(Set::Lib_AllLibraries);
+		int index = 0;
+		for(const Library::Info& info : m->all_libs){
+			ldb->insert_library(info.id(), info.name(), info.path(), index);
+			index ++;
+		}
+
+		_settings->set(Set::Lib_AllLibraries, QList<::Library::Info>());
+	}
+
+	if(m->all_libs.isEmpty())
+	{
+		QString old_path = _settings->get(Set::Lib_Path);
+
+		if(!old_path.isEmpty())
+		{
+			Info info("Local Library", old_path, 0);
+			ldb->insert_library(0, info.name(), info.path(), 0);
+
+			m->all_libs << info;
+		}
+
+		_settings->set(Set::Lib_Path, QString());
+	}
+
+	for(int i=m->all_libs.size() - 1; i>=0; i--)
+	{
+		if(!m->all_libs[i].valid()){
+			m->all_libs.removeAt(i);
+		}
+
+		else{
+			if(!QFile::exists(m->all_libs[i].symlink_path())){
+				::Util::File::create_symlink(m->all_libs[i].path(), m->all_libs[i].symlink_path());
+			}
+		}
+	}
+}
+
+
 
 LibraryId Manager::add_library(const QString& name, const QString& path)
 {
@@ -370,8 +420,6 @@ bool Manager::rename_library(LibraryId id, const QString& new_name)
 	}
 
 	Library::Info info = m->get_library_info(id);
-	success = info.valid();
-
 	if(info.valid())
 	{
 		DB::Library* ldb = DB::Connector::instance()->library_connector();
@@ -483,51 +531,3 @@ LocalLibrary* Manager::library_instance(LibraryId id) const
 {
 	return m->get_library(id);
 }
-
-void Manager::revert()
-{
-	DB::Library* ldb = DB::Connector::instance()->library_connector();
-	m->all_libs = ldb->get_all_libraries();
-
-	if(m->all_libs.isEmpty())
-	{
-		m->all_libs = _settings->get(Set::Lib_AllLibraries);
-		int index = 0;
-		for(const Library::Info& info : m->all_libs){
-			ldb->insert_library(info.id(), info.name(), info.path(), index);
-			index ++;
-		}
-
-		_settings->set(Set::Lib_AllLibraries, QList<::Library::Info>());
-	}
-
-	if(m->all_libs.isEmpty())
-	{
-		QString old_path = _settings->get(Set::Lib_Path);
-
-		if(!old_path.isEmpty())
-		{
-			Info info("Local Library", old_path, 0);
-			ldb->insert_library(0, info.name(), info.path(), 0);
-
-			m->all_libs << info;
-		}
-
-		_settings->set(Set::Lib_Path, QString());
-	}
-
-	for(int i=m->all_libs.size() - 1; i>=0; i--)
-	{
-
-		if(!m->all_libs[i].valid()){
-			m->all_libs.removeAt(i);
-		}
-
-		else{
-			if(!QFile::exists(m->all_libs[i].symlink_path())){
-				::Util::File::create_symlink(m->all_libs[i].path(), m->all_libs[i].symlink_path());
-			}
-		}
-	}
-}
-

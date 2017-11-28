@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "GUI_EditLibrary.h"
 #include "GUI/Utils/ui_GUI_EditLibrary.h"
 #include "Utils/Language.h"

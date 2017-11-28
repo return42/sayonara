@@ -50,6 +50,9 @@ namespace Library
 		void sig_path_changed(LibraryId library_id);
 		void sig_name_changed(LibraryId library_id);
 
+	private:
+		void reset();
+
 	public:
 		LibraryId add_library(const QString& name, const QString& path);
 		bool rename_library(LibraryId id, const QString& name);
@@ -57,7 +60,7 @@ namespace Library
 		bool move_library(int old_row, int new_row);
 		bool change_library_path(LibraryId id, const QString& path);
 
-		static QString request_library_name(const QString& path);
+
 		QList<Info> all_libraries() const;
 
 		Info library_info(LibraryId id) const;
@@ -68,8 +71,9 @@ namespace Library
 
 		LocalLibrary* library_instance(LibraryId id) const;
 
+		static QString request_library_name(const QString& path);
 
-		void revert();
+
 	};
 }
 
