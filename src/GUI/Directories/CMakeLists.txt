@@ -1,6 +1,7 @@
 PROJECT(say_gui_directory_widget)
 
 SET(SOURCES
+	DirectoryContextMenu.cpp
 	GUI_DirectoryWidget.cpp
 	DirectoryIconProvider.cpp
 	DirectoryDelegate.cpp

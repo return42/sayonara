@@ -183,14 +183,21 @@ void GUI_AbstractStream::stopped()
 
 void GUI_AbstractStream::set_searching(bool searching)
 {
+	bool is_dark = (_settings->get(Set::Player_Style) == 1);
+
 	m->loading_bar->setVisible(searching);
 	m->btn_play->setDisabled(false);
 
+	Icons::IconMode mode = Icons::IconMode::ForceStdIcon;
+	if(is_dark){
+		mode = Icons::IconMode::ForceSayonaraIcon;
+	}
+
 	if(!searching) {
-		m->btn_play->setIcon( Icons::icon(Icons::Play));
+		m->btn_play->setIcon( Icons::icon(Icons::Play, mode));
 		m->lab_listen->setText(Lang::get(Lang::Listen));
 	} else {
-		m->btn_play->setIcon( Icons::icon(Icons::Stop));
+		m->btn_play->setIcon( Icons::icon(Icons::Stop, mode));
 		m->lab_listen->setText(Lang::get(Lang::Stop));
 	}
 

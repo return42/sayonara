@@ -22,6 +22,7 @@
 #include "FileListModel.h"
 #include "DirectoryIconProvider.h"
 #include "DirectoryDelegate.h"
+#include "DirectoryContextMenu.h"
 
 #include "Components/Directories/DirectoryReader.h"
 #include "Components/Directories/FileOperations.h"
@@ -34,7 +35,6 @@
 #include "Utils/Language.h"
 
 #include "GUI/Utils/InputDialog/LineInputDialog.h"
-#include "GUI/Utils/ContextMenu/LibraryContextMenu.h"
 #include "GUI/Utils/PreferenceAction.h"
 #include "GUI/Utils/CustomMimeData.h"
 #include "GUI/Utils/MimeDataUtils.h"
@@ -51,10 +51,9 @@
 
 struct FileListView::Private
 {
-	QAction*			action_rename_file=nullptr;
-	LibraryContextMenu*	context_menu=nullptr;
-	FileListModel*		model=nullptr;
-	FileOperations*		file_operations=nullptr;
+	DirectoryContextMenu*	context_menu=nullptr;
+	FileListModel*			model=nullptr;
+	FileOperations*			file_operations=nullptr;
 
 	Private(FileListView* parent)
 	{
@@ -89,12 +88,22 @@ void FileListView::mousePressEvent(QMouseEvent* event)
 {
 	SearchableListView::mousePressEvent(event);
 
-	if(event->button() & Qt::RightButton){
+	if(event->button() & Qt::RightButton)
+	{
 		QPoint pos = QWidget::mapToGlobal(event->pos());
 
 		if(!m->context_menu){
 			init_context_menu();
 		}
+
+		m->context_menu->show_action(
+			LibraryContextMenu::EntryLyrics,
+			(selected_rows().size()==1)
+		);
+
+		m->context_menu->set_rename_visible(
+			(selected_rows().size()==1)
+		);
 
 		m->context_menu->exec(pos);
 	}
@@ -173,21 +182,8 @@ void FileListView::dropEvent(QDropEvent *event)
 	emit sig_import_requested(m->model->library_id(), files, m->model->parent_directory());
 }
 
-void FileListView::language_changed()
-{
-	if(m->action_rename_file){
-		m->action_rename_file->setText(Lang::get(Lang::Rename));
-	}
-}
-
-void FileListView::skin_changed()
-{
-	using namespace Gui;
-	if(m->action_rename_file){
-		m->action_rename_file->setIcon(Icons::icon(Icons::Rename));
-	}
-}
-
+void FileListView::language_changed() {}
+void FileListView::skin_changed() {}
 
 void FileListView::init_context_menu()
 {
@@ -195,44 +191,17 @@ void FileListView::init_context_menu()
 		return;
 	}
 
-	m->context_menu = new LibraryContextMenu(this);
-	m->action_rename_file = new QAction(m->context_menu);
+	m->context_menu = new DirectoryContextMenu(DirectoryContextMenu::Mode::File, this);
 
-	LibraryContexMenuEntries entries = (
-			LibraryContextMenu::EntryPlay |
-			LibraryContextMenu::EntryPlayNewTab |
-			LibraryContextMenu::EntryDelete |
-			LibraryContextMenu::EntryInfo |
-			LibraryContextMenu::EntryEdit |
-			LibraryContextMenu::EntryLyrics |
-			LibraryContextMenu::EntryAppend |
-			LibraryContextMenu::EntryPlayNext);
-
-	m->context_menu->show_actions(entries);
-	QAction* separator = m->context_menu->addSeparator();
-
-	QAction* action	= m->context_menu->get_action(LibraryContextMenu::EntryDelete);
-	if(action){
-		m->context_menu->insertActions(
-			action,
-			{separator, m->action_rename_file}
-		);
-	}
-
-	connect(m->context_menu, &LibraryContextMenu::sig_info_clicked, this, &FileListView::sig_info_clicked);
-	connect(m->context_menu, &LibraryContextMenu::sig_lyrics_clicked, this, &FileListView::sig_lyrics_clicked);
-	connect(m->context_menu, &LibraryContextMenu::sig_edit_clicked, this, &FileListView::sig_edit_clicked);
-	connect(m->context_menu, &LibraryContextMenu::sig_delete_clicked, this, &FileListView::sig_delete_clicked);
-	connect(m->context_menu, &LibraryContextMenu::sig_play_clicked, this, &FileListView::sig_play_clicked);
-	connect(m->context_menu, &LibraryContextMenu::sig_play_new_tab_clicked, this, &FileListView::sig_play_new_tab_clicked);
-	connect(m->context_menu, &LibraryContextMenu::sig_play_next_clicked, this, &FileListView::sig_play_next_clicked);
-	connect(m->context_menu, &LibraryContextMenu::sig_append_clicked, this, &FileListView::sig_append_clicked);
-	connect(m->action_rename_file, &QAction::triggered, this, &FileListView::rename_file_clicked);
-
-	m->context_menu->add_preference_action(new LibraryPreferenceAction(m->context_menu));
-
-	language_changed();
-	skin_changed();
+	connect(m->context_menu, &DirectoryContextMenu::sig_info_clicked, this, &FileListView::sig_info_clicked);
+	connect(m->context_menu, &DirectoryContextMenu::sig_lyrics_clicked, this, &FileListView::sig_lyrics_clicked);
+	connect(m->context_menu, &DirectoryContextMenu::sig_edit_clicked, this, &FileListView::sig_edit_clicked);
+	connect(m->context_menu, &DirectoryContextMenu::sig_delete_clicked, this, &FileListView::sig_delete_clicked);
+	connect(m->context_menu, &DirectoryContextMenu::sig_play_clicked, this, &FileListView::sig_play_clicked);
+	connect(m->context_menu, &DirectoryContextMenu::sig_play_new_tab_clicked, this, &FileListView::sig_play_new_tab_clicked);
+	connect(m->context_menu, &DirectoryContextMenu::sig_play_next_clicked, this, &FileListView::sig_play_next_clicked);
+	connect(m->context_menu, &DirectoryContextMenu::sig_append_clicked, this, &FileListView::sig_append_clicked);
+	connect(m->context_menu, &DirectoryContextMenu::sig_rename_clicked, this, &FileListView::rename_file_clicked);
 }
 
 

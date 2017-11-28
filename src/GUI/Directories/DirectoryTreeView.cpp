@@ -22,12 +22,12 @@
 #include "DirectoryDelegate.h"
 #include "DirectoryIconProvider.h"
 #include "DirectoryModel.h"
+#include "DirectoryContextMenu.h"
 
 #include "Components/Directories/DirectoryReader.h"
 #include "Components/Directories/FileOperations.h"
 
 #include "GUI/Utils/PreferenceAction.h"
-#include "GUI/Utils/ContextMenu/LibraryContextMenu.h"
 #include "GUI/Utils/CustomMimeData.h"
 #include "GUI/Utils/MimeDataUtils.h"
 #include "GUI/Utils/InputDialog/LineInputDialog.h"
@@ -53,14 +53,11 @@ struct DirectoryTreeView::Private
 	QString				last_search_term;
 	FileOperations*		file_operations=nullptr;
 
-	LibraryContextMenu*	context_menu=nullptr;
+	DirectoryContextMenu*		context_menu=nullptr;
 	DirectoryModel*		model = nullptr;
 	IconProvider*		icon_provider = nullptr;
 	QModelIndex			drag_move_index;
 	QTimer*				drag_move_timer=nullptr;
-	QAction*			action_create_dir=nullptr;
-	QAction*			action_rename_dir=nullptr;
-	QAction*			action_collapse_all=nullptr;
 
 	Private(QObject* parent)
 	{
@@ -121,34 +118,13 @@ LibraryId DirectoryTreeView::library_id(const QModelIndex& index) const
 	return m->model->library_id(index);
 }
 
-
-void DirectoryTreeView::language_changed()
-{
-	if(m && m->action_rename_dir){
-		m->action_rename_dir->setText(Lang::get(Lang::Rename));
-		m->action_create_dir->setText(tr("Create directory"));
-		m->action_collapse_all->setText(tr("Collapse all"));
-	}
-}
-
+void DirectoryTreeView::language_changed() {}
 
 void DirectoryTreeView::skin_changed()
 {
-	using namespace Gui;
-
-	if(!m){
-		return;
-	}
-
-	if(m->model){
+	if(m && m->model){
 		m->model->setIconProvider(m->icon_provider);
 	}
-
-	if(m->action_rename_dir){
-		m->action_rename_dir->setIcon(Icons::icon(Icons::Rename));
-		m->action_create_dir->setIcon(Icons::icon(Icons::New));
-	}
-
 }
 
 void DirectoryTreeView::keyPressEvent(QKeyEvent* event)
@@ -160,7 +136,6 @@ void DirectoryTreeView::keyPressEvent(QKeyEvent* event)
 		case Qt::Key_Enter:
 		case Qt::Key_Return:
 			emit sig_enter_pressed();
-
 			return;
 
 		default: break;
@@ -177,54 +152,18 @@ void DirectoryTreeView::init_context_menu()
 		return;
 	}
 
-	m->context_menu = new LibraryContextMenu(this);
+	m->context_menu = new DirectoryContextMenu(DirectoryContextMenu::Mode::Dir, this);
 
-	m->action_create_dir = new QAction(m->context_menu);
-	m->action_rename_dir = new QAction(m->context_menu);
-	m->action_collapse_all = new QAction(m->context_menu);
-
-	LibraryContexMenuEntries entries =
-			(LibraryContextMenu::EntryPlay |
-			LibraryContextMenu::EntryPlayNewTab |
-			LibraryContextMenu::EntryDelete |
-			LibraryContextMenu::EntryInfo |
-			LibraryContextMenu::EntryEdit |
-			LibraryContextMenu::EntryAppend |
-			LibraryContextMenu::EntryPlayNext);
-
-	m->context_menu->show_actions(entries);
-	QAction* separator = m->context_menu->addSeparator();
-
-	QAction* action	= m->context_menu->get_action(LibraryContextMenu::EntryDelete);
-	if(action){
-		m->context_menu->insertActions(
-			action,
-			{separator, m->action_create_dir, m->action_rename_dir}
-		);
-	}
-
-	connect(m->context_menu, &LibraryContextMenu::sig_info_clicked, this, &DirectoryTreeView::sig_info_clicked);
-	connect(m->context_menu, &LibraryContextMenu::sig_lyrics_clicked, this, &DirectoryTreeView::sig_info_clicked);
-	connect(m->context_menu, &LibraryContextMenu::sig_edit_clicked, this, &DirectoryTreeView::sig_info_clicked);
-	connect(m->context_menu, &LibraryContextMenu::sig_delete_clicked, this, &DirectoryTreeView::sig_delete_clicked);
-	connect(m->context_menu, &LibraryContextMenu::sig_play_clicked, this, &DirectoryTreeView::sig_play_clicked);
-	connect(m->context_menu, &LibraryContextMenu::sig_play_new_tab_clicked, this, &DirectoryTreeView::sig_play_new_tab_clicked);
-	connect(m->context_menu, &LibraryContextMenu::sig_play_next_clicked, this, &DirectoryTreeView::sig_play_next_clicked);
-	connect(m->context_menu, &LibraryContextMenu::sig_append_clicked, this, &DirectoryTreeView::sig_append_clicked);
-	connect(m->action_create_dir, &QAction::triggered, this, &DirectoryTreeView::create_dir_clicked);
-	connect(m->action_rename_dir, &QAction::triggered, this, &DirectoryTreeView::rename_dir_clicked);
-	connect(m->action_collapse_all, &QAction::triggered, this, &DirectoryTreeView::collapseAll);
-
-	action = m->context_menu->add_preference_action(new LibraryPreferenceAction(m->context_menu));
-
-	separator = m->context_menu->addSeparator();
-	m->context_menu->insertActions(
-		action,
-		{m->action_collapse_all, separator}
-	);
-
-	skin_changed();
-	language_changed();
+	connect(m->context_menu, &DirectoryContextMenu::sig_info_clicked, this, &DirectoryTreeView::sig_info_clicked);
+	connect(m->context_menu, &DirectoryContextMenu::sig_lyrics_clicked, this, &DirectoryTreeView::sig_info_clicked);
+	connect(m->context_menu, &DirectoryContextMenu::sig_edit_clicked, this, &DirectoryTreeView::sig_info_clicked);
+	connect(m->context_menu, &DirectoryContextMenu::sig_delete_clicked, this, &DirectoryTreeView::sig_delete_clicked);
+	connect(m->context_menu, &DirectoryContextMenu::sig_play_clicked, this, &DirectoryTreeView::sig_play_clicked);
+	connect(m->context_menu, &DirectoryContextMenu::sig_play_new_tab_clicked, this, &DirectoryTreeView::sig_play_new_tab_clicked);
+	connect(m->context_menu, &DirectoryContextMenu::sig_play_next_clicked, this, &DirectoryTreeView::sig_play_next_clicked);
+	connect(m->context_menu, &DirectoryContextMenu::sig_create_dir_clicked, this, &DirectoryTreeView::create_dir_clicked);
+	connect(m->context_menu, &DirectoryContextMenu::sig_rename_clicked, this, &DirectoryTreeView::rename_dir_clicked);
+	connect(m->context_menu, &DirectoryContextMenu::sig_collapse_all_clicked, this, &DirectoryTreeView::collapseAll);
 }
 
 QString DirectoryTreeView::directory_name(const QModelIndex &index)
@@ -362,50 +301,16 @@ void DirectoryTreeView::mousePressEvent(QMouseEvent* event)
 		QModelIndex index = indexAt(event->pos());
 		bool is_root = m->model->is_root(index);
 
-		m->action_rename_dir->setVisible(!is_root);
+		m->context_menu->set_rename_visible(
+			(this->selected_items().size()==1) && (!is_root)
+		);
+
+		m->context_menu->set_create_dir_visible(
+			(this->selected_items().size()==1)
+		);
+
 		m->context_menu->show_action(LibraryContextMenu::EntryDelete, !is_root);
-
-
 		m->context_menu->exec(pos);
-	}
-}
-
-
-void DirectoryTreeView::mouseMoveEvent(QMouseEvent* e)
-{
-	QDrag* drag = Dragable::drag_moving(e->pos());
-	if(drag)
-	{
-		connect(drag, &QDrag::destroyed, [=]() {
-			this->drag_released(Dragable::ReleaseReason::Destroyed);
-		});
-	}
-}
-
-void DirectoryTreeView::dragEnterEvent(QDragEnterEvent* event)
-{
-	const QMimeData* mime_data = event->mimeData();
-	if(!mime_data->hasUrls()){
-		sp_log(Log::Warning, this) << "DragMove: No Mimedata";
-		return;
-	}
-
-	event->accept();
-}
-
-void DirectoryTreeView::dragLeaveEvent(QDragLeaveEvent* event)
-{
-	event->accept();
-}
-
-void DirectoryTreeView::drag_move_timer_finished()
-{
-	if(m->drag_move_index.isValid())
-	{
-		this->expand(m->drag_move_index);
-
-		m->drag_move_timer->stop();
-		m->drag_move_index = QModelIndex();
 	}
 }
 
@@ -425,7 +330,6 @@ void DirectoryTreeView::create_dir_clicked()
 	{
 		m->model->mkdir(indexes.first(), new_dir_name);
 		this->expand(indexes.first());
-
 	}
 }
 
@@ -471,6 +375,47 @@ void DirectoryTreeView::copy_finished()
 	this->setDragDropMode(DragDropMode::DragDrop);
 	emit sig_copy_finished();
 }
+
+
+
+void DirectoryTreeView::mouseMoveEvent(QMouseEvent* e)
+{
+	QDrag* drag = Dragable::drag_moving(e->pos());
+	if(drag)
+	{
+		connect(drag, &QDrag::destroyed, [=]() {
+			this->drag_released(Dragable::ReleaseReason::Destroyed);
+		});
+	}
+}
+
+void DirectoryTreeView::dragEnterEvent(QDragEnterEvent* event)
+{
+	const QMimeData* mime_data = event->mimeData();
+	if(!mime_data->hasUrls()){
+		sp_log(Log::Warning, this) << "DragMove: No Mimedata";
+		return;
+	}
+
+	event->accept();
+}
+
+void DirectoryTreeView::dragLeaveEvent(QDragLeaveEvent* event)
+{
+	event->accept();
+}
+
+void DirectoryTreeView::drag_move_timer_finished()
+{
+	if(m->drag_move_index.isValid())
+	{
+		this->expand(m->drag_move_index);
+
+		m->drag_move_timer->stop();
+		m->drag_move_index = QModelIndex();
+	}
+}
+
 
 void DirectoryTreeView::dragMoveEvent(QDragMoveEvent* event)
 {
