@@ -26,6 +26,7 @@
 
 #include "Utils/globals.h"
 #include "Utils/Message/GlobalMessage.h"
+#include "Utils/Language.h"
 
 #include "GUI/Utils/Icons.h"
 #include "GUI/Utils/Delegates/StyledItemDelegate.h"
@@ -94,7 +95,6 @@ void GUI_PreferenceDialog::language_changed()
 {
 	ui->retranslateUi(this);
 
-	// TODO: Init should not be so deep in language changed
 	bool is_empty = (ui->list_preferences->count() == 0);
 
 	int i=0;
@@ -112,12 +112,16 @@ void GUI_PreferenceDialog::language_changed()
 
 		i++;
 	}
+
+	if(m->action){
+		m->action->setText(action_name() + "...");
+	}
 }
 
 
 QString GUI_PreferenceDialog::action_name() const
 {
-	return tr("Preferences");
+	return Lang::get(Lang::Preferences);
 }
 
 QAction* GUI_PreferenceDialog::action()
@@ -129,7 +133,7 @@ QAction* GUI_PreferenceDialog::action()
 		m->action = new Action(name, this);
 	}
 
-	m->action->setText(name + "...");
+	m->action->setText(action_name() + "...");
 	m->action->setIcon(Gui::Icons::icon(Gui::Icons::Preferences));
 
 	return m->action;

@@ -209,8 +209,8 @@ public:
 			}
 		}
 
-		if(lib == nullptr){
-			sp_log(Log::Error, this) << "Cannot fetch library";
+		if(lib == nullptr)
+		{
 			lib = new LocalLibrary(library_id);
 			lib_map[library_id] = lib;
 		}

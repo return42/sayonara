@@ -118,6 +118,9 @@
        <property name="autoScroll">
         <bool>true</bool>
        </property>
+       <property name="autoScrollMargin">
+        <number>100</number>
+       </property>
        <property name="dragEnabled">
         <bool>true</bool>
        </property>
@@ -126,6 +129,9 @@
        </property>
        <property name="alternatingRowColors">
         <bool>true</bool>
+       </property>
+       <property name="selectionMode">
+        <enum>QAbstractItemView::ExtendedSelection</enum>
        </property>
        <property name="headerHidden">
         <bool>true</bool>

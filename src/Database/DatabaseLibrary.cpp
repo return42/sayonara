@@ -244,6 +244,7 @@ void DB::Library::drop_indexes()
 	indexes << "album_search";
 	indexes << "artist_search";
 	indexes << "track_search";
+	//indexes << "track_file_search";
 
 	for(const QString& idx : indexes)
 	{
@@ -265,6 +266,7 @@ void DB::Library::create_indexes()
 	indexes << std::make_tuple("album_search", "albums", "albumID");
 	indexes << std::make_tuple("artist_search", "artists", "artistID");
 	indexes << std::make_tuple("track_search", "tracks", "trackID");
+	//indexes << std::make_tuple("track_file_search", "tracks", "trackID");
 
 	for(const IndexDescription& idx : indexes)
 	{

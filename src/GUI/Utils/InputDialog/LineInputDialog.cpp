@@ -11,6 +11,9 @@ LineInputDialog::LineInputDialog(const QString& title, const QString& label, QWi
 	setCancelButtonText(Lang::get(Lang::Cancel));
 	setOkButtonText(Lang::get(Lang::OK));
 	setInputMode(QInputDialog::TextInput);
+	setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+	setMinimumWidth(300);
+	this->resize(300, this->height());
 }
 
 LineInputDialog::LineInputDialog(const QString& title, const QString& label, const QString& initial_value, QWidget* parent) :

@@ -257,7 +257,7 @@ void CoverView::language_changed()
 	if(context_menu())
 	{
 		m->action_zoom->setText(Lang::get(Lang::Zoom));
-		m->action_show_utils->setText(tr("Show utils"));
+		m->action_show_utils->setText(tr("Show toolbar"));
 	}
 }
 

@@ -27,6 +27,7 @@ public:
 private slots:
 	void ok_clicked();
 	void cancel_clicked();
+	void combo_changed(int);
 
 protected:
 	void language_changed() override;

@@ -102,6 +102,7 @@ DirectoryTreeView::DirectoryTreeView(QWidget *parent) :
 	QAction* action = new QAction(this);
 	connect(action, &QAction::triggered, this, &DirectoryTreeView::rename_dir_clicked);
 	action->setShortcut(QKeySequence("F2"));
+	action->setShortcutContext(Qt::WidgetShortcut);
 	this->addAction(action);
 
 	for(int i=1; i<4; i++){
@@ -198,12 +199,6 @@ void DirectoryTreeView::init_context_menu()
 	if(action){
 		m->context_menu->insertActions(
 			action,
-			{separator, m->action_create_dir, m->action_rename_dir}
-		);
-	}
-
-	else{
-		m->context_menu->addActions(
 			{separator, m->action_create_dir, m->action_rename_dir}
 		);
 	}
@@ -398,6 +393,11 @@ void DirectoryTreeView::dragEnterEvent(QDragEnterEvent* event)
 	event->accept();
 }
 
+void DirectoryTreeView::dragLeaveEvent(QDragLeaveEvent* event)
+{
+	event->accept();
+}
+
 void DirectoryTreeView::drag_move_timer_finished()
 {
 	if(m->drag_move_index.isValid())
@@ -416,7 +416,6 @@ void DirectoryTreeView::create_dir_clicked()
 		return;
 	}
 
-	QString dir = m->model->filepath_origin(indexes.first());
 	LineInputDialog dialog(Lang::get(Lang::Rename), tr("Enter new name"), this);
 	dialog.exec();
 
@@ -444,6 +443,7 @@ void DirectoryTreeView::rename_dir_clicked()
 
 	QString dir = m->model->filepath_origin(index);
 	QDir d(dir);
+
 	LineInputDialog dialog(Lang::get(Lang::Rename), tr("Enter new name"), d.dirName(), this);
 	dialog.exec();
 
@@ -485,20 +485,18 @@ void DirectoryTreeView::dragMoveEvent(QDragMoveEvent* event)
 	if(cmd)
 	{
 		if(cmd->has_source(this)){
-			event->accept();
+			event->acceptProposedAction();
 		}
 
 		if(cmd->hasUrls())
 		{
-			event->accept();
+			event->acceptProposedAction();
 		}
 	}
 
-	else
-	{
-		if(mime_data->hasUrls())
-		{
-			event->accept();
+	else {
+		if(mime_data->hasUrls()) {
+			event->acceptProposedAction();
 		}
 	}
 
@@ -521,10 +519,14 @@ void DirectoryTreeView::dragMoveEvent(QDragMoveEvent* event)
 		m->drag_move_timer->stop();
 		sp_log(Log::Debug, this) << "Stop timer";
 	}
+
+	QTreeView::dragMoveEvent(event);
 }
 
 void DirectoryTreeView::dropEvent(QDropEvent* event)
 {
+	m->drag_move_timer->stop();
+
 	event->accept();
 
 	QModelIndex index = this->indexAt(event->pos());
@@ -533,107 +535,98 @@ void DirectoryTreeView::dropEvent(QDropEvent* event)
 		return;
 	}
 
-	const QMimeData* mime_data = event->mimeData();
-	if(!mime_data){
+	const QMimeData* mimedata = event->mimeData();
+	if(!mimedata){
 		sp_log(Log::Warning, this) << "Drop: No Mimedata";
 		return;
 	}
 
 	QString target_dir = m->model->filepath_origin(index);
-	const CustomMimeData* cmd = Gui::MimeData::custom_mimedata(mime_data);
+	const CustomMimeData* cmd = Gui::MimeData::custom_mimedata(mimedata);
 	if(cmd)
 	{
-		if(cmd->has_source(this) && mime_data->hasUrls())
-		{
-			QList<QUrl> urls = mime_data->urls();
-			QStringList source_dirs;
-			for(const QUrl& url : urls)
-			{
-				QString source_dir = url.toLocalFile();
-				if(!Util::File::can_copy_dir(source_dir, target_dir)){
-					continue;
-				}
-
-				source_dirs << url.toLocalFile();
-			}
-
-			if(source_dirs.isEmpty()){
-				return;
-			}
-
-			DirectoryTreeView::DropAction drop_action = show_drop_menu(QCursor::pos());
-			switch(drop_action)
-			{
-				case DirectoryTreeView::DropAction::Copy:
-					m->file_operations->copy_dirs(source_dirs, target_dir);
-					break;
-				case DirectoryTreeView::DropAction::Move:
-					m->file_operations->move_dirs(source_dirs, target_dir);
-					break;
-				default:
-					break;
-			}
-		}
-
-		else if(cmd->hasUrls())
-		{
-			QList<QUrl> urls = mime_data->urls();
-			QStringList source_files;
-			for(const QUrl& url : urls)
-			{
-				source_files << url.toLocalFile();
-			}
-
-			if(source_files.isEmpty()){
-				return;
-			}
-
-			DirectoryTreeView::DropAction drop_action = show_drop_menu(QCursor::pos());
-			switch(drop_action)
-			{
-				case DirectoryTreeView::DropAction::Copy:
-					m->file_operations->copy_files(source_files, target_dir);
-					break;
-				case DirectoryTreeView::DropAction::Move:
-					m->file_operations->move_files(source_files, target_dir);
-					break;
-				default:
-					break;
-			}
-		}
-
-		else
-		{
-			sp_log(Log::Debug, this) << "Drop: Internal player drag";
-		}
-
-		return;
+		handle_sayonara_drop(cmd, target_dir);
 	}
 
-	if(!mime_data->hasUrls())
+	else if(mimedata->hasUrls())
 	{
-		sp_log(Log::Debug, this) << "Drop: No Urls";
-		return;
+		LibraryId lib_id = m->model->library_id(index);
+		QStringList files;
+
+		for(const QUrl& url : mimedata->urls())
+		{
+			QString local_file = url.toLocalFile();
+			if(!local_file.isEmpty()){
+				files << local_file;
+			}
+		}
+
+		sp_log(Log::Debug, this) << "Drop: " << files.size() << " files into library " << lib_id;
+
+		if(lib_id < 0){
+			return;
+		}
+
+		emit sig_import_requested(lib_id, files, target_dir);
 	}
+}
 
-	LibraryId lib_id = m->model->library_id(index);
-	QStringList files;
+void DirectoryTreeView::handle_sayonara_drop(const CustomMimeData* cmd, const QString& target_dir)
+{
+	QList<QUrl> urls = cmd->urls();
+	QStringList source_files, source_dirs;
 
-	for(const QUrl& url : mime_data->urls())
+	for(const QUrl& url : urls)
 	{
-		QString local_file = url.toLocalFile();
-		if(!local_file.isEmpty()){
-			files << local_file;
+		QString source = url.toLocalFile();
+
+		if(Util::File::is_dir(source))
+		{
+			if(Util::File::can_copy_dir(source, target_dir)){
+				source_dirs << source;
+			}
+		}
+
+		else if(Util::File::is_file(source))
+		{
+			source_files << url.toLocalFile();
 		}
 	}
 
-	sp_log(Log::Debug, this) << "Drop: " << files.size() << " files into library " << lib_id;
-
-	if(lib_id < 0){
+	if(source_dirs.isEmpty() && source_files.isEmpty()){
 		return;
 	}
 
-	emit sig_import_requested(lib_id, files, target_dir);
+	DirectoryTreeView::DropAction drop_action = show_drop_menu(QCursor::pos());
+
+	if(!source_dirs.isEmpty()){
+		switch(drop_action)
+		{
+			case DirectoryTreeView::DropAction::Copy:
+				m->file_operations->copy_dirs(source_dirs, target_dir);
+				break;
+			case DirectoryTreeView::DropAction::Move:
+				m->file_operations->move_dirs(source_dirs, target_dir);
+				break;
+			default:
+				break;
+		}
+	}
+
+	if(!source_files.isEmpty())
+	{
+		switch(drop_action)
+		{
+			case DirectoryTreeView::DropAction::Copy:
+				m->file_operations->copy_files(source_files, target_dir);
+				break;
+			case DirectoryTreeView::DropAction::Move:
+				m->file_operations->move_files(source_files, target_dir);
+				break;
+			default:
+				break;
+		}
+	}
 }
 
 DirectoryTreeView::DropAction DirectoryTreeView::show_drop_menu(const QPoint& pos)

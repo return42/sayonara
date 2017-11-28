@@ -25,6 +25,7 @@ GUI_ReloadLibraryDialog::GUI_ReloadLibraryDialog(const QString& library_name, QW
 
 	connect(ui->btn_ok, &QPushButton::clicked, this, &GUI_ReloadLibraryDialog::ok_clicked);
 	connect(ui->btn_cancel, &QPushButton::clicked, this, &GUI_ReloadLibraryDialog::cancel_clicked);
+	connect(ui->combo_quality, combo_activated_int, this, &GUI_ReloadLibraryDialog::combo_changed);
 }
 
 
@@ -51,11 +52,12 @@ void GUI_ReloadLibraryDialog::language_changed()
 	ui->btn_ok->setText(Lang::get(Lang::OK));
 	ui->btn_cancel->setText(Lang::get(Lang::Cancel));
 	ui->lab_title->setText(Lang::get(Lang::ReloadLibrary) + ": " + m->library_name);
-	ui->lab_select_reload_quality->setText(tr("Select reload mode"));
 
 	ui->combo_quality->clear();
-	ui->combo_quality->addItem(tr("Check for changed files (fast)"));
-	ui->combo_quality->addItem(tr("Deep scan (slow)"));
+	ui->combo_quality->addItem(tr("Fast scan"));
+	ui->combo_quality->addItem(tr("Deep scan"));
+
+	combo_changed(ui->combo_quality->currentIndex());
 
 	this->setWindowTitle(Lang::get(Lang::ReloadLibrary) + ": " + m->library_name);
 }
@@ -81,4 +83,15 @@ void GUI_ReloadLibraryDialog::cancel_clicked()
 	ui->combo_quality->setCurrentIndex(0);
 
 	close();
+}
+
+void GUI_ReloadLibraryDialog::combo_changed(int i)
+{
+	if(i == 0){
+		ui->lab_description->setText(tr("Only scan for new and deleted files"));
+	}
+
+	else{
+		ui->lab_description->setText(tr("Scan all files in your library directory"));
+	}
 }

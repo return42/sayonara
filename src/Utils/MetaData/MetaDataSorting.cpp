@@ -35,6 +35,7 @@ bool MetaDataSorting::TracksByTitleAsc(const MetaData& md1, const MetaData& md2)
 		case Greater:
 			return false;
 		case Lesser:
+		default:
 			return true;
 	}
 }
@@ -78,6 +79,7 @@ bool MetaDataSorting::TracksByAlbumAsc(const MetaData& md1, const MetaData& md2)
 		case Greater:
 			return false;
 		case Lesser:
+		default:
 			return true;
 	}
 }
@@ -90,6 +92,7 @@ bool MetaDataSorting::TracksByAlbumDesc(const MetaData& md1, const MetaData& md2
 		case Greater:
 			return false;
 		case Lesser:
+		default:
 			return true;
 	}
 }
@@ -102,6 +105,7 @@ bool MetaDataSorting::TracksByArtistAsc(const MetaData& md1, const MetaData& md2
 		case Greater:
 			return false;
 		case Lesser:
+		default:
 			return true;
 	}
 }
@@ -114,6 +118,7 @@ bool MetaDataSorting::TracksByArtistDesc(const MetaData& md1, const MetaData& md
 		case Greater:
 			return false;
 		case Lesser:
+		default:
 			return true;
 	}
 }
@@ -126,6 +131,7 @@ bool MetaDataSorting::TracksByAlbumArtistAsc(const MetaData& md1, const MetaData
 		case Greater:
 			return false;
 		case Lesser:
+		default:
 			return true;
 	}
 }
@@ -138,6 +144,7 @@ bool MetaDataSorting::TracksByAlbumArtistDesc(const MetaData& md1, const MetaDat
 		case Greater:
 			return false;
 		case Lesser:
+		default:
 			return true;
 	}
 }
@@ -307,6 +314,7 @@ bool MetaDataSorting::ArtistByNameAsc(const Artist& artist1, const Artist& artis
 		case Greater:
 			return false;
 		case Lesser:
+		default:
 			return true;
 	}
 }
@@ -319,6 +327,7 @@ bool MetaDataSorting::ArtistByNameDesc(const Artist& artist1, const Artist& arti
 		case Greater:
 			return false;
 		case Lesser:
+		default:
 			return true;
 	}
 }
@@ -357,6 +366,7 @@ bool MetaDataSorting::AlbumByNameAsc(const Album& album1, const Album& album2)
 		case Greater:
 			return false;
 		case Lesser:
+		default:
 			return true;
 	}
 }
@@ -369,6 +379,7 @@ bool MetaDataSorting::AlbumByNameDesc(const Album& album1, const Album& album2)
 		case Greater:
 			return false;
 		case Lesser:
+		default:
 			return true;
 	}
 }
