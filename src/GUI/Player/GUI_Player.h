@@ -49,6 +49,7 @@ class GUI_Player :
 		private Ui::Sayonara
 {
 	Q_OBJECT
+	PIMPL(GUI_Player)
 
 signals:
 	void sig_player_closed();
@@ -60,31 +61,20 @@ public:
 	void register_player_plugin_handler(PlayerPlugin::Handler* pph);
 	void register_preference_dialog(PreferenceDialog* dialog);
 
-	void ui_loaded();
-
 
 private:
-	QStringList					_translators;
-	PlayerPlugin::Handler*		_pph=nullptr;
-	QTranslator*				_translator=nullptr;
-	QMessageBox*				_about_box=nullptr;
-	GUI_Logger*					_logger=nullptr;
-	QAction*					_action_shutdown=nullptr;
-
-private:
-	void init_gui();
-
 	void setup_tray_actions ();
 	void setup_volume_button(int percent);
 	void setup_connections();
 
 	void closeEvent(QCloseEvent* e) override;
-	void keyPressEvent(QKeyEvent* e) override;
 	void resizeEvent(QResizeEvent* e) override;
 	void moveEvent(QMoveEvent* e) override;
 
 	void language_changed() override;
 	void skin_changed() override;
+	void show_library_changed();
+	void fullscreen_changed();
 
 	void set_total_time_label(int64_t length_ms);
 	void set_cur_pos_label(int val);
@@ -102,27 +92,12 @@ private slots:
 	void playstate_changed(PlayState state);
 	void play_error(const QString& message);
 
-	/* File */
-	void open_files_clicked();
-	void open_dir_clicked();
-	void shutdown_clicked();
-
-
-	/* View */
-	void show_library(bool);
-	void show_fullscreen_toggled(bool);
-	void skin_toggled(bool);
-
 	void main_splitter_moved(int pos, int idx);
 
 	void current_library_changed(const QString& name);
 	void check_library_menu_action();
 
-	void about();
-	void help();
-
 	void awa_version_finished();
-	void awa_translators_finished();
 
 	void really_close();
 

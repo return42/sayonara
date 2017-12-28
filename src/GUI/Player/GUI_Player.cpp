@@ -21,6 +21,7 @@
 #include "GUI_Player.h"
 #include "GUI_Logger.h"
 #include "GUI_TrayIcon.h"
+#include "GUI_PlayerMenubar.h"
 
 #include "Components/PlayManager/PlayManager.h"
 
@@ -47,133 +48,107 @@
 #include <QAction>
 #include <QHBoxLayout>
 
+struct GUI_Player::Private
+{
+	PlayerPlugin::Handler*		pph=nullptr;
+	Menubar*					menubar=nullptr;
+	QTranslator*				translator=nullptr;
+	GUI_Logger*					logger=nullptr;
+
+	QPoint initial_pos;
+	QSize initial_sz;
+
+
+	Private(QTranslator* translator) :
+		translator(translator)
+	{
+		Settings* s = Settings::instance();
+		logger = new GUI_Logger();
+
+		initial_pos = s->get(Set::Player_Pos);
+		initial_sz = s->get(Set::Player_Size);
+	}
+
+	~Private()
+	{
+		delete logger; logger = nullptr;
+	}
+};
+
+
 GUI_Player::GUI_Player(QTranslator* translator, QWidget* parent) :
 	Gui::MainWindow(parent),
 	GlobalMessageReceiverInterface("Player Main Window"),
 	Ui::Sayonara()
 {
+	m = Pimpl::make<Private>(translator);
 	setupUi(this);
-
-	_translator = translator;
-	_logger = new GUI_Logger();
 
 	GlobalMessage::register_receiver(this);
 
-	init_gui();
+	m->menubar = new Menubar(this);
+	this->setMenuBar(m->menubar);
 
-	setup_tray_actions();
-	setup_connections();
-
-	Set::listen(SetNoDB::Player_Quit, this, &GUI_Player::really_close, false);
-
-	Set::listen(Set::Player_FontName, this, &GUI_Player::skin_changed);
-	Set::listen(Set::Player_FontSize, this, &GUI_Player::skin_changed);
-	Set::listen(Set::PL_FontSize, this, &GUI_Player::skin_changed);
-	Set::listen(Set::Lib_FontSize, this, &GUI_Player::skin_changed);
-	Set::listen(Set::Lib_FontBold, this, &GUI_Player::skin_changed);
-}
-
-
-GUI_Player::~GUI_Player()
-{
-	sp_log(Log::Debug, this) << "Player closed.";
-	delete _logger; _logger=nullptr;
-}
-
-
-void GUI_Player::init_gui()
-{
-	Library::PluginHandler::instance()->set_library_parent(this->library_widget);
-	action_viewLibrary->setChecked(_settings->get(Set::Lib_Show));
-	action_viewLibrary->setText(Lang::get(Lang::Library));
-
-	action_Dark->setChecked(_settings->get(Set::Player_Style));
-	action_Dark->setShortcut(QKeySequence("F10"));
-
-	action_Fullscreen->setShortcut(QKeySequence("F11"));
-
-#ifdef WITH_SHUTDOWN
-	QList<QAction*> actions = menu_file->actions();
-	QAction* sep = actions[actions.size() - 1];
-	_action_shutdown = new QAction(Gui::Icons::icon(Gui::Icons::Shutdown), Lang::get(Lang::Shutdown).triplePt(), this);
-	connect(_action_shutdown, &QAction::triggered, this, &GUI_Player::shutdown_clicked);
-
-	menu_file->insertAction(sep, _action_shutdown);
-#endif
-
-	bool library_visible = _settings->get(Set::Lib_Show);
-	show_library(library_visible);
+	Library::PluginHandler* lph = Library::PluginHandler::instance();
+	lph->set_library_parent(this->library_widget);
 
 	QString version = _settings->get(Set::Player_Version);
 	setWindowTitle(QString("Sayonara %1").arg(version));
 	setWindowIcon(Gui::Util::icon("logo.png"));
 	setAttribute(Qt::WA_DeleteOnClose, false);
 
-	plugin_widget->hide();
+	setup_tray_actions();
+	setup_connections();
 
-	language_changed();
-}
-
-
-void GUI_Player::ui_loaded()
-{
-	skin_changed();
-
-	bool fullscreen = _settings->get(Set::Player_Fullscreen);
-	bool maximized = _settings->get(Set::Player_Maximized);
-	QPoint pos = _settings->get(Set::Player_Pos);
-	QSize sz = _settings->get(Set::Player_Size);
-
-	action_Fullscreen->setChecked(fullscreen);
-
-	this->setGeometry(pos.x(), pos.y(), sz.width(), sz.height());
-
-	if(fullscreen){
-		this->showFullScreen();
-	}
-
-	else if(maximized){
-		this->showMaximized();
-	}
-
-	else{
-		this->showNormal();
-	}
-
-	if(_settings->get(Set::Player_NotifyNewVersion)){
-		AsyncWebAccess* awa = new AsyncWebAccess(this);
-		awa->run("http://sayonara-player.com/current_version");
-		connect(awa, &AsyncWebAccess::sig_finished, this, &GUI_Player::awa_version_finished);
-	}
-
-	QLayout* layout;
 	splitter->restoreState(_settings->get(Set::Player_SplitterState));
-	layout = splitter->layout();
-	if(layout){
-		layout->update();
+
+	// we have to do it this way
+	if(_settings->get(Set::Lib_Show)){
+		splitter->widget(1)->show();
 	}
-
-	splitter->update();
-
-	Library::PluginHandler* lph = Library::PluginHandler::instance();
-	Library::Container* current_library = lph->current_library();
-	if(current_library)
-	{
-		QWidget* current_library_widget = current_library->widget();
-
-		if(current_library_widget == nullptr) return;
-
-		current_library_widget->show();
-		current_library_widget->resize(library_widget->size());
+	else{
+		splitter->widget(1)->hide();
 	}
 
 	if(_settings->get(Set::Player_StartInTray)){
 		this->setHidden(true);
 	}
 
-	plugin_opened();
+	else if(_settings->get(Set::Player_Fullscreen))
+	{
+		this->showFullScreen();
+	}
+
+	else if(_settings->get(Set::Player_Maximized))
+	{
+		this->showMaximized();
+	}
+
+	else
+	{
+		QPoint pos = m->initial_pos;
+		QSize sz = m->initial_sz;
+
+		this->showNormal();
+		this->setGeometry(pos.x(), pos.y(), sz.width(), sz.height());
+	}
+
+	if(_settings->get(Set::Player_NotifyNewVersion))
+	{
+		AsyncWebAccess* awa = new AsyncWebAccess(this);
+		awa->run("http://sayonara-player.com/current_version");
+		connect(awa, &AsyncWebAccess::sig_finished, this, &GUI_Player::awa_version_finished);
+	}
+
+	Set::listen(Set::Player_Fullscreen, this, &GUI_Player::fullscreen_changed, false);
+	Set::listen(SetNoDB::Player_Quit, this, &GUI_Player::really_close, false);
+	Set::listen(Set::Lib_Show, this, &GUI_Player::show_library_changed, false);
 }
 
+GUI_Player::~GUI_Player()
+{
+	sp_log(Log::Debug, this) << "Player closed.";
+}
 
 void GUI_Player::setup_connections()
 {
@@ -189,23 +164,10 @@ void GUI_Player::setup_connections()
 	connect(play_manager, &PlayManager::sig_playstate_changed, this, &GUI_Player::playstate_changed);
 	connect(play_manager, &PlayManager::sig_error, this, &GUI_Player::play_error);
 
-	// file
-	connect(action_OpenFile, &QAction::triggered, this, &GUI_Player::open_files_clicked);
-	connect(action_OpenFolder, &QAction::triggered, this, &GUI_Player::open_dir_clicked);
-	connect(action_Close, &QAction::triggered, this, &GUI_Player::really_close);
-
-
-	// view
-	connect(action_viewLibrary, &QAction::toggled, this, &GUI_Player::show_library);
-	connect(action_Dark, &QAction::toggled, this, &GUI_Player::skin_toggled);
-	connect(action_Fullscreen, &QAction::toggled, this, &GUI_Player::show_fullscreen_toggled);
-	connect(action_logger, &QAction::triggered, _logger, &GUI_Logger::show);
-
 	connect(splitter, &QSplitter::splitterMoved, this, &GUI_Player::main_splitter_moved);
 
-	// about
-	connect(action_about, &QAction::triggered, this, &GUI_Player::about);
-	connect(action_help, &QAction::triggered, this, &GUI_Player::help);
+	connect(m->menubar, &Menubar::sig_close_clicked, this, &GUI_Player::really_close);
+	connect(m->menubar, &Menubar::sig_logger_clicked, m->logger, &GUI_Logger::show);
 }
 
 
@@ -226,34 +188,34 @@ void GUI_Player::setup_tray_actions()
 }
 
 
-void GUI_Player::tray_icon_activated (QSystemTrayIcon::ActivationReason reason)
+void GUI_Player::tray_icon_activated(QSystemTrayIcon::ActivationReason reason)
 {
 	bool min_to_tray = _settings->get(Set::Player_Min2Tray);
-	switch (reason) {
-	case QSystemTrayIcon::Trigger:
-
-		if( this->isMinimized() ||
-			!this->isVisible() ||
-			!this->isActiveWindow())
-
-		{
-			raise();
-		}
-
-		else{
-			if(min_to_tray){
-				this->setHidden(true);
+	switch (reason)
+	{
+		case QSystemTrayIcon::Trigger:
+			if( this->isMinimized() ||
+				!this->isVisible() ||
+				!this->isActiveWindow())
+			{
+				raise();
 			}
 
-			else{
-				this->showMinimized();
+			else
+			{
+				if(min_to_tray) {
+					this->setHidden(true);
+				}
+
+				else{
+					this->showMinimized();
+				}
 			}
-		}
 
-		break;
+			break;
 
-	default:
-		break;
+		default:
+			break;
 	}
 }
 
@@ -261,50 +223,22 @@ void GUI_Player::tray_icon_activated (QSystemTrayIcon::ActivationReason reason)
 void GUI_Player::current_library_changed(const QString& name)
 {
 	Q_UNUSED(name)
+
 	check_library_menu_action();
 }
 
 void GUI_Player::check_library_menu_action()
 {
 	QList<Library::Container*> libraries;
-	bool library_visible;
 
 	Library::PluginHandler* lph = Library::PluginHandler::instance();
 	libraries = lph->get_libraries();
-	if(libraries.isEmpty()){
-		return;
+	if(!lph->current_library()){
+		m->menubar->show_library_action(false);
 	}
 
-	library_visible = _settings->get(Set::Lib_Show);
-
-	for(Library::Container* container : libraries)
-	{
-		Library::Container* library = lph->current_library();
-		QMenu* menu = lph->current_library_menu();
-		if(!menu){
-			continue;
-		}
-
-		QAction* action;
-		if( library == container && library_visible)
-		{
-			action = menubar->insertMenu(menu_about->menuAction(), menu);
-
-			if(action){
-				action->setText(library->display_name());
-			}
-
-			library->set_menu_action(action);
-		}
-
-		else
-		{
-			action = container->menu_action();
-			if(action){
-				sp_log(Log::Debug, this) << "Remove menu for " << container->display_name();
-				menubar->removeAction(action);
-			}
-		}
+	else {
+		m->menubar->update_library_action(lph->current_library_menu(), lph->current_library()->name());
 	}
 }
 
@@ -312,12 +246,7 @@ void GUI_Player::check_library_menu_action()
 /** LIBRARY AND PLAYLIST END **/
 void GUI_Player::register_preference_dialog(PreferenceDialog* dialog)
 {
-	QList<QAction*> actions = menu_file->actions();
-	QAction* sep = actions[actions.size() - 3];
-
-	QAction* preference_action = dialog->action();
-
-	menu_file->insertAction(sep, preference_action);
+	m->menubar->insert_preference_action(dialog->action());
 }
 
 
@@ -344,30 +273,35 @@ void GUI_Player::play_error(const QString& message)
 
 void GUI_Player::register_player_plugin_handler(PlayerPlugin::Handler* pph)
 {
-	QList<PlayerPlugin::Base*> lst = pph->get_all_plugins();
-	QList<QAction*> actions;
+	m->pph = pph;
+	if(!pph){
+		return;
+	}
+
+	QList<PlayerPlugin::Base*> lst = m->pph->get_all_plugins();
 
 	int i=1;
-	for(PlayerPlugin::Base* p : lst) {
+	for(PlayerPlugin::Base* p : lst)
+	{
 		QAction* action = p->get_action();
 		QKeySequence ks("Ctrl+F" + QString::number(i));
 		action->setShortcut(ks);
 		action->setData(p->get_name());
-		actions << action;
+		m->menubar->insert_player_plugin_action(action);
 
 		i++;
 	}
 
-	connect(pph, &PlayerPlugin::Handler::sig_plugin_closed, this, &GUI_Player::plugin_closed);
-	connect(pph, &PlayerPlugin::Handler::sig_plugin_action_triggered, this, &GUI_Player::plugin_action_triggered);
+	connect(m->pph, &PlayerPlugin::Handler::sig_plugin_closed, this, &GUI_Player::plugin_closed);
+	connect(m->pph, &PlayerPlugin::Handler::sig_plugin_action_triggered, this, &GUI_Player::plugin_action_triggered);
 
-	menu_view->insertActions(action_Dark, actions);
-	menu_view->insertSeparator(action_Dark);
+	plugin_opened();
 }
+
 
 void GUI_Player::plugin_action_triggered(bool b)
 {
-	if(_pph && b)
+	if(m->pph && b)
 	{
 		plugin_opened();
 	}
@@ -381,14 +315,18 @@ void GUI_Player::plugin_opened()
 {
 	PlayerPlugin::Base* current_plugin=nullptr;
 
-	if(_pph)
+	if(m->pph)
 	{
-		current_plugin = _pph->current_plugin();
+		current_plugin = m->pph->current_plugin();
 	}
 
 	if(current_plugin)
 	{
 		plugin_widget->show(current_plugin);
+	}
+
+	else {
+		plugin_widget->hide();
 	}
 }
 
@@ -431,53 +369,66 @@ void GUI_Player::awa_version_finished()
 }
 
 
-void GUI_Player::awa_translators_finished()
-{
-	AsyncWebAccess* awa = static_cast<AsyncWebAccess*>(sender());
-	if(!awa){
-		return;
-	}
-
-	if(awa->status() != AsyncWebAccess::Status::GotData) {
-		awa->deleteLater();
-		return;
-	}
-
-	QString data(awa->data());
-	QStringList translators = data.split('\n');
-
-	_translators.clear();
-
-	for(const QString& str : translators) {
-		if(str.trimmed().size() > 0) {
-			_translators.push_back(str);
-		}
-	}
-
-	awa->deleteLater();
-	about();
-}
-
-
 void GUI_Player::language_changed()
 {
 	QString language = _settings->get(Set::Player_Language);
-	_translator->load(language, Util::share_path("translations/"));
+	m->translator->load(language, Util::share_path("translations/"));
 
 	retranslateUi(this);
+}
 
-	menu_file->setTitle(Lang::get(Lang::File));
-	action_OpenFile->setText(Lang::get(Lang::OpenFile).triplePt());
-	action_OpenFolder->setText(Lang::get(Lang::OpenDir).triplePt());
-	action_Close->setText(Lang::get(Lang::Close));
-	action_viewLibrary->setText(Lang::get(Lang::Library));
-	action_logger->setText(Lang::get(Lang::Logger));
-	action_about->setText(Lang::get(Lang::About).triplePt());
+void GUI_Player::fullscreen_changed()
+{
+	bool b = _settings->get(Set::Player_Fullscreen);
 
-	if(_action_shutdown){
-		_action_shutdown->setText(Lang::get(Lang::Shutdown));
+	if(b){
+		showFullScreen();
+	}
+
+	else {
+		showNormal();
 	}
 }
+
+void GUI_Player::show_library_changed()
+{
+	bool b = _settings->get(Set::Lib_Show);
+
+	QSize player_size = this->size();
+
+	int library_width = library_widget->width();
+
+	// we need to add use hide/show on splitter
+	if(!b)
+	{
+		splitter->widget(1)->hide();
+		if(_settings->get(Set::Lib_OldWidth) == 0){
+			_settings->set(Set::Lib_OldWidth, library_width);
+		}
+
+		player_size.setWidth( player_size.width() - library_width);
+	}
+
+	else
+	{
+		splitter->widget(1)->show();
+		library_width = _settings->get(Set::Lib_OldWidth);
+		_settings->set(Set::Lib_OldWidth, 0);
+
+		if(library_width < 100){
+			library_width = 400;
+		}
+
+		player_size.setWidth( player_size.width() + library_width);
+	}
+
+	check_library_menu_action();
+
+	if(!this->isMaximized() && !this->isFullScreen()){
+		this->resize(player_size);
+	}
+}
+
 
 
 void GUI_Player::skin_changed()
@@ -486,16 +437,6 @@ void GUI_Player::skin_changed()
 
 	QString stylesheet = Style::style(dark);
 	this->setStyleSheet(stylesheet);
-
-	using namespace Gui;
-	action_OpenFile->setIcon(Icons::icon(Icons::Open));
-	action_OpenFolder->setIcon(Icons::icon(Icons::Open));
-	action_Close->setIcon(Icons::icon(Icons::Exit));
-}
-
-void GUI_Player::skin_toggled(bool on)
-{
-	_settings->set(Set::Player_Style, (on ? 1 : 0) );
 }
 
 

@@ -231,8 +231,6 @@ bool Application::init(const QStringList& files_to_play)
 	init_plugins();
 	init_preferences();
 
-	m->player->ui_loaded();
-
 	init_playlist(files_to_play);
 
 	sp_log(Log::Debug, this) << "Time to start: " << m->timer->elapsed() << "ms";

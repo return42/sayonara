@@ -88,25 +88,6 @@ void GUI_Player::main_splitter_moved(int pos, int idx)
 }
 
 
-void GUI_Player::keyPressEvent(QKeyEvent* e)
-{
-	e->accept();
-
-	switch (e->key()) {
-		case (Qt::Key_F10):
-			action_Dark->setChecked(!action_Dark->isChecked());
-			break;
-
-		case (Qt::Key_F11):
-			show_fullscreen_toggled(!this->isFullScreen());
-			break;
-
-		default:
-			break;
-	}
-}
-
-
 void GUI_Player::closeEvent(QCloseEvent* e)
 {
 	e->ignore();
