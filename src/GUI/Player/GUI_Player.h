@@ -63,9 +63,10 @@ public:
 
 
 private:
-	void setup_tray_actions ();
-	void setup_volume_button(int percent);
-	void setup_connections();
+	void init_tray_actions ();
+	void init_connections();
+	void init_sizes();
+	void init_splitter();
 
 	void closeEvent(QCloseEvent* e) override;
 	void resizeEvent(QResizeEvent* e) override;

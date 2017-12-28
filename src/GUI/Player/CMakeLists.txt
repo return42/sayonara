@@ -3,7 +3,6 @@ PROJECT(say_gui_player)
 SET(SOURCES
 	GUI_Controls.cpp
 	GUI_Player.cpp
-	GUI_PlayerEvents.cpp
 	GUI_PlayerMenubar.cpp
 	GUI_PlayerMessages.cpp
 	GUI_TrayIcon.cpp
@@ -20,7 +19,6 @@ QT5_WRAP_UI(FORMS_UIC
 SET(PLAYER_LIBRARIES
 
 	say_gui_playlist
-
 	say_interfaces_player_plugin
 	say_interfaces_notifications
 	say_interfaces_preference_dialog

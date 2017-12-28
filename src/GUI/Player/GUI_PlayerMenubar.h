@@ -24,7 +24,7 @@ public:
 
 	void insert_player_plugin_action(QAction* action);
 	void insert_preference_action(QAction* action);
-	QAction* update_library_action(QMenu* current_library_menu, const QString& name);
+	QAction* update_library_action(QMenu* new_library_menu, const QString& name);
 	void show_library_action(bool visible);
 
 private:
