@@ -347,6 +347,34 @@ QModelIndex CoverModel::getPrevRowIndexOf(const QString& substr, int row, const 
 	return QModelIndex();
 }
 
+int CoverModel::getNumberResults(const QString& substr)
+{
+	int ret=0;
+	for(int i=0; i<albums().count(); i++)
+	{
+		QString title = searchable_string(i);
+		title = Library::Util::convert_search_string(title, search_mode());
+
+		if(title.contains(substr))
+		{
+			ret++;
+			continue;
+		}
+
+		for(const QString& artist : albums()[i].artists())
+		{
+			QString cvt_artist = Library::Util::convert_search_string(artist, search_mode());
+
+			if(cvt_artist.contains(substr)){
+				ret++;
+				break;
+			}
+		}
+	}
+
+	return ret;
+}
+
 int CoverModel::searchable_column() const
 {
 	return 0;

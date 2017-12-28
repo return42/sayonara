@@ -62,6 +62,7 @@ namespace Library
 
 			QModelIndex		getNextRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent=QModelIndex()) override;
 			QModelIndex		getPrevRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent=QModelIndex()) override;
+			int				getNumberResults(const QString& str) override;
 
 			int				searchable_column() const override;
 			QString			searchable_string(int idx) const override;

@@ -430,7 +430,6 @@ void GUI_Player::show_library_changed()
 }
 
 
-
 void GUI_Player::skin_changed()
 {
 	bool dark = (_settings->get(Set::Player_Style) == 1);
