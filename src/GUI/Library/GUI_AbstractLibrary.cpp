@@ -128,10 +128,13 @@ void GUI_AbstractLibrary::init_shortcuts()
 	new QShortcut(QKeySequence::Find, m->le_search, SLOT(setFocus()), nullptr, Qt::WindowShortcut);
 	new QShortcut(QKeySequence("F3"), m->le_search, SLOT(setFocus()), nullptr, Qt::WindowShortcut);
 
-	KeyPressFilter* kp_filter = new KeyPressFilter(m->le_search);
-	this->installEventFilter(kp_filter);
+	KeyPressFilter* kp_filter_lib = new KeyPressFilter(this);
+	this->installEventFilter(kp_filter_lib);
+	connect(kp_filter_lib, &KeyPressFilter::sig_esc_pressed, this, &GUI_AbstractLibrary::esc_pressed);
 
-	connect(kp_filter, &KeyPressFilter::sig_esc_pressed, this, &GUI_AbstractLibrary::search_esc_pressed);
+	KeyPressFilter* kp_filter_search = new KeyPressFilter(m->le_search);
+	m->le_search->installEventFilter(kp_filter_search);
+	connect(kp_filter_search, &KeyPressFilter::sig_esc_pressed, this, &GUI_AbstractLibrary::search_esc_pressed);
 }
 
 void GUI_AbstractLibrary::query_library()
@@ -204,6 +207,27 @@ void GUI_AbstractLibrary::search_mode_changed(Filter::Mode mode)
 	m->le_search->setProperty("search_mode", (int) mode);
 
 	query_library();
+}
+
+void GUI_AbstractLibrary::esc_pressed()
+{
+	bool is_selected = (
+		(lv_album()->selected_items().count() > 0) ||
+		(lv_artist()->selected_items().count() > 0) ||
+		(lv_tracks()->selected_items().count() > 0)
+	);
+
+	if(is_selected)
+	{
+		lv_album()->clearSelection();
+		lv_artist()->clearSelection();
+		lv_tracks()->clearSelection();
+	}
+
+	else
+	{
+		search_esc_pressed();
+	}
 }
 
 

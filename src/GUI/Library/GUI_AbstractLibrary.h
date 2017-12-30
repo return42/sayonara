@@ -69,7 +69,9 @@ namespace Library
 		virtual void search_return_pressed();
 		virtual void search_edited(const QString& searchstring);
 		virtual void search_mode_changed(::Library::Filter::Mode mode);
+		virtual void esc_pressed();
 		virtual void query_library();
+
 
 		virtual void item_delete_clicked();
 		void tracks_delete_clicked();

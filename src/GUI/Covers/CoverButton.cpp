@@ -60,11 +60,13 @@ CoverButton::CoverButton(QWidget* parent) :
 {
 	m = Pimpl::make<CoverButton::Private>();
 
+	this->setObjectName("CoverButton");
+
 	m->current_cover_path = Location::invalid_location().preferred_path();
 	m->search_cover_location = Location::invalid_location();
 
 	this->setIconSize(this->size());
-	this->setIcon(get_cur_icon());
+	this->setIcon(current_icon());
 	this->setFlat(true);
 
 	connect(this, &QPushButton::clicked, this, &CoverButton::cover_button_clicked);
@@ -83,13 +85,13 @@ void CoverButton::set_cover_image(const QString& cover_path)
 	m->current_cover_path = cover_path;
 	m->cover_forced = false;
 
-	this->setIcon(get_cur_icon());
+	this->setIcon(current_icon());
 	this->setToolTip("");
 }
 
 void CoverButton::refresh()
 {
-	this->setIcon(get_cur_icon());
+	this->setIcon(current_icon());
 }
 
 void CoverButton::set_cover_location(const Location& cl)
@@ -120,19 +122,20 @@ void CoverButton::force_cover(const QPixmap &pm)
 
 	pm.save(m->current_cover_path);
 
-	this->setIcon(get_cur_icon());
+	this->setIcon(current_icon());
 }
+
 
 void CoverButton::force_cover(const QImage &img)
 {
 	force_cover(QPixmap::fromImage(img));
 }
 
-QIcon CoverButton::get_cur_icon() const
+QIcon CoverButton::current_icon() const
 {
 	QIcon icon;
 	QPixmap pm = QPixmap(m->current_cover_path)
-			.scaled(this->iconSize(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+			.scaled(this->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
 	for(QIcon::Mode m : { QIcon::Mode::Normal, QIcon::Mode::Disabled, QIcon::Mode::Active, QIcon::Mode::Selected })
 	{
@@ -188,13 +191,7 @@ void CoverButton::cover_found(const Location& cl)
 
 void CoverButton::resizeEvent(QResizeEvent* e)
 {
-	QPushButton::resizeEvent(e);
+	this->setIcon(current_icon());
 
-	QSize sz = this->size();
-	sz.setHeight(sz.height() - 4);
-	sz.setWidth(sz.width() - 4);
-
-	this->setIconSize(sz);
-	this->setIcon(get_cur_icon());
-	this->setFlat(false);
+	QWidget::resizeEvent(e);
 }

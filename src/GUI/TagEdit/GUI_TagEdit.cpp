@@ -51,8 +51,8 @@ using namespace Tagging;
 
 struct GUI_TagEdit::Private
 {
-	Editor*               tag_edit=nullptr;
-	Expression		tag_expression;
+	Editor*				tag_edit=nullptr;
+	Expression			tag_expression;
 	QMap<int, QString>	cover_path_map;
 	int					cur_idx;
 	/**

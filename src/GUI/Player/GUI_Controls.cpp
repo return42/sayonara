@@ -70,7 +70,7 @@ GUI_Controls::GUI_Controls(QWidget* parent) :
 		cur_pos_changed(play_manager->initial_position_ms());
 	}
 
-	connect(ui->albumCover, &CoverButton::sig_rejected, [=](){
+	connect(ui->btn_cover, &CoverButton::sig_rejected, [=](){
 		show_edit();
 	});
 
@@ -642,17 +642,17 @@ void GUI_Controls::set_cover_location(const MetaData& md)
 {
 	Location cl = Location::cover_location(md);
 
-	ui->albumCover->set_cover_location(cl);
+	ui->btn_cover->set_cover_location(cl);
 }
 
 void GUI_Controls::set_standard_cover()
 {
-	ui->albumCover->set_cover_location(Location::invalid_location());
+	ui->btn_cover->set_cover_location(Location::invalid_location());
 }
 
 void GUI_Controls::force_cover(const QImage& img)
 {
-	ui->albumCover->force_cover(img);
+	ui->btn_cover->force_cover(img);
 }
 
 

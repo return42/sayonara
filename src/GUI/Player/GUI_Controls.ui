@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>401</width>
+    <width>434</width>
     <height>167</height>
    </rect>
   </property>
@@ -345,7 +345,7 @@
    <item row="0" column="1" rowspan="3">
     <layout class="QGridLayout" name="gridLayout_4">
      <item row="0" column="0">
-      <widget class="CoverButton" name="albumCover">
+      <widget class="CoverButton" name="btn_cover">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
          <horstretch>0</horstretch>

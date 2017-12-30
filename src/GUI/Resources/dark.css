@@ -25,7 +25,7 @@ QMainWindow, QDialog
 QGroupBox 
 {
 	border: none;
-	padding-top: 1em;
+	padding-top: 16px; /* 1ex */ 
 }
 
 QGroupBox::title 
@@ -375,7 +375,7 @@ QComboBox
 
 QComboBox::drop-down
 {
-	width: 4.5ex;
+	width: 32px; /* 4.5ex */
 	border-left: 1px solid #242424;
 	border-top-right-radius: 3px;
 	border-bottom-right-radius: 3px;
@@ -412,7 +412,7 @@ QLineEdit,
 QSpinBox
 {
 	padding: 3px;
-	height: 4ex;
+	min-height: 28px; /*4ex;*/
 	border: 1px solid #2B2B2B;
 	border-radius: 2px;
 	background: #505050;
@@ -522,8 +522,8 @@ QTabBar::tab
 	border-top-right-radius: 2px;
 	min-width: 4em;
 	padding: 3px 5px 3px 5px;
-	max-height: 6ex;
-	min-height: 1ex;
+	max-height: 72px; /* 6ex */
+	min-height: 16px; /* 1ex */
 }
 
 PlaylistTabBar::tab:last
@@ -695,7 +695,7 @@ QCheckBox::indicator:disabled
 
 QPushButton
 {
-	height: 4ex;
+	min-height: 28px; /*4ex;*/
 	border-radius: 2px;
 }
 
@@ -837,15 +837,15 @@ RatingLabel:focus
 	border: 1px solid #e8841a;
 }
 
-#albumCover
+CoverButton,
+#btn_cover
 {
 	background: transparent;
 	border: none;
 }
 
-#albumCover:hover:enabled
+CoverButton:hover,
+#btn_cover:hover
 {
 	border: 1px solid #e8841a;
 }
-
-

@@ -51,6 +51,8 @@ public:
 		Items
 	};
 
+	IndexSet selected_items() const;
+
 protected:
 	SelectionViewInterface();
 	virtual ~SelectionViewInterface();
@@ -74,8 +76,6 @@ protected:
 
 	void clear_selection();
 	int min_selected_item() const;
-
-	IndexSet selected_items() const;
 
 	virtual void set_selection_type(SelectionViewInterface::SelectionType type);
 	SelectionViewInterface::SelectionType selection_type() const;

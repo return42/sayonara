@@ -73,8 +73,10 @@ public:
 	 */
 	void force_cover(const QPixmap& img);
 
+	void set_size(int hw);
+
 private:
-	QIcon get_cur_icon() const;
+	QIcon current_icon() const;
 
 protected:
 	void resizeEvent(QResizeEvent* e) override;
