@@ -57,7 +57,7 @@ static QMap<Icons::IconName, QPair<QString, QString>> s_icon_map =
 	{Icons::Image,		P("image-x-generic", "file")},
 	{Icons::ImageFile,	P("image-x-generic", "file")},
 	{Icons::Info,		P("dialog-information", "info")},
-	{Icons::LocalLibrary, P("audio-x-generic", "append.svg")},
+	{Icons::LocalLibrary, P("audio-x-generic", "append")},
 	{Icons::Lyrics,		P("format-justify-left", "lyrics")},
 	{Icons::New,		P("document-new", "new")},
 	{Icons::Next,		P("media-skip-forward", "fwd")},

@@ -181,6 +181,9 @@ void GUI_Player::init_connections()
 	connect(lph, &Library::PluginHandler::sig_initialized,
 			this, &GUI_Player::check_library_menu_action);
 
+	connect(lph, &Library::PluginHandler::sig_libraries_changed,
+			this, &GUI_Player::check_library_menu_action);
+
 	connect(play_manager, &PlayManager::sig_playstate_changed, this, &GUI_Player::playstate_changed);
 	connect(play_manager, &PlayManager::sig_error, this, &GUI_Player::play_error);
 
