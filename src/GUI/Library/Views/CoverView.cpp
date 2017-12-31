@@ -62,12 +62,14 @@ using namespace Library;
 
 struct CoverView::Private
 {
+	AbstractLibrary*	library=nullptr;
+	CoverModel*			model=nullptr;
 	QWidget*			topbar=nullptr;
 	Gui::ComboBox*		combo_sorting=nullptr;
 	QLabel*				label_sorting=nullptr;
 	Gui::ComboBox*		combo_zoom=nullptr;
 	QLabel*				label_zoom=nullptr;
-	CoverModel*			model=nullptr;
+
 	QTimer*				buffer_timer=nullptr;
 	QMenu*				menu_sortings=nullptr;
 	QAction*			action_sorting=nullptr;
@@ -75,22 +77,33 @@ struct CoverView::Private
 	QAction*			action_zoom=nullptr;
 	QAction*			action_show_utils=nullptr;
 
-	AbstractLibrary*	library=nullptr;
-
 	QList<ActionPair>	sorting_actions;
 	QStringList			zoom_actions;
 
 	std::atomic<bool>	blocked;
 
-	Private()
+	Private(CoverView* cover_view, AbstractLibrary* library, QWidget* topbar) :
+		library(library),
+		topbar(topbar),
+		blocked(false)
 	{
-		blocked = false;
-		buffer_timer = new QTimer();
-		buffer_timer->setInterval(10);
-		buffer_timer->setSingleShot(true);
+		model = new Library::CoverModel(cover_view, library);
+
+		combo_zoom = new Gui::ComboBox(topbar);
+		label_zoom = new QLabel(topbar);
+		label_zoom->setText(Lang::get(Lang::Zoom).append(":"));
 
 		zoom_actions << "50" << "75" << "100"
 					 << "125" << "150" << "175" << "200";
+
+		combo_sorting = new Gui::ComboBox(topbar);
+		combo_sorting->setEditable(false);
+		label_sorting = new QLabel(topbar);
+		label_sorting->setText(Lang::get(Lang::SortBy).append(":"));
+
+		buffer_timer = new QTimer();
+		buffer_timer->setInterval(10);
+		buffer_timer->setSingleShot(true);
 	}
 
 	void add_sorting_items()
@@ -115,25 +128,12 @@ struct CoverView::Private
 CoverView::CoverView(AbstractLibrary* library, QWidget* topbar, QWidget* parent) :
 	ItemView(parent)
 {
-	m = Pimpl::make<Private>();
+	m = Pimpl::make<Private>(this, library, topbar);
 
-	m->model = new Library::CoverModel(this, library);
-	ItemView::setModel(m->model);
-	ItemView::setSearchModel(m->model);
+	ItemView::set_item_model(m->model);
+	ItemView::set_search_model(m->model);
 
-	m->library = library;
-	m->topbar = topbar;
-
-	m->label_sorting = new QLabel(m->topbar);
-	m->label_sorting->setText(Lang::get(Lang::SortBy).append(":"));
-
-	m->combo_sorting = new Gui::ComboBox(m->topbar);
-	m->combo_sorting->setEditable(false);
 	init_sorting_actions();
-
-	m->label_zoom = new QLabel(m->topbar);
-	m->label_zoom->setText(Lang::get(Lang::Zoom).append(":"));
-	m->combo_zoom = new Gui::ComboBox(m->topbar);
 
 	m->topbar->layout()->setContentsMargins(0, 0, 0, 0);
 	m->topbar->layout()->addWidget(m->label_sorting);
@@ -482,12 +482,6 @@ void CoverView::show_utils_triggered()
 	_settings->set(Set::Lib_CoverShowUtils, b);
 }
 
-
-void CoverView::setModel(ItemModel* m)
-{
-	ItemView::setModel(m);
-}
-
 void CoverView::wheelEvent(QWheelEvent* e)
 {
 	if( (e->modifiers() & Qt::ControlModifier) &&
@@ -557,6 +551,10 @@ void CoverView::double_clicked(const QModelIndex& index)
 
 void CoverView::selection_changed(const IndexSet& indexes)
 {
+	if(!m->library){
+		return;
+	}
+
 	m->library->selected_albums_changed(indexes);
 }
 

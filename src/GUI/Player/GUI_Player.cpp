@@ -167,6 +167,11 @@ void GUI_Player::init_splitter()
 	else {
 		splitter->restoreState(splitter_state);
 	}
+
+	if(_settings->get(Set::Lib_Show))
+	{
+		library_widget->resize(splitter->widget(1)->size());
+	}
 }
 
 
@@ -492,7 +497,8 @@ void GUI_Player::resizeEvent(QResizeEvent* e)
 		_settings->set(Set::Player_Fullscreen, false);
 	}
 
-	if(is_library_visible && lph){
+	if(is_library_visible && lph)
+	{
 		Library::Container* container;
 		container = lph->current_library();
 		if(container && container->is_initialized()){

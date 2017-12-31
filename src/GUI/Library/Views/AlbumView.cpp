@@ -58,8 +58,8 @@ void AlbumView::init_view(AbstractLibrary* library)
 	AlbumModel* album_model = new AlbumModel(this, m->library);
 	RatingDelegate* album_delegate = new RatingDelegate(this, (int) ColumnIndex::Album::Rating, true);
 
-	this->setModel(album_model);
-	this->setSearchModel(album_model);
+	this->set_item_model(album_model);
+	this->set_search_model(album_model);
 	this->setItemDelegate(album_delegate);
 	this->set_metadata_interpretation(MD::Interpretation::Albums);
 
