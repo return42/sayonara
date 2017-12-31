@@ -77,12 +77,13 @@ namespace Library
 		ItemView(const ItemView& other)=delete;
 		ItemView& operator =(const ItemView& other)=delete;
 
+		using QTableView::setModel;
+
 	public:
 		explicit ItemView(QWidget* parent=nullptr);
 		virtual ~ItemView();
 
-		using QTableView::setModel;
-		virtual void setModel(ItemModel* model);
+		virtual void set_item_model(ItemModel* model);
 
 		void show_context_menu_actions(int entries);
 		void add_context_action(QAction* action);

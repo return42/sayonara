@@ -89,7 +89,7 @@ void SearchableViewInterface::set_mini_searcher_padding(int padding)
 }
 
 
-void SearchableViewInterface::setSearchModel(SearchableModelInterface* model)
+void SearchableViewInterface::set_search_model(SearchableModelInterface* model)
 {
 	 m->search_model = model;
 

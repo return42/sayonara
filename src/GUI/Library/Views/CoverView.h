@@ -60,9 +60,6 @@ namespace Library
 
 	private:
 		void change_zoom(int zoom=-1);
-
-		void setModel(Library::ItemModel* m) override;
-
 		void middle_clicked() override;
 		void play_next_clicked() override;
 		void append_clicked() override;

@@ -54,7 +54,7 @@ protected:
 		explicit SearchableViewInterface(QAbstractItemView* view);
 		virtual ~SearchableViewInterface();
 
-		virtual void setSearchModel(SearchableModelInterface* model) final;
+		virtual void set_search_model(SearchableModelInterface* model) final;
 
 		virtual QModelIndex model_index(int row, int col, const QModelIndex& parent=QModelIndex()) const override final;
 		virtual int row_count(const QModelIndex& parent=QModelIndex()) const override final;

@@ -93,7 +93,7 @@ DirectoryTreeView::DirectoryTreeView(QWidget *parent) :
 	connect(m->file_operations, &FileOperations::sig_copy_started, this, &DirectoryTreeView::copy_started);
 
 	this->setModel(m->model);
-	this->setSearchModel(m->model);
+	this->set_search_model(m->model);
 	this->setItemDelegate(new DirectoryDelegate(this));
 
 	QAction* action = new QAction(this);

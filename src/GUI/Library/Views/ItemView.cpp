@@ -91,7 +91,7 @@ ItemView::ItemView(QWidget* parent) :
 
 ItemView::~ItemView() {}
 
-void ItemView::setModel(ItemModel* model)
+void ItemView::set_item_model(ItemModel* model)
 {
 	SearchableTableView::setModel(model);
 	_model = model;

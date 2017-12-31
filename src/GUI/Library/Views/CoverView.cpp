@@ -118,8 +118,8 @@ CoverView::CoverView(AbstractLibrary* library, QWidget* topbar, QWidget* parent)
 	m = Pimpl::make<Private>();
 
 	m->model = new Library::CoverModel(this, library);
-	ItemView::setModel(m->model);
-	ItemView::setSearchModel(m->model);
+	ItemView::set_item_model(m->model);
+	ItemView::set_search_model(m->model);
 
 	m->library = library;
 	m->topbar = topbar;
@@ -480,12 +480,6 @@ void CoverView::show_utils_triggered()
 	bool b = m->action_show_utils->isChecked();
 	m->topbar->setVisible(b);
 	_settings->set(Set::Lib_CoverShowUtils, b);
-}
-
-
-void CoverView::setModel(ItemModel* m)
-{
-	ItemView::setModel(m);
 }
 
 void CoverView::wheelEvent(QWheelEvent* e)

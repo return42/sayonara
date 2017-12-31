@@ -84,7 +84,7 @@ PlaylistView::PlaylistView(PlaylistPtr pl, QWidget* parent) :
 	m = Pimpl::make<Private>(pl, this);
 
 	this->setModel(m->model);
-	this->setSearchModel(m->model);
+	this->set_search_model(m->model);
 	this->setItemDelegate(m->delegate);
 
 	this->setDragEnabled(true);
