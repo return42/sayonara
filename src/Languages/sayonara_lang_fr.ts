@@ -17,7 +17,7 @@
 <context>
     <name>DirectoryContextMenu</name>
     <message>
-        <location filename="../GUI/Directories/DirectoryContextMenu.cpp" line="+110"/>
+        <location filename="../GUI/Directories/DirectoryContextMenu.cpp" line="+132"/>
         <source>Create directory</source>
         <translation>Créer un dossier</translation>
     </message>
@@ -716,7 +716,7 @@
 <context>
     <name>GUI_Player</name>
     <message>
-        <location filename="../GUI/Player/GUI_Player.cpp" line="+384"/>
+        <location filename="../GUI/Player/GUI_Player.cpp" line="+392"/>
         <source>A new version is available!</source>
         <translation>Une nouvelle version est disponible !</translation>
     </message>
@@ -1004,7 +1004,7 @@
 <context>
     <name>GUI_ReloadLibraryDialog</name>
     <message>
-        <location filename="../GUI/Library/GUI_ReloadLibraryDialog.cpp" line="+57"/>
+        <location filename="../GUI/Library/GUI_ReloadLibraryDialog.cpp" line="+79"/>
         <source>Fast scan</source>
         <translation>Analyser vite</translation>
     </message>

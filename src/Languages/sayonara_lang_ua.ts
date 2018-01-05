@@ -17,14 +17,14 @@
 <context>
     <name>DirectoryContextMenu</name>
     <message>
-        <location filename="../GUI/Directories/DirectoryContextMenu.cpp" line="+110"/>
+        <location filename="../GUI/Directories/DirectoryContextMenu.cpp" line="+132"/>
         <source>Create directory</source>
-        <translation type="unfinished">Створити каталог</translation>
+        <translation>Створити каталог</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Collapse all</source>
-        <translation type="unfinished">Згорнути все</translation>
+        <translation>Згорнути все</translation>
     </message>
 </context>
 <context>
@@ -716,7 +716,7 @@
 <context>
     <name>GUI_Player</name>
     <message>
-        <location filename="../GUI/Player/GUI_Player.cpp" line="+384"/>
+        <location filename="../GUI/Player/GUI_Player.cpp" line="+392"/>
         <source>A new version is available!</source>
         <translation>Доступна нова версія!</translation>
     </message>
@@ -1004,24 +1004,24 @@
 <context>
     <name>GUI_ReloadLibraryDialog</name>
     <message>
-        <location filename="../GUI/Library/GUI_ReloadLibraryDialog.cpp" line="+57"/>
+        <location filename="../GUI/Library/GUI_ReloadLibraryDialog.cpp" line="+79"/>
         <source>Fast scan</source>
-        <translation type="unfinished"></translation>
+        <translation>Швидке сканування</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Deep scan</source>
-        <translation type="unfinished"></translation>
+        <translation>Детальне сканування</translation>
     </message>
     <message>
         <location line="+33"/>
         <source>Only scan for new and deleted files</source>
-        <translation type="unfinished"></translation>
+        <translation>Сканувати тільки нові і видалені файли</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Scan all files in your library directory</source>
-        <translation type="unfinished"></translation>
+        <translation>Сканувати всі файли у каталозі бібліотеки</translation>
     </message>
 </context>
 <context>
@@ -2590,68 +2590,68 @@ Please choose another folder</source>
     <message>
         <location filename="../GUI/Player/GUI_PlayerMenubar.cpp" line="+226"/>
         <source>View</source>
-        <translation type="unfinished">Вигляд</translation>
+        <translation>Вигляд</translation>
     </message>
     <message>
         <location line="+1"/>
         <location line="+13"/>
         <source>Help</source>
-        <translation type="unfinished">Допомога</translation>
+        <translation>Допомога</translation>
     </message>
     <message>
         <location line="-3"/>
         <source>Dark</source>
-        <translation type="unfinished">Темний інтерфейс</translation>
+        <translation>Темний інтерфейс</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Fullscreen</source>
-        <translation type="unfinished"></translation>
+        <translation>На весь екран</translation>
     </message>
     <message>
         <location line="+42"/>
         <source>Media files</source>
-        <translation type="unfinished">Медіа файли</translation>
+        <translation>Медіа файли</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Open Media files</source>
-        <translation type="unfinished">Відкрити медіа файли</translation>
+        <translation>Відкрити медіа файли</translation>
     </message>
     <message>
         <location line="+41"/>
         <source>Please visit the forum at</source>
-        <translation type="unfinished">Будь ласка, завітайте до форуму</translation>
+        <translation>Будь ласка, завітайте до форуму</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Donate</source>
-        <translation type="unfinished"></translation>
+        <translation>Пожертвувати</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Thank you</source>
-        <translation type="unfinished"></translation>
+        <translation>Дякуємо</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>About Sayonara</source>
-        <translation type="unfinished">Про Sayonara</translation>
+        <translation>Про Sayonara</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Special thanks to %1 and %2 for translating</source>
-        <translation type="unfinished">Особлива подяка %1 и %2за переклад</translation>
+        <translation>Особлива подяка %1 и %2за переклад</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Written by Lucio Carreras</source>
-        <translation type="unfinished">Автор Lucio Carreras</translation>
+        <translation>Автор Lucio Carreras</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>License</source>
-        <translation type="unfinished">Ліцензія</translation>
+        <translation>Ліцензія</translation>
     </message>
 </context>
 <context>

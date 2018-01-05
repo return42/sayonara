@@ -28,6 +28,7 @@
 #include <QUrl>
 
 #include <gst/gst.h>
+#include <cstdlib>
 
 using Engine::Base;
 
