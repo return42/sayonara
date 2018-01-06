@@ -254,7 +254,8 @@ QStringList Util::soundfile_extensions(bool with_asterisk)
 			<< "aac"
 			<< "wma"
 			<< "mpc"
-			<< "aiff";
+			<< "aiff"
+			<< "ape";
 
 	QStringList upper_filters;
 	for(QString& filter : filters) {
