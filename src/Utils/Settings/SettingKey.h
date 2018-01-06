@@ -148,6 +148,7 @@ enum class SettingKey : unsigned short
 	Engine_PreservePitch,
 	Engine_Speed,
 	Engine_SpeedActive,
+	Engine_Sink,
 
 	Engine_SR_Active,
 	Engine_SR_Warning,
@@ -315,6 +316,7 @@ namespace Set
 	INST(bool, 				Engine_SpeedActive);			/* is speed control active? */
 	INST(float,				Engine_Speed);				/* if yes, set speed */
 	INST(bool, 				Engine_PreservePitch);			/* if yes, should pitch be preserved? */
+	INST(QString,			Engine_Sink);				/* Alsa, pulseaudio */
 
 	INST(bool,				Engine_SR_Active);			/* Streamripper active */
 	INST(bool,				Engine_SR_Warning);			/* streamripper warnings */

@@ -63,6 +63,7 @@
 
 #include "GUI/Preferences/Broadcast/GUI_BroadcastSetup.h"
 #include "GUI/Preferences/Covers/GUI_Covers.h"
+#include "GUI/Preferences/EnginePreferences/GUI_EnginePreferences.h"
 #include "GUI/Preferences/Fonts/GUI_FontConfig.h"
 #include "GUI/Preferences/Icons/GUI_IconPreferences.h"
 #include "GUI/Preferences/Language/GUI_LanguageChooser.h"
@@ -286,6 +287,7 @@ void Application::init_preferences()
 	preferences->register_preference_dialog(new GUI_PlaylistPreferences("playlist"));
 	preferences->register_preference_dialog(new GUI_LibraryPreferences("library"));
 	preferences->register_preference_dialog(new GUI_Covers("covers"));
+	preferences->register_preference_dialog(new GUI_EnginePreferences("engine"));
 	preferences->register_preference_dialog(new GUI_SearchPreferences("search"));
 
 	preferences->register_preference_dialog(new GUI_Proxy("proxy"));

@@ -71,6 +71,7 @@ namespace Pipeline
     private:
         void init_equalizer();
         bool create_elements() override;
+		GstElement* create_audio_sink(const QString& name);
         bool add_and_link_elements() override;
         bool configure_elements() override;
         uint64_t get_about_to_finish_time() const override;
@@ -82,6 +83,7 @@ namespace Pipeline
         void s_mute_changed();
         void s_speed_active_changed();
         void s_speed_changed();
+		void s_sink_changed();
     };
 }
 

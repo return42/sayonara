@@ -170,6 +170,7 @@ bool SettingRegistry::init()
 	register_setting( Set::Engine_PreservePitch, "engine_preserve_pitch", false);
 	register_setting( Set::Engine_SpeedActive, "engine_speed_active", false);
 	register_setting( Set::Engine_Speed, "engine_speed", 1.0f);
+	register_setting( Set::Engine_Sink, "engine_sink", QString("auto"));
 
 	register_setting( Set::Spectrum_Style, "spectrum_style", 0 );
 	register_setting( Set::Level_Style, "level_style", 0 );

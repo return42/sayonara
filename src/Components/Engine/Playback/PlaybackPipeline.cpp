@@ -147,6 +147,7 @@ bool Playback::init(GstState state)
 
     Set::listen(Set::Engine_Vol, this, &Playback::s_vol_changed);
     Set::listen(Set::Engine_Mute, this, &Playback::s_mute_changed);
+	Set::listen(Set::Engine_Sink, this, &Playback::s_sink_changed, false);
 
 	// set by gui, initialized directly in pipeline
     Set::listen(Set::Engine_ShowLevel, this, &Playback::s_show_level_changed);
@@ -179,7 +180,11 @@ bool Playback::create_elements()
 	// standard output branch
 	if(!create_element(&m->eq_queue, "queue", "eq_queue")) return false;
 	if(!create_element(&m->volume, "volume")) return false;
-	if(!create_element(&m->audio_sink, "autoaudiosink")) return false;
+
+	m->audio_sink = create_audio_sink(_settings->get(Set::Engine_Sink));
+	if(!m->audio_sink){
+		return false;
+	}
 
 	// level branch
 	if(!create_element(&m->level_queue, "queue", "level_queue")) return false;
@@ -216,8 +221,29 @@ bool Playback::create_elements()
 		m->streamrecorder_data()->sink = m->file_sink;
     }
 
-
 	return true;
+}
+
+GstElement* Playback::create_audio_sink(const QString& name)
+{
+	GstElement* ret=nullptr;
+
+	if(name == "pulse"){
+		sp_log(Log::Info, this) << "Create pulseaudio sink";
+		create_element(&ret, "pulsesink", name.toLocal8Bit().data());
+	}
+
+	else if(name == "alsa"){
+		sp_log(Log::Info, this) << "Create alsa sink";
+		create_element(&ret, "alsasink", name.toLocal8Bit().data());
+	}
+
+	if(ret == nullptr){
+		sp_log(Log::Info, this) << "Create automatic sink";
+		create_element(&ret, "autoaudiosink", name.toLocal8Bit().data());
+	}
+
+	return ret;
 }
 
 bool Playback::add_and_link_elements()
@@ -256,7 +282,6 @@ bool Playback::add_and_link_elements()
 
 	/* spectrum branch */
 	success = gst_element_link_many(m->spectrum_queue, m->spectrum, m->spectrum_sink, nullptr);
-
     if(!test_and_error_bool(success, "Engine: Cannot link Spectrum pipeline")){
 		return false;
     }
@@ -565,4 +590,46 @@ void Playback::s_speed_changed()
 		_settings->get(Set::Engine_Pitch) / 440.0,
 		_settings->get(Set::Engine_PreservePitch)
 	);
+}
+
+void Playback::s_sink_changed()
+{
+	GstElement* e = create_audio_sink(_settings->get(Set::Engine_Sink));
+	if(!e){
+		return;
+	}
+
+	GstState old_state, state;
+	gst_element_get_state(get_pipeline(), &old_state, nullptr, 0);
+	int64_t pos = get_source_position_ms();
+
+	state = old_state;
+
+	stop();
+	while(state != GST_STATE_NULL)
+	{
+
+		gst_element_get_state(get_pipeline(), &state, nullptr, 0);
+		Util::sleep_ms(50);
+	}
+
+	gst_element_query_position(get_pipeline(), GST_FORMAT_TIME, &pos);
+	gst_element_unlink(m->volume, m->audio_sink);
+	gst_bin_remove(GST_BIN(get_pipeline()), m->audio_sink);
+	m->audio_sink = e;
+	gst_bin_add(GST_BIN(get_pipeline()), m->audio_sink);
+	gst_element_link(m->volume, m->audio_sink);
+
+	gst_element_set_state(get_pipeline(), old_state);
+
+	state = GST_STATE_NULL;
+	while(state != old_state)
+	{
+		gst_element_get_state(get_pipeline(), &state, nullptr, 0);
+		Util::sleep_ms(50);
+	}
+
+	if(old_state != GST_STATE_NULL) {
+		seek_abs(pos * 1000000);
+	}
 }

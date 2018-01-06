@@ -3,6 +3,7 @@ PROJECT( say_gui_preferences )
 SET(SOURCES
 	Broadcast/GUI_BroadcastSetup.cpp
 	Covers/GUI_Covers.cpp
+	EnginePreferences/GUI_EnginePreferences.cpp
 	Fonts/GUI_FontConfig.cpp
 	Icons/GUI_IconPreferences.cpp
 	Language/GUI_LanguageChooser.cpp
@@ -27,6 +28,7 @@ SET(SOURCES
 QT5_WRAP_UI(UI_FILES
 	Broadcast/GUI_BroadcastSetup.ui
 	Covers/GUI_Covers.ui
+	EnginePreferences/GUI_EnginePreferences.ui
 	Fonts/GUI_FontConfig.ui
 	Icons/GUI_IconPreferences.ui
 	Language/GUI_LanguageChooser.ui
