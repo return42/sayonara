@@ -464,7 +464,7 @@
 <context>
     <name>GUI_LanguageChooser</name>
     <message>
-        <location filename="../GUI/Preferences/Language/GUI_LanguageChooser.cpp" line="+163"/>
+        <location filename="../GUI/Preferences/Language/GUI_LanguageChooser.cpp" line="+164"/>
         <source>Language</source>
         <translation>Idioma</translation>
     </message>

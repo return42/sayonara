@@ -470,7 +470,7 @@
         <translation>Új nyelvek hozzáadásához fordítókat keresünk</translation>
     </message>
     <message>
-        <location filename="../GUI/Preferences/Language/GUI_LanguageChooser.cpp" line="+163"/>
+        <location filename="../GUI/Preferences/Language/GUI_LanguageChooser.cpp" line="+164"/>
         <source>Language</source>
         <translation>Nyelv</translation>
     </message>

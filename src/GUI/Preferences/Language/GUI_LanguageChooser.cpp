@@ -147,6 +147,7 @@ void GUI_LanguageChooser::init_ui()
 	m->map["pt"] = QString::fromUtf8("Português");
 	m->map["ro"] = QString::fromUtf8("Limba română");
 	m->map["ru"] = QString::fromUtf8("Русский");
+	m->map["tr"] = QString::fromUtf8("Türkçe");
 	m->map["ua"] = QString::fromUtf8("Українська");
 	m->map["zh_cn"] = QString::fromUtf8("中文");
 }
