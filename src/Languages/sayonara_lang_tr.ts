@@ -307,11 +307,6 @@
 <context>
     <name>GUI_DeleteDialog</name>
     <message>
-        <location filename="../GUI/Utils/Library/gui_deletedialog.ui" line="+14"/>
-        <source>Dialog</source>
-        <translation></translation>
-    </message>
-    <message>
         <location filename="../GUI/Utils/Library/GUI_DeleteDialog.cpp" line="+87"/>
         <source>Only from library</source>
         <translation>Sadece kütüphaneden</translation>
@@ -335,6 +330,14 @@
         <location filename="../../build-clang-debug/src/GUI/Library/ui_GUI_EmptyLibrary.h" line="+1"/>
         <source>You haven&apos;t specified a library path yet</source>
         <translation>Henüz bir kütüphane yolu belirtmediniz</translation>
+    </message>
+</context>
+<context>
+    <name>GUI_EnginePreferences</name>
+    <message>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_EnginePreferences.h" line="+70"/>
+        <source>Automatic</source>
+        <translation>Otomatik</translation>
     </message>
 </context>
 <context>
@@ -544,32 +547,8 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+8"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="-5"/>
-        <source>Up</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+20"/>
+        <location line="+98"/>
         <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
-        <source>New</source>
-        <translation>Yeni</translation>
-    </message>
-    <message>
-        <location line="+14"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
-        <source>Delete</source>
-        <translation>Sil</translation>
-    </message>
-    <message>
-        <location line="+20"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
-        <source>Down</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+36"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+3"/>
         <source>On double click, create playlist and</source>
         <translation>Çift tıklayın, çalma listesi oluşturun ve</translation>
     </message>
@@ -624,7 +603,7 @@
         <translation>Kütüphane-Oynatma Listesi Etkileşimi</translation>
     </message>
     <message>
-        <location filename="../GUI/Preferences/LibraryPreferences/GUI_LibraryPreferences.cpp" line="+136"/>
+        <location filename="../GUI/Preferences/LibraryPreferences/GUI_LibraryPreferences.cpp" line="+138"/>
         <source>Cannot edit library</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1734,7 +1713,7 @@ Lüfen başka klasör seçin</translation>
         <translation>Sanatçılar</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+6"/>
         <source>Bitrate</source>
         <translation>Bit hızı</translation>
     </message>
@@ -1819,12 +1798,12 @@ Lüfen başka klasör seçin</translation>
         <translation>Süre</translation>
     </message>
     <message>
-        <location line="-60"/>
+        <location line="-62"/>
         <source>Album artists</source>
         <translation>Albüm sanatçısı</translation>
     </message>
     <message>
-        <location line="+65"/>
+        <location line="+67"/>
         <source>Dynamic playback</source>
         <translation>Dinamik oynatma</translation>
     </message>
@@ -1969,7 +1948,7 @@ Lüfen başka klasör seçin</translation>
         <translation>Parçalar</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+9"/>
         <source>on</source>
         <translation>aç</translation>
     </message>
@@ -2084,7 +2063,7 @@ Lüfen başka klasör seçin</translation>
         <translation>Yenile</translation>
     </message>
     <message>
-        <location line="-210"/>
+        <location line="-216"/>
         <source>Activate</source>
         <translation>Etkinleştir</translation>
     </message>
@@ -2112,6 +2091,11 @@ Lüfen başka klasör seçin</translation>
         <location line="+6"/>
         <source>Ascending</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Automatic</source>
+        <translation>Otomatik</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -2230,6 +2214,16 @@ Lüfen başka klasör seçin</translation>
     </message>
     <message>
         <location line="+12"/>
+        <source>Move down</source>
+        <translation>Aşağı Taşı</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Move up</source>
+        <translation>Yukarı taşı</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>OK</source>
         <translation>Tamam</translation>
     </message>
@@ -2659,22 +2653,22 @@ Lüfen başka klasör seçin</translation>
     <name>MiniSearcher</name>
     <message>
         <location filename="../GUI/Utils/SearchableWidget/MiniSearcher.cpp" line="+238"/>
-        <source>Up</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>Previous search result</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+0"/>
+        <source>Arrow up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location line="+1"/>
-        <source>Down</source>
+        <source>Next search result</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+0"/>
-        <source>Next search result</source>
+        <source>Arrow down</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

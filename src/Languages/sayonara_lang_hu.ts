@@ -19,12 +19,12 @@
     <message>
         <location filename="../GUI/Directories/DirectoryContextMenu.cpp" line="+132"/>
         <source>Create directory</source>
-        <translation type="unfinished"></translation>
+        <translation>Könyvtár létrehozása</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Collapse all</source>
-        <translation type="unfinished"></translation>
+        <translation>Teljes összecsukás</translation>
     </message>
 </context>
 <context>
@@ -33,17 +33,17 @@
         <location filename="../GUI/Directories/DirectoryTreeView.cpp" line="+324"/>
         <location line="+27"/>
         <source>Enter new name</source>
-        <translation type="unfinished"></translation>
+        <translation>Adja meg az új nevet</translation>
     </message>
     <message>
         <location line="+231"/>
         <source>Copy here</source>
-        <translation type="unfinished"></translation>
+        <translation>Másolás ide</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Move here</source>
-        <translation type="unfinished"></translation>
+        <translation>Mozgatás ide</translation>
     </message>
 </context>
 <context>
@@ -59,7 +59,7 @@
     <message>
         <location filename="../GUI/Directories/FileListView.cpp" line="+343"/>
         <source>Enter new name</source>
-        <translation type="unfinished"></translation>
+        <translation>Adja meg az új nevet</translation>
     </message>
 </context>
 <context>
@@ -119,7 +119,7 @@
         <location line="+42"/>
         <location filename="../../build-clang-debug/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="+2"/>
         <source>Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Kiszolgáló</translation>
     </message>
     <message>
         <location line="+20"/>
@@ -131,7 +131,7 @@
         <location line="+12"/>
         <location filename="../../build-clang-debug/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="-1"/>
         <source>Select and preview multiple covers</source>
-        <translation type="unfinished">Többet is kiválaszthatsz</translation>
+        <translation>Többet is kiválaszthatsz</translation>
     </message>
     <message>
         <location line="+194"/>
@@ -150,7 +150,7 @@
     <message>
         <location line="+41"/>
         <source>Best</source>
-        <translation type="unfinished"></translation>
+        <translation>Legjobb</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -188,7 +188,7 @@
         <location filename="../GUI/Plugins/Bookmarks/GUI_Bookmarks.cpp" line="+74"/>
         <location line="+52"/>
         <source>No bookmarks found</source>
-        <translation type="unfinished"></translation>
+        <translation>Nincs könyvjelző</translation>
     </message>
     <message>
         <location line="+122"/>
@@ -212,7 +212,7 @@
         <location filename="../GUI/Plugins/Broadcasting/GUI_Broadcast.ui" line="+54"/>
         <location filename="../../build-clang-debug/src/GUI/Plugins/Broadcasting/ui_GUI_Broadcast.h" line="+114"/>
         <source>...</source>
-        <translation type="unfinished">...</translation>
+        <translation>...</translation>
     </message>
     <message>
         <location line="+34"/>
@@ -262,28 +262,28 @@
         <location filename="../GUI/Player/GUI_Controls.ui" line="+529"/>
         <location filename="../../build-clang-debug/src/GUI/Player/ui_GUI_Controls.h" line="+454"/>
         <source>Written by Lucio Carreras</source>
-        <translation type="unfinished">Írta: Lucio Carreras</translation>
+        <translation>Írta: Lucio Carreras</translation>
     </message>
     <message>
         <location line="-88"/>
         <location filename="../../build-clang-debug/src/GUI/Player/ui_GUI_Controls.h" line="-2"/>
         <source>Copyright 2011-2017</source>
-        <translation type="unfinished">Copyright 2011-2017</translation>
+        <translation>Copyright 2011-2017</translation>
     </message>
     <message>
         <location filename="../GUI/Player/GUI_Controls.cpp" line="+49"/>
         <source>Sayonara Player</source>
-        <translation type="unfinished">Sayonara Player</translation>
+        <translation>Sayonara Player</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Written by</source>
-        <translation type="unfinished">Írta</translation>
+        <translation>Írta</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Copyright</source>
-        <translation type="unfinished">Copyright</translation>
+        <translation>Copyright</translation>
     </message>
 </context>
 <context>
@@ -306,19 +306,14 @@
 <context>
     <name>GUI_DeleteDialog</name>
     <message>
-        <location filename="../GUI/Utils/Library/gui_deletedialog.ui" line="+14"/>
-        <source>Dialog</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../GUI/Utils/Library/GUI_DeleteDialog.cpp" line="+87"/>
         <source>Only from library</source>
-        <translation type="unfinished">Csak a könyvtárból</translation>
+        <translation>Csak a könyvtárból</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>You are about to delete %1 files</source>
-        <translation type="unfinished">Biztos törlöd a(z) %1 fájlt</translation>
+        <translation>Biztos törlöd a(z) %1 fájlt</translation>
     </message>
 </context>
 <context>
@@ -327,13 +322,21 @@
         <location filename="../GUI/Library/GUI_EmptyLibrary.ui" line="+26"/>
         <location filename="../../build-clang-debug/src/GUI/Library/ui_GUI_EmptyLibrary.h" line="+134"/>
         <source>Set library path</source>
-        <translation type="unfinished">Setze Pfad</translation>
+        <translation>Setze Pfad</translation>
     </message>
     <message>
         <location line="+17"/>
         <location filename="../../build-clang-debug/src/GUI/Library/ui_GUI_EmptyLibrary.h" line="+1"/>
         <source>You haven&apos;t specified a library path yet</source>
-        <translation type="unfinished">Nem adott meg könyvtár elérési utat még</translation>
+        <translation>Nem adott meg könyvtár elérési utat még</translation>
+    </message>
+</context>
+<context>
+    <name>GUI_EnginePreferences</name>
+    <message>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_EnginePreferences.h" line="+70"/>
+        <source>Automatic</source>
+        <translation>Automatikus</translation>
     </message>
 </context>
 <context>
@@ -380,7 +383,7 @@
     <message>
         <location filename="../GUI/Preferences/Icons/GUI_IconPreferences.cpp" line="+218"/>
         <source>Icons</source>
-        <translation type="unfinished"></translation>
+        <translation>Ikonok</translation>
     </message>
     <message>
         <location filename="../GUI/Preferences/Icons/GUI_IconPreferences.ui" line="+38"/>
@@ -395,25 +398,25 @@
         <location filename="../GUI/ImportDialog/GUI_ImportDialog.ui" line="+14"/>
         <location filename="../../build-clang-debug/src/GUI/ImportDialog/ui_GUI_ImportDialog.h" line="+156"/>
         <source>Import</source>
-        <translation type="unfinished">Importálás</translation>
+        <translation>Importálás</translation>
     </message>
     <message>
         <location line="+13"/>
         <location filename="../../build-clang-debug/src/GUI/ImportDialog/ui_GUI_ImportDialog.h" line="+1"/>
         <source>Import tracks to library</source>
-        <translation type="unfinished">könyvtár zenéinek betöltése</translation>
+        <translation>könyvtár zenéinek betöltése</translation>
     </message>
     <message>
         <location line="+7"/>
         <location filename="../../build-clang-debug/src/GUI/ImportDialog/ui_GUI_ImportDialog.h" line="+1"/>
         <source>Select target folder</source>
-        <translation type="unfinished">Válassza ki a célmappát</translation>
+        <translation>Válassza ki a célmappát</translation>
     </message>
     <message>
         <location line="+43"/>
         <location filename="../../build-clang-debug/src/GUI/ImportDialog/ui_GUI_ImportDialog.h" line="+2"/>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <location filename="../GUI/ImportDialog/GUI_ImportDialog.cpp" line="+102"/>
@@ -423,22 +426,22 @@
     <message>
         <location line="+18"/>
         <source>Loading tracks</source>
-        <translation type="unfinished"></translation>
+        <translation>Betöltés</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Importing</source>
-        <translation type="unfinished"></translation>
+        <translation>Importálás</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Finished</source>
-        <translation type="unfinished">Befejezve</translation>
+        <translation>Befejezve</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Cancelled</source>
-        <translation type="unfinished">Megszakítva</translation>
+        <translation>Megszakítva</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -453,12 +456,12 @@
     <message>
         <location line="+67"/>
         <source>Choose target directory</source>
-        <translation type="unfinished">Válasszon cél könyvtárat</translation>
+        <translation>Válasszon cél könyvtárat</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>%1&lt;br /&gt;is no library directory</source>
-        <translation type="unfinished">%1&lt;br /&gt;üres könyvtár</translation>
+        <translation>%1&lt;br /&gt;üres könyvtár</translation>
     </message>
 </context>
 <context>
@@ -543,32 +546,8 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+8"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="-5"/>
-        <source>Up</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+20"/>
+        <location line="+98"/>
         <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
-        <source>New</source>
-        <translation type="unfinished">Új</translation>
-    </message>
-    <message>
-        <location line="+14"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
-        <source>Delete</source>
-        <translation type="unfinished">Delete</translation>
-    </message>
-    <message>
-        <location line="+20"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
-        <source>Down</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+36"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+3"/>
         <source>On double click, create playlist and</source>
         <translation type="unfinished"></translation>
     </message>
@@ -623,7 +602,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../GUI/Preferences/LibraryPreferences/GUI_LibraryPreferences.cpp" line="+136"/>
+        <location filename="../GUI/Preferences/LibraryPreferences/GUI_LibraryPreferences.cpp" line="+138"/>
         <source>Cannot edit library</source>
         <translation type="unfinished"></translation>
     </message>
@@ -648,7 +627,7 @@
     <message>
         <location filename="../GUI/Player/GUI_Logger.cpp" line="+184"/>
         <source>Cannot open file</source>
-        <translation type="unfinished"></translation>
+        <translation>A fájl megnyitása nem sikerült</translation>
     </message>
 </context>
 <context>
@@ -963,42 +942,42 @@
         <location filename="../GUI/Preferences/ProxyPreferences/GUI_Proxy.ui" line="+30"/>
         <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_Proxy.h" line="+125"/>
         <source>Password</source>
-        <translation type="unfinished">Jelszó</translation>
+        <translation>Jelszó</translation>
     </message>
     <message>
         <location line="+7"/>
         <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_Proxy.h" line="+1"/>
         <source>Save username/password</source>
-        <translation type="unfinished"></translation>
+        <translation>Felhasználónév mentése/jelszó</translation>
     </message>
     <message>
         <location line="+7"/>
         <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_Proxy.h" line="+1"/>
         <source>Active</source>
-        <translation type="unfinished">Aktív állapotban</translation>
+        <translation>Aktív állapotban</translation>
     </message>
     <message>
         <location line="+13"/>
         <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_Proxy.h" line="+1"/>
         <source>Port</source>
-        <translation type="unfinished">Port</translation>
+        <translation>Port</translation>
     </message>
     <message>
         <location line="+7"/>
         <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_Proxy.h" line="+1"/>
         <source>Username</source>
-        <translation type="unfinished">Felhasználó név</translation>
+        <translation>Felhasználó név</translation>
     </message>
     <message>
         <location line="+27"/>
         <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_Proxy.h" line="+1"/>
         <source>Host</source>
-        <translation type="unfinished"></translation>
+        <translation>Gépnév</translation>
     </message>
     <message>
         <location filename="../GUI/Preferences/ProxyPreferences/GUI_Proxy.cpp" line="+55"/>
         <source>Proxy</source>
-        <translation type="unfinished"></translation>
+        <translation>Proxy</translation>
     </message>
 </context>
 <context>
@@ -1056,7 +1035,7 @@
         <location filename="../GUI/Preferences/Search/GUI_SearchPreferences.ui" line="+23"/>
         <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_SearchPreferences.h" line="+118"/>
         <source>Example</source>
-        <translation type="unfinished">Példa</translation>
+        <translation>Példa</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -1068,7 +1047,7 @@
         <location line="+13"/>
         <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_SearchPreferences.h" line="+1"/>
         <source>Option</source>
-        <translation type="unfinished">Beállítás</translation>
+        <translation>Beállítás</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -1174,7 +1153,7 @@
         <location line="+102"/>
         <location filename="../../build-clang-debug/src/3rdParty/SomaFM/ui_GUI_SomaFM.h" line="+2"/>
         <source>Streams</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Streams</translation>
     </message>
 </context>
 <context>
@@ -1305,12 +1284,12 @@
     <message>
         <location filename="../GUI/Preferences/Streams/GUI_StreamPreferences.cpp" line="+51"/>
         <source>Streams</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Streams</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Podcasts</source>
-        <translation type="unfinished">Podcasts</translation>
+        <translation>Podcasts</translation>
     </message>
     <message>
         <location filename="../GUI/Preferences/Streams/GUI_StreamPreferences.ui" line="+17"/>
@@ -1322,7 +1301,7 @@
         <location line="+7"/>
         <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_StreamPreferences.h" line="+1"/>
         <source>Show history</source>
-        <translation type="unfinished"></translation>
+        <translation>Az előzmények megjelenítése</translation>
     </message>
 </context>
 <context>
@@ -1331,7 +1310,7 @@
         <location filename="../GUI/Preferences/StreamRecorder/GUI_StreamRecorder.ui" line="+27"/>
         <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="+251"/>
         <source>General</source>
-        <translation type="unfinished"></translation>
+        <translation>Általános</translation>
     </message>
     <message>
         <location line="+55"/>
@@ -1367,7 +1346,7 @@
         <location line="+24"/>
         <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="+1"/>
         <source>Example</source>
-        <translation type="unfinished">Példa</translation>
+        <translation>Példa</translation>
     </message>
     <message>
         <location filename="../GUI/Preferences/StreamRecorder/GUI_StreamRecorder.cpp" line="+217"/>
@@ -1563,7 +1542,7 @@ Kérjük, válasszon egy másik mappát</translation>
         <location line="+317"/>
         <location filename="../../build-clang-debug/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+3"/>
         <source>Album artist</source>
-        <translation type="unfinished"></translation>
+        <translation>Előadó</translation>
     </message>
     <message>
         <location line="-635"/>
@@ -1599,7 +1578,7 @@ Kérjük, válasszon egy másik mappát</translation>
         <location line="+178"/>
         <location filename="../../build-clang-debug/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+9"/>
         <source>Apply to all</source>
-        <translation type="unfinished"></translation>
+        <translation>Alkalmazás az összesre</translation>
     </message>
     <message>
         <location line="-245"/>
@@ -1611,7 +1590,7 @@ Kérjük, válasszon egy másik mappát</translation>
         <location line="-58"/>
         <location filename="../../build-clang-debug/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-1"/>
         <source>Undo all</source>
-        <translation type="unfinished"></translation>
+        <translation>Visszavonás (Összes)</translation>
     </message>
     <message>
         <location filename="../GUI/TagEdit/GUI_TagEdit.cpp" line="+303"/>
@@ -1733,7 +1712,7 @@ Kérjük, válasszon egy másik mappát</translation>
         <translation>Előadók</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+6"/>
         <source>Bitrate</source>
         <translation>Bitráta</translation>
     </message>
@@ -1818,7 +1797,7 @@ Kérjük, válasszon egy másik mappát</translation>
         <translation>Időtartam</translation>
     </message>
     <message>
-        <location line="-68"/>
+        <location line="-70"/>
         <source>Activate</source>
         <translation>Aktiválás</translation>
     </message>
@@ -1840,7 +1819,7 @@ Kérjük, válasszon egy másik mappát</translation>
     <message>
         <location line="+4"/>
         <source>Application</source>
-        <translation type="unfinished"></translation>
+        <translation>Alkalmazás</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -1850,7 +1829,12 @@ Kérjük, válasszon egy másik mappát</translation>
     <message>
         <location line="+6"/>
         <source>Ascending</source>
-        <translation type="unfinished"></translation>
+        <translation>Növekvő</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Automatic</source>
+        <translation>Automatikus</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -1875,7 +1859,7 @@ Kérjük, válasszon egy másik mappát</translation>
     <message>
         <location line="+9"/>
         <source>Descending</source>
-        <translation type="unfinished"></translation>
+        <translation>Csökkenő</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -1930,7 +1914,7 @@ Kérjük, válasszon egy másik mappát</translation>
     <message>
         <location line="+2"/>
         <source>Filename</source>
-        <translation type="unfinished"></translation>
+        <translation>Fájlnév</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2010,12 +1994,12 @@ Kérjük, válasszon egy másik mappát</translation>
     <message>
         <location line="+2"/>
         <source>Loading</source>
-        <translation type="unfinished"></translation>
+        <translation>Betöltés</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Loading %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 betöltése</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2080,7 +2064,7 @@ Kérjük, válasszon egy másik mappát</translation>
     <message>
         <location line="+2"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Név</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2109,8 +2093,18 @@ Kérjük, válasszon egy másik mappát</translation>
     </message>
     <message>
         <location line="+2"/>
+        <source>Move down</source>
+        <translation>Lefelé</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Move up</source>
+        <translation>Felfelé</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -2135,7 +2129,7 @@ Kérjük, válasszon egy másik mappát</translation>
     <message>
         <location line="+2"/>
         <source>or</source>
-        <translation type="unfinished"></translation>
+        <translation>vagy</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2180,7 +2174,7 @@ Kérjük, válasszon egy másik mappát</translation>
     <message>
         <location line="+2"/>
         <source>Preferences</source>
-        <translation type="unfinished">Beállítások</translation>
+        <translation>Beállítások</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2240,7 +2234,7 @@ Kérjük, válasszon egy másik mappát</translation>
     <message>
         <location line="+14"/>
         <source>Save to file</source>
-        <translation type="unfinished"></translation>
+        <translation>Menté&amp;s fájlba</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -2250,7 +2244,7 @@ Kérjük, válasszon egy másik mappát</translation>
     <message>
         <location line="+15"/>
         <source>Sort by</source>
-        <translation type="unfinished"></translation>
+        <translation>Rendezés</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -2288,12 +2282,12 @@ Kérjük, válasszon egy másik mappát</translation>
         <translation>Frissítés</translation>
     </message>
     <message>
-        <location line="-57"/>
+        <location line="-61"/>
         <source>Mute</source>
-        <translation type="unfinished"></translation>
+        <translation>Némítás</translation>
     </message>
     <message>
-        <location line="+71"/>
+        <location line="+75"/>
         <source>Retry</source>
         <translation>Ismét</translation>
     </message>
@@ -2479,7 +2473,7 @@ Kérjük, válasszon egy másik mappát</translation>
     <message>
         <location line="+7"/>
         <source>Show toolbar</source>
-        <translation type="unfinished"></translation>
+        <translation>Eszköztár megjelenítése</translation>
     </message>
 </context>
 <context>
@@ -2487,7 +2481,7 @@ Kérjük, válasszon egy másik mappát</translation>
     <message>
         <location filename="../GUI/Library/GUI_EmptyLibrary.cpp" line="+94"/>
         <source>Do you want to reload the Library?</source>
-        <translation type="unfinished">Biztos újratöltöd a könyvtárat?</translation>
+        <translation>Biztos újratöltöd a könyvtárat?</translation>
     </message>
 </context>
 <context>
@@ -2508,12 +2502,12 @@ Kérjük, válasszon egy másik mappát</translation>
     <message>
         <location filename="../GUI/Library/Views/ItemView.cpp" line="+127"/>
         <source>Merge</source>
-        <translation type="unfinished">Egyesítés</translation>
+        <translation>Egyesítés</translation>
     </message>
     <message>
         <location line="+106"/>
         <source>Clear selection</source>
-        <translation type="unfinished"></translation>
+        <translation>A kijelölés megszüntetése</translation>
     </message>
 </context>
 <context>
@@ -2539,7 +2533,7 @@ Kérjük, válasszon egy másik mappát</translation>
     <message>
         <location line="+6"/>
         <source>Clear selection</source>
-        <translation type="unfinished"></translation>
+        <translation>A kijelölés megszüntetése</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -2590,96 +2584,96 @@ Kérjük, válasszon egy másik mappát</translation>
     <message>
         <location filename="../GUI/Player/GUI_PlayerMenubar.cpp" line="+226"/>
         <source>View</source>
-        <translation type="unfinished">Megtekintés</translation>
+        <translation>Megtekintés</translation>
     </message>
     <message>
         <location line="+1"/>
         <location line="+13"/>
         <source>Help</source>
-        <translation type="unfinished">Segítség</translation>
+        <translation>Segítség</translation>
     </message>
     <message>
         <location line="-3"/>
         <source>Dark</source>
-        <translation type="unfinished">Sötét</translation>
+        <translation>Sötét</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Fullscreen</source>
-        <translation type="unfinished"></translation>
+        <translation>Teljes képernyő</translation>
     </message>
     <message>
         <location line="+42"/>
         <source>Media files</source>
-        <translation type="unfinished">Media fájl</translation>
+        <translation>Media fájl</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Open Media files</source>
-        <translation type="unfinished">Médiafájlok megnyitása</translation>
+        <translation>Médiafájlok megnyitása</translation>
     </message>
     <message>
         <location line="+41"/>
         <source>Please visit the forum at</source>
-        <translation type="unfinished">Kérjük, látogasson el a fórumra</translation>
+        <translation>Kérjük, látogasson el a fórumra</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Donate</source>
-        <translation type="unfinished"></translation>
+        <translation>Adományozás</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Thank you</source>
-        <translation type="unfinished"></translation>
+        <translation>Köszönjük</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>About Sayonara</source>
-        <translation type="unfinished">A Sayonara-ról</translation>
+        <translation>A Sayonara-ról</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Special thanks to %1 and %2 for translating</source>
-        <translation type="unfinished">Különleges köszönet %1 és %2</translation>
+        <translation>Különleges köszönet %1 és %2</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Written by Lucio Carreras</source>
-        <translation type="unfinished">Írta: Lucio Carreras</translation>
+        <translation>Írta: Lucio Carreras</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>License</source>
-        <translation type="unfinished">Licenc</translation>
+        <translation>Licenc</translation>
     </message>
 </context>
 <context>
     <name>MiniSearcher</name>
     <message>
         <location filename="../GUI/Utils/SearchableWidget/MiniSearcher.cpp" line="+238"/>
-        <source>Up</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>Previous search result</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+0"/>
+        <source>Arrow up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location line="+1"/>
-        <source>Down</source>
+        <source>Next search result</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+0"/>
-        <source>Next search result</source>
+        <source>Arrow down</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Esc</source>
-        <translation type="unfinished"></translation>
+        <translation>Esc</translation>
     </message>
 </context>
 <context>
@@ -2717,7 +2711,7 @@ Kérjük, válasszon egy másik mappát</translation>
     <message>
         <location filename="../3rdParty/Soundcloud/src/SoundcloudData.cpp" line="+250"/>
         <source>Purchase Url</source>
-        <translation type="unfinished">Vásárlás Url</translation>
+        <translation>Vásárlás Url</translation>
     </message>
 </context>
 <context>
@@ -2770,7 +2764,7 @@ Kérjük, válasszon egy másik mappát</translation>
         <location line="+84"/>
         <location line="+125"/>
         <source>Purchase Url</source>
-        <translation type="unfinished">Vásárlás Url</translation>
+        <translation>Vásárlás Url</translation>
     </message>
 </context>
 <context>
@@ -2797,7 +2791,7 @@ Kérjük, válasszon egy másik mappát</translation>
         <location line="+10"/>
         <location filename="../../build-clang-debug/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
         <source>Preferences</source>
-        <translation type="unfinished">Beállítások</translation>
+        <translation>Beállítások</translation>
     </message>
     <message>
         <location line="-185"/>
@@ -2846,13 +2840,13 @@ Kérjük, válasszon egy másik mappát</translation>
         <location filename="../GUI/Plugins/Stream/GUI_AbstractStream.cpp" line="-278"/>
         <location line="+5"/>
         <source>Streams</source>
-        <translation type="unfinished"></translation>
+        <translation>Streams</translation>
     </message>
     <message>
         <location line="-5"/>
         <location line="+5"/>
         <source>Podcasts</source>
-        <translation type="unfinished">Podcasts</translation>
+        <translation>Podcasts</translation>
     </message>
 </context>
 <context>

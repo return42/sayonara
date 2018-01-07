@@ -122,6 +122,8 @@ void GUI_LibraryPreferences::retranslate_ui()
 	ui->btn_new->setText(Lang::get(Lang::New));
 	ui->btn_edit->setText(Lang::get(Lang::Edit));
 	ui->btn_delete->setText(Lang::get(Lang::Remove));
+	ui->btn_down->setText(Lang::get(Lang::MoveDown));
+	ui->btn_up->setText(Lang::get(Lang::MoveUp));
 }
 
 void GUI_LibraryPreferences::showEvent(QShowEvent* e)

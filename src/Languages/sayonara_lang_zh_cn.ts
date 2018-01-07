@@ -19,12 +19,12 @@
     <message>
         <location filename="../GUI/Directories/DirectoryContextMenu.cpp" line="+132"/>
         <source>Create directory</source>
-        <translation type="unfinished"></translation>
+        <translation>创建目录</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Collapse all</source>
-        <translation type="unfinished"></translation>
+        <translation>全部折叠</translation>
     </message>
 </context>
 <context>
@@ -33,17 +33,17 @@
         <location filename="../GUI/Directories/DirectoryTreeView.cpp" line="+324"/>
         <location line="+27"/>
         <source>Enter new name</source>
-        <translation type="unfinished"></translation>
+        <translation>新名称</translation>
     </message>
     <message>
         <location line="+231"/>
         <source>Copy here</source>
-        <translation type="unfinished"></translation>
+        <translation>版权</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Move here</source>
-        <translation type="unfinished"></translation>
+        <translation>移动</translation>
     </message>
 </context>
 <context>
@@ -59,7 +59,7 @@
     <message>
         <location filename="../GUI/Directories/FileListView.cpp" line="+343"/>
         <source>Enter new name</source>
-        <translation type="unfinished"></translation>
+        <translation>新名称</translation>
     </message>
 </context>
 <context>
@@ -131,13 +131,13 @@
         <location line="+12"/>
         <location filename="../../build-clang-debug/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="-1"/>
         <source>Select and preview multiple covers</source>
-        <translation type="unfinished">选择并预览多个封面</translation>
+        <translation>选择并预览多个封面</translation>
     </message>
     <message>
         <location line="+194"/>
         <location filename="../../build-clang-debug/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="+4"/>
         <source>Alternative Cover</source>
-        <translation type="unfinished">替代封面</translation>
+        <translation>替代封面</translation>
     </message>
 </context>
 <context>
@@ -150,7 +150,7 @@
     <message>
         <location line="+41"/>
         <source>Best</source>
-        <translation type="unfinished"></translation>
+        <translation>最好</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -202,7 +202,7 @@
         <location filename="../GUI/Plugins/Broadcasting/GUI_Broadcast.ui" line="+54"/>
         <location filename="../../build-clang-debug/src/GUI/Plugins/Broadcasting/ui_GUI_Broadcast.h" line="+114"/>
         <source>...</source>
-        <translation type="unfinished">...</translation>
+        <translation>...</translation>
     </message>
     <message>
         <location line="+34"/>
@@ -262,28 +262,28 @@
         <location filename="../GUI/Player/GUI_Controls.ui" line="+529"/>
         <location filename="../../build-clang-debug/src/GUI/Player/ui_GUI_Controls.h" line="+454"/>
         <source>Written by Lucio Carreras</source>
-        <translation type="unfinished">作者:卡雷拉斯卢西奥</translation>
+        <translation>作者:卡雷拉斯卢西奥</translation>
     </message>
     <message>
         <location line="-88"/>
         <location filename="../../build-clang-debug/src/GUI/Player/ui_GUI_Controls.h" line="-2"/>
         <source>Copyright 2011-2017</source>
-        <translation type="unfinished">版权所有2011年至2013年 {2011-2017?}</translation>
+        <translation>版权所有2011年至2013年 {2011-2017?}</translation>
     </message>
     <message>
         <location filename="../GUI/Player/GUI_Controls.cpp" line="+49"/>
         <source>Sayonara Player</source>
-        <translation type="unfinished">再见播放器</translation>
+        <translation>再见播放器</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Written by</source>
-        <translation type="unfinished">编写由</translation>
+        <translation>编写由</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Copyright</source>
-        <translation type="unfinished">版权</translation>
+        <translation>版权</translation>
     </message>
 </context>
 <context>
@@ -306,19 +306,14 @@
 <context>
     <name>GUI_DeleteDialog</name>
     <message>
-        <location filename="../GUI/Utils/Library/gui_deletedialog.ui" line="+14"/>
-        <source>Dialog</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../GUI/Utils/Library/GUI_DeleteDialog.cpp" line="+87"/>
         <source>Only from library</source>
-        <translation type="unfinished">只从图文库</translation>
+        <translation>只从图文库</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>You are about to delete %1 files</source>
-        <translation type="unfinished">你即将删除 %1 文件</translation>
+        <translation>你即将删除 %1 文件</translation>
     </message>
 </context>
 <context>
@@ -327,13 +322,21 @@
         <location filename="../GUI/Library/GUI_EmptyLibrary.ui" line="+26"/>
         <location filename="../../build-clang-debug/src/GUI/Library/ui_GUI_EmptyLibrary.h" line="+134"/>
         <source>Set library path</source>
-        <translation type="unfinished">设置库路径</translation>
+        <translation>设置库路径</translation>
     </message>
     <message>
         <location line="+17"/>
         <location filename="../../build-clang-debug/src/GUI/Library/ui_GUI_EmptyLibrary.h" line="+1"/>
         <source>You haven&apos;t specified a library path yet</source>
-        <translation type="unfinished">你还没有&apos;指定库一个路径</translation>
+        <translation>你还没有&apos;指定库一个路径</translation>
+    </message>
+</context>
+<context>
+    <name>GUI_EnginePreferences</name>
+    <message>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_EnginePreferences.h" line="+70"/>
+        <source>Automatic</source>
+        <translation>自动</translation>
     </message>
 </context>
 <context>
@@ -380,7 +383,7 @@
     <message>
         <location filename="../GUI/Preferences/Icons/GUI_IconPreferences.cpp" line="+218"/>
         <source>Icons</source>
-        <translation type="unfinished"></translation>
+        <translation>图标</translation>
     </message>
     <message>
         <location filename="../GUI/Preferences/Icons/GUI_IconPreferences.ui" line="+38"/>
@@ -395,70 +398,70 @@
         <location filename="../GUI/ImportDialog/GUI_ImportDialog.ui" line="+14"/>
         <location filename="../../build-clang-debug/src/GUI/ImportDialog/ui_GUI_ImportDialog.h" line="+156"/>
         <source>Import</source>
-        <translation type="unfinished">导入</translation>
+        <translation>导入</translation>
     </message>
     <message>
         <location line="+13"/>
         <location filename="../../build-clang-debug/src/GUI/ImportDialog/ui_GUI_ImportDialog.h" line="+1"/>
         <source>Import tracks to library</source>
-        <translation type="unfinished">导入库</translation>
+        <translation>导入库</translation>
     </message>
     <message>
         <location line="+7"/>
         <location filename="../../build-clang-debug/src/GUI/ImportDialog/ui_GUI_ImportDialog.h" line="+1"/>
         <source>Select target folder</source>
-        <translation type="unfinished">选择目标文件夹</translation>
+        <translation>选择目标文件夹</translation>
     </message>
     <message>
         <location line="+43"/>
         <location filename="../../build-clang-debug/src/GUI/ImportDialog/ui_GUI_ImportDialog.h" line="+2"/>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <location filename="../GUI/ImportDialog/GUI_ImportDialog.cpp" line="+102"/>
         <source>%1 tracks available</source>
-        <translation type="unfinished">%1 轨道可用</translation>
+        <translation>%1 轨道可用</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Loading tracks</source>
-        <translation type="unfinished"></translation>
+        <translation>正在载入</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Importing</source>
-        <translation type="unfinished"></translation>
+        <translation>正在导入</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Finished</source>
-        <translation type="unfinished">已完成</translation>
+        <translation>已完成</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Cancelled</source>
-        <translation type="unfinished">取消</translation>
+        <translation>取消</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>No tracks</source>
-        <translation type="unfinished">没有轨道</translation>
+        <translation>无曲目</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Rollback</source>
-        <translation type="unfinished">回滚</translation>
+        <translation>回滚</translation>
     </message>
     <message>
         <location line="+67"/>
         <source>Choose target directory</source>
-        <translation type="unfinished">选择目标目录</translation>
+        <translation>选择目标目录</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>%1&lt;br /&gt;is no library directory</source>
-        <translation type="unfinished">%1&lt;br /&gt;没有库目录</translation>
+        <translation>%1&lt;br /&gt;没有库目录</translation>
     </message>
 </context>
 <context>
@@ -531,7 +534,7 @@
     <message>
         <location filename="../3rdParty/Soundcloud/ui/GUI_SoundcloudLibrary.cpp" line="+49"/>
         <source>Add artist</source>
-        <translation type="unfinished">添加艺术家</translation>
+        <translation>添加艺术家</translation>
     </message>
 </context>
 <context>
@@ -543,32 +546,8 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+8"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="-5"/>
-        <source>Up</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+20"/>
+        <location line="+98"/>
         <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
-        <source>New</source>
-        <translation type="unfinished">新建</translation>
-    </message>
-    <message>
-        <location line="+14"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
-        <source>Delete</source>
-        <translation type="unfinished">删除</translation>
-    </message>
-    <message>
-        <location line="+20"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
-        <source>Down</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+36"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+3"/>
         <source>On double click, create playlist and</source>
         <translation>双击创建一个播放列表</translation>
     </message>
@@ -623,7 +602,7 @@
         <translation>文件库-播放列表互动</translation>
     </message>
     <message>
-        <location filename="../GUI/Preferences/LibraryPreferences/GUI_LibraryPreferences.cpp" line="+136"/>
+        <location filename="../GUI/Preferences/LibraryPreferences/GUI_LibraryPreferences.cpp" line="+138"/>
         <source>Cannot edit library</source>
         <translation type="unfinished"></translation>
     </message>
@@ -669,7 +648,7 @@
         <location line="+42"/>
         <location filename="../../build-clang-debug/src/GUI/InfoDialog/ui_GUI_Lyrics.h" line="+1"/>
         <source>Zoom</source>
-        <translation type="unfinished"></translation>
+        <translation>缩放(z)</translation>
     </message>
     <message>
         <location filename="../GUI/InfoDialog/GUI_Lyrics.cpp" line="+294"/>
@@ -679,12 +658,12 @@
     <message>
         <location line="+4"/>
         <source>Save lyrics</source>
-        <translation type="unfinished"></translation>
+        <translation>保存歌词</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Source</source>
-        <translation type="unfinished"></translation>
+        <translation>来源</translation>
     </message>
 </context>
 <context>
@@ -867,7 +846,7 @@
         <location line="-56"/>
         <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+5"/>
         <source>Behavior</source>
-        <translation type="unfinished"></translation>
+        <translation>行为</translation>
     </message>
     <message>
         <location line="+80"/>
@@ -963,7 +942,7 @@
         <location filename="../GUI/Preferences/ProxyPreferences/GUI_Proxy.ui" line="+30"/>
         <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_Proxy.h" line="+125"/>
         <source>Password</source>
-        <translation type="unfinished">密码</translation>
+        <translation>密码</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -975,30 +954,30 @@
         <location line="+7"/>
         <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_Proxy.h" line="+1"/>
         <source>Active</source>
-        <translation type="unfinished">有效</translation>
+        <translation>连接</translation>
     </message>
     <message>
         <location line="+13"/>
         <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_Proxy.h" line="+1"/>
         <source>Port</source>
-        <translation type="unfinished">端口</translation>
+        <translation>端口</translation>
     </message>
     <message>
         <location line="+7"/>
         <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_Proxy.h" line="+1"/>
         <source>Username</source>
-        <translation type="unfinished">用户名称</translation>
+        <translation>用户名称</translation>
     </message>
     <message>
         <location line="+27"/>
         <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_Proxy.h" line="+1"/>
         <source>Host</source>
-        <translation type="unfinished"></translation>
+        <translation>主机</translation>
     </message>
     <message>
         <location filename="../GUI/Preferences/ProxyPreferences/GUI_Proxy.cpp" line="+55"/>
         <source>Proxy</source>
-        <translation type="unfinished"></translation>
+        <translation>代理服务器</translation>
     </message>
 </context>
 <context>
@@ -1056,31 +1035,31 @@
         <location filename="../GUI/Preferences/Search/GUI_SearchPreferences.ui" line="+23"/>
         <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_SearchPreferences.h" line="+118"/>
         <source>Example</source>
-        <translation type="unfinished">示例</translation>
+        <translation>示例</translation>
     </message>
     <message>
         <location line="+7"/>
         <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_SearchPreferences.h" line="+1"/>
         <source>Case insensitive</source>
-        <translation type="unfinished">不区分大小写</translation>
+        <translation>不区分大小写</translation>
     </message>
     <message>
         <location line="+13"/>
         <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_SearchPreferences.h" line="+1"/>
         <source>Option</source>
-        <translation type="unfinished">选项</translation>
+        <translation>选项</translation>
     </message>
     <message>
         <location line="+10"/>
         <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_SearchPreferences.h" line="+1"/>
         <source>Ignore accents</source>
-        <translation type="unfinished">忽略重音</translation>
+        <translation>忽略重音</translation>
     </message>
     <message>
         <location line="+27"/>
         <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_SearchPreferences.h" line="+1"/>
         <source>Ignore special characters</source>
-        <translation type="unfinished">忽略特殊字符</translation>
+        <translation>忽略特殊字符</translation>
     </message>
 </context>
 <context>
@@ -1088,7 +1067,7 @@
     <message>
         <location filename="../GUI/Preferences/Shortcuts/GUI_ShortcutEntry.cpp" line="+41"/>
         <source>Enter shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation>按快捷方式</translation>
     </message>
     <message>
         <location line="+25"/>
@@ -1305,12 +1284,12 @@
     <message>
         <location filename="../GUI/Preferences/Streams/GUI_StreamPreferences.cpp" line="+51"/>
         <source>Streams</source>
-        <translation type="unfinished">流</translation>
+        <translation>流</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Podcasts</source>
-        <translation type="unfinished">播客</translation>
+        <translation>播客</translation>
     </message>
     <message>
         <location filename="../GUI/Preferences/Streams/GUI_StreamPreferences.ui" line="+17"/>
@@ -1379,7 +1358,7 @@
         <location line="+24"/>
         <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="+1"/>
         <source>Example</source>
-        <translation type="unfinished">示例</translation>
+        <translation>示例</translation>
     </message>
     <message>
         <location filename="../GUI/Preferences/StreamRecorder/GUI_StreamRecorder.cpp" line="+151"/>
@@ -1557,7 +1536,7 @@ Please choose another folder</source>
         <location line="+324"/>
         <location filename="../../build-clang-debug/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+4"/>
         <source>Album artist</source>
-        <translation type="unfinished"></translation>
+        <translation>专辑艺人</translation>
     </message>
     <message>
         <location line="-635"/>
@@ -1705,12 +1684,12 @@ Please choose another folder</source>
     <message>
         <location line="+2"/>
         <source>Activate</source>
-        <translation type="unfinished">激活</translation>
+        <translation>激活</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Active</source>
-        <translation type="unfinished">有效</translation>
+        <translation>连接</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -1735,7 +1714,7 @@ Please choose another folder</source>
     <message>
         <location line="+2"/>
         <source>All</source>
-        <translation type="unfinished"></translation>
+        <translation>全部</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -1745,12 +1724,12 @@ Please choose another folder</source>
     <message>
         <location line="+2"/>
         <source>Application</source>
-        <translation type="unfinished"></translation>
+        <translation>应用程序</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Apply</source>
-        <translation type="unfinished">应用</translation>
+        <translation>应用</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -1766,6 +1745,11 @@ Please choose another folder</source>
         <location line="+2"/>
         <source>Ascending</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Automatic</source>
+        <translation>自动</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -1790,7 +1774,7 @@ Please choose another folder</source>
     <message>
         <location line="+2"/>
         <source>Cancel</source>
-        <translation type="unfinished">取消</translation>
+        <translation>取消</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -1830,12 +1814,12 @@ Please choose another folder</source>
     <message>
         <location line="+2"/>
         <source>Date</source>
-        <translation type="unfinished">日期</translation>
+        <translation>日期</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>days</source>
-        <translation type="unfinished"></translation>
+        <translation>天</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1930,7 +1914,7 @@ Please choose another folder</source>
     <message>
         <location line="+2"/>
         <source>Filename</source>
-        <translation type="unfinished"></translation>
+        <translation>文件名</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -1950,12 +1934,12 @@ Please choose another folder</source>
     <message>
         <location line="+2"/>
         <source>Font</source>
-        <translation type="unfinished"></translation>
+        <translation>字体</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Fonts</source>
-        <translation type="unfinished">字体</translation>
+        <translation>字体</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -1980,7 +1964,7 @@ Please choose another folder</source>
     <message>
         <location line="+2"/>
         <source>hours</source>
-        <translation type="unfinished"></translation>
+        <translation>小时</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1995,7 +1979,7 @@ Please choose another folder</source>
     <message>
         <location line="+2"/>
         <source>Import files</source>
-        <translation type="unfinished">导入文件</translation>
+        <translation>导入文件夹</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2010,17 +1994,17 @@ Please choose another folder</source>
     <message>
         <location line="+2"/>
         <source>Loading</source>
-        <translation type="unfinished"></translation>
+        <translation>正在载入</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Loading %1</source>
-        <translation type="unfinished"></translation>
+        <translation>正在载入 %1</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Invalid characters</source>
-        <translation type="unfinished"></translation>
+        <translation>无效字符</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2055,7 +2039,7 @@ Please choose another folder</source>
     <message>
         <location line="+2"/>
         <source>minutes</source>
-        <translation type="unfinished">分钟</translation>
+        <translation>分钟</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -2070,17 +2054,17 @@ Please choose another folder</source>
     <message>
         <location line="+2"/>
         <source>Months</source>
-        <translation type="unfinished">月</translation>
+        <translation>月</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Mute off</source>
-        <translation type="unfinished"></translation>
+        <translation>静音: 关闭</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>名称</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2109,8 +2093,18 @@ Please choose another folder</source>
     </message>
     <message>
         <location line="+2"/>
+        <source>Move down</source>
+        <translation>下移</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Move up</source>
+        <translation>上移</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -2135,7 +2129,7 @@ Please choose another folder</source>
     <message>
         <location line="+2"/>
         <source>or</source>
-        <translation type="unfinished"></translation>
+        <translation>或</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2180,7 +2174,7 @@ Please choose another folder</source>
     <message>
         <location line="+2"/>
         <source>Preferences</source>
-        <translation type="unfinished">偏好</translation>
+        <translation>首选项</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2245,7 +2239,7 @@ Please choose another folder</source>
     <message>
         <location line="+10"/>
         <source>seconds</source>
-        <translation type="unfinished"></translation>
+        <translation>秒</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -2260,7 +2254,7 @@ Please choose another folder</source>
     <message>
         <location line="+12"/>
         <source>track number</source>
-        <translation type="unfinished">曲目编号</translation>
+        <translation>曲目编号</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -2270,17 +2264,17 @@ Please choose another folder</source>
     <message>
         <location line="+18"/>
         <source>Weeks</source>
-        <translation type="unfinished">周</translation>
+        <translation>周</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Years</source>
-        <translation type="unfinished">年份</translation>
+        <translation>年份</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Zoom</source>
-        <translation type="unfinished"></translation>
+        <translation>缩放</translation>
     </message>
     <message>
         <location line="-103"/>
@@ -2288,14 +2282,14 @@ Please choose another folder</source>
         <translation></translation>
     </message>
     <message>
-        <location line="-57"/>
+        <location line="-61"/>
         <source>Mute</source>
-        <translation type="unfinished"></translation>
+        <translation>静音</translation>
     </message>
     <message>
-        <location line="+71"/>
+        <location line="+75"/>
         <source>Retry</source>
-        <translation type="unfinished">重试</translation>
+        <translation>重试</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2411,7 +2405,7 @@ Please choose another folder</source>
     <message>
         <location line="+2"/>
         <source>Tree</source>
-        <translation type="unfinished"></translation>
+        <translation>树形</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2479,7 +2473,7 @@ Please choose another folder</source>
     <message>
         <location line="+7"/>
         <source>Show toolbar</source>
-        <translation type="unfinished"></translation>
+        <translation>显示工具栏</translation>
     </message>
 </context>
 <context>
@@ -2487,7 +2481,7 @@ Please choose another folder</source>
     <message>
         <location filename="../GUI/Library/GUI_EmptyLibrary.cpp" line="+94"/>
         <source>Do you want to reload the Library?</source>
-        <translation type="unfinished">你想重新装入图文库吗?</translation>
+        <translation>你想重新装入图文库吗?</translation>
     </message>
 </context>
 <context>
@@ -2495,7 +2489,7 @@ Please choose another folder</source>
     <message>
         <location filename="../GUI/Library/Views/GenreView.cpp" line="+117"/>
         <source>Updating genres</source>
-        <translation type="unfinished">更新类型</translation>
+        <translation>更新类型</translation>
     </message>
     <message>
         <location line="+72"/>
@@ -2508,12 +2502,12 @@ Please choose another folder</source>
     <message>
         <location filename="../GUI/Library/Views/ItemView.cpp" line="+127"/>
         <source>Merge</source>
-        <translation type="unfinished">合并</translation>
+        <translation>合并</translation>
     </message>
     <message>
         <location line="+106"/>
         <source>Clear selection</source>
-        <translation type="unfinished"></translation>
+        <translation>清除选择区</translation>
     </message>
 </context>
 <context>
@@ -2521,7 +2515,7 @@ Please choose another folder</source>
     <message>
         <location filename="../GUI/Library/Utils/LocalLibraryMenu.cpp" line="+188"/>
         <source>Live search</source>
-        <translation type="unfinished">Live搜索</translation>
+        <translation>Live搜索</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2539,7 +2533,7 @@ Please choose another folder</source>
     <message>
         <location line="+6"/>
         <source>Clear selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">清除选择区</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -2590,43 +2584,43 @@ Please choose another folder</source>
     <message>
         <location filename="../GUI/Player/GUI_PlayerMenubar.cpp" line="+226"/>
         <source>View</source>
-        <translation type="unfinished">视图</translation>
+        <translation>视图</translation>
     </message>
     <message>
         <location line="+1"/>
         <location line="+13"/>
         <source>Help</source>
-        <translation type="unfinished">帮助</translation>
+        <translation>帮助</translation>
     </message>
     <message>
         <location line="-3"/>
         <source>Dark</source>
-        <translation type="unfinished">黑暗</translation>
+        <translation>黑暗</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Fullscreen</source>
-        <translation type="unfinished"></translation>
+        <translation>全屏</translation>
     </message>
     <message>
         <location line="+42"/>
         <source>Media files</source>
-        <translation type="unfinished">媒体文件</translation>
+        <translation>媒体文件</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Open Media files</source>
-        <translation type="unfinished">打开媒体文件</translation>
+        <translation>打开媒体文件</translation>
     </message>
     <message>
         <location line="+41"/>
         <source>Please visit the forum at</source>
-        <translation type="unfinished">请访问论坛</translation>
+        <translation>请访问论坛</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Donate</source>
-        <translation type="unfinished">捐助</translation>
+        <translation>捐助</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2636,44 +2630,44 @@ Please choose another folder</source>
     <message>
         <location line="+22"/>
         <source>About Sayonara</source>
-        <translation type="unfinished">关于再见</translation>
+        <translation>关于再见</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Special thanks to %1 and %2 for translating</source>
-        <translation type="unfinished">特别感谢 %1 与 %2 提供翻译</translation>
+        <translation>特别感谢 %1 与 %2 提供翻译</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Written by Lucio Carreras</source>
-        <translation type="unfinished">作者:卡雷拉斯卢西奥</translation>
+        <translation>作者:卡雷拉斯卢西奥</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>License</source>
-        <translation type="unfinished">许可证</translation>
+        <translation>许可证</translation>
     </message>
 </context>
 <context>
     <name>MiniSearcher</name>
     <message>
         <location filename="../GUI/Utils/SearchableWidget/MiniSearcher.cpp" line="+238"/>
-        <source>Up</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>Previous search result</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+0"/>
+        <source>Arrow up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location line="+1"/>
-        <source>Down</source>
+        <source>Next search result</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+0"/>
-        <source>Next search result</source>
+        <source>Arrow down</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2688,7 +2682,7 @@ Please choose another folder</source>
         <location filename="../Interfaces/PlayerPlugin/PlayerPlugin.cpp" line="+80"/>
         <location line="+34"/>
         <source>Close plugin</source>
-        <translation type="unfinished">关闭插件</translation>
+        <translation>关闭插件</translation>
     </message>
 </context>
 <context>
@@ -2717,7 +2711,7 @@ Please choose another folder</source>
     <message>
         <location filename="../3rdParty/Soundcloud/src/SoundcloudData.cpp" line="+250"/>
         <source>Purchase Url</source>
-        <translation type="unfinished">购买URL</translation>
+        <translation>购买URL</translation>
     </message>
 </context>
 <context>
@@ -2725,27 +2719,27 @@ Please choose another folder</source>
     <message>
         <location filename="../3rdParty/Soundcloud/ui/GUI_SoundcloudArtistSearch.cpp" line="+76"/>
         <source>Query too short</source>
-        <translation type="unfinished">查询短缺</translation>
+        <translation>查询短缺</translation>
     </message>
     <message>
         <location line="+78"/>
         <source>No artists found</source>
-        <translation type="unfinished">没有发现艺术家</translation>
+        <translation>没有发现艺术家</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Found %1 artists</source>
-        <translation type="unfinished">发现 %1 艺术家</translation>
+        <translation>发现 %1 艺术家</translation>
     </message>
     <message>
         <location line="+48"/>
         <source>%1 tracks found</source>
-        <translation type="unfinished">%1 轨道发现</translation>
+        <translation>%1 轨道发现</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>%1 playlists found</source>
-        <translation type="unfinished">%1 播放列表中发现</translation>
+        <translation>%1 播放列表中发现</translation>
     </message>
 </context>
 <context>
@@ -2753,24 +2747,24 @@ Please choose another folder</source>
     <message>
         <location filename="../3rdParty/Soundcloud/src/SoundcloudJsonParser.cpp" line="+117"/>
         <source>Website</source>
-        <translation type="unfinished">网站</translation>
+        <translation>网站</translation>
     </message>
     <message>
         <location line="+4"/>
         <location line="+218"/>
         <source>Permalink Url</source>
-        <translation type="unfinished">固定的连接网址</translation>
+        <translation>固定的连接网址</translation>
     </message>
     <message>
         <location line="-205"/>
         <source>Followers/Following</source>
-        <translation type="unfinished">追随/粉丝</translation>
+        <translation>追随/粉丝</translation>
     </message>
     <message>
         <location line="+84"/>
         <location line="+125"/>
         <source>Purchase Url</source>
-        <translation type="unfinished">购买URL</translation>
+        <translation>购买URL</translation>
     </message>
 </context>
 <context>
@@ -2815,7 +2809,7 @@ Please choose another folder</source>
         <location line="+10"/>
         <location filename="../../build-clang-debug/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
         <source>Preferences</source>
-        <translation type="unfinished">偏好</translation>
+        <translation>首选项</translation>
     </message>
 </context>
 <context>
@@ -2837,7 +2831,7 @@ Please choose another folder</source>
     <message>
         <location filename="../3rdParty/SomaFM/ui/SomaFMStationModel.cpp" line="+122"/>
         <source>Cannot fetch stations</source>
-        <translation type="unfinished">无法提取电台</translation>
+        <translation>无法提取电台</translation>
     </message>
 </context>
 <context>
@@ -2846,13 +2840,13 @@ Please choose another folder</source>
         <location filename="../GUI/Plugins/Stream/GUI_AbstractStream.cpp" line="-278"/>
         <location line="+5"/>
         <source>Streams</source>
-        <translation type="unfinished">流</translation>
+        <translation>流</translation>
     </message>
     <message>
         <location line="-5"/>
         <location line="+5"/>
         <source>Podcasts</source>
-        <translation type="unfinished">播客</translation>
+        <translation>播客</translation>
     </message>
 </context>
 <context>

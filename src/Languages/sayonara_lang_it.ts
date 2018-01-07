@@ -314,11 +314,6 @@
 <context>
     <name>GUI_DeleteDialog</name>
     <message>
-        <location filename="../GUI/Utils/Library/gui_deletedialog.ui" line="+14"/>
-        <source>Dialog</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../GUI/Utils/Library/GUI_DeleteDialog.cpp" line="+87"/>
         <source>Only from library</source>
         <translation>Solo dalla libreria</translation>
@@ -342,6 +337,14 @@
         <location filename="../../build-clang-debug/src/GUI/Library/ui_GUI_EmptyLibrary.h" line="+1"/>
         <source>You haven&apos;t specified a library path yet</source>
         <translation>Non è ancora stato specificato un percorso per la Libreria</translation>
+    </message>
+</context>
+<context>
+    <name>GUI_EnginePreferences</name>
+    <message>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_EnginePreferences.h" line="+70"/>
+        <source>Automatic</source>
+        <translation type="unfinished">Automatica</translation>
     </message>
 </context>
 <context>
@@ -551,32 +554,8 @@
         <translation>Bibliotecas</translation>
     </message>
     <message>
-        <location line="+8"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="-5"/>
-        <source>Up</source>
-        <translation>Su</translation>
-    </message>
-    <message>
-        <location line="+20"/>
+        <location line="+98"/>
         <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
-        <source>New</source>
-        <translation>Nuova</translation>
-    </message>
-    <message>
-        <location line="+14"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
-        <source>Delete</source>
-        <translation>Cancella</translation>
-    </message>
-    <message>
-        <location line="+20"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
-        <source>Down</source>
-        <translation>Giù</translation>
-    </message>
-    <message>
-        <location line="+36"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+3"/>
         <source>On double click, create playlist and</source>
         <translation type="unfinished"></translation>
     </message>
@@ -631,7 +610,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../GUI/Preferences/LibraryPreferences/GUI_LibraryPreferences.cpp" line="+136"/>
+        <location filename="../GUI/Preferences/LibraryPreferences/GUI_LibraryPreferences.cpp" line="+138"/>
         <source>Cannot edit library</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1743,7 +1722,7 @@ Seleziona un&apos;altra cartella</translation>
         <translation>Artisti</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+6"/>
         <source>Bitrate</source>
         <translation>Bitrate</translation>
     </message>
@@ -1828,7 +1807,7 @@ Seleziona un&apos;altra cartella</translation>
         <translation>Durata</translation>
     </message>
     <message>
-        <location line="-68"/>
+        <location line="-70"/>
         <source>Activate</source>
         <translation>Attiva</translation>
     </message>
@@ -1861,6 +1840,11 @@ Seleziona un&apos;altra cartella</translation>
         <location line="+6"/>
         <source>Ascending</source>
         <translation>Crescente</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Automatic</source>
+        <translation>Automatica</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -2119,6 +2103,16 @@ Seleziona un&apos;altra cartella</translation>
     </message>
     <message>
         <location line="+2"/>
+        <source>Move down</source>
+        <translation>Sposta giù</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Move up</source>
+        <translation>Sposta su</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
@@ -2298,12 +2292,12 @@ Seleziona un&apos;altra cartella</translation>
         <translation>Aggiorna</translation>
     </message>
     <message>
-        <location line="-57"/>
+        <location line="-61"/>
         <source>Mute</source>
         <translation>Muto</translation>
     </message>
     <message>
-        <location line="+71"/>
+        <location line="+75"/>
         <source>Retry</source>
         <translation>Riprova</translation>
     </message>
@@ -2668,23 +2662,23 @@ Seleziona un&apos;altra cartella</translation>
     <name>MiniSearcher</name>
     <message>
         <location filename="../GUI/Utils/SearchableWidget/MiniSearcher.cpp" line="+238"/>
-        <source>Up</source>
-        <translation>Su</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>Previous search result</source>
         <translation>Cerca precedente</translation>
     </message>
     <message>
+        <location line="+0"/>
+        <source>Arrow up</source>
+        <translation>Freccia alto</translation>
+    </message>
+    <message>
         <location line="+1"/>
-        <source>Down</source>
-        <translation>Giù</translation>
+        <source>Next search result</source>
+        <translation>Cerca successiva</translation>
     </message>
     <message>
         <location line="+0"/>
-        <source>Next search result</source>
-        <translation>Cerca successiva</translation>
+        <source>Arrow down</source>
+        <translation>Freccia giù</translation>
     </message>
     <message>
         <location line="+1"/>

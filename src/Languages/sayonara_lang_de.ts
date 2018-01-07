@@ -306,11 +306,6 @@
 <context>
     <name>GUI_DeleteDialog</name>
     <message>
-        <location filename="../GUI/Utils/Library/gui_deletedialog.ui" line="+14"/>
-        <source>Dialog</source>
-        <translation></translation>
-    </message>
-    <message>
         <location filename="../GUI/Utils/Library/GUI_DeleteDialog.cpp" line="+87"/>
         <source>Only from library</source>
         <translation>Nur aus der Sammlung</translation>
@@ -334,6 +329,14 @@
         <location filename="../../build-clang-debug/src/GUI/Library/ui_GUI_EmptyLibrary.h" line="+1"/>
         <source>You haven&apos;t specified a library path yet</source>
         <translation>Kein Verzeichnis für die Musiksammlung angegeben</translation>
+    </message>
+</context>
+<context>
+    <name>GUI_EnginePreferences</name>
+    <message>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_EnginePreferences.h" line="+70"/>
+        <source>Automatic</source>
+        <translation>Automatisch</translation>
     </message>
 </context>
 <context>
@@ -543,32 +546,8 @@
         <translation>Musiksammlungen</translation>
     </message>
     <message>
-        <location line="+8"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="-5"/>
-        <source>Up</source>
-        <translation>Nach oben</translation>
-    </message>
-    <message>
-        <location line="+20"/>
+        <location line="+98"/>
         <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
-        <source>New</source>
-        <translation>Neu</translation>
-    </message>
-    <message>
-        <location line="+14"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
-        <source>Delete</source>
-        <translation>Löschen</translation>
-    </message>
-    <message>
-        <location line="+20"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
-        <source>Down</source>
-        <translation>Nach unten</translation>
-    </message>
-    <message>
-        <location line="+36"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+3"/>
         <source>On double click, create playlist and</source>
         <translation>Doppelklick: Erstelle neue Wiedergabeliste und</translation>
     </message>
@@ -623,7 +602,7 @@
         <translation>Bibliothek und Wiedergabeliste</translation>
     </message>
     <message>
-        <location filename="../GUI/Preferences/LibraryPreferences/GUI_LibraryPreferences.cpp" line="+136"/>
+        <location filename="../GUI/Preferences/LibraryPreferences/GUI_LibraryPreferences.cpp" line="+138"/>
         <source>Cannot edit library</source>
         <translation>Bibliothek konnte nicht verändert werden</translation>
     </message>
@@ -1733,7 +1712,7 @@ Bitte ein anderes Verzeichnis wählen</translation>
         <translation>Künstler</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+6"/>
         <source>Bitrate</source>
         <translation>Bitrate</translation>
     </message>
@@ -1818,7 +1797,7 @@ Bitte ein anderes Verzeichnis wählen</translation>
         <translation>Dauer</translation>
     </message>
     <message>
-        <location line="-68"/>
+        <location line="-70"/>
         <source>Activate</source>
         <translation>Aktivieren</translation>
     </message>
@@ -1851,6 +1830,11 @@ Bitte ein anderes Verzeichnis wählen</translation>
         <location line="+6"/>
         <source>Ascending</source>
         <translation>Aufsteigend</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Automatic</source>
+        <translation>Automatisch</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -2100,6 +2084,16 @@ Bitte ein anderes Verzeichnis wählen</translation>
     </message>
     <message>
         <location line="+2"/>
+        <source>Move down</source>
+        <translation>Nach unten</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Move up</source>
+        <translation>Nach oben</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
@@ -2279,7 +2273,7 @@ Bitte ein anderes Verzeichnis wählen</translation>
         <translation>Aktualisieren</translation>
     </message>
     <message>
-        <location line="-84"/>
+        <location line="-88"/>
         <source>Loading</source>
         <translation>Laden</translation>
     </message>
@@ -2294,7 +2288,7 @@ Bitte ein anderes Verzeichnis wählen</translation>
         <translation>Stumm</translation>
     </message>
     <message>
-        <location line="+71"/>
+        <location line="+75"/>
         <source>Retry</source>
         <translation>Erneut versuchen</translation>
     </message>
@@ -2659,23 +2653,23 @@ Bitte ein anderes Verzeichnis wählen</translation>
     <name>MiniSearcher</name>
     <message>
         <location filename="../GUI/Utils/SearchableWidget/MiniSearcher.cpp" line="+238"/>
-        <source>Up</source>
-        <translation>Nach oben</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>Previous search result</source>
         <translation>Vorheriges Suchergebnis</translation>
     </message>
     <message>
+        <location line="+0"/>
+        <source>Arrow up</source>
+        <translation>Pfeil nach oben</translation>
+    </message>
+    <message>
         <location line="+1"/>
-        <source>Down</source>
-        <translation>Nach unten</translation>
+        <source>Next search result</source>
+        <translation>Nächstes Suchergebnis</translation>
     </message>
     <message>
         <location line="+0"/>
-        <source>Next search result</source>
-        <translation>Nächstes Suchergebnis</translation>
+        <source>Arrow down</source>
+        <translation>Pfeil nach unten</translation>
     </message>
     <message>
         <location line="+1"/>

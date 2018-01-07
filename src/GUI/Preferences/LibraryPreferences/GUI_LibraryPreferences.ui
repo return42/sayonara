@@ -29,7 +29,7 @@
          <item>
           <widget class="QPushButton" name="btn_up">
            <property name="text">
-            <string>Up</string>
+            <string notr="true">Up</string>
            </property>
           </widget>
          </item>
@@ -49,7 +49,7 @@
          <item>
           <widget class="QPushButton" name="btn_new">
            <property name="text">
-            <string>New</string>
+            <string notr="true">New</string>
            </property>
           </widget>
          </item>
@@ -63,7 +63,7 @@
          <item>
           <widget class="QPushButton" name="btn_delete">
            <property name="text">
-            <string>Delete</string>
+            <string notr="true">Delete</string>
            </property>
           </widget>
          </item>
@@ -83,7 +83,7 @@
          <item>
           <widget class="QPushButton" name="btn_down">
            <property name="text">
-            <string>Down</string>
+            <string notr="true">Down</string>
            </property>
           </widget>
          </item>

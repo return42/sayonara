@@ -306,11 +306,6 @@
 <context>
     <name>GUI_DeleteDialog</name>
     <message>
-        <location filename="../GUI/Utils/Library/gui_deletedialog.ui" line="+14"/>
-        <source>Dialog</source>
-        <translation>Диалог</translation>
-    </message>
-    <message>
         <location filename="../GUI/Utils/Library/GUI_DeleteDialog.cpp" line="+87"/>
         <source>Only from library</source>
         <translation>Только из библиотеки</translation>
@@ -334,6 +329,14 @@
         <location filename="../../build-clang-debug/src/GUI/Library/ui_GUI_EmptyLibrary.h" line="+1"/>
         <source>You haven&apos;t specified a library path yet</source>
         <translation>Вы еще не указали путь к библиотеке</translation>
+    </message>
+</context>
+<context>
+    <name>GUI_EnginePreferences</name>
+    <message>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_EnginePreferences.h" line="+70"/>
+        <source>Automatic</source>
+        <translation>Автоматически</translation>
     </message>
 </context>
 <context>
@@ -543,32 +546,8 @@
         <translation>Библиотеки</translation>
     </message>
     <message>
-        <location line="+8"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="-5"/>
-        <source>Up</source>
-        <translation>Вверх</translation>
-    </message>
-    <message>
-        <location line="+20"/>
+        <location line="+98"/>
         <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
-        <source>New</source>
-        <translation>Добавить</translation>
-    </message>
-    <message>
-        <location line="+14"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
-        <source>Delete</source>
-        <translation>Удалить </translation>
-    </message>
-    <message>
-        <location line="+20"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
-        <source>Down</source>
-        <translation>Вниз</translation>
-    </message>
-    <message>
-        <location line="+36"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+3"/>
         <source>On double click, create playlist and</source>
         <translation>Двойное нажатие: создать новый плейлист и</translation>
     </message>
@@ -623,7 +602,7 @@
         <translation>Библиотека и плейлист</translation>
     </message>
     <message>
-        <location filename="../GUI/Preferences/LibraryPreferences/GUI_LibraryPreferences.cpp" line="+136"/>
+        <location filename="../GUI/Preferences/LibraryPreferences/GUI_LibraryPreferences.cpp" line="+138"/>
         <source>Cannot edit library</source>
         <translation>Библиотеку невозможно изменить</translation>
     </message>
@@ -1733,7 +1712,7 @@ Please choose another folder</source>
         <translation>Исполнители</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+6"/>
         <source>Bitrate</source>
         <translation>Битрейт</translation>
     </message>
@@ -1818,7 +1797,7 @@ Please choose another folder</source>
         <translation>Длительность</translation>
     </message>
     <message>
-        <location line="-68"/>
+        <location line="-70"/>
         <source>Activate</source>
         <translation>Активировать</translation>
     </message>
@@ -1851,6 +1830,11 @@ Please choose another folder</source>
         <location line="+6"/>
         <source>Ascending</source>
         <translation>По возрастанию</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Automatic</source>
+        <translation>Автоматическое</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -2109,6 +2093,16 @@ Please choose another folder</source>
     </message>
     <message>
         <location line="+2"/>
+        <source>Move down</source>
+        <translation>Переместить вниз</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Move up</source>
+        <translation>Переместить вверх</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>OK</source>
         <translation>ОК</translation>
     </message>
@@ -2288,12 +2282,12 @@ Please choose another folder</source>
         <translation>Обновить</translation>
     </message>
     <message>
-        <location line="-57"/>
+        <location line="-61"/>
         <source>Mute</source>
         <translation>Выключить звук</translation>
     </message>
     <message>
-        <location line="+71"/>
+        <location line="+75"/>
         <source>Retry</source>
         <translation>Повторить</translation>
     </message>
@@ -2658,23 +2652,23 @@ Please choose another folder</source>
     <name>MiniSearcher</name>
     <message>
         <location filename="../GUI/Utils/SearchableWidget/MiniSearcher.cpp" line="+238"/>
-        <source>Up</source>
-        <translation>Вверх</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>Previous search result</source>
         <translation>Предыдущий результат поиска</translation>
     </message>
     <message>
+        <location line="+0"/>
+        <source>Arrow up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location line="+1"/>
-        <source>Down</source>
-        <translation>Вниз</translation>
+        <source>Next search result</source>
+        <translation>Наступний результат пошуку</translation>
     </message>
     <message>
         <location line="+0"/>
-        <source>Next search result</source>
-        <translation>Наступний результат пошуку</translation>
+        <source>Arrow down</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+1"/>

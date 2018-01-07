@@ -235,8 +235,8 @@ void MiniSearcher::add_tooltip_text(const QString& str)
 void MiniSearcher::reset_tooltip()
 {
     m->line_edit->setToolTip(
-        "<b>" + tr("Up") + "</b> = " + tr("Previous search result") + "<br/>" +
-        "<b>" + tr("Down") + "</b> = " + tr("Next search result") + "<br/>" +
+		"<b>" + tr("Arrow up") + "</b> = " + tr("Previous search result") + "<br/>" +
+		"<b>" + tr("Arrow down") + "</b> = " + tr("Next search result") + "<br/>" +
         "<b>" + tr("Esc") + "</b> = " + Lang::get(Lang::Close)
 				);
 }

@@ -306,11 +306,6 @@
 <context>
     <name>GUI_DeleteDialog</name>
     <message>
-        <location filename="../GUI/Utils/Library/gui_deletedialog.ui" line="+14"/>
-        <source>Dialog</source>
-        <translation>Dialog</translation>
-    </message>
-    <message>
         <location filename="../GUI/Utils/Library/GUI_DeleteDialog.cpp" line="+87"/>
         <source>Only from library</source>
         <translation>Jen ze sbírky</translation>
@@ -334,6 +329,14 @@
         <location filename="../../build-clang-debug/src/GUI/Library/ui_GUI_EmptyLibrary.h" line="+1"/>
         <source>You haven&apos;t specified a library path yet</source>
         <translation>Ještě nebyla zadána cesta k hudební sbírce</translation>
+    </message>
+</context>
+<context>
+    <name>GUI_EnginePreferences</name>
+    <message>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_EnginePreferences.h" line="+70"/>
+        <source>Automatic</source>
+        <translation>Automaticky</translation>
     </message>
 </context>
 <context>
@@ -543,32 +546,8 @@
         <translation>Sbírky</translation>
     </message>
     <message>
-        <location line="+8"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="-5"/>
-        <source>Up</source>
-        <translation>Nahoru</translation>
-    </message>
-    <message>
-        <location line="+20"/>
+        <location line="+98"/>
         <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
-        <source>New</source>
-        <translation>Nový</translation>
-    </message>
-    <message>
-        <location line="+14"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
-        <source>Delete</source>
-        <translation>Smazat</translation>
-    </message>
-    <message>
-        <location line="+20"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
-        <source>Down</source>
-        <translation>Dolů</translation>
-    </message>
-    <message>
-        <location line="+36"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+3"/>
         <source>On double click, create playlist and</source>
         <translation>Při dvojitém poklepání vytvořit seznam skladeb a </translation>
     </message>
@@ -623,7 +602,7 @@
         <translation>Spolupráce mezi sbírkou a seznamem skladeb</translation>
     </message>
     <message>
-        <location filename="../GUI/Preferences/LibraryPreferences/GUI_LibraryPreferences.cpp" line="+136"/>
+        <location filename="../GUI/Preferences/LibraryPreferences/GUI_LibraryPreferences.cpp" line="+138"/>
         <source>Cannot edit library</source>
         <translation>Nelze upravit sbírku</translation>
     </message>
@@ -1735,7 +1714,7 @@ Vyberte, prosím, jinou složku</translation>
         <translation>Umělci</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+6"/>
         <source>Bitrate</source>
         <translation>Datový tok</translation>
     </message>
@@ -1820,7 +1799,7 @@ Vyberte, prosím, jinou složku</translation>
         <translation>Doba trvání</translation>
     </message>
     <message>
-        <location line="-68"/>
+        <location line="-70"/>
         <source>Activate</source>
         <translation>Zapnout</translation>
     </message>
@@ -1853,6 +1832,11 @@ Vyberte, prosím, jinou složku</translation>
         <location line="+6"/>
         <source>Ascending</source>
         <translation>Vzestupně</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Automatic</source>
+        <translation>Automaticky</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -2111,6 +2095,16 @@ Vyberte, prosím, jinou složku</translation>
     </message>
     <message>
         <location line="+2"/>
+        <source>Move down</source>
+        <translation>Posunout dolů</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Move up</source>
+        <translation>Posunout výše</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
@@ -2290,12 +2284,12 @@ Vyberte, prosím, jinou složku</translation>
         <translation>Obnovit</translation>
     </message>
     <message>
-        <location line="-57"/>
+        <location line="-61"/>
         <source>Mute</source>
         <translation>Ztlumit</translation>
     </message>
     <message>
-        <location line="+71"/>
+        <location line="+75"/>
         <source>Retry</source>
         <translation>Opakovat</translation>
     </message>
@@ -2660,23 +2654,23 @@ Vyberte, prosím, jinou složku</translation>
     <name>MiniSearcher</name>
     <message>
         <location filename="../GUI/Utils/SearchableWidget/MiniSearcher.cpp" line="+238"/>
-        <source>Up</source>
-        <translation>Nahoru</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>Previous search result</source>
         <translation>Předchozí výsledek hledání</translation>
     </message>
     <message>
+        <location line="+0"/>
+        <source>Arrow up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location line="+1"/>
-        <source>Down</source>
-        <translation>Dolů</translation>
+        <source>Next search result</source>
+        <translation>Další výsledek hledání</translation>
     </message>
     <message>
         <location line="+0"/>
-        <source>Next search result</source>
-        <translation>Další výsledek hledání</translation>
+        <source>Arrow down</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+1"/>

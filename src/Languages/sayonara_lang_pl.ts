@@ -21,12 +21,12 @@
     <message>
         <location filename="../GUI/Directories/DirectoryContextMenu.cpp" line="+132"/>
         <source>Create directory</source>
-        <translation type="unfinished"></translation>
+        <translation>Utwórz katalog</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Collapse all</source>
-        <translation type="unfinished"></translation>
+        <translation>Zwiń wszystko</translation>
     </message>
 </context>
 <context>
@@ -35,17 +35,17 @@
         <location filename="../GUI/Directories/DirectoryTreeView.cpp" line="+324"/>
         <location line="+27"/>
         <source>Enter new name</source>
-        <translation type="unfinished"></translation>
+        <translation>Podaj nową nazwę</translation>
     </message>
     <message>
         <location line="+231"/>
         <source>Copy here</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopiuj tutaj</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Move here</source>
-        <translation type="unfinished"></translation>
+        <translation>Przenieś tutaj</translation>
     </message>
 </context>
 <context>
@@ -53,7 +53,7 @@
     <message>
         <location filename="../GUI/Library/EmptyLibraryContainer.cpp" line="+53"/>
         <source>Empty Library</source>
-        <translation type="unfinished"></translation>
+        <translation>Pusta Biblioteka</translation>
     </message>
 </context>
 <context>
@@ -61,7 +61,7 @@
     <message>
         <location filename="../GUI/Directories/FileListView.cpp" line="+343"/>
         <source>Enter new name</source>
-        <translation type="unfinished"></translation>
+        <translation>Podaj nową nazwę</translation>
     </message>
 </context>
 <context>
@@ -322,11 +322,6 @@
 <context>
     <name>GUI_DeleteDialog</name>
     <message>
-        <location filename="../GUI/Utils/Library/gui_deletedialog.ui" line="+14"/>
-        <source>Dialog</source>
-        <translation>Okno dialogowe</translation>
-    </message>
-    <message>
         <location filename="../GUI/Utils/Library/GUI_DeleteDialog.cpp" line="+87"/>
         <source>Only from library</source>
         <translation>Tylko z biblioteki</translation>
@@ -350,6 +345,14 @@
         <location filename="../../build-clang-debug/src/GUI/Library/ui_GUI_EmptyLibrary.h" line="+1"/>
         <source>You haven&apos;t specified a library path yet</source>
         <translation>Nie podano jeszcze ścieżkę do biblioteki</translation>
+    </message>
+</context>
+<context>
+    <name>GUI_EnginePreferences</name>
+    <message>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_EnginePreferences.h" line="+70"/>
+        <source>Automatic</source>
+        <translation>Automatyczne</translation>
     </message>
 </context>
 <context>
@@ -560,32 +563,8 @@
         <translation>Biblioteki</translation>
     </message>
     <message>
-        <location line="+8"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="-5"/>
-        <source>Up</source>
-        <translation>W górę</translation>
-    </message>
-    <message>
-        <location line="+20"/>
+        <location line="+98"/>
         <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
-        <source>New</source>
-        <translation>Nowa</translation>
-    </message>
-    <message>
-        <location line="+14"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
-        <source>Delete</source>
-        <translation>Usuń</translation>
-    </message>
-    <message>
-        <location line="+20"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
-        <source>Down</source>
-        <translation>W dół</translation>
-    </message>
-    <message>
-        <location line="+36"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+3"/>
         <source>On double click, create playlist and</source>
         <translatorcomment>when you double click some artist, album, track in library, the create a playlist and</translatorcomment>
         <translation>Po dwukrotnym kliknięciu utwórz listę odtwarzania i</translation>
@@ -647,7 +626,7 @@
         <translation>Interakcja z biblioteką-playlistą</translation>
     </message>
     <message>
-        <location filename="../GUI/Preferences/LibraryPreferences/GUI_LibraryPreferences.cpp" line="+136"/>
+        <location filename="../GUI/Preferences/LibraryPreferences/GUI_LibraryPreferences.cpp" line="+138"/>
         <source>Cannot edit library</source>
         <translation>Nie można edytować biblioteki</translation>
     </message>
@@ -1800,7 +1779,7 @@ Proszę wybrać inny folder</translation>
         <translation>Wykonawcy</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+6"/>
         <source>Bitrate</source>
         <translation>Szybkość bitowa</translation>
     </message>
@@ -1885,7 +1864,7 @@ Proszę wybrać inny folder</translation>
         <translation>Czas trwania</translation>
     </message>
     <message>
-        <location line="-68"/>
+        <location line="-70"/>
         <source>Activate</source>
         <translation>Uaktywnij</translation>
     </message>
@@ -1918,6 +1897,11 @@ Proszę wybrać inny folder</translation>
         <location line="+6"/>
         <source>Ascending</source>
         <translation>Rosnąco</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Automatic</source>
+        <translation>Automatyczne</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -2176,8 +2160,18 @@ Proszę wybrać inny folder</translation>
     </message>
     <message>
         <location line="+2"/>
+        <source>Move down</source>
+        <translation>Przesuń w dół</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Move up</source>
+        <translation>Przesuń w górę</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -2247,7 +2241,7 @@ Proszę wybrać inny folder</translation>
     <message>
         <location line="+2"/>
         <source>Preferences</source>
-        <translation type="unfinished">Ustawienia</translation>
+        <translation>Ustawienia</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2307,7 +2301,7 @@ Proszę wybrać inny folder</translation>
     <message>
         <location line="+14"/>
         <source>Save to file</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapisz do pliku</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -2317,7 +2311,7 @@ Proszę wybrać inny folder</translation>
     <message>
         <location line="+15"/>
         <source>Sort by</source>
-        <translation type="unfinished"></translation>
+        <translation>Uszereguj według</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -2355,12 +2349,12 @@ Proszę wybrać inny folder</translation>
         <translation>Odśwież</translation>
     </message>
     <message>
-        <location line="-57"/>
+        <location line="-61"/>
         <source>Mute</source>
-        <translation type="unfinished"></translation>
+        <translation>Wycisz</translation>
     </message>
     <message>
-        <location line="+71"/>
+        <location line="+75"/>
         <source>Retry</source>
         <translation>Ponów</translation>
     </message>
@@ -2488,7 +2482,7 @@ Proszę wybrać inny folder</translation>
     <message>
         <location line="+4"/>
         <source>Various</source>
-        <translation type="unfinished"></translation>
+        <translation>Różni</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2546,7 +2540,7 @@ Proszę wybrać inny folder</translation>
     <message>
         <location line="+7"/>
         <source>Show toolbar</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokaż pasek narzędzi</translation>
     </message>
 </context>
 <context>
@@ -2554,7 +2548,7 @@ Proszę wybrać inny folder</translation>
     <message>
         <location filename="../GUI/Library/GUI_EmptyLibrary.cpp" line="+94"/>
         <source>Do you want to reload the Library?</source>
-        <translation type="unfinished">Chcesz odświeżyć bibliotekę?</translation>
+        <translation>Chcesz odświeżyć bibliotekę?</translation>
     </message>
 </context>
 <context>
@@ -2575,12 +2569,12 @@ Proszę wybrać inny folder</translation>
     <message>
         <location filename="../GUI/Library/Views/ItemView.cpp" line="+127"/>
         <source>Merge</source>
-        <translation type="unfinished">Połącz</translation>
+        <translation>Połącz</translation>
     </message>
     <message>
         <location line="+106"/>
         <source>Clear selection</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyczyść wybór</translation>
     </message>
 </context>
 <context>
@@ -2588,7 +2582,7 @@ Proszę wybrać inny folder</translation>
     <message>
         <location filename="../GUI/Library/Utils/LocalLibraryMenu.cpp" line="+188"/>
         <source>Live search</source>
-        <translation type="unfinished">Szukaj na żywo</translation>
+        <translation>Szukaj na żywo</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2606,7 +2600,7 @@ Proszę wybrać inny folder</translation>
     <message>
         <location line="+6"/>
         <source>Clear selection</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyczyść wybór</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -2659,96 +2653,96 @@ Proszę wybrać inny folder</translation>
     <message>
         <location filename="../GUI/Player/GUI_PlayerMenubar.cpp" line="+226"/>
         <source>View</source>
-        <translation type="unfinished">Obejrzyj</translation>
+        <translation>Obejrzyj</translation>
     </message>
     <message>
         <location line="+1"/>
         <location line="+13"/>
         <source>Help</source>
-        <translation type="unfinished">Pomoc</translation>
+        <translation>Pomoc</translation>
     </message>
     <message>
         <location line="-3"/>
         <source>Dark</source>
-        <translation type="unfinished">Ciemne</translation>
+        <translation>Ciemne</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Fullscreen</source>
-        <translation type="unfinished"></translation>
+        <translation>Pełen ekran</translation>
     </message>
     <message>
         <location line="+42"/>
         <source>Media files</source>
-        <translation type="unfinished">Pliki multimedialne</translation>
+        <translation>Pliki multimedialne</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Open Media files</source>
-        <translation type="unfinished">Otwórz pliki multimedialne</translation>
+        <translation>Otwórz pliki multimedialne</translation>
     </message>
     <message>
         <location line="+41"/>
         <source>Please visit the forum at</source>
-        <translation type="unfinished">Zapraszamy na forum</translation>
+        <translation>Zapraszamy na forum</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Donate</source>
-        <translation type="unfinished">Darowizna</translation>
+        <translation>Darowizna</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Thank you</source>
-        <translation type="unfinished"></translation>
+        <translation>Dziękujemy</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>About Sayonara</source>
-        <translation type="unfinished">O programie Sayonara</translation>
+        <translation>O programie Sayonara</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Special thanks to %1 and %2 for translating</source>
-        <translation type="unfinished">Podziękowania %1 and %2</translation>
+        <translation>Podziękowania %1 and %2</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Written by Lucio Carreras</source>
-        <translation type="unfinished">przez Lucio Carreras</translation>
+        <translation>przez Lucio Carreras</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>License</source>
-        <translation type="unfinished">Licencja</translation>
+        <translation>Licencja</translation>
     </message>
 </context>
 <context>
     <name>MiniSearcher</name>
     <message>
         <location filename="../GUI/Utils/SearchableWidget/MiniSearcher.cpp" line="+238"/>
-        <source>Up</source>
-        <translation type="unfinished">W górę</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>Previous search result</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+0"/>
+        <source>Arrow up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location line="+1"/>
-        <source>Down</source>
-        <translation type="unfinished">W dół</translation>
+        <source>Next search result</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+0"/>
-        <source>Next search result</source>
+        <source>Arrow down</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Esc</source>
-        <translation type="unfinished"></translation>
+        <translation>Esc</translation>
     </message>
 </context>
 <context>
@@ -2757,7 +2751,7 @@ Proszę wybrać inny folder</translation>
         <location filename="../Interfaces/PlayerPlugin/PlayerPlugin.cpp" line="+80"/>
         <location line="+34"/>
         <source>Close plugin</source>
-        <translation type="unfinished">Wyłąc wtyczki</translation>
+        <translation>Wyłąc wtyczki</translation>
     </message>
 </context>
 <context>
@@ -2802,22 +2796,22 @@ Proszę wybrać inny folder</translation>
     <message>
         <location line="+78"/>
         <source>No artists found</source>
-        <translation type="unfinished">Nie znaleziono artystów</translation>
+        <translation>Nie znaleziono artystów</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Found %1 artists</source>
-        <translation type="unfinished">Znaleziono %1 artystów</translation>
+        <translation>Znaleziono %1 artystów</translation>
     </message>
     <message>
         <location line="+48"/>
         <source>%1 tracks found</source>
-        <translation type="unfinished">%1 znaleziono utworów</translation>
+        <translation>%1 znaleziono utworów</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>%1 playlists found</source>
-        <translation type="unfinished">%1 znaleziono playlisty</translation>
+        <translation>%1 znaleziono playlisty</translation>
     </message>
 </context>
 <context>
@@ -2825,18 +2819,18 @@ Proszę wybrać inny folder</translation>
     <message>
         <location filename="../3rdParty/Soundcloud/src/SoundcloudJsonParser.cpp" line="+117"/>
         <source>Website</source>
-        <translation type="unfinished">Strona sieciowa</translation>
+        <translation>Strona sieciowa</translation>
     </message>
     <message>
         <location line="+4"/>
         <location line="+218"/>
         <source>Permalink Url</source>
-        <translation type="unfinished">Link URL</translation>
+        <translation>Link URL</translation>
     </message>
     <message>
         <location line="-205"/>
         <source>Followers/Following</source>
-        <translation type="unfinished">Śledzący/Śledzenie</translation>
+        <translation>Śledzący/Śledzenie</translation>
     </message>
     <message>
         <location line="+84"/>
@@ -2887,7 +2881,7 @@ Proszę wybrać inny folder</translation>
         <location line="+10"/>
         <location filename="../../build-clang-debug/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
         <source>Preferences</source>
-        <translation type="unfinished">Ustawienia</translation>
+        <translation>Ustawienia</translation>
     </message>
 </context>
 <context>
@@ -2918,13 +2912,13 @@ Proszę wybrać inny folder</translation>
         <location filename="../GUI/Plugins/Stream/GUI_AbstractStream.cpp" line="-278"/>
         <location line="+5"/>
         <source>Streams</source>
-        <translation type="unfinished">Strumień internetowy</translation>
+        <translation>Strumień internetowy</translation>
     </message>
     <message>
         <location line="-5"/>
         <location line="+5"/>
         <source>Podcasts</source>
-        <translation type="unfinished">Podcasty</translation>
+        <translation>Podcasty</translation>
     </message>
 </context>
 <context>
