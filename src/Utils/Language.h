@@ -57,6 +57,7 @@ public:
 		Artist,
 		Artists,
 		Ascending,
+		Automatic,
 		Bitrate,
 		Bookmarks,
 		Broadcast,

@@ -17,7 +17,7 @@
    <item row="0" column="0">
     <widget class="QRadioButton" name="rb_auto">
      <property name="text">
-      <string>Automatic</string>
+      <string notr="true">Automatic</string>
      </property>
      <attribute name="buttonGroup">
       <string notr="true">buttonGroup</string>

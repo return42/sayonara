@@ -92,6 +92,8 @@ LanguageString Lang::get(Lang::Term term, bool* ok)
 			return l.tr("Artists");
 		case Ascending:
 			return l.tr("Ascending");
+		case Automatic:
+			return l.tr("Automatic");
 		case Bitrate:
 			return l.tr("Bitrate");
 		case Bookmarks:

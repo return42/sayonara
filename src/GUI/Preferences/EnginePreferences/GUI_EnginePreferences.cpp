@@ -2,7 +2,7 @@
 #include "GUI/Preferences/ui_GUI_EnginePreferences.h"
 #include "Utils/Settings/Settings.h"
 #include "Utils/Logger/Logger.h"
-#include <asoundlib.h>
+#include "Utils/Language.h"
 
 GUI_EnginePreferences::GUI_EnginePreferences(const QString& identifier) :
 	Preferences::Base(identifier)
@@ -69,5 +69,7 @@ void GUI_EnginePreferences::init_ui()
 void GUI_EnginePreferences::retranslate_ui()
 {
 	ui->retranslateUi(this);
+
+	ui->rb_auto->setText(Lang::get(Lang::Automatic));
 }
 
