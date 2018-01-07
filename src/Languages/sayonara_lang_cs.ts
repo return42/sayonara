@@ -2671,7 +2671,7 @@ Vyberte, prosím, jinou složku</translation>
     <message>
         <location line="+0"/>
         <source>Arrow up</source>
-        <translation type="unfinished"></translation>
+		<translation>Šipka nahoru</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2681,7 +2681,7 @@ Vyberte, prosím, jinou složku</translation>
     <message>
         <location line="+0"/>
         <source>Arrow down</source>
-        <translation type="unfinished"></translation>
+		<translation>Šipka dolů</translation>
     </message>
     <message>
         <location line="+1"/>
