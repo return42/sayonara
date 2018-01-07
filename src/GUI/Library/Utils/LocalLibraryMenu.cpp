@@ -165,12 +165,24 @@ void LocalLibraryMenu::init_menu()
 	Set::listen(Set::Lib_ShowAlbumCovers, this, &LocalLibraryMenu::show_album_covers_changed);
 
 	m->initialized = true;
+	language_changed();
+}
+
+// Because in unity, showEvent is not triggered we make this workaround
+
+bool LocalLibraryMenu::event(QEvent* e)
+{
+	if(e->type() == QEvent::ParentChange){
+		init_menu();
+	}
+
+	return QMenu::event(e);
 }
 
 void LocalLibraryMenu::showEvent(QShowEvent* e)
 {
 	init_menu();
-	WidgetTemplate<QMenu>::showEvent(e);
+	QMenu::showEvent(e);
 }
 
 

@@ -185,6 +185,8 @@ QAction* Menubar::update_library_action(QMenu* new_library_menu, const QString& 
 	}
 
 	m->current_library_menu = new_library_menu;
+	m->current_library_menu->setParent(this);
+
 	m->current_library_menu_action = this->insertMenu(m->menu_help_action, new_library_menu);
 	m->current_library_menu_action->setText(name);
 
