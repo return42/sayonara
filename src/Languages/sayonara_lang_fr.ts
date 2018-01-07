@@ -155,7 +155,7 @@
     <message>
         <location line="+9"/>
         <source>Worst</source>
-        <translation type="unfinished"></translation>
+        <translation>Pire</translation>
     </message>
     <message>
         <location filename="../GUI/Plugins/Engine/AudioConverter/GUI_AudioConverter.ui" line="+61"/>
@@ -292,7 +292,7 @@
         <location filename="../GUI/Preferences/Covers/GUI_Covers.ui" line="+95"/>
         <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_Covers.h" line="+105"/>
         <source>If available, load covers from audio files</source>
-        <translation type="unfinished"></translation>
+        <translation>Si disponsible, charge des images du fichier audio</translation>
     </message>
 </context>
 <context>
@@ -1960,7 +1960,7 @@ Veuillez choisir un autre dossier</translation>
     <message>
         <location line="+2"/>
         <source>Fulltext</source>
-        <translation type="unfinished"></translation>
+        <translation>Texte intégral</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2065,7 +2065,7 @@ Veuillez choisir un autre dossier</translation>
     <message>
         <location line="+2"/>
         <source>Missing</source>
-        <translation type="unfinished"></translation>
+        <translation>Indisponible</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2215,7 +2215,7 @@ Veuillez choisir un autre dossier</translation>
     <message>
         <location line="+2"/>
         <source>Remove</source>
-        <translation>Effacer</translation>
+        <translation>Supprimer</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2569,7 +2569,7 @@ Veuillez choisir un autre dossier</translation>
     <message>
         <location line="+13"/>
         <source>Could not import tracks</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossible d&apos;importer des pistes</translation>
     </message>
 </context>
 <context>
@@ -2861,7 +2861,7 @@ Veuillez choisir un autre dossier</translation>
     <message>
         <location filename="../Components/Broadcasting/StreamServer.cpp" line="+212"/>
         <source>%1 wants to listen to your music.</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 veut écouter ta musique.</translation>
     </message>
 </context>
 <context>
