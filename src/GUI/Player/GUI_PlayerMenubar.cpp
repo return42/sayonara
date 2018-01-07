@@ -100,6 +100,7 @@ struct Menubar::Private
 		sep_after_preferences = menu_file->addSeparator();
 		action_shutdown = new QAction(menu_file);
 		action_close = new QAction(menu_file);
+		action_close->setShortcut(QKeySequence("Ctrl+q"));
 
 		menu_file->insertActions(nullptr,
 		{

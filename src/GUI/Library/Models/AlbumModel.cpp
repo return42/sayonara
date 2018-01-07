@@ -181,7 +181,11 @@ QVariant AlbumModel::data(const QModelIndex& index, int role) const
 				return ::Util::cvt_ms_to_string(album.length_sec * 1000, true, false);
 
 			case ColumnIndex::Album::Rating:
-				return album.rating;
+				if(role == Qt::DisplayRole) {
+					return QVariant();
+				}
+
+				return QVariant(album.rating);
 
 			default: return QVariant();
 		}
