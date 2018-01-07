@@ -273,7 +273,8 @@ bool Base::set_uri(gchar* uri)
 
 
 
-bool Base::create_element(GstElement** elem, const gchar* elem_name, const gchar* name){
+bool Base::create_element(GstElement** elem, const gchar* elem_name, const gchar* name)
+{
 	QString error_msg;
 	if(strlen(name) > 0){
 		*elem = gst_element_factory_make(elem_name, name);
@@ -291,7 +292,8 @@ bool Base::create_element(GstElement** elem, const gchar* elem_name, const gchar
 }
 
 
-bool Base::tee_connect(GstElement* tee, GstPadTemplate* tee_src_pad_template, GstElement* queue, const QString& queue_name){
+bool Base::tee_connect(GstElement* tee, GstPadTemplate* tee_src_pad_template, GstElement* queue, const QString& queue_name)
+{
 	GstPadLinkReturn s;
 	GstPad* tee_queue_pad;
 	GstPad* queue_pad;
