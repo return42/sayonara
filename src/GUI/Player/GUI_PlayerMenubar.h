@@ -25,19 +25,22 @@
 
 #include <QMenuBar>
 #include "GUI/Utils/Widgets/WidgetTemplate.h"
+#include "GUI/Utils/Shortcuts/ShortcutWidget.h"
 #include "Utils/Pimpl.h"
 
 class QMenu;
 class QAction;
 
 class Menubar :
-	public Gui::WidgetTemplate<QMenuBar>
+	public Gui::WidgetTemplate<QMenuBar>,
+	public ShortcutWidget
 {
 	Q_OBJECT
 	PIMPL(Menubar)
 
 signals:
 	void sig_close_clicked();
+	void sig_minimize_clicked();
 	void sig_logger_clicked();
 
 public:
@@ -60,12 +63,19 @@ private slots:
 	void open_dir_clicked();
 	void open_files_clicked();
 	void shutdown_clicked();
+	void close_clicked();
+	void minimize_clicked();
 	void skin_toggled(bool b);
 	void show_library_toggled(bool b);
 	void show_fullscreen_toggled(bool b);
 	void help_clicked();
 	void about_clicked();
 	void awa_translators_finished();
+
+	// ShortcutWidget interface
+public:
+	QString get_shortcut_text(const QString& shortcut_identifier) const override;
 };
+
 
 #endif // GUI_PLAYERMENUBAR_H

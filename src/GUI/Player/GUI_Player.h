@@ -100,6 +100,7 @@ private slots:
 
 	void awa_version_finished();
 
+	void minimize();
 	void really_close();
 
 	void tray_icon_activated(QSystemTrayIcon::ActivationReason reason);

@@ -761,7 +761,6 @@ QString GUI_Controls::get_shortcut_text(const QString &shortcut_identifier) cons
 	if(shortcut_identifier == "seek_fwd_fast"){
 		return Lang::get(Lang::SeekForward).space() + "(" + Lang::get(Lang::Fast) + ")";
 	}
-
 	if(shortcut_identifier == "seek_bwd_fast"){
 		return Lang::get(Lang::SeekBackward).space() + "(" + Lang::get(Lang::Fast) + ")";
 	}

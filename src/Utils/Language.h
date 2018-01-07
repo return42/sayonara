@@ -145,6 +145,7 @@ public:
 		PlayNext,
 		Preferences,
 		PreviousTrack,
+		Quit,
 		Radio,
 		RadioStation,
 		Rating,

@@ -198,6 +198,7 @@ void GUI_Player::init_connections()
 
 	connect(m->menubar, &Menubar::sig_close_clicked, this, &GUI_Player::really_close);
 	connect(m->menubar, &Menubar::sig_logger_clicked, m->logger, &GUI_Logger::show);
+	connect(m->menubar, &Menubar::sig_minimize_clicked, this, &GUI_Player::minimize);
 }
 
 
@@ -465,6 +466,11 @@ void GUI_Player::skin_changed()
 
 	QString stylesheet = Style::style(dark);
 	this->setStyleSheet(stylesheet);
+}
+
+void GUI_Player::minimize()
+{
+	tray_icon_activated(QSystemTrayIcon::Trigger);
 }
 
 

@@ -28,6 +28,8 @@
 #include "GUI/ShutdownDialog/GUI_Shutdown.h"
 #include "Components/Playlist/PlaylistHandler.h"
 
+#include "GUI/Utils/Shortcuts/ShortcutHandler.h"
+#include "GUI/Utils/Shortcuts/Shortcut.h"
 #include "GUI/Utils/Icons.h"
 #include "GUI/Utils/GuiUtils.h"
 #include "GUI/Utils/Style.h"
@@ -37,6 +39,7 @@
 #include "Utils/Language.h"
 #include "Utils/Message/Message.h"
 #include "Utils/WebAccess/AsyncWebAccess.h"
+
 
 #include <QFileDialog>
 #include <QMessageBox>
@@ -100,7 +103,6 @@ struct Menubar::Private
 		sep_after_preferences = menu_file->addSeparator();
 		action_shutdown = new QAction(menu_file);
 		action_close = new QAction(menu_file);
-		action_close->setShortcut(QKeySequence("Ctrl+q"));
 
 		menu_file->insertActions(nullptr,
 		{
@@ -221,6 +223,15 @@ void Menubar::init_connections()
 	// about
 	connect(m->action_about, &QAction::triggered, this, &Menubar::about_clicked);
 	connect(m->action_help, &QAction::triggered, this, &Menubar::help_clicked);
+
+	// shortcuts
+	ShortcutHandler* sch = ShortcutHandler::instance();
+
+	Shortcut sc1 = sch->add(Shortcut(this, "quit", Lang::get(Lang::Quit), "Ctrl+q"));
+	Shortcut sc2 = sch->add(Shortcut(this, "minimize", tr("Minimize"), "Ctrl+m"));
+
+	sc1.create_qt_shortcut(this, this, SLOT(close_clicked()));
+	sc2.create_qt_shortcut(this, this, SLOT(minimize_clicked()));
 }
 
 void Menubar::language_changed()
@@ -233,7 +244,7 @@ void Menubar::language_changed()
 	m->action_open_dir->setText(Lang::get(Lang::OpenDir).triplePt());
 	m->action_shutdown->setText(Lang::get(Lang::Shutdown).triplePt());
 
-	m->action_close->setText(Lang::get(Lang::Close));
+	m->action_close->setText(Lang::get(Lang::Quit));
 
 	m->action_view_library->setText(Lang::get(Lang::Library));
 	m->action_logger->setText(Lang::get(Lang::Logger));
@@ -301,6 +312,16 @@ void Menubar::shutdown_clicked()
 {
 	GUI_Shutdown* gui = new GUI_Shutdown(this);
 	gui->exec();
+}
+
+void Menubar::close_clicked()
+{
+	emit sig_close_clicked();
+}
+
+void Menubar::minimize_clicked()
+{
+	emit sig_minimize_clicked();
 }
 
 void Menubar::skin_toggled(bool b)
@@ -417,3 +438,16 @@ AsyncWebAccess* awa = static_cast<AsyncWebAccess*>(sender());
 	about_clicked();
 }
 
+
+QString Menubar::get_shortcut_text(const QString& shortcut_identifier) const
+{
+	if(shortcut_identifier == "quit"){
+		return Lang::get(Lang::Quit);
+	}
+
+	else if(shortcut_identifier == "minimize"){
+		return tr("Minimize");
+	}
+
+	return QString();
+}

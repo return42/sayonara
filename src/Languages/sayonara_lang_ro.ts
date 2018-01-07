@@ -334,9 +334,9 @@
 <context>
     <name>GUI_EnginePreferences</name>
     <message>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_EnginePreferences.h" line="+70"/>
-        <source>Automatic</source>
-        <translation>Automat</translation>
+        <location filename="../GUI/Preferences/EnginePreferences/GUI_EnginePreferences.cpp" line="+22"/>
+        <source>Audio</source>
+        <translation>Audio</translation>
     </message>
 </context>
 <context>
@@ -695,7 +695,7 @@
 <context>
     <name>GUI_Player</name>
     <message>
-        <location filename="../GUI/Player/GUI_Player.cpp" line="+392"/>
+        <location filename="../GUI/Player/GUI_Player.cpp" line="+395"/>
         <source>A new version is available!</source>
         <translation>Este disponibilă o versiune nouă!</translation>
     </message>
@@ -2183,6 +2183,11 @@ Te rog alege alt dosar</translation>
     </message>
     <message>
         <location line="+2"/>
+        <source>Quit</source>
+        <translation>Ieșire</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Radio</source>
         <translation>Radio</translation>
     </message>
@@ -2282,12 +2287,12 @@ Te rog alege alt dosar</translation>
         <translation>Actualizează</translation>
     </message>
     <message>
-        <location line="-61"/>
+        <location line="-63"/>
         <source>Mute</source>
         <translation>Flaut</translation>
     </message>
     <message>
-        <location line="+75"/>
+        <location line="+77"/>
         <source>Retry</source>
         <translation>Reîncearcă</translation>
     </message>
@@ -2513,7 +2518,7 @@ Te rog alege alt dosar</translation>
 <context>
     <name>Library::LocalLibraryMenu</name>
     <message>
-        <location filename="../GUI/Library/Utils/LocalLibraryMenu.cpp" line="+188"/>
+        <location filename="../GUI/Library/Utils/LocalLibraryMenu.cpp" line="+200"/>
         <source>Live search</source>
         <translation>Căutare directă în librărie</translation>
     </message>
@@ -2582,7 +2587,13 @@ Te rog alege alt dosar</translation>
 <context>
     <name>Menubar</name>
     <message>
-        <location filename="../GUI/Player/GUI_PlayerMenubar.cpp" line="+226"/>
+        <location filename="../GUI/Player/GUI_PlayerMenubar.cpp" line="+231"/>
+        <location line="+218"/>
+        <source>Minimize</source>
+        <translation>Minimizare</translation>
+    </message>
+    <message>
+        <location line="-209"/>
         <source>View</source>
         <translation>Vizualizare</translation>
     </message>
@@ -2613,7 +2624,7 @@ Te rog alege alt dosar</translation>
         <translation>Deschide fișierele Media</translation>
     </message>
     <message>
-        <location line="+41"/>
+        <location line="+51"/>
         <source>Please visit the forum at</source>
         <translation>Te rog vizitează forumul la</translation>
     </message>

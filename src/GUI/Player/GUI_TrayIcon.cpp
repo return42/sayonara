@@ -150,7 +150,7 @@ void GUI_TrayIcon::language_changed()
 		m->mute_action->setText(Lang::get(Lang::MuteOn));
 	}
 
-	m->close_action->setText(Lang::get(Lang::Close));
+	m->close_action->setText(Lang::get(Lang::Quit));
 	m->show_action->setText(Lang::get(Lang::Show));
 	m->cur_song_action->setText(tr("Current song"));
 }

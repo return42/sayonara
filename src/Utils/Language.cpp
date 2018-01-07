@@ -274,6 +274,8 @@ LanguageString Lang::get(Lang::Term term, bool* ok)
 			return l.tr("Preferences");
 		case PreviousTrack:
 			return l.tr("Previous track");
+		case Quit:
+			return l.tr("Quit");
 		case Radio:
 			return l.tr("Radio");
 		case RadioStation:
