@@ -78,8 +78,6 @@ void DBusAdaptor::create_message(QString name, QVariant val)
 	Q_UNUSED(success)
 	/*QDBusError err = QDBusConnection::sessionBus().lastError();
 	sp_log(Log::Debug, this) << "Send signal: " << name << ": " << success << ": " << err.message();*/
-
-
 }
 
 QString DBusAdaptor::object_path() const
@@ -126,6 +124,7 @@ struct DBusMPRIS::MediaPlayer2::Private
 
 	Private(QMainWindow* player) :
 		player(player),
+		playback_status("Stopped"),
 		pos(0),
 		volume(1.0),
 		len_playlist(0),
@@ -157,11 +156,11 @@ DBusMPRIS::MediaPlayer2::MediaPlayer2(QMainWindow* player, QObject *parent) :
 	connect(m->play_manager, &PlayManager::sig_volume_changed,
 			this, &DBusMPRIS::MediaPlayer2::volume_changed);
 
-	if( m->play_manager->playstate() == PlayState::Playing ||
+/*	if( m->play_manager->playstate() == PlayState::Playing ||
 			m->play_manager->playstate() == PlayState::Paused)
-	{
+	{*/
 		track_changed(m->play_manager->current_track());
-	}
+//	}
 }
 
 
@@ -318,11 +317,24 @@ QVariantMap DBusMPRIS::MediaPlayer2::Metadata()
 	Cover::Location cl = Cover::Location::cover_location(m->md);
 	cover_path = cl.preferred_path();
 
+	QString title = m->md.title();
+	if(title.isEmpty()){
+		title = tr("None");
+	}
+	QString album = m->md.album();
+	if(album.isEmpty()){
+		album = tr("None");
+	}
+	QString artist = m->md.artist();
+	if(artist.isEmpty()){
+		artist = tr("None");
+	}
+
 	map["mpris:trackid"] = v_object_path;
 	map["mpris:length"] = v_length;
-	map["xesam:title"] = m->md.title();
-	map["xesam:album"] = m->md.album();
-	map["xesam:artist"] = QStringList() << m->md.artist();
+	map["xesam:title"] = title;
+	map["xesam:album"] = album;
+	map["xesam:artist"] = QStringList({artist});
 	map["mpris:artUrl"] = QUrl::fromLocalFile(cover_path).toString();
 
 	return map;
