@@ -39,10 +39,10 @@ DBusHandler::DBusHandler(QMainWindow* player, QObject* parent) :
 	QDBusConnectionInterface* dbus_interface = QDBusConnection::sessionBus().interface();
 	if(dbus_interface)
 	{
-		connect(dbus_interface, &QDBusConnectionInterface::serviceRegistered,
+		/*connect(dbus_interface, &QDBusConnectionInterface::serviceRegistered,
 				this, &DBusMediaKeysInterface::service_registered);
 		connect(dbus_interface, &QDBusConnectionInterface::serviceUnregistered,
-				this, &DBusMediaKeysInterface::service_unregistered);
+				this, &DBusMediaKeysInterface::service_unregistered);*/
 	}
 }
 

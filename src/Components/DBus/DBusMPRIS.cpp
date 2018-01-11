@@ -459,6 +459,7 @@ void DBusMPRIS::MediaPlayer2::SetShuffle(bool shuffle)
 void DBusMPRIS::MediaPlayer2::SetVolume(double volume)
 {
 	m->play_manager->set_volume((int) (volume * 100));
+	m->volume = volume;
 }
 
 
@@ -467,6 +468,8 @@ void DBusMPRIS::MediaPlayer2::volume_changed(int volume)
 	if(!m->initialized){
 		init();
 	}
+
+	m->volume = (volume / 100.0);
 
 	create_message("Volume", volume / 100.0);
 }

@@ -60,6 +60,6 @@ void DBusMediaKeysInterfaceGnome::sl_register_finished(QDBusPendingCallWatcher* 
 	connect( _media_key_interface,
 			 &OrgGnomeSettingsDaemonMediaKeysInterface::MediaPlayerKeyPressed,
 			 this,
-			 &DBusMediaKeysInterface::sl_media_key_pressed
+			 &DBusMediaKeysInterfaceGnome::sl_media_key_pressed
 	);
 }
