@@ -89,6 +89,11 @@ void GUI_Broadcast::retranslate_ui()
 	ui->retranslateUi(this);
 	set_status_label();
 	ui->btn_retry->setText(Lang::get(Lang::Retry));
+
+	if(m->action_dismiss){
+		m->action_dismiss->setText(tr("Dismiss"));
+		m->action_dismiss_all->setText(tr("Dismiss all"));
+	}
 }
 
 
@@ -100,11 +105,10 @@ void GUI_Broadcast::init_ui()
 
 	setup_parent(this, &ui);
 
-	m->action_dismiss = new QAction(tr("Dismiss"), ui->btn_menu);
-	m->action_dismiss_all = new QAction(tr("Dismiss all"), ui->btn_menu);
+	m->action_dismiss = new QAction(ui->btn_menu);
+	m->action_dismiss_all = new QAction(ui->btn_menu);
 
-	m->action_dismiss->setVisible(false);
-	m->action_dismiss_all->setVisible(false);
+	update_dismiss_buttons();
 
 	ui->btn_menu->register_action(m->action_dismiss);
 	ui->btn_menu->register_action(m->action_dismiss_all);
@@ -116,6 +120,7 @@ void GUI_Broadcast::init_ui()
 	connect(ui->btn_retry, &QPushButton::clicked, this, &GUI_Broadcast::retry);
 
 	set_status_label();
+	retranslate_ui();
 
 	Set::listen(SetNoDB::MP3enc_found, this, &GUI_Broadcast::mp3_enc_found);
 }
@@ -152,7 +157,6 @@ void GUI_Broadcast::connection_established(const QString& ip)
 	ui->combo_clients->addItem(ip);
 	set_status_label();
 	ui->combo_clients->setCurrentIndex(ui->combo_clients->count() -1);
-	m->action_dismiss_all->setVisible(true);
 }
 
 
@@ -181,10 +185,7 @@ void GUI_Broadcast::connection_closed(const QString& ip)
 
 	ui->combo_clients->removeItem(idx);
 
-	if(ui->combo_clients->count() == 0){
-		m->action_dismiss->setVisible(false);
-		m->action_dismiss_all->setVisible(false);
-	}
+	update_dismiss_buttons();
 
 	set_status_label();
 }
@@ -220,6 +221,10 @@ void GUI_Broadcast::dismiss_at(int idx)
 		return;
 	}
 
+	if(idx < 0 || idx >= ui->combo_clients->count()){
+		return;
+	}
+
 	QString ip = ui->combo_clients->itemText(idx);
 
 	if(ip.startsWith("(d)")) return;
@@ -227,6 +232,8 @@ void GUI_Broadcast::dismiss_at(int idx)
 	ui->combo_clients->setItemText(idx, QString("(d) ") + ip);
 
 	m->server->dismiss(idx);
+
+	update_dismiss_buttons();
 }
 
 
@@ -234,7 +241,6 @@ void GUI_Broadcast::dismiss_clicked()
 {
 	int idx = ui->combo_clients->currentIndex();
 	dismiss_at(idx);
-	m->action_dismiss->setVisible(false);
 }
 
 
@@ -243,25 +249,52 @@ void GUI_Broadcast::dismiss_all_clicked()
 	for(int idx = 0; idx <ui->combo_clients->count(); idx++){
 		dismiss_at(idx);
 	}
-
-	m->action_dismiss_all->setVisible(false);
-	m->action_dismiss->setVisible(false);
 }
 
 
 void GUI_Broadcast::combo_changed(int idx)
 {
 	Q_UNUSED(idx)
+	update_dismiss_buttons();
+}
+
+
+bool GUI_Broadcast::check_dismiss_visible() const
+{
+	if(!is_ui_initialized()){
+		return false;
+	}
+
 	QString text = ui->combo_clients->currentText();
 
 	if(text.startsWith("(d)")){
-		m->action_dismiss->setVisible(false);
+		return false;
 	}
-	else{
-		m->action_dismiss->setVisible(true);
+	else if(!text.isEmpty()){
+		return true;
 	}
+
+	return false;
 }
 
+bool GUI_Broadcast::check_dismiss_all_visible() const
+{
+	if(!is_ui_initialized()){
+		return false;
+	}
+
+	return (ui->combo_clients->count() > 0);
+}
+
+void GUI_Broadcast::update_dismiss_buttons()
+{
+	if(!is_ui_initialized()){
+		return;
+	}
+
+	m->action_dismiss->setVisible(check_dismiss_visible());
+	m->action_dismiss_all->setVisible(check_dismiss_all_visible());
+}
 
 void GUI_Broadcast::mp3_enc_found()
 {
@@ -282,6 +315,5 @@ void GUI_Broadcast::mp3_enc_found()
 		ui->btn_retry->hide();
 	}
 
-	m->action_dismiss->setVisible(active);
-	m->action_dismiss_all->setVisible(active);
+	update_dismiss_buttons();
 }

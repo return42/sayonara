@@ -102,7 +102,7 @@ void AbstractStreamHandler::stream_parser_finished(bool success)
 	StreamParser* stream_parser = static_cast<StreamParser*>(sender());
 
 	if(!success) {
-		sp_log(Log::Debug, this) << "Stream parser finished with error";
+		sp_log(Log::Warning, this) << "Stream parser finished with error";
 		stream_parser->deleteLater(); m->stream_parser = nullptr;
 
 		m->blocked = false;

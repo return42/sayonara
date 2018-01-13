@@ -35,6 +35,36 @@ struct StreamHttpParser::Private
 	}
 };
 
+QString StreamHttpParser::answer_string(StreamHttpParser::HttpAnswer answer)
+{
+	using Answer=StreamHttpParser::HttpAnswer;
+	switch(answer)
+	{
+		case Answer::BG:
+			return "Background image";
+		case Answer::Fail:
+			return "Fail";
+		case Answer::Favicon:
+			return "Favicon";
+		case Answer::HTML5:
+			return "Html5";
+		case Answer::Ignore:
+			return "Ignore";
+		case Answer::MP3:
+			return "MP3";
+		case Answer::MetaData:
+			return "Metadata";
+		case Answer::OK:
+			return "OK";
+		case Answer::Playlist:
+			return "Playlist";
+		case Answer::Reject:
+			return "Reject";
+		default:
+			return "Unknown answer";
+	}
+}
+
 StreamHttpParser::StreamHttpParser()
 {
 	m = Pimpl::make<Private>();
@@ -97,7 +127,7 @@ StreamHttpParser::HttpAnswer StreamHttpParser::parse(const QByteArray& data)
 			continue;
 		}
 
-		sp_log(Log::Debug, this) << "Check for mp3: " << str.contains(regex_mp3);
+		sp_log(Log::Debug, this) << "Client asks for MP3? " << str.contains(regex_mp3);
 		if(str.contains(regex_mp3)){
 			get_mp3 = true;
 			continue;
@@ -128,6 +158,8 @@ StreamHttpParser::HttpAnswer StreamHttpParser::parse(const QByteArray& data)
 				QString user_agent = str.right( str.size() - 11).toLower();
 				if( user_agent.contains("firefox", Qt::CaseInsensitive) ||
 					user_agent.contains("mozilla", Qt::CaseInsensitive) ||
+					user_agent.contains("gecko", Qt::CaseInsensitive) ||
+					user_agent.contains("webkit", Qt::CaseInsensitive) ||
 					user_agent.contains("safari", Qt::CaseInsensitive) ||
 					user_agent.contains("internet explorer", Qt::CaseInsensitive) ||
 					user_agent.contains("opera", Qt::CaseInsensitive) ||

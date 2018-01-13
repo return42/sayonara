@@ -98,7 +98,7 @@ StreamHttpParser::HttpAnswer StreamWriter::parse_message()
 	StreamHttpParser::HttpAnswer status;
 	status = m->parser->parse(m->socket->readAll());
 
-	sp_log(Log::Debug, this) << "Parse message " << (int) status;
+	sp_log(Log::Debug, this) << "Parse message " << StreamHttpParser::answer_string(status);
 
 	return status;
 }

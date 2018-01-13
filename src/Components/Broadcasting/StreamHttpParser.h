@@ -51,7 +51,6 @@ public:
 		MetaData
 	};
 
-
 	StreamHttpParser();
 	~StreamHttpParser();
 
@@ -59,6 +58,8 @@ public:
 
 	QString		get_host() const;
 	bool		is_icy() const;
+
+	static QString answer_string(HttpAnswer answer);
 };
 
 #endif // STREAMHTTPPARSER_H

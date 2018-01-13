@@ -119,7 +119,7 @@ bool StreamServer::listen()
 	bool success = m->server->isListening();
 	if(!success)
 	{
-		success = m->server->listen(QHostAddress::LocalHost, port);
+		success = m->server->listen(QHostAddress::AnyIPv4, port);
 
 		if(!success)
 		{

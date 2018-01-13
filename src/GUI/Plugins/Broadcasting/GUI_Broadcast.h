@@ -57,6 +57,10 @@ private:
 
 	void retranslate_ui() override;
 	void init_ui() override;
+
+	bool check_dismiss_visible() const;
+	bool check_dismiss_all_visible() const;
+	void update_dismiss_buttons();
 };
 
 #endif // GUI_BROADCAST_H

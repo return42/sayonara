@@ -52,6 +52,7 @@ MenuToolButton::~MenuToolButton() {}
 void MenuToolButton::register_action(QAction *action)
 {
     m->menu->register_action(action);
+	prove_enabled();
 }
 
 
