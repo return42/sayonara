@@ -109,7 +109,7 @@ private slots:
 	void playstate_changed(PlayState state);
 	void playlist_finished();
 
-	void _sl_show_numbers_changed();
+	void _sl_look_changed();
 	void _sl_show_clear_button_changed();
 };
 

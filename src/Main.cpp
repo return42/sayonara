@@ -154,9 +154,10 @@ int main(int argc, char *argv[])
 		return 0;
 	}
 
+	QSharedMemory memory("SayonaraMemory");
+
 	if(!cmd_data.multiple_instances)
 	{
-		QSharedMemory memory("SayonaraMemory");
 		bool has_other_instance = check_for_other_instance(cmd_data, &memory);
 		if(has_other_instance){
 			return 0;

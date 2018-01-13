@@ -79,7 +79,8 @@ bool evaluate_expression(const QString& expr)
 
 	for(const QString& between_percent : between_percents)
 	{
-		if((between_percent.compare("title") != 0) &&
+		if((between_percent.compare("nr") != 0) &&
+		   (between_percent.compare("title") != 0) &&
 		   (between_percent.compare("artist") != 0) &&
 		   (between_percent.compare("album") != 0))
 		{

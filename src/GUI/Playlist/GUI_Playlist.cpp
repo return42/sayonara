@@ -85,8 +85,9 @@ GUI_Playlist::GUI_Playlist(QWidget *parent) :
 
 	connect(ui->btn_clear, &QPushButton::clicked, this, &GUI_Playlist::clear_button_pressed);
 
-	Set::listen(Set::PL_ShowNumbers, this, &GUI_Playlist::_sl_show_numbers_changed);
 	Set::listen(Set::PL_ShowClearButton, this, &GUI_Playlist::_sl_show_clear_button_changed);
+	Set::listen(Set::PL_EntryLook, this, &GUI_Playlist::_sl_look_changed);
+	Set::listen(Set::PL_ShowNumbers, this, &GUI_Playlist::_sl_look_changed);
 
 	Handler::instance()->load_old_playlists();
 }
@@ -330,20 +331,18 @@ void GUI_Playlist::open_dir_clicked(int tgt_idx)
 }
 
 
-void GUI_Playlist::_sl_show_numbers_changed()
+void GUI_Playlist::_sl_show_clear_button_changed()
+{
+	ui->btn_clear->setVisible(_settings->get(Set::PL_ShowClearButton));
+}
+
+void GUI_Playlist::_sl_look_changed()
 {
 	PlaylistView* cur_view = current_view();
-
-	parentWidget()->setFocus();
 
 	if( cur_view ){
 	   cur_view->reset();
 	}
-}
-
-void GUI_Playlist::_sl_show_clear_button_changed()
-{
-	ui->btn_clear->setVisible(_settings->get(Set::PL_ShowClearButton));
 }
 
 void GUI_Playlist::delete_tracks_clicked(const IndexSet& rows)

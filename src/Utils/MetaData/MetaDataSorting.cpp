@@ -51,7 +51,7 @@ static Relation compare_string(const QString& s1, const QString& s2)
 
 bool MetaDataSorting::TracksByTitleAsc(const MetaData& md1, const MetaData& md2)
 {
-	switch(compare_string(md1.album(), md2.album())){
+	switch(compare_string(md1.title(), md2.title())){
 		case Equal:
 			return (md1.filepath() < md2.filepath());
 		case Greater:
@@ -69,6 +69,17 @@ bool MetaDataSorting::TracksByTitleDesc(const MetaData& md1, const MetaData& md2
 
 bool MetaDataSorting::TracksByTrackNumAsc(const MetaData& md1, const MetaData& md2)
 {
+	if(md1.album_id == md2.album_id)
+	{
+		if(md1.discnumber < md2.discnumber){
+			return true;
+		}
+
+		else if(md1.discnumber > md2.discnumber){
+			return false;
+		}
+	}
+
 	if(md1.track_num < md2.track_num){
 		return true;
 	}
@@ -82,12 +93,23 @@ bool MetaDataSorting::TracksByTrackNumAsc(const MetaData& md1, const MetaData& m
 
 bool MetaDataSorting::TracksByTrackNumDesc(const MetaData& md1, const MetaData& md2)
 {
+	if(md1.album_id == md2.album_id)
+	{
+		if(md1.discnumber < md2.discnumber){
+			return true;
+		}
+
+		else if(md1.discnumber > md2.discnumber){
+			return false;
+		}
+	}
+
 	if(md2.track_num < md1.track_num){
 		return true;
 	}
 
 	if(md1.track_num == md2.track_num){
-		return TracksByTitleAsc(md1, md2);
+		return TracksByTitleDesc(md1, md2);
 	}
 
 	return false;
