@@ -21,6 +21,7 @@
 #include "Widget.h"
 #include "Dialog.h"
 #include <QFormLayout>
+#include <QMenuBar>
 
 #include "Utils/Settings/Settings.h"
 
@@ -81,4 +82,5 @@ void MainWindow::raise()
 	this->setWindowFlags((Qt::WindowFlags) (windowFlags() & ~Qt::WindowMinimized));
 	this->activateWindow();
 	this->showNormal();
+	this->menuBar()->show();
 }
