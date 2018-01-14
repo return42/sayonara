@@ -32,8 +32,10 @@ class QMenu;
 class QAction;
 
 class Menubar :
-	public Gui::WidgetTemplate<QMenuBar>,
-	public ShortcutWidget
+	public QObject,
+	public SayonaraClass
+	/*public Gui::WidgetTemplate<QMenuBar>,
+	public ShortcutWidget*/
 {
 	Q_OBJECT
 	PIMPL(Menubar)
@@ -44,7 +46,7 @@ signals:
 	void sig_logger_clicked();
 
 public:
-	Menubar(QWidget* parent=nullptr);
+	Menubar(QMenuBar* parent=nullptr);
 	~Menubar();
 
 	void insert_player_plugin_action(QAction* action);
@@ -56,8 +58,8 @@ private:
 	void init_connections();
 
 protected:
-	void language_changed() override;
-	void skin_changed() override;
+	void language_changed();
+	void skin_changed();
 
 private slots:
 	void open_dir_clicked();
@@ -74,7 +76,7 @@ private slots:
 
 	// ShortcutWidget interface
 public:
-	QString get_shortcut_text(const QString& shortcut_identifier) const override;
+	QString get_shortcut_text(const QString& shortcut_identifier) const;
 };
 
 

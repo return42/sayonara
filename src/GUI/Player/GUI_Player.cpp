@@ -88,8 +88,7 @@ GUI_Player::GUI_Player(QTranslator* translator, QWidget* parent) :
 
 	GlobalMessage::register_receiver(this);
 
-	m->menubar = new Menubar(this);
-	this->setMenuBar(m->menubar);
+	m->menubar = new Menubar(this->menuBar());
 
 	Library::PluginHandler* lph = Library::PluginHandler::instance();
 	lph->set_library_parent(this->library_widget);

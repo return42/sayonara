@@ -50,6 +50,7 @@
 
 struct Menubar::Private
 {
+	QMenuBar*		menubar=nullptr;
 	QMenu*			menu_file=nullptr;
 	QMenu*			menu_view=nullptr;
 	QMenu*			menu_help=nullptr;
@@ -86,7 +87,8 @@ struct Menubar::Private
 	QMessageBox*	about_box=nullptr;
 	QStringList		translators;
 
-	Private(Menubar* menubar)
+	Private(QMenuBar* menubar) :
+		menubar(menubar)
 	{
 		menu_file = new QMenu(menubar);
 		menu_view = new QMenu(menubar);
@@ -136,10 +138,11 @@ struct Menubar::Private
 	}
 };
 
-Menubar::Menubar(QWidget* parent) :
-	Gui::WidgetTemplate<QMenuBar>(parent)
+Menubar::Menubar(QMenuBar* menu_bar) :
+	QObject(menu_bar),
+	SayonaraClass()
 {
-	m = Pimpl::make<Private>(this);
+	m = Pimpl::make<Private>(menu_bar);
 
 	m->action_view_library->setChecked(_settings->get(Set::Lib_Show));
 	m->action_view_library->setText(Lang::get(Lang::Library));
@@ -176,7 +179,7 @@ void Menubar::insert_preference_action(QAction* action)
 QAction* Menubar::update_library_action(QMenu* new_library_menu, const QString& name)
 {
 	if(m->current_library_menu_action){
-		this->removeAction(m->current_library_menu_action);
+		m->menubar->removeAction(m->current_library_menu_action);
 	}
 
 	if(!new_library_menu)
@@ -189,7 +192,7 @@ QAction* Menubar::update_library_action(QMenu* new_library_menu, const QString& 
 
 	m->current_library_menu = new_library_menu;
 
-	m->current_library_menu_action = this->insertMenu(m->menu_help_action, new_library_menu);
+	m->current_library_menu_action = m->menubar->insertMenu(m->menu_help_action, new_library_menu);
 	m->current_library_menu_action->setText(name);
 
 	bool library_visible = _settings->get(Set::Lib_Show);
@@ -226,11 +229,11 @@ void Menubar::init_connections()
 	// shortcuts
 	ShortcutHandler* sch = ShortcutHandler::instance();
 
-	Shortcut sc1 = sch->add(Shortcut(this, "quit", Lang::get(Lang::Quit), "Ctrl+q"));
+	/*Shortcut sc1 = sch->add(Shortcut(this, "quit", Lang::get(Lang::Quit), "Ctrl+q"));
 	Shortcut sc2 = sch->add(Shortcut(this, "minimize", tr("Minimize"), "Ctrl+m"));
 
 	sc1.create_qt_shortcut(this, this, SLOT(close_clicked()));
-	sc2.create_qt_shortcut(this, this, SLOT(minimize_clicked()));
+	sc2.create_qt_shortcut(this, this, SLOT(minimize_clicked()));*/
 }
 
 void Menubar::language_changed()
@@ -259,7 +262,7 @@ void Menubar::skin_changed()
 	bool dark = (_settings->get(Set::Player_Style) == 1);
 
 	QString stylesheet = Style::style(dark);
-	this->setStyleSheet(stylesheet);
+	m->menubar->setStyleSheet(stylesheet);
 
 	using namespace Gui;
 	m->action_open_file->setIcon(Icons::icon(Icons::Open));
@@ -269,7 +272,7 @@ void Menubar::skin_changed()
 
 void Menubar::open_dir_clicked()
 {
-	QString dir = QFileDialog::getExistingDirectory(this,
+	QString dir = QFileDialog::getExistingDirectory(m->menubar,
 			Lang::get(Lang::OpenDir),
 			QDir::homePath(),
 			QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
@@ -294,7 +297,7 @@ void Menubar::open_files_clicked()
 
 	QStringList list =
 			QFileDialog::getOpenFileNames(
-					this,
+					m->menubar,
 					tr("Open Media files"),
 					QDir::homePath(),
 					filetypes_str);
@@ -309,7 +312,7 @@ void Menubar::open_files_clicked()
 
 void Menubar::shutdown_clicked()
 {
-	GUI_Shutdown* gui = new GUI_Shutdown(this);
+	GUI_Shutdown* gui = new GUI_Shutdown(m->menubar);
 	gui->exec();
 }
 
@@ -367,8 +370,8 @@ void Menubar::about_clicked()
 
 	if(!m->about_box)
 	{
-		m->about_box = new QMessageBox(this);
-		m->about_box->setParent(this);
+		m->about_box = new QMessageBox(m->menubar);
+		m->about_box->setParent(m->menubar);
 		m->about_box->setIconPixmap(Gui::Util::pixmap("logo.png", QSize(150, 150), true));
 		m->about_box->setWindowFlags(Qt::Dialog);
 		m->about_box->setModal(true);
