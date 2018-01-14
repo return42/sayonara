@@ -56,6 +56,15 @@ namespace StreamRecorder
 
         QString target_path_template_default(bool use_session_path);
 
+		/**
+		 * @brief Get the target path and playlist path of a single recorded audio file
+		 * @param sr_path Stream recorder base path
+		 * @param path_template template string of path
+		 * @param md current MetaData object (used for album, title and artist)
+		 * @param d session date
+		 * @param t session time
+		 * @return tuple of audio filepath and playlist filepath
+		 */
         TargetPaths full_target_path(const QString& sr_path, const QString& path_template, const MetaData& md, const QDate& d, const QTime& t);
 
         QString parse_error_code(ErrorCode err);

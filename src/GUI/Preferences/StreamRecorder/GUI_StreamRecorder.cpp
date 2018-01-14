@@ -248,6 +248,10 @@ void GUI_StreamRecorder::revert()
 	bool create_session_path = _settings->get(Set::Engine_SR_SessionPath);
 	bool auto_rec = _settings->get(Set::Engine_SR_AutoRecord);
 
+	if(template_path.isEmpty()){
+		template_path = SR::Utils::target_path_template_default(true);
+	}
+
 	ui->cb_activate->setEnabled(lame_available);
 	ui->le_path->setText(path);
 	ui->cb_activate->setChecked(active);
@@ -260,6 +264,9 @@ void GUI_StreamRecorder::revert()
 	ui->cb_auto_rec->setEnabled(active);
 	ui->le_template->setEnabled(active);
 	ui->le_template->setText(template_path);
+
+	ui->tabWidget->setCurrentIndex(0);
+	ui->tabWidget->setTabEnabled(1, active && create_session_path);
 
 	if(!lame_available){
 		ui->lab_warning->setText(Lang::get(Lang::CannotFindLame));

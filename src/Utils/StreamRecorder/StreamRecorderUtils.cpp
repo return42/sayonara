@@ -28,6 +28,7 @@
 #include <QStringList>
 #include <QDateTime>
 #include <QRegExp>
+#include <QDir>
 
 using namespace StreamRecorder;
 
@@ -171,16 +172,17 @@ QList<QPair<QString, QString> > Utils::descriptions()
 	return ret;
 }
 
-Utils::TargetPaths Utils::full_target_path(const QString& sr_path, const QString& path_template, const MetaData& md, const QDate& date, const QTime& time)
+static QString replace_placeholder(const QString& str, const MetaData& md, QDate date=QDate(), QTime time=QTime())
 {
-	int invalid_idx;
-	Utils::TargetPaths ret;
-
-	if(validate_template(path_template, &invalid_idx) != Utils::ErrorCode::OK){
-		return ret;
+	if(date.isNull()){
+		date = QDate::currentDate();
 	}
 
-	QString target_path = path_template;
+	if(time.isNull()){
+		time = QTime::currentTime();
+	}
+
+	QString target_path(str);
 
 	target_path.replace("<h>",		QString("%1").arg(time.hour(), 2, 10, QChar('0')));
 	target_path.replace("<min>",	QString("%1").arg(time.minute(), 2, 10, QChar('0')));
@@ -192,16 +194,60 @@ Utils::TargetPaths Utils::full_target_path(const QString& sr_path, const QString
 	target_path.replace("<ml>",		QDate::longMonthName(date.month()));
 	target_path.replace("<y>",		QString("%1").arg(date.year()));
 	target_path.replace("<tn>",		QString("%1").arg(md.track_num, 4, 10, QChar('0')));
-	target_path.replace("<t>",      md.title().trimmed());
-	target_path.replace("<ar>",     md.artist().trimmed());
-	target_path.replace("<rs>",     md.album().trimmed());
+
+	QString title = md.title().trimmed();
+	QString artist = md.artist().trimmed();
+	QString album = md.album().trimmed();
+
+	QStringList forbidden = {
+		"/", "\\", ":", "*", "%", "$", "\n", "\t", "\r"
+	};
+
+	for(const QString& forbidden_str : forbidden)
+	{
+		title.replace(forbidden_str, "");
+		artist.replace(forbidden_str, "");
+		album.replace(forbidden_str, "");
+	}
+
+	target_path.replace("<t>",      title);
+	target_path.replace("<ar>",     artist);
+	target_path.replace("<rs>",     album);
+
+	return target_path;
+}
+
+Utils::TargetPaths Utils::full_target_path(const QString& sr_path, const QString& path_template, const MetaData& md, const QDate& date, const QTime& time)
+{
+	int invalid_idx;
+	Utils::TargetPaths ret;
+
+	if(validate_template(path_template, &invalid_idx) != Utils::ErrorCode::OK){
+		return ret;
+	}
+
+	QString dir, filename;
+	::Util::File::split_filename(path_template, dir, filename);
+
+	dir = replace_placeholder(dir, md, date, time);
+	filename = replace_placeholder(filename, md);
+
+	QString target_path = dir + QDir::separator() + filename;
 
 	if(!target_path.endsWith(".mp3")){
 		target_path += ".mp3";
 	}
 
-	ret.first = Util::File::clean_filename(sr_path + "/" + target_path);
-	ret.second = Util::File::clean_filename(Util::File::get_parent_directory(ret.first) + "/playlist.m3u");
+	ret.first = Util::File::clean_filename(sr_path + QDir::separator() + target_path);
+	ret.second =	Util::File::clean_filename(
+						Util::File::get_parent_directory(ret.first) +
+						QDir::separator() +
+						"playlist-" +
+						date.toString("yymmdd") +
+						"-" +
+						time.toString("hhMM") +
+						".m3u"
+					);
 
 	return ret;
 }
