@@ -29,8 +29,7 @@ class DBusMediaKeysInterfaceMate;
 class DBusMediaKeysInterfaceGnome;
 class DBusNotifications;
 
-
-namespace DBusMPRIS 
+namespace DBusMPRIS
 {
 	class MediaPlayer2;
 }
@@ -38,11 +37,15 @@ namespace DBusMPRIS
 class DBusHandler :
 		private QObject
 {
+	Q_OBJECT
 
 public:
 	explicit DBusHandler(QMainWindow* player, QObject* parent=nullptr);
 	~DBusHandler();
 
+private slots:
+	void service_registered(const QString& service_name);
+	void service_unregistered(const QString& service_name);
 
 private:
 	DBusMPRIS::MediaPlayer2*		_dbus_mpris=nullptr;

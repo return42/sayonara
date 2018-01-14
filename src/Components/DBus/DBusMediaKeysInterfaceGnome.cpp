@@ -31,25 +31,27 @@ DBusMediaKeysInterfaceGnome::DBusMediaKeysInterfaceGnome(QObject *parent) :
 				this);
 
 
-	if (!QDBusConnection::sessionBus().interface()->isServiceRegistered("org.gnome.SettingsDaemon"))
+	QDBusConnectionInterface* dbus_interface = QDBusConnection::sessionBus().interface();
+	if (!dbus_interface->isServiceRegistered("org.gnome.SettingsDaemon"))
 	{
 		return;
 	}
 
-    sp_log(Log::Info, this) << " registered";
+	sp_log(Log::Info, this) << " registered";
+
 	QDBusPendingReply<> reply = _media_key_interface->GrabMediaPlayerKeys("sayonara", 0);
 	QDBusPendingCallWatcher* watcher = new QDBusPendingCallWatcher(reply, this);
 
 	connect(watcher, &QDBusPendingCallWatcher::finished,
 			this, &DBusMediaKeysInterfaceGnome::sl_register_finished);
 
-    set_initialized(true);
+	set_initialized(true);
 }
 
 
 void DBusMediaKeysInterfaceGnome::sl_register_finished(QDBusPendingCallWatcher* watcher)
 {
-    if(!initialized()){
+	if(!initialized()){
 		return;
 	}
 

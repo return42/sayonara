@@ -26,37 +26,42 @@
 #include <QCoreApplication>
 
 
+
 struct DBusMediaKeysInterface::Private
 {
-    QObject*		parent=nullptr;
-    PlayManagerPtr	play_manager=nullptr;
-    bool            initialized;
+	QObject*		parent=nullptr;
+	PlayManagerPtr	play_manager=nullptr;
+	bool            initialized;
+	bool			is_registered;
 
-    Private(QObject *parent) :
-        parent(parent),
-        initialized(false)
-    {
-        play_manager = PlayManager::instance();
-    }
+	Private(QObject *parent) :
+		parent(parent),
+		initialized(false),
+		is_registered(false)
+	{
+		play_manager = PlayManager::instance();
+	}
 };
 
 
 DBusMediaKeysInterface::DBusMediaKeysInterface(QObject *parent) :
 	QObject(parent)
 {
-    m = Pimpl::make<Private>(parent);
+	m = Pimpl::make<Private>(parent);
+
+
 }
 
 DBusMediaKeysInterface::~DBusMediaKeysInterface() {}
 
 bool DBusMediaKeysInterface::initialized() const
 {
-    return m->initialized;
+	return m->initialized;
 }
 
 void DBusMediaKeysInterface::set_initialized(bool b)
 {
-    m->initialized = b;
+	m->initialized = b;
 }
 
 
@@ -68,43 +73,44 @@ void DBusMediaKeysInterface::sl_media_key_pressed(const QString& program_name, c
 
 	if(key.compare("play", Qt::CaseInsensitive) == 0){
 		event = new QKeyEvent ( QEvent::KeyPress, Qt::Key_MediaPlay, Qt::NoModifier);
-        m->play_manager->play_pause();
+		m->play_manager->play_pause();
 	}
 
 	else if(key.compare("pause", Qt::CaseInsensitive) == 0){
 		event = new QKeyEvent ( QEvent::KeyPress, Qt::Key_MediaPause, Qt::NoModifier);
-        m->play_manager->pause();
+		m->play_manager->pause();
 	}
 
 	else if(key.compare("next", Qt::CaseInsensitive) == 0){
 		event = new QKeyEvent ( QEvent::KeyPress, Qt::Key_MediaNext, Qt::NoModifier);
-        m->play_manager->next();
+		m->play_manager->next();
 	}
 
 	else if(key.compare("previous", Qt::CaseInsensitive) == 0){
 		event = new QKeyEvent ( QEvent::KeyPress, Qt::Key_MediaPrevious, Qt::NoModifier);
-        m->play_manager->previous();
+		m->play_manager->previous();
 	}
 
 	else if(key.contains("stop", Qt::CaseInsensitive)){
 		event = new QKeyEvent (QEvent::KeyPress, Qt::Key_MediaStop, Qt::NoModifier);
-        m->play_manager->stop();
+		m->play_manager->stop();
 	}
 
-    if(event && m->parent){
-        QCoreApplication::postEvent (m->parent, event);
+	if(event && m->parent){
+		QCoreApplication::postEvent (m->parent, event);
 	}
 }
 
 
-void DBusMediaKeysInterface::sl_register_finished(QDBusPendingCallWatcher* watcher){
+void DBusMediaKeysInterface::sl_register_finished(QDBusPendingCallWatcher* watcher)
+{
 	QDBusMessage reply = watcher->reply();
 	watcher->deleteLater();
 
-    if (reply.type() == QDBusMessage::ErrorMessage)
-    {
-        sp_log(Log::Warning, this) << "Cannot grab media keys: "
-                                   << reply.errorName() << " "
-                                   << reply.errorMessage();
+	if (reply.type() == QDBusMessage::ErrorMessage)
+	{
+		sp_log(Log::Warning, this) << "Cannot grab media keys: "
+								   << reply.errorName() << " "
+								   << reply.errorMessage();
 	}
 }

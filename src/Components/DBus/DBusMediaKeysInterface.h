@@ -37,6 +37,7 @@ public:
 protected:
 	bool initialized() const;
 	void set_initialized(bool b);
+	bool is_registered() const;
 
 
 protected slots:

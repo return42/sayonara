@@ -30,13 +30,13 @@ DBusMediaKeysInterfaceMate::DBusMediaKeysInterfaceMate(QObject *parent) :
 				QDBusConnection::sessionBus(),
 				this);
 
-
-	if (!QDBusConnection::sessionBus().interface()->isServiceRegistered("org.mate.SettingsDaemon"))
+	QDBusConnectionInterface* dbus_interface = QDBusConnection::sessionBus().interface();
+	if (!dbus_interface->isServiceRegistered("org.mate.SettingsDaemon"))
 	{
 		return;
 	}
 
-    sp_log(Log::Info, this) << " registered";
+	sp_log(Log::Info, this) << " registered";
 
 	QDBusPendingReply<> reply = _media_key_interface->GrabMediaPlayerKeys("sayonara", 0);
 	QDBusPendingCallWatcher* watcher = new QDBusPendingCallWatcher(reply, this);
@@ -44,13 +44,13 @@ DBusMediaKeysInterfaceMate::DBusMediaKeysInterfaceMate(QObject *parent) :
 	connect(watcher, &QDBusPendingCallWatcher::finished,
 			this, &DBusMediaKeysInterfaceMate::sl_register_finished);
 
-    set_initialized(true);
+	set_initialized(true);
 }
 
 
 void DBusMediaKeysInterfaceMate::sl_register_finished(QDBusPendingCallWatcher* watcher)
 {
-    if(!initialized()){
+	if(!initialized()){
 		return;
 	}
 

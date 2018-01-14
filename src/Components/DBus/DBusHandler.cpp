@@ -26,6 +26,8 @@
 
 #include "GUI/Utils/Widgets/Widget.h"
 
+#include <QDBusConnectionInterface>
+
 DBusHandler::DBusHandler(QMainWindow* player, QObject* parent) :
 	QObject(parent)
 {
@@ -33,6 +35,26 @@ DBusHandler::DBusHandler(QMainWindow* player, QObject* parent) :
 	_dbus_mate = new DBusMediaKeysInterfaceMate(this);
 	_dbus_gnome = new DBusMediaKeysInterfaceGnome(this);
 	_dbus_notifications = new DBusNotifications(this);
+
+	QDBusConnectionInterface* dbus_interface = QDBusConnection::sessionBus().interface();
+	if(dbus_interface)
+	{
+		/*connect(dbus_interface, &QDBusConnectionInterface::serviceRegistered,
+				this, &DBusMediaKeysInterface::service_registered);
+		connect(dbus_interface, &QDBusConnectionInterface::serviceUnregistered,
+				this, &DBusMediaKeysInterface::service_unregistered);*/
+	}
 }
 
 DBusHandler::~DBusHandler() {}
+
+
+void DBusHandler::service_registered(const QString& service_name)
+{
+	sp_log(Log::Info, this) << "Service " << service_name << " registered";
+}
+
+void DBusHandler::service_unregistered(const QString& service_name)
+{
+	sp_log(Log::Warning, this) << "Service " << service_name << " unregistered";
+}
