@@ -64,8 +64,6 @@ namespace Library
 		void init_menu();
 
 	protected:
-		bool event(QEvent* e) override;
-		void showEvent(QShowEvent* e) override;
 		void language_changed() override;
 		void skin_changed() override;
 

@@ -69,17 +69,6 @@ bool MetaDataSorting::TracksByTitleDesc(const MetaData& md1, const MetaData& md2
 
 bool MetaDataSorting::TracksByTrackNumAsc(const MetaData& md1, const MetaData& md2)
 {
-	if(md1.album_id == md2.album_id)
-	{
-		if(md1.discnumber < md2.discnumber){
-			return true;
-		}
-
-		else if(md1.discnumber > md2.discnumber){
-			return false;
-		}
-	}
-
 	if(md1.track_num < md2.track_num){
 		return true;
 	}
@@ -93,17 +82,6 @@ bool MetaDataSorting::TracksByTrackNumAsc(const MetaData& md1, const MetaData& m
 
 bool MetaDataSorting::TracksByTrackNumDesc(const MetaData& md1, const MetaData& md2)
 {
-	if(md1.album_id == md2.album_id)
-	{
-		if(md1.discnumber < md2.discnumber){
-			return true;
-		}
-
-		else if(md1.discnumber > md2.discnumber){
-			return false;
-		}
-	}
-
 	if(md2.track_num < md1.track_num){
 		return true;
 	}
@@ -115,11 +93,39 @@ bool MetaDataSorting::TracksByTrackNumDesc(const MetaData& md1, const MetaData& 
 	return false;
 }
 
+
+bool MetaDataSorting::TracksByDiscnumberAsc(const MetaData& md1, const MetaData& md2)
+{
+	if(md1.discnumber < md2.discnumber){
+		return true;
+	}
+
+	if(md1.discnumber == md2.discnumber){
+		return TracksByTrackNumAsc(md1, md2);
+	}
+
+	return false;
+}
+
+bool MetaDataSorting::TracksByDiscnumberDesc(const MetaData& md1, const MetaData& md2)
+{
+	if(md2.discnumber < md1.discnumber){
+		return true;
+	}
+
+	if(md1.discnumber == md2.discnumber){
+		return TracksByTrackNumDesc(md1, md2);
+	}
+
+	return false;
+}
+
+
 bool MetaDataSorting::TracksByAlbumAsc(const MetaData& md1, const MetaData& md2)
 {
 	switch(compare_string(md1.album(), md2.album())){
 		case Equal:
-			return TracksByTrackNumAsc(md1, md2);
+			return TracksByDiscnumberAsc(md1, md2);
 		case Greater:
 			return false;
 		case Lesser:
@@ -132,7 +138,7 @@ bool MetaDataSorting::TracksByAlbumDesc(const MetaData& md1, const MetaData& md2
 {
 	switch(compare_string(md2.album(), md1.album())){
 		case Equal:
-			return TracksByTrackNumAsc(md1, md2);
+			return TracksByDiscnumberDesc(md1, md2);
 		case Greater:
 			return false;
 		case Lesser:
@@ -291,32 +297,6 @@ bool MetaDataSorting::TracksByFilesizeDesc(const MetaData& md1, const MetaData& 
 	}
 
 	if(md1.filesize == md2.filesize){
-		return TracksByArtistAsc(md1, md2);
-	}
-
-	return false;
-}
-
-bool MetaDataSorting::TracksByDiscnumberAsc(const MetaData& md1, const MetaData& md2)
-{
-	if(md1.discnumber < md2.discnumber){
-		return true;
-	}
-
-	if(md1.discnumber == md2.discnumber){
-		return TracksByArtistAsc(md1, md2);
-	}
-
-	return false;
-}
-
-bool MetaDataSorting::TracksByDiscnumberDesc(const MetaData& md1, const MetaData& md2)
-{
-	if(md2.discnumber < md1.discnumber){
-		return true;
-	}
-
-	if(md1.discnumber == md2.discnumber){
 		return TracksByArtistAsc(md1, md2);
 	}
 

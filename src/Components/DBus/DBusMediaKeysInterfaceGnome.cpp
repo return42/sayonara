@@ -19,47 +19,49 @@
  */
 
 #include "DBusMediaKeysInterfaceGnome.h"
+#include "Components/DBus/gnome_settings_daemon.h"
 #include "Utils/Logger/Logger.h"
+
+struct DBusMediaKeysInterfaceGnome::Private
+{
+	OrgGnomeSettingsDaemonMediaKeysInterface* media_key_interface=0;
+
+	Private(DBusMediaKeysInterface* parent)
+	{
+		media_key_interface = new OrgGnomeSettingsDaemonMediaKeysInterface(
+				"org.gnome.SettingsDaemon",
+				"/org/gnome/SettingsDaemon/MediaKeys",
+				QDBusConnection::sessionBus(),
+				parent);
+	}
+};
 
 DBusMediaKeysInterfaceGnome::DBusMediaKeysInterfaceGnome(QObject *parent) :
 	DBusMediaKeysInterface(parent)
 {
-	_media_key_interface = new OrgGnomeSettingsDaemonMediaKeysInterface(
-				"org.gnome.SettingsDaemon",
-				"/org/gnome/SettingsDaemon/MediaKeys",
-				QDBusConnection::sessionBus(),
-				this);
+	m = Pimpl::make<Private>(this);
 
-
-	QDBusConnectionInterface* dbus_interface = QDBusConnection::sessionBus().interface();
-	if (!dbus_interface->isServiceRegistered("org.gnome.SettingsDaemon"))
-	{
-		return;
-	}
-
-	sp_log(Log::Info, this) << " registered";
-
-	QDBusPendingReply<> reply = _media_key_interface->GrabMediaPlayerKeys("sayonara", 0);
-	QDBusPendingCallWatcher* watcher = new QDBusPendingCallWatcher(reply, this);
-
-	connect(watcher, &QDBusPendingCallWatcher::finished,
-			this, &DBusMediaKeysInterfaceGnome::sl_register_finished);
-
-	set_initialized(true);
+	init();
 }
 
+DBusMediaKeysInterfaceGnome::~DBusMediaKeysInterfaceGnome() {}
 
-void DBusMediaKeysInterfaceGnome::sl_register_finished(QDBusPendingCallWatcher* watcher)
+QString DBusMediaKeysInterfaceGnome::service_name() const
 {
-	if(!initialized()){
-		return;
-	}
+	return QString("org.gnome.SettingsDaemon");
+}
 
-	DBusMediaKeysInterface::sl_register_finished(watcher);
+QDBusPendingReply<> DBusMediaKeysInterfaceGnome::grab_media_key_reply()
+{
+	return m->media_key_interface->GrabMediaPlayerKeys("sayonara", 0);
+}
 
-	connect( _media_key_interface,
+void DBusMediaKeysInterfaceGnome::connect_media_keys()
+{
+	connect( m->media_key_interface,
 			 &OrgGnomeSettingsDaemonMediaKeysInterface::MediaPlayerKeyPressed,
 			 this,
 			 &DBusMediaKeysInterfaceGnome::sl_media_key_pressed
 	);
 }
+

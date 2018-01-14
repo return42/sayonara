@@ -57,6 +57,8 @@ public:
 	void notify(const MetaData& md) override;
 	void notify(const QString &title, const QString &message, const QString &image_path) override;
 
+	QString name() const override;
+	QString display_name() const override;
 
 signals:
 

@@ -23,6 +23,7 @@
 
 #include <QDBusPendingCallWatcher>
 #include "Utils/Pimpl.h"
+#include <QDBusPendingReply>
 
 class DBusMediaKeysInterface :
 		public QObject
@@ -34,15 +35,18 @@ public:
 	explicit DBusMediaKeysInterface(QObject *parent=nullptr);
 	virtual ~DBusMediaKeysInterface();
 
+	void init();
+
 protected:
 	bool initialized() const;
-	void set_initialized(bool b);
-	bool is_registered() const;
 
+	virtual QString service_name() const=0;
+	virtual QDBusPendingReply<> grab_media_key_reply()=0;
+	virtual void connect_media_keys()=0;
 
 protected slots:
 	virtual void sl_media_key_pressed(const QString& app_name, const QString& key);
-	virtual void sl_register_finished(QDBusPendingCallWatcher*);
+	virtual void sl_register_finished(QDBusPendingCallWatcher* watcher);
 };
 
 #endif // DBUSMEDIAKEYSINTERFACE_H

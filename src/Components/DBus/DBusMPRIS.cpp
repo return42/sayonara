@@ -156,11 +156,7 @@ DBusMPRIS::MediaPlayer2::MediaPlayer2(QMainWindow* player, QObject *parent) :
 	connect(m->play_manager, &PlayManager::sig_volume_changed,
 			this, &DBusMPRIS::MediaPlayer2::volume_changed);
 
-/*	if( m->play_manager->playstate() == PlayState::Playing ||
-			m->play_manager->playstate() == PlayState::Paused)
-	{*/
 		track_changed(m->play_manager->current_track());
-//	}
 }
 
 

@@ -38,8 +38,10 @@ public:
 	explicit DBusNotifications(QObject* parent=nullptr);
 	virtual ~DBusNotifications();
 
-	void notify(const MetaData& md);
-	void notify(const QString& title, const QString& text, const QString& image_path);
+	void notify(const MetaData& md) override;
+	void notify(const QString& title, const QString& text, const QString& image_path) override;
+
+	QString name() const override;
 
 private slots:
 	void track_changed(const MetaData& md);

@@ -64,7 +64,7 @@ struct GUI_TrayIcon::Private
 
 GUI_TrayIcon::GUI_TrayIcon (QObject *parent) :
 	QSystemTrayIcon(parent),
-	NotificationInterface("Standard"),
+	NotificationInterface(),
 	SayonaraClass()
 {
 	m = Pimpl::make<Private>();
@@ -224,6 +224,17 @@ void GUI_TrayIcon::notify(const QString &title, const QString &message, const QS
 	showMessage(title, message, QSystemTrayIcon::Information, timeout);
 }
 
+
+// dbus
+QString GUI_TrayIcon::name() const
+{
+	return "Standard";
+}
+
+QString GUI_TrayIcon::display_name() const
+{
+	return Lang::get(Lang::Default);
+}
 
 void GUI_TrayIcon::playstate_changed(PlayState state)
 {

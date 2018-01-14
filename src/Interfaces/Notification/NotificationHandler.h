@@ -23,15 +23,18 @@
 #include <QObject>
 #include "NotificationInterface.h"
 #include "Utils/Singleton.h"
+#include "Utils/Pimpl.h"
 
 class DummyNotificator : public NotificationInterface
 {
 public:
-	explicit DummyNotificator(const QString& name);
+	explicit DummyNotificator();
 	virtual ~DummyNotificator();
 
-	virtual void notify(const MetaData& md);
-	virtual void notify(const QString& title, const QString& message, const QString& image_path);
+	virtual void notify(const MetaData& md) override;
+	virtual void notify(const QString& title, const QString& message, const QString& image_path) override;
+
+	QString name() const override;
 };
 
 class NotificationHandler :
@@ -39,24 +42,22 @@ class NotificationHandler :
 {
 	Q_OBJECT
 	SINGLETON_QOBJECT(NotificationHandler)
+	PIMPL(NotificationHandler)
 
 signals:
 	// emitted when some AbstractNotifcator registered itself
 	void sig_notifications_changed();
 
 private:
-	NotificatonList _notificators;
-	int _cur_idx;
-
 	NotificationInterface* get() const;
 
 public:
 	void register_notificator(NotificationInterface* notificator);
 	void notificator_changed(const QString& name);
 
-	int get_cur_idx() const;
+	int current_index() const;
 
-	NotificatonList get_notificators() const;
+	NotificatonList notificators() const;
 
 	virtual void notify(const MetaData& md);
 	virtual void notify(const QString& title, const QString& message, const QString& image_path=QString());

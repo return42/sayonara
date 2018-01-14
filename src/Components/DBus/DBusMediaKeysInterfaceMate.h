@@ -22,25 +22,21 @@
 #define DBUSMEDIAKEYSINTERFACEMATE_H
 
 #include "DBusMediaKeysInterface.h"
-#include "Components/DBus/mate_settings_daemon.h"
-#include <QDBusPendingCallWatcher>
 
 class DBusMediaKeysInterfaceMate : public DBusMediaKeysInterface
 {
 	Q_OBJECT
+	PIMPL(DBusMediaKeysInterfaceMate)
 
 public:
 	explicit DBusMediaKeysInterfaceMate(QObject *parent=nullptr);
+	~DBusMediaKeysInterfaceMate();
 
-
-private:
-
-
-	OrgMateSettingsDaemonMediaKeysInterface* _media_key_interface=nullptr;
-
-
-protected slots:
-	void sl_register_finished(QDBusPendingCallWatcher*) override;
+protected:
+	QString service_name() const override;
+	QDBusPendingReply<> grab_media_key_reply() override;
+	void connect_media_keys() override;
 };
+
 
 #endif // DBUSMEDIAKEYSINTERFACEMATE_H

@@ -21,13 +21,9 @@
 #ifndef DBUSHANDLER_H
 #define DBUSHANDLER_H
 
-#include <QObject>
-#include <QList>
 #include <QMainWindow>
 
-class DBusMediaKeysInterfaceMate;
-class DBusMediaKeysInterfaceGnome;
-class DBusNotifications;
+#include "Utils/Pimpl.h"
 
 namespace DBusMPRIS
 {
@@ -35,23 +31,18 @@ namespace DBusMPRIS
 }
 
 class DBusHandler :
-		private QObject
+		public QObject
 {
 	Q_OBJECT
+	PIMPL(DBusHandler)
 
 public:
-	explicit DBusHandler(QMainWindow* player, QObject* parent=nullptr);
+	explicit DBusHandler(QMainWindow* main_window, QObject* parent=nullptr);
 	~DBusHandler();
 
 private slots:
 	void service_registered(const QString& service_name);
 	void service_unregistered(const QString& service_name);
-
-private:
-	DBusMPRIS::MediaPlayer2*		_dbus_mpris=nullptr;
-	DBusMediaKeysInterfaceMate*		_dbus_mate=nullptr;
-	DBusMediaKeysInterfaceGnome*	_dbus_gnome=nullptr;
-	DBusNotifications*				_dbus_notifications=nullptr;
 };
 
 #endif // DBUSHANDLER_H

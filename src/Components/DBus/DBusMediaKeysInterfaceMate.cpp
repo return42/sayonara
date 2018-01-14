@@ -20,45 +20,49 @@
 
 #include "DBusMediaKeysInterfaceMate.h"
 #include "Utils/Logger/Logger.h"
+#include "Components/DBus/mate_settings_daemon.h"
+
+struct DBusMediaKeysInterfaceMate::Private
+{
+	OrgMateSettingsDaemonMediaKeysInterface* media_key_interface=nullptr;
+
+	Private(DBusMediaKeysInterface* parent)
+	{
+		media_key_interface = new OrgMateSettingsDaemonMediaKeysInterface(
+				"org.mate.SettingsDaemon",
+				"/org/mate/SettingsDaemon/MediaKeys",
+				QDBusConnection::sessionBus(),
+				parent);
+	}
+};
 
 DBusMediaKeysInterfaceMate::DBusMediaKeysInterfaceMate(QObject *parent) :
 	DBusMediaKeysInterface(parent)
 {
-	_media_key_interface = new OrgMateSettingsDaemonMediaKeysInterface(
-				"org.mate.SettingsDaemon",
-				"/org/mate/SettingsDaemon/MediaKeys",
-				QDBusConnection::sessionBus(),
-				this);
+	m = Pimpl::make<Private>(this);
 
-	QDBusConnectionInterface* dbus_interface = QDBusConnection::sessionBus().interface();
-	if (!dbus_interface->isServiceRegistered("org.mate.SettingsDaemon"))
-	{
-		return;
-	}
-
-	sp_log(Log::Info, this) << " registered";
-
-	QDBusPendingReply<> reply = _media_key_interface->GrabMediaPlayerKeys("sayonara", 0);
-	QDBusPendingCallWatcher* watcher = new QDBusPendingCallWatcher(reply, this);
-
-	connect(watcher, &QDBusPendingCallWatcher::finished,
-			this, &DBusMediaKeysInterfaceMate::sl_register_finished);
-
-	set_initialized(true);
+	init();
 }
 
+DBusMediaKeysInterfaceMate::~DBusMediaKeysInterfaceMate() {}
 
-void DBusMediaKeysInterfaceMate::sl_register_finished(QDBusPendingCallWatcher* watcher)
+QString DBusMediaKeysInterfaceMate::service_name() const
 {
-	if(!initialized()){
-		return;
-	}
+	return QString("org.mate.SettingsDaemon");
+}
 
-	DBusMediaKeysInterface::sl_register_finished(watcher);
+QDBusPendingReply<> DBusMediaKeysInterfaceMate::grab_media_key_reply()
+{
+	return m->media_key_interface->GrabMediaPlayerKeys("sayonara", 0);
+}
 
-	connect( _media_key_interface,
+void DBusMediaKeysInterfaceMate::connect_media_keys()
+{
+	connect( m->media_key_interface,
 			 &OrgMateSettingsDaemonMediaKeysInterface::MediaPlayerKeyPressed,
 			 this,
 			 &DBusMediaKeysInterfaceMate::sl_media_key_pressed
 	);
 }
+
+

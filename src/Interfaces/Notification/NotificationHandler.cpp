@@ -19,12 +19,25 @@
 
 #include "NotificationHandler.h"
 #include "Utils/Settings/Settings.h"
+#include "Utils/Logger/Logger.h"
+
 #include <algorithm>
+
+
+struct NotificationHandler::Private
+{
+	NotificatonList notificators;
+	int cur_idx;
+
+	Private() :
+		cur_idx(-1)
+	{}
+};
 
 NotificationHandler::NotificationHandler(QObject* parent) :
 	QObject(parent)
 {
-	_cur_idx = -1;
+	m = Pimpl::make<Private>();
 }
 
 NotificationHandler::~NotificationHandler() {}
@@ -42,32 +55,35 @@ void NotificationHandler::notify(const QString& title, const QString& message, c
 
 void NotificationHandler::register_notificator(NotificationInterface* notificator)
 {
-	_notificators << notificator;
+	sp_log(Log::Info, this) << "Notification handler " << notificator->name() << " registered";
+	m->notificators << notificator;
 
 	QString preferred = Settings::instance()->get(Set::Notification_Name);
 
 	auto lambda = [preferred](NotificationInterface* n){
-		return (n->get_name().compare(preferred, Qt::CaseInsensitive) == 0);
+		return (n->name().compare(preferred, Qt::CaseInsensitive) == 0);
 	};
 
-	auto it = std::find_if(_notificators.begin(), _notificators.end(), lambda);
-	_cur_idx = (it - _notificators.begin());
+	auto it = std::find_if(m->notificators.begin(), m->notificators.end(), lambda);
+	m->cur_idx = (it - m->notificators.begin());
 
-	if(_cur_idx >= _notificators.size()){
-		_cur_idx = 0;
+	if(m->cur_idx >= m->notificators.size()){
+		m->cur_idx = 0;
 	}
 
 	emit sig_notifications_changed();
 }
 
 
-void NotificationHandler::notificator_changed(const QString& name){
-	_cur_idx = -1;
+void NotificationHandler::notificator_changed(const QString& name)
+{
+	m->cur_idx = -1;
 	int i = 0;
 
-	for(NotificationInterface* n : _notificators){
-		if(n->get_name().compare(name, Qt::CaseInsensitive) == 0){
-			_cur_idx = i;
+	for(NotificationInterface* n : m->notificators)
+	{
+		if(n->name().compare(name, Qt::CaseInsensitive) == 0){
+			m->cur_idx = i;
 			break;
 		}
 
@@ -77,33 +93,39 @@ void NotificationHandler::notificator_changed(const QString& name){
 
 NotificationInterface* NotificationHandler::get() const
 {
-	if(_cur_idx < 0){
-		static DummyNotificator dummy("Dummy");
+	if(m->cur_idx < 0){
+		static DummyNotificator dummy;
 		return &dummy;
 	}
 
-	return _notificators[_cur_idx];
+	return m->notificators[m->cur_idx];
 }
 
 
-NotificatonList NotificationHandler::get_notificators() const
+NotificatonList NotificationHandler::notificators() const
 {
-	return _notificators;
+	return m->notificators;
 }
 
-int NotificationHandler::get_cur_idx() const
+int NotificationHandler::current_index() const
 {
-	return _cur_idx;
+	return m->cur_idx;
 }
 
 
-DummyNotificator::DummyNotificator(const QString& name) :
-	NotificationInterface(name) {}
+DummyNotificator::DummyNotificator() :
+	NotificationInterface() {}
 
 DummyNotificator::~DummyNotificator() {}
 
-void DummyNotificator::notify(const MetaData &md){
+void DummyNotificator::notify(const MetaData &md)
+{
 	Q_UNUSED(md)
+}
+
+QString DummyNotificator::name() const
+{
+	return "Dummy";
 }
 
 void DummyNotificator::notify(const QString &title, const QString &message, const QString &image_path)

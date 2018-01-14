@@ -26,20 +26,26 @@
 
 DBusNotifications::DBusNotifications(QObject* parent) :
 	QObject(parent),
-	NotificationInterface("DBus"),
+	NotificationInterface(),
 	SayonaraClass()
 {
+	QString service_name = "org.freedesktop.Notifications";
+
 	_interface = new OrgFreedesktopNotificationsInterface(
-				QString("org.freedesktop.Notifications"),
+				QString(service_name),
 				QString("/org/freedesktop/Notifications"),
 				QDBusConnection::sessionBus(),
 				parent
 	);
 
-	if (!QDBusConnection::sessionBus().interface()->isServiceRegistered("org.freedesktop.Notifications"))
-	{
-		sp_log(Log::Debug, this) << " not registered";
 
+	QDBusConnection bus = QDBusConnection::sessionBus();
+	QDBusConnectionInterface* dbus_interface = bus.interface();
+	dbus_interface->startService(service_name);
+
+	if (!dbus_interface->isServiceRegistered(service_name))
+	{
+		sp_log(Log::Warning, this) << service_name << " not registered";
 	}
 
 	else{
@@ -48,7 +54,6 @@ DBusNotifications::DBusNotifications(QObject* parent) :
 
 	NotificationHandler::instance()->register_notificator(this);
 }
-
 
 DBusNotifications::~DBusNotifications() {}
 
@@ -72,7 +77,12 @@ void DBusNotifications::notify(const QString& title, const QString& text, const 
 					   QStringList(),
 					   map,
 					   _settings->get(Set::Notification_Timeout)
-	);
+					   );
+}
+
+QString DBusNotifications::name() const
+{
+	return "DBus";
 }
 
 void DBusNotifications::notify(const MetaData& md)

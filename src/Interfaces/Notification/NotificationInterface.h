@@ -21,6 +21,7 @@
 #define ABSTRACTNOTIFICATOR_H
 
 #include <QString>
+#include "Utils/Pimpl.h"
 /**
  * @brief The NotificationInterface class
  * @ingroup Interfaces
@@ -28,15 +29,12 @@
 class MetaData;
 class NotificationInterface
 {
-private:
-	QString _name;
-
 public:
 	/**
 	 * @brief Constructor
 	 * @param name appearing in GUI_Notifications
 	 */
-	explicit NotificationInterface(const QString& name);
+	explicit NotificationInterface();
 
 	virtual ~NotificationInterface();
 
@@ -58,7 +56,8 @@ public:
 	 * @brief get name of notification interface
 	 * @return
 	 */
-	QString get_name() const;
+	virtual QString name() const=0;
+	virtual QString display_name() const;
 };
 
 using NotificatonList=QList<NotificationInterface*>;

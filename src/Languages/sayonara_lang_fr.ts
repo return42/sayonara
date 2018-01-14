@@ -677,7 +677,7 @@
         <location filename="../GUI/Preferences/Notifications/GUI_Notifications.ui" line="+17"/>
         <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_Notifications.h" line="+77"/>
         <source>Timeout (ms)</source>
-        <translation>Durée (ms)</translation>
+        <translation>Délai (ms) </translation>
     </message>
     <message>
         <location line="+10"/>
@@ -1008,7 +1008,7 @@
     <message>
         <location filename="../GUI/Preferences/RemoteControl/GUI_RemoteControl.cpp" line="+78"/>
         <source>Remote control</source>
-        <translation>Commande à distance</translation>
+        <translation>Télécommande</translation>
     </message>
     <message>
         <location filename="../GUI/Preferences/RemoteControl/GUI_RemoteControl.ui" line="+47"/>
@@ -1455,7 +1455,7 @@ Veuillez choisir un autre dossier</translation>
         <location line="+54"/>
         <location filename="../../build-clang-debug/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+2"/>
         <source>Style settings</source>
-        <translation>Configuration du style</translation>
+        <translation>Paramètres du style</translation>
     </message>
     <message>
         <location line="+129"/>
@@ -1739,7 +1739,7 @@ Veuillez choisir un autre dossier</translation>
     <message>
         <location line="+2"/>
         <source>Clear</source>
-        <translation>Effacer</translation>
+        <translation>Vider</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -1754,7 +1754,7 @@ Veuillez choisir un autre dossier</translation>
     <message>
         <location line="+2"/>
         <source>Close tab</source>
-        <translation>Fermer onglet</translation>
+        <translation>Fermer l&apos;onglet</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2259,7 +2259,7 @@ Veuillez choisir un autre dossier</translation>
     <message>
         <location line="+12"/>
         <source>track number</source>
-        <translation>Num. de piste</translation>
+        <translation>Numéro de piste</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -2430,7 +2430,7 @@ Veuillez choisir un autre dossier</translation>
     <message>
         <location line="+2"/>
         <source>Various artists</source>
-        <translation>Artistes variés</translation>
+        <translation>Artistes divers</translation>
     </message>
     <message>
         <location line="+2"/>

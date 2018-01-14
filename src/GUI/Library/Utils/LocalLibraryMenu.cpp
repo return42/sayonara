@@ -62,6 +62,8 @@ LocalLibraryMenu::LocalLibraryMenu(const QString& name, const QString& path, QWi
 	WidgetTemplate<QMenu>(parent)
 {
 	m = Pimpl::make<Private>(name, path);
+
+	init_menu();
 }
 
 LocalLibraryMenu::~LocalLibraryMenu() {}
@@ -162,29 +164,13 @@ void LocalLibraryMenu::init_menu()
 	this->addActions(actions);
 	this->add_preference_action(new LibraryPreferenceAction(this));
 
+	m->initialized = true;
+
 	Set::listen(Set::Lib_ShowAlbumCovers, this, &LocalLibraryMenu::show_album_covers_changed);
 
-	m->initialized = true;
 	language_changed();
+	skin_changed();
 }
-
-// Because in unity, showEvent is not triggered we make this workaround
-
-bool LocalLibraryMenu::event(QEvent* e)
-{
-	if(e->type() == QEvent::ParentChange){
-		init_menu();
-	}
-
-	return QMenu::event(e);
-}
-
-void LocalLibraryMenu::showEvent(QShowEvent* e)
-{
-	init_menu();
-	QMenu::showEvent(e);
-}
-
 
 void LocalLibraryMenu::language_changed()
 {

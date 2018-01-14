@@ -22,21 +22,21 @@
 #define DBUSMEDIAKEYSINTERFACEGNOME_H
 
 #include "DBusMediaKeysInterface.h"
-#include "Components/DBus/gnome_settings_daemon.h"
 
 class DBusMediaKeysInterfaceGnome : public DBusMediaKeysInterface
 {
 	Q_OBJECT
+	PIMPL(DBusMediaKeysInterfaceGnome)
 
 public:
 	explicit DBusMediaKeysInterfaceGnome(QObject *parent=nullptr);
+	~DBusMediaKeysInterfaceGnome();
 
-private:
-	OrgGnomeSettingsDaemonMediaKeysInterface* _media_key_interface;
-
-
-protected slots:
-	virtual void sl_register_finished(QDBusPendingCallWatcher*);
+protected:
+	QString service_name() const override;
+	QDBusPendingReply<> grab_media_key_reply() override;
+	void connect_media_keys() override;
 };
+
 
 #endif // DBUSMEDIAKEYSINTERFACEGNOME_H

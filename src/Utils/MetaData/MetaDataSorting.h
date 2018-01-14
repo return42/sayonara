@@ -38,6 +38,9 @@ namespace MetaDataSorting
 	bool TracksByTrackNumAsc(const MetaData& md1, const MetaData& md2);
 	bool TracksByTrackNumDesc(const MetaData& md1, const MetaData& md2);
 
+	bool TracksByDiscnumberAsc(const MetaData& md1, const MetaData& md2);
+	bool TracksByDiscnumberDesc(const MetaData& md1, const MetaData& md2);
+
 	bool TracksByTitleAsc(const MetaData& md1, const MetaData& md2);
 	bool TracksByTitleDesc(const MetaData& md1, const MetaData& md2);
 
@@ -62,8 +65,6 @@ namespace MetaDataSorting
 	bool TracksByFilesizeAsc(const MetaData& md1, const MetaData& md2);
 	bool TracksByFilesizeDesc(const MetaData& md1, const MetaData& md2);
 
-	bool TracksByDiscnumberAsc(const MetaData& md1, const MetaData& md2);
-	bool TracksByDiscnumberDesc(const MetaData& md1, const MetaData& md2);
 
 	bool TracksByRatingAsc(const MetaData& md1, const MetaData& md2);
 	bool TracksByRatingDesc(const MetaData& md1, const MetaData& md2);

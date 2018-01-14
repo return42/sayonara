@@ -24,7 +24,8 @@
 
 #include <QKeyEvent>
 #include <QCoreApplication>
-
+#include <QDBusConnection>
+#include <QDBusConnectionInterface>
 
 
 struct DBusMediaKeysInterface::Private
@@ -48,20 +49,32 @@ DBusMediaKeysInterface::DBusMediaKeysInterface(QObject *parent) :
 	QObject(parent)
 {
 	m = Pimpl::make<Private>(parent);
-
-
 }
 
 DBusMediaKeysInterface::~DBusMediaKeysInterface() {}
 
+void DBusMediaKeysInterface::init()
+{
+	QDBusConnectionInterface* dbus_interface = QDBusConnection::sessionBus().interface();
+	if (!dbus_interface->isServiceRegistered( service_name() ))
+	{
+		return;
+	}
+
+	sp_log(Log::Info, this) << service_name() << " registered";
+
+	QDBusPendingReply<> reply = grab_media_key_reply();
+	QDBusPendingCallWatcher* watcher = new QDBusPendingCallWatcher(reply, this);
+
+	connect(watcher, &QDBusPendingCallWatcher::finished,
+			this, &DBusMediaKeysInterface::sl_register_finished);
+
+	m->initialized = true;
+}
+
 bool DBusMediaKeysInterface::initialized() const
 {
 	return m->initialized;
-}
-
-void DBusMediaKeysInterface::set_initialized(bool b)
-{
-	m->initialized = b;
 }
 
 
@@ -91,7 +104,7 @@ void DBusMediaKeysInterface::sl_media_key_pressed(const QString& program_name, c
 		m->play_manager->previous();
 	}
 
-	else if(key.contains("stop", Qt::CaseInsensitive)){
+	else if(key.contains("stop", Qt::CaseInsensitive) == 0){
 		event = new QKeyEvent (QEvent::KeyPress, Qt::Key_MediaStop, Qt::NoModifier);
 		m->play_manager->stop();
 	}
@@ -113,4 +126,6 @@ void DBusMediaKeysInterface::sl_register_finished(QDBusPendingCallWatcher* watch
 								   << reply.errorName() << " "
 								   << reply.errorMessage();
 	}
+
+	connect_media_keys();
 }

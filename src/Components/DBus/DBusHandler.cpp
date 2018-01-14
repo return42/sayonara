@@ -27,22 +27,36 @@
 #include "GUI/Utils/Widgets/Widget.h"
 
 #include <QDBusConnectionInterface>
+#include <QList>
 
-DBusHandler::DBusHandler(QMainWindow* player, QObject* parent) :
+struct DBusHandler::Private
+{
+	DBusMPRIS::MediaPlayer2*		dbus_mpris=nullptr;
+	DBusMediaKeysInterfaceMate*		dbus_mate=nullptr;
+	DBusMediaKeysInterfaceGnome*	dbus_gnome=nullptr;
+	DBusNotifications*				dbus_notifications=nullptr;
+
+	Private(QMainWindow* main_window, DBusHandler* parent)
+	{
+		dbus_mpris	= new DBusMPRIS::MediaPlayer2(main_window, parent);
+		dbus_mate = new DBusMediaKeysInterfaceMate(parent);
+		dbus_gnome = new DBusMediaKeysInterfaceGnome(parent);
+		dbus_notifications = new DBusNotifications(parent);
+	}
+};
+
+DBusHandler::DBusHandler(QMainWindow* main_window, QObject* parent) :
 	QObject(parent)
 {
-	_dbus_mpris	= new DBusMPRIS::MediaPlayer2(player, this);
-	_dbus_mate = new DBusMediaKeysInterfaceMate(this);
-	_dbus_gnome = new DBusMediaKeysInterfaceGnome(this);
-	_dbus_notifications = new DBusNotifications(this);
+	m = Pimpl::make<Private>(main_window, this);
 
 	QDBusConnectionInterface* dbus_interface = QDBusConnection::sessionBus().interface();
 	if(dbus_interface)
 	{
-		/*connect(dbus_interface, &QDBusConnectionInterface::serviceRegistered,
-				this, &DBusMediaKeysInterface::service_registered);
+		connect(dbus_interface, &QDBusConnectionInterface::serviceRegistered,
+				this, &DBusHandler::service_registered);
 		connect(dbus_interface, &QDBusConnectionInterface::serviceUnregistered,
-				this, &DBusMediaKeysInterface::service_unregistered);*/
+				this, &DBusHandler::service_unregistered);
 	}
 }
 
