@@ -94,6 +94,7 @@
 
 #include <QTime>
 #include <QTranslator>
+#include <QSessionManager>
 
 struct Application::Private
 {
@@ -149,22 +150,30 @@ struct Application::Private
 			while(instance_thread->isRunning()){
 				Util::sleep_ms(100);
 			}
+
+			instance_thread = nullptr;
 		}
 
 		if(plh){
 			plh->save_all_playlists();
+			plh = nullptr;
 		}
 
 		if(player){
-			delete player; player=nullptr;
+			delete player;
+			player=nullptr;
 		}
 
 		if(db){
 			db->settings_connector()->store_settings();
 			db->close_db();
+			db = nullptr;
 		}
 
-		delete metatype_registry;
+		if(metatype_registry)
+		{
+			delete metatype_registry; metatype_registry = nullptr;
+		}
 	}
 };
 
@@ -198,7 +207,6 @@ Application::Application(int & argc, char ** argv) :
 
 Application::~Application() {}
 
-
 bool Application::init(const QStringList& files_to_play)
 {
 	Settings* settings = Settings::instance();
@@ -211,7 +219,6 @@ bool Application::init(const QStringList& files_to_play)
 	Proxy::instance()->init();
 
 	init_player(m->translator);
-
 
 #ifdef WITH_DBUS
 	new DBusHandler(m->player, this);
@@ -236,6 +243,8 @@ bool Application::init(const QStringList& files_to_play)
 
 	sp_log(Log::Debug, this) << "Time to start: " << m->timer->elapsed() << "ms";
 	delete m->timer; m->timer=nullptr;
+
+	connect(this, &Application::commitDataRequest, this, &Application::session_end_requested);
 
 	return true;
 }
@@ -278,12 +287,12 @@ void Application::init_preferences()
 {
 	PreferenceDialog* preferences = new GUI_PreferenceDialog(m->player);
 
+	preferences->register_preference_dialog(new GUI_PlayerPreferences("application"));
 	preferences->register_preference_dialog(new GUI_LanguageChooser("language"));
 	preferences->register_preference_dialog(new GUI_FontConfig("fonts"));
 	preferences->register_preference_dialog(new GUI_IconPreferences("icons"));
 	preferences->register_preference_dialog(new GUI_Shortcuts("shortcuts"));
 
-	preferences->register_preference_dialog(new GUI_PlayerPreferences("player"));
 	preferences->register_preference_dialog(new GUI_PlaylistPreferences("playlist"));
 	preferences->register_preference_dialog(new GUI_LibraryPreferences("library"));
 	preferences->register_preference_dialog(new GUI_Covers("covers"));
@@ -357,8 +366,6 @@ bool Application::settings_initialized() const
 	return m->settings_initialized;
 }
 
-
-
 void Application::init_single_instance_thread()
 {
 	m->instance_thread = new InstanceThread(this);
@@ -370,3 +377,16 @@ void Application::init_single_instance_thread()
 	m->instance_thread->start();
 }
 
+void Application::session_end_requested(QSessionManager& manager)
+{
+	Q_UNUSED(manager)
+
+	if(m->db){
+		m->db->settings_connector()->store_settings();
+		m->db->close_db();
+	}
+
+	if(m->player){
+		m->player->request_shutdown();
+	};
+}

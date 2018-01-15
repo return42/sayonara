@@ -26,11 +26,12 @@
 
 class QTranslator;
 class QStringList;
+class QSessionManager;
 
 class Application :
 		public QApplication
 {
-    Q_OBJECT
+	Q_OBJECT
 	PIMPL(Application)
 
 public:
@@ -50,6 +51,9 @@ private:
 	void init_plugins();
 	void init_player(QTranslator* translator);
 	void init_playlist(const QStringList& files_to_play);
+
+private slots:
+	void session_end_requested(QSessionManager& manager);
 };
 
 #endif // APPLICATION_H

@@ -60,6 +60,10 @@ public:
 
 	void register_player_plugin_handler(PlayerPlugin::Handler* pph);
 	void register_preference_dialog(PreferenceDialog* dialog);
+	void request_shutdown();
+
+public slots:
+	void raise();
 
 
 private:
@@ -75,6 +79,7 @@ private:
 	void language_changed() override;
 	void skin_changed() override;
 	void show_library_changed();
+	void show_library(bool is_library_visible, bool was_library_visible=false);
 	void fullscreen_changed();
 
 	void set_total_time_label(int64_t length_ms);
@@ -101,6 +106,7 @@ private slots:
 	void awa_version_finished();
 
 	void minimize();
+	void minimize_to_tray();
 	void really_close();
 
 	void tray_icon_activated(QSystemTrayIcon::ActivationReason reason);

@@ -58,11 +58,14 @@ struct GUI_Player::Private
 	Menubar*					menubar=nullptr;
 	QTranslator*				translator=nullptr;
 	GUI_Logger*					logger=nullptr;
+	GUI_TrayIcon*				tray_icon=nullptr;
 	QPoint						initial_pos;
 	QSize						initial_sz;
+	bool						shutdown_requested;
 
 	Private(QTranslator* translator) :
-		translator(translator)
+		translator(translator),
+		shutdown_requested(false)
 	{
 		Settings* s = Settings::instance();
 		logger = new GUI_Logger();
@@ -144,6 +147,9 @@ void GUI_Player::init_sizes()
 
 		this->showNormal();
 		this->setGeometry(pos.x(), pos.y(), sz.width(), sz.height());
+
+		m->initial_sz = QSize();
+		m->initial_pos = QPoint();
 	}
 }
 
@@ -216,6 +222,8 @@ void GUI_Player::init_tray_actions()
 	if(_settings->get(Set::Player_ShowTrayIcon)){
 		tray_icon->show();
 	}
+
+	m->tray_icon = tray_icon;
 }
 
 
@@ -235,7 +243,7 @@ void GUI_Player::tray_icon_activated(QSystemTrayIcon::ActivationReason reason)
 			else
 			{
 				if(min_to_tray) {
-					this->setHidden(true);
+					minimize_to_tray();
 				}
 
 				else{
@@ -422,26 +430,20 @@ void GUI_Player::fullscreen_changed()
 
 void GUI_Player::show_library_changed()
 {
-	bool b = _settings->get(Set::Lib_Show);
+	show_library(_settings->get(Set::Lib_Show), splitter->widget(1)->isVisible());
+}
 
+void GUI_Player::show_library(bool is_library_visible, bool was_library_visible)
+{
 	QSize player_size = this->size();
 
 	int library_width = library_widget->width();
 
-	// we need to add use hide/show on splitter
-	if(!b)
-	{
-		splitter->widget(1)->hide();
-		if(_settings->get(Set::Lib_OldWidth) == 0){
-			_settings->set(Set::Lib_OldWidth, library_width);
-		}
-
-		player_size.setWidth( player_size.width() - library_width);
-	}
-
-	else
+	if(is_library_visible)
 	{
 		splitter->widget(1)->show();
+		library_widget->show();
+
 		library_width = _settings->get(Set::Lib_OldWidth);
 		_settings->set(Set::Lib_OldWidth, 0);
 
@@ -449,7 +451,32 @@ void GUI_Player::show_library_changed()
 			library_width = 400;
 		}
 
-		player_size.setWidth( player_size.width() + library_width);
+		if(!was_library_visible)
+		{
+			player_size.setWidth( player_size.width() + library_width);
+		}
+
+		Library::PluginHandler* lph = Library::PluginHandler::instance();
+		if(is_library_visible && lph)
+		{
+			Library::Container* container;
+			container = lph->current_library();
+			if(container && container->is_initialized()){
+				container->widget()->resize(library_widget->size());
+			}
+		}
+	}
+
+	else
+	{
+		splitter->widget(1)->hide();
+		if(_settings->get(Set::Lib_OldWidth) == 0){
+			_settings->set(Set::Lib_OldWidth, library_width);
+		}
+
+		if(was_library_visible){
+			player_size.setWidth( player_size.width() - library_width);
+		}
 	}
 
 	check_library_menu_action();
@@ -478,14 +505,14 @@ void GUI_Player::really_close()
 {
 	sp_log(Log::Info, this) << "closing player...";
 
-	QMainWindow::close();
+	Gui::MainWindow::close();
 
 	emit sig_player_closed();
 }
 
 void GUI_Player::moveEvent(QMoveEvent *e)
 {
-	QMainWindow::moveEvent(e);
+	Gui::MainWindow::moveEvent(e);
 
 	QPoint p= this->pos();
 	_settings->set(Set::Player_Pos, p);
@@ -494,8 +521,7 @@ void GUI_Player::moveEvent(QMoveEvent *e)
 
 void GUI_Player::resizeEvent(QResizeEvent* e)
 {
-	QMainWindow::resizeEvent(e);
-	Library::PluginHandler* lph = Library::PluginHandler::instance();
+	Gui::MainWindow::resizeEvent(e);
 
 	bool is_maximized = _settings->get(Set::Player_Maximized);
 	bool is_fullscreen = _settings->get(Set::Player_Fullscreen);
@@ -505,14 +531,7 @@ void GUI_Player::resizeEvent(QResizeEvent* e)
 		_settings->set(Set::Player_Fullscreen, false);
 	}
 
-	if(is_library_visible && lph)
-	{
-		Library::Container* container;
-		container = lph->current_library();
-		if(container && container->is_initialized()){
-			container->widget()->resize(library_widget->size());
-		}
-	}
+	show_library(is_library_visible, is_library_visible);
 
 	if( !is_maximized &&
 		!this->isMaximized() &&
@@ -548,19 +567,62 @@ void GUI_Player::main_splitter_moved(int pos, int idx)
 
 void GUI_Player::closeEvent(QCloseEvent* e)
 {
-	e->ignore();
-
 	bool min_to_tray = _settings->get(Set::Player_Min2Tray);
-
-	if(min_to_tray && !this->isHidden()) {
-		this->hide();
-	}
 
 	_settings->set(Set::Player_Maximized, this->isMaximized());
 	_settings->set(Set::Player_Fullscreen, this->isFullScreen());
 	_settings->set(Set::Player_Pos, this->pos());
 
-	if(!min_to_tray){
-		really_close();
+	if(!m->shutdown_requested && min_to_tray)
+	{
+		minimize_to_tray();
 	}
+
+	else {
+		m->tray_icon->hide();
+		Gui::MainWindow::closeEvent(e);
+		sig_player_closed();
+	}
+}
+
+void GUI_Player::request_shutdown()
+{
+	m->shutdown_requested = true;
+}
+
+void GUI_Player::raise()
+{
+	Gui::MainWindow::raise();
+
+	QPoint p = _settings->get(Set::Player_Pos);
+	QSize sz = _settings->get(Set::Player_Size);
+
+	if(!m->initial_pos.isNull())
+	{
+		p = m->initial_pos;
+		sz = m->initial_sz;
+
+		m->initial_pos = QPoint();
+		m->initial_sz = QSize();
+	}
+
+	this->setGeometry(p.x(), p.y(), sz.width(), sz.height());
+	this->menuBar()->show();
+
+	show_library_changed();
+}
+
+void GUI_Player::minimize_to_tray()
+{
+	if(this->isHidden()){
+		return;
+	}
+
+	QPoint p = this->pos();
+	QSize sz = this->size();
+
+	this->hide();
+
+	_settings->set(Set::Player_Pos, p);
+	_settings->set(Set::Player_Size, sz);
 }
