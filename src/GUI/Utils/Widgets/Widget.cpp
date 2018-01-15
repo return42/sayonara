@@ -21,6 +21,10 @@
 #include "Widget.h"
 #include "Dialog.h"
 #include <QFormLayout>
+#include <QMenuBar>
+#include <QDBusMessage>
+#include <QDBusObjectPath>
+#include <QDBusConnection>
 
 #include "Utils/Settings/Settings.h"
 
@@ -81,4 +85,20 @@ void MainWindow::raise()
 	this->setWindowFlags((Qt::WindowFlags) (windowFlags() & ~Qt::WindowMinimized));
 	this->activateWindow();
 	this->showNormal();
+//	if(!this->menuBar()->isVisible()){
+		QDBusMessage msg = QDBusMessage::createMethodCall(
+                        "com.canonical.AppMenu.Registrar",
+			"/com/canonical/AppMenu/Registrar",
+			"com.canonical.AppMenu.Registrar",
+			"RegisterWindow");
+		QList<QVariant> args;
+		QDBusObjectPath obj_path("/Menubar/1");
+		args << QVariant::fromValue(static_cast<uint32_t>(winId()))
+		     << QVariant::fromValue(obj_path);
+					 
+		msg.setArguments(args);
+		QDBusConnection::sessionBus().send(msg);
+//	}
+	
+	menuBar()->show();
 }
