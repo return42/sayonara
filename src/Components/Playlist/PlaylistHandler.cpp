@@ -535,6 +535,12 @@ PlaylistPtr Handler::playlist(int idx, PlaylistPtr fallback) const
 	return m->playlists[idx];
 }
 
+PlaylistConstPtr Handler::active_playlist() const
+{
+	return playlist(this->active_index());
+}
+
+
 PlaylistPtr Handler::active_playlist()
 {
 	if(m->play_manager->playstate() == PlayState::Stopped){

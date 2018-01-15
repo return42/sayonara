@@ -171,6 +171,8 @@ namespace Playlist
 			 * @return
 			 */
 			int	active_index() const;
+			PlaylistConstPtr active_playlist() const;
+
 
 			int current_index() const;
 			void set_current_index(int pl_idx);

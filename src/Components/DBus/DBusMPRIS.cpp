@@ -23,6 +23,8 @@
 #include "Components/DBus/org_mpris_media_player2_player_adaptor.h"
 #include "Components/Covers/CoverLocation.h"
 #include "Components/PlayManager/PlayManager.h"
+#include "Components/Playlist/PlaylistHandler.h"
+#include "Components/Playlist/AbstractPlaylist.h"
 
 #include "Utils/RandomGenerator.h"
 #include "Utils/Logger/Logger.h"
@@ -113,11 +115,11 @@ struct DBusMPRIS::MediaPlayer2::Private
 	int64_t			pos;
 	double			volume;
 
-	int				len_playlist;
+	int				playlist_track_count;
 	int				cur_idx;
 
-	bool			can_next;
 	bool			can_previous;
+	bool			can_next;
 
 	bool			initialized;
 
@@ -127,13 +129,29 @@ struct DBusMPRIS::MediaPlayer2::Private
 		playback_status("Stopped"),
 		pos(0),
 		volume(1.0),
-		len_playlist(0),
+		playlist_track_count(0),
 		cur_idx(-1),
-		can_next(true),
-		can_previous(true),
+		can_previous(false),
+		can_next(false),
 		initialized(false)
 	{
+
+		const Playlist::Handler* plh = Playlist::Handler::instance();
+		auto playlist = plh->active_playlist();
+
 		play_manager = PlayManager::instance();
+		volume = Settings::instance()->get(Set::Engine_Vol) / 100.0;
+
+		if(playlist)
+		{
+			cur_idx = playlist->current_track_index();
+			can_previous = (playlist->current_track_index() > 0);
+			can_next = ((playlist->current_track_index() < playlist->count() - 1) && (cur_idx >= 0));
+			playlist_track_count = playlist->count();
+		}
+
+
+		pos = (play_manager->current_position_ms() * 1000);
 	}
 };
 
@@ -251,7 +269,8 @@ bool DBusMPRIS::MediaPlayer2::Fullscreen()
 }
 
 
-void DBusMPRIS::MediaPlayer2::SetFullscreen(bool b){
+void DBusMPRIS::MediaPlayer2::SetFullscreen(bool b)
+{
 	_settings->set(Set::Player_Fullscreen, b);
 }
 
@@ -495,7 +514,7 @@ void DBusMPRIS::MediaPlayer2::track_idx_changed(int idx)
 	}
 
 	m->can_previous = (idx > 0);
-	m->can_next = (idx < m->len_playlist - 1);
+	m->can_next = (idx < m->playlist_track_count - 1);
 
 	create_message("CanGoNext", m->can_next);
 	create_message("CanGoPrevious", m->can_previous);
@@ -503,17 +522,17 @@ void DBusMPRIS::MediaPlayer2::track_idx_changed(int idx)
 	m->cur_idx = idx;
 }
 
-void DBusMPRIS::MediaPlayer2::playlist_len_changed(int len)
+void DBusMPRIS::MediaPlayer2::playlist_len_changed(int track_count)
 {
 	if(!m->initialized){
 		init();
 	}
 
-	m->can_next = (m->cur_idx < len - 1 && m->cur_idx >= 0);
+	m->can_next = (m->cur_idx < track_count - 1 && m->cur_idx >= 0);
 
 	create_message("CanGoNext", m->can_next);
 
-	m->len_playlist = len;
+	m->playlist_track_count = track_count;
 }
 
 void DBusMPRIS::MediaPlayer2::track_changed(const MetaData& md)
