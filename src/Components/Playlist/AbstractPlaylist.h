@@ -115,7 +115,7 @@ namespace Playlist
 
 			virtual void copy_tracks(const IndexSet& indexes, int tgt);
 
-			virtual void delete_tracks(const IndexSet& indexes);
+			virtual void remove_tracks(const IndexSet& indexes);
 
 			virtual void insert_track(const MetaData& metadata, int tgt);
 			virtual void insert_tracks(const MetaDataList& lst, int tgt);

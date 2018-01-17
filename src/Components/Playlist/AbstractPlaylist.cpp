@@ -96,7 +96,7 @@ void Base::copy_tracks(const IndexSet& indexes, int tgt)
 }
 
 
-void Base::delete_tracks(const IndexSet& indexes)
+void Base::remove_tracks(const IndexSet& indexes)
 {
 	m->v_md.remove_tracks(indexes);
 	set_changed(true);

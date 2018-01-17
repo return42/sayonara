@@ -41,6 +41,7 @@
 #include "Utils/MetaData/MetaDataList.h"
 #include "Utils/Logger/Logger.h"
 #include "Utils/Set.h"
+#include "Utils/Settings/Settings.h"
 
 #include "Components/Playlist/AbstractPlaylist.h"
 #include "Components/Playlist/PlaylistHandler.h"
@@ -79,7 +80,7 @@ struct PlaylistView::Private
 };
 
 PlaylistView::PlaylistView(PlaylistPtr pl, QWidget* parent) :
-	SearchableTableView(parent),
+	Gui::WidgetTemplate<SearchableTableView>(parent),
 	InfoDialogContainer(),
 	Dragable(this)
 {
@@ -98,14 +99,19 @@ PlaylistView::PlaylistView(PlaylistPtr pl, QWidget* parent) :
 	this->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	this->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 	this->setSelectionBehavior(QAbstractItemView::SelectRows);
+	this->setShowGrid(false);
 	this->horizontalHeader()->hide();
 	this->verticalHeader()->hide();
 	this->horizontalHeader()->setMinimumSectionSize(0);
-	this->setShowGrid(false);
+	horizontalHeader()->setSectionHidden(PlaylistItemModel::ColumnName::Cover, true);
 
 	new QShortcut(QKeySequence(Qt::Key_Backspace), this, SLOT(clear()), nullptr, Qt::WidgetShortcut);
 
 	connect(m->model, &PlaylistItemModel::sig_data_ready, this, &PlaylistView::data_ready);
+
+	Set::listen(Set::PL_ShowNumbers, this, &PlaylistView::sl_show_numbers_changed);
+	Set::listen(Set::PL_ShowCovers, this, &PlaylistView::sl_show_covers_changed);
+	Set::listen(Set::PL_FontSize, this, &PlaylistView::skin_changed);
 }
 
 PlaylistView::~PlaylistView() {}
@@ -221,7 +227,9 @@ void PlaylistView::delete_cur_selected_tracks()
 void PlaylistView::clear_drag_drop_lines(int row)
 {
 	m->delegate->set_drag_index(-1);
-	this->update(m->model->index(row, 0));
+	for(int i=0; i<m->model->columnCount(); i++){
+		this->update(m->model->index(row, i));
+	}
 }
 
 
@@ -335,7 +343,7 @@ void PlaylistView::handle_inner_drag_drop(int row, bool copy)
 		new_selected_rows.insert(i - n_lines_before_tgt + 1);
 	}
 
-	this->select_rows(new_selected_rows);
+	this->select_rows(new_selected_rows, 0, m->model->columnCount());
 }
 
 
@@ -359,7 +367,45 @@ void PlaylistView::rating_changed(int rating)
 	connect(te, &QThread::finished, te, &Tagging::Editor::deleteLater);
 }
 
-void PlaylistView::data_ready() {}
+void PlaylistView::data_ready()
+{
+	QFontMetrics fm(this->font());
+	QString str_tn = QString("%1").arg(m->model->rowCount() * 100);
+	QString str_time = "123:23";
+
+	QHeaderView* vh = this->verticalHeader();
+
+	for(int i=0; i<m->model->rowCount(); i++){
+		vh->resizeSection(i, fm.height() + 4);
+	}
+
+	int w_tn = fm.width(str_tn);
+	int w_time = fm.width(str_time);
+	int w_cov = 30;
+
+	bool show_covers = Settings::instance()->get(Set::PL_ShowCovers);
+	if(!show_covers) {
+		w_cov = 0;
+	}
+
+	bool show_numbers = Settings::instance()->get(Set::PL_ShowNumbers);
+	if(!show_numbers) {
+		w_tn = 0;
+	}
+
+	QHeaderView* hh = this->horizontalHeader();
+
+	hh->resizeSection(PlaylistItemModel::ColumnName::Description, this->viewport()->width() - (w_tn + w_time + w_cov));
+	hh->resizeSection(PlaylistItemModel::ColumnName::Time, w_time);
+
+	if(show_covers) {
+		hh->resizeSection(PlaylistItemModel::ColumnName::Cover, w_cov);
+	}
+
+	if(show_numbers) {
+		hh->resizeSection(PlaylistItemModel::ColumnName::TrackNumber, w_tn);
+	}
+}
 
 
 MD::Interpretation PlaylistView::metadata_interpretation() const
@@ -553,7 +599,9 @@ void PlaylistView::dragMoveEvent(QDragMoveEvent* event)
 	{
 		clear_drag_drop_lines(m->delegate->drag_index());
 		m->delegate->set_drag_index(row);
-		this->update(m->model->index(row, 0));
+		for(int i=0; i<m->model->columnCount(); i++){
+			this->update(m->model->index(row, i));
+		}
 	}
 
 	if(row == first_row){
@@ -590,23 +638,39 @@ int PlaylistView::index_by_model_index(const QModelIndex& idx) const
 
 QModelIndex PlaylistView::model_index_by_index(int idx) const
 {
-	return m->model->index(idx, 1);
+	return m->model->index(idx, 0);
 }
 
 bool PlaylistView::viewportEvent(QEvent* event)
 {
 	bool success = SearchableTableView::viewportEvent(event);
 
-	sp_log(Log::Debug, this) << "Scrollbar visible? " << verticalScrollBar()->isVisible();
-
-	this->setFocus();
-	this->resizeColumnToContents(0);
-	this->resizeColumnToContents(2);
-	this->resizeRowsToContents();
-	int s1 = this->horizontalHeader()->sectionSize(0);
-	int s2 = this->horizontalHeader()->sectionSize(2);
-
-	this->horizontalHeader()->resizeSection(1, this->viewport()->width() - (s1+s2));
+	if(event->type() == QEvent::Resize)
+	{
+		data_ready();
+	}
 
 	return success;
 }
+
+void PlaylistView::skin_changed()
+{
+	data_ready();
+}
+
+void PlaylistView::sl_show_numbers_changed()
+{
+	bool show_numbers = Settings::instance()->get(Set::PL_ShowNumbers);
+	horizontalHeader()->setSectionHidden(PlaylistItemModel::ColumnName::TrackNumber, !show_numbers);
+
+	data_ready();
+}
+
+void PlaylistView::sl_show_covers_changed()
+{
+	bool show_covers = Settings::instance()->get(Set::PL_ShowCovers);
+	horizontalHeader()->setSectionHidden(PlaylistItemModel::ColumnName::Cover, !show_covers);
+
+	data_ready();
+}
+

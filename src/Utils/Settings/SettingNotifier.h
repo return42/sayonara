@@ -78,7 +78,8 @@ public:
 namespace Set
 {
 	template<typename T, typename KeyClassInstance>
-	typename std::enable_if<std::is_base_of<SayonaraClass, T>::value, void>::type
+	//typename std::enable_if<std::is_base_of<SayonaraClass, T>::value, void>::type
+	void
 	listen(const KeyClassInstance& key, T* t, void (T::*fn)(), bool run=true)
 	{
 		using KeyClass=decltype(key);

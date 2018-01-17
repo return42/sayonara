@@ -60,10 +60,11 @@ PlaylistItemModel::PlaylistItemModel(PlaylistPtr pl, QObject* parent) :
 	m = Pimpl::make<Private>(pl);
 
 	connect(m->pl.get(), &Playlist::Base::sig_data_changed, this, &PlaylistItemModel::playlist_changed);
+
+	playlist_changed(0);
 }
 
 PlaylistItemModel::~PlaylistItemModel() {}
-
 
 int PlaylistItemModel::rowCount(const QModelIndex &parent) const
 {
@@ -74,15 +75,20 @@ int PlaylistItemModel::rowCount(const QModelIndex &parent) const
 int PlaylistItemModel::columnCount(const QModelIndex& parent) const
 {
 	Q_UNUSED(parent);
-	return 3;
+	return (int)(ColumnName::NumColumns);
 }
 
 #include <QMainWindow>
 #include <QPalette>
 #include "GUI/Utils/GuiUtils.h"
 #include "Utils/Settings/Settings.h"
+#include "Components/Covers/CoverLocation.h"
+#include <QPixmap>
 QVariant PlaylistItemModel::data(const QModelIndex& index, int role) const
 {
+	int row = index.row();
+	int col = index.column();
+
 	if (!index.isValid()) {
 		return QVariant();
 	}
@@ -91,20 +97,19 @@ QVariant PlaylistItemModel::data(const QModelIndex& index, int role) const
 		return QVariant();
 	}
 
-	int row = index.row();
-	int col = index.column();
-
 	if (role == Qt::DisplayRole)
 	{
 		switch(col)
 		{
-			case 0:
-				return QString("%1.").arg(row + 1);
-			case 1:
+			case ColumnName::Cover:
 				return QVariant();
-			case 2:
+			case ColumnName::TrackNumber:
+				return QString("%1.").arg(row + 1);
+			case ColumnName::Description:
+				return QVariant();
+			case ColumnName::Time:
 			{
-				auto l = m->pl->metadata(index.row()).length_ms;
+				auto l = m->pl->metadata(row).length_ms;
 				return Util::cvt_ms_to_string(l, true, true, false);
 			}
 			default:
@@ -116,13 +121,14 @@ QVariant PlaylistItemModel::data(const QModelIndex& index, int role) const
 	{
 		switch(col)
 		{
-			case 0:
+			case ColumnName::Cover:
+				return QVariant();
+			case ColumnName::TrackNumber:
 				return QVariant(Qt::AlignRight | Qt::AlignVCenter);
-			case 1:
+			case ColumnName::Description:
 				return QVariant(Qt::AlignLeft | Qt::AlignVCenter);
-			case 2:
+			case ColumnName::Time:
 				return QVariant(Qt::AlignRight | Qt::AlignVCenter);
-
 			default:
 				return QVariant();
 		}
@@ -148,12 +154,22 @@ QVariant PlaylistItemModel::data(const QModelIndex& index, int role) const
 			f.setPointSize(point_size);
 		}
 
-		if(col == 0)
+		if(col == ColumnName::TrackNumber)
 		{
+			// todo: read from settings
 			f.setBold(true);
 		}
 
 		return f;
+	}
+
+	else if(role == Qt::DecorationRole)
+	{
+		if(col == ColumnName::Cover)
+		{
+			Cover::Location cl = Cover::Location::cover_location(m->pl->metadata(row));
+			return QPixmap(cl.preferred_path()).scaled(QSize(20, 20), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+		}
 	}
 
 	return QVariant();
@@ -178,28 +194,20 @@ Qt::ItemFlags PlaylistItemModel::flags(const QModelIndex &index = QModelIndex())
 	return QAbstractItemModel::flags(index);
 }
 
-
 void PlaylistItemModel::clear()
 {
 	m->pl->clear();
-
-	playlist_changed(0);
 }
-
 
 void PlaylistItemModel::remove_rows(const IndexSet& indexes)
 {
-	m->pl->delete_tracks(indexes);
-
-	playlist_changed(0);
+	m->pl->remove_tracks(indexes);
 }
 
 
 void PlaylistItemModel::move_rows(const IndexSet& indexes, int target_index)
 {
 	m->pl->move_tracks(indexes, target_index);
-
-	playlist_changed(0);
 }
 
 
@@ -246,7 +254,6 @@ IndexSet PlaylistItemModel::move_rows_down(const IndexSet& indexes)
 void PlaylistItemModel::copy_rows(const IndexSet& indexes, int target_index)
 {
 	m->pl->copy_tracks(indexes, target_index);
-	playlist_changed(0);
 }
 
 
@@ -479,13 +486,18 @@ QMimeData* PlaylistItemModel::mimeData(const QModelIndexList& indexes) const
 	MetaDataList v_md;
 	v_md.reserve(indexes.size());
 
-	for(const QModelIndex& idx : indexes)
+	SP::Set<int> rows;
+	for(auto idx : indexes) {
+		rows.insert(idx.row());
+	}
+
+	for(int row : rows)
 	{
-		if(idx.row() >= m->pl->count()){
+		if(row >= m->pl->count()){
 			continue;
 		}
 
-		v_md << m->pl->metadata(idx.row());
+		v_md << m->pl->metadata(row);
 	}
 
 	if(v_md.empty()){
@@ -513,22 +525,23 @@ bool PlaylistItemModel::has_local_media(const IndexSet& rows) const
 
 void PlaylistItemModel::playlist_changed(int pl_idx)
 {
+	Q_UNUSED(pl_idx)
+
 	if(m->old_row_count > m->pl->count())
 	{
-		beginRemoveRows(QModelIndex(), m->pl->count(), m->old_row_count);
+		beginRemoveRows(QModelIndex(), m->pl->count(), m->old_row_count - 1);
 		endRemoveRows();
 	}
 
 	else if(m->pl->count() > m->old_row_count){
-		beginInsertRows(QModelIndex(), m->old_row_count, m->pl->count());
+		beginInsertRows(QModelIndex(), m->old_row_count, m->pl->count() - 1);
 		endInsertRows();
 	}
 
-	emit dataChanged(this->index(0, 0),
-					 this->index(std::max(m->old_row_count, m->pl->count()) - 1, this->columnCount()));
-
-
-	Q_UNUSED(pl_idx)
+	if(m->pl->count() == 0){
+		beginResetModel();
+		endResetModel();
+	}
 
 	m->old_row_count = m->pl->count();
 

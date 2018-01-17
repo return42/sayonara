@@ -117,6 +117,7 @@ bool GUI_PlaylistPreferences::commit()
 	_settings->set( Set::PL_StartPlaying, (ui->cb_start_playing->isChecked() && ui->cb_start_playing->isEnabled()) );
 
 	_settings->set(Set::PL_ShowNumbers, ui->cb_show_numbers->isChecked());
+	_settings->set(Set::PL_ShowCovers, ui->cb_show_covers->isChecked());
 
 	_settings->set(Set::PL_ShowClearButton, ui->cb_show_clear_button->isChecked());
 	_settings->set(Set::PL_RememberTrackAfterStop, ui->cb_remember_after_stop->isChecked());
@@ -147,6 +148,7 @@ void GUI_PlaylistPreferences::revert()
 
 	ui->le_expression->setText(_settings->get(Set::PL_EntryLook));
 	ui->cb_show_numbers->setChecked(_settings->get(Set::PL_ShowNumbers));
+	ui->cb_show_covers->setChecked(_settings->get(Set::PL_ShowCovers));
 	ui->cb_show_clear_button->setChecked(_settings->get(Set::PL_ShowClearButton));
 	ui->cb_remember_after_stop->setChecked(_settings->get(Set::PL_RememberTrackAfterStop));
 }

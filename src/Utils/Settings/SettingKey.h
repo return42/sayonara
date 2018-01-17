@@ -128,6 +128,7 @@ enum class SettingKey : unsigned short
 	PL_FontSize,
 	PL_ShowClearButton,
 	PL_RememberTrackAfterStop,
+	PL_ShowCovers,
 
 	Notification_Show,
 	Notification_Timeout,
@@ -296,6 +297,7 @@ namespace Set
 	INST(Playlist::Mode,	PL_Mode);					/* playlist mode: rep1, repAll, shuffle... */
 	INST(bool,				PL_ShowNumbers);			/* show numbers in playlist */
 	INST(bool,				PL_RememberTrackAfterStop);	/* when stop button is pressed, remember last track index */
+	INST(bool,				PL_ShowCovers);				/* Show covers in Playlist */
 
 	INST(bool,				Notification_Show);			/* show notifications */
 	INST(int,				Notification_Timeout);		/* notification timeout */

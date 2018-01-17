@@ -31,19 +31,21 @@
 
 #include "GUI/Utils/SearchableWidget/SearchableView.h"
 #include "GUI/Utils/Widgets/Dragable.h"
+#include "GUI/Utils/Widgets/WidgetTemplate.h"
 
 #include "GUI/InfoDialog/InfoDialogContainer.h"
 
 #include "Utils/Playlist/PlaylistFwd.h"
 #include "Utils/MetaData/MetaDataFwd.h"
 #include "Utils/Pimpl.h"
+#include "Utils/Settings/SayonaraClass.h"
 
 #include <QPoint>
 #include <QDrag>
 #include <QList>
 
 class PlaylistView :
-		public SearchableTableView,
+		public Gui::WidgetTemplate<SearchableTableView>,
 		public InfoDialogContainer,
 		private Dragable
 {
@@ -85,7 +87,6 @@ private:
 	void handle_drop(QDropEvent* event);
 	void handle_inner_drag_drop(int row, bool copy);
 
-
 	// overloaded stuff
 	void contextMenuEvent(QContextMenuEvent* e) override;
 
@@ -114,6 +115,8 @@ private slots:
 	void async_drop_finished(bool success);
 	void rating_changed(int rating);
 	void data_ready();
+	void sl_show_numbers_changed();
+	void sl_show_covers_changed();
 
 
 protected:
@@ -121,6 +124,7 @@ protected:
 	int index_by_model_index(const QModelIndex& idx) const override;
 	QModelIndex model_index_by_index(int idx) const override;
 	bool viewportEvent(QEvent *event) override;
+	void skin_changed() override;
 
 };
 

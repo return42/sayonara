@@ -214,14 +214,12 @@ IndexSet SelectionViewInterface::selected_items() const
 	}
 
 	QModelIndexList idx_list = sel_model->selectedIndexes();
-
-	IndexSet indexes;
-
-	for(const QModelIndex& model_idx : idx_list) {
-		indexes.insert( index_by_model_index(model_idx) );
+	IndexSet rows;
+	for(auto idx : idx_list) {
+		rows.insert(idx.row());
 	}
 
-	return indexes;
+	return rows;
 }
 
 

@@ -51,6 +51,16 @@ signals:
 	void sig_data_ready();
 
 public:
+
+	enum ColumnName
+	{
+		TrackNumber=0,
+		Cover,
+		Description,
+		Time,
+		NumColumns
+	};
+
 	explicit PlaylistItemModel(PlaylistPtr pl, QObject* parent=nullptr);
 	virtual ~PlaylistItemModel();
 

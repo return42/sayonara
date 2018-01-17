@@ -143,6 +143,7 @@ bool SettingRegistry::init()
 	register_setting( Set::PL_FontSize, "playlist_font_size", -1);
 	register_setting( Set::PL_ShowClearButton, "playlist_show_clear_button", false);
 	register_setting( Set::PL_RememberTrackAfterStop, "playlist_remember_track_after_stop", false);
+	register_setting( Set::PL_ShowCovers, "playlist_show_covers", false);
 
 	register_setting( Set::Notification_Show, "show_notifications", true );
 	register_setting( Set::Notification_Timeout, "notification_timeout", 5000 );

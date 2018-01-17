@@ -23,6 +23,7 @@
 
 #include "Utils/Settings/SayonaraClass.h"
 #include "GUI/Utils/Delegates/StyledItemDelegate.h"
+#include "Utils/Pimpl.h"
 
 class QTableView;
 class PlaylistItemDelegate :
@@ -30,6 +31,7 @@ class PlaylistItemDelegate :
 		public SayonaraClass
 {
 	Q_OBJECT
+	PIMPL(PlaylistItemDelegate)
 
 public:
 	PlaylistItemDelegate(QTableView* parent);
@@ -38,24 +40,12 @@ public:
 	void paint( QPainter *painter, const QStyleOptionViewItem &option,
 						 const QModelIndex &index) const override;
 
-    void set_drag_index(int row);
-    bool is_drag_index(int row) const;
-    int  drag_index() const;
-
-
-private:
-	int					_drag_row;
-	bool				_show_numbers;
-	QString				_entry_template;
-
+	void set_drag_index(int row);
+	bool is_drag_index(int row) const;
+	int  drag_index() const;
 
 private slots:
-	void _sl_show_numbers_changed();
-	void _sl_look_changed();
-
-	// QAbstractItemDelegate interface
-public:
-	QSize sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const override;
+	void sl_look_changed();
 };
 
 

@@ -18,11 +18,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QLabel>
-#include <QListView>
 #include <QPainter>
 #include <QFontMetrics>
-#include <QApplication>
 #include <QTableView>
 
 #include "Utils/Utils.h"
@@ -32,18 +29,27 @@
 #include "Delegate.h"
 #include "Model.h"
 
-#define PLAYLIST_BOLD 70
+const static int PLAYLIST_BOLD=70;
+
+struct PlaylistItemDelegate::Private
+{
+	int		drag_row;
+	QString	entry_look;
+
+	Private() :
+		drag_row(-1)
+	{
+		entry_look = Settings::instance()->get(Set::PL_EntryLook);
+	}
+};
 
 PlaylistItemDelegate::PlaylistItemDelegate(QTableView* parent) :
 	StyledItemDelegate(parent),
 	SayonaraClass()
 {
-	_drag_row = -1;
-	_show_numbers = _settings->get(Set::PL_ShowNumbers);
-	_entry_template = _settings->get(Set::PL_EntryLook);
+	m = Pimpl::make<Private>();
 
-	Set::listen(Set::PL_ShowNumbers, this, &PlaylistItemDelegate::_sl_show_numbers_changed, false);
-	Set::listen(Set::PL_EntryLook, this, &PlaylistItemDelegate::_sl_look_changed, false);
+	Set::listen(Set::PL_EntryLook, this, &PlaylistItemDelegate::sl_look_changed, false);
 }
 
 PlaylistItemDelegate::~PlaylistItemDelegate() {}
@@ -54,23 +60,26 @@ void PlaylistItemDelegate::paint(QPainter *painter,	const QStyleOptionViewItem &
 		return;
 	}
 
+	QPalette palette = option.palette;
+	QRect rect(option.rect);
+
 	int col = index.column();
+	int row = index.row();
+	int row_height = rect.height();
+
+	int y = rect.topLeft().y() + row_height - 1;
+
 	StyledItemDelegate::paint(painter, option, index);
-	if(col != 1)
-	{
+
+	if(m->drag_row == row) {
+		painter->drawLine(QLine(rect.x(), y, rect.x() + rect.width(), y));
+	}
+
+	if(col != PlaylistItemModel::ColumnName::Description) {
 		return;
 	}
 
 	painter->save();
-
-	QPalette palette = option.palette;
-	QRect rect(option.rect);
-
-	int row = index.row();
-	int row_height = rect.height();
-	int max_width = rect.width();
-
-	int y = rect.topLeft().y() + row_height - 1;
 
 	const PlaylistItemModel* model = static_cast<const PlaylistItemModel*>(index.model());
 	const MetaData& md = model->metadata(row);
@@ -81,13 +90,10 @@ void PlaylistItemDelegate::paint(QPainter *painter,	const QStyleOptionViewItem &
 		if(_settings->get(Set::Player_Style) == 1){
 			col_text.setAlpha(196);
 		}
+
 		QPen pen = painter->pen();
 		pen.setColor(col_text);
 		painter->setPen(pen);
-	}
-
-	if(_drag_row == row) {
-		painter->drawLine(QLine(0, y, max_width, y));
 	}
 
 	QFont font = option.font;
@@ -101,7 +107,7 @@ void PlaylistItemDelegate::paint(QPainter *painter,	const QStyleOptionViewItem &
 	painter->translate(-4, 0);
 	font.setWeight(QFont::Normal);
 	painter->setFont(font);
-	QFontMetrics fm(font);
+
 	if(bold){
 		font.setWeight(PLAYLIST_BOLD);
 	}
@@ -109,11 +115,11 @@ void PlaylistItemDelegate::paint(QPainter *painter,	const QStyleOptionViewItem &
 	painter->setFont(font);
 	painter->translate(4, 0);
 
-	for(int i=0; i<_entry_template.size(); i++)
+	for(int i=0; i<m->entry_look.size(); i++)
 	{
-		bool print = (i == _entry_template.size() - 1);
+		bool print = (i == m->entry_look.size() - 1);
 
-		QChar c = _entry_template.at(i);
+		QChar c = m->entry_look.at(i);
 
 		if(c == '*'){
 			print = true;
@@ -127,12 +133,13 @@ void PlaylistItemDelegate::paint(QPainter *painter,	const QStyleOptionViewItem &
 			str += c;
 		}
 
-		if(print){
+		if(print)
+		{
 			QFontMetrics fm(font);
 			painter->translate(offset_x, 0);
 
 			str.replace("%title%", md.title());
-			str.replace("%nr%", "");
+			str.replace("%nr%", QString::number(md.track_num));
 			str.replace("%artist%", md.artist());
 			str.replace("%album%", md.album());
 
@@ -167,41 +174,21 @@ void PlaylistItemDelegate::paint(QPainter *painter,	const QStyleOptionViewItem &
 
 void PlaylistItemDelegate::set_drag_index(int row)
 {
-	_drag_row = row;
+	m->drag_row = row;
 }
 
 bool PlaylistItemDelegate::is_drag_index(int row) const
 {
-	return (row == _drag_row);
+	return (row == m->drag_row);
 }
 
 int PlaylistItemDelegate::drag_index() const
 {
-	return _drag_row;
+	return m->drag_row;
 }
 
-void PlaylistItemDelegate::_sl_show_numbers_changed()
+
+void PlaylistItemDelegate::sl_look_changed()
 {
-	_show_numbers = _settings->get(Set::PL_ShowNumbers);
-}
-
-void PlaylistItemDelegate::_sl_look_changed()
-{
-	_entry_template = _settings->get(Set::PL_EntryLook);
-}
-
-QSize PlaylistItemDelegate::sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const
-{
-	QFontMetrics fm(option.font);
-	if(index.column() == 0){
-		QString str = QString("%1.").arg(index.model()->rowCount() * 10 + 1);
-		return QSize(fm.width(str), 20);
-	}
-
-	if(index.column() == 1)
-	{
-		return StyledItemDelegate::sizeHint(option, index);
-	}
-
-	return QSize(fm.width("123:23"), 20);
+	m->entry_look = _settings->get(Set::PL_EntryLook);
 }

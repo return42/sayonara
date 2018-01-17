@@ -446,7 +446,7 @@ void Handler::remove_rows(const IndexSet& indexes, int pl_idx)
 		return;
 	}
 
-	m->playlists[pl_idx]->delete_tracks(indexes);
+	m->playlists[pl_idx]->remove_tracks(indexes);
 }
 
 
