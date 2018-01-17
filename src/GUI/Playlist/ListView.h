@@ -43,7 +43,7 @@
 #include <QList>
 
 class PlaylistView :
-		public SearchableListView,
+		public SearchableTableView,
 		public InfoDialogContainer,
 		private Dragable
 {
@@ -113,12 +113,15 @@ private:
 private slots:
 	void async_drop_finished(bool success);
 	void rating_changed(int rating);
+	void data_ready();
 
 
 protected:
 	// SayonaraSelectionView interface
 	int index_by_model_index(const QModelIndex& idx) const override;
 	QModelIndex model_index_by_index(int idx) const override;
+	bool viewportEvent(QEvent *event) override;
+
 };
 
 #endif /* PlaylistView_H_ */

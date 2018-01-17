@@ -386,11 +386,6 @@ void GUI_Playlist::playlist_changed(int idx)
 	PlaylistConstPtr pl = Handler::instance()->playlist(idx);
 	check_playlist_name(pl);
 
-	PlaylistView* plv = view_by_index(idx);
-	if(plv){
-		plv->setFocus();
-	}
-
 	if(idx != ui->tw_playlists->currentIndex()){
 		return;
 	}
@@ -415,17 +410,17 @@ void GUI_Playlist::playlist_idx_changed(int pl_idx)
 
 void GUI_Playlist::playlist_added(PlaylistPtr pl)
 {
-	PlaylistView* pl_view = new PlaylistView(pl);
-	pl_view->setObjectName("playlist_view" + QString::number(pl->index()));
+	PlaylistView* plv = new PlaylistView(pl);
+	plv->setObjectName("playlist_view" + QString::number(pl->index()));
 
 	int idx = pl->index();
 	QString name = pl->get_name();
 
-	ui->tw_playlists->insertTab(ui->tw_playlists->count() - 1, pl_view, name);
+	ui->tw_playlists->insertTab(ui->tw_playlists->count() - 1, plv, name);
 	Handler::instance()->set_current_index(idx);
 
-	connect(pl_view, &PlaylistView::sig_double_clicked, this, &GUI_Playlist::double_clicked);
-	connect(pl_view, &PlaylistView::sig_delete_tracks, this, &GUI_Playlist::delete_tracks_clicked);
+	connect(plv, &PlaylistView::sig_double_clicked, this, &GUI_Playlist::double_clicked);
+	connect(plv, &PlaylistView::sig_delete_tracks, this, &GUI_Playlist::delete_tracks_clicked);
 
 	connect(pl.get(), &Playlist::Base::sig_data_changed, this, &GUI_Playlist::playlist_changed);
 }

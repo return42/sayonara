@@ -24,7 +24,7 @@
 #include "Utils/Settings/SayonaraClass.h"
 #include "GUI/Utils/Delegates/StyledItemDelegate.h"
 
-class QListView;
+class QTableView;
 class PlaylistItemDelegate :
 		public Gui::StyledItemDelegate,
 		public SayonaraClass
@@ -32,16 +32,11 @@ class PlaylistItemDelegate :
 	Q_OBJECT
 
 public:
-	PlaylistItemDelegate(QListView* parent);
+	PlaylistItemDelegate(QTableView* parent);
 	virtual ~PlaylistItemDelegate();
 
 	void paint( QPainter *painter, const QStyleOptionViewItem &option,
 						 const QModelIndex &index) const override;
-
-
-	QWidget* createEditor(QWidget *parent,
-						  const QStyleOptionViewItem &option,
-						  const QModelIndex &index) const override;
 
     void set_drag_index(int row);
     bool is_drag_index(int row) const;
@@ -55,10 +50,14 @@ private:
 
 
 private slots:
-	int draw_number(QPainter* painter, int number, QFont& font, QRect& rect) const;
-
 	void _sl_show_numbers_changed();
 	void _sl_look_changed();
+
+	// QAbstractItemDelegate interface
+public:
+	QSize sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const override;
 };
+
+
 
 #endif /* PLAYLISTITEMDELEGATEINTERFACE_H_ */

@@ -33,6 +33,7 @@
 
 #include "Utils/MetaData/MetaDataList.h"
 #include "Utils/Library/SearchMode.h"
+#include "Utils/Utils.h"
 #include "Utils/FileUtils.h"
 #include "Utils/Set.h"
 #include "Utils/globals.h"
@@ -45,14 +46,16 @@
 struct PlaylistItemModel::Private
 {
 	PlaylistPtr pl=nullptr;
+	int old_row_count;
 
 	Private(PlaylistPtr pl) :
-		pl(pl)
+		pl(pl),
+		old_row_count(0)
 	{}
 };
 
 PlaylistItemModel::PlaylistItemModel(PlaylistPtr pl, QObject* parent) :
-	SearchableListModel(parent)
+	SearchableTableModel(parent)
 {
 	m = Pimpl::make<Private>(pl);
 
@@ -68,8 +71,17 @@ int PlaylistItemModel::rowCount(const QModelIndex &parent) const
 	return m->pl->count();
 }
 
+int PlaylistItemModel::columnCount(const QModelIndex& parent) const
+{
+	Q_UNUSED(parent);
+	return 3;
+}
 
-QVariant PlaylistItemModel::data(const QModelIndex &index, int role) const
+#include <QMainWindow>
+#include <QPalette>
+#include "GUI/Utils/GuiUtils.h"
+#include "Utils/Settings/Settings.h"
+QVariant PlaylistItemModel::data(const QModelIndex& index, int role) const
 {
 	if (!index.isValid()) {
 		return QVariant();
@@ -79,8 +91,69 @@ QVariant PlaylistItemModel::data(const QModelIndex &index, int role) const
 		return QVariant();
 	}
 
-	if (role == Qt::DisplayRole) {
-		return MetaData::toVariant( m->pl->metadata(index.row()) );
+	int row = index.row();
+	int col = index.column();
+
+	if (role == Qt::DisplayRole)
+	{
+		switch(col)
+		{
+			case 0:
+				return QString("%1.").arg(row + 1);
+			case 1:
+				return QVariant();
+			case 2:
+			{
+				auto l = m->pl->metadata(index.row()).length_ms;
+				return Util::cvt_ms_to_string(l, true, true, false);
+			}
+			default:
+				return QVariant();
+		}
+	}
+
+	else if (role == Qt::TextAlignmentRole)
+	{
+		switch(col)
+		{
+			case 0:
+				return QVariant(Qt::AlignRight | Qt::AlignVCenter);
+			case 1:
+				return QVariant(Qt::AlignLeft | Qt::AlignVCenter);
+			case 2:
+				return QVariant(Qt::AlignRight | Qt::AlignVCenter);
+
+			default:
+				return QVariant();
+		}
+	}
+
+	else if (role == Qt::BackgroundColorRole)
+	{
+		if(m->pl->current_track_index() == row)
+		{
+			QPalette palette = Gui::Util::main_window()->palette();
+			QColor col_highlight = palette.color(QPalette::Active, QPalette::Highlight);
+			col_highlight.setAlpha(80);
+			return col_highlight;
+		}
+	}
+
+	else if(role == Qt::FontRole)
+	{
+		Settings* s = Settings::instance();
+		QFont f = Gui::Util::main_window()->font();
+		int point_size = s->get(Set::PL_FontSize);
+		if(point_size > 0){
+			f.setPointSize(point_size);
+		}
+
+		if(col == 0)
+		{
+			f.setBold(true);
+		}
+
+		return f;
 	}
 
 	return QVariant();
@@ -212,7 +285,7 @@ const static QChar artist_search_prefix=('$');
 const static QChar jump_prefix=(':');
 
 
-QModelIndex PlaylistItemModel::getPrevRowIndexOf(const QString& substr, int row, const QModelIndex &parent)
+QModelIndex PlaylistItemModel::getPrevRowIndexOf(const QString& substr, int row, const QModelIndex& parent)
 {
 	Q_UNUSED(parent)
 
@@ -440,8 +513,25 @@ bool PlaylistItemModel::has_local_media(const IndexSet& rows) const
 
 void PlaylistItemModel::playlist_changed(int pl_idx)
 {
+	if(m->old_row_count > m->pl->count())
+	{
+		beginRemoveRows(QModelIndex(), m->pl->count(), m->old_row_count);
+		endRemoveRows();
+	}
+
+	else if(m->pl->count() > m->old_row_count){
+		beginInsertRows(QModelIndex(), m->old_row_count, m->pl->count());
+		endInsertRows();
+	}
+
+	emit dataChanged(this->index(0, 0),
+					 this->index(std::max(m->old_row_count, m->pl->count()) - 1, this->columnCount()));
+
+
 	Q_UNUSED(pl_idx)
-	emit dataChanged(this->index(0),
-					 this->index(m->pl->count() - 1));
+
+	m->old_row_count = m->pl->count();
+
+	emit sig_data_ready();
 }
 

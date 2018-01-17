@@ -23,7 +23,7 @@
 #include <QPainter>
 #include <QFontMetrics>
 #include <QApplication>
-#include <QListView>
+#include <QTableView>
 
 #include "Utils/Utils.h"
 #include "Utils/MetaData/MetaData.h"
@@ -34,7 +34,7 @@
 
 #define PLAYLIST_BOLD 70
 
-PlaylistItemDelegate::PlaylistItemDelegate(QListView* parent) :
+PlaylistItemDelegate::PlaylistItemDelegate(QTableView* parent) :
 	StyledItemDelegate(parent),
 	SayonaraClass()
 {
@@ -54,6 +54,13 @@ void PlaylistItemDelegate::paint(QPainter *painter,	const QStyleOptionViewItem &
 		return;
 	}
 
+	int col = index.column();
+	StyledItemDelegate::paint(painter, option, index);
+	if(col != 1)
+	{
+		return;
+	}
+
 	painter->save();
 
 	QPalette palette = option.palette;
@@ -68,9 +75,6 @@ void PlaylistItemDelegate::paint(QPainter *painter,	const QStyleOptionViewItem &
 	const PlaylistItemModel* model = static_cast<const PlaylistItemModel*>(index.model());
 	const MetaData& md = model->metadata(row);
 
-	bool is_playing = md.pl_playing;
-	bool is_selected = (option.state & QStyle::State_Selected);
-
 	if(md.is_disabled)
 	{
 		QColor col_text = palette.color(QPalette::Disabled, QPalette::Foreground);
@@ -80,21 +84,6 @@ void PlaylistItemDelegate::paint(QPainter *painter,	const QStyleOptionViewItem &
 		QPen pen = painter->pen();
 		pen.setColor(col_text);
 		painter->setPen(pen);
-	}
-
-	else if(is_playing || is_selected)
-	{
-		QColor col_highlight = palette.color(QPalette::Active, QPalette::Highlight);
-
-		if(is_selected){
-			painter->fillRect(option.rect, col_highlight);
-		}
-
-		else if(is_playing)
-		{
-			col_highlight.setAlpha(160);
-			painter->fillRect(option.rect, col_highlight);
-		}
 	}
 
 	if(_drag_row == row) {
@@ -108,32 +97,17 @@ void PlaylistItemDelegate::paint(QPainter *painter,	const QStyleOptionViewItem &
 	int offset_x = 4;
 
 	bool bold = font.bold();
-	QString time_string = Util::cvt_ms_to_string(md.length_ms, true, true, false);
 
 	painter->translate(-4, 0);
 	font.setWeight(QFont::Normal);
 	painter->setFont(font);
 	QFontMetrics fm(font);
-	int time_width = fm.width(time_string) * 2;
-	painter->drawText(rect, Qt::AlignRight | Qt::AlignVCenter, time_string);
 	if(bold){
 		font.setWeight(PLAYLIST_BOLD);
 	}
 
 	painter->setFont(font);
 	painter->translate(4, 0);
-
-	if(_show_numbers){
-		offset_x = draw_number(painter, row + 1, font, rect);
-	}
-
-	if(!time_string.isEmpty()){
-		rect.setWidth(rect.width() - time_width);
-	}
-	else {
-		rect.setWidth(rect.width() - 20);
-	}
-
 
 	for(int i=0; i<_entry_template.size(); i++)
 	{
@@ -158,7 +132,7 @@ void PlaylistItemDelegate::paint(QPainter *painter,	const QStyleOptionViewItem &
 			painter->translate(offset_x, 0);
 
 			str.replace("%title%", md.title());
-			str.replace("%nr%", QString::number(md.track_num));
+			str.replace("%nr%", "");
 			str.replace("%artist%", md.artist());
 			str.replace("%album%", md.album());
 
@@ -191,19 +165,6 @@ void PlaylistItemDelegate::paint(QPainter *painter,	const QStyleOptionViewItem &
 	painter->restore();
 }
 
-
-QWidget* PlaylistItemDelegate::createEditor(QWidget* parent,
-										   const QStyleOptionViewItem& option,
-										   const QModelIndex& index) const
-{
-	Q_UNUSED(parent)
-	Q_UNUSED(option)
-	Q_UNUSED(index)
-
-	return nullptr;
-}
-
-
 void PlaylistItemDelegate::set_drag_index(int row)
 {
 	_drag_row = row;
@@ -219,28 +180,6 @@ int PlaylistItemDelegate::drag_index() const
 	return _drag_row;
 }
 
-int PlaylistItemDelegate::draw_number(QPainter* painter, int number, QFont& font, QRect& rect) const
-{
-	font.setWeight(PLAYLIST_BOLD);
-
-	QString str;
-	QFontMetrics fm(font);
-
-	painter->translate(4, 0);
-	str = QString::number(number) + ". ";
-
-	painter->setFont(font);
-	painter->drawText(rect,
-					  (Qt::AlignLeft | Qt::AlignVCenter),
-					  str);
-
-
-	font.setWeight(QFont::Normal);
-	painter->setFont(font);
-
-	return fm.width(str);
-}
-
 void PlaylistItemDelegate::_sl_show_numbers_changed()
 {
 	_show_numbers = _settings->get(Set::PL_ShowNumbers);
@@ -251,4 +190,18 @@ void PlaylistItemDelegate::_sl_look_changed()
 	_entry_template = _settings->get(Set::PL_EntryLook);
 }
 
+QSize PlaylistItemDelegate::sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const
+{
+	QFontMetrics fm(option.font);
+	if(index.column() == 0){
+		QString str = QString("%1.").arg(index.model()->rowCount() * 10 + 1);
+		return QSize(fm.width(str), 20);
+	}
 
+	if(index.column() == 1)
+	{
+		return StyledItemDelegate::sizeHint(option, index);
+	}
+
+	return QSize(fm.width("123:23"), 20);
+}

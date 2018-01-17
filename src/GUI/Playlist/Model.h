@@ -42,16 +42,21 @@ class MetaDataList;
 class CustomMimeData;
 
 class PlaylistItemModel :
-		public SearchableListModel
+		public SearchableTableModel
 {
 	Q_OBJECT
 	PIMPL(PlaylistItemModel)
+
+signals:
+	void sig_data_ready();
 
 public:
 	explicit PlaylistItemModel(PlaylistPtr pl, QObject* parent=nullptr);
 	virtual ~PlaylistItemModel();
 
-	int rowCount(const QModelIndex &parent=QModelIndex()) const override;
+	int rowCount(const QModelIndex& parent=QModelIndex()) const override;
+	int columnCount(const QModelIndex& parent=QModelIndex()) const override;
+
 	QVariant data(const QModelIndex &index, int role=Qt::DisplayRole) const override;
 
 	Qt::ItemFlags flags(const QModelIndex &index) const override;
@@ -67,8 +72,8 @@ public:
 	void set_current_track(int row);
 	int current_track() const;
 
-	QModelIndex getPrevRowIndexOf(const QString& substr, int row, const QModelIndex &parent=QModelIndex()) override;
-	QModelIndex getNextRowIndexOf(const QString& substr, int row, const QModelIndex &parent=QModelIndex()) override;
+	QModelIndex getPrevRowIndexOf(const QString& substr, int row, const QModelIndex& parent=QModelIndex()) override;
+	QModelIndex getNextRowIndexOf(const QString& substr, int row, const QModelIndex& parent=QModelIndex()) override;
 	QMap<QChar, QString> getExtraTriggers() override;
 
 	const MetaData& metadata(int row) const;

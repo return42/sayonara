@@ -50,6 +50,8 @@
 #include <QShortcut>
 #include <QDropEvent>
 #include <algorithm>
+#include <QHeaderView>
+#include <QScrollBar>
 
 using namespace Gui;
 
@@ -77,7 +79,7 @@ struct PlaylistView::Private
 };
 
 PlaylistView::PlaylistView(PlaylistPtr pl, QWidget* parent) :
-	SearchableListView(parent),
+	SearchableTableView(parent),
 	InfoDialogContainer(),
 	Dragable(this)
 {
@@ -93,11 +95,17 @@ PlaylistView::PlaylistView(PlaylistPtr pl, QWidget* parent) :
 	this->setAcceptDrops(true);
 	this->setSelectionMode(QAbstractItemView::ExtendedSelection);
 	this->setAlternatingRowColors(true);
-	this->setMovement(QListView::Free);
 	this->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	this->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+	this->setSelectionBehavior(QAbstractItemView::SelectRows);
+	this->horizontalHeader()->hide();
+	this->verticalHeader()->hide();
+	this->horizontalHeader()->setMinimumSectionSize(0);
+	this->setShowGrid(false);
 
 	new QShortcut(QKeySequence(Qt::Key_Backspace), this, SLOT(clear()), nullptr, Qt::WidgetShortcut);
+
+	connect(m->model, &PlaylistItemModel::sig_data_ready, this, &PlaylistView::data_ready);
 }
 
 PlaylistView::~PlaylistView() {}
@@ -156,7 +164,7 @@ void PlaylistView::clear()
 
 void PlaylistView::selectionChanged ( const QItemSelection& selected, const QItemSelection & deselected )
 {
-	SearchableListView::selectionChanged(selected, deselected);
+	SearchableTableView::selectionChanged(selected, deselected);
 
 	if(!selected.isEmpty())
 	{
@@ -213,7 +221,7 @@ void PlaylistView::delete_cur_selected_tracks()
 void PlaylistView::clear_drag_drop_lines(int row)
 {
 	m->delegate->set_drag_index(-1);
-	this->update(m->model->index(row));
+	this->update(m->model->index(row, 0));
 }
 
 
@@ -351,6 +359,8 @@ void PlaylistView::rating_changed(int rating)
 	connect(te, &QThread::finished, te, &Tagging::Editor::deleteLater);
 }
 
+void PlaylistView::data_ready() {}
+
 
 MD::Interpretation PlaylistView::metadata_interpretation() const
 {
@@ -423,13 +433,13 @@ void PlaylistView::contextMenuEvent(QContextMenuEvent* e)
 		m->context_menu->exec(pos);
 	}
 
-	SearchableListView::contextMenuEvent(e);
+	SearchableTableView::contextMenuEvent(e);
 }
 
 
 void PlaylistView::mousePressEvent(QMouseEvent* event)
 {
-	SearchableListView::mousePressEvent(event);
+	SearchableTableView::mousePressEvent(event);
 
 	if(event->buttons() & Qt::LeftButton){
 		this->drag_pressed(event->pos());
@@ -457,7 +467,7 @@ QMimeData* PlaylistView::dragable_mimedata() const
 
 void PlaylistView::mouseDoubleClickEvent(QMouseEvent* event)
 {
-	SearchableListView::mouseDoubleClickEvent(event);
+	SearchableTableView::mouseDoubleClickEvent(event);
 
 	QModelIndex idx = this->indexAt(event->pos());
 
@@ -520,7 +530,7 @@ void PlaylistView::keyPressEvent(QKeyEvent* event)
 			break;
 	}
 
-	SearchableListView::keyPressEvent(event);
+	SearchableTableView::keyPressEvent(event);
 }
 
 
@@ -543,7 +553,7 @@ void PlaylistView::dragMoveEvent(QDragMoveEvent* event)
 	{
 		clear_drag_drop_lines(m->delegate->drag_index());
 		m->delegate->set_drag_index(row);
-		this->update(m->model->index(row));
+		this->update(m->model->index(row, 0));
 	}
 
 	if(row == first_row){
@@ -580,5 +590,23 @@ int PlaylistView::index_by_model_index(const QModelIndex& idx) const
 
 QModelIndex PlaylistView::model_index_by_index(int idx) const
 {
-	return m->model->index(idx);
+	return m->model->index(idx, 1);
+}
+
+bool PlaylistView::viewportEvent(QEvent* event)
+{
+	bool success = SearchableTableView::viewportEvent(event);
+
+	sp_log(Log::Debug, this) << "Scrollbar visible? " << verticalScrollBar()->isVisible();
+
+	this->setFocus();
+	this->resizeColumnToContents(0);
+	this->resizeColumnToContents(2);
+	this->resizeRowsToContents();
+	int s1 = this->horizontalHeader()->sectionSize(0);
+	int s2 = this->horizontalHeader()->sectionSize(2);
+
+	this->horizontalHeader()->resizeSection(1, this->viewport()->width() - (s1+s2));
+
+	return success;
 }
