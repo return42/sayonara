@@ -47,6 +47,7 @@ struct PlaylistItemModel::Private
 {
 	PlaylistPtr pl=nullptr;
 	int old_row_count;
+	QHash<AlbumId, QPixmap> pms;
 
 	Private(PlaylistPtr pl) :
 		pl(pl),
@@ -167,8 +168,17 @@ QVariant PlaylistItemModel::data(const QModelIndex& index, int role) const
 	{
 		if(col == ColumnName::Cover)
 		{
-			Cover::Location cl = Cover::Location::cover_location(m->pl->metadata(row));
-			return QPixmap(cl.preferred_path()).scaled(QSize(20, 20), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+			AlbumId album_id = m->pl->metadata(row).album_id;
+			if(!m->pms.contains(album_id)){
+				Cover::Location cl = Cover::Location::cover_location(m->pl->metadata(row));
+				QPixmap pm = QPixmap(cl.preferred_path()).scaled(QSize(20, 20), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+				m->pms.insert(album_id, pm);
+				return pm;
+			}
+
+			else {
+				return m->pms[album_id];
+			}
 		}
 	}
 

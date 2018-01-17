@@ -334,7 +334,7 @@ void PlaylistView::handle_inner_drag_drop(int row, bool copy)
 	{
 		m->model->move_rows(cur_selected_rows, row + 1);
 		n_lines_before_tgt = std::count_if(cur_selected_rows.begin(), cur_selected_rows.end(), [&row](int sel){
-			return sel < row;
+			return (sel < row);
 		});
 	}
 
@@ -371,12 +371,12 @@ void PlaylistView::data_ready()
 {
 	QFontMetrics fm(this->font());
 	QString str_tn = QString("%1").arg(m->model->rowCount() * 100);
-	QString str_time = "123:23";
+	QString str_time = "1888:88";
 
 	QHeaderView* vh = this->verticalHeader();
 
 	for(int i=0; i<m->model->rowCount(); i++){
-		vh->resizeSection(i, fm.height() + 4);
+		vh->resizeSection(i, fm.height() + 6);
 	}
 
 	int w_tn = fm.width(str_tn);
