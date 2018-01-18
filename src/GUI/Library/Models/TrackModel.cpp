@@ -161,7 +161,7 @@ bool TrackModel::setData(const QModelIndex &index, const QVariant &value, int ro
 
 		if(col == (int) ColumnIndex::Track::Rating)
 		{
-			library()->change_track_rating(row, value.toInt());
+			library()->change_track_rating(row, (Rating) (value.toInt()));
 			emit dataChanged(index, this->index(row, columnCount() - 1));
 			return true;
 		}

@@ -431,7 +431,7 @@ void LocalLibrary::show_album_artists_changed(bool show_album_artists)
 	refresh();
 }
 
-void LocalLibrary::change_track_rating(int idx, int rating)
+void LocalLibrary::change_track_rating(int idx, Rating rating)
 {
 	MetaDataList v_md{ _tracks[idx] };
 

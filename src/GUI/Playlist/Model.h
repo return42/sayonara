@@ -75,6 +75,7 @@ public:
 	SearchableModelInterface::ExtraTriggerMap	getExtraTriggers() override;
 	QModelIndex		getPrevRowIndexOf(const QString& substr, int row, const QModelIndex& parent=QModelIndex()) override;
 	QModelIndex		getNextRowIndexOf(const QString& substr, int row, const QModelIndex& parent=QModelIndex()) override;
+	QModelIndex		getRowIndexOf(const QString& substr, int row, bool is_forward);
 
 	void		clear();
 	void		remove_rows(const IndexSet& rows);
@@ -82,6 +83,7 @@ public:
 	IndexSet	move_rows_up(const IndexSet& rows);
 	IndexSet	move_rows_down(const IndexSet& rows);
 	void		copy_rows(const IndexSet& rows, int target_index);
+	void		change_rating(const IndexSet& rows, Rating rating);
 
 	void		set_current_track(int row);
 	int			current_track() const;

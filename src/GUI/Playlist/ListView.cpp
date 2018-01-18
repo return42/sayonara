@@ -46,7 +46,6 @@
 #include "Components/Playlist/AbstractPlaylist.h"
 #include "Components/Playlist/PlaylistHandler.h"
 #include "Components/PlayManager/PlayManager.h"
-#include "Components/Tagging/Editor.h"
 
 #include <QShortcut>
 #include <QDropEvent>
@@ -334,7 +333,7 @@ void PlaylistView::handle_inner_drag_drop(int row, bool copy)
 }
 
 
-void PlaylistView::rating_changed(int rating)
+void PlaylistView::rating_changed(Rating rating)
 {
 	IndexSet selections = selected_items();
 	if(selections.isEmpty()){
@@ -342,16 +341,8 @@ void PlaylistView::rating_changed(int rating)
 	}
 
 	int row = selections.first();
-	MetaData md( m->model->metadata(row) );
-	MetaDataList v_md {md};
+	m->model->change_rating(row, rating);
 
-	Tagging::Editor* te = new Tagging::Editor(v_md);
-
-	md.rating = rating;
-	te->update_track(0, md);
-	te->commit();
-
-	connect(te, &QThread::finished, te, &Tagging::Editor::deleteLater);
 }
 
 void PlaylistView::refresh()

@@ -38,7 +38,7 @@ struct RatingLabel::Private
 	QPixmap 	pm_active;
 	QPixmap 	pm_inactive;
 
-	int			rating;
+	Rating		rating;
 	uint8_t     icon_size;
 	bool		enabled;
 
@@ -67,13 +67,13 @@ RatingLabel::RatingLabel(QWidget* parent, bool enabled) :
 
 RatingLabel::~RatingLabel() {}
 
-int RatingLabel::calc_rating(QPoint pos) const
+Rating RatingLabel::calc_rating(QPoint pos) const
 {
 	double drating = (double) ((pos.x() * 1.0) / (m->icon_size + 2.0)) + 0.5;
-	int rating = (int) (drating);
+	Rating rating = (Rating) (drating);
 
-	rating=std::min(rating, 5);
-	rating=std::max(rating, 0);
+	rating=std::min(rating, (Rating) 5);
+	rating=std::max(rating, (Rating) 0);
 
 	return rating;
 }
@@ -88,13 +88,13 @@ void RatingLabel::paintEvent(QPaintEvent *e)
 	int offset_y = (this->height() - m->icon_size) / 2;
 
 	painter.translate(rect().x() + Offset_X, rect().y() + offset_y );
-	for(int rating = 0; rating < m->rating; rating++)
+	for(Rating rating = 0; rating < m->rating; rating++)
 	{
 		painter.drawPixmap(0, 0, m->icon_size, m->icon_size, m->pm_active);
 		painter.translate(m->icon_size + 2, 0);
 	}
 
-	for(int rating = m->rating; rating < 5; rating++)
+	for(Rating rating = m->rating; rating < 5; rating++)
 	{
 		painter.drawPixmap(0, 0, m->icon_size, m->icon_size, m->pm_inactive);
 		painter.translate(m->icon_size + 2, 0);
@@ -114,7 +114,7 @@ void RatingLabel::mouseMoveEvent(QMouseEvent *e)
 		return;
 	}
 
-	int rating = calc_rating(e->pos());
+	Rating rating = calc_rating(e->pos());
 	this->update_rating(rating);
 }
 
@@ -125,7 +125,7 @@ void RatingLabel::mousePressEvent(QMouseEvent *e)
 		return;
 	}
 
-	int rating = calc_rating(e->pos());
+	Rating rating = calc_rating(e->pos());
 	update_rating(rating);
 }
 
@@ -158,19 +158,19 @@ void RatingLabel::focusOutEvent(QFocusEvent* e)
 	emit sig_finished(false);
 }
 
-void RatingLabel::update_rating(int rating)
+void RatingLabel::update_rating(Rating rating)
 {
 	m->rating = rating;
 	update();
 }
 
-void RatingLabel::set_rating(int rating)
+void RatingLabel::set_rating(Rating rating)
 {
 	m->rating = rating;
 	update();
 }
 
-int RatingLabel::get_rating() const
+Rating RatingLabel::get_rating() const
 {
 	return m->rating;
 }

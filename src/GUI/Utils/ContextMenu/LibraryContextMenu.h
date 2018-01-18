@@ -96,7 +96,7 @@ public:
 	 * @brief set rating for the rating entry
 	 * @param rating from 0 to 5
 	 */
-	void set_rating(int rating);
+	void set_rating(Rating rating);
 
 	QAction* get_action(Entry entry) const;
 
@@ -115,7 +115,7 @@ signals:
 	void sig_append_clicked();
 	void sig_refresh_clicked();
 	void sig_clear_clicked();
-	void sig_rating_changed(int rating);
+	void sig_rating_changed(Rating rating);
 	void sig_clear_selection_clicked();
 
 
@@ -124,7 +124,7 @@ private slots:
 	void cover_view_action_triggered();
 
 protected:
-	QAction* init_rating_action(int rating);
+	QAction* init_rating_action(Rating rating);
 
 	void skin_changed() override;
 	void language_changed() override;

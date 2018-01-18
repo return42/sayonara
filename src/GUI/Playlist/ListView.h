@@ -114,7 +114,7 @@ private:
 private slots:
 	void refresh();
 	void async_drop_finished(bool success);
-	void rating_changed(int rating);
+	void rating_changed(Rating rating);
 	void sl_columns_changed();
 
 protected:

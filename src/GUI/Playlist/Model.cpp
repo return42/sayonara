@@ -28,8 +28,11 @@
 
 #include "Model.h"
 #include "Components/Playlist/AbstractPlaylist.h"
+#include "Components/Tagging/Editor.h"
+#include "Components/Covers/CoverLocation.h"
 
 #include "GUI/Utils/CustomMimeData.h"
+#include "GUI/Utils/GuiUtils.h"
 
 #include "Utils/MetaData/MetaDataList.h"
 #include "Utils/Library/SearchMode.h"
@@ -39,24 +42,83 @@
 #include "Utils/globals.h"
 #include "Utils/Language.h"
 #include "Utils/Logger/Logger.h"
+#include "Utils/Settings/Settings.h"
 
 #include <QUrl>
-#include <QColor>
+#include <QPalette>
 #include <QHash>
+#include <QMainWindow>
+#include <QPixmap>
 
+enum class PlaylistSearchMode
+{
+	Artist,
+	Album,
+	Title,
+	Jump
+};
 
 struct PlaylistItemModel::Private
 {
-	QHash<AlbumId, QPixmap> pms;
-	int old_row_count;
-	PlaylistPtr pl=nullptr;
+	const static QChar album_search_prefix='%';
+	const static QChar artist_search_prefix='$';
+	const static QChar jump_prefix=':';
 
-
+	QHash<AlbumId, QPixmap>	pms;
+	int						old_row_count;
+	PlaylistPtr				pl=nullptr;
 
 	Private(PlaylistPtr pl) :
 		old_row_count(0),
 		pl(pl)
 	{}
+
+	PlaylistSearchMode get_search_mode(const QString& str)
+	{
+		if(str.startsWith(artist_search_prefix)){
+			return PlaylistSearchMode::Artist;
+		}
+		else if(str.startsWith(album_search_prefix)){
+			return PlaylistSearchMode::Album;
+		}
+		else if(str.startsWith(jump_prefix))
+		{
+			return PlaylistSearchMode::Jump;
+		}
+
+		return PlaylistSearchMode::Title;
+	}
+
+	QString remove_search_prefix(QString str, PlaylistSearchMode search_mode)
+	{
+		switch(search_mode)
+		{
+			case PlaylistSearchMode::Artist:
+				str.remove(artist_search_prefix);
+			case PlaylistSearchMode::Album:
+				str.remove(album_search_prefix);
+			case PlaylistSearchMode::Jump:
+				str.remove(jump_prefix);
+		}
+
+		return str.trimmed();
+	}
+
+	QString converted_string(const MetaData& md, PlaylistSearchMode search_mode, ::Library::SearchModeMask smm)
+	{
+		QString str;
+		switch(search_mode)
+		{
+			case PlaylistSearchMode::Artist:
+				str = md.artist(); break;
+			case PlaylistSearchMode::Album:
+				str = md.album(); break;
+			case PlaylistSearchMode::title:
+				str = md.title(); break;
+		}
+
+		return Library::Util::convert_search_string(str, smm);
+	}
 };
 
 PlaylistItemModel::PlaylistItemModel(PlaylistPtr pl, QObject* parent) :
@@ -83,12 +145,7 @@ int PlaylistItemModel::columnCount(const QModelIndex& parent) const
 	return (int)(ColumnName::NumColumns);
 }
 
-#include <QMainWindow>
-#include <QPalette>
-#include "GUI/Utils/GuiUtils.h"
-#include "Utils/Settings/Settings.h"
-#include "Components/Covers/CoverLocation.h"
-#include <QPixmap>
+
 QVariant PlaylistItemModel::data(const QModelIndex& index, int role) const
 {
 	int row = index.row();
@@ -268,6 +325,29 @@ void PlaylistItemModel::copy_rows(const IndexSet& indexes, int target_index)
 	m->pl->copy_tracks(indexes, target_index);
 }
 
+void PlaylistItemModel::change_rating(const IndexSet& indexes, Rating rating)
+{
+	MetaDataList v_md;
+	v_md.reserve(indexes.size());
+	for(auto idx : indexes)
+	{
+		v_md << m->pl->metadata(idx);
+	}
+
+	Tagging::Editor* te = new Tagging::Editor(v_md);
+
+	for(int i=0; i<v_md.count(); i++)
+	{
+		MetaData md	= v_md[i];
+		md.rating = rating;
+		te->update_track(i, md);
+	}
+
+	te->commit();
+
+	connect(te, &QThread::finished, te, &Tagging::Editor::deleteLater);
+}
+
 
 int PlaylistItemModel::current_track() const
 {
@@ -299,179 +379,63 @@ MetaDataList PlaylistItemModel::metadata(const IndexSet &rows) const
 	return v_md;
 }
 
-const static QChar album_search_prefix('%');
-const static QChar artist_search_prefix=('$');
-const static QChar jump_prefix=(':');
 
 
 QModelIndex PlaylistItemModel::getPrevRowIndexOf(const QString& substr, int row, const QModelIndex& parent)
 {
-	Q_UNUSED(parent)
+	return getRowIndexOf(substr, row, false);
+}
 
-	QString converted_string = substr;
+QModelIndex PlaylistItemModel::getNextRowIndexOf(const QString& substr, int row, const QModelIndex &parent)
+{
+	return getRowIndexOf(substr, row, true);
+}
 
+QModelIndex PlaylistItemModel::getRowIndexOf(const QString& substr, int row, bool is_forward)
+{
 	int len = m->pl->count();
-	if(len < row) row = len - 1;
-
-	// ALBUM
-	if(converted_string.startsWith(album_search_prefix))
-	{
-		converted_string.remove(album_search_prefix);
-		converted_string = converted_string.trimmed();
-
-		for(int i=0; i<len; i++)
-		{
-			if(row - i < 0) row = len - 1;
-			int row_idx = (row - i) % len;
-
-			QString album = m->pl->metadata(row_idx).album();
-			album = Library::Util::convert_search_string(album, search_mode());
-
-			if(album.contains(converted_string))
-			{
-				return this->index(row_idx, 0);
-			}
-		}
+	if(row >= len) {
+		row = len - 1;
 	}
 
-	//ARTIST
-	else if(converted_string.startsWith(artist_search_prefix))
+	PlaylistSearchMode plsm = m->get_search_mode(substr);
+	QString pure_search_string = m->remove_search_prefix(substr, search_mode);
+
+	if(plsm == PlaylistSearchMode::Jump)
 	{
-		converted_string.remove(artist_search_prefix);
-		converted_string = converted_string.trimmed();
-
-		for(int i=0; i<len; i++)
-		{
-			if(row - i < 0) row = len - 1;
-			int row_idx = (row - i) % len;
-
-			QString artist = m->pl->metadata(row_idx).artist();
-			artist = Library::Util::convert_search_string(artist, search_mode());
-
-			if(artist.contains(converted_string))
-			{
-				return this->index(row_idx, 0);
-			}
-		}
-	}
-
-	// JUMP
-	else if(converted_string.startsWith(jump_prefix))
-	{
-		converted_string.remove(jump_prefix);
-		converted_string = converted_string.trimmed();
 		bool ok;
-		int line = converted_string.toInt(&ok);
+		int line = pure_search_string.toInt(&ok);
 		if(ok && len > line) {
 			return this->index(line, 0);
 		}
 	}
 
-	// TITLE
 	else
 	{
 		for(int i=0; i<len; i++)
 		{
-			if(row - i < 0) row = len - 1;
-			int row_idx = (row - i) % len;
-			QString title = m->pl->metadata(row_idx).title();
-			title = Library::Util::convert_search_string(title, search_mode());
+			int row_idx;
+			if(is_forward){
+				row_idx = (i + row) % len;
+			}
 
-			if(title.contains(converted_string))
+			else {
+				if(row - i < 0) {
+					row = len - 1;
+				}
+
+				row_idx = (row - i) % len;
+			}
+
+			QString str = m->converted_string(m->pl->metadata(row_idx), plsm, search_mode());
+			if(str.contains(pure_search_string))
 			{
 				return this->index(row_idx, 0);
 			}
 		}
 	}
 
-	return this->index(-1, -1);
-}
-
-QModelIndex PlaylistItemModel::getNextRowIndexOf(const QString& substr, int row, const QModelIndex &parent)
-{
-	Q_UNUSED(parent)
-
-	QString converted_string = substr;
-
-	int len = m->pl->count();
-	if(len < row) {
-		row = len - 1;
-	}
-
-	// ALBUM
-	if(converted_string.startsWith(album_search_prefix))
-	{
-		converted_string.remove(album_search_prefix);
-		converted_string = converted_string.trimmed();
-
-		for(int i=0; i< len; i++)
-		{
-			int row_idx = (i + row) % len;
-
-			QString album = m->pl->metadata(row_idx).album();
-			album = Library::Util::convert_search_string(album, search_mode());
-
-			if(album.contains(converted_string))
-			{
-				return this->index(row_idx, 0);
-			}
-		}
-	}
-
-	//ARTIST
-	else if(converted_string.startsWith(artist_search_prefix))
-	{
-		converted_string.remove(artist_search_prefix);
-		converted_string = converted_string.trimmed();
-
-		for(int i=0; i< len; i++)
-		{
-			int row_idx = (i + row) % len;
-
-			QString artist = m->pl->metadata(row_idx).artist();
-
-			artist = Library::Util::convert_search_string(artist, search_mode());
-
-			if(artist.contains(converted_string))
-			{
-				return this->index(row_idx, 0);
-			}
-		}
-	}
-
-	// JUMP
-	else if(converted_string.startsWith(jump_prefix))
-	{
-		converted_string.remove(jump_prefix);
-		converted_string = converted_string.trimmed();
-
-		bool ok;
-		int line = converted_string.toInt(&ok);
-		if(ok && (m->pl->count() > line) ){
-			return this->index(line, 0);
-		}
-
-		else return this->index(-1, -1);
-	}
-
-	// TITLE
-	else
-	{
-		for(int i=0; i< len; i++)
-		{
-			int row_idx = (i + row) % len;
-
-			QString title = m->pl->metadata(row_idx).title();
-			title = Library::Util::convert_search_string(title, search_mode());
-
-			if(title.contains(converted_string))
-			{
-				return this->index(row_idx, 0);
-			}
-		}
-	}
-
-	return this->index(-1, -1);
+	return index(-1, -1);
 }
 
 using ExtraTriggerMap=SearchableModelInterface::ExtraTriggerMap;
