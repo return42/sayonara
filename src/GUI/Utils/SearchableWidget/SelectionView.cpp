@@ -248,7 +248,7 @@ QModelIndexList SelectionViewInterface::model_indexes_by_indexes(const IndexSet&
 int SelectionViewInterface::min_selected_item() const
 {
 	IndexSet selected = selected_items();
-	if(!selected.isEmpty()){
+	if(!selected.isEmpty()) {
 		return *(std::min_element(selected.begin(), selected.end()));
 	}
 

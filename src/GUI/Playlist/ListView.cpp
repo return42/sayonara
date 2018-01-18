@@ -45,7 +45,6 @@
 
 #include "Components/Playlist/AbstractPlaylist.h"
 #include "Components/Playlist/PlaylistHandler.h"
-#include "Components/PlayManager/PlayManager.h"
 
 #include <QShortcut>
 #include <QDropEvent>
@@ -65,13 +64,11 @@ struct PlaylistView::Private
 
 	ProgressBar*            progress=nullptr;
 
-	int						async_drop_index;
 	int						playlist_index;
 
 	Private(PlaylistPtr pl, PlaylistView* parent) :
 		model(new PlaylistItemModel(pl, parent)),
-		delegate(new PlaylistItemDelegate(parent)),
-		async_drop_index(-1)
+		delegate(new PlaylistItemDelegate(parent))
 	{
 		playlist_index = pl->index();
 	}
@@ -158,36 +155,8 @@ void PlaylistView::goto_row(int row)
 	row = std::min(row, m->model->rowCount() - 1);
 	row = std::max(row, 0);
 
-	this->scrollTo(
-		m->model->index(row, 0),
-		SearchableListView::EnsureVisible
-	);
+	this->scrollTo(model_index_by_index(row));
 }
-
-
-void PlaylistView::scroll_up()
-{
-	QPoint p(5, 5);
-
-	QModelIndex idx = this->indexAt(p);
-
-	if(idx.row() > 0) {
-		goto_row(idx.row() - 1);
-	}
-}
-
-void PlaylistView::scroll_down()
-{
-	QPoint p(5, this->y() + this->height() - 5);
-
-	QModelIndex idx = this->indexAt(p);
-
-	if(idx.isValid() && (idx.row() < row_count() - 1))
-	{
-		goto_row(idx.row() + 1);
-	}
-}
-
 
 void PlaylistView::remove_selected_rows()
 {
@@ -214,8 +183,10 @@ void PlaylistView::delete_selected_tracks()
 void PlaylistView::clear_drag_drop_lines(int row)
 {
 	m->delegate->set_drag_index(-1);
-	for(int i=0; i<m->model->columnCount(); i++){
-		this->update(m->model->index(row, i));
+
+	for(int i=0; i<m->model->columnCount(); i++)
+	{
+		update( m->model->index(row, i) );
 	}
 }
 
@@ -246,7 +217,6 @@ void PlaylistView::handle_drop(QDropEvent* event)
 	}
 
 	bool is_inner_drag_drop = MimeData::is_inner_drag_drop(mimedata, m->playlist_index);
-
 	if(is_inner_drag_drop)
 	{
 		bool copy = (event->keyboardModifiers() & Qt::ControlModifier);
@@ -270,20 +240,22 @@ void PlaylistView::handle_drop(QDropEvent* event)
 		}
 
 		m->progress->show();
-		m->async_drop_index = row;
 
 		QString cover_url = MimeData::cover_url(mimedata);
 
 		StreamParser* stream_parser = new StreamParser();
 		stream_parser->set_cover_url(cover_url);
 
-		connect(stream_parser, &StreamParser::sig_finished, this, &PlaylistView::async_drop_finished);
+		connect(stream_parser, &StreamParser::sig_finished, [=](bool success){
+			async_drop_finished(success, row);
+		});
+
 		stream_parser->parse_streams(playlists);
 	}
 }
 
 
-void PlaylistView::async_drop_finished(bool success)
+void PlaylistView::async_drop_finished(bool success, int async_drop_index)
 {
 	this->setEnabled(true);
 	m->progress->hide();
@@ -293,7 +265,7 @@ void PlaylistView::async_drop_finished(bool success)
 
 	if(success){
 		MetaDataList v_md = stream_parser->metadata();
-		plh->insert_tracks(v_md, m->async_drop_index+1, plh->current_index());
+		plh->insert_tracks(v_md, async_drop_index+1, plh->current_index());
 	}
 
 	stream_parser->deleteLater();
@@ -302,15 +274,12 @@ void PlaylistView::async_drop_finished(bool success)
 
 void PlaylistView::handle_inner_drag_drop(int row, bool copy)
 {
-	IndexSet cur_selected_rows, new_selected_rows;
-	int n_lines_before_tgt = 0;
-
-	cur_selected_rows = selected_items();
-
+	IndexSet cur_selected_rows = selected_items();
 	if( cur_selected_rows.contains(row) ) {
 		return;
 	}
 
+	int n_lines_before_tgt = 0;
 	if(copy)
 	{
 		m->model->copy_rows(cur_selected_rows, row + 1);
@@ -320,10 +289,11 @@ void PlaylistView::handle_inner_drag_drop(int row, bool copy)
 	{
 		m->model->move_rows(cur_selected_rows, row + 1);
 		n_lines_before_tgt = std::count_if(cur_selected_rows.begin(), cur_selected_rows.end(), [&row](int sel){
-			return sel < row;
+			return (sel < row);
 		});
 	}
 
+	IndexSet new_selected_rows;
 	for(int i=row; i<row + cur_selected_rows.count(); i++)
 	{
 		new_selected_rows.insert(i - n_lines_before_tgt + 1);
@@ -342,8 +312,8 @@ void PlaylistView::rating_changed(Rating rating)
 
 	int row = selections.first();
 	m->model->change_rating(row, rating);
-
 }
+
 
 void PlaylistView::refresh()
 {
@@ -366,7 +336,7 @@ void PlaylistView::refresh()
 
 	if(_settings->get(Set::PL_ShowNumbers))
 	{
-		int w_tn = fm.width(QString("%1").arg(m->model->rowCount() * 100));
+		int w_tn = fm.width(QString::number(m->model->rowCount() * 100));
 		viewport_width -= w_tn;
 		hh->resizeSection(PlaylistItemModel::ColumnName::TrackNumber, w_tn);
 	}
@@ -389,9 +359,7 @@ MD::Interpretation PlaylistView::metadata_interpretation() const
 
 MetaDataList PlaylistView::info_dialog_data() const
 {
-	IndexSet selected_rows = selected_items();
-
-	return m->model->metadata(selected_rows);
+	return m->model->metadata(selected_items());
 }
 
 
@@ -405,9 +373,7 @@ void PlaylistView::contextMenuEvent(QContextMenuEvent* e)
 	QModelIndex idx = indexAt(e->pos());
 
 	LibraryContexMenuEntries entry_mask = 0;
-
-	if(this->row_count() > 0)
-	{
+	if(row_count() > 0)	{
 		entry_mask = (LibraryContextMenu::EntryClear);
 	}
 
@@ -445,10 +411,8 @@ void PlaylistView::contextMenuEvent(QContextMenuEvent* e)
 		(idx.row() == m->model->current_track()) &&
 		(idx.row() >= 0));
 
-	if((entry_mask > 0) || m->context_menu->is_bookmarks_visible()){
-		m->context_menu->show_actions(entry_mask);
-		m->context_menu->exec(pos);
-	}
+	m->context_menu->show_actions(entry_mask);
+	m->context_menu->exec(pos);
 
 	SearchableTableView::contextMenuEvent(e);
 }
@@ -459,24 +423,24 @@ void PlaylistView::mousePressEvent(QMouseEvent* event)
 	SearchableTableView::mousePressEvent(event);
 
 	if(event->buttons() & Qt::LeftButton){
-		this->drag_pressed(event->pos());
+		drag_pressed(event->pos());
 	}
 }
 
 void PlaylistView::mouseMoveEvent(QMouseEvent* event)
 {
-	QDrag* drag = this->drag_moving(event->pos());
+	QDrag* drag = drag_moving(event->pos());
 	if(drag)
 	{
 		connect(drag, &QDrag::destroyed, [=](){
-			this->drag_released(Dragable::ReleaseReason::Destroyed);
+			drag_released(Dragable::ReleaseReason::Destroyed);
 		});
 	}
 }
 
 QMimeData* PlaylistView::dragable_mimedata() const
 {
-	return m->model->mimeData(this->selectedIndexes());
+	return m->model->mimeData( selectedIndexes() );
 }
 
 void PlaylistView::mouseDoubleClickEvent(QMouseEvent* event)
@@ -488,7 +452,6 @@ void PlaylistView::mouseDoubleClickEvent(QMouseEvent* event)
 	if( (idx.flags() & Qt::ItemIsEnabled) &&
 		(idx.flags() & Qt::ItemIsSelectable))
 	{
-		 m->model->set_current_track(idx.row());
 		emit sig_double_clicked(idx.row());
 	}
 }
@@ -533,7 +496,6 @@ void PlaylistView::keyPressEvent(QKeyEvent* event)
 			if(!selections.isEmpty())
 			{
 				int min_row = min_selected_item();
-				m->model->set_current_track(min_row);
 				emit sig_double_clicked(min_row);
 				return;
 			}
@@ -554,7 +516,8 @@ void PlaylistView::dragEnterEvent(QDragEnterEvent* event)
 
 void PlaylistView::dragMoveEvent(QDragMoveEvent* event)
 {
-	event->accept();
+	QTableView::dragMoveEvent(event);		// needed for autoscroll
+	event->accept();						// needed for dragMove
 
 	int row = calc_drag_drop_line(event->pos());
 
@@ -563,12 +526,12 @@ void PlaylistView::dragMoveEvent(QDragMoveEvent* event)
 	{
 		clear_drag_drop_lines(m->delegate->drag_index());
 		m->delegate->set_drag_index(row);
-		for(int i=0; i<m->model->columnCount(); i++){
-			this->update(m->model->index(row, i));
+
+		for(int i=0; i<m->model->columnCount(); i++)
+		{
+			update( m->model->index(row, i) );
 		}
 	}
-
-	QTableView::dragMoveEvent(event);
 }
 
 void PlaylistView::dragLeaveEvent(QDragLeaveEvent* event)

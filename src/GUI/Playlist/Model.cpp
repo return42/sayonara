@@ -50,6 +50,10 @@
 #include <QMainWindow>
 #include <QPixmap>
 
+static const QChar ALBUM_SEARCH_PREFIX='%';
+static const QChar ARTIST_SEARCH_PREFIX='$';
+static const QChar JUMP_PREFIX=':';
+
 enum class PlaylistSearchMode
 {
 	Artist,
@@ -60,9 +64,6 @@ enum class PlaylistSearchMode
 
 struct PlaylistItemModel::Private
 {
-	const static QChar album_search_prefix='%';
-	const static QChar artist_search_prefix='$';
-	const static QChar jump_prefix=':';
 
 	QHash<AlbumId, QPixmap>	pms;
 	int						old_row_count;
@@ -72,53 +73,6 @@ struct PlaylistItemModel::Private
 		old_row_count(0),
 		pl(pl)
 	{}
-
-	PlaylistSearchMode get_search_mode(const QString& str)
-	{
-		if(str.startsWith(artist_search_prefix)){
-			return PlaylistSearchMode::Artist;
-		}
-		else if(str.startsWith(album_search_prefix)){
-			return PlaylistSearchMode::Album;
-		}
-		else if(str.startsWith(jump_prefix))
-		{
-			return PlaylistSearchMode::Jump;
-		}
-
-		return PlaylistSearchMode::Title;
-	}
-
-	QString remove_search_prefix(QString str, PlaylistSearchMode search_mode)
-	{
-		switch(search_mode)
-		{
-			case PlaylistSearchMode::Artist:
-				str.remove(artist_search_prefix);
-			case PlaylistSearchMode::Album:
-				str.remove(album_search_prefix);
-			case PlaylistSearchMode::Jump:
-				str.remove(jump_prefix);
-		}
-
-		return str.trimmed();
-	}
-
-	QString converted_string(const MetaData& md, PlaylistSearchMode search_mode, ::Library::SearchModeMask smm)
-	{
-		QString str;
-		switch(search_mode)
-		{
-			case PlaylistSearchMode::Artist:
-				str = md.artist(); break;
-			case PlaylistSearchMode::Album:
-				str = md.album(); break;
-			case PlaylistSearchMode::title:
-				str = md.title(); break;
-		}
-
-		return Library::Util::convert_search_string(str, smm);
-	}
 };
 
 PlaylistItemModel::PlaylistItemModel(PlaylistPtr pl, QObject* parent) :
@@ -151,49 +105,31 @@ QVariant PlaylistItemModel::data(const QModelIndex& index, int role) const
 	int row = index.row();
 	int col = index.column();
 
-	if (!index.isValid()) {
-		return QVariant();
-	}
-
-	if ( !between(index.row(), m->pl->count())) {
+	if ( !between(row, m->pl->count())) {
 		return QVariant();
 	}
 
 	if (role == Qt::DisplayRole)
 	{
-		switch(col)
-		{
-			case ColumnName::Cover:
-				return QVariant();
-			case ColumnName::TrackNumber:
-				return QString("%1.").arg(row + 1);
-			case ColumnName::Description:
-				return QVariant();
-			case ColumnName::Time:
-			{
-				auto l = m->pl->metadata(row).length_ms;
-				return Util::cvt_ms_to_string(l, true, true, false);
-			}
-			default:
-				return QVariant();
+		if(col ==  ColumnName::TrackNumber) {
+			return QString("%1.").arg(row + 1);
 		}
+
+		else if(col == ColumnName::Time) {
+			auto l = m->pl->metadata(row).length_ms;
+			return Util::cvt_ms_to_string(l, true, true, false);
+		}
+
+		return QVariant();
 	}
 
 	else if (role == Qt::TextAlignmentRole)
 	{
-		switch(col)
-		{
-			case ColumnName::Cover:
-				return QVariant();
-			case ColumnName::TrackNumber:
-				return QVariant(Qt::AlignRight | Qt::AlignVCenter);
-			case ColumnName::Description:
-				return QVariant(Qt::AlignLeft | Qt::AlignVCenter);
-			case ColumnName::Time:
-				return QVariant(Qt::AlignRight | Qt::AlignVCenter);
-			default:
-				return QVariant();
+		if( col == ColumnName::Description){
+			return QVariant(Qt::AlignLeft | Qt::AlignVCenter);
 		}
+
+		return QVariant(Qt::AlignRight | Qt::AlignVCenter);
 	}
 
 	else if (role == Qt::BackgroundColorRole)
@@ -248,11 +184,10 @@ Qt::ItemFlags PlaylistItemModel::flags(const QModelIndex &index) const
 {
 	int row = index.row();
 	if (!index.isValid()){
-		return (Qt::ItemIsEnabled);
+		return (Qt::ItemIsEnabled | Qt::ItemIsDropEnabled);
 	}
 
-
-	if( row >= 0 && row < m->pl->count())
+	if( between(row, m->pl->count()))
 	{
 		const MetaData& md = metadata(row);
 		if(md.is_disabled){
@@ -273,12 +208,10 @@ void PlaylistItemModel::remove_rows(const IndexSet& indexes)
 	m->pl->remove_tracks(indexes);
 }
 
-
 void PlaylistItemModel::move_rows(const IndexSet& indexes, int target_index)
 {
 	m->pl->move_tracks(indexes, target_index);
 }
-
 
 IndexSet PlaylistItemModel::move_rows_up(const IndexSet& indexes)
 {
@@ -383,55 +316,88 @@ MetaDataList PlaylistItemModel::metadata(const IndexSet &rows) const
 
 QModelIndex PlaylistItemModel::getPrevRowIndexOf(const QString& substr, int row, const QModelIndex& parent)
 {
+	Q_UNUSED(parent)
 	return getRowIndexOf(substr, row, false);
 }
 
 QModelIndex PlaylistItemModel::getNextRowIndexOf(const QString& substr, int row, const QModelIndex &parent)
 {
+	Q_UNUSED(parent)
 	return getRowIndexOf(substr, row, true);
 }
 
 QModelIndex PlaylistItemModel::getRowIndexOf(const QString& substr, int row, bool is_forward)
 {
-	int len = m->pl->count();
-	if(row >= len) {
-		row = len - 1;
+	row = std::max(rowCount()-1, row);
+
+	QString pure_search_string = substr;
+	PlaylistSearchMode plsm = PlaylistSearchMode::Title;
+
+	if(pure_search_string.startsWith(ARTIST_SEARCH_PREFIX))
+	{
+		plsm = PlaylistSearchMode::Artist;
+		pure_search_string.remove(ARTIST_SEARCH_PREFIX);
+	}
+	else if(pure_search_string.startsWith(ALBUM_SEARCH_PREFIX))
+	{
+		plsm = PlaylistSearchMode::Album;
+		pure_search_string.remove(ALBUM_SEARCH_PREFIX);
+	}
+	else if(pure_search_string.startsWith(JUMP_PREFIX))
+	{
+		plsm = PlaylistSearchMode::Jump;
+		pure_search_string.remove(JUMP_PREFIX);
 	}
 
-	PlaylistSearchMode plsm = m->get_search_mode(substr);
-	QString pure_search_string = m->remove_search_prefix(substr, search_mode);
+	pure_search_string = pure_search_string.trimmed();
 
 	if(plsm == PlaylistSearchMode::Jump)
 	{
 		bool ok;
 		int line = pure_search_string.toInt(&ok);
-		if(ok && len > line) {
+		if(ok && line < rowCount()) {
 			return this->index(line, 0);
 		}
+
+		return index(-1, -1);
 	}
 
-	else
+	for(int i=0; i<rowCount(); i++)
 	{
-		for(int i=0; i<len; i++)
+		int row_idx;
+		if(is_forward)
 		{
-			int row_idx;
-			if(is_forward){
-				row_idx = (i + row) % len;
+			row_idx = (i + row) % rowCount();
+		}
+
+		else
+		{
+			if(row - i < 0) {
+				row = rowCount() - 1;
 			}
 
-			else {
-				if(row - i < 0) {
-					row = len - 1;
-				}
+			row_idx = (row - i) % rowCount();
+		}
 
-				row_idx = (row - i) % len;
-			}
+		MetaData md = m->pl->metadata(row_idx);
+		QString str;
+		switch(plsm)
+		{
+			case PlaylistSearchMode::Artist:
+				str = md.artist();
+				break;
+			case PlaylistSearchMode::Album:
+				str = md.album();
+				break;
+			default:
+				str = md.title();
+				break;
+		}
 
-			QString str = m->converted_string(m->pl->metadata(row_idx), plsm, search_mode());
-			if(str.contains(pure_search_string))
-			{
-				return this->index(row_idx, 0);
-			}
+		str = Library::Util::convert_search_string(str, search_mode());
+		if(str.contains(pure_search_string))
+		{
+			return this->index(row_idx, 0);
 		}
 	}
 
@@ -443,9 +409,9 @@ ExtraTriggerMap PlaylistItemModel::getExtraTriggers()
 {
 	ExtraTriggerMap map;
 
-	map.insert(artist_search_prefix, Lang::get(Lang::Artist));
-	map.insert(album_search_prefix, Lang::get(Lang::Album));
-	map.insert(jump_prefix, tr("Goto row"));
+	map.insert(ARTIST_SEARCH_PREFIX, Lang::get(Lang::Artist));
+	map.insert(ALBUM_SEARCH_PREFIX, Lang::get(Lang::Album));
+	map.insert(JUMP_PREFIX, tr("Goto row"));
 
 	return map;
 }

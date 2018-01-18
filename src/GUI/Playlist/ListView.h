@@ -62,8 +62,6 @@ public:
 	virtual ~PlaylistView();
 
 	void goto_row(int row);
-	void scroll_up();
-	void scroll_down();
 
 	void remove_selected_rows();
 	void delete_selected_tracks();
@@ -113,7 +111,7 @@ private:
 
 private slots:
 	void refresh();
-	void async_drop_finished(bool success);
+	void async_drop_finished(bool success, int async_drop_index);
 	void rating_changed(Rating rating);
 	void sl_columns_changed();
 
