@@ -81,6 +81,7 @@ PlaylistView::PlaylistView(PlaylistPtr pl, QWidget* parent) :
 {
 	m = Pimpl::make<Private>(pl, this);
 
+	setObjectName("playlist_view" + QString::number(pl->index()));
 	setModel(m->model);
 	set_search_model(m->model);
 	setItemDelegate(m->delegate);
@@ -90,10 +91,15 @@ PlaylistView::PlaylistView(PlaylistPtr pl, QWidget* parent) :
 	new QShortcut(QKeySequence(Qt::Key_Backspace), this, SLOT(clear()), nullptr, Qt::WidgetShortcut);
 
 	connect(m->model, &PlaylistItemModel::sig_data_ready, this, &PlaylistView::refresh);
+	connect(pl.get(), &Playlist::Base::sig_current_track_changed, this, &PlaylistView::goto_row);
 
 	Set::listen(Set::PL_ShowNumbers, this, &PlaylistView::sl_columns_changed);
 	Set::listen(Set::PL_ShowCovers, this, &PlaylistView::sl_columns_changed);
 	Set::listen(Set::PL_FontSize, this, &PlaylistView::skin_changed);
+	Set::listen(Set::PL_EntryLook, this, &PlaylistView::skin_changed);
+	Set::listen(Set::PL_ShowNumbers, this, &PlaylistView::skin_changed);
+
+	this->goto_row(pl->current_track_index());
 }
 
 PlaylistView::~PlaylistView() {}
@@ -227,8 +233,7 @@ void PlaylistView::handle_drop(QDropEvent* event)
 	MetaDataList v_md = MimeData::metadata(mimedata);
 	if(!v_md.isEmpty())
 	{
-		Playlist::Handler* plh = Playlist::Handler::instance();
-		plh->insert_tracks(v_md, row+1, plh->current_index());
+		m->model->insert_tracks(v_md, row+1);
 	}
 
 	QStringList playlists = MimeData::playlists(mimedata);
@@ -260,12 +265,11 @@ void PlaylistView::async_drop_finished(bool success, int async_drop_index)
 	this->setEnabled(true);
 	m->progress->hide();
 
-	Playlist::Handler* plh = Playlist::Handler::instance();
 	StreamParser* stream_parser = dynamic_cast<StreamParser*>(sender());
 
 	if(success){
 		MetaDataList v_md = stream_parser->metadata();
-		plh->insert_tracks(v_md, async_drop_index+1, plh->current_index());
+		m->model->insert_tracks(v_md, async_drop_index+1);
 	}
 
 	stream_parser->deleteLater();

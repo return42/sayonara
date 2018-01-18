@@ -85,7 +85,6 @@ void Base::clear()
 void Base::move_tracks(const IndexSet& indexes, int tgt)
 {
 	m->v_md.move_tracks(indexes, tgt);
-
 	set_changed(true);
 }
 
@@ -93,6 +92,7 @@ void Base::move_tracks(const IndexSet& indexes, int tgt)
 void Base::copy_tracks(const IndexSet& indexes, int tgt)
 {
 	m->v_md.copy_tracks(indexes, tgt);
+	set_changed(true);
 }
 
 
@@ -113,7 +113,6 @@ void Base::insert_track(const MetaData& md, int tgt)
 void Base::insert_tracks(const MetaDataList& lst, int tgt)
 {
 	m->v_md.insert_tracks(lst, tgt);
-
 	set_changed(true);
 }
 
@@ -142,6 +141,8 @@ bool Base::change_track(int idx)
 		return false;
 	}
 
+	emit sig_current_track_changed(idx);
+
 	return true;
 }
 
@@ -158,7 +159,7 @@ void Base::replace_track(int idx, const MetaData& md)
 	m->v_md[idx].is_disabled = !(Util::File::check_file(md.filepath()));
 	m->v_md[idx].pl_playing = is_playing;
 
-	emit sig_data_changed( index() );
+	emit sig_items_changed( index() );
 }
 
 int Base::index() const
@@ -260,7 +261,7 @@ void Base::set_changed(bool b)
 {
 	m->playlist_changed = b;
 
-	emit sig_data_changed(m->playlist_idx);
+	emit sig_items_changed(m->playlist_idx);
 }
 
 

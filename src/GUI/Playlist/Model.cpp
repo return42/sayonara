@@ -28,6 +28,7 @@
 
 #include "Model.h"
 #include "Components/Playlist/AbstractPlaylist.h"
+#include "Components/Playlist/PlaylistHandler.h"
 #include "Components/Tagging/Editor.h"
 #include "Components/Covers/CoverLocation.h"
 
@@ -80,7 +81,7 @@ PlaylistItemModel::PlaylistItemModel(PlaylistPtr pl, QObject* parent) :
 {
 	m = Pimpl::make<Private>(pl);
 
-	connect(m->pl.get(), &Playlist::Base::sig_data_changed, this, &PlaylistItemModel::playlist_changed);
+	connect(m->pl.get(), &Playlist::Base::sig_items_changed, this, &PlaylistItemModel::playlist_changed);
 
 	playlist_changed(0);
 }
@@ -279,6 +280,12 @@ void PlaylistItemModel::change_rating(const IndexSet& indexes, Rating rating)
 	te->commit();
 
 	connect(te, &QThread::finished, te, &Tagging::Editor::deleteLater);
+}
+
+void PlaylistItemModel::insert_tracks(const MetaDataList& v_md, int row)
+{
+	Playlist::Handler* plh = Playlist::Handler::instance();
+	plh->insert_tracks(v_md, row, m->pl->index());
 }
 
 
@@ -480,12 +487,13 @@ void PlaylistItemModel::playlist_changed(int pl_idx)
 		endInsertRows();
 	}
 
-	if(m->pl->count() == 0){
+	if(m->pl->is_empty()){
 		beginResetModel();
 		endResetModel();
 	}
 
 	m->old_row_count = m->pl->count();
+	emit dataChanged(index(0,0), index(rowCount()-1, columnCount()-1));
 
 	emit sig_data_ready();
 }

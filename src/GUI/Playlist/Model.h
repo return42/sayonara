@@ -84,6 +84,7 @@ public:
 	IndexSet	move_rows_down(const IndexSet& rows);
 	void		copy_rows(const IndexSet& rows, int target_index);
 	void		change_rating(const IndexSet& rows, Rating rating);
+	void		insert_tracks(const MetaDataList& v_md, int row);
 
 	void		set_current_track(int row);
 	int			current_track() const;

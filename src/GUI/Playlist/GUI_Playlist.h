@@ -76,7 +76,6 @@ private:
 private slots:
 
 	// triggered from playlist
-	void playlist_track_changed(int row, int pl_idx);
 	void playlist_created(PlaylistPtr pl);
 	void playlist_added(PlaylistPtr pl);
 	void playlist_name_changed(int pl_idx);
@@ -109,8 +108,7 @@ private slots:
 	void playstate_changed(PlayState state);
 	void playlist_finished();
 
-	void _sl_look_changed();
-	void _sl_show_clear_button_changed();
+	void sl_show_clear_button_changed();
 };
 
 #endif /* GUI_PLAYLIST_H_ */
