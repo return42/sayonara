@@ -43,6 +43,7 @@
 #include <QPoint>
 #include <QDrag>
 #include <QList>
+#include <QProxyStyle>
 
 class PlaylistView :
 		public Gui::WidgetTemplate<SearchableTableView>,
@@ -64,8 +65,8 @@ public:
 	void scroll_up();
 	void scroll_down();
 
-	void remove_cur_selected_rows();
-	void delete_cur_selected_tracks();
+	void remove_selected_rows();
+	void delete_selected_tracks();
 
 	/**
 	 * @brief called from GUI_Playlist when data has not been dropped
@@ -105,7 +106,6 @@ private:
 	void mouseDoubleClickEvent(QMouseEvent* event) override;
 
 	void keyPressEvent(QKeyEvent *event) override;
-	void selectionChanged ( const QItemSelection & selected, const QItemSelection & deselected ) override;
 
 	MD::Interpretation metadata_interpretation() const override;
 	MetaDataList info_dialog_data() const override;

@@ -42,15 +42,20 @@
 
 #include <QUrl>
 #include <QColor>
+#include <QHash>
+
 
 struct PlaylistItemModel::Private
 {
-	PlaylistPtr pl=nullptr;
+	QHash<AlbumId, QPixmap> pms;
 	int old_row_count;
+	PlaylistPtr pl=nullptr;
+
+
 
 	Private(PlaylistPtr pl) :
-		pl(pl),
-		old_row_count(0)
+		old_row_count(0),
+		pl(pl)
 	{}
 };
 
@@ -167,8 +172,14 @@ QVariant PlaylistItemModel::data(const QModelIndex& index, int role) const
 	{
 		if(col == ColumnName::Cover)
 		{
-			Cover::Location cl = Cover::Location::cover_location(m->pl->metadata(row));
-			return QPixmap(cl.preferred_path()).scaled(QSize(20, 20), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+			AlbumId album_id = m->pl->metadata(row).album_id;
+			if(!m->pms.contains(album_id))
+			{
+				Cover::Location cl = Cover::Location::cover_location(m->pl->metadata(row));
+				m->pms[album_id] = QPixmap(cl.preferred_path()).scaled(QSize(20, 20), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+			}
+
+			return m->pms[album_id];
 		}
 	}
 
@@ -183,6 +194,7 @@ Qt::ItemFlags PlaylistItemModel::flags(const QModelIndex &index) const
 		return (Qt::ItemIsEnabled);
 	}
 
+
 	if( row >= 0 && row < m->pl->count())
 	{
 		const MetaData& md = metadata(row);
@@ -191,7 +203,7 @@ Qt::ItemFlags PlaylistItemModel::flags(const QModelIndex &index) const
 		}
 	}
 
-	return (QAbstractItemModel::flags(index) | Qt::ItemIsDropEnabled);
+	return (QAbstractItemModel::flags(index) | Qt::ItemIsEnabled | Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled);
 }
 
 void PlaylistItemModel::clear()
@@ -462,10 +474,10 @@ QModelIndex PlaylistItemModel::getNextRowIndexOf(const QString& substr, int row,
 	return this->index(-1, -1);
 }
 
-
-QMap<QChar, QString> PlaylistItemModel::getExtraTriggers()
+using ExtraTriggerMap=SearchableModelInterface::ExtraTriggerMap;
+ExtraTriggerMap PlaylistItemModel::getExtraTriggers()
 {
-	QMap<QChar, QString> map;
+	ExtraTriggerMap map;
 
 	map.insert(artist_search_prefix, Lang::get(Lang::Artist));
 	map.insert(album_search_prefix, Lang::get(Lang::Album));

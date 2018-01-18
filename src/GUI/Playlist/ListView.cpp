@@ -29,7 +29,7 @@
 #include "ListView.h"
 #include "Model.h"
 #include "Delegate.h"
-#include "BookmarksMenu.h"
+#include "PlaylistContextMenu.h"
 
 #include "GUI/Utils/PreferenceAction.h"
 #include "GUI/Utils/ContextMenu/LibraryContextMenu.h"
@@ -59,14 +59,12 @@ using namespace Gui;
 
 struct PlaylistView::Private
 {
-	LibraryContextMenu*		context_menu=nullptr;
+	PlaylistContextMenu*	context_menu=nullptr;
 
 	PlaylistItemModel*		model=nullptr;
 	PlaylistItemDelegate*	delegate=nullptr;
 
 	ProgressBar*            progress=nullptr;
-	BookmarksMenu*			bookmarks_menu=nullptr;
-	QAction*				bookmarks_action=nullptr;
 
 	int						async_drop_index;
 	int						playlist_index;
@@ -124,7 +122,6 @@ void PlaylistView::init_view()
 	setDragDropOverwriteMode(false);
 	setAcceptDrops(true);
 	setDropIndicatorShown(true);
-	dropIndicatorPosition()
 }
 
 
@@ -134,30 +131,24 @@ void PlaylistView::init_context_menu()
 		return;
 	}
 
-	m->context_menu = new LibraryContextMenu(this);
-	m->bookmarks_menu = new BookmarksMenu(this);
-	m->bookmarks_action = m->context_menu->addMenu(m->bookmarks_menu);
+	m->context_menu = new PlaylistContextMenu(this);
 
-	connect(m->context_menu, &LibraryContextMenu::sig_info_clicked, [=](){
+	connect(m->context_menu, &PlaylistContextMenu::sig_info_clicked, [=](){
 		show_info();
 	});
 
-	connect(m->context_menu, &LibraryContextMenu::sig_edit_clicked, [=](){
+	connect(m->context_menu, &PlaylistContextMenu::sig_edit_clicked, [=](){
 		show_edit();
 	});
 
-	connect(m->context_menu, &LibraryContextMenu::sig_lyrics_clicked, [=](){
+	connect(m->context_menu, &PlaylistContextMenu::sig_lyrics_clicked, [=](){
 		show_lyrics();
 	});
 
-	connect(m->context_menu, &LibraryContextMenu::sig_delete_clicked, this, &PlaylistView::delete_cur_selected_tracks);
-	connect(m->context_menu, &LibraryContextMenu::sig_remove_clicked, this, &PlaylistView::remove_cur_selected_rows);
-	connect(m->context_menu, &LibraryContextMenu::sig_clear_clicked, this, &PlaylistView::clear);
-	connect(m->context_menu, &LibraryContextMenu::sig_rating_changed, this, &PlaylistView::rating_changed);
-
-	connect(m->bookmarks_menu, &BookmarksMenu::sig_bookmark_pressed, [](uint32_t time){
-		PlayManager::instance()->seek_abs_ms(time * 1000);
-	});
+	connect(m->context_menu, &PlaylistContextMenu::sig_delete_clicked, this, &PlaylistView::delete_selected_tracks);
+	connect(m->context_menu, &PlaylistContextMenu::sig_remove_clicked, this, &PlaylistView::remove_selected_rows);
+	connect(m->context_menu, &PlaylistContextMenu::sig_clear_clicked, this, &PlaylistView::clear);
+	connect(m->context_menu, &PlaylistContextMenu::sig_rating_changed, this, &PlaylistView::rating_changed);
 
 	m->context_menu->add_preference_action(new PlaylistPreferenceAction(m->context_menu));
 }
@@ -174,16 +165,6 @@ void PlaylistView::goto_row(int row)
 	);
 }
 
-
-void PlaylistView::selectionChanged ( const QItemSelection& selected, const QItemSelection & deselected )
-{
-	SearchableTableView::selectionChanged(selected, deselected);
-
-	if(!selected.isEmpty())
-	{
-		goto_row(selected.indexes().first().row());
-	}
-}
 
 void PlaylistView::scroll_up()
 {
@@ -209,7 +190,7 @@ void PlaylistView::scroll_down()
 }
 
 
-void PlaylistView::remove_cur_selected_rows()
+void PlaylistView::remove_selected_rows()
 {
 	int min_row = min_selected_item();
 
@@ -223,7 +204,7 @@ void PlaylistView::remove_cur_selected_rows()
 	}
 }
 
-void PlaylistView::delete_cur_selected_tracks()
+void PlaylistView::delete_selected_tracks()
 {
 	IndexSet selections = selected_items();
 	emit sig_delete_tracks(selections);
@@ -362,9 +343,9 @@ void PlaylistView::rating_changed(int rating)
 
 	int row = selections.first();
 	MetaData md( m->model->metadata(row) );
-	MetaDataList v_md_old{ md };
+	MetaDataList v_md {md};
 
-	Tagging::Editor* te = new Tagging::Editor(v_md_old);
+	Tagging::Editor* te = new Tagging::Editor(v_md);
 
 	md.rating = rating;
 	te->update_track(0, md);
@@ -469,13 +450,11 @@ void PlaylistView::contextMenuEvent(QContextMenuEvent* e)
 		}
 	}
 
-	m->bookmarks_action->setVisible(
+	m->context_menu->set_bookmarks_visible(
 		(idx.row() == m->model->current_track()) &&
-		(idx.row() >= 0) &&
-		m->bookmarks_menu->has_bookmarks()
-	);
+		(idx.row() >= 0));
 
-	if((entry_mask > 0) || m->bookmarks_action->isVisible()){
+	if((entry_mask > 0) || m->context_menu->is_bookmarks_visible()){
 		m->context_menu->show_actions(entry_mask);
 		m->context_menu->exec(pos);
 	}
@@ -509,7 +488,6 @@ QMimeData* PlaylistView::dragable_mimedata() const
 	return m->model->mimeData(this->selectedIndexes());
 }
 
-
 void PlaylistView::mouseDoubleClickEvent(QMouseEvent* event)
 {
 	SearchableTableView::mouseDoubleClickEvent(event);
@@ -529,7 +507,7 @@ void PlaylistView::keyPressEvent(QKeyEvent* event)
 {
 	if(event->matches(QKeySequence::Delete))
 	{
-		remove_cur_selected_rows();
+		remove_selected_rows();
 		return;
 	}
 
@@ -578,18 +556,16 @@ void PlaylistView::keyPressEvent(QKeyEvent* event)
 	SearchableTableView::keyPressEvent(event);
 }
 
-
 void PlaylistView::dragEnterEvent(QDragEnterEvent* event)
 {
 	event->accept();
 }
 
-
 void PlaylistView::dragMoveEvent(QDragMoveEvent* event)
 {
 	event->accept();
 
-	int row = calc_drag_drop_line(event->pos() );
+	int row = calc_drag_drop_line(event->pos());
 
 	bool is_old = m->delegate->is_drag_index(row);
 	if(!is_old)
@@ -600,6 +576,8 @@ void PlaylistView::dragMoveEvent(QDragMoveEvent* event)
 			this->update(m->model->index(row, i));
 		}
 	}
+
+	QTableView::dragMoveEvent(event);
 }
 
 void PlaylistView::dragLeaveEvent(QDragLeaveEvent* event)

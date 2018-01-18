@@ -180,7 +180,7 @@ void GUI_Playlist::tab_metadata_dropped(int pl_idx, const MetaDataList& v_md)
 		PlaylistView* plv = view_by_index(origin_tab);
 
 		if(plv){
-			plv->remove_cur_selected_rows();
+			plv->remove_selected_rows();
 		}
 	}
 
@@ -219,7 +219,8 @@ void GUI_Playlist::dragEnterEvent(QDragEnterEvent* event)
 
 void GUI_Playlist::dragMoveEvent(QDragMoveEvent* event)
 {
-	PlaylistView* cur_view = current_view();
+	event->accept();
+	/*PlaylistView* cur_view = current_view();
 
 	if(!cur_view){
 		return;
@@ -235,7 +236,7 @@ void GUI_Playlist::dragMoveEvent(QDragMoveEvent* event)
 
 	else if(y > cur_view->y() + cur_view->height()){
 		cur_view->scroll_down();
-	}
+	}*/
 }
 
 void GUI_Playlist::dropEvent(QDropEvent* event) {

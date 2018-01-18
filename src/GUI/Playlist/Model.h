@@ -47,11 +47,12 @@ class PlaylistItemModel :
 	Q_OBJECT
 	PIMPL(PlaylistItemModel)
 
+	using SearchableModelInterface::ExtraTriggerMap;
+
 signals:
 	void sig_data_ready();
 
 public:
-
 	enum ColumnName
 	{
 		TrackNumber=0,
@@ -67,35 +68,34 @@ public:
 	int rowCount(const QModelIndex& parent=QModelIndex()) const override;
 	int columnCount(const QModelIndex& parent=QModelIndex()) const override;
 
-	QVariant data(const QModelIndex& index, int role=Qt::DisplayRole) const override;
+	Qt::ItemFlags	flags(const QModelIndex& index=QModelIndex()) const override;
+	QVariant		data(const QModelIndex& index, int role=Qt::DisplayRole) const override;
 
-	Qt::ItemFlags flags(const QModelIndex& index=QModelIndex()) const override;
 
-	void clear();
+	SearchableModelInterface::ExtraTriggerMap	getExtraTriggers() override;
+	QModelIndex		getPrevRowIndexOf(const QString& substr, int row, const QModelIndex& parent=QModelIndex()) override;
+	QModelIndex		getNextRowIndexOf(const QString& substr, int row, const QModelIndex& parent=QModelIndex()) override;
 
-	void remove_rows(const IndexSet& rows);
-	void move_rows(const IndexSet& rows, int target_index);
-	IndexSet move_rows_up(const IndexSet& rows);
-	IndexSet move_rows_down(const IndexSet& rows);
-	void copy_rows(const IndexSet& rows, int target_index);
+	void		clear();
+	void		remove_rows(const IndexSet& rows);
+	void		move_rows(const IndexSet& rows, int target_index);
+	IndexSet	move_rows_up(const IndexSet& rows);
+	IndexSet	move_rows_down(const IndexSet& rows);
+	void		copy_rows(const IndexSet& rows, int target_index);
 
-	void set_current_track(int row);
-	int current_track() const;
+	void		set_current_track(int row);
+	int			current_track() const;
 
-	QModelIndex getPrevRowIndexOf(const QString& substr, int row, const QModelIndex& parent=QModelIndex()) override;
-	QModelIndex getNextRowIndexOf(const QString& substr, int row, const QModelIndex& parent=QModelIndex()) override;
-	QMap<QChar, QString> getExtraTriggers() override;
 
-	const MetaData& metadata(int row) const;
-	MetaDataList metadata(const IndexSet& rows) const;
+	const MetaData&	metadata(int row) const;
+	MetaDataList	metadata(const IndexSet& rows) const;
 
-	QMimeData* mimeData(const QModelIndexList& indexes) const override;
+	QMimeData*		mimeData(const QModelIndexList& indexes) const override;
 
-	bool has_local_media(const IndexSet& rows) const;
-
+	bool			has_local_media(const IndexSet& rows) const;
 
 private slots:
-	void				playlist_changed(int pl_idx);
+	void			playlist_changed(int pl_idx);
 };
 
 #endif /* PLAYLISTITEMMODEL_H_ */

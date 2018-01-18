@@ -127,9 +127,7 @@ void Standard::play()
 	metadata().set_current_track(new_track_idx);
 }
 
-
 void Standard::pause() {}
-
 
 void Standard::stop()
 {
