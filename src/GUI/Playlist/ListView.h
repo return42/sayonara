@@ -79,6 +79,7 @@ public slots:
 	void clear();
 
 private:
+	void init_view();
 	void init_context_menu();
 
 	// d & d
@@ -110,14 +111,11 @@ private:
 	MetaDataList info_dialog_data() const override;
 	QMimeData* dragable_mimedata() const override;
 
-
 private slots:
+	void refresh();
 	void async_drop_finished(bool success);
 	void rating_changed(int rating);
-	void data_ready();
-	void sl_show_numbers_changed();
-	void sl_show_covers_changed();
-
+	void sl_columns_changed();
 
 protected:
 	// SayonaraSelectionView interface

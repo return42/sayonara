@@ -176,11 +176,11 @@ QVariant PlaylistItemModel::data(const QModelIndex& index, int role) const
 }
 
 
-Qt::ItemFlags PlaylistItemModel::flags(const QModelIndex &index = QModelIndex()) const
+Qt::ItemFlags PlaylistItemModel::flags(const QModelIndex &index) const
 {
 	int row = index.row();
 	if (!index.isValid()){
-		return Qt::ItemIsEnabled;
+		return (Qt::ItemIsEnabled);
 	}
 
 	if( row >= 0 && row < m->pl->count())
@@ -191,7 +191,7 @@ Qt::ItemFlags PlaylistItemModel::flags(const QModelIndex &index = QModelIndex())
 		}
 	}
 
-	return QAbstractItemModel::flags(index);
+	return (QAbstractItemModel::flags(index) | Qt::ItemIsDropEnabled);
 }
 
 void PlaylistItemModel::clear()
