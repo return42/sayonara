@@ -127,9 +127,7 @@ void Standard::play()
 	metadata().set_current_track(new_track_idx);
 }
 
-
 void Standard::pause() {}
-
 
 void Standard::stop()
 {
@@ -277,7 +275,7 @@ void Standard::metadata_deleted(const MetaDataList& v_md_deleted)
 	}
 
 	metadata().remove_tracks(indexes);
-	emit sig_data_changed( index() );
+	emit sig_items_changed( index() );
 }
 
 
@@ -298,7 +296,7 @@ void Standard::metadata_changed(const MetaDataList& v_md_old, const MetaDataList
 		}
 	}
 
-	emit sig_data_changed( index() );
+	emit sig_items_changed( index() );
 }
 
 void Standard::duration_changed(uint64_t ms)

@@ -60,7 +60,7 @@ public slots:
 
 	// emits new tracks, very similar to psl_selected_albums_changed
 	void psl_disc_pressed(int);
-	void change_track_rating(int idx, int rating) override;
+	void change_track_rating(int idx, Rating rating) override;
 
 	void refresh_artist() override;
 	void refresh_albums() override;

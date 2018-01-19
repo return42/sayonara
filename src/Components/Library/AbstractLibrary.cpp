@@ -520,14 +520,14 @@ void AbstractLibrary::fetch_tracks_by_paths(const QStringList& paths)
 }
 
 
-void AbstractLibrary::change_track_rating(int idx, int rating)
+void AbstractLibrary::change_track_rating(int idx, Rating rating)
 {
 	_tracks[idx].rating = rating;
 	update_track(_tracks[idx]);
 }
 
 
-void AbstractLibrary::change_album_rating(int idx, int rating)
+void AbstractLibrary::change_album_rating(int idx, Rating rating)
 {
 	_albums[idx].rating = rating;
 	update_album(_albums[idx]);

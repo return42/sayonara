@@ -52,10 +52,11 @@ namespace Playlist
 		Q_OBJECT
 		PIMPL(Base)
 
-		friend class PlaylistHandler;
+		friend class Handler;
 
 		signals:
-			void sig_data_changed(int idx);
+			void sig_items_changed(int idx);
+			void sig_current_track_changed(int idx);
 
 		public:
 			explicit Base(int idx, const QString& name=QString());
@@ -76,13 +77,11 @@ namespace Playlist
 			virtual
 			Playlist::Type	type() const = 0;
 
-
 			// from PlaylistDBInterface
 			bool				is_empty() const override;
 			int					count() const override;
 			const MetaDataList&	playlist() const override;
 
-			void				set_changed(bool b) override;
 			bool				was_changed() const override;
 			bool				is_storable() const override;
 
@@ -99,6 +98,8 @@ namespace Playlist
 
 		protected:
 			void				set_storable(bool b);
+			void				set_changed(bool b) override;
+
 
 		public:
 			const MetaData& operator[](int idx) const;

@@ -137,8 +137,8 @@ public slots:
 	virtual void import_files(const QStringList& files);
 
 	/* write new rating to database */
-	virtual void change_track_rating(int idx, int rating);
-	virtual void change_album_rating(int idx, int rating);
+	virtual void change_track_rating(int idx, Rating rating);
+	virtual void change_album_rating(int idx, Rating rating);
 
 	virtual void change_track_sortorder(Library::SortOrder s);
 	virtual void change_album_sortorder(Library::SortOrder s);

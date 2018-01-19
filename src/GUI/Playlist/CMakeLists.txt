@@ -3,6 +3,7 @@ PROJECT(say_gui_playlist)
 SET(SOURCES
 	GUI_Playlist.cpp
 	BookmarksMenu.cpp
+	PlaylistContextMenu.cpp
 
 	BottomBar.cpp
 	Delegate.cpp

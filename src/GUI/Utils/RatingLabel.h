@@ -43,8 +43,10 @@ public:
 	RatingLabel(QWidget *parent, bool enabled=true);
 	virtual ~RatingLabel();
 
-	void set_rating(int rating);
-	int get_rating() const;
+	void set_rating(Rating rating);
+	Rating get_rating() const;
+
+	void set_offset_y(int offset);
 
 
 protected:
@@ -56,8 +58,8 @@ protected:
 	void mouseMoveEvent(QMouseEvent *ev) override;
 
 private:
-	void update_rating(int rating);
-	int calc_rating(QPoint pos) const;
+	void update_rating(Rating rating);
+	Rating calc_rating(QPoint pos) const;
 };
 
 #endif // RATINGLABEL_H

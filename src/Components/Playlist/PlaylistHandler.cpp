@@ -470,7 +470,8 @@ void Handler::save_all_playlists()
 	if(_settings->get(Set::PL_LoadTemporaryPlaylists))
 	{
 		m->db->transaction();
-		for(PlaylistPtr pl : m->playlists){
+		for(PlaylistPtr pl : m->playlists)
+		{
 			if(pl->is_temporary() && pl->was_changed()){
 				pl->save();
 			}

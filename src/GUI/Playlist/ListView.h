@@ -43,6 +43,7 @@
 #include <QPoint>
 #include <QDrag>
 #include <QList>
+#include <QProxyStyle>
 
 class PlaylistView :
 		public Gui::WidgetTemplate<SearchableTableView>,
@@ -61,11 +62,9 @@ public:
 	virtual ~PlaylistView();
 
 	void goto_row(int row);
-	void scroll_up();
-	void scroll_down();
 
-	void remove_cur_selected_rows();
-	void delete_cur_selected_tracks();
+	void remove_selected_rows();
+	void delete_selected_tracks();
 
 	/**
 	 * @brief called from GUI_Playlist when data has not been dropped
@@ -79,6 +78,7 @@ public slots:
 	void clear();
 
 private:
+	void init_view();
 	void init_context_menu();
 
 	// d & d
@@ -104,20 +104,16 @@ private:
 	void mouseDoubleClickEvent(QMouseEvent* event) override;
 
 	void keyPressEvent(QKeyEvent *event) override;
-	void selectionChanged ( const QItemSelection & selected, const QItemSelection & deselected ) override;
 
 	MD::Interpretation metadata_interpretation() const override;
 	MetaDataList info_dialog_data() const override;
 	QMimeData* dragable_mimedata() const override;
 
-
 private slots:
-	void async_drop_finished(bool success);
-	void rating_changed(int rating);
-	void data_ready();
-	void sl_show_numbers_changed();
-	void sl_show_covers_changed();
-
+	void refresh();
+	void async_drop_finished(bool success, int async_drop_index);
+	void rating_changed(Rating rating);
+	void sl_columns_changed();
 
 protected:
 	// SayonaraSelectionView interface

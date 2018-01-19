@@ -97,7 +97,7 @@ void RatingDelegate::destroy_editor(bool save)
 
 void RatingDelegate::setEditorData(QWidget *editor, const QModelIndex & index) const
 {
-	int rating = index.data(Qt::EditRole).toInt();
+	Rating rating = index.data(Qt::EditRole).toInt();
 
 	RatingLabel* label = qobject_cast<RatingLabel *>(editor);
 	if(!label) return;

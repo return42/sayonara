@@ -24,7 +24,6 @@
 #include <QMenu>
 
 class Bookmarks;
-
 class BookmarksMenu :
 	public QMenu
 {
