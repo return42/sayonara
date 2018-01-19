@@ -98,6 +98,7 @@ PlaylistView::PlaylistView(PlaylistPtr pl, QWidget* parent) :
 	Set::listen(Set::PL_FontSize, this, &PlaylistView::skin_changed);
 	Set::listen(Set::PL_EntryLook, this, &PlaylistView::skin_changed);
 	Set::listen(Set::PL_ShowNumbers, this, &PlaylistView::skin_changed);
+	Set::listen(Set::PL_ShowRating, this, &PlaylistView::skin_changed);
 
 	this->goto_row(pl->current_track_index());
 }
@@ -124,6 +125,8 @@ void PlaylistView::init_view()
 	setDragDropOverwriteMode(false);
 	setAcceptDrops(true);
 	setDropIndicatorShown(true);
+
+	setEditTriggers(QAbstractItemView::SelectedClicked);
 }
 
 
@@ -314,17 +317,22 @@ void PlaylistView::rating_changed(Rating rating)
 		return;
 	}
 
-	int row = selections.first();
-	m->model->change_rating(row, rating);
+	m->model->change_rating(selected_items(), rating);
 }
 
 
 void PlaylistView::refresh()
 {
+	bool show_rating = _settings->get(Set::PL_ShowRating);
 	QFontMetrics fm(this->font());
 
-	for(int i=0; i<m->model->rowCount(); i++){
-		verticalHeader()->resizeSection(i, fm.height() + 4);
+	int h = fm.height() + 4;
+	if(show_rating){
+		h += 16;
+	}
+
+	for(int i=0; i<m->model->rowCount(); i++) {
+		verticalHeader()->resizeSection(i, h);
 	}
 
 	QHeaderView* hh = this->horizontalHeader();
@@ -384,9 +392,8 @@ void PlaylistView::contextMenuEvent(QContextMenuEvent* e)
 	IndexSet selections = selected_items();
 	if(selections.size() > 0)
 	{
-		entry_mask |=
-				(LibraryContextMenu::EntryInfo |
-				 LibraryContextMenu::EntryRemove);
+		entry_mask |= LibraryContextMenu::EntryInfo;
+		entry_mask |= LibraryContextMenu::EntryRemove;
 	}
 
 	if(selections.size() == 1)
@@ -396,18 +403,14 @@ void PlaylistView::contextMenuEvent(QContextMenuEvent* e)
 
 	if(m->model->has_local_media(selections) )
 	{
-		entry_mask |= (LibraryContextMenu::EntryEdit);
+		entry_mask |= LibraryContextMenu::EntryEdit;
+		entry_mask |= LibraryContextMenu::EntryRating;
+		entry_mask |= LibraryContextMenu::EntryDelete;
 
 		if(selections.size() == 1)
 		{
 			MetaData md = m->model->metadata(selections.first());
 			m->context_menu->set_rating( md.rating );
-			entry_mask |= LibraryContextMenu::EntryRating;
-		}
-
-		if(selections.size() > 0)
-		{
-			entry_mask |= LibraryContextMenu::EntryDelete;
 		}
 	}
 

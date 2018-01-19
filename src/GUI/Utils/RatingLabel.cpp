@@ -29,7 +29,7 @@
 
 #include <algorithm>
 
-const int Offset_X = 3;
+
 
 struct RatingLabel::Private
 {
@@ -38,12 +38,19 @@ struct RatingLabel::Private
 	QPixmap 	pm_active;
 	QPixmap 	pm_inactive;
 
+	int			offset_x;
+	int			offset_y;
+
 	Rating		rating;
 	uint8_t     icon_size;
 	bool		enabled;
 
+
+
 	Private(QWidget* parent, bool enabled) :
 		parent(parent),
+		offset_x(3),
+		offset_y(0),
 		rating(0),
 		icon_size(14),
 		enabled(enabled)
@@ -85,9 +92,16 @@ void RatingLabel::paintEvent(QPaintEvent *e)
 	QPainter painter(this);
 
 	painter.save();
-	int offset_y = (this->height() - m->icon_size) / 2;
+	int offset_y;
+	if(m->offset_y == 0) {
+		offset_y = (this->height() - m->icon_size) / 2;
+	}
 
-	painter.translate(rect().x() + Offset_X, rect().y() + offset_y );
+	else{
+		offset_y = m->offset_y;
+	}
+
+	painter.translate(rect().x() + m->offset_x, rect().y() + offset_y );
 	for(Rating rating = 0; rating < m->rating; rating++)
 	{
 		painter.drawPixmap(0, 0, m->icon_size, m->icon_size, m->pm_active);
@@ -173,6 +187,11 @@ void RatingLabel::set_rating(Rating rating)
 Rating RatingLabel::get_rating() const
 {
 	return m->rating;
+}
+
+void RatingLabel::set_offset_y(int offset)
+{
+	m->offset_y = offset;
 }
 
 

@@ -44,8 +44,14 @@ public:
 	bool is_drag_index(int row) const;
 	int  drag_index() const;
 
+	QWidget* createEditor(QWidget* parent, const QStyleOptionViewItem& option, const QModelIndex& index) const override;
+	void setEditorData(QWidget* editor, const QModelIndex& index) const override;
+	void setModelData(QWidget* editor, QAbstractItemModel* model, const QModelIndex& index) const override;
+
 private slots:
 	void sl_look_changed();
+	void sl_show_rating_changed();
+	void destroy_editor(bool save=false);
 };
 
 

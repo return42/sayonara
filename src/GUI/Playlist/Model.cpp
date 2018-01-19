@@ -110,7 +110,7 @@ QVariant PlaylistItemModel::data(const QModelIndex& index, int role) const
 		return QVariant();
 	}
 
-	if (role == Qt::DisplayRole)
+	if (role == Qt::DisplayRole	|| role==Qt::EditRole)
 	{
 		if(col ==  ColumnName::TrackNumber) {
 			return QString("%1.").arg(row + 1);
@@ -126,11 +126,9 @@ QVariant PlaylistItemModel::data(const QModelIndex& index, int role) const
 
 	else if (role == Qt::TextAlignmentRole)
 	{
-		if( col == ColumnName::Description){
-			return QVariant(Qt::AlignLeft | Qt::AlignVCenter);
+		if( col != ColumnName::Description){
+			return QVariant(Qt::AlignRight | Qt::AlignVCenter);
 		}
-
-		return QVariant(Qt::AlignRight | Qt::AlignVCenter);
 	}
 
 	else if (role == Qt::BackgroundColorRole)
@@ -180,6 +178,18 @@ QVariant PlaylistItemModel::data(const QModelIndex& index, int role) const
 	return QVariant();
 }
 
+bool PlaylistItemModel::setData(const QModelIndex& index, const QVariant& value, int role)
+{
+	if(role == Qt::EditRole && index.isValid())
+	{
+		int row = index.row();
+		change_rating({row}, (Rating) (value.toInt()) );
+		return true;
+	}
+
+	return false;
+}
+
 
 Qt::ItemFlags PlaylistItemModel::flags(const QModelIndex &index) const
 {
@@ -196,7 +206,13 @@ Qt::ItemFlags PlaylistItemModel::flags(const QModelIndex &index) const
 		}
 	}
 
-	return (QAbstractItemModel::flags(index) | Qt::ItemIsEnabled | Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled);
+	Qt::ItemFlags f = QAbstractItemModel::flags(index);
+	if(index.column() == ColumnName::Description)
+	{
+		f |= Qt::ItemIsEditable;
+	}
+
+	return (f | Qt::ItemIsEnabled | Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled);
 }
 
 void PlaylistItemModel::clear()
@@ -463,7 +479,8 @@ bool PlaylistItemModel::has_local_media(const IndexSet& rows) const
 {
 	const  MetaDataList& tracks = m->pl->playlist();
 
-	for(int row : rows){
+	for(int row : rows)
+	{
 		if(!Util::File::is_www(tracks[row].filepath())){
 			return true;
 		}

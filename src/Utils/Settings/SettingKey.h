@@ -129,6 +129,7 @@ enum class SettingKey : unsigned short
 	PL_ShowClearButton,
 	PL_RememberTrackAfterStop,
 	PL_ShowCovers,
+	PL_ShowRating,
 
 	Notification_Show,
 	Notification_Timeout,
@@ -298,6 +299,7 @@ namespace Set
 	INST(bool,				PL_ShowNumbers);			/* show numbers in playlist */
 	INST(bool,				PL_RememberTrackAfterStop);	/* when stop button is pressed, remember last track index */
 	INST(bool,				PL_ShowCovers);				/* Show covers in Playlist */
+	INST(bool,				PL_ShowRating);				/* Show rating in playlist */
 
 	INST(bool,				Notification_Show);			/* show notifications */
 	INST(int,				Notification_Timeout);		/* notification timeout */

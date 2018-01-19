@@ -120,9 +120,6 @@ void GUI_Playlist::skin_changed()
 	check_tab_icon();
 }
 
-
-
-
 void GUI_Playlist::clear_button_pressed(int pl_idx)
 {
 	Handler::instance()->clear_playlist(pl_idx);

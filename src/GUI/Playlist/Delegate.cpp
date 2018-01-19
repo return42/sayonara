@@ -29,17 +29,22 @@
 #include "Delegate.h"
 #include "Model.h"
 
+#include "GUI/Utils/RatingLabel.h"
+
 const static int PLAYLIST_BOLD=70;
 
 struct PlaylistItemDelegate::Private
 {
-	int		drag_row;
-	QString	entry_look;
+	int			drag_row;
+	QString		entry_look;
+	bool		show_rating;
 
 	Private() :
-		drag_row(-1)
+		drag_row(-1),
+		show_rating(false)
 	{
 		entry_look = Settings::instance()->get(Set::PL_EntryLook);
+		show_rating = Settings::instance()->get(Set::PL_ShowRating);
 	}
 };
 
@@ -50,6 +55,7 @@ PlaylistItemDelegate::PlaylistItemDelegate(QTableView* parent) :
 	m = Pimpl::make<Private>();
 
 	Set::listen(Set::PL_EntryLook, this, &PlaylistItemDelegate::sl_look_changed, false);
+	Set::listen(Set::PL_ShowRating, this, &PlaylistItemDelegate::sl_show_rating_changed, false);
 }
 
 PlaylistItemDelegate::~PlaylistItemDelegate() {}
@@ -143,9 +149,15 @@ void PlaylistItemDelegate::paint(QPainter *painter,	const QStyleOptionViewItem &
 			str.replace("%artist%", md.artist());
 			str.replace("%album%", md.album());
 
-			painter->drawText(rect,
-							  (Qt::AlignLeft | Qt::AlignVCenter),
-							  fm.elidedText(str, Qt::ElideRight, rect.width()));
+			int flags = (Qt::AlignLeft);
+			if(m->show_rating){
+				flags |= Qt::AlignTop;
+			}
+			else{
+				flags |= Qt::AlignVCenter;
+			}
+
+			painter->drawText(rect, flags, fm.elidedText(str, Qt::ElideRight, rect.width()));
 
 			offset_x = fm.width(str);
 			rect.setWidth(rect.width() - offset_x);
@@ -169,6 +181,37 @@ void PlaylistItemDelegate::paint(QPainter *painter,	const QStyleOptionViewItem &
 		}
 	}
 
+	if(m->show_rating)
+	{
+		painter->restore();
+		painter->save();
+
+		QFontMetrics fm(font);
+
+		int x = 0;
+		int y = 0;
+		int w = option.rect.width();
+		int h = 20;
+
+		if(md.radio_mode() != RadioMode::Station)
+		{
+			RatingLabel label(nullptr, true);
+			label.set_rating(md.rating);
+			{
+				label.setGeometry(QRect(x, y, w, h));
+			}
+
+			painter->translate(option.rect.left(), option.rect.top() + fm.height() );
+			label.render(painter);
+		}
+
+		else
+		{
+			painter->translate(option.rect.left() + 4, option.rect.top() + fm.height() );
+			painter->drawText(x, y, w, h, (Qt::AlignLeft | Qt::AlignBottom), md.album());
+		}
+	}
+
 	painter->restore();
 }
 
@@ -187,8 +230,65 @@ int PlaylistItemDelegate::drag_index() const
 	return m->drag_row;
 }
 
-
 void PlaylistItemDelegate::sl_look_changed()
 {
 	m->entry_look = _settings->get(Set::PL_EntryLook);
+}
+
+void PlaylistItemDelegate::sl_show_rating_changed()
+{
+	m->show_rating = _settings->get(Set::PL_ShowRating);
+}
+
+
+QWidget* PlaylistItemDelegate::createEditor(QWidget* parent, const QStyleOptionViewItem& option, const QModelIndex& index) const
+{
+	Q_UNUSED(option)
+
+	const PlaylistItemModel* model = static_cast<const PlaylistItemModel*>(index.model());
+	const MetaData& md = model->metadata(index.row());
+	if(md.is_disabled || (md.radio_mode() == RadioMode::Station || !m->show_rating)){
+		return nullptr;
+	}
+
+	RatingLabel* label = new RatingLabel(parent, true);
+	label->set_offset_y(option.fontMetrics.height());
+	label->set_rating(4);
+
+	connect(label, &RatingLabel::sig_finished, this, &PlaylistItemDelegate::destroy_editor);
+
+	return label;
+}
+
+
+void PlaylistItemDelegate::destroy_editor(bool save)
+{
+	Q_UNUSED(save)
+
+	RatingLabel* label = qobject_cast<RatingLabel *>(sender());
+	if(!label) return;
+
+	disconnect(label, &RatingLabel::sig_finished, this, &PlaylistItemDelegate::destroy_editor);
+
+	emit commitData(label);
+	emit closeEditor(label);
+}
+
+
+void PlaylistItemDelegate::setEditorData(QWidget* editor, const QModelIndex& index) const
+{
+	Rating rating = index.data(Qt::EditRole).toInt();
+
+	RatingLabel* label = qobject_cast<RatingLabel*>(editor);
+	if(!label) return;
+
+	label->set_rating(rating);
+}
+
+
+void PlaylistItemDelegate::setModelData(QWidget* editor, QAbstractItemModel* model, const QModelIndex& index) const
+{
+	RatingLabel* label = qobject_cast<RatingLabel *>(editor);
+	if(!label) return;
+	model->setData(index, label->get_rating());
 }

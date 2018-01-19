@@ -46,6 +46,8 @@ public:
 	void set_rating(Rating rating);
 	Rating get_rating() const;
 
+	void set_offset_y(int offset);
+
 
 protected:
 	void paintEvent(QPaintEvent *e) override;
