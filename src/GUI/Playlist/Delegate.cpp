@@ -266,7 +266,9 @@ void PlaylistItemDelegate::destroy_editor(bool save)
 	Q_UNUSED(save)
 
 	RatingLabel* label = qobject_cast<RatingLabel *>(sender());
-	if(!label) return;
+	if(!label) {
+		return;
+	}
 
 	disconnect(label, &RatingLabel::sig_finished, this, &PlaylistItemDelegate::destroy_editor);
 
@@ -280,7 +282,9 @@ void PlaylistItemDelegate::setEditorData(QWidget* editor, const QModelIndex& ind
 	Rating rating = index.data(Qt::EditRole).toInt();
 
 	RatingLabel* label = qobject_cast<RatingLabel*>(editor);
-	if(!label) return;
+	if(!label) {
+		return;
+	}
 
 	label->set_rating(rating);
 }
