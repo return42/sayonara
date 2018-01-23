@@ -92,6 +92,13 @@ namespace Set
 			callable();
 		}
 	}
+
+	template<typename KeyClassInstance>
+	void shout(const KeyClassInstance& key)
+	{
+		using KeyClass=decltype(key);
+		SettingNotifier<KeyClass>::instance()->val_changed();
+	}
 }
 
 

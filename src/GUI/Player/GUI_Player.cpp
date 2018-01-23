@@ -61,7 +61,9 @@ struct GUI_Player::Private
 	GUI_TrayIcon*				tray_icon=nullptr;
 	QPoint						initial_pos;
 	QSize						initial_sz;
+	int							style;
 	bool						shutdown_requested;
+
 
 	Private(QTranslator* translator) :
 		translator(translator),
@@ -72,6 +74,7 @@ struct GUI_Player::Private
 
 		initial_pos = s->get(Set::Player_Pos);
 		initial_sz = s->get(Set::Player_Size);
+		style = s->get(Set::Player_Style);
 	}
 
 	~Private()
@@ -489,10 +492,18 @@ void GUI_Player::show_library(bool is_library_visible, bool was_library_visible)
 
 void GUI_Player::skin_changed()
 {
-	bool dark = (_settings->get(Set::Player_Style) == 1);
+	int style = _settings->get(Set::Player_Style);
+	bool dark = (style == 1);
 
 	QString stylesheet = Style::style(dark);
 	this->setStyleSheet(stylesheet);
+
+	if(style != m->style){
+		m->style = style;
+		Set::shout(Set::Player_Style);
+	}
+
+
 }
 
 void GUI_Player::minimize()
