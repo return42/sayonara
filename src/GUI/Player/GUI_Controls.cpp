@@ -27,6 +27,7 @@
 #include <QImage>
 #include <QPixmap>
 #include <QIcon>
+#include <QDateTime>
 
 #include <algorithm>
 

@@ -102,7 +102,7 @@ void LibraryImporter::caching_thread_finished()
 	}
 
 	else {
-		v_md = m->import_cache->get_soundfiles();
+		v_md = m->import_cache->soundfiles();
 	}
 
 	if(v_md.isEmpty() || thread->is_cancelled()){
@@ -169,7 +169,7 @@ void LibraryImporter::copy_thread_finished()
 
 	bool success = lib_db->store_metadata(v_md);
 	int n_files_copied = copy_thread->get_n_copied_files();
-	int n_files_to_copy = m->import_cache->get_files().size();
+	int n_files_to_copy = m->import_cache->files().size();
 
 	// error and success messages
 	if(success)

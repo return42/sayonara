@@ -123,8 +123,11 @@ bool DB::LibraryDatabase::store_metadata(const MetaDataList& v_md)
 	QHash<QString, Album> album_map;
 	QHash<QString, Artist> artist_map;
 
+	sp_log(Log::Develop, this) << " Search for already known albums and artists.";
 	DB::Albums::getAllAlbums(albums, true);
 	DB::Artists::getAllArtists(artists, true);
+
+	sp_log(Log::Develop, this) << "  Found " << albums.size() << " albums and " << artists.size() << " artists";
 
 	for(const Album& album : albums){
 		album_map[album.name()] = album;
@@ -172,7 +175,8 @@ bool DB::LibraryDatabase::store_metadata(const MetaDataList& v_md)
 		}
 
 		Artist album_artist = artist_map[md.album_artist()];
-		if (album_artist.id < 0) {
+		if (album_artist.id < 0)
+		{
 			if(md.album_artist().isEmpty()){
 				album_artist_id = -1;
 			}
@@ -200,6 +204,7 @@ bool DB::LibraryDatabase::store_metadata(const MetaDataList& v_md)
 		DB::Tracks::insertTrackIntoDatabase(md, artist_id, album_id, album_artist_id);
 	}
 
+	sp_log(Log::Develop, this) << "Commit " << v_md.size() << " tracks to database";
 	success = db().commit();
 
 	return success;

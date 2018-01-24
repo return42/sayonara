@@ -24,10 +24,8 @@
 #include <typeinfo>
 #include <type_traits>
 #include <string>
-#include <QObject>
-#include <QDateTime>
 #include <QString>
-
+#include <QObject>
 
 /**
  * @brief The Log enum
@@ -44,20 +42,12 @@ class LogListener;
 
 enum class Log : unsigned char
 {
-	Warning,
+	Warning=0,
 	Error,
 	Info,
 	Debug,
 	Develop,
 	Crazy
-};
-
-struct LogEntry
-{
-	QDateTime dt;
-	Log type;
-	QString class_name;
-	QString message;
 };
 
 
@@ -73,7 +63,7 @@ private:
 	Private* m=nullptr;
 
 public:
-	explicit Logger(Log type, const QString& class_name);
+	explicit Logger(const Log& type, const QString& class_name);
 
 	~Logger();
 
@@ -116,12 +106,12 @@ public:
 	}
 };
 
-Logger sp_log(Log type);
-Logger sp_log(Log type, const char* data);
+Logger sp_log(const Log& type);
+Logger sp_log(const Log& type, const char* data);
 
 template<typename T>
 typename std::enable_if< std::is_class<T>::value, Logger>::type
-sp_log(Log type, const T*)
+sp_log(const Log& type, const T*)
 {
 	return sp_log(type, typeid(T).name());
 }

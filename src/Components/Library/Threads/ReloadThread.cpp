@@ -117,22 +117,25 @@ bool compare_md(const MetaData& md1, const MetaData& md2)
 	);
 }
 
-int ReloadThread::get_and_save_all_files(const QHash<QString, MetaData>& md_map_lib)
+bool ReloadThread::get_and_save_all_files(const QHash<QString, MetaData>& md_map_lib)
 {
 	QString library_path = m->library_path;
 
 	if(library_path.isEmpty() || !QFile::exists(library_path)) {
-		return 0;
+		return false;
 	}
 
-	DB::Connector* db = m->db;
-	DB::Library* db_library = m->db->library_connector();
-	DB::LibraryDatabase* lib_db = db->library_db(m->library_id, db->db_id());
+	DB::Connector*			db = m->db;
+	DB::Library*			db_library = m->db->library_connector();
+	DB::LibraryDatabase*	lib_db = db->library_db(m->library_id, db->db_id());
 
 	QDir dir(library_path);
 
 	MetaDataList v_md_to_store;
+
+	sp_log(Log::Develop, this) << "Scanning Library path: " << dir.absolutePath() << "...";
 	QStringList files = get_files_recursive(dir);
+	sp_log(Log::Develop, this) << "  Found " << files.size() << " files (Not all of them are soundfiles)";
 
 	int n_files = files.size();
 	int cur_idx_files=0;
@@ -140,7 +143,7 @@ int ReloadThread::get_and_save_all_files(const QHash<QString, MetaData>& md_map_
 	for(const QString& filepath : files)
 	{
 		if(!m->may_run){
-			return -1;
+			return false;
 		}
 
 		bool file_was_read = false;
@@ -177,56 +180,74 @@ int ReloadThread::get_and_save_all_files(const QHash<QString, MetaData>& md_map_
 
 			if(v_md_to_store.size() >= N_FILES_TO_STORE)
 			{
-				lib_db->store_metadata(v_md_to_store);
+				sp_log(Log::Develop, this) << N_FILES_TO_STORE << " tracks reached. Commit chunk to DB";
+				bool success = lib_db->store_metadata(v_md_to_store);
+				sp_log(Log::Develop, this) << "  Success? " << success;
 				v_md_to_store.clear();
+
 			}
 		}
 	}
 
-	if(!v_md_to_store.isEmpty())
-	{
-		lib_db->store_metadata(v_md_to_store);
-		v_md_to_store.clear();
-	}
+	sp_log(Log::Develop, this) << "Adding the remaining " << v_md_to_store.size() << " tracks.";
+	bool success = lib_db->store_metadata(v_md_to_store);
+	sp_log(Log::Develop, this) << "  Success? " << success;
+	v_md_to_store.clear();
 
+	sp_log(Log::Develop, this) << "Updating album artists... ";
 	db_library->add_album_artists();
+
+	sp_log(Log::Develop, this) << "Create indexes... ";
 	db_library->create_indexes();
+
+	sp_log(Log::Develop, this) << "Clean up... ";
 	DB::Connector::instance()->clean_up();
 
-	return v_md_to_store.size();
+	return true;
 }
 
 
 QStringList ReloadThread::get_files_recursive(QDir base_dir)
 {
 	QStringList ret;
-	QString message = tr("Reading files from file system") + "... ";
-	emit sig_reloading_library(message, 0);
+
+	{
+		sp_log(Log::Crazy, this) << "Reading all files from " << base_dir.absolutePath();
+		QString parent_dir, pure_dir_name;
+		Util::File::split_filename(base_dir.absolutePath(), parent_dir, pure_dir_name);
+
+		QString message = tr("Reading files") + ": " + pure_dir_name;
+		emit sig_reloading_library(message, 0);
+	}
 
 	QStringList soundfile_exts = Util::soundfile_extensions();
-	QStringList sub_dirs;
-	QStringList sub_files;
+	QStringList sub_dirs = base_dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
+	sp_log(Log::Crazy, this) << "  Found " << sub_dirs.size() << " subdirectories";
 
-	sub_dirs = base_dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
-
-	for(const QString& dir : sub_dirs) {
+	for(const QString& dir : sub_dirs)
+	{
 		bool success = base_dir.cd(dir);
 
 		if(!success){
 			continue;
 		}
 
+		sp_log(Log::Crazy, this) << "  Jump into subdir " << base_dir.absolutePath();
 		ret << get_files_recursive(base_dir);
 
 		base_dir.cdUp();
 	}
 
-	sub_files = base_dir.entryList(soundfile_exts, QDir::Files);
-	if(sub_files.isEmpty()){
+	QStringList sub_files = base_dir.entryList(soundfile_exts, QDir::Files);
+	sp_log(Log::Crazy, this) << "  Found " << sub_files.size() << " audio files in " << base_dir.absolutePath();
+	if(sub_files.isEmpty()) {
 		return ret;
 	}
 
-	ret << process_sub_files(base_dir, sub_files);
+	QStringList valid_sub_files = process_sub_files(base_dir, sub_files);
+	sp_log(Log::Crazy, this) << "  " << valid_sub_files.size() << " of them are valid.";
+
+	ret << valid_sub_files;
 
 	return ret;
 }
@@ -235,17 +256,18 @@ QStringList ReloadThread::get_files_recursive(QDir base_dir)
 QStringList ReloadThread::process_sub_files(const QDir& base_dir, const QStringList& sub_files)
 {
 	QStringList lst;
-	for(const QString& filename : sub_files) {
+	for(const QString& filename : sub_files)
+	{
 		QString abs_path = base_dir.absoluteFilePath(filename);
 		QFileInfo info(abs_path);
 
 		if(!info.exists()){
-			sp_log(Log::Warning) << "File " << abs_path << " does not exist. Skipping...";
+			sp_log(Log::Warning, this) << "File " << abs_path << " does not exist. Skipping...";
 			continue;
 		}
 
 		if(!info.isFile()){
-			sp_log(Log::Warning) << "Error: File " << abs_path << " is not a file. Skipping...";
+			sp_log(Log::Warning, this) << "Error: File " << abs_path << " is not a file. Skipping...";
 			continue;
 		}
 
@@ -316,7 +338,7 @@ void ReloadThread::run()
 
 	lib_db->getAllTracks(v_md);
 
-	sp_log(Log::Debug, this) << "Have " << v_md.size() << " tracks";
+	sp_log(Log::Debug, this) << "Have " << v_md.size() << " tracks already in library";
 
 	// find orphaned tracks in library && delete them
 	for(const MetaData& md : v_md)
@@ -335,9 +357,8 @@ void ReloadThread::run()
 		}
 	}
 
-	if(!v_to_delete.isEmpty()){
-		lib_db->deleteTracks(v_to_delete);
-	}
+	sp_log(Log::Debug, this) << "  " << v_to_delete.size() << " of them are not on disk anymore";
+	lib_db->deleteTracks(v_to_delete);
 
 	if(!m->may_run){
 		return;

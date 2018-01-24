@@ -26,12 +26,12 @@ static GlobalMessageReceiverInterface* s_receiver=nullptr;
 
 bool GlobalMessage::register_receiver(GlobalMessageReceiverInterface* receiver)
 {
-    if(s_receiver != nullptr){
-        sp_log(Log::Warning) << "There's also another receiver: " << s_receiver->get_name();
+	if(s_receiver != nullptr){
+		sp_log(Log::Warning, "GlobalMessage") << "There's also another receiver: " << s_receiver->get_name();
 		return false;
 	}
 
-    s_receiver = receiver;
+	s_receiver = receiver;
 
 	return true;
 }
@@ -40,41 +40,41 @@ bool GlobalMessage::register_receiver(GlobalMessageReceiverInterface* receiver)
 GlobalMessage::Answer
 GlobalMessage::info(const QString& info, const QString& sender_name)
 {
-    if(!s_receiver) {
+	if(!s_receiver) {
 		return GlobalMessage::Answer::Undefined;
 	}
 
-    return s_receiver->info_received(info, sender_name);
+	return s_receiver->info_received(info, sender_name);
 }
 
 GlobalMessage::Answer
 GlobalMessage::warning(const QString& warning, const QString& sender_name)
 {
-    if(!s_receiver) {
+	if(!s_receiver) {
 		return GlobalMessage::Answer::Undefined;
 	}
 
-    return s_receiver->warning_received(warning, sender_name);
+	return s_receiver->warning_received(warning, sender_name);
 }
 
 GlobalMessage::Answer
 GlobalMessage::error(const QString& error, const QString& sender_name)
 {
-    if(!s_receiver) {
+	if(!s_receiver) {
 		return GlobalMessage::Answer::Undefined;
 	}
 
-    return s_receiver->error_received(error, sender_name);
+	return s_receiver->error_received(error, sender_name);
 }
 
 GlobalMessage::Answer
 GlobalMessage::question(const QString& question, const QString& sender_name, GlobalMessage::QuestionType type)
 {
-    if(!s_receiver) {
+	if(!s_receiver) {
 		return GlobalMessage::Answer::Undefined;
 	}
 
-    return s_receiver->question_received(question, sender_name, type);
+	return s_receiver->question_received(question, sender_name, type);
 }
 
 

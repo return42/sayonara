@@ -78,7 +78,7 @@ void CopyThread::copy()
 {
 	clear();
 
-	QStringList files = m->cache->get_files();
+	QStringList files = m->cache->files();
 
 	for(const QString& filename : files){
 		if(m->cancelled){
@@ -88,7 +88,7 @@ void CopyThread::copy()
 		bool success;
 		QString target_filename, target_dir;
 
-		target_filename = m->cache->get_target_filename(filename, m->target_dir);
+		target_filename = m->cache->target_filename(filename, m->target_dir);
 		if(target_filename.isEmpty()){
 			continue;
 		}
@@ -109,7 +109,7 @@ void CopyThread::copy()
 			continue;
 		}
 
-        MetaData md(m->cache->get_metadata(filename));
+        MetaData md(m->cache->metadata(filename));
 
 		if(!md.filepath().isEmpty()){
 			sp_log(Log::Debug, this) << "Set new filename: " << target_filename;

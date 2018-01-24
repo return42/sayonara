@@ -213,20 +213,27 @@ QString Util::File::calc_filesize_str(uint64_t filesize)
 
 bool Util::File::is_url(const QString& str)
 {
-	if(is_www(str)) return true;
-	if(str.startsWith("file"), Qt::CaseInsensitive) return true;
-	return false;
+	QStringList urls = {"file", "smb"};
+	QString l = str.toLower().trimmed();
+
+	if(is_www(str)){
+		return true;
+	}
+
+	return Util::contains(urls, [&l](const QString& w){
+		return l.startsWith(w + "://");
+	});
 }
 
 
 bool Util::File::is_www(const QString& str)
 {
-	if(str.startsWith("http://")) return true;
-	else if(str.startsWith("https://")) return true;
-	else if(str.startsWith("ftp://")) return true;
-	else if(str.startsWith("itpc://")) return true;
-	else if(str.startsWith("feed://")) return true;
-	return false;
+	QStringList www = {"http", "https", "ftp", "itpc", "feed"};
+	QString l = str.toLower().trimmed();
+
+	return Util::contains(www, [&l](const QString& w){
+		return l.startsWith(w + "://");
+	});
 }
 
 bool Util::File::is_dir(const QString& filename)

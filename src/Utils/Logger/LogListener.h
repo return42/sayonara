@@ -27,6 +27,7 @@
 
 class QDateTime;
 class QString;
+struct LogEntry;
 
 using StrRef=const QString&;
 class LogListener

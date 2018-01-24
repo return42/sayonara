@@ -104,17 +104,17 @@ void ImportCache::add_standard_file(const QString& filename, const QString& pare
 	m->src_dst_map[filename] = target_subdir + pure_src_filename;
 }
 
-QStringList ImportCache::get_files() const
+QStringList ImportCache::files() const
 {
 	return m->files;
 }
 
-MetaDataList ImportCache::get_soundfiles() const
+MetaDataList ImportCache::soundfiles() const
 {
 	return m->v_md;
 }
 
-QString ImportCache::get_target_filename(const QString &src_filename, const QString& target_directory) const
+QString ImportCache::target_filename(const QString &src_filename, const QString& target_directory) const
 {
 	if(m->library_path.isEmpty()){
 		return QString();
@@ -123,7 +123,7 @@ QString ImportCache::get_target_filename(const QString &src_filename, const QStr
 	return m->library_path + "/" + target_directory + "/" + m->src_dst_map[src_filename];
 }
 
-MetaData ImportCache::get_metadata(const QString& filename) const
+MetaData ImportCache::metadata(const QString& filename) const
 {
 	return m->src_md_map[filename];
 }

@@ -563,6 +563,10 @@ bool Tracks::deleteTracks(const IdList& ids)
 
 bool Tracks::deleteTracks(const MetaDataList& v_md)
 {
+	if(v_md.isEmpty()){
+		return true;
+	}
+
 	module_db().transaction();
 
 	size_t deleted_tracks = std::count_if(v_md.begin(), v_md.end(), [=](const MetaData& md)

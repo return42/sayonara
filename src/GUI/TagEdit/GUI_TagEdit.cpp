@@ -20,6 +20,7 @@
 
 #include "GUI_TagEdit.h"
 #include "TagLineEdit.h"
+#include "TextSelection.h"
 
 #include "GUI/TagEdit/ui_GUI_TagEdit.h"
 
@@ -724,7 +725,7 @@ void GUI_TagEdit::apply_tag_all_clicked()
 
 bool GUI_TagEdit::replace_selected_tag_text(Tag t, bool b)
 {
-	TextSelection ts = ui->le_tag->get_text_selection();
+	TextSelection ts = ui->le_tag->text_selection();
 
 	if(ts.selection_start < 0 && b) {
 		sp_log(Log::Debug, this) << "Nothing selected...";
