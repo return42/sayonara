@@ -241,7 +241,7 @@ void GUI_AlternativeCovers::apply_clicked()
 	QFile file(cover_path);
 
 	if(!file.exists()) {
-		Message::warning(tr("This cover does not exist"));
+		GlobalMessage::warning(tr("This cover does not exist"));
 		return;
 	}
 

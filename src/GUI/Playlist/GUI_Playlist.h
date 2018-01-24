@@ -29,7 +29,7 @@
 #ifndef GUI_PLAYLIST_H_
 #define GUI_PLAYLIST_H_
 
-#include "Utils/Message/GlobalMessage.h"
+#include "Utils/Message/Message.h"
 #include "Utils/Library/LibraryNamespaces.h"
 #include "Utils/Playlist/PlaylistFwd.h"
 #include "Utils/Pimpl.h"

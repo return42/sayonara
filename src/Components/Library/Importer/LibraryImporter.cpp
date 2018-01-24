@@ -187,7 +187,7 @@ void LibraryImporter::copy_thread_finished()
 					.arg(n_files_to_copy);
 		}
 
-		Message::info(str);
+		GlobalMessage::info(str);
 
 		emit_status(ImportStatus::Imported);
 
@@ -196,7 +196,7 @@ void LibraryImporter::copy_thread_finished()
 
 	else {
 		QString warning = tr("Could not import tracks");
-		Message::warning(warning);
+		GlobalMessage::warning(warning);
 	}
 
 	copy_thread->deleteLater();

@@ -204,7 +204,7 @@ void GUI_Broadcast::can_listen_changed(bool success)
 		QString msg = tr("Cannot broadcast on port %1").arg(_settings->get(Set::Broadcast_Port));
 		msg += "\n" + tr("Maybe another application is using this port?");
 
-		Message::warning(msg);
+		GlobalMessage::warning(msg);
 	}
 }
 

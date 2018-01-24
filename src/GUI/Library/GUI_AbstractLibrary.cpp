@@ -259,7 +259,7 @@ void GUI_AbstractLibrary::id3_tags_changed()
 
 void GUI_AbstractLibrary::show_delete_answer(QString answer)
 {
-	Message::info(answer, Lang::get(Lang::Library));
+	GlobalMessage::info(answer, Lang::get(Lang::Library));
 }
 
 

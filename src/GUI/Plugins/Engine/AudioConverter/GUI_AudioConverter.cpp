@@ -35,20 +35,20 @@
 
 struct GUI_AudioConverter::Private
 {
-    Engine::Handler*    engine=nullptr;
-    Playlist::Mode		pl_mode;
-    bool				mp3_enc_available;
+	Engine::Handler*    engine=nullptr;
+	Playlist::Mode		pl_mode;
+	bool				mp3_enc_available;
 
-    Private() :
-        engine(Engine::Handler::instance()),
-        mp3_enc_available(true)
-    {}
+	Private() :
+		engine(Engine::Handler::instance()),
+		mp3_enc_available(true)
+	{}
 };
 
 GUI_AudioConverter::GUI_AudioConverter(QWidget *parent) :
 	PlayerPlugin::Base(parent)
 {
-    m = Pimpl::make<Private>();
+	m = Pimpl::make<Private>();
 }
 
 
@@ -123,7 +123,7 @@ void GUI_AudioConverter::retranslate_ui()
 }
 
 
-void GUI_AudioConverter::fill_cbr() 
+void GUI_AudioConverter::fill_cbr()
 {
 	if(!is_ui_initialized()){
 		return;
@@ -144,7 +144,7 @@ void GUI_AudioConverter::fill_cbr()
 }
 
 
-void GUI_AudioConverter::fill_vbr() 
+void GUI_AudioConverter::fill_vbr()
 {
 	if(!is_ui_initialized()){
 		return;
@@ -153,7 +153,7 @@ void GUI_AudioConverter::fill_vbr()
 	disconnect(ui->cb_quality,	combo_current_index_changed_int, this, &GUI_AudioConverter::quality_changed);
 
 	ui->cb_quality->clear();
-    ui->cb_quality->addItem("0 (" + tr("Best") + ")", LameBitrate_var_0);
+	ui->cb_quality->addItem("0 (" + tr("Best") + ")", LameBitrate_var_0);
 	ui->cb_quality->addItem("1", LameBitrate_var_1);
 	ui->cb_quality->addItem("2", LameBitrate_var_2);
 	ui->cb_quality->addItem("3", LameBitrate_var_3);
@@ -162,7 +162,7 @@ void GUI_AudioConverter::fill_vbr()
 	ui->cb_quality->addItem("6", LameBitrate_var_6);
 	ui->cb_quality->addItem("7", LameBitrate_var_7);
 	ui->cb_quality->addItem("8", LameBitrate_var_8);
-    ui->cb_quality->addItem("9 (" + tr("Worst") + ")", LameBitrate_var_9);
+	ui->cb_quality->addItem("9 (" + tr("Worst") + ")", LameBitrate_var_9);
 
 	connect(ui->cb_quality,	combo_current_index_changed_int, this, &GUI_AudioConverter::quality_changed);
 
@@ -192,7 +192,7 @@ void GUI_AudioConverter::stopped()
 }
 
 
-void GUI_AudioConverter::rb_cbr_toggled(bool b) 
+void GUI_AudioConverter::rb_cbr_toggled(bool b)
 {
 	if(!is_ui_initialized()){
 		return;
@@ -203,7 +203,7 @@ void GUI_AudioConverter::rb_cbr_toggled(bool b)
 	}
 }
 
-void GUI_AudioConverter::rb_vbr_toggled(bool b) 
+void GUI_AudioConverter::rb_vbr_toggled(bool b)
 {
 	if(!is_ui_initialized()){
 		return;
@@ -216,7 +216,7 @@ void GUI_AudioConverter::rb_vbr_toggled(bool b)
 
 void GUI_AudioConverter::pl_mode_backup()
 {
-    m->pl_mode = _settings->get(Set::PL_Mode);
+	m->pl_mode = _settings->get(Set::PL_Mode);
 
 	Playlist::Mode new_mode;
 		new_mode.setAppend(false, false);
@@ -231,17 +231,18 @@ void GUI_AudioConverter::pl_mode_backup()
 
 void GUI_AudioConverter::pl_mode_restore()
 {
-    _settings->set(Set::PL_Mode, m->pl_mode);
+	_settings->set(Set::PL_Mode, m->pl_mode);
 }
 
-void GUI_AudioConverter::cb_active_toggled(bool b) 
+void GUI_AudioConverter::cb_active_toggled(bool b)
 {
 	if(!is_ui_initialized()){
 		return;
 	}
 
-    if(!m->mp3_enc_available){
-		Message::warning(Lang::get(Lang::CannotFindLame));
+	if(!m->mp3_enc_available)
+	{
+		GlobalMessage::warning(Lang::get(Lang::CannotFindLame));
 
 		disconnect(ui->cb_active, &QCheckBox::toggled, this, &GUI_AudioConverter::cb_active_toggled);
 		ui->cb_active->setChecked(false);
@@ -258,7 +259,7 @@ void GUI_AudioConverter::cb_active_toggled(bool b)
 			_settings->set(Set::Engine_CovertTargetPath, dir);
 			pl_mode_backup();
 
-            m->engine->start_convert();
+			m->engine->start_convert();
 		}
 
 		else {
@@ -270,11 +271,11 @@ void GUI_AudioConverter::cb_active_toggled(bool b)
 
 	else {
 		pl_mode_restore();
-        m->engine->end_convert();
+		m->engine->end_convert();
 	}
 }
 
-void GUI_AudioConverter::quality_changed(int index) 
+void GUI_AudioConverter::quality_changed(int index)
 {
 	if(!is_ui_initialized()){
 		return;
@@ -287,5 +288,5 @@ void GUI_AudioConverter::quality_changed(int index)
 
 void GUI_AudioConverter::mp3_enc_found()
 {
-    m->mp3_enc_available = _settings->get(SetNoDB::MP3enc_found);
+	m->mp3_enc_available = _settings->get(SetNoDB::MP3enc_found);
 }

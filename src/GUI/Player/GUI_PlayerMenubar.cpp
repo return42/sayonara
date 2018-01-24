@@ -346,7 +346,7 @@ void Menubar::show_fullscreen_toggled(bool b)
 
 void Menubar::help_clicked()
 {
-	Message::info(tr("Please visit the forum at") + "<br />" +
+	GlobalMessage::info(tr("Please visit the forum at") + "<br />" +
 				  Util::create_link("http://sayonara-player.com/forum", _settings->get(Set::Player_Style) == 1) +
 				  "<br /><br />" +
 				  tr("Donate") + ": <br />" + Util::create_link("http://sayonara-player.com", _settings->get(Set::Player_Style) == 1) +

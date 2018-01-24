@@ -25,7 +25,7 @@
 #include "Interfaces/PreferenceDialog/PreferenceAction.h"
 
 #include "Utils/globals.h"
-#include "Utils/Message/GlobalMessage.h"
+#include "Utils/Message/Message.h"
 #include "Utils/Language.h"
 
 #include "GUI/Utils/Icons.h"

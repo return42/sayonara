@@ -245,7 +245,7 @@ void GUI_Bookmarks::new_clicked()
 	Bookmarks::CreationStatus status = m->bookmarks->create();
 	if( status == Bookmarks::CreationStatus::NoDBTrack )
 	{
-		Message::warning(tr("Sorry, bookmarks can only be set for library tracks at the moment."),
+		GlobalMessage::warning(tr("Sorry, bookmarks can only be set for library tracks at the moment."),
 						Lang::get(Lang::Bookmarks));
 	}
 }

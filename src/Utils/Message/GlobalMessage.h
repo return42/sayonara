@@ -31,7 +31,7 @@ class GlobalMessageReceiverInterface;
  */
 namespace GlobalMessage
 {
-    enum class Answer : unsigned char
+	enum class Answer : unsigned char
 	{
 		Yes=0,
 		No,
@@ -40,7 +40,7 @@ namespace GlobalMessage
 		Undefined
 	};
 
-    enum class QuestionType : unsigned char
+	enum class QuestionType : unsigned char
 	{
 		YesNo=0,
 		OkCancel
@@ -61,8 +61,16 @@ namespace GlobalMessage
 
 	GlobalMessage::Answer question(
 			const QString& question,
-			const QString& sender_name=QString(),
-			QuestionType type=GlobalMessage::QuestionType::YesNo);
+			const QString& sender_name,
+			QuestionType type);
+
+	GlobalMessage::Answer question_yn(
+			const QString& question,
+			const QString& sender_name=QString());
+
+	GlobalMessage::Answer question_ok(
+			const QString& question,
+			const QString& sender_name=QString());
 
 	/**
 	 * @brief register a receiver here, so it is called whenever a message has to be written

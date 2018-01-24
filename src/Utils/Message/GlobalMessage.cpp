@@ -77,5 +77,12 @@ GlobalMessage::question(const QString& question, const QString& sender_name, Glo
 	return s_receiver->question_received(question, sender_name, type);
 }
 
+GlobalMessage::Answer GlobalMessage::question_yn(const QString& question, const QString& sender_name)
+{
+	return GlobalMessage::question(question, sender_name, GlobalMessage::QuestionType::YesNo);
+}
 
-
+GlobalMessage::Answer GlobalMessage::question_ok(const QString& question, const QString& sender_name)
+{
+	return GlobalMessage::question(question, sender_name, GlobalMessage::QuestionType::OkCancel);
+}

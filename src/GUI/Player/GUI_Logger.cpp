@@ -195,7 +195,7 @@ void GUI_Logger::save_clicked()
 	}
 
 	else {
-		Message::warning(tr("Cannot open file") + " " + filename);
+		GlobalMessage::warning(tr("Cannot open file") + " " + filename);
 	}
 }
 

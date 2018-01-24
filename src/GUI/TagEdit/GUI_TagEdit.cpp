@@ -709,7 +709,7 @@ void GUI_TagEdit::apply_tag_all_clicked()
 
 	GlobalMessage::Answer answer = GlobalMessage::Answer::Yes;
 	if(! not_valid.isEmpty() ){
-		answer = Message::question_yn(not_valid_str);
+		answer = GlobalMessage::question_yn(not_valid_str);
 	}
 
 	if(answer == GlobalMessage::Answer::Yes){

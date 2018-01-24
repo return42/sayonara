@@ -161,7 +161,7 @@ void GUI_AbstractStream::error()
 
 	sp_log(Log::Warning, this) << "Stream Handler error";
 	GlobalMessage::Answer answer =
-			Message::question_yn(
+			GlobalMessage::question_yn(
 				tr("Cannot open stream") + "\n" +
 				m->le_url->text() + "\n\n" +
 				Lang::get(Lang::Retry).question());
@@ -313,7 +313,7 @@ void GUI_AbstractStream::text_changed(const QString& str)
 
 void GUI_AbstractStream::too_many_urls_found(int n_urls, int n_max_urls)
 {
-	Message::error(QString("Found %1 urls").arg(n_urls) + "<br />" +
+	GlobalMessage::error(QString("Found %1 urls").arg(n_urls) + "<br />" +
 				   QString("Maximum number is %1").arg(n_max_urls)
 	);
 
@@ -326,7 +326,7 @@ void GUI_AbstractStream::delete_clicked()
 
 	QString cur_station_name = m->combo_stream->currentText();
 
-	GlobalMessage::Answer ret = Message::question_yn(tr("Do you really want to delete %1").arg(cur_station_name));
+	GlobalMessage::Answer ret = GlobalMessage::question_yn(tr("Do you really want to delete %1").arg(cur_station_name));
 
 	if(ret == GlobalMessage::Answer::Yes) {
 		if( m->stream_handler->delete_stream(cur_station_name) ) {
@@ -356,8 +356,9 @@ void GUI_AbstractStream::save_clicked()
 	{
 		QString text = m->combo_stream->itemText(i);
 		if(text == name){
-			answer = Message::question_yn(tr("Overwrite?") + "\n" + name + "\n" + url);
-			if(answer == GlobalMessage::Answer::Yes){
+			answer = GlobalMessage::question_yn(tr("Overwrite?") + "\n" + name + "\n" + url);
+			if(answer == GlobalMessage::Answer::Yes)
+			{
 				m->stream_handler->update_url(name, url);
 				m->stream_handler->get_all_streams(map);
 				setup_stations(map);

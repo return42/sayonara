@@ -211,7 +211,7 @@ void StreamServer::new_client_request()
 			{
 				QString question = tr("%1 wants to listen to your music.").arg(pending_ip).append("\nOk?");
 
-				GlobalMessage::Answer answer = GlobalMessage::question(question);
+				GlobalMessage::Answer answer = GlobalMessage::question_yn(question, "Stream Server");
 				if(answer==GlobalMessage::Answer::Yes)
 				{
 					accept_client(pending_socket, pending_ip);

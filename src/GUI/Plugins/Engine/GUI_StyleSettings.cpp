@@ -184,7 +184,7 @@ void GUI_StyleSettings::combo_styles_changed(int idx)
 
 	if(m->sth_changed)
 	{
-		GlobalMessage::Answer ret = Message::question_yn(tr("There are some unsaved settings<br />Save now?"));
+		GlobalMessage::Answer ret = GlobalMessage::question_yn(tr("There are some unsaved settings<br />Save now?"));
 
 		if(ret == GlobalMessage::Answer::Yes)
 		{
@@ -271,7 +271,7 @@ void GUI_StyleSettings::save_pressed()
 {
 	// we came from [0]
 	if(m->cur_idx == 0 && m->cur_text.isEmpty()) {
-		Message::warning(tr("Please specify a name"));
+		GlobalMessage::warning(tr("Please specify a name"));
 		return;
 	}
 
@@ -439,7 +439,7 @@ void GUI_StyleSettings::closeEvent(QCloseEvent * e)
 {
 	if(m->sth_changed)
 	{
-		GlobalMessage::Answer ret = Message::question_yn(tr("Save changes?"));
+		GlobalMessage::Answer ret = GlobalMessage::question_yn(tr("Save changes?"));
 		if(ret == GlobalMessage::Answer::Yes) {
 			save_pressed();
 
