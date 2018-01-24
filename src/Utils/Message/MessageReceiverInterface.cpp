@@ -18,16 +18,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "GlobalMessageReceiverInterface.h"
+#include "MessageReceiverInterface.h"
 
-GlobalMessageReceiverInterface::GlobalMessageReceiverInterface(const QString &name)
+MessageReceiverInterface::MessageReceiverInterface(const QString &name)
 {
 	_name = name;
 }
 
-GlobalMessageReceiverInterface::~GlobalMessageReceiverInterface() {}
+MessageReceiverInterface::~MessageReceiverInterface() {}
 
-QString GlobalMessageReceiverInterface::get_name() const
+QString MessageReceiverInterface::get_name() const
 {
 	return _name;
 }

@@ -53,5 +53,7 @@ using DbId=uint8_t;
 using Byte=uint8_t;
 using Disc=uint8_t;
 using Rating=uint8_t;
+using TimestampSec=uint32_t;
+using TimestampMSecs=uint64_t;
 
 #endif

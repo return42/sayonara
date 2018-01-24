@@ -39,7 +39,7 @@
 #include "Database/LibraryDatabase.h"
 #include "Database/DatabaseConnector.h"
 
-#include "Utils/Message/GlobalMessage.h"
+#include "Utils/Message/Message.h"
 #include "Utils/Library/LibraryNamespaces.h"
 #include "Utils/Library/LibraryInfo.h"
 #include "Utils/FileUtils.h"
@@ -315,9 +315,9 @@ void GUI_DirectoryWidget::dir_play_new_tab_clicked()
 
 void GUI_DirectoryWidget::dir_delete_clicked()
 {
-	GlobalMessage::Answer answer = GlobalMessage::question_yn(Lang::get(Lang::Delete) + ": " + Lang::get(Lang::Really) + "?");
+	Message::Answer answer = Message::question_yn(Lang::get(Lang::Delete) + ": " + Lang::get(Lang::Really) + "?");
 
-	if(answer != GlobalMessage::Answer::Yes){
+	if(answer != Message::Answer::Yes){
 		return;
 	}
 
@@ -363,9 +363,9 @@ void GUI_DirectoryWidget::file_play_new_tab_clicked()
 
 void GUI_DirectoryWidget::file_delete_clicked()
 {
-	GlobalMessage::Answer answer = GlobalMessage::question_yn(Lang::get(Lang::Delete) + ": " + Lang::get(Lang::Really) + "?");
+	Message::Answer answer = Message::question_yn(Lang::get(Lang::Delete) + ": " + Lang::get(Lang::Really) + "?");
 
-	if(answer != GlobalMessage::Answer::Yes){
+	if(answer != Message::Answer::Yes){
 		return;
 	}
 

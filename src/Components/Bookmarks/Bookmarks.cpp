@@ -87,7 +87,7 @@ Bookmarks::~Bookmarks() {}
 void Bookmarks::sort_bookmarks()
 {
 	auto lambda = [](const Bookmark& bm1, const Bookmark& bm2){
-		return bm1.get_time() < bm2.get_time();
+		return bm1.timestamp() < bm2.timestamp();
 	};
 
 	std::sort(m->bookmarks.begin(), m->bookmarks.end(), lambda);
@@ -124,7 +124,7 @@ Bookmarks::CreationStatus Bookmarks::create()
 	}
 
 	bool already_there = Util::contains(m->bookmarks, [&cur_time](const Bookmark& bm){
-		return (bm.get_time() == cur_time);
+		return (bm.timestamp() == cur_time);
 	});
 
 	if(already_there){
@@ -149,7 +149,7 @@ bool Bookmarks::remove(int idx)
 		return false;
 	}
 
-	bool success = m->db->removeBookmark(m->md.id, m->bookmarks[idx].get_time());
+	bool success = m->db->removeBookmark(m->md.id, m->bookmarks[idx].timestamp());
 
 	if(success){
 		reload_bookmarks();
@@ -170,7 +170,7 @@ bool Bookmarks::jump_to(int idx)
 	}
 	else
 	{
-		uint64_t new_time = m->bookmarks[idx].get_time() * 1000;
+		uint64_t new_time = m->bookmarks[idx].timestamp() * 1000;
 		m->play_manager->seek_abs_ms(new_time);
 	}
 
@@ -227,7 +227,7 @@ void Bookmarks::pos_changed_ms(uint64_t pos_ms)
 
 	int i=0;
 	for(Bookmark& bookmark : m->bookmarks){
-		uint32_t time = bookmark.get_time();
+		uint32_t time = bookmark.timestamp();
 
 		if(time + 2 < m->cur_time){
 			m->prev_idx = i;
@@ -336,8 +336,8 @@ bool Bookmarks::set_loop(bool b)
 		if( between(m->prev_idx, m->bookmarks) &&
 			between(m->next_idx, m->bookmarks) )
 		{
-			m->loop_start = m->bookmarks[m->prev_idx].get_time();
-			m->loop_end = m->bookmarks[m->next_idx].get_time();
+			m->loop_start = m->bookmarks[m->prev_idx].timestamp();
+			m->loop_end = m->bookmarks[m->next_idx].timestamp();
 			ret = true;
 		}
 	}

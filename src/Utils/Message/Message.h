@@ -23,13 +23,13 @@
 
 #include <QString>
 
-class GlobalMessageReceiverInterface;
+class MessageReceiverInterface;
 
 /**
  * @brief The GlobalMessage class
  * @ingroup GUIHelper
  */
-namespace GlobalMessage
+namespace Message
 {
 	enum class Answer : unsigned char
 	{
@@ -46,29 +46,28 @@ namespace GlobalMessage
 		OkCancel
 	};
 
-
-	GlobalMessage::Answer info(
+	Message::Answer info(
 			const QString& info,
 			const QString& sender_name=QString());
 
-	GlobalMessage::Answer warning(
+	Message::Answer warning(
 			const QString& warning,
 			const QString& sender_name=QString());
 
-	GlobalMessage::Answer error(
+	Message::Answer error(
 			const QString& error,
 			const QString& sender_name=QString());
 
-	GlobalMessage::Answer question(
+	Message::Answer question(
 			const QString& question,
 			const QString& sender_name,
 			QuestionType type);
 
-	GlobalMessage::Answer question_yn(
+	Message::Answer question_yn(
 			const QString& question,
 			const QString& sender_name=QString());
 
-	GlobalMessage::Answer question_ok(
+	Message::Answer question_ok(
 			const QString& question,
 			const QString& sender_name=QString());
 
@@ -77,7 +76,7 @@ namespace GlobalMessage
 	 * @param receiver the receiver class
 	 * @return false, if there's already another receiver. True else
 	 */
-	bool register_receiver(GlobalMessageReceiverInterface* receiver);
+	bool register_receiver(MessageReceiverInterface* receiver);
 }
 
 #endif // GLOBALMESSAGE_H

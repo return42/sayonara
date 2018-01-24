@@ -71,7 +71,7 @@ public:
 	const QList<Bookmark>& bookmarks() const;
 
 
-	enum class CreationStatus : uint8_t
+	enum class CreationStatus : unsigned char
 	{
 		Success,
 		AlreadyThere,

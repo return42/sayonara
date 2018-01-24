@@ -707,12 +707,12 @@ void GUI_TagEdit::apply_tag_all_clicked()
 
 	not_valid_str += "<br />" + tr("Ignore these tracks?");
 
-	GlobalMessage::Answer answer = GlobalMessage::Answer::Yes;
+	Message::Answer answer = Message::Answer::Yes;
 	if(! not_valid.isEmpty() ){
-		answer = GlobalMessage::question_yn(not_valid_str);
+		answer = Message::question_yn(not_valid_str);
 	}
 
-	if(answer == GlobalMessage::Answer::Yes){
+	if(answer == Message::Answer::Yes){
 		for(int i=0; i<n_tracks; i++){
 			if(not_valid.contains(i)) continue;
 

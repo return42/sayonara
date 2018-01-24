@@ -242,7 +242,7 @@ void GUI_AudioConverter::cb_active_toggled(bool b)
 
 	if(!m->mp3_enc_available)
 	{
-		GlobalMessage::warning(Lang::get(Lang::CannotFindLame));
+		Message::warning(Lang::get(Lang::CannotFindLame));
 
 		disconnect(ui->cb_active, &QCheckBox::toggled, this, &GUI_AudioConverter::cb_active_toggled);
 		ui->cb_active->setChecked(false);

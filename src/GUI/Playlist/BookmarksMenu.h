@@ -22,18 +22,16 @@
 #define BOOKMARKS_ACTION_H
 
 #include <QMenu>
+#include "Utils/Pimpl.h"
 
-class Bookmarks;
 class BookmarksMenu :
 	public QMenu
 {
 	Q_OBJECT
+	PIMPL(BookmarksMenu)
 
 signals:
-	void sig_bookmark_pressed(uint32_t time_sec);
-
-private:
-	Bookmarks*	_bookmarks=nullptr;
+	void sig_bookmark_pressed(TimestampSec time_sec);
 
 public:
 	explicit BookmarksMenu(QWidget* parent);

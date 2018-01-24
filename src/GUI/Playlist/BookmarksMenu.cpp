@@ -24,14 +24,24 @@
 #include "Components/Bookmarks/Bookmark.h"
 #include "Utils/Language.h"
 
+struct BookmarksMenu::Private
+{
+	Bookmarks*	bookmarks=nullptr;
+
+	Private(BookmarksMenu* parent)
+	{
+		bookmarks = new Bookmarks(parent);
+	}
+};
+
 BookmarksMenu::BookmarksMenu(QWidget* parent) :
 	QMenu(parent)
 {
-	_bookmarks = new Bookmarks(this);
+	m = Pimpl::make<Private>(this);
 
 	this->setTitle( Lang::get(Lang::Bookmarks));
 
-	connect(_bookmarks, &Bookmarks::sig_bookmarks_changed, this, &BookmarksMenu::bookmarks_changed);
+	connect(m->bookmarks, &Bookmarks::sig_bookmarks_changed, this, &BookmarksMenu::bookmarks_changed);
 }
 
 BookmarksMenu::~BookmarksMenu() {}
@@ -45,15 +55,16 @@ void BookmarksMenu::bookmarks_changed()
 {
 	this->clear();
 
-	QList<Bookmark> bookmarks = _bookmarks->bookmarks();
-	for(const Bookmark& bookmark : bookmarks){
-		QString name = bookmark.get_name();
+	QList<Bookmark> bookmarks = m->bookmarks->bookmarks();
+	for(const Bookmark& bookmark : bookmarks)
+	{
+		QString name = bookmark.name();
 		if(name.isEmpty()){
 			continue;
 		}
 
 		QAction* action = this->addAction(name);
-		action->setData(bookmark.get_time());
+		action->setData(bookmark.timestamp());
 		connect(action, &QAction::triggered, this, &BookmarksMenu::action_pressed);
 	}
 }
@@ -61,7 +72,7 @@ void BookmarksMenu::bookmarks_changed()
 void BookmarksMenu::action_pressed()
 {
 	QAction* action = dynamic_cast<QAction*>(sender());
-	int time = action->data().toInt();
+	TimestampSec time = (TimestampSec) action->data().toInt();
 	emit sig_bookmark_pressed(time);
 }
 

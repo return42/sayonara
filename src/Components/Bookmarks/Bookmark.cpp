@@ -23,19 +23,19 @@
 
 struct Bookmark::Private
 {
-	uint32_t		time;
-	QString		name;
-	bool		valid;
+	TimestampSec	timestamp;
+	QString			name;
+	bool			valid;
 };
 
-Bookmark::Bookmark(uint32_t time)
+Bookmark::Bookmark(TimestampSec timestamp)
 {
 	m = Pimpl::make<Private>();
-	m->time = time;
+	m->timestamp = timestamp;
 }
 
-Bookmark::Bookmark(uint32_t time, const QString& name, bool valid) :
-	Bookmark(time)
+Bookmark::Bookmark(TimestampSec timestamp, const QString& name, bool valid) :
+	Bookmark(timestamp)
 {
 	m->name = name;
 	m->valid = valid;
@@ -45,26 +45,24 @@ Bookmark::~Bookmark(){}
 
 
 Bookmark::Bookmark(const Bookmark& other) :
-	Bookmark(other.m->time, other.m->name, other.m->valid)
-{
-
-}
+	Bookmark(other.m->timestamp, other.m->name, other.m->valid)
+{}
 
 Bookmark& Bookmark::operator=(const Bookmark& other)
 {
-	m->time = other.m->time;
+	m->timestamp = other.m->timestamp;
 	m->name = other.m->name;
 	m->valid = other.m->valid;
 
 	return *this;
 }
 
-uint32_t Bookmark::get_time() const
+TimestampSec Bookmark::timestamp() const
 {
-	return m->time;
+	return m->timestamp;
 }
 
-QString Bookmark::get_name() const
+QString Bookmark::name() const
 {
 	return m->name;
 }

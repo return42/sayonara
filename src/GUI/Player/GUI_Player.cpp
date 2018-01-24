@@ -86,13 +86,13 @@ struct GUI_Player::Private
 
 GUI_Player::GUI_Player(QTranslator* translator, QWidget* parent) :
 	Gui::MainWindow(parent),
-	GlobalMessageReceiverInterface("Player Main Window"),
+	MessageReceiverInterface("Player Main Window"),
 	Ui::Sayonara()
 {
 	m = Pimpl::make<Private>(translator);
 	setupUi(this);
 
-	GlobalMessage::register_receiver(this);
+	Message::register_receiver(this);
 
 	m->menubar = new Menubar(this);
 	this->setMenuBar(m->menubar);
@@ -308,7 +308,7 @@ void GUI_Player::play_error(const QString& message)
 {
 	const MetaData& md = PlayManager::instance()->current_track();
 	QString err = message + "\n\n" + md.filepath();
-	GlobalMessage::warning(err, Lang::get(Lang::Play));
+	Message::warning(err, Lang::get(Lang::Play));
 }
 
 
@@ -403,7 +403,7 @@ void GUI_Player::awa_version_finished()
 	LINK("http://sayonara-player.com", "http://sayonara-player.com", dark, link);
 
 	if(new_version > cur_version && notify_new_version) {
-		GlobalMessage::info(tr("A new version is available!") + "<br />" +  link);
+		Message::info(tr("A new version is available!") + "<br />" +  link);
 	}
 
 	awa->deleteLater();

@@ -223,7 +223,7 @@ void GUI_ImportDialog::choose_dir()
 	}
 
 	if(!dir.contains(library_path)) {
-		GlobalMessage::warning(tr("%1<br />is no library directory").arg(dir));
+		Message::warning(tr("%1<br />is no library directory").arg(dir));
 		ui->le_directory->clear();
 		return;
 	}

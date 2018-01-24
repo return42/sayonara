@@ -20,8 +20,8 @@ PlaylistContextMenu::PlaylistContextMenu(QWidget *parent) :
 {
 	m = Pimpl::make<Private>(this);
 
-	connect(m->bookmarks_menu, &BookmarksMenu::sig_bookmark_pressed, [](uint32_t time){
-		PlayManager::instance()->seek_abs_ms(time * 1000);
+	connect(m->bookmarks_menu, &BookmarksMenu::sig_bookmark_pressed, [](TimestampSec timestamp){
+		PlayManager::instance()->seek_abs_ms(timestamp * 1000);
 	});
 }
 

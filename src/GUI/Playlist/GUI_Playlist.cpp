@@ -429,9 +429,9 @@ void GUI_Playlist::tab_save_playlist_as_clicked(int idx, const QString& str)
 
 	if(success == Playlist::DBInterface::SaveAsAnswer::AlreadyThere)
 	{
-		GlobalMessage::Answer answer = show_save_message_box(success);
+		Message::Answer answer = show_save_message_box(success);
 
-		if(answer == GlobalMessage::Answer::No) {
+		if(answer == Message::Answer::No) {
 			return;
 		}
 
@@ -452,7 +452,7 @@ void GUI_Playlist::tab_rename_clicked(int idx, const QString& str)
 	Playlist::DBInterface::SaveAsAnswer success = Handler::instance()->rename_playlist(idx, str);
 
 	if(success == Playlist::DBInterface::SaveAsAnswer::AlreadyThere){
-		GlobalMessage::error(tr("Playlist name already exists"));
+		Message::error(tr("Playlist name already exists"));
 	}
 
 	else{
@@ -463,9 +463,9 @@ void GUI_Playlist::tab_rename_clicked(int idx, const QString& str)
 
 void GUI_Playlist::tab_delete_playlist_clicked(int idx)
 {
-	GlobalMessage::Answer answer = GlobalMessage::question_yn(Lang::get(Lang::Really).question(), Lang::get(Lang::Delete));
+	Message::Answer answer = Message::question_yn(Lang::get(Lang::Really).question(), Lang::get(Lang::Delete));
 
-	if(answer == GlobalMessage::Answer::No) {
+	if(answer == Message::Answer::No) {
 		return;
 	}
 
@@ -567,26 +567,26 @@ void GUI_Playlist::check_playlist_name(PlaylistConstPtr pl)
 }
 
 
-GlobalMessage::Answer GUI_Playlist::show_save_message_box(Playlist::DBInterface::SaveAsAnswer answer)
+Message::Answer GUI_Playlist::show_save_message_box(Playlist::DBInterface::SaveAsAnswer answer)
 {
 	switch(answer)
 	{
 		case Playlist::DBInterface::SaveAsAnswer::Error:
-			GlobalMessage::warning(tr("Cannot save playlist."), Lang::get(Lang::SaveAs));
+			Message::warning(tr("Cannot save playlist."), Lang::get(Lang::SaveAs));
 			break;
 
 		case Playlist::DBInterface::SaveAsAnswer::AlreadyThere:
-			return GlobalMessage::question_yn(tr("Playlist exists") + "\n" + Lang::get(Lang::Overwrite).question(),
+			return Message::question_yn(tr("Playlist exists") + "\n" + Lang::get(Lang::Overwrite).question(),
 										Lang::get(Lang::SaveAs));
 
 		case Playlist::DBInterface::SaveAsAnswer::ExternTracksError:
-			return GlobalMessage::warning(tr("Playlists are currently only supported for library tracks."), tr("Save playlist"));
+			return Message::warning(tr("Playlists are currently only supported for library tracks."), tr("Save playlist"));
 
 		default:
-			return GlobalMessage::Answer::Undefined;
+			return Message::Answer::Undefined;
 	}
 
-	return GlobalMessage::Answer::Undefined;
+	return Message::Answer::Undefined;
 }
 
 

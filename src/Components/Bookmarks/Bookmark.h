@@ -28,22 +28,22 @@
  * @ingroup Bookmarks
  */
 class QString;
-class Bookmark 
+class Bookmark
 {
 	PIMPL(Bookmark)
 
 	public:
-		explicit Bookmark(uint32_t time, const QString& name, bool valid=false);
-		explicit Bookmark(uint32_t time=0);
+		explicit Bookmark(TimestampSec timestamp, const QString& name, bool valid=false);
+		explicit Bookmark(TimestampSec timestamp=0);
 
 		Bookmark(const Bookmark& other);
 		Bookmark& operator=(const Bookmark &other);
 
 		~Bookmark();
 
-		uint32_t get_time() const;
-		QString get_name() const;
-		bool is_valid() const;
+		TimestampSec	timestamp() const;
+		QString			name() const;
+		bool			is_valid() const;
 };
 
 
