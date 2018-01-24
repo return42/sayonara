@@ -199,7 +199,7 @@ void GUI_Playlist::set_total_time_label()
 	int current_idx = ui->tw_playlists->currentIndex();
 	PlaylistConstPtr pl = Handler::instance()->playlist(current_idx);
 
-	uint64_t dur_ms = 0;
+	MilliSeconds dur_ms = 0;
 	if(pl){
 		dur_ms = pl->running_time();
 	}

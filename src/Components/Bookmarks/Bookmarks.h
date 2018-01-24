@@ -135,7 +135,7 @@ private slots:
 	 * @brief track position has changed
 	 * @param pos new position in ms
 	 */
-	void pos_changed_ms(uint64_t pos);
+	void pos_changed_ms(MilliSeconds pos);
 
 	/**
 	 * @brief current track has changed

@@ -31,7 +31,7 @@ class BookmarksMenu :
 	PIMPL(BookmarksMenu)
 
 signals:
-	void sig_bookmark_pressed(TimestampSec time_sec);
+	void sig_bookmark_pressed(Seconds time_sec);
 
 public:
 	explicit BookmarksMenu(QWidget* parent);

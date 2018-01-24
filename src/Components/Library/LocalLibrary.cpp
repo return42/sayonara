@@ -236,13 +236,13 @@ void LocalLibrary::get_all_tracks_by_searchstring(Library::Filter filter, MetaDa
 }
 
 
-void LocalLibrary::get_album_by_id(int album_id, Album& album)
+void LocalLibrary::get_album_by_id(AlbumId album_id, Album& album)
 {
 	m->lib_db->getAlbumByID(album_id, album);
 }
 
 
-void LocalLibrary::get_artist_by_id(int artist_id, Artist& artist)
+void LocalLibrary::get_artist_by_id(ArtistId artist_id, Artist& artist)
 {
 	m->lib_db->getArtistByID(artist_id, artist);
 }

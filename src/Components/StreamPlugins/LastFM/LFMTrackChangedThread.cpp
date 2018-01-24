@@ -265,7 +265,7 @@ QMap<QString, int> TrackChangedThread::filter_available_artists(const ArtistMatc
 
 		QMap<QString, float> sc_map = _smart_comparison->get_similar_strings(key);
 		for(const QString& sc_key : sc_map.keys() ){
-			int artist_id = db->getArtistID(sc_key);
+			ArtistId artist_id = db->getArtistID(sc_key);
 			if(artist_id >= 0 && sc_map[sc_key] > 5.0f){
 				possible_artists[sc_key] = artist_id;
 			}
@@ -275,7 +275,7 @@ QMap<QString, int> TrackChangedThread::filter_available_artists(const ArtistMatc
 #else
 		DB::Connector* db = DB::Connector::instance();
 		DB::LibraryDatabase* lib_db = db->library_db(-1, 0);
-		int artist_id = lib_db->getArtistID(key.artist_name);
+		ArtistId artist_id = lib_db->getArtistID(key.artist_name);
 		if(artist_id >= 0 ){
 			possible_artists[key.artist_name] = artist_id;
 		}

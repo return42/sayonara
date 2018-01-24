@@ -67,7 +67,7 @@ private:
 	void decrease_volume();
 
 	void set_cur_pos_label(int val);
-	void set_total_time_label(int64_t total_time);
+	void set_total_time_label(MilliSeconds total_time);
 	void set_info_labels(const MetaData &md);
 	void refresh_info_labels();
 
@@ -108,7 +108,7 @@ private slots:
 
 	void buffering(int progress);
 
-	void cur_pos_changed(uint64_t pos_ms);
+	void cur_pos_changed(MilliSeconds pos_ms);
 	void progress_moved(int val);
 	void progress_hovered(int val);
 

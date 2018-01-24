@@ -748,11 +748,11 @@ bool Tracks::updateTrack(const MetaData& md)
 	q.bindValue(":discnumber",		md.discnumber);
 	q.bindValue(":filecissearch",	file_cissearch);
 	q.bindValue(":filename",		md.filepath());
-	q.bindValue(":filesize",		(uint32_t) md.filesize);
+	q.bindValue(":filesize",		QVariant::fromValue(md.filesize));
 	q.bindValue(":genre",			md.genres_to_string());
-	q.bindValue(":length",			(uint32_t) md.length_ms);
+	q.bindValue(":length",			QVariant::fromValue(md.length_ms));
 	q.bindValue(":libraryID",		md.library_id);
-	q.bindValue(":modifydate",		(quint64) Util::current_date_to_int());
+	q.bindValue(":modifydate",		QVariant::fromValue(Util::current_date_to_int()));
 	q.bindValue(":rating",			md.rating);
 	q.bindValue(":title",			md.title());
 	q.bindValue(":track",			md.track_num);
@@ -780,12 +780,12 @@ bool Tracks::updateTracks(const MetaDataList& v_md)
 	return success && (n_files == v_md.size());
 }
 
-bool Tracks::insertTrackIntoDatabase(const MetaData& md, int artist_id, int album_id)
+bool Tracks::insertTrackIntoDatabase(const MetaData& md, ArtistId artist_id, AlbumId album_id)
 {
 	return insertTrackIntoDatabase(md, artist_id, album_id, artist_id);
 }
 
-bool Tracks::insertTrackIntoDatabase(const MetaData& md, int artist_id, int album_id, int album_artist_id)
+bool Tracks::insertTrackIntoDatabase(const MetaData& md, ArtistId artist_id, AlbumId album_id, ArtistId album_artist_id)
 {
 	Query q(this);
 
@@ -810,7 +810,7 @@ bool Tracks::insertTrackIntoDatabase(const MetaData& md, int artist_id, int albu
 			"VALUES "
 			"(:filename,:albumID,:artistID, :albumArtistID, :title, :year, :length, :track, :bitrate, :genre, :filesize, :discnumber, :rating, :cissearch, :filecissearch, :createdate, :modifydate, :libraryID); ";
 
-	uint64_t current_time = Util::current_date_to_int();
+	auto current_time = Util::current_date_to_int();
 	q.prepare(querytext);
 
 	q.bindValue(":filename",		md.filepath());
@@ -819,17 +819,17 @@ bool Tracks::insertTrackIntoDatabase(const MetaData& md, int artist_id, int albu
 	q.bindValue(":albumArtistID",	album_artist_id);
 	q.bindValue(":title",			md.title());
 	q.bindValue(":year",			md.year);
-	q.bindValue(":length",			(quint64) md.length_ms);
+	q.bindValue(":length",			QVariant::fromValue(md.length_ms));
 	q.bindValue(":track",			md.track_num);
 	q.bindValue(":bitrate",			md.bitrate);
 	q.bindValue(":genre",			md.genres_to_string());
-	q.bindValue(":filesize",		(quint64) md.filesize);
+	q.bindValue(":filesize",		QVariant::fromValue(md.filesize));
 	q.bindValue(":discnumber",		md.discnumber);
 	q.bindValue(":rating",			md.rating);
 	q.bindValue(":cissearch",		cissearch);
 	q.bindValue(":filecissearch",	file_cissearch);
-	q.bindValue(":createdate",		(quint64) current_time);
-	q.bindValue(":modifydate",		(quint64) current_time);
+	q.bindValue(":createdate",		QVariant::fromValue(current_time));
+	q.bindValue(":modifydate",		QVariant::fromValue(current_time));
 	q.bindValue(":libraryID",		md.library_id);
 
 	if (!q.exec()) {

@@ -51,14 +51,14 @@ class MetaData :
 	PIMPL(MetaData)
 
 public:
-	uint32_t length_ms;
-	uint32_t filesize;
+	MilliSeconds length_ms;
+	Filesize filesize;
 
 	TrackID id;
 	ArtistId artist_id;
 	AlbumId album_id;
 
-	uint32_t bitrate;
+	Bitrate bitrate;
 	uint16_t track_num;
 	uint16_t year;
 
@@ -110,7 +110,7 @@ public:
 	bool is_equal(const MetaData& md) const;
 	bool is_equal_deep(const MetaData& md) const;
 
-	const SP::Set<uint32_t>& genre_ids() const;
+	const SP::Set<GenreID>& genre_ids() const;
 	SP::Set<Genre> genres() const;
 	bool has_genre(const Genre& genre) const;
 	bool remove_genre(const Genre& genre);

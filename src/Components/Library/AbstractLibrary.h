@@ -171,8 +171,8 @@ protected:
 	virtual	void		get_all_tracks_by_album(IdList album_ids, MetaDataList& v_md, Library::Filter filter)=0;
 	virtual void		get_all_tracks_by_searchstring(Library::Filter filter, MetaDataList& v_md)=0;
 
-	virtual void		get_album_by_id(int album_id, Album& album)=0;
-	virtual void		get_artist_by_id(int artist_id, Artist& artist)=0;
+	virtual void		get_album_by_id(AlbumId album_id, Album& album)=0;
+	virtual void		get_artist_by_id(ArtistId artist_id, Artist& artist)=0;
 
 	virtual void		update_track(const MetaData& md)=0;
 	virtual void		update_tracks(const MetaDataList& v_md);

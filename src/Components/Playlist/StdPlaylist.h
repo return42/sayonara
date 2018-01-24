@@ -56,7 +56,7 @@ namespace Playlist
 		void metadata_deleted(const MetaDataList &v_md_deleted) override;
 		void metadata_changed(const MetaDataList& old_md, const MetaDataList& new_md) override;
 		void metadata_changed_single(const MetaData& metadata) override;
-		void duration_changed(uint64_t duration) override;
+		void duration_changed(MilliSeconds duration) override;
 
 		Playlist::Type type() const override;
 		void set_changed(bool b) override;

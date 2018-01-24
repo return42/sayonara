@@ -53,7 +53,11 @@ using DbId=uint8_t;
 using Byte=uint8_t;
 using Disc=uint8_t;
 using Rating=uint8_t;
-using TimestampSec=uint32_t;
-using TimestampMSecs=uint64_t;
+using Seconds=int32_t;
+using MilliSeconds=int64_t;
+using MicroSeconds=int64_t;
+using NanoSeconds=int64_t;
+using Bitrate=uint32_t;
+using Filesize=uint32_t;
 
 #endif

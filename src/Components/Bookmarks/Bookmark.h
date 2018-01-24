@@ -33,15 +33,15 @@ class Bookmark
 	PIMPL(Bookmark)
 
 	public:
-		explicit Bookmark(TimestampSec timestamp, const QString& name, bool valid=false);
-		explicit Bookmark(TimestampSec timestamp=0);
+		explicit Bookmark(Seconds timestamp, const QString& name, bool valid=false);
+		explicit Bookmark(Seconds timestamp=0);
 
 		Bookmark(const Bookmark& other);
 		Bookmark& operator=(const Bookmark &other);
 
 		~Bookmark();
 
-		TimestampSec	timestamp() const;
+		Seconds	timestamp() const;
 		QString			name() const;
 		bool			is_valid() const;
 };

@@ -75,7 +75,7 @@ class MetaDataInfo :
 		virtual void calc_subheader();
 		virtual void calc_header();
 
-		void insert_playing_time(uint64_t ms);
+		void insert_playing_time(MilliSeconds ms);
 		void insert_genre(const QStringList& lst);
 		void insert_filesize(uint64_t filesize);
 

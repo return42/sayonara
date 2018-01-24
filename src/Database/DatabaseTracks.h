@@ -71,8 +71,8 @@ namespace DB
 
 			virtual bool getAllTracksBySearchString(const ::Library::Filter& filter, MetaDataList& result, ::Library::SortOrder sortorder = ::Library::SortOrder::TrackArtistAsc);
 
-			virtual bool insertTrackIntoDatabase (const MetaData& data,int artist_id, int album_id);
-			virtual bool insertTrackIntoDatabase (const MetaData& data,int artist_id, int album_id, int album_artist_id);
+			virtual bool insertTrackIntoDatabase (const MetaData& data, ArtistId artist_id, AlbumId album_id);
+			virtual bool insertTrackIntoDatabase (const MetaData& data, ArtistId artist_id, AlbumId album_id, ArtistId album_artist_id);
 			virtual bool updateTrack(const MetaData& data);
 			virtual bool updateTracks(const MetaDataList& lst);
 

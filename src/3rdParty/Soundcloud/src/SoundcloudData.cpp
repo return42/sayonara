@@ -508,21 +508,21 @@ bool SC::Database::updateTrack(const MetaData& md)
 
 	q.prepare(querytext);
 
-	q.bindValue(":sc_id", md.id);
-	q.bindValue(":filename", md.filepath());
-	q.bindValue(":albumID", md.album_id);
-	q.bindValue(":artistID",md.artist_id);
-	q.bindValue(":length", (uint32_t) md.length_ms);
-	q.bindValue(":year", md.year);
-	q.bindValue(":title", md.title());
-	q.bindValue(":track", md.track_num);
-	q.bindValue(":bitrate", md.bitrate);
-	q.bindValue(":genre", md.genres_to_list().join(","));
-	q.bindValue(":filesize", (uint32_t) md.filesize);
-	q.bindValue(":discnumber", md.discnumber);
-	q.bindValue(":cissearch", md.title().toLower());
+	q.bindValue(":sc_id",		md.id);
+	q.bindValue(":filename",	md.filepath());
+	q.bindValue(":albumID",		md.album_id);
+	q.bindValue(":artistID",	md.artist_id);
+	q.bindValue(":length",		QVariant::fromValue(md.length_ms));
+	q.bindValue(":year",		md.year);
+	q.bindValue(":title",		md.title());
+	q.bindValue(":track",		md.track_num);
+	q.bindValue(":bitrate",		md.bitrate);
+	q.bindValue(":genre",		md.genres_to_list().join(","));
+	q.bindValue(":filesize",	QVariant::fromValue(md.filesize));
+	q.bindValue(":discnumber",	md.discnumber);
+	q.bindValue(":cissearch",	md.title().toLower());
 	q.bindValue(":purchase_url", md.get_custom_field("purchase_url"));
-	q.bindValue(":cover_url", md.cover_download_url());
+	q.bindValue(":cover_url",	md.cover_download_url());
 
 	if (!q.exec()) {
 		q.show_error(QString("Cannot insert track into database ") + md.filepath());
@@ -557,22 +557,21 @@ bool SC::Database::insertTrackIntoDatabase(const MetaData &md, int artist_id, in
 
 	q.prepare(querytext);
 
-	q.bindValue(":sc_id", md.id);
-	q.bindValue(":filename", md.filepath());
-	q.bindValue(":albumID", album_id);
-	q.bindValue(":artistID",artist_id);
-	q.bindValue(":length", (quint64) md.length_ms);
-	q.bindValue(":year", md.year);
-	q.bindValue(":title", md.title());
-	q.bindValue(":track", md.track_num);
-	q.bindValue(":bitrate", md.bitrate);
-	q.bindValue(":genre", md.genres_to_list().join(","));
-	q.bindValue(":filesize", (quint64) md.filesize);
-	q.bindValue(":discnumber", md.discnumber);
-	q.bindValue(":cissearch", md.title().toLower());
+	q.bindValue(":sc_id",		md.id);
+	q.bindValue(":filename",	md.filepath());
+	q.bindValue(":albumID",		album_id);
+	q.bindValue(":artistID",	artist_id);
+	q.bindValue(":length",		QVariant::fromValue(md.length_ms));
+	q.bindValue(":year",		md.year);
+	q.bindValue(":title",		md.title());
+	q.bindValue(":track",		md.track_num);
+	q.bindValue(":bitrate",		md.bitrate);
+	q.bindValue(":genre",		md.genres_to_list().join(","));
+	q.bindValue(":filesize",	QVariant::fromValue(md.filesize));
+	q.bindValue(":discnumber",	md.discnumber);
+	q.bindValue(":cissearch",	md.title().toLower());
 	q.bindValue(":purchase_url", md.get_custom_field("purchase_url"));
-
-	q.bindValue(":cover_url", md.cover_download_url());
+	q.bindValue(":cover_url",	md.cover_download_url());
 
 	if (!q.exec()) {
 		q.show_error(QString("Cannot insert track into database ") + md.filepath());

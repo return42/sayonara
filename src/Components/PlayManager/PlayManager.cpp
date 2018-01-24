@@ -81,8 +81,8 @@ struct PlayManager::Private
 	MetaData				md;
 	RingBuffer<QString, 3>	ring_buffer;
 	int						track_idx;
-	uint32_t				position_ms;
-	uint32_t				initial_position_ms;
+	MilliSeconds			position_ms;
+	MilliSeconds			initial_position_ms;
 	PlayState				playstate;
 
 	Private()
@@ -135,17 +135,17 @@ PlayState PlayManager::playstate() const
 	return m->playstate;
 }
 
-uint32_t PlayManager::current_position_ms() const
+MilliSeconds PlayManager::current_position_ms() const
 {
 	return m->position_ms;
 }
 
-uint32_t PlayManager::initial_position_ms() const
+MilliSeconds PlayManager::initial_position_ms() const
 {
 	return m->initial_position_ms;
 }
 
-uint32_t PlayManager::duration_ms() const
+MilliSeconds PlayManager::duration_ms() const
 {
 	return m->md.length_ms;
 }
@@ -233,17 +233,17 @@ void PlayManager::seek_rel(double percent)
 	emit sig_seeked_rel(percent);
 }
 
-void PlayManager::seek_rel_ms(int64_t ms)
+void PlayManager::seek_rel_ms(MilliSeconds ms)
 {
 	emit sig_seeked_rel_ms(ms);
 }
 
-void PlayManager::seek_abs_ms(uint64_t ms)
+void PlayManager::seek_abs_ms(MilliSeconds ms)
 {
 	emit sig_seeked_abs_ms(ms);
 }
 
-void PlayManager::set_position_ms(uint64_t ms)
+void PlayManager::set_position_ms(MilliSeconds ms)
 {
 	m->position_ms = ms;
 
@@ -358,7 +358,7 @@ void PlayManager::set_muted(bool b)
 	emit sig_mute_changed(b);
 }
 
-void PlayManager::change_duration(uint32_t ms)
+void PlayManager::change_duration(MilliSeconds ms)
 {
 	m->md.length_ms = ms;
 

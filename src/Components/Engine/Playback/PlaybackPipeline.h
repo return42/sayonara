@@ -28,63 +28,63 @@
 
 namespace Pipeline
 {
-    /**
-     * @brief The PlaybackPipeline class
-     * @ingroup Engine
-     */
-    class Playback :
-            public Base,
-            public CrossFader,
-            public Changeable
-    {
-        Q_OBJECT
-        PIMPL(Playback)
+	/**
+	 * @brief The PlaybackPipeline class
+	 * @ingroup Engine
+	 */
+	class Playback :
+			public Base,
+			public CrossFader,
+			public Changeable
+	{
+		Q_OBJECT
+		PIMPL(Playback)
 
-    public:
-        explicit Playback(Engine::Base* engine, QObject *parent=nullptr);
-        virtual ~Playback();
+	public:
+		explicit Playback(Engine::Base* engine, QObject *parent=nullptr);
+		virtual ~Playback();
 
-        bool init(GstState state=GST_STATE_NULL) override;
-        bool set_uri(gchar* uri) override;
+		bool init(GstState state=GST_STATE_NULL) override;
+		bool set_uri(gchar* uri) override;
 
-        void set_n_sound_receiver(int num_sound_receiver);
+		void set_n_sound_receiver(int num_sound_receiver);
 
-        void set_current_volume(double volume) override;
-        double get_current_volume() const override;
+		void set_current_volume(double volume) override;
+		double get_current_volume() const override;
 
-        GstElement* get_source() const override;
-        GstElement* get_pipeline() const override;
+		GstElement* get_source() const override;
+		GstElement* get_pipeline() const override;
 
-        void force_about_to_finish();
+		void force_about_to_finish();
 
 
-    public slots:
-        void play() override;
-        void stop() override;
+	public slots:
+		void play() override;
+		void stop() override;
 
-        void set_eq_band(int band_name, int val);
-        void set_streamrecorder_path(const QString& session_path);
+		void set_eq_band(int band_name, int val);
+		void set_streamrecorder_path(const QString& session_path);
 
-        int64_t seek_rel(double percent, int64_t ref_ns);
-        int64_t seek_abs(int64_t ns );
+		NanoSeconds seek_rel(double percent, NanoSeconds ref_ns);
+		NanoSeconds seek_abs(NanoSeconds ns );
 
-    private:
-        void init_equalizer();
-        bool create_elements() override;
+	private:
+		void init_equalizer();
+		bool create_elements() override;
 		GstElement* create_audio_sink(const QString& name);
-        bool add_and_link_elements() override;
-        bool configure_elements() override;
-        uint64_t get_about_to_finish_time() const override;
+		bool add_and_link_elements() override;
+		bool configure_elements() override;
+		MilliSeconds get_about_to_finish_time() const override;
 
-    protected slots:
-        void s_vol_changed();
-        void s_show_level_changed();
-        void s_show_spectrum_changed();
-        void s_mute_changed();
-        void s_speed_active_changed();
-        void s_speed_changed();
+	protected slots:
+		void s_vol_changed();
+		void s_show_level_changed();
+		void s_show_spectrum_changed();
+		void s_mute_changed();
+		void s_speed_active_changed();
+		void s_speed_changed();
 		void s_sink_changed();
-    };
+	};
 }
 
 #endif

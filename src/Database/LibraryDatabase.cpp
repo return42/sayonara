@@ -142,7 +142,8 @@ bool DB::LibraryDatabase::store_metadata(const MetaDataList& v_md)
 
 	for(MetaData md : v_md)
 	{
-		int artist_id, album_id, album_artist_id;
+		ArtistId artist_id, album_artist_id;
+		AlbumId album_id;
 		//first check if we know the artist and its id
 		Album album = album_map[md.album()];
 		if(album.id < 0) {

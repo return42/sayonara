@@ -168,7 +168,7 @@ gboolean Callbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpointer dat
 			gchar*			title;
 
 			bool			success;
-			uint32_t		bitrate;
+			Bitrate			bitrate;
 
 			if( msg_src_name.compare("sr_filesink") == 0 ||
 				msg_src_name.compare("level_sink") == 0 ||
@@ -249,7 +249,7 @@ gboolean Callbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpointer dat
 
 		case GST_MESSAGE_DURATION_CHANGED:
 			{
-				int64_t duration_ns;
+				NanoSeconds duration_ns;
 				bool success = gst_element_query_duration(src, GST_FORMAT_TIME, &duration_ns);
 				if(success) {
 					engine->update_duration(GST_TIME_AS_MSECONDS(duration_ns), src);

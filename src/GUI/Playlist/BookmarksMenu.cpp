@@ -72,7 +72,7 @@ void BookmarksMenu::bookmarks_changed()
 void BookmarksMenu::action_pressed()
 {
 	QAction* action = dynamic_cast<QAction*>(sender());
-	TimestampSec time = (TimestampSec) action->data().toInt();
+	Seconds time = (Seconds) action->data().toInt();
 	emit sig_bookmark_pressed(time);
 }
 

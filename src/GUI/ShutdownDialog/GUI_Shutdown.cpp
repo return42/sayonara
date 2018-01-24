@@ -49,8 +49,9 @@ void GUI_Shutdown::skin_changed()
 
 void GUI_Shutdown::ok_clicked()
 {
-	if(ui->sb_minutes->isEnabled()){
-		uint64_t msec = ui->sb_minutes->value() * 60 * 1000;
+	if(ui->sb_minutes->isEnabled())
+	{
+		MilliSeconds msec = ui->sb_minutes->value() * 60 * 1000;
 		Shutdown::instance()->shutdown(msec);
 	}
 

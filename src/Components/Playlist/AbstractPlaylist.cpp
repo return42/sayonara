@@ -186,10 +186,10 @@ void Base::set_mode(const Playlist::Mode& mode)
 }
 
 
-uint64_t Base::running_time() const
+MilliSeconds Base::running_time() const
 {
-	uint64_t dur_ms = 0;
-	dur_ms = std::accumulate(m->v_md.begin(), m->v_md.end(), dur_ms, [](uint64_t time, const MetaData& md){
+	MilliSeconds dur_ms = 0;
+	dur_ms = std::accumulate(m->v_md.begin(), m->v_md.end(), dur_ms, [](MilliSeconds time, const MetaData& md){
 		return time + md.length_ms;
 	});
 

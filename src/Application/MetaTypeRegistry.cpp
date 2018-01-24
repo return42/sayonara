@@ -67,6 +67,8 @@ MetaTypeRegistry::MetaTypeRegistry(QObject* parent) :
 	qRegisterMetaType<int32_t>("int32_t");
 
 	qRegisterMetaType<SP::Set<int>>("SP::Set<int>");
+
+	qRegisterMetaType<Seconds>("TimestampSec");
 }
 
 MetaTypeRegistry::~MetaTypeRegistry()

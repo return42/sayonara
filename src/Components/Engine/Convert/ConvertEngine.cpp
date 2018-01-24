@@ -35,22 +35,22 @@ using Engine::Convert;
 
 struct Convert::Private
 {
-    Pipeline::Convert*  pipeline=nullptr;
-    MetaData            md_target;
-    gchar*              target_uri=nullptr;
+	Pipeline::Convert*  pipeline=nullptr;
+	MetaData            md_target;
+	gchar*              target_uri=nullptr;
 
-    Private(Engine::Base* parent)
-    {
-        pipeline = new Pipeline::Convert(parent);
-    }
+	Private(Engine::Base* parent)
+	{
+		pipeline = new Pipeline::Convert(parent);
+	}
 };
 
 Convert::Convert(QObject *parent) :
-    Base(Name::ConvertEngine, parent)
+	Base(Name::ConvertEngine, parent)
 {
-    m = Pimpl::make<Private>(this);
+	m = Pimpl::make<Private>(this);
 
-    connect(m->pipeline, &Pipeline::Convert::sig_pos_changed_ms, this, &Convert::cur_pos_ms_changed);
+	connect(m->pipeline, &Pipeline::Convert::sig_pos_changed_ms, this, &Convert::cur_pos_ms_changed);
 }
 
 Convert::~Convert() {}
@@ -63,15 +63,15 @@ bool Convert::init()
 
 bool Convert::change_track(const MetaData& md)
 {
-    configure_target(md);
+	configure_target(md);
 
-    return Base::change_track(md);
+	return Base::change_track(md);
 }
 
 bool Convert::change_track_by_filename(const QString& filename)
 {
-    Q_UNUSED(filename);
-    return false;
+	Q_UNUSED(filename);
+	return false;
 }
 
 
@@ -89,9 +89,9 @@ void Convert::stop()
 {
 	m->pipeline->stop();
 
-    Tagging::Util::setMetaDataOfFile(m->md_target);
+	Tagging::Util::setMetaDataOfFile(m->md_target);
 
-    Base::stop();
+	Base::stop();
 }
 
 // public from Gstreamer Callbacks
@@ -101,9 +101,9 @@ void Convert::set_track_finished(GstElement* src)
 	emit sig_track_finished();
 }
 
-void Convert::cur_pos_ms_changed(int64_t pos_ms)
+void Convert::cur_pos_ms_changed(MilliSeconds pos_ms)
 {
-    Base::set_current_position_ms(pos_ms);
+	Base::set_current_position_ms(pos_ms);
 }
 
 bool Convert::change_uri(char* uri)
@@ -113,31 +113,31 @@ bool Convert::change_uri(char* uri)
 
 void Convert::configure_target(const MetaData& md)
 {
-    if(m->target_uri){
-        g_free(m->target_uri);
-        m->target_uri = nullptr;
-    }
+	if(m->target_uri){
+		g_free(m->target_uri);
+		m->target_uri = nullptr;
+	}
 
-    QString filename = Util::File::get_filename_of_path(md.filepath());
-    int idx = filename.lastIndexOf(".");
-    if(idx > 0) {
-        filename = filename.left(idx);
-    }
+	QString filename = Util::File::get_filename_of_path(md.filepath());
+	int idx = filename.lastIndexOf(".");
+	if(idx > 0) {
+		filename = filename.left(idx);
+	}
 
-    QString cvt_target_path = _settings->get(Set::Engine_CovertTargetPath);
-    filename = cvt_target_path + "/" + filename + ".mp3";
+	QString cvt_target_path = _settings->get(Set::Engine_CovertTargetPath);
+	filename = cvt_target_path + "/" + filename + ".mp3";
 
-    gchar* target_uri = filename.toUtf8().data();
+	gchar* target_uri = filename.toUtf8().data();
 
-    m->target_uri = g_strdup(target_uri);
-    m->pipeline->set_target_uri(m->target_uri);
+	m->target_uri = g_strdup(target_uri);
+	m->pipeline->set_target_uri(m->target_uri);
 
-    m->md_target = md;
-    m->md_target.set_filepath(filename);
+	m->md_target = md;
+	m->md_target.set_filepath(filename);
 }
 
-void Convert::jump_abs_ms(uint64_t pos_ms) { Q_UNUSED(pos_ms); }
+void Convert::jump_abs_ms(MilliSeconds pos_ms) { Q_UNUSED(pos_ms); }
 
-void Convert::jump_rel_ms(uint64_t ms) { Q_UNUSED(ms); }
+void Convert::jump_rel_ms(MilliSeconds ms) { Q_UNUSED(ms); }
 
 void Convert::jump_rel(double percent) { Q_UNUSED(percent); }

@@ -409,7 +409,7 @@ int Albums::insertAlbumIntoDatabase (const QString& album)
 {
 	Query q(this);
 
-	int album_id = getAlbumID(album);
+	AlbumId album_id = getAlbumID(album);
 	if(album_id >= 0){
 		Album a;
 		getAlbumByID(album_id, a, true);

@@ -71,7 +71,7 @@ namespace Playlist
 			int				index() const;
 			void			set_index(int idx);
 			void			set_mode(const Playlist::Mode& mode);
-			uint64_t		running_time() const;
+			MilliSeconds	running_time() const;
 			Playlist::Mode	mode() const;
 
 			virtual
@@ -129,7 +129,7 @@ namespace Playlist
 			virtual void metadata_deleted(const MetaDataList& v_md_deleted)=0;
 			virtual void metadata_changed(const MetaDataList& v_md_old, const MetaDataList& v_md_new)=0;
 			virtual void metadata_changed_single(const MetaData& metadata)=0;
-			virtual void duration_changed(uint64_t duration)=0;
+			virtual void duration_changed(MilliSeconds duration)=0;
 
 
 		private slots:

@@ -126,7 +126,7 @@ QString Util::cvt_str_to_very_first_upper(const QString& str)
 }
 
 
-QString Util::cvt_ms_to_string(uint64_t msec, bool empty_zero, bool colon, bool show_days)
+QString Util::cvt_ms_to_string(MilliSeconds msec, bool empty_zero, bool colon, bool show_days)
 {
 	if(msec == 0 && empty_zero){
 		return "";

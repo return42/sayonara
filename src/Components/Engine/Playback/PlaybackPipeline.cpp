@@ -127,9 +127,9 @@ struct Playback::Private :
 
 
 Playback::Playback(Engine::Base* engine, QObject *parent) :
-    Pipeline::Base("Playback Pipeline", engine, parent),
+	Pipeline::Base("Playback Pipeline", engine, parent),
 	CrossFader(),
-    Pipeline::Changeable()
+	Pipeline::Changeable()
 {
 	m = Pimpl::make<Private>();
 }
@@ -145,17 +145,17 @@ bool Playback::init(GstState state)
 	_settings->set(SetNoDB::MP3enc_found, m->lame != nullptr);
 	_settings->set(SetNoDB::Pitch_found, m->lame != nullptr);
 
-    Set::listen(Set::Engine_Vol, this, &Playback::s_vol_changed);
-    Set::listen(Set::Engine_Mute, this, &Playback::s_mute_changed);
+	Set::listen(Set::Engine_Vol, this, &Playback::s_vol_changed);
+	Set::listen(Set::Engine_Mute, this, &Playback::s_mute_changed);
 	Set::listen(Set::Engine_Sink, this, &Playback::s_sink_changed, false);
 
 	// set by gui, initialized directly in pipeline
-    Set::listen(Set::Engine_ShowLevel, this, &Playback::s_show_level_changed);
-    Set::listen(Set::Engine_ShowSpectrum, this, &Playback::s_show_spectrum_changed);
-    Set::listen(Set::Engine_Pitch, this, &Playback::s_speed_changed);
-    Set::listen(Set::Engine_Speed, this, &Playback::s_speed_changed);
-    Set::listen(Set::Engine_PreservePitch, this, &Playback::s_speed_changed);
-    Set::listen(Set::Engine_SpeedActive, this, &Playback::s_speed_active_changed);
+	Set::listen(Set::Engine_ShowLevel, this, &Playback::s_show_level_changed);
+	Set::listen(Set::Engine_ShowSpectrum, this, &Playback::s_show_spectrum_changed);
+	Set::listen(Set::Engine_Pitch, this, &Playback::s_speed_changed);
+	Set::listen(Set::Engine_Speed, this, &Playback::s_speed_changed);
+	Set::listen(Set::Engine_PreservePitch, this, &Playback::s_speed_changed);
+	Set::listen(Set::Engine_SpeedActive, this, &Playback::s_speed_active_changed);
 
 	set_n_sound_receiver(false);
 
@@ -219,7 +219,7 @@ bool Playback::create_elements()
 	else{
 		m->streamrecorder_data()->queue = m->file_queue;
 		m->streamrecorder_data()->sink = m->file_sink;
-    }
+	}
 
 	return true;
 }
@@ -262,80 +262,80 @@ bool Playback::add_and_link_elements()
 
 	/* before tee */
 	success = gst_element_link_many(m->audio_convert, m->equalizer, m->tee,  nullptr);
-    if(!test_and_error_bool(success, "Engine: Cannot link audio convert with tee")){
+	if(!test_and_error_bool(success, "Engine: Cannot link audio convert with tee")){
 		return false;
 	}
 
 	/* standard output branch */
 	success = gst_element_link_many(m->eq_queue, m->volume, /*_speed,*/ m->audio_sink, nullptr);
-    if(!test_and_error_bool(success, "Engine: Cannot link eq with audio sink")) {
+	if(!test_and_error_bool(success, "Engine: Cannot link eq with audio sink")) {
 		return false;
 	}
 
 
 	/* level branch */
 	success = gst_element_link_many(m->level_queue, m->level, m->level_sink, nullptr);
-    if(!test_and_error_bool(success, "Engine: Cannot link Level pipeline")){
+	if(!test_and_error_bool(success, "Engine: Cannot link Level pipeline")){
 		return false;
-    }
+	}
 
 
 	/* spectrum branch */
 	success = gst_element_link_many(m->spectrum_queue, m->spectrum, m->spectrum_sink, nullptr);
-    if(!test_and_error_bool(success, "Engine: Cannot link Spectrum pipeline")){
+	if(!test_and_error_bool(success, "Engine: Cannot link Spectrum pipeline")){
 		return false;
-    }
+	}
 
 
 	/* lame branch (optional) */
 	if(m->lame){
 		gst_bin_add_many(GST_BIN(_pipeline), m->lame_queue,  m->lame_converter, m->lame_resampler, m->lame, m->lame_app_sink, nullptr);
 		success = gst_element_link_many( m->lame_queue, m->lame_converter, m->lame_resampler, m->lame, m->lame_app_sink, nullptr);
-        test_and_error_bool(success, "Engine: Cannot link lame stuff");
-    }
+		test_and_error_bool(success, "Engine: Cannot link lame stuff");
+	}
 
 	/* stream rippper branch (optional) */
 	if(m->file_sink){
 		gst_bin_add_many(GST_BIN(_pipeline), m->file_queue, m->file_converter, m->file_resampler, m->file_lame, m->file_sink, nullptr);
 		success = gst_element_link_many( m->file_queue, m->file_converter, m->file_resampler, m->file_lame, m->file_sink, nullptr);
-        test_and_error_bool(success, "Engine: Cannot link streamripper stuff");
-    }
+		test_and_error_bool(success, "Engine: Cannot link streamripper stuff");
+	}
 
 	/* create tee pads */
 	tee_src_pad_template = gst_element_class_get_pad_template (GST_ELEMENT_GET_CLASS (m->tee), "src_%u");
-    if(!test_and_error(tee_src_pad_template, "Engine: _tee_src_pad_template is nullptr")) {
+	if(!test_and_error(tee_src_pad_template, "Engine: _tee_src_pad_template is nullptr")) {
 		return false;
 	}
 
 	/* connect branches with tee */
 	success = tee_connect(m->tee, tee_src_pad_template, m->level_queue, "Level");
-    if(!test_and_error_bool(success, "Engine: Cannot link level queue with tee")){
+	if(!test_and_error_bool(success, "Engine: Cannot link level queue with tee")){
 		return false;
-    }
+	}
 
 	tee_connect(m->tee, tee_src_pad_template, m->spectrum_queue, "Spectrum");
-    if(!test_and_error_bool(success, "Engine: Cannot link spectrum queue with tee")){
+	if(!test_and_error_bool(success, "Engine: Cannot link spectrum queue with tee")){
 		return false;
-    }
+	}
 
 	tee_connect(m->tee, tee_src_pad_template, m->eq_queue, "Equalizer");
-    if(!test_and_error_bool(success, "Engine: Cannot link eq queue with tee")){
+	if(!test_and_error_bool(success, "Engine: Cannot link eq queue with tee")){
 		return false;
 	}
 
 	if(m->lame){
 		success = tee_connect(m->tee, tee_src_pad_template, m->lame_queue, "Lame");
-        if(!test_and_error_bool(success, "Engine: Cannot link lame queue with tee")){
+		if(!test_and_error_bool(success, "Engine: Cannot link lame queue with tee")){
 			_settings->set(SetNoDB::MP3enc_found, false);
 		}
 	}
 
 	if(m->file_sink){
 		success = tee_connect(m->tee, tee_src_pad_template, m->file_queue, "Streamripper");
-        if(!test_and_error_bool(success, "Engine: Cannot link streamripper stuff")){
+		if(!test_and_error_bool(success, "Engine: Cannot link streamripper stuff")){
 			_settings->set(Set::Engine_SR_Active, false);
 		}
-    }
+	}
 
 	return true;
 }
@@ -364,7 +364,7 @@ bool Playback::configure_elements()
 				  "message-phase", false,
 				  "message-magnitude", true,
 				  "multi-channel", false,
-                  nullptr);
+				  nullptr);
 
 	m->init_equalizer();
 
@@ -422,19 +422,18 @@ bool Playback::configure_elements()
 		g_object_set(G_OBJECT (sink), "async", false, nullptr);
 	}
 
-    g_signal_connect (m->audio_src, "pad-added", G_CALLBACK (Callbacks::decodebin_ready), m->audio_convert);
-    g_signal_connect (m->audio_src, "source-setup", G_CALLBACK (Callbacks::source_ready), nullptr);
+	g_signal_connect (m->audio_src, "pad-added", G_CALLBACK (Callbacks::decodebin_ready), m->audio_convert);
+	g_signal_connect (m->audio_src, "source-setup", G_CALLBACK (Callbacks::source_ready), nullptr);
 	if(m->lame){
-        g_signal_connect (m->lame_app_sink, "new-sample", G_CALLBACK(Callbacks::new_buffer), this);
-    }
+		g_signal_connect (m->lame_app_sink, "new-sample", G_CALLBACK(Callbacks::new_buffer), this);
+	}
 
 	return true;
 }
 
-uint64_t Playback::get_about_to_finish_time() const
+MilliSeconds Playback::get_about_to_finish_time() const
 {
-	return std::max<uint64_t>(this->get_fading_time_ms(),
-							 Base::get_about_to_finish_time());
+	return std::max( get_fading_time_ms(), Base::get_about_to_finish_time() );
 }
 
 void Playback::play()
@@ -530,12 +529,12 @@ void Playback::set_streamrecorder_path(const QString& path)
 	m->set_streamrecorder_target_path(path);
 }
 
-int64_t Playback::seek_rel(double percent, int64_t ref_ns)
+NanoSeconds Playback::seek_rel(double percent, NanoSeconds ref_ns)
 {
 	return m->seek_rel(percent, ref_ns);
 }
 
-int64_t Playback::seek_abs(int64_t ns)
+NanoSeconds Playback::seek_abs(NanoSeconds ns)
 {
 	return m->seek_abs(ns);
 }
@@ -560,25 +559,25 @@ void Playback::s_speed_active_changed()
 		return;
 	}
 
-    int64_t pos;
-
 	GstElement* source = get_source();
 	bool active = _settings->get(Set::Engine_SpeedActive);
 
-	gst_element_query_position(source, GST_FORMAT_TIME, &pos);
+	NanoSeconds pos;
+	bool success = gst_element_query_position(source, GST_FORMAT_TIME, &pos);
 
 	if(active){
 		add_element(m->pitch, m->audio_convert, m->equalizer);
-        s_speed_changed();
+		s_speed_changed();
 	}
 
 	else{
 		remove_element(m->pitch, m->audio_convert, m->equalizer);
 	}
 
-	if(this->get_state() == GST_STATE_PLAYING)
+	if(this->get_state() == GST_STATE_PLAYING && success)
 	{
-		m->seek_nearest(pos);
+		pos = std::max<NanoSeconds>(pos, 0);
+		m->seek_nearest( (NanoSeconds) pos);
 	}
 }
 
@@ -601,19 +600,19 @@ void Playback::s_sink_changed()
 
 	GstState old_state, state;
 	gst_element_get_state(get_pipeline(), &old_state, nullptr, 0);
-	int64_t pos = get_source_position_ms();
 
 	state = old_state;
 
 	stop();
 	while(state != GST_STATE_NULL)
 	{
-
 		gst_element_get_state(get_pipeline(), &state, nullptr, 0);
 		Util::sleep_ms(50);
 	}
 
+	NanoSeconds pos;
 	gst_element_query_position(get_pipeline(), GST_FORMAT_TIME, &pos);
+
 	gst_element_unlink(m->volume, m->audio_sink);
 	gst_bin_remove(GST_BIN(get_pipeline()), m->audio_sink);
 	m->audio_sink = e;
@@ -630,6 +629,6 @@ void Playback::s_sink_changed()
 	}
 
 	if(old_state != GST_STATE_NULL) {
-		seek_abs(pos * 1000000);
+		seek_abs((NanoSeconds)(pos));
 	}
 }

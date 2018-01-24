@@ -90,7 +90,7 @@ public:
 	QString get_major_artist() const;
 
 
-	bool contains(int artist_id) const;
+	bool contains(ArtistId artist_id) const;
 
 	int count() const;
 	ArtistList& operator <<(const Artist& artist);

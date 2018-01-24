@@ -265,7 +265,7 @@ void GUI_PlaylistBottomBar::check_dynamic_play_button()
 		}
 	}
 
-	void GUI_PlaylistBottomBar::shutdown_started(uint64_t time2go)
+	void GUI_PlaylistBottomBar::shutdown_started(MilliSeconds time2go)
 	{
 		Q_UNUSED(time2go)
 

@@ -85,7 +85,7 @@ AlbumInfo::AlbumInfo(const MetaDataList& v_md) :
 			_info.insert(InfoStrings::Sampler, str_sampler);
 		}
 
-		int album_id = album_ids().first();
+		AlbumId album_id = album_ids().first();
 
 		DB::Connector* db = DB::Connector::instance();
 		DB::LibraryDatabase* lib_db = db->library_db(-1, m->db_id);

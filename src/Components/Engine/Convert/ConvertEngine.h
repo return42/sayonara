@@ -25,43 +25,43 @@
 
 namespace Pipeline
 {
-    class Convert;
+	class Convert;
 }
 
 namespace Engine
 {
-    class Convert :
-            public Base
-    {
-        Q_OBJECT
-        PIMPL(Convert)
+	class Convert :
+			public Base
+	{
+		Q_OBJECT
+		PIMPL(Convert)
 
-    public:
-        explicit Convert(QObject *parent=nullptr);
-        ~Convert();
+	public:
+		explicit Convert(QObject *parent=nullptr);
+		~Convert();
 
-        void set_track_finished(GstElement* src) override;
-        bool init() override;
+		void set_track_finished(GstElement* src) override;
+		bool init() override;
 
-        void play() override;
-        void stop() override;
-        void pause() override;
+		void play() override;
+		void stop() override;
+		void pause() override;
 
-        void jump_abs_ms(uint64_t pos_ms) override;
-        void jump_rel_ms(uint64_t ms) override;
-        void jump_rel(double percent) override;
+		void jump_abs_ms(MilliSeconds pos_ms) override;
+		void jump_rel_ms(MilliSeconds ms) override;
+		void jump_rel(double percent) override;
 
-        bool change_track(const MetaData&) override;
-        bool change_track_by_filename(const QString&) override;
+		bool change_track(const MetaData&) override;
+		bool change_track_by_filename(const QString&) override;
 
-    private slots:
-        void cur_pos_ms_changed(int64_t ms);
+	private slots:
+		void cur_pos_ms_changed(MilliSeconds ms);
 
-    protected:
-        // methods
-        bool change_uri(char* uri) override;
-        void configure_target(const MetaData& md);
-    };
+	protected:
+		// methods
+		bool change_uri(char* uri) override;
+		void configure_target(const MetaData& md);
+	};
 }
 
 #endif // ConvertEngine_H

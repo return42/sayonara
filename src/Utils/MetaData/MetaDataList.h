@@ -77,7 +77,7 @@ public:
 	MetaDataList& append(const MetaDataList& v_md);
 	MetaDataList& append(const MetaData& md);
 
-	bool contains(int32_t id) const;
+	bool contains(TrackID id) const;
 	void remove_duplicates();
 	MetaData take_at(int idx);
 	bool isEmpty() const;

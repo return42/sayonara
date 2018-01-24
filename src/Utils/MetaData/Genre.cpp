@@ -26,16 +26,16 @@
 
 struct Genre::Private
 {
-	uint32_t id;
+	GenreID id;
 	QString name;
 
-	static uint32_t calc_id(const QString& name)
+	static GenreID calc_id(const QString& name)
 	{
 		if(name.trimmed().isEmpty()){
 			return 0;
 		}
 
-		return static_cast<uint32_t> (qHash(name.trimmed().toLower().toLocal8Bit()));
+		return static_cast<GenreID> (qHash(name.trimmed().toLower().toLocal8Bit()));
 	}
 };
 
@@ -54,7 +54,7 @@ Genre::Genre(const QString& name)
 
 Genre::~Genre() {}
 
-uint32_t Genre::calc_id(const QString& name)
+GenreID Genre::calc_id(const QString& name)
 {
 	return Genre::Private::calc_id(name);
 }
@@ -74,7 +74,7 @@ Genre& Genre::operator =(const Genre& other)
 }
 
 
-uint32_t Genre::id() const
+GenreID Genre::id() const
 {
 	return m->id;
 }

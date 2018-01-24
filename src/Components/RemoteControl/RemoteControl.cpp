@@ -168,7 +168,7 @@ void RemoteControl::socket_disconnected()
 	disconnect(m->plh, &Playlist::Handler::sig_playlist_created, this, &RemoteControl::playlist_changed);
 }
 
-void RemoteControl::pos_changed_ms(const uint64_t pos)
+void RemoteControl::pos_changed_ms(MilliSeconds pos)
 {
 	Q_UNUSED(pos)
 	write_cur_pos();
@@ -305,7 +305,7 @@ void RemoteControl::change_track(int idx)
 
 void RemoteControl::write_cur_pos()
 {
-	uint32_t pos_sec = m->play_manager->current_position_ms() / 1000;
+	Seconds pos_sec = m->play_manager->current_position_ms() / 1000;
 	write("curPos:" + QByteArray::number(pos_sec));
 }
 

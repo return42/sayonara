@@ -33,104 +33,104 @@
 
 namespace Engine
 {
-    class Base;
+	class Base;
 }
 
 namespace Pipeline
 {
-    /**
-     * @brief The GSTFileMode enum
-     * @ingroup Engine
-     */
-    enum class GSTFileMode : uint8_t
-    {
-        File,
-        Http
-    };
+	/**
+	 * @brief The GSTFileMode enum
+	 * @ingroup Engine
+	 */
+	enum class GSTFileMode : uint8_t
+	{
+		File,
+		Http
+	};
 
-    bool
-    test_and_error(void* element, const QString& errorstr);
+	bool
+	test_and_error(void* element, const QString& errorstr);
 
-    bool
-    test_and_error_bool(bool b, const QString& errorstr);
+	bool
+	test_and_error_bool(bool b, const QString& errorstr);
 
-    /**
-     * @brief The AbstractPipeline class
-     * @ingroup Engine
-     */
-    class Base :
-        public QObject,
-        public SayonaraClass
-    {
-        Q_OBJECT
-        PIMPL(Base)
+	/**
+	 * @brief The AbstractPipeline class
+	 * @ingroup Engine
+	 */
+	class Base :
+		public QObject,
+		public SayonaraClass
+	{
+		Q_OBJECT
+		PIMPL(Base)
 
-        signals:
-            void sig_duration_changed();
+		signals:
+			void sig_duration_changed();
 
-        protected:
+		protected:
 
-            bool		_about_to_finish;
-            QString		_name;
+			bool		_about_to_finish;
+			QString		_name;
 
-            GstBus*		_bus=nullptr;
-            GstElement* _pipeline=nullptr;
-            gchar*		_uri=nullptr;
+			GstBus*		_bus=nullptr;
+			GstElement* _pipeline=nullptr;
+			gchar*		_uri=nullptr;
 
-            int64_t		_duration_ms;
-            int64_t		_position_source_ms;
-            int64_t		_position_pipeline_ms;
+			MilliSeconds	_duration_ms;
+			MilliSeconds	_position_source_ms;
+			MilliSeconds	_position_pipeline_ms;
 
-            bool tee_connect(GstElement* tee,
-                            GstPadTemplate* tee_src_pad_template,
-                             GstElement* queue,
-                             const QString& queue_name
-            );
-            bool create_element(GstElement** elem, const gchar* elem_name, const gchar* name="");
+			bool tee_connect(GstElement* tee,
+							GstPadTemplate* tee_src_pad_template,
+							 GstElement* queue,
+							 const QString& queue_name
+			);
+			bool create_element(GstElement** elem, const gchar* elem_name, const gchar* name="");
 
-            virtual bool create_elements()=0;
-            virtual bool add_and_link_elements()=0;
-            virtual bool configure_elements()=0;
+			virtual bool create_elements()=0;
+			virtual bool add_and_link_elements()=0;
+			virtual bool configure_elements()=0;
 
-            virtual uint64_t get_about_to_finish_time() const;
+			virtual MilliSeconds get_about_to_finish_time() const;
 
-        signals:
-            void sig_finished();
-            void sig_about_to_finish(int64_t);
-            void sig_pos_changed_ms(int64_t);
-            void sig_data(uchar*, uint64_t);
-
-
-        public slots:
-            virtual void play();
-            virtual void pause();
-            virtual void stop();
+		signals:
+			void sig_finished();
+			void sig_about_to_finish(MilliSeconds ms);
+			void sig_pos_changed_ms(MilliSeconds ms);
+			void sig_data(Byte*, uint64_t);
 
 
-        public:
-            Base(QString name, Engine::Base* engine, QObject* parent=nullptr);
-            virtual ~Base();
+		public slots:
+			virtual void play();
+			virtual void pause();
+			virtual void stop();
 
-            virtual GstElement* get_source() const=0;
-            virtual bool		init(GstState state=GST_STATE_READY);
-            virtual GstElement* get_pipeline() const;
-            virtual GstState	get_state();
-            virtual void		refresh_position();
 
-            virtual void		finished();
-            virtual void		check_about_to_finish();
-            virtual int64_t		get_time_to_go() const;
-            virtual void		set_data(uchar* data, uint64_t size);
+		public:
+			Base(QString name, Engine::Base* engine, QObject* parent=nullptr);
+			virtual ~Base();
 
-            virtual bool		set_uri(gchar* uri);
+			virtual GstElement* get_source() const=0;
+			virtual bool		init(GstState state=GST_STATE_READY);
+			virtual GstElement* get_pipeline() const;
+			virtual GstState	get_state();
+			virtual void		refresh_position();
 
-            void                update_duration_ms(int64_t duration_ms, GstElement* src);
-            virtual int64_t		get_duration_ms() const final ;
-            virtual int64_t		get_source_position_ms() const final;
-            virtual int64_t		get_pipeline_position_ms() const final;
+			virtual void		finished();
+			virtual void		check_about_to_finish();
+			virtual MilliSeconds	get_time_to_go() const;
+			virtual void		set_data(uchar* data, uint64_t size);
 
-            bool 				has_element(GstElement* e) const;
-    };
+			virtual bool		set_uri(gchar* uri);
+
+			void                update_duration_ms(MilliSeconds duration_ms, GstElement* src);
+			virtual MilliSeconds	get_duration_ms() const final ;
+			virtual MilliSeconds	get_source_position_ms() const final;
+			virtual MilliSeconds	get_pipeline_position_ms() const final;
+
+			bool 				has_element(GstElement* e) const;
+	};
 }
 
 #endif // GSTPIPELINE_H

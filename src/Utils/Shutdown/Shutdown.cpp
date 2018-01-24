@@ -47,7 +47,7 @@ struct Shutdown::Private
 	QTimer*			timer_countdown=nullptr;
 	PlayManagerPtr	play_manager=nullptr;
 
-	uint64_t		msecs2go;
+	MilliSeconds	msecs2go;
 	bool			is_running;
 
 	Private(Shutdown* parent) :
@@ -101,7 +101,7 @@ bool Shutdown::is_running() const
 }
 
 
-void Shutdown::shutdown(uint64_t ms)
+void Shutdown::shutdown(MilliSeconds ms)
 {
 	if(ms == 0){
 		timeout();
@@ -134,7 +134,10 @@ void Shutdown::stop()
 
 void Shutdown::countdown_timeout()
 {
-	m->msecs2go -= 1000;
+	if(m->msecs2go >= 1000){
+		m->msecs2go -= 1000;
+	}
+
 	m->timer_countdown->start(1000);
 
 	emit sig_time_to_go(m->msecs2go);

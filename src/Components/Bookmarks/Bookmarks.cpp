@@ -41,10 +41,10 @@ struct Bookmarks::Private
 	int				prev_idx;
 	int				next_idx;
 
-	uint32_t		cur_time;
+	Seconds	cur_time;
 
-	uint32_t		loop_start;
-	uint32_t		loop_end;
+	Seconds	loop_start;
+	Seconds	loop_end;
 
 	Private()
 	{
@@ -95,13 +95,13 @@ void Bookmarks::sort_bookmarks()
 
 void Bookmarks::reload_bookmarks()
 {
-	QMap<uint32_t, QString> bookmarks;
+	QMap<Seconds, QString> bookmarks;
 	if(m->md.id >= 0){
 		m->db->searchBookmarks(m->md.id, bookmarks);
 	}
 
 	m->bookmarks.clear();
-	for(uint32_t key : bookmarks.keys()){
+	for(Seconds key : bookmarks.keys()){
 		m->bookmarks << Bookmark(key, bookmarks[key], true);
 	}
 
@@ -118,7 +118,7 @@ Bookmarks::CreationStatus Bookmarks::create()
 		return Bookmarks::CreationStatus::NoDBTrack;
 	}
 
-	uint32_t cur_time = m->cur_time;
+	Seconds cur_time = m->cur_time;
 	if(cur_time == 0) {
 		return Bookmarks::CreationStatus::OtherError;
 	}
@@ -170,7 +170,7 @@ bool Bookmarks::jump_to(int idx)
 	}
 	else
 	{
-		uint64_t new_time = m->bookmarks[idx].timestamp() * 1000;
+		MilliSeconds new_time = m->bookmarks[idx].timestamp() * 1000;
 		m->play_manager->seek_abs_ms(new_time);
 	}
 
@@ -206,9 +206,9 @@ bool Bookmarks::jump_prev()
 }
 
 
-void Bookmarks::pos_changed_ms(uint64_t pos_ms)
+void Bookmarks::pos_changed_ms(MilliSeconds pos_ms)
 {
-	m->cur_time = (uint32_t) (pos_ms / 1000);
+	m->cur_time = (Seconds) (pos_ms / 1000);
 
 	if( m->cur_time >= m->loop_end &&
 		m->loop_end != 0)
@@ -226,8 +226,9 @@ void Bookmarks::pos_changed_ms(uint64_t pos_ms)
 
 
 	int i=0;
-	for(Bookmark& bookmark : m->bookmarks){
-		uint32_t time = bookmark.timestamp();
+	for(Bookmark& bookmark : m->bookmarks)
+	{
+		Seconds time = bookmark.timestamp();
 
 		if(time + 2 < m->cur_time){
 			m->prev_idx = i;
@@ -277,7 +278,7 @@ void Bookmarks::track_changed(const MetaData& md)
 			entry = m->md.get_custom_field(custom_field_name);
 
 			QStringList lst = entry.split(":");
-			uint32_t length = lst.takeFirst().toInt();
+			Seconds length = lst.takeFirst().toInt();
 			QString name = lst.join(":");
 
 			m->bookmarks << Bookmark(length, name, true);
@@ -294,11 +295,11 @@ void Bookmarks::track_changed(const MetaData& md)
 
 	else
 	{
-		QMap<uint32_t, QString> bookmarks;
+		QMap<Seconds, QString> bookmarks;
 		m->db->searchBookmarks(md.id, bookmarks);
 
 		m->bookmarks.clear();
-		for(uint32_t key : bookmarks.keys()){
+		for(Seconds key : bookmarks.keys()){
 			m->bookmarks << Bookmark(key, bookmarks[key], true);
 		}
 	}
