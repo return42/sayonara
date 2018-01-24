@@ -203,6 +203,7 @@ bool SettingRegistry::init()
 	register_setting( Set::Proxy_Password, "proxy_password", QString());
 	register_setting( Set::Proxy_SavePw, "proxy_save_pw", false);
 
+	register_setting( Set::Logger_Level, "logger_level", 0);
 
 	register_setting( SetNoDB::MP3enc_found, true );
 	register_setting( SetNoDB::Pitch_found, true );

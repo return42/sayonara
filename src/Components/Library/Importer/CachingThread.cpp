@@ -67,8 +67,10 @@ struct CachingThread::Private
 
 	void extract_soundfiles()
 	{
-		for(const QString& filename : cache->get_files()){
-			if(Util::File::is_soundfile(filename)){
+		for(const QString& filename : cache->get_files())
+		{
+			if(Util::File::is_soundfile(filename))
+			{
 				MetaData md(filename);
 
 				bool success = Tagging::Util::getMetaDataOfFile(md);

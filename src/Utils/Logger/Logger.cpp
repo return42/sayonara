@@ -22,6 +22,7 @@
 #include "Utils/Logger/LogListener.h"
 #include "Utils/Utils.h"
 #include "Utils/Pimpl.h"
+#include "Utils/Settings/Settings.h"
 
 #include <QString>
 #include <QStringList>
@@ -73,6 +74,9 @@ struct Logger::Private
 		QString html_color;
 		bool ignore=false;
 
+		Settings* s = Settings::instance();
+		int logger_level = s->get(Set::Logger_Level);
+
 		switch(type)
 		{
 			case Log::Info:
@@ -94,15 +98,28 @@ struct Logger::Private
 				color = LOG_YELLOW;
 				html_color = "#7A7A00";
 				type_str = "Debug";
+				if(logger_level < 1)
+				{
+					ignore = true;
+				}
 				break;
-
 			case Log::Develop:
 				color = LOG_YELLOW;
 				html_color = "#7A7A00";
 				type_str = "Dev";
-	#ifndef DEBUG
-				ignore = true;
-	#endif
+				if(logger_level < 2){
+					ignore = true;
+				}
+
+				break;
+			case Log::Crazy:
+				color = LOG_YELLOW;
+				html_color = "#7A7A00";
+				type_str = "CrazyLog";
+				if(logger_level < 3){
+					ignore = true;
+				}
+
 				break;
 			default:
 				color = LOG_YELLOW;
@@ -185,9 +202,6 @@ Logger& Logger::operator << (const QString& msg)
 Logger& Logger::operator << (const QStringList& lst)
 {
 	(*this) << lst.join(",");
-	/*for(const QString& str : lst){
-		(*this) << str << ", ";
-	}*/
 
 	return *this;
 }

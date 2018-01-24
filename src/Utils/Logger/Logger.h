@@ -48,7 +48,8 @@ enum class Log : unsigned char
 	Error,
 	Info,
 	Debug,
-	Develop
+	Develop,
+	Crazy
 };
 
 struct LogEntry

@@ -191,6 +191,8 @@ enum class SettingKey : unsigned short
 	Proxy_Port,
 	Proxy_SavePw,
 
+	Logger_Level,
+
 	Num_Setting_Keys
 };
 
@@ -355,6 +357,8 @@ namespace Set
 	INST(QString,			Proxy_Hostname);			/* Proxy Hostname/IP Address */
 	INST(int,				Proxy_Port);				/* Proxy Port 3128 */
 	INST(bool,				Proxy_SavePw);				/* Should password be saved */
+
+	INST(int,				Logger_Level);				/* Also log development: */
 }
 
 namespace SetNoDB
