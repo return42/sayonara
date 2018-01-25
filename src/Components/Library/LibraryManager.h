@@ -31,7 +31,6 @@
 #include <QObject>
 
 class LocalLibrary;
-class LocalLibraryContainer;
 
 namespace Library
 {
@@ -47,8 +46,11 @@ namespace Library
 		friend class LocalLibrary;
 
 	signals:
-		void sig_path_changed(LibraryId library_id);
-		void sig_name_changed(LibraryId library_id);
+		void sig_path_changed(LibraryId id);
+		void sig_added(LibraryId id);
+		void sig_renamed(LibraryId id);
+		void sig_moved(LibraryId id, int from, int to);
+		void sig_removed(LibraryId id);
 
 	private:
 		void reset();
@@ -60,7 +62,6 @@ namespace Library
 		bool move_library(int old_row, int new_row);
 		bool change_library_path(LibraryId id, const QString& path);
 
-
 		QList<Info> all_libraries() const;
 
 		Info library_info(LibraryId id) const;
@@ -69,7 +70,7 @@ namespace Library
 
 		int count() const;
 
-		LocalLibrary* library_instance(LibraryId id) const;
+		LocalLibrary* library_instance(LibraryId id);
 
 		static QString request_library_name(const QString& path);
 

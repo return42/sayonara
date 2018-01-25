@@ -43,9 +43,6 @@ class LocalLibrary :
 signals:
 	void sig_import_dialog_requested(const QString& target_dir);
 
-	void sig_path_changed(const QString& path);
-	void sig_name_changed(const QString& name);
-
 protected:
 	LocalLibrary(LibraryId id, QObject* parent=nullptr);
 
@@ -103,10 +100,6 @@ private:
 	void insert_tracks(const MetaDataList& v_md) override;
 	void apply_db_fixes();
 	void init_reload_thread();
-
-protected:
-	void library_path_changed(const QString& library_path);
-	void library_name_changed(const QString& name);
 
 public:
 	bool set_library_path(const QString& library_path);

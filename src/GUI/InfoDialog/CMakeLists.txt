@@ -12,5 +12,3 @@ TARGET_LINK_LIBRARIES(${PROJECT_NAME}
 	say_gui_tagedit
 	say_gui_covers
 )
-
-

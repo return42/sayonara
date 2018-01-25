@@ -179,6 +179,12 @@ namespace Util
 	{
 		std::sort(container.begin(), container.end(), fn);
 	}
+
+	template<typename T, typename FN>
+	typename T::iterator find(T& container, FN fn)
+	{
+		return std::find_if(container.begin(), container.end(), fn);
+	}
 }
 
 #endif
