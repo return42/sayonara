@@ -1,24 +1,8 @@
 PROJECT(say_lang)
 
-QT5_ADD_TRANSLATION(QM_FILES 
-	sayonara_lang_br.ts
-	sayonara_lang_cs.ts
-	sayonara_lang_de.ts
-	sayonara_lang_en.ts
-	sayonara_lang_es.ts
-	sayonara_lang_fr.ts
-	sayonara_lang_hu.ts
-	sayonara_lang_it.ts
-	sayonara_lang_nl.ts
-	sayonara_lang_pl.ts
-	sayonara_lang_pt.ts
-	sayonara_lang_ro.ts
-	sayonara_lang_ru.ts
-	sayonara_lang_tr.ts
-	sayonara_lang_ua.ts
-	sayonara_lang_zh_cn.ts
-)
+FILE(GLOB TS_FILES . *.ts)
 
+QT5_ADD_TRANSLATION(QM_FILES ${TS_FILES})
 
 IF(WIN32)
 	SET(TRANSLATION_TARGET_PATH
