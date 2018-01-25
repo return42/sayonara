@@ -26,33 +26,36 @@
 #include "ImportCache.h"
 #include "Utils/Pimpl.h"
 
-class ImportCache;
 class MetaDataList;
 
-/**
- * @brief The CachingThread class
- * @ingroup Library
- */
-class CachingThread :
-		public QThread
+namespace Library
 {
-	Q_OBJECT
-	PIMPL(CachingThread)
+	class ImportCache;
+	/**
+	 * @brief The CachingThread class
+	 * @ingroup Library
+	 */
+	class CachingThread :
+			public QThread
+	{
+		Q_OBJECT
+		PIMPL(CachingThread)
 
-signals:
-	void			sig_progress(int);
+		signals:
+			void			sig_progress(int);
 
-public:
-	explicit CachingThread(const QStringList& file_list, const QString& library_path, QObject *parent=nullptr);
-	virtual ~CachingThread();
+		public:
+			explicit CachingThread(const QStringList& file_list, const QString& library_path, QObject *parent=nullptr);
+			virtual ~CachingThread();
 
-	void			cancel();
-	bool			is_cancelled() const;
-	ImportCachePtr	cache() const;
-	void			change_metadata(const MetaDataList& v_md_old, const MetaDataList& v_md_new);
+			Library::ImportCachePtr	cache() const;
+			void			cancel();
+			bool			is_cancelled() const;
+			void			change_metadata(const MetaDataList& v_md_old, const MetaDataList& v_md_new);
 
-private:
-	void run() override;
-};
+		private:
+			void run() override;
+	};
+}
 
 #endif // IMPORTFOLDERTHREAD_H

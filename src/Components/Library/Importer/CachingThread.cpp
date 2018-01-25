@@ -28,6 +28,8 @@
 
 #include <QDir>
 
+using Library::CachingThread;
+
 struct CachingThread::Private
 {
 	QString			library_path;
@@ -126,7 +128,7 @@ void CachingThread::change_metadata(const MetaDataList& v_md_old, const MetaData
 }
 
 
-ImportCachePtr CachingThread::cache() const
+Library::ImportCachePtr CachingThread::cache() const
 {
 	return m->cache;
 }

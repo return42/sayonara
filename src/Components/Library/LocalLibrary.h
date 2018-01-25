@@ -25,10 +25,10 @@
 #include "Utils/Pimpl.h"
 
 class ReloadThread;
-class LibraryImporter;
 
 namespace Library
 {
+	class Importer;
 	class Manager;
 }
 
@@ -108,7 +108,7 @@ public:
 	QString			library_path() const;
 	LibraryId		library_id() const;
 	QString			library_name() const;
-	LibraryImporter* importer();
+	Library::Importer* importer();
 };
 
 #endif // LocalLibrary_H

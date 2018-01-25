@@ -28,54 +28,58 @@
 
 class MetaDataList;
 class LocalLibrary;
-/**
- * @brief The LibraryImporter class
- * @ingroup Library
- */
-class LibraryImporter :
-		public QObject
+
+namespace Library
 {
-	Q_OBJECT
-	PIMPL(LibraryImporter)
-
-public:
-	LibraryImporter(LocalLibrary* library);
-	~LibraryImporter();
-
-	enum class ImportStatus : uint8_t
+	/**
+	 * @brief The LibraryImporter class
+	 * @ingroup Library
+	 */
+	class Importer :
+			public QObject
 	{
-			 Cancelled,
-			 Rollback,
-			 Caching,
-			 NoTracks,
-			 WaitForUser,
-			 Importing,
-			 Imported
+		Q_OBJECT
+		PIMPL(Importer)
+
+	public:
+		Importer(LocalLibrary* library);
+		~Importer();
+
+		enum class ImportStatus : uint8_t
+		{
+			Cancelled,
+			Rollback,
+			Caching,
+			NoTracks,
+			WaitForUser,
+			Importing,
+			Imported
+		};
+
+	signals:
+		void sig_got_metadata(const MetaDataList&);
+		void sig_status_changed(Importer::ImportStatus);
+		void sig_got_library_dirs(const QStringList& library_dirs);
+		void sig_progress(int percent);
+		void sig_triggered();
+		void sig_target_dir_changed(const QString& target_dir);
+
+
+	public:
+		void import_files(const QStringList& files, const QString& target_dir);
+		void accept_import(const QString& target_dir);
+		void cancel_import();
+
+		Importer::ImportStatus status() const;
+
+
+	private slots:
+		void caching_thread_finished();
+		void copy_thread_finished();
+		void emit_status(Importer::ImportStatus status);
+		void metadata_changed(const MetaDataList& old_md, const MetaDataList& new_md);
+
 	};
-
-signals:
-	void sig_got_metadata(const MetaDataList&);
-	void sig_status_changed(LibraryImporter::ImportStatus);
-	void sig_got_library_dirs(const QStringList& library_dirs);
-	void sig_progress(int percent);
-	void sig_triggered();
-	void sig_target_dir_changed(const QString& target_dir);
-
-
-public:
-	void import_files(const QStringList& files, const QString& target_dir);
-	void accept_import(const QString& target_dir);
-	void cancel_import();
-
-	LibraryImporter::ImportStatus get_status() const;
-
-
-private slots:
-	void caching_thread_finished();
-	void copy_thread_finished();
-	void emit_status(LibraryImporter::ImportStatus status);
-	void metadata_changed(const MetaDataList& old_md, const MetaDataList& new_md);
-
-};
+}
 
 #endif // LIBRARYIMPORTER_H

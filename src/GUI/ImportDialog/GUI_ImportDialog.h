@@ -53,7 +53,7 @@ private slots:
 	void choose_dir();
 	void edit_pressed();
 	void set_metadata(const MetaDataList& v_md);
-	void set_status(LibraryImporter::ImportStatus status);
+	void set_status(Library::Importer::ImportStatus status);
 	void set_progress(int);
 
 protected:

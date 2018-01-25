@@ -28,35 +28,40 @@ class QStringList;
 class MetaData;
 class MetaDataList;
 
-/**
- * @brief The ImportCache class
- * @ingroup Library
- */
-class ImportCache
+namespace Library
 {
-private:
-	PIMPL(ImportCache)
+	/**
+	 * @brief The ImportCache class
+	 * @ingroup Library
+	 */
+	class ImportCache
+	{
+	private:
+		PIMPL(ImportCache)
 
-public:
-	ImportCache(const QString& library_path);
-	virtual ~ImportCache();
+	public:
+		ImportCache(const QString& library_path);
+		virtual ~ImportCache();
 
-	ImportCache(const ImportCache& other);
-	ImportCache& operator=(const ImportCache& other);
+		ImportCache(const ImportCache& other);
+		ImportCache& operator=(const ImportCache& other);
 
-	void			clear();
+		void			clear();
 
-	void			add_soundfile(const MetaData& md);
-	void			add_standard_file(const QString& filename);
-	void			add_standard_file(const QString& filename, const QString& parent_dir);
+		void			add_soundfile(const MetaData& md);
+		void			add_standard_file(const QString& filename);
+		void			add_standard_file(const QString& filename, const QString& parent_dir);
 
-	QStringList		files() const;
-	MetaDataList	soundfiles() const;
-	QString			target_filename(const QString& src_filename, const QString& target_directory) const;
-	MetaData		metadata(const QString& filename) const;
-	void			change_metadata(const MetaDataList& v_md_old, const MetaDataList& v_md_new);
-};
+		QStringList		files() const;
+		MetaDataList	soundfiles() const;
+		QString			target_filename(const QString& src_filename, const QString& target_directory) const;
+		MetaData		metadata(const QString& filename) const;
+		void			change_metadata(const MetaDataList& v_md_old, const MetaDataList& v_md_new);
+	};
 
-using ImportCachePtr=std::shared_ptr<ImportCache>;
+	using ImportCachePtr=std::shared_ptr<ImportCache>;
+}
+
+
 
 #endif // IMPORTCACHE_H

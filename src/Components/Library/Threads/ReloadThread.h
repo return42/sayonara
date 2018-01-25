@@ -39,35 +39,38 @@
 
 class MetaData;
 
-class ReloadThread :
-		public QThread,
-		public SayonaraClass
+namespace Library
 {
-	Q_OBJECT
-	PIMPL(ReloadThread)
+	class ReloadThread :
+			public QThread,
+			public SayonaraClass
+	{
+		Q_OBJECT
+		PIMPL(ReloadThread)
 
-signals:
-	void sig_reloading_library(const QString& message, int progress);
-	void sig_new_block_saved();
+	signals:
+		void sig_reloading_library(const QString& message, int progress);
+		void sig_new_block_saved();
 
-public:
-	ReloadThread(QObject* parent);
-	~ReloadThread();
+	public:
+		ReloadThread(QObject* parent);
+		~ReloadThread();
 
-	void pause();
-	void goon();
-	void stop();
-	bool is_running() const;
-	void set_quality(Library::ReloadQuality quality);
-	void set_library(LibraryId lib_id, const QString& library_path);
+		void pause();
+		void goon();
+		void stop();
+		bool is_running() const;
+		void set_quality(Library::ReloadQuality quality);
+		void set_library(LibraryId lib_id, const QString& library_path);
 
-protected:
-	virtual void run() override;
+	protected:
+		virtual void run() override;
 
-private:
-	bool			get_and_save_all_files(const QHash<QString, MetaData>& v_md_map);
-	QStringList		get_files_recursive(QDir base_dir);
-	QStringList		process_sub_files(const QDir& dir, const QStringList& sub_files);
-};
+	private:
+		bool			get_and_save_all_files(const QHash<QString, MetaData>& v_md_map);
+		QStringList		get_files_recursive(QDir base_dir);
+		QStringList		process_sub_files(const QDir& dir, const QStringList& sub_files);
+	};
+}
 
 #endif /* RELOADTHREAD_H_ */

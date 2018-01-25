@@ -26,6 +26,8 @@
 #include <QFile>
 #include <QDir>
 
+using Library::CopyThread;
+
 struct CopyThread::Private
 {
 	MetaDataList	v_md;
@@ -109,7 +111,7 @@ void CopyThread::copy()
 			continue;
 		}
 
-        MetaData md(m->cache->metadata(filename));
+		MetaData md(m->cache->metadata(filename));
 
 		if(!md.filepath().isEmpty()){
 			sp_log(Log::Debug, this) << "Set new filename: " << target_filename;
@@ -127,15 +129,15 @@ void CopyThread::copy()
 void CopyThread::rollback()
 {
 	int n_operations = m->lst_copied_files.size();
-    int n_ops_todo = n_operations;
+	int n_ops_todo = n_operations;
 
 	for(const QString& f : m->lst_copied_files) {
-        QFile file(f);
-        file.remove();
+		QFile file(f);
+		file.remove();
 		int percent = ((n_ops_todo--) * (m->percent * 1000)) / (n_operations);
 
-        emit sig_progress(percent/ 1000);
-    }
+		emit sig_progress(percent/ 1000);
+	}
 
 	m->percent = 0;
 	m->copied_files = 0;

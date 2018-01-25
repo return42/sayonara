@@ -27,59 +27,60 @@
 #include "Utils/Pimpl.h"
 
 class QString;
-class ImportCache;
 class MetaDataList;
 
-/**
- * @brief The CopyThread class
- * @ingroup Library
- */
-class CopyThread :
-		public QThread
+namespace Library
 {
-    Q_OBJECT
-	PIMPL(CopyThread)
-
-public:
-
-	enum class Mode : uint8_t 
-	{
-		Copy=0,
-		Rollback
-	};
-
-	CopyThread(const QString& target_dir, ImportCachePtr cache, QObject *parent=nullptr);
-	virtual ~CopyThread();
-
-	int get_n_copied_files() const;
-
-	bool was_cancelled() const;
-	void cancel();
-
-	MetaDataList get_copied_metadata() const;
-
-	void set_mode(CopyThread::Mode mode);
-
-
-private:
-
-	void clear();
-	void run();
+	class ImportCache;
 
 	/**
-	 * @brief Copies tracks to file system.
-	 * Example: i want to import /home/user/dir\n
-	 * my music library is in /home/user/Music\n
-	 * i will type "chosen" into entry field\n
-	 * i expect a directory /home/user/Music/chosen/dir in my music library
+	 * @brief The CopyThread class
+	 * @ingroup Library
 	 */
-	void copy();
-	void rollback();
-    void emit_percent(int i, int n);
+	class CopyThread :
+			public QThread
+	{
+		Q_OBJECT
+		PIMPL(CopyThread)
+
+		public:
+			enum class Mode : uint8_t
+			{
+				Copy=0,
+				Rollback
+			};
+
+			CopyThread(const QString& target_dir, ImportCachePtr cache, QObject *parent=nullptr);
+			virtual ~CopyThread();
+
+			int get_n_copied_files() const;
+
+			bool was_cancelled() const;
+			void cancel();
+
+			MetaDataList get_copied_metadata() const;
+
+			void set_mode(CopyThread::Mode mode);
+
+		private:
+			void clear();
+			void run();
+
+			/**
+			 * @brief Copies tracks to file system.
+			 * Example: i want to import /home/user/dir\n
+			 * my music library is in /home/user/Music\n
+			 * i will type "chosen" into entry field\n
+			 * i expect a directory /home/user/Music/chosen/dir in my music library
+			 */
+			void copy();
+			void rollback();
+			void emit_percent(int i, int n);
 
 
-signals:
-    void sig_progress(int);
-};
+		signals:
+			void sig_progress(int);
+	};
+}
 
 #endif
