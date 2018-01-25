@@ -82,19 +82,19 @@ signals:
 	 * @brief relative seeking was triggered
 	 * @param ms relative position to current position in milliseconds
 	 */
-	void sig_seeked_rel_ms(int64_t ms);
+	void sig_seeked_rel_ms(MilliSeconds ms);
 
 	/**
 	 * @brief absolute seeking was triggered
 	 * @param ms absolute position in milliseconds
 	 */
-	void sig_seeked_abs_ms(uint64_t ms);
+	void sig_seeked_abs_ms(MilliSeconds ms);
 
 	/**
 	 * @brief position in track has changed
 	 * @param ms absolute position in milliseconds
 	 */
-	void sig_position_changed_ms(uint64_t ms);
+	void sig_position_changed_ms(MilliSeconds ms);
 
 	/**
 	 * @brief track has changed
@@ -118,7 +118,7 @@ signals:
 	 * @brief duration of track has changed
 	 * @param ms duration of track in milliseconds
 	 */
-	void sig_duration_changed(uint64_t ms);
+	void sig_duration_changed(MilliSeconds ms);
 
 	/**
 	 * @brief playlist has finished
@@ -163,10 +163,10 @@ public slots:
 	 */
 	void play();
 
-    /**
-     * @brief Emit wake up signal after stopping state
-     */
-    void wake_up();
+	/**
+	 * @brief Emit wake up signal after stopping state
+	 */
+	void wake_up();
 
 	/**
 	 * @brief toggle play/pause
@@ -211,21 +211,21 @@ public slots:
 	 * @brief seek absolute
 	 * @param ms absolute position in milliseconds
 	 */
-	void seek_abs_ms(uint64_t ms);
+	void seek_abs_ms(MilliSeconds ms);
 
 	/**
 	 * @brief seek_rel_ms
 	 * @param ms relative position to current position in milliseconds
 	 */
-	void seek_rel_ms(int64_t ms);
+	void seek_rel_ms(MilliSeconds ms);
 
 	/**
 	 * @brief set current position of track
 	 * This method does not seek.
 	 * Just tells the playmanager where the current position is
-	 * @param ms position in milliseconds. 	 
+	 * @param ms position in milliseconds.
 	 */
-	void set_position_ms(uint64_t ms);
+	void set_position_ms(MilliSeconds ms);
 
 	/**
 	 * @brief change current track
@@ -265,13 +265,13 @@ public slots:
 	 * @brief mute/unmute
 	 * @param b
 	 */
-    void set_muted(bool b);
+	void set_muted(bool b);
 
 
 	void change_metadata(const MetaData& md);
 
 
-    void change_duration(uint32_t ms);
+	void change_duration(MilliSeconds ms);
 
 	void error(const QString& message);
 
@@ -280,44 +280,44 @@ public:
 	 * @brief get current play state
 	 * @return PlayState enum
 	 */
-    PlayState	playstate() const;
+	PlayState	playstate() const;
 
 	/**
 	 * @brief get current position in milliseconds
 	 * @return current position in milliseconds
 	 */
-    uint32_t		current_position_ms() const;
+	MilliSeconds		current_position_ms() const;
 
 	/**
 	 * @brief get position in milliseconds where track will start
 	 * @return position in milliseconds where track will start
 	 */
-    uint32_t		initial_position_ms() const;
+	MilliSeconds		initial_position_ms() const;
 
 	/**
 	 * @brief get duration of track
 	 * @return duration in milliseconds
 	 */
-    uint32_t		duration_ms() const;
+	MilliSeconds		duration_ms() const;
 
 	/**
 	 * @brief get current track
 	 * @return MetaData object of current track
 	 */
-    const MetaData& current_track() const;
+	const MetaData& current_track() const;
 
 	/**
 	 * @brief get current volume
 	 * @return value between 0 and 100
 	 */
-    int			volume() const;
+	int			volume() const;
 
 
 	/**
 	 * @brief query mute status
 	 * @return true if muted, false else
 	 */
-    bool		is_muted() const;
+	bool		is_muted() const;
 };
 
 using PlayManagerPtr=PlayManager*;

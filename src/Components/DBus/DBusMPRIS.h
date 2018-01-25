@@ -38,22 +38,22 @@ class DBusAdaptor :
 		public QObject
 {
 	Q_OBJECT
-    PIMPL(DBusAdaptor)
+	PIMPL(DBusAdaptor)
 
 protected:
-    explicit DBusAdaptor(QStrRef object_path, QStrRef service_name, QStrRef dbus_service, QStrRef dbus_interface, QObject *parent=nullptr);
+	explicit DBusAdaptor(QStrRef object_path, QStrRef service_name, QStrRef dbus_service, QStrRef dbus_interface, QObject *parent=nullptr);
 	virtual ~DBusAdaptor();
 
 	void create_message(QString name, QVariant val);
 
-    QString object_path() const;
-    QString service_name() const;
-    QString dbus_service() const;
-    QString dbus_interface() const;
+	QString object_path() const;
+	QString service_name() const;
+	QString dbus_service() const;
+	QString dbus_interface() const;
 };
 
 
-namespace DBusMPRIS 
+namespace DBusMPRIS
 {
 
 class MediaPlayer2 :
@@ -61,7 +61,7 @@ class MediaPlayer2 :
 		public SayonaraClass
 {
 	Q_OBJECT
-    PIMPL(MediaPlayer2)
+	PIMPL(MediaPlayer2)
 
 	public:
 		explicit MediaPlayer2(QMainWindow* player, QObject *parent=nullptr);
@@ -135,9 +135,9 @@ class MediaPlayer2 :
 		void					SetVolume(double volume);
 
 
-		Q_PROPERTY(int64_t	Position			READ	Position)
-		int64_t				Position();
-		void				SetPosition(const QDBusObjectPath& track_id, int64_t position);
+		Q_PROPERTY(MicroSeconds	Position			READ	Position)
+		MicroSeconds				Position();
+		void				SetPosition(const QDBusObjectPath& track_id, MicroSeconds position);
 
 
 		Q_PROPERTY(double		MinimumRate			READ	MinimumRate)
@@ -178,14 +178,14 @@ class MediaPlayer2 :
 		void					PlayPause();
 		void					Stop();
 		void					Play();
-		void					Seek(int64_t offset);
+		void					Seek(MicroSeconds offset);
 
 		void					OpenUri(const QString& uri);
 
 
 	public slots:
 
-		void					position_changed(uint64_t pos_ms);
+		void					position_changed(MilliSeconds pos_ms);
 		void					volume_changed(int volume);
 		void					track_idx_changed(int idx);
 		void					playlist_len_changed(int len);
@@ -193,7 +193,7 @@ class MediaPlayer2 :
 		void					playstate_changed(PlayState state);
 
 	signals:
-		void					Seeked(int64_t position);
+		void					Seeked(MicroSeconds position);
 		void					sig_raise();
 };
 } // end namespace DBusMPRIS

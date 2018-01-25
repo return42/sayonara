@@ -28,20 +28,20 @@
 
 namespace Pipeline
 {
-    class SeekHandler
-    {
-        PIMPL(SeekHandler)
+	class SeekHandler
+	{
+		PIMPL(SeekHandler)
 
-    public:
-        SeekHandler();
-        virtual ~SeekHandler();
+	public:
+		SeekHandler();
+		virtual ~SeekHandler();
 
-        int64_t seek_rel(double percent, int64_t ref_ns);
-        int64_t seek_abs(int64_t ns);
-        int64_t seek_nearest(int64_t ns);
+		NanoSeconds seek_rel(double percent, NanoSeconds ref_ns);
+		NanoSeconds seek_abs(NanoSeconds ns);
+		NanoSeconds seek_nearest(NanoSeconds ns);
 
-        virtual GstElement* get_source() const=0;
-    };
+		virtual GstElement* get_source() const=0;
+	};
 }
 
 #endif // SEEKHANDLER_H

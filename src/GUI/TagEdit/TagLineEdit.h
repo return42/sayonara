@@ -22,30 +22,9 @@
 #define TAGLINEEDIT_H
 
 #include <QLineEdit>
+#include "Utils/Pimpl.h"
 
-/**
- * @brief Holds start and size of a selection
- * @ingroup Tagging
- */
-struct TextSelection
-{
-	int selection_start;
-	int selection_size;
-
-	/**
-	 * @brief set selection_start to -1 and selection_size to 0
-	 */
-	void reset()
-{
-		selection_start = -1;
-		selection_size = 0;
-	}
-
-	TextSelection()
-{
-		reset();
-	}
-};
+struct TextSelection;
 
 /**
  * @brief The TagLineEdit class
@@ -55,14 +34,11 @@ class TagLineEdit :
 		public QLineEdit
 {
 	Q_OBJECT
+	PIMPL(TagLineEdit)
 
 public:
 	explicit TagLineEdit(QWidget* parent=nullptr);
 	~TagLineEdit();
-
-protected:
-
-	TextSelection 	_text_selection;
 
 protected:
 	/**
@@ -82,7 +58,7 @@ public:
 	 * @brief Retrieve the current TextSelection
 	 * @return The current TextSelection object
 	 */
-	TextSelection get_text_selection() const;
+	TextSelection text_selection() const;
 };
 
 #endif // TAGLINEEDIT_H

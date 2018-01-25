@@ -25,7 +25,7 @@
 #include "Interfaces/PreferenceDialog/PreferenceAction.h"
 
 #include "Utils/globals.h"
-#include "Utils/Message/GlobalMessage.h"
+#include "Utils/Message/Message.h"
 #include "Utils/Language.h"
 
 #include "GUI/Utils/Icons.h"
@@ -179,7 +179,7 @@ bool GUI_PreferenceDialog::commit()
 				QString error_string = iface->error_string();
 				if(!error_string.isEmpty())
 				{
-					GlobalMessage::warning(iface->action_name() + "\n\n" + error_string, iface->action_name());
+					Message::warning(iface->action_name() + "\n\n" + error_string, iface->action_name());
 					success = false;
 				}
 			}

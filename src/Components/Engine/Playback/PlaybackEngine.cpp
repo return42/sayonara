@@ -189,7 +189,7 @@ bool Playback::change_track_gapless(const MetaData& md)
 		return false;
 	}
 
-	int64_t time_to_go = m->other_pipeline->get_time_to_go();
+	MilliSeconds time_to_go = m->other_pipeline->get_time_to_go();
 	if(time_to_go <= 0) {
 		m->pipeline->play();
 	}
@@ -302,14 +302,14 @@ void Playback::pause()
 }
 
 
-void Playback::jump_abs_ms(uint64_t pos_ms)
+void Playback::jump_abs_ms(MilliSeconds pos_ms)
 {
 	m->pipeline->seek_abs(pos_ms * GST_MSECOND);
 }
 
-void Playback::jump_rel_ms(uint64_t ms)
+void Playback::jump_rel_ms(MilliSeconds ms)
 {
-	uint64_t new_time_ms = m->pipeline->get_source_position_ms() + ms;
+	MilliSeconds new_time_ms = m->pipeline->get_source_position_ms() + ms;
 	m->pipeline->seek_abs(new_time_ms * GST_MSECOND);
 }
 
@@ -321,13 +321,13 @@ void Playback::jump_rel(double percent)
 
 
 
-void Playback::cur_pos_ms_changed(int64_t pos_ms)
+void Playback::cur_pos_ms_changed(MilliSeconds pos_ms)
 {
 	if(sender() != m->pipeline){
 		return;
 	}
 
-	if(pos_ms < 0 && Util::File::is_www(metadata().filepath())){
+	if(Util::File::is_www(metadata().filepath())){
 		return;
 	}
 
@@ -342,7 +342,7 @@ void Playback::set_track_ready(GstElement* src)
 	}
 }
 
-void Playback::set_track_almost_finished(int64_t time2go)
+void Playback::set_track_almost_finished(MilliSeconds time2go)
 {
 	Q_UNUSED(time2go)
 
@@ -527,7 +527,7 @@ void Playback::update_metadata(const MetaData& md, GstElement* src)
 }
 
 
-void Playback::update_duration(int64_t duration_ms, GstElement* src)
+void Playback::update_duration(MilliSeconds duration_ms, GstElement* src)
 {
 	if(! m->pipeline->has_element(src)){
 		return;
@@ -540,7 +540,7 @@ void Playback::update_duration(int64_t duration_ms, GstElement* src)
 }
 
 
-void Playback::update_bitrate(uint32_t br, GstElement* src)
+void Playback::update_bitrate(Bitrate br, GstElement* src)
 {
 	if(!m->pipeline->has_element(src)){
 		return;

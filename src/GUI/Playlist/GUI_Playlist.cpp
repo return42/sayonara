@@ -199,7 +199,7 @@ void GUI_Playlist::set_total_time_label()
 	int current_idx = ui->tw_playlists->currentIndex();
 	PlaylistConstPtr pl = Handler::instance()->playlist(current_idx);
 
-	uint64_t dur_ms = 0;
+	MilliSeconds dur_ms = 0;
 	if(pl){
 		dur_ms = pl->running_time();
 	}
@@ -429,9 +429,9 @@ void GUI_Playlist::tab_save_playlist_as_clicked(int idx, const QString& str)
 
 	if(success == Playlist::DBInterface::SaveAsAnswer::AlreadyThere)
 	{
-		GlobalMessage::Answer answer = show_save_message_box(success);
+		Message::Answer answer = show_save_message_box(success);
 
-		if(answer == GlobalMessage::Answer::No) {
+		if(answer == Message::Answer::No) {
 			return;
 		}
 
@@ -463,9 +463,9 @@ void GUI_Playlist::tab_rename_clicked(int idx, const QString& str)
 
 void GUI_Playlist::tab_delete_playlist_clicked(int idx)
 {
-	GlobalMessage::Answer answer = Message::question_yn(Lang::get(Lang::Really).question(), Lang::get(Lang::Delete));
+	Message::Answer answer = Message::question_yn(Lang::get(Lang::Really).question(), Lang::get(Lang::Delete));
 
-	if(answer == GlobalMessage::Answer::No) {
+	if(answer == Message::Answer::No) {
 		return;
 	}
 
@@ -567,7 +567,7 @@ void GUI_Playlist::check_playlist_name(PlaylistConstPtr pl)
 }
 
 
-GlobalMessage::Answer GUI_Playlist::show_save_message_box(Playlist::DBInterface::SaveAsAnswer answer)
+Message::Answer GUI_Playlist::show_save_message_box(Playlist::DBInterface::SaveAsAnswer answer)
 {
 	switch(answer)
 	{
@@ -583,10 +583,10 @@ GlobalMessage::Answer GUI_Playlist::show_save_message_box(Playlist::DBInterface:
 			return Message::warning(tr("Playlists are currently only supported for library tracks."), tr("Save playlist"));
 
 		default:
-			return GlobalMessage::Answer::Undefined;
+			return Message::Answer::Undefined;
 	}
 
-	return GlobalMessage::Answer::Undefined;
+	return Message::Answer::Undefined;
 }
 
 

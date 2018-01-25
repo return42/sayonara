@@ -299,7 +299,7 @@ void Standard::metadata_changed(const MetaDataList& v_md_old, const MetaDataList
 	emit sig_items_changed( index() );
 }
 
-void Standard::duration_changed(uint64_t ms)
+void Standard::duration_changed(MilliSeconds ms)
 {
 	MetaDataList& v_md = metadata();
 
@@ -315,7 +315,7 @@ void Standard::duration_changed(uint64_t ms)
 	for(int i : idx_list)
 	{
 		MetaData changed_md(v_md[i]);
-		changed_md.length_ms = ms;
+		changed_md.length_ms = std::max<MilliSeconds>(0, ms);
 
 		replace_track(i, changed_md);
 	}

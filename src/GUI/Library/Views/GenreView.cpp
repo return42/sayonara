@@ -185,12 +185,12 @@ void GenreView::delete_pressed()
 		genre_names << g.name();
 	}
 
-	GlobalMessage::Answer answer = Message::question_yn(
+	Message::Answer answer = Message::question_yn(
 			tr("Do you really want to remove %1 from all tracks?").arg(genre_names.join(", ")),
 			Lang::get(Lang::Genres)
 	);
 
-	if(answer == GlobalMessage::Answer::Yes)
+	if(answer == Message::Answer::Yes)
 	{
 		for(const Genre& genre : genres)
 		{

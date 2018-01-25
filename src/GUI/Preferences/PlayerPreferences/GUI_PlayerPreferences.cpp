@@ -40,6 +40,11 @@ void GUI_PlayerPreferences::init_ui()
 {
 	setup_parent(this, &ui);
 
+	ui->cb_logger->addItem(Lang::get(Lang::Default));
+	ui->cb_logger->addItem("Debug");
+	ui->cb_logger->addItem("Develop");
+	ui->cb_logger->addItem("Crazy");
+
 	revert();
 
 	connect(ui->cb_show_tray_icon, &QCheckBox::toggled, this, &GUI_PlayerPreferences::show_tray_icon_toggled);
@@ -61,6 +66,7 @@ bool GUI_PlayerPreferences::commit()
 
 	_settings->set(Set::Player_ShowTrayIcon, ui->cb_show_tray_icon->isChecked());
 	_settings->set(Set::Player_NotifyNewVersion, ui->cb_update_notifications->isChecked());
+	_settings->set(Set::Logger_Level, ui->cb_logger->currentIndex());
 
 	return true;
 }
@@ -73,6 +79,7 @@ void GUI_PlayerPreferences::revert()
 	ui->cb_close_to_tray->setChecked(_settings->get(Set::Player_Min2Tray));
 	ui->cb_update_notifications->setChecked(_settings->get(Set::Player_NotifyNewVersion));
 	ui->cb_show_tray_icon->setChecked(_settings->get(Set::Player_ShowTrayIcon));
+	ui->cb_logger->setCurrentIndex(_settings->get(Set::Logger_Level));
 
 	show_tray_icon_toggled(show_tray_icon);
 }
@@ -90,4 +97,7 @@ void GUI_PlayerPreferences::show_tray_icon_toggled(bool b)
 void GUI_PlayerPreferences::retranslate_ui()
 {
 	ui->retranslateUi(this);
+
+	ui->lab_logger->setText(Lang::get(Lang::Logger));
+	ui->cb_logger->setItemText(0, Lang::get(Lang::Default));
 }

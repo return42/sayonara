@@ -20,6 +20,7 @@
 
 #include "GUI_TagEdit.h"
 #include "TagLineEdit.h"
+#include "TextSelection.h"
 
 #include "GUI/TagEdit/ui_GUI_TagEdit.h"
 
@@ -706,12 +707,12 @@ void GUI_TagEdit::apply_tag_all_clicked()
 
 	not_valid_str += "<br />" + tr("Ignore these tracks?");
 
-	GlobalMessage::Answer answer = GlobalMessage::Answer::Yes;
+	Message::Answer answer = Message::Answer::Yes;
 	if(! not_valid.isEmpty() ){
 		answer = Message::question_yn(not_valid_str);
 	}
 
-	if(answer == GlobalMessage::Answer::Yes){
+	if(answer == Message::Answer::Yes){
 		for(int i=0; i<n_tracks; i++){
 			if(not_valid.contains(i)) continue;
 
@@ -724,7 +725,7 @@ void GUI_TagEdit::apply_tag_all_clicked()
 
 bool GUI_TagEdit::replace_selected_tag_text(Tag t, bool b)
 {
-	TextSelection ts = ui->le_tag->get_text_selection();
+	TextSelection ts = ui->le_tag->text_selection();
 
 	if(ts.selection_start < 0 && b) {
 		sp_log(Log::Debug, this) << "Nothing selected...";

@@ -32,8 +32,7 @@ SET(SOURCES
 	Logger/Logger.cpp
 
 	Message/Message.cpp
-	Message/GlobalMessage.cpp
-	Message/GlobalMessageReceiverInterface.cpp
+	Message/MessageReceiverInterface.cpp
 
 	MetaData/LibraryItem.cpp
 	MetaData/MetaData.cpp

@@ -1,4 +1,4 @@
-/* Message.cpp */
+/* GlobalMessage.cpp */
 
 /* Copyright (C) 2011-2017  Lucio Carreras
  *
@@ -19,30 +19,70 @@
  */
 
 #include "Message.h"
+#include "MessageReceiverInterface.h"
+#include "Utils/Logger/Logger.h"
 
+static MessageReceiverInterface* s_receiver=nullptr;
 
-GlobalMessage::Answer Message::info(const QString& info, const QString& sender_name)
+bool Message::register_receiver(MessageReceiverInterface* receiver)
 {
-    return GlobalMessage::info(info, sender_name);
+	if(s_receiver != nullptr){
+		sp_log(Log::Warning, "GlobalMessage") << "There's also another receiver: " << s_receiver->get_name();
+		return false;
+	}
+
+	s_receiver = receiver;
+
+	return true;
 }
 
-GlobalMessage::Answer Message::warning(const QString& warning, const QString& sender_name)
+
+Message::Answer
+Message::info(const QString& info, const QString& sender_name)
 {
-    return GlobalMessage::warning(warning, sender_name);
+	if(!s_receiver) {
+		return Message::Answer::Undefined;
+	}
+
+	return s_receiver->info_received(info, sender_name);
 }
 
-GlobalMessage::Answer Message::error(const QString& error, const QString& sender_name)
+Message::Answer
+Message::warning(const QString& warning, const QString& sender_name)
 {
-    return GlobalMessage::error(error, sender_name);
+	if(!s_receiver) {
+		return Message::Answer::Undefined;
+	}
+
+	return s_receiver->warning_received(warning, sender_name);
 }
 
-GlobalMessage::Answer Message::question_yn(const QString& error, const QString& sender_name)
+Message::Answer
+Message::error(const QString& error, const QString& sender_name)
 {
-    return GlobalMessage::question(error, sender_name, GlobalMessage::QuestionType::YesNo);
+	if(!s_receiver) {
+		return Message::Answer::Undefined;
+	}
+
+	return s_receiver->error_received(error, sender_name);
 }
 
-GlobalMessage::Answer Message::question_ok(const QString& error, const QString& sender_name)
+Message::Answer
+Message::question(const QString& question, const QString& sender_name, Message::QuestionType type)
 {
-    return GlobalMessage::question(error, sender_name, GlobalMessage::QuestionType::OkCancel);
+	if(!s_receiver) {
+		return Message::Answer::Undefined;
+	}
+
+	return s_receiver->question_received(question, sender_name, type);
 }
 
+Message::Answer Message::question_yn(const QString& question, const QString& sender_name)
+{
+	return Message::question(question, sender_name, Message::QuestionType::YesNo);
+}
+
+Message::Answer Message::question_ok(const QString& question, const QString& sender_name)
+{
+	return Message::question(question, sender_name, Message::QuestionType::OkCancel);
+}

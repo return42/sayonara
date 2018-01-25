@@ -252,11 +252,12 @@ void CrossFader::decrease_volume()
 	set_current_volume(m->volume);
 }
 
-uint64_t CrossFader::get_fading_time_ms() const
+MilliSeconds CrossFader::get_fading_time_ms() const
 {
 	Settings* settings = Settings::instance();
-	if(settings->get(Set::Engine_CrossFaderActive)){
-		return settings->get(Set::Engine_CrossFaderTime);
+	if(settings->get(Set::Engine_CrossFaderActive))
+	{
+		return (MilliSeconds) settings->get(Set::Engine_CrossFaderTime);
 	}
 
 	return 0;

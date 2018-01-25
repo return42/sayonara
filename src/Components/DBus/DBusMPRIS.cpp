@@ -112,7 +112,7 @@ struct DBusMPRIS::MediaPlayer2::Private
 
 	QString			playback_status;
 	MetaData		md;
-	int64_t			pos;
+	MicroSeconds	pos;
 	double			volume;
 
 	int				playlist_track_count;
@@ -360,7 +360,7 @@ double DBusMPRIS::MediaPlayer2::Volume()
 	return m->volume;
 }
 
-int64_t DBusMPRIS::MediaPlayer2::Position()
+MicroSeconds DBusMPRIS::MediaPlayer2::Position()
 {
 	return m->pos;
 }
@@ -440,12 +440,12 @@ void DBusMPRIS::MediaPlayer2::Play()
 	m->play_manager->play();
 }
 
-void DBusMPRIS::MediaPlayer2::Seek(int64_t offset)
+void DBusMPRIS::MediaPlayer2::Seek(MicroSeconds offset)
 {
 	m->play_manager->seek_rel_ms(offset / 1000);
 }
 
-void DBusMPRIS::MediaPlayer2::SetPosition(const QDBusObjectPath& track_id, int64_t position)
+void DBusMPRIS::MediaPlayer2::SetPosition(const QDBusObjectPath& track_id, MicroSeconds position)
 {
 	Q_UNUSED(track_id)
 	m->play_manager->seek_abs_ms(position / 1000);
@@ -490,14 +490,14 @@ void DBusMPRIS::MediaPlayer2::volume_changed(int volume)
 }
 
 
-void DBusMPRIS::MediaPlayer2::position_changed(uint64_t pos)
+void DBusMPRIS::MediaPlayer2::position_changed(MilliSeconds pos)
 {
 	if(!m->initialized){
 		init();
 	}
 
-	int64_t new_pos = pos * 1000;
-	int64_t difference = new_pos - m->pos;
+	MicroSeconds new_pos = pos * 1000;
+	MicroSeconds difference = new_pos - m->pos;
 
 	if(difference < 0 || difference > 1000000){
 		emit Seeked(new_pos);

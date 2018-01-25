@@ -50,10 +50,10 @@ public:
 	void			add_standard_file(const QString& filename);
 	void			add_standard_file(const QString& filename, const QString& parent_dir);
 
-	QStringList		get_files() const;
-	MetaDataList	get_soundfiles() const;
-	QString			get_target_filename(const QString& src_filename, const QString& target_directory) const;
-	MetaData		get_metadata(const QString& filename) const;
+	QStringList		files() const;
+	MetaDataList	soundfiles() const;
+	QString			target_filename(const QString& src_filename, const QString& target_directory) const;
+	MetaData		metadata(const QString& filename) const;
 	void			change_metadata(const MetaDataList& v_md_old, const MetaDataList& v_md_new);
 };
 

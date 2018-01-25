@@ -1,4 +1,4 @@
-/* Message.h */
+/* GlobalMessage.h */
 
 /* Copyright (C) 2011-2017  Lucio Carreras
  *
@@ -18,23 +18,65 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MESSAGE_H
-#define MESSAGE_H
+#ifndef GLOBALMESSAGE_H
+#define GLOBALMESSAGE_H
 
-#include "GlobalMessage.h"
 #include <QString>
 
+class MessageReceiverInterface;
+
 /**
- * @brief Message namespace. The instance of GlobalMessage is called
+ * @brief The GlobalMessage class
  * @ingroup GUIHelper
  */
 namespace Message
 {
-	GlobalMessage::Answer info(const QString& warning, const QString& sender_name=QString());
-	GlobalMessage::Answer warning(const QString& warning, const QString& sender_name=QString());
-	GlobalMessage::Answer error(const QString& warning, const QString& sender_name=QString());
-	GlobalMessage::Answer question_yn(const QString& question, const QString& sender_name=QString());
-	GlobalMessage::Answer question_ok(const QString& question, const QString& sender_name=QString());
+	enum class Answer : unsigned char
+	{
+		Yes=0,
+		No,
+		Ok,
+		Cancel,
+		Undefined
+	};
+
+	enum class QuestionType : unsigned char
+	{
+		YesNo=0,
+		OkCancel
+	};
+
+	Message::Answer info(
+			const QString& info,
+			const QString& sender_name=QString());
+
+	Message::Answer warning(
+			const QString& warning,
+			const QString& sender_name=QString());
+
+	Message::Answer error(
+			const QString& error,
+			const QString& sender_name=QString());
+
+	Message::Answer question(
+			const QString& question,
+			const QString& sender_name,
+			QuestionType type);
+
+	Message::Answer question_yn(
+			const QString& question,
+			const QString& sender_name=QString());
+
+	Message::Answer question_ok(
+			const QString& question,
+			const QString& sender_name=QString());
+
+	/**
+	 * @brief register a receiver here, so it is called whenever a message has to be written
+	 * @param receiver the receiver class
+	 * @return false, if there's already another receiver. True else
+	 */
+	bool register_receiver(MessageReceiverInterface* receiver);
 }
 
-#endif // MESSAGE_H
+#endif // GLOBALMESSAGE_H

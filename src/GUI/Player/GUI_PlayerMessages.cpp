@@ -22,28 +22,28 @@
 #include "Utils/Language.h"
 #include <QMessageBox>
 
-GlobalMessage::Answer convert_answer(QMessageBox::StandardButton answer)
+Message::Answer convert_answer(QMessageBox::StandardButton answer)
 {
 	switch(answer){
 		case QMessageBox::Ok:
-			return GlobalMessage::Answer::Ok;
+			return Message::Answer::Ok;
 
 		case QMessageBox::Cancel:
 		case QMessageBox::Abort:
-			return GlobalMessage::Answer::Cancel;
+			return Message::Answer::Cancel;
 
 		case QMessageBox::Yes:
-			return GlobalMessage::Answer::Yes;
+			return Message::Answer::Yes;
 
 		case QMessageBox::No:
-			return GlobalMessage::Answer::No;
+			return Message::Answer::No;
 
 		default:
-			return GlobalMessage::Answer::Undefined;
+			return Message::Answer::Undefined;
 	}
 }
 
-GlobalMessage::Answer GUI_Player::error_received(const QString &error, const QString &sender_name)
+Message::Answer GUI_Player::error_received(const QString &error, const QString &sender_name)
 {
 	QString title = sender_name.isEmpty()
 			? Lang::get(Lang::Error) + ":"
@@ -52,7 +52,7 @@ GlobalMessage::Answer GUI_Player::error_received(const QString &error, const QSt
 	return convert_answer (QMessageBox::critical(this, title, error));
 }
 
-GlobalMessage::Answer GUI_Player::warning_received(const QString &warning, const QString &sender_name)
+Message::Answer GUI_Player::warning_received(const QString &warning, const QString &sender_name)
 {
 	QString title = sender_name.isEmpty()
 			? Lang::get(Lang::Warning) + ":"
@@ -61,7 +61,7 @@ GlobalMessage::Answer GUI_Player::warning_received(const QString &warning, const
 	return convert_answer (QMessageBox::warning(this, title, warning));
 }
 
-GlobalMessage::Answer GUI_Player::info_received(const QString &info, const QString &sender_name)
+Message::Answer GUI_Player::info_received(const QString &info, const QString &sender_name)
 {
 	QString title = sender_name.isEmpty()
 			? Lang::get(Lang::Info) + ":"
@@ -70,13 +70,13 @@ GlobalMessage::Answer GUI_Player::info_received(const QString &info, const QStri
 	return convert_answer (QMessageBox::information(this, title, info));
 }
 
-GlobalMessage::Answer GUI_Player::question_received(const QString &question, const QString &sender_name, GlobalMessage::QuestionType type)
+Message::Answer GUI_Player::question_received(const QString &question, const QString &sender_name, Message::QuestionType type)
 {
 	QString title = sender_name.isEmpty()
 			? Lang::get(Lang::Info) + ":"
 			: Lang::get(Lang::Info) + ": " + sender_name;
 
-	if(type == GlobalMessage::QuestionType::YesNo){
+	if(type == Message::QuestionType::YesNo){
 		return convert_answer(QMessageBox::information(this, title, question, QMessageBox::Yes, QMessageBox::No));
 	}
 

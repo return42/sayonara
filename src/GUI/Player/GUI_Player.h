@@ -25,7 +25,7 @@
 
 #include "Components/PlayManager/PlayState.h"
 
-#include "Utils/Message/GlobalMessageReceiverInterface.h"
+#include "Utils/Message/MessageReceiverInterface.h"
 #include "GUI/Utils/Widgets/Widget.h"
 
 #include <QSystemTrayIcon>
@@ -45,7 +45,7 @@ namespace PlayerPlugin
 
 class GUI_Player :
 		public Gui::MainWindow,
-		public GlobalMessageReceiverInterface,
+		public MessageReceiverInterface,
 		private Ui::Sayonara
 {
 	Q_OBJECT
@@ -82,16 +82,16 @@ private:
 	void show_library(bool is_library_visible, bool was_library_visible=false);
 	void fullscreen_changed();
 
-	void set_total_time_label(int64_t length_ms);
+	void set_total_time_label(MilliSeconds length_ms);
 	void set_cur_pos_label(int val);
 	void set_cover_location(const MetaData& md);
 	void set_standard_cover();
 
 	// Methods for other mudules to display info/warning/error
-	GlobalMessage::Answer error_received(const QString &error, const QString &sender_name=QString()) override;
-	GlobalMessage::Answer warning_received(const QString &error, const QString &sender_name=QString()) override;
-	GlobalMessage::Answer info_received(const QString &error, const QString &sender_name=QString()) override;
-	GlobalMessage::Answer question_received(const QString &info, const QString &sender_name=QString(), GlobalMessage::QuestionType type=GlobalMessage::QuestionType::YesNo) override;
+	Message::Answer error_received(const QString &error, const QString &sender_name=QString()) override;
+	Message::Answer warning_received(const QString &error, const QString &sender_name=QString()) override;
+	Message::Answer info_received(const QString &error, const QString &sender_name=QString()) override;
+	Message::Answer question_received(const QString &info, const QString &sender_name=QString(), Message::QuestionType type=Message::QuestionType::YesNo) override;
 
 
 private slots:

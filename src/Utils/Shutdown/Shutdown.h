@@ -40,8 +40,8 @@ class Shutdown : public QObject, private SayonaraClass
 	PIMPL(Shutdown)
 
 signals:
-	void sig_time_to_go(uint64_t);
-	void sig_started(uint64_t);
+	void sig_time_to_go(MilliSeconds ms);
+	void sig_started(MilliSeconds ms);
 	void sig_stopped();
 
 private slots:
@@ -52,7 +52,7 @@ private slots:
 public:
 	bool is_running() const;
 	void stop();
-	void shutdown(uint64_t ms=0);
+	void shutdown(MilliSeconds ms=0);
 	void shutdown_after_end();
 };
 

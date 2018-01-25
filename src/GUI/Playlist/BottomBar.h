@@ -58,7 +58,7 @@ private slots:
 
 #ifdef WITH_SHUTDOWN
 	void shutdown_clicked();
-	void shutdown_started(uint64_t time2go);
+	void shutdown_started(MilliSeconds time2go);
 	void shutdown_closed();
 #endif
 };

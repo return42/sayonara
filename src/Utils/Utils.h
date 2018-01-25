@@ -30,6 +30,7 @@
 
 #include <QObject>
 #include <algorithm>
+#include "typedefs.h"
 
 class QDateTime;
 /**
@@ -63,7 +64,7 @@ namespace Util
 	 * @param show_days if true, days will be shown, too
 	 * @return converted milliseconds
 	 */
-	QString cvt_ms_to_string(uint64_t msec, bool empty_zero = false, bool colon=true, bool show_days=true);
+	QString cvt_ms_to_string(MilliSeconds msec, bool empty_zero = false, bool colon=true, bool show_days=true);
 
 
 	/**

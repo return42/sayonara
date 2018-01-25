@@ -37,29 +37,35 @@ struct CachingThread::Private
 
 	void read_files()
 	{
+		sp_log(Log::Develop, this) << "Read files";
+
 		DirectoryReader dr;
 		dr.set_filter("*");
 
 		for(const QString& filename : file_list)
 		{
-			if(cancelled){
+			if(cancelled) {
 				cache->clear();
 				return;
 			}
 
 			if(Util::File::is_dir(filename))
 			{
+				sp_log(Log::Crazy, this) << "Read Directory " << filename;
+
 				QStringList dir_files;
 				QDir dir(filename);
 
 				dr.files_in_directory_recursive(dir, dir_files);
+				sp_log(Log::Crazy, this) << "Found " << dir_files.size() << " files";
 
-				for(const QString& dir_file : dir_files){
+				for(const QString& dir_file : dir_files)
+				{
 					cache->add_standard_file(dir_file, filename);
 				}
 			}
 
-			else{
+			else {
 				cache->add_standard_file(filename);
 			}
 		}
@@ -67,8 +73,12 @@ struct CachingThread::Private
 
 	void extract_soundfiles()
 	{
-		for(const QString& filename : cache->get_files()){
-			if(Util::File::is_soundfile(filename)){
+		sp_log(Log::Develop, this) << "Extract soundfiles";
+
+		for(const QString& filename : cache->files())
+		{
+			if(Util::File::is_soundfile(filename))
+			{
 				MetaData md(filename);
 
 				bool success = Tagging::Util::getMetaDataOfFile(md);

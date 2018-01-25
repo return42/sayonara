@@ -34,72 +34,72 @@ class RawSoundReceiverInterface;
 
 namespace Engine
 {
-    class Playback;
+	class Playback;
 
-    /**
-     * @brief The EngineHandler class
-     * @ingroup Engine
-     */
-    class Handler :
-            public Base
-    {
-        Q_OBJECT
-        SINGLETON_QOBJECT(Handler)
-        PIMPL(Handler)
+	/**
+	 * @brief The EngineHandler class
+	 * @ingroup Engine
+	 */
+	class Handler :
+			public Base
+	{
+		Q_OBJECT
+		SINGLETON_QOBJECT(Handler)
+		PIMPL(Handler)
 
-    public:
-        bool init() override;
+	public:
+		bool init() override;
 
-        Engine::Playback* get_playback_engine();
+		Engine::Playback* get_playback_engine();
 
-        void register_raw_sound_receiver(RawSoundReceiverInterface* receiver);
-        void unregister_raw_sound_receiver(RawSoundReceiverInterface* receiver);
+		void register_raw_sound_receiver(RawSoundReceiverInterface* receiver);
+		void unregister_raw_sound_receiver(RawSoundReceiverInterface* receiver);
 
-        void start_convert();
-        void end_convert();
+		void start_convert();
+		void end_convert();
 
-        void set_equalizer(int band, int value);
+		void set_equalizer(int band, int value);
 
-        bool change_track(const MetaData&) override;
-        bool change_track_by_filename(const QString&) override;
+		bool change_track(const MetaData&) override;
+		bool change_track_by_filename(const QString&) override;
 
 
-    private slots:
-        void jump_abs_ms(uint64_t ms) override;
-        void jump_rel_ms(uint64_t ms) override;
-        void jump_rel(double where) override;
+	private slots:
+		void jump_abs_ms(MilliSeconds ms) override;
+		void jump_rel_ms(MilliSeconds ms) override;
+		void jump_rel(double where) override;
 
-        void sl_md_changed(const MetaData&);
-        void sl_dur_changed(const MetaData&);
-        void sl_pos_changed_ms(uint64_t ms);
-        void sl_pos_changed_s(uint32_t s);
+		void sl_md_changed(const MetaData&);
+		void sl_dur_changed(const MetaData&);
+		void sl_pos_changed_ms(MilliSeconds ms);
+		void sl_pos_changed_s(Seconds s);
 
-        void sl_track_finished();
+		void sl_track_finished();
 
-        void sl_track_ready_changed();
-        void sl_buffer_state_changed(int progress);
+		void sl_track_ready_changed();
+		void sl_buffer_state_changed(int progress);
 
-        void sl_error(const QString& error_msg);
+		void sl_error(const QString& error_msg);
 
-        void sr_record_button_pressed(bool);
-        void playstate_changed(PlayState state);
+		void sr_record_button_pressed(bool);
+		void playstate_changed(PlayState state);
 
-        void new_data(const uchar* data, uint64_t n_bytes);
+		void new_data(const uchar* data, uint64_t n_bytes);
 
-        void play() override;
-        void stop() override;
-        void pause() override;
+		void play() override;
+		void stop() override;
+		void pause() override;
 
-    private:
-        Base* get_engine(Name name);
-        void switch_engine(Name name);
+	private:
+		Base* get_engine(Name name);
+		void switch_engine(Name name);
 
-        bool configure_connections(Base* old_engine, Base* new_engine);
+		bool configure_connections(Base* old_engine, Base* new_engine);
 
-        // Engine interface
-    protected:
-        bool change_uri(char* uri) override;
-    };
+		// Engine interface
+	protected:
+		bool change_uri(char* uri) override;
+	};
 }
 #endif
 

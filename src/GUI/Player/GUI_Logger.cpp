@@ -21,8 +21,10 @@
 #include "GUI_Logger.h"
 #include "GUI/Player/ui_GUI_Logger.h"
 #include "Utils/Logger/Logger.h"
+#include "Utils/Logger/LoggerUtils.h"
 #include "Utils/Language.h"
 #include "Utils/Message/Message.h"
+#include "Utils/Settings/Settings.h"
 
 #include <QStringList>
 #include <QTextEdit>
@@ -43,7 +45,7 @@ LogObject::~LogObject() {}
 
 void LogObject::add_log_line(const LogEntry& le)
 {
-	emit sig_new_log(le.dt, le.type, le.class_name, le.message);
+	emit sig_new_log(QDateTime::currentDateTime(), le.type, le.class_name, le.message);
 }
 
 
@@ -84,6 +86,7 @@ void GUI_Logger::init_ui()
 
 QString GUI_Logger::calc_log_line(const QDateTime &t, Log log_type, const QString& class_name, const QString& str)
 {
+	int log_level = _settings->get(Set::Logger_Level);
 	QString log_line = "<table style=\"font-family: Monospace;\">";
 	QString html_color, type_str;
 	switch(log_type)
@@ -103,14 +106,25 @@ QString GUI_Logger::calc_log_line(const QDateTime &t, Log log_type, const QStrin
 		case Log::Debug:
 			html_color = "#7A7A00";
 			type_str = "Debug";
+			if(log_level < 1) {
+				return QString();
+			}
 			break;
 
 		case Log::Develop:
-			html_color = "#7A7A00";
+			html_color = "#6A6A00";
 			type_str = "Dev";
-#ifndef DEBUG
-			return QString();
-#endif
+			if(log_level < 2){
+				return QString();
+			}
+			break;
+
+		case Log::Crazy:
+			html_color = "#5A5A00";
+			type_str = "CrazyLog";
+			if(log_level < 3){
+				return QString();
+			}
 			break;
 		default:
 			type_str = "Debug";

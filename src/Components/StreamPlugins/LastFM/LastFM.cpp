@@ -69,8 +69,8 @@ struct Base::Private
 
 	PlayManagerPtr				play_manager=nullptr;
 
-	uint32_t                    old_pos;
-	uint32_t                    old_pos_difference;
+	Seconds				old_pos;
+	Seconds				old_pos_difference;
 
 	MetaData					md;
 };
@@ -171,7 +171,7 @@ void Base::sl_track_changed(const MetaData& md)
 }
 
 
-void Base::sl_position_ms_changed(uint64_t pos_ms)
+void Base::sl_position_ms_changed(MilliSeconds pos_ms)
 {
 	if(!m->active){
 		return;
@@ -189,8 +189,13 @@ void Base::reset_scrobble()
 }
 
 
-bool Base::check_scrobble(uint64_t pos_ms)
+bool Base::check_scrobble(MilliSeconds pos_ms)
 {
+	if(pos_ms < 0)
+	{
+		return false;
+	}
+
 	if(!m->logged_in){
 		return false;
 	}
@@ -219,7 +224,7 @@ bool Base::check_scrobble(uint64_t pos_ms)
 		}
 
 		else{
-			uint32_t scrobble_time_ms = (uint32_t) (_settings->get(Set::LFM_ScrobbleTimeSec) * 1000);
+			MilliSeconds scrobble_time_ms = (MilliSeconds) (_settings->get(Set::LFM_ScrobbleTimeSec) * 1000);
 
 			m->old_pos_difference += (pos_ms - m->old_pos);
 			m->old_pos = pos_ms;

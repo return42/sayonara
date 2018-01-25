@@ -91,7 +91,7 @@ private slots:
 	void socket_disconnected();
 	void new_request();
 
-	void pos_changed_ms(const uint64_t pos);
+	void pos_changed_ms(MilliSeconds pos);
 	void track_changed(const MetaData& md);
 	void volume_changed(int vol);
 	void playstate_changed(PlayState playstate);

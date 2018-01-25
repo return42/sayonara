@@ -30,25 +30,25 @@ struct SeekHandler::Private
 	static const GstSeekFlags SeekAccurate=(GstSeekFlags)(GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_ACCURATE);
 	static const GstSeekFlags SeekNearest=(GstSeekFlags)(GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_ACCURATE);
 
-    bool seek(GstElement* audio_src, GstSeekFlags flags, int64_t ns)
+	bool seek(GstElement* audio_src, GstSeekFlags flags, NanoSeconds ns)
 	{
 		if(!audio_src){
 			return false;
 		}
 
 		return gst_element_seek_simple (
-		            audio_src,
-		            GST_FORMAT_TIME,
-		            flags,
-		            ns);
+					audio_src,
+					GST_FORMAT_TIME,
+					flags,
+					ns);
 	}
 
-    bool seek_accurate(GstElement* audio_src, int64_t ns)
+	bool seek_accurate(GstElement* audio_src, NanoSeconds ns)
 	{
 		return seek(audio_src, SeekAccurate, ns);
 	}
 
-    bool seek_nearest(GstElement* audio_src, int64_t ns)
+	bool seek_nearest(GstElement* audio_src, NanoSeconds ns)
 	{
 		return seek(audio_src, SeekNearest, ns);
 	}
@@ -61,9 +61,9 @@ SeekHandler::SeekHandler()
 
 SeekHandler::~SeekHandler() {}
 
-int64_t SeekHandler::seek_rel(double percent, int64_t ref_ns)
+NanoSeconds SeekHandler::seek_rel(double percent, NanoSeconds ref_ns)
 {
-    int64_t new_time_ns;
+	NanoSeconds new_time_ns;
 
 	if (percent > 1.0){
 		new_time_ns = ref_ns;
@@ -86,10 +86,8 @@ int64_t SeekHandler::seek_rel(double percent, int64_t ref_ns)
 }
 
 
-int64_t SeekHandler::seek_abs(int64_t ns)
+NanoSeconds SeekHandler::seek_abs(NanoSeconds ns)
 {
-    ns = std::max((int64_t) 0, ns);
-
 	if( m->seek_accurate(get_source(), ns) ) {
 		return ns;
 	}
@@ -97,10 +95,8 @@ int64_t SeekHandler::seek_abs(int64_t ns)
 	return 0;
 }
 
-int64_t SeekHandler::seek_nearest(int64_t ns)
+NanoSeconds SeekHandler::seek_nearest(NanoSeconds ns)
 {
-    ns = std::max((int64_t) 0, ns);
-
 	if( m->seek_nearest(get_source(), ns) ) {
 		return ns;
 	}

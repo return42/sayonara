@@ -25,7 +25,7 @@
 #include "Utils/WebAccess/AsyncWebAccess.h"
 #include "Utils/Settings/Settings.h"
 #include "Utils/Logger/Logger.h"
-#include "Utils/Message/GlobalMessage.h"
+#include "Utils/Message/Message.h"
 
 #include "Components/Engine/EngineHandler.h"
 #include "Components/PlayManager/PlayManager.h"
@@ -211,8 +211,8 @@ void StreamServer::new_client_request()
 			{
 				QString question = tr("%1 wants to listen to your music.").arg(pending_ip).append("\nOk?");
 
-				GlobalMessage::Answer answer = GlobalMessage::question(question);
-				if(answer==GlobalMessage::Answer::Yes)
+				Message::Answer answer = Message::question_yn(question, "Stream Server");
+				if(answer==Message::Answer::Yes)
 				{
 					accept_client(pending_socket, pending_ip);
 				}

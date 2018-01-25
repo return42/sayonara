@@ -22,12 +22,15 @@
 #include "Utils/Logger/LogListener.h"
 #include "Utils/Utils.h"
 #include "Utils/Pimpl.h"
+#include "Utils/Settings/Settings.h"
 
 #include <QString>
 #include <QStringList>
 #include <QByteArray>
 #include <QPoint>
 #include <QDateTime>
+
+#include "LoggerUtils.h"
 
 #include <ostream>
 #include <iostream>
@@ -70,39 +73,47 @@ struct Logger::Private
 	{
 		QString type_str;
 		std::string color;
-		QString html_color;
+
 		bool ignore=false;
+
+		Settings* s = Settings::instance();
+		int logger_level = s->get(Set::Logger_Level);
 
 		switch(type)
 		{
 			case Log::Info:
 				color = LOG_GREEN;
-				html_color = "#00AA00";
 				type_str = "Info";
 				break;
 			case Log::Warning:
 				color = LOG_RED;
-				html_color = "#EE0000";
 				type_str = "Warning";
 				break;
 			case Log::Error:
 				color = LOG_RED;
-				html_color = "#EE0000";
 				type_str = "Error";
 				break;
 			case Log::Debug:
 				color = LOG_YELLOW;
-				html_color = "#7A7A00";
 				type_str = "Debug";
+				if(logger_level < 1) {
+					ignore = true;
+				}
 				break;
-
 			case Log::Develop:
 				color = LOG_YELLOW;
-				html_color = "#7A7A00";
 				type_str = "Dev";
-	#ifndef DEBUG
-				ignore = true;
-	#endif
+				if(logger_level < 2){
+					ignore = true;
+				}
+				break;
+			case Log::Crazy:
+				color = LOG_YELLOW;
+				type_str = "CrazyLog";
+				if(logger_level < 3){
+					ignore = true;
+				}
+
 				break;
 			default:
 				color = LOG_YELLOW;
@@ -115,7 +126,6 @@ struct Logger::Private
 			QString date_time = QDateTime::currentDateTime().toString("hh:mm:ss");
 
 			std::string str(msg.str());
-
 			std::clog
 					<< "[" << date_time.toStdString() << "] "
 					<< color
@@ -131,7 +141,6 @@ struct Logger::Private
 
 			LogEntry le;
 				le.class_name = class_name;
-				le.dt = QDateTime::currentDateTime();
 				le.message = QString::fromStdString(str);
 				le.type = type;
 
@@ -151,7 +160,7 @@ struct Logger::Private
 };
 
 
-Logger::Logger(Log type, const QString& class_name)
+Logger::Logger(const Log& type, const QString& class_name)
 {
 	m = new Logger::Private();
 
@@ -185,9 +194,6 @@ Logger& Logger::operator << (const QString& msg)
 Logger& Logger::operator << (const QStringList& lst)
 {
 	(*this) << lst.join(",");
-	/*for(const QString& str : lst){
-		(*this) << str << ", ";
-	}*/
 
 	return *this;
 }
@@ -266,13 +272,13 @@ Logger& Logger::operator << (const std::string& str)
 /*************************
  * Static Log functions
  * ***********************/
-Logger sp_log(Log type)
+Logger sp_log(const Log& type)
 {
 	return sp_log(type, nullptr);
 }
 
 
-Logger sp_log(Log type, const char* data)
+Logger sp_log(const Log& type, const char* data)
 {
 	QString class_name;
 	if(data)

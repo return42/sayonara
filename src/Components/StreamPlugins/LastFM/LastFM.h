@@ -58,7 +58,7 @@ namespace LastFM
 			void sl_login_thread_finished(bool success);
 			void sl_similar_artists_available(IdList artist_ids);
 			void sl_track_changed(const MetaData& md);
-			void sl_position_ms_changed(uint64_t pos_ms);
+			void sl_position_ms_changed(MilliSeconds pos_ms);
 			void sl_scrobble_response(const QByteArray& data);
 			void sl_scrobble_error(const QString& str);
 
@@ -74,7 +74,7 @@ namespace LastFM
 			void get_similar_artists(const QString& artist);
 
 			void reset_scrobble();
-			bool check_scrobble(uint64_t pos_ms);
+			bool check_scrobble(MilliSeconds pos_ms);
 			void scrobble(const MetaData& md);
 			bool update_track(const MetaData& md);
 	};

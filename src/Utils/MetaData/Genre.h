@@ -24,6 +24,8 @@
 #include <QString>
 #include "Utils/Pimpl.h"
 
+using GenreID = uint32_t;
+
 class Genre
 {
 private:
@@ -36,8 +38,8 @@ public:
 
 	~Genre();
 
-	static uint32_t calc_id(const QString& name);
-	uint32_t id() const;
+	static GenreID calc_id(const QString& name);
+	GenreID id() const;
 
 	QString name() const;
 	void set_name(const QString& name);

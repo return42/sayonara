@@ -21,13 +21,11 @@
 #ifndef GUI_TAGEDIT_H_
 #define GUI_TAGEDIT_H_
 
-#include <QLineEdit>
-#include <QString>
-
 #include "GUI/Utils/Widgets/Widget.h"
 #include "Components/Tagging/Expression.h"
 #include "Utils/Pimpl.h"
 
+class QString;
 /**
  * @brief The GUI_TagEdit class
  * @ingroup Tagging

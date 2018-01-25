@@ -86,13 +86,13 @@ struct GUI_Player::Private
 
 GUI_Player::GUI_Player(QTranslator* translator, QWidget* parent) :
 	Gui::MainWindow(parent),
-	GlobalMessageReceiverInterface("Player Main Window"),
+	MessageReceiverInterface("Player Main Window"),
 	Ui::Sayonara()
 {
 	m = Pimpl::make<Private>(translator);
 	setupUi(this);
 
-	GlobalMessage::register_receiver(this);
+	Message::register_receiver(this);
 
 	m->menubar = new Menubar(this);
 	this->setMenuBar(m->menubar);

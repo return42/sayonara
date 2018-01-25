@@ -28,7 +28,7 @@
 #include "Utils/Parser/StreamParser.h"
 #include "Utils/MetaData/MetaDataList.h"
 #include "Utils/Logger/Logger.h"
-#include "Utils/Message/GlobalMessage.h"
+#include "Utils/Message/Message.h"
 #include "Utils/Settings/Settings.h"
 
 struct AbstractStreamHandler::Private

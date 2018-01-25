@@ -27,6 +27,7 @@
 #include <QImage>
 #include <QPixmap>
 #include <QIcon>
+#include <QDateTime>
 
 #include <algorithm>
 
@@ -295,9 +296,9 @@ void GUI_Controls::progress_moved(int val)
 }
 
 
-void GUI_Controls::cur_pos_changed(uint64_t pos_ms)
+void GUI_Controls::cur_pos_changed(MilliSeconds pos_ms)
 {
-	uint64_t duration = PlayManager::instance()->duration_ms();
+	MilliSeconds duration = PlayManager::instance()->duration_ms();
 	int max = ui->sli_progress->maximum();
 	int new_val;
 
@@ -324,14 +325,14 @@ void GUI_Controls::cur_pos_changed(uint64_t pos_ms)
 
 void GUI_Controls::set_cur_pos_label(int val)
 {
-	uint64_t duration = PlayManager::instance()->duration_ms();
+	MilliSeconds duration = PlayManager::instance()->duration_ms();
 	int max = ui->sli_progress->maximum();
 
 	val = std::max(val, 0);
 	val = std::min(max, val);
 
 	double percent = (val * 1.0) / max;
-	uint64_t cur_pos_ms =  (uint64_t) (percent * duration);
+	MilliSeconds cur_pos_ms =  (MilliSeconds) (percent * duration);
 	QString cur_pos_string = Util::cvt_ms_to_string(cur_pos_ms);
 
 	ui->lab_cur_time->setText(cur_pos_string);
@@ -339,7 +340,7 @@ void GUI_Controls::set_cur_pos_label(int val)
 
 
 
-void GUI_Controls::set_total_time_label(int64_t total_time)
+void GUI_Controls::set_total_time_label(MilliSeconds total_time)
 {
 	QString length_str;
 	if(total_time > 0){
@@ -354,14 +355,14 @@ void GUI_Controls::set_total_time_label(int64_t total_time)
 
 void GUI_Controls::progress_hovered(int val)
 {
-	uint64_t duration = PlayManager::instance()->duration_ms();
+	MilliSeconds duration = PlayManager::instance()->duration_ms();
 	int max = ui->sli_progress->maximum();
 
 	val = std::max(val, 0);
 	val = std::min(max, val);
 
 	double percent = (val * 1.0) / max;
-	uint64_t cur_pos_ms =  (uint64_t) (percent * duration);
+	MilliSeconds cur_pos_ms =  (MilliSeconds) (percent * duration);
 	QString cur_pos_string = Util::cvt_ms_to_string(cur_pos_ms);
 
 	QToolTip::showText( QCursor::pos(), cur_pos_string );
@@ -721,12 +722,12 @@ void GUI_Controls::setup_shortcuts()
 	});
 
 	sc9.create_qt_shortcut(this, [=]() {
-		int64_t ms = play_manager->duration_ms() / 20;
+		MilliSeconds ms = play_manager->duration_ms() / 20;
 		play_manager->seek_rel_ms(ms);
 	});
 
 	sc10.create_qt_shortcut(this, [=]() {
-		int64_t ms = play_manager->duration_ms() / 20;
+		MilliSeconds ms = play_manager->duration_ms() / 20;
 		play_manager->seek_rel_ms(-ms);
 	});
 }

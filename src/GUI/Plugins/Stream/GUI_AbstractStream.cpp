@@ -160,13 +160,13 @@ void GUI_AbstractStream::error()
 	set_searching(false);
 
 	sp_log(Log::Warning, this) << "Stream Handler error";
-	GlobalMessage::Answer answer =
+	Message::Answer answer =
 			Message::question_yn(
 				tr("Cannot open stream") + "\n" +
 				m->le_url->text() + "\n\n" +
 				Lang::get(Lang::Retry).question());
 
-	if(answer == GlobalMessage::Answer::Yes){
+	if(answer == Message::Answer::Yes){
 		listen_clicked();
 	}
 }
@@ -326,9 +326,9 @@ void GUI_AbstractStream::delete_clicked()
 
 	QString cur_station_name = m->combo_stream->currentText();
 
-	GlobalMessage::Answer ret = Message::question_yn(tr("Do you really want to delete %1").arg(cur_station_name));
+	Message::Answer ret = Message::question_yn(tr("Do you really want to delete %1").arg(cur_station_name));
 
-	if(ret == GlobalMessage::Answer::Yes) {
+	if(ret == Message::Answer::Yes) {
 		if( m->stream_handler->delete_stream(cur_station_name) ) {
 			StreamMap map;
 			sp_log(Log::Info, this) << cur_station_name << "successfully deleted";
@@ -344,7 +344,7 @@ void GUI_AbstractStream::save_clicked()
 {
 	QString name = m->combo_stream->currentText();
 	QString url = m->le_url->text();
-	GlobalMessage::Answer answer;
+	Message::Answer answer;
 
 	if(name.isEmpty() || url.isEmpty()){
 		return;
@@ -357,7 +357,8 @@ void GUI_AbstractStream::save_clicked()
 		QString text = m->combo_stream->itemText(i);
 		if(text == name){
 			answer = Message::question_yn(tr("Overwrite?") + "\n" + name + "\n" + url);
-			if(answer == GlobalMessage::Answer::Yes){
+			if(answer == Message::Answer::Yes)
+			{
 				m->stream_handler->update_url(name, url);
 				m->stream_handler->get_all_streams(map);
 				setup_stations(map);

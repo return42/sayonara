@@ -91,9 +91,9 @@ void GUI_EmptyLibrary::new_library_created()
 		return;
 	}
 
-	GlobalMessage::Answer answer = Message::question_yn(tr("Do you want to reload the Library?"), "Library");
+	Message::Answer answer = Message::question_yn(tr("Do you want to reload the Library?"), "Library");
 
-	if(answer == GlobalMessage::Answer::No){
+	if(answer == Message::Answer::No){
 		return;
 	}
 

@@ -185,7 +185,7 @@ bool SC::JsonParser::parse_track(Artist& artist, MetaData& md, QJsonObject objec
 
 	int length;
 	if(get_int("duration", object, length)){
-		md.length_ms = (uint32_t) length;
+		md.length_ms = (MilliSeconds) length;
 	}
 
 	int year;

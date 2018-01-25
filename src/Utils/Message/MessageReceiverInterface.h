@@ -22,7 +22,7 @@
 #define GLOBALMESSAGERECEIVERINTERFACE_H
 
 #include <QString>
-#include "GlobalMessage.h"
+#include "Message.h"
 
 /**
  * @brief The GlobalMessageReceiverInterface class\n
@@ -30,22 +30,22 @@
  * @ingroup GUIHelper
  * @ingroup Interfaces
  */
-class GlobalMessageReceiverInterface 
+class MessageReceiverInterface
 {
 private:
-        QString _name;
+		QString _name;
 
 public:
-		explicit GlobalMessageReceiverInterface(const QString& name);
-		virtual ~GlobalMessageReceiverInterface();
+		explicit MessageReceiverInterface(const QString& name);
+		virtual ~MessageReceiverInterface();
 
-        QString get_name() const;
+		QString get_name() const;
 
 
-        virtual GlobalMessage::Answer question_received(const QString& info, const QString& sender_name=QString(),GlobalMessage::QuestionType type=GlobalMessage::QuestionType::YesNo )=0;
-        virtual GlobalMessage::Answer info_received(const QString& info, const QString& sender_name=QString())=0;
-        virtual GlobalMessage::Answer warning_received(const QString& warning, const QString& sender_name=QString())=0;
-        virtual GlobalMessage::Answer error_received(const QString& error, const QString& sender_name=QString())=0;
+		virtual Message::Answer question_received(const QString& info, const QString& sender_name=QString(),Message::QuestionType type=Message::QuestionType::YesNo )=0;
+		virtual Message::Answer info_received(const QString& info, const QString& sender_name=QString())=0;
+		virtual Message::Answer warning_received(const QString& warning, const QString& sender_name=QString())=0;
+		virtual Message::Answer error_received(const QString& error, const QString& sender_name=QString())=0;
 };
 
 #endif // GLOBALMESSAGERECEIVERINTERFACE_H

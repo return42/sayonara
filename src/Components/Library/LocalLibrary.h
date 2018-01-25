@@ -93,8 +93,8 @@ private:
 	void get_all_tracks_by_album(IdList album_ids, MetaDataList& v_md, Library::Filter filter) override;
 	void get_all_tracks_by_searchstring(Library::Filter filter, MetaDataList& v_md) override;
 
-	void get_album_by_id(int album_id, Album& album) override;
-	void get_artist_by_id(int artist_id, Artist& artist) override;
+	void get_album_by_id(AlbumId album_id, Album& album) override;
+	void get_artist_by_id(ArtistId artist_id, Artist& artist) override;
 
 	void update_track(const MetaData& md) override;
 	void update_tracks(const MetaDataList& v_md) override;

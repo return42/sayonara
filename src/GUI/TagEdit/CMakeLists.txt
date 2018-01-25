@@ -4,6 +4,7 @@ SET(SOURCES
 	GUI_TagEdit.cpp
 	TagLineEdit.cpp
 	TagTextInput.cpp
+	TextSelection.cpp
 )
 
 QT5_WRAP_UI(FORMS_UIC
@@ -18,7 +19,7 @@ TARGET_LINK_LIBRARIES(${PROJECT_NAME}
 )
 
 IF( WITH_COTIRE )
-    cotire(${PROJECT_NAME})
+	cotire(${PROJECT_NAME})
 ENDIF()
 
 

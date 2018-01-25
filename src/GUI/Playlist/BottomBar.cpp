@@ -258,14 +258,14 @@ void GUI_PlaylistBottomBar::check_dynamic_play_button()
 #ifdef WITH_SHUTDOWN
 	void GUI_PlaylistBottomBar::shutdown_clicked()
 	{
-		GlobalMessage::Answer answer = Message::question_yn(tr("Cancel shutdown?"));
+		Message::Answer answer = Message::question_yn(tr("Cancel shutdown?"));
 
-		if(answer == GlobalMessage::Answer::Yes) {
+		if(answer == Message::Answer::Yes) {
 			Shutdown::instance()->stop();
 		}
 	}
 
-	void GUI_PlaylistBottomBar::shutdown_started(uint64_t time2go)
+	void GUI_PlaylistBottomBar::shutdown_started(MilliSeconds time2go)
 	{
 		Q_UNUSED(time2go)
 

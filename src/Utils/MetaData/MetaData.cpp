@@ -30,7 +30,6 @@
 #include <QStringList>
 #include <QHash>
 
-using GenreID=uint32_t;
 static QHash<GenreID, Genre> genre_pool;
 
 //#define COUNT_MD
@@ -456,7 +455,7 @@ bool MetaData::is_equal_deep(const MetaData& other) const
 				);
 }
 
-const SP::Set<uint32_t>&MetaData::genre_ids() const
+const SP::Set<GenreID>& MetaData::genre_ids() const
 {
 	return m->genres;
 }

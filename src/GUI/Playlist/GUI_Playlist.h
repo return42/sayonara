@@ -29,7 +29,7 @@
 #ifndef GUI_PLAYLIST_H_
 #define GUI_PLAYLIST_H_
 
-#include "Utils/Message/GlobalMessage.h"
+#include "Utils/Message/Message.h"
 #include "Utils/Library/LibraryNamespaces.h"
 #include "Utils/Playlist/PlaylistFwd.h"
 #include "Utils/Pimpl.h"
@@ -71,7 +71,7 @@ private:
 	void dropEvent(QDropEvent* event) override;
 	void dragMoveEvent(QDragMoveEvent* event) override;
 
-	GlobalMessage::Answer show_save_message_box(Playlist::DBInterface::SaveAsAnswer answer);
+	Message::Answer show_save_message_box(Playlist::DBInterface::SaveAsAnswer answer);
 
 private slots:
 

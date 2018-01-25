@@ -62,12 +62,12 @@ MetaDataInfo::MetaDataInfo(const MetaDataList& v_md) :
 		return;
 	}
 
-	uint64_t length = 0;
+	MilliSeconds length = 0;
 	uint64_t filesize = 0;
 	uint16_t year_min = std::numeric_limits<uint16_t>::max();
 	uint16_t year_max = 0;
-	uint32_t bitrate_min = std::numeric_limits<uint32_t>::max();
-	uint32_t bitrate_max = 0;
+	Bitrate bitrate_min = std::numeric_limits<Bitrate>::max();
+	Bitrate bitrate_max = 0;
 	uint16_t tracknum = 0;
 	bool calc_track_num = (v_md.size() == 1);
 
@@ -305,7 +305,7 @@ QString MetaDataInfo::calc_tracknum_str( uint16_t tracknum )
 }
 
 
-void MetaDataInfo::insert_playing_time(uint64_t ms)
+void MetaDataInfo::insert_playing_time(MilliSeconds ms)
 {
 	QString str = Util::cvt_ms_to_string(ms);
 	_info.insert(InfoStrings::PlayingTime, str);

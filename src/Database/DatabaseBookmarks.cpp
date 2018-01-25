@@ -29,7 +29,7 @@ Bookmarks::Bookmarks(const QSqlDatabase& db, DbId db_id) :
 
 Bookmarks::~Bookmarks() {}
 
-bool Bookmarks::searchBookmarks(int track_id, QMap<uint32_t, QString>& bookmarks)
+bool Bookmarks::searchBookmarks(int track_id, QMap<Seconds, QString>& bookmarks)
 {
 	bookmarks.clear();
 
@@ -44,7 +44,7 @@ bool Bookmarks::searchBookmarks(int track_id, QMap<uint32_t, QString>& bookmarks
 
 	while(q.next()) {
 		QString name = q.value(0).toString();
-		uint32_t bm = q.value(1).toUInt();
+		Seconds bm = q.value(1).toUInt();
 
 		bookmarks.insert(bm, name);
 	}
@@ -53,7 +53,7 @@ bool Bookmarks::searchBookmarks(int track_id, QMap<uint32_t, QString>& bookmarks
 }
 
 
-bool Bookmarks::insertBookmark(int track_id, uint32_t time, QString name)
+bool Bookmarks::insertBookmark(int track_id, Seconds time, QString name)
 {
 	Query q(this);
 	q.prepare("INSERT INTO savedbookmarks (trackid, name, timeidx) VALUES(:trackid, :name, :timeidx);");
@@ -70,7 +70,7 @@ bool Bookmarks::insertBookmark(int track_id, uint32_t time, QString name)
 }
 
 
-bool Bookmarks::removeBookmark(int track_id, uint32_t time)
+bool Bookmarks::removeBookmark(int track_id, Seconds time)
 {
 	Query q(this);
 	q.prepare("DELETE FROM savedbookmarks WHERE trackid=:trackid AND timeidx=:timeidx;");

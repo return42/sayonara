@@ -33,88 +33,88 @@ class LevelReceiver;
 
 namespace StreamRecorder
 {
-    class StreamRecorder;
+	class StreamRecorder;
 }
 
 namespace Pipeline
 {
-    class Playback;
+	class Playback;
 }
 
 namespace Engine
 {
-    /**
-     * @brief The PlaybackEngine class
-     * @ingroup Engine
-     */
-    class Playback :
-            public Base
-    {
-        Q_OBJECT
-        PIMPL(Playback)
+	/**
+	 * @brief The PlaybackEngine class
+	 * @ingroup Engine
+	 */
+	class Playback :
+			public Base
+	{
+		Q_OBJECT
+		PIMPL(Playback)
 
-    signals:
-        void sig_data(const unsigned char* data, uint64_t n_bytes);
+	signals:
+		void sig_data(const unsigned char* data, uint64_t n_bytes);
 
-    public:
-        explicit Playback(QObject* parent=nullptr);
-        ~Playback();
+	public:
+		explicit Playback(QObject* parent=nullptr);
+		~Playback();
 
-        bool init() override;
+		bool init() override;
 
-        void update_bitrate(uint32_t br, GstElement* src) override;
-        void update_duration(int64_t duration_ms, GstElement* src) override;
+		void update_bitrate(Bitrate br, GstElement* src) override;
+		void update_duration(MilliSeconds duration_ms, GstElement* src) override;
 
-        void set_track_ready(GstElement* src) override;
-        void set_track_almost_finished(int64_t time2go) override;
-        void set_track_finished(GstElement* src) override;
+		void set_track_ready(GstElement* src) override;
+		void set_track_almost_finished(MilliSeconds time2go) override;
+		void set_track_finished(GstElement* src) override;
 
-        void set_streamrecorder_recording(bool b);
+		void set_streamrecorder_recording(bool b);
 
-        int get_spectrum_bins() const;
+		int get_spectrum_bins() const;
 		void set_spectrum(const SpectrumList& vals);
-        void add_spectrum_receiver(SpectrumReceiver* receiver);
+		void add_spectrum_receiver(SpectrumReceiver* receiver);
 
-        void set_level(float left, float right);
-        void add_level_receiver(LevelReceiver* receiver);
+		void set_level(float left, float right);
+		void add_level_receiver(LevelReceiver* receiver);
 
-        void set_n_sound_receiver(int num_sound_receiver);
+		void set_n_sound_receiver(int num_sound_receiver);
 
-        void set_equalizer(int band, int value);
-
-
-    public slots:
-        void play() override;
-        void stop() override;
-        void pause() override;
-
-        void jump_abs_ms(uint64_t pos_ms) override;
-        void jump_rel_ms(uint64_t pos_ms) override;
-        void jump_rel(double percent) override;
-        void update_metadata(const MetaData& md, GstElement* src) override;
-        void update_cover(const QImage& img, GstElement* src) override;
-
-        bool change_track(const MetaData& md) override;
-
-        void set_buffer_state(int progress, GstElement* src) override;
-
-    private:
-        bool init_pipeline(Pipeline::Playback** pipeline);
-
-        bool change_uri(char* uri) override;
-        bool change_metadata(const MetaData& md) override;
-
-        bool change_track_crossfading(const MetaData& md);
-        bool change_track_gapless(const MetaData& md);
-        bool change_track_immediatly(const MetaData& md);
+		void set_equalizer(int band, int value);
 
 
-    private slots:
-        void s_gapless_changed();
-        void s_streamrecorder_active_changed();
+	public slots:
+		void play() override;
+		void stop() override;
+		void pause() override;
 
-        void cur_pos_ms_changed(int64_t pos_ms);
-    };
+		void jump_abs_ms(MilliSeconds pos_ms) override;
+		void jump_rel_ms(MilliSeconds pos_ms) override;
+		void jump_rel(double percent) override;
+		void update_metadata(const MetaData& md, GstElement* src) override;
+		void update_cover(const QImage& img, GstElement* src) override;
+
+		bool change_track(const MetaData& md) override;
+
+		void set_buffer_state(int progress, GstElement* src) override;
+
+	private:
+		bool init_pipeline(Pipeline::Playback** pipeline);
+
+		bool change_uri(char* uri) override;
+		bool change_metadata(const MetaData& md) override;
+
+		bool change_track_crossfading(const MetaData& md);
+		bool change_track_gapless(const MetaData& md);
+		bool change_track_immediatly(const MetaData& md);
+
+
+	private slots:
+		void s_gapless_changed();
+		void s_streamrecorder_active_changed();
+
+		void cur_pos_ms_changed(MilliSeconds pos_ms);
+	};
 }
 
 #endif /* GSTENGINE_H_ */
