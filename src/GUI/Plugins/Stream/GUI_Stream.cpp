@@ -19,7 +19,7 @@
  */
 
 #include "GUI_Stream.h"
-#include "GUI/Plugins/Stream/ui_GUI_Stream.h"
+#include "GUI/Plugins/ui_GUI_Stream.h"
 #include "Components/StreamPlugins/Streams/StreamHandlerStreams.h"
 #include "Utils/Language.h"
 
@@ -74,7 +74,7 @@ QComboBox* GUI_Stream::combo_stream()
 
 QPushButton* GUI_Stream::btn_play()
 {
-    return ui->btn_play;
+	return ui->btn_play;
 }
 
 MenuToolButton* GUI_Stream::btn_menu()
@@ -84,5 +84,5 @@ MenuToolButton* GUI_Stream::btn_menu()
 
 QLabel* GUI_Stream::lab_listen()
 {
-    return ui->lab_listen;
+	return ui->lab_listen;
 }

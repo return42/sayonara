@@ -33,11 +33,11 @@
 
 #include "Components/Covers/CoverLocation.h"
 #include "Components/Tagging/Editor.h"
+#include "Components/MetaDataInfo/MetaDataInfo.h"
+#include "Components/MetaDataInfo/AlbumInfo.h"
+#include "Components/MetaDataInfo/ArtistInfo.h"
 
 #include "Utils/MetaData/MetaDataList.h"
-#include "Utils/MetaDataInfo/MetaDataInfo.h"
-#include "Utils/MetaDataInfo/AlbumInfo.h"
-#include "Utils/MetaDataInfo/ArtistInfo.h"
 #include "Utils/Utils.h"
 #include "Utils/FileUtils.h"
 #include "Utils/Language.h"

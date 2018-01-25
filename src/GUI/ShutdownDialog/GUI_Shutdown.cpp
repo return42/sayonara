@@ -23,7 +23,7 @@
 
 #include "GUI/Utils/Icons.h"
 
-#include "Utils/Shutdown/Shutdown.h"
+#include "Components/Shutdown/Shutdown.h"
 
 #ifdef WITH_SHUTDOWN
 

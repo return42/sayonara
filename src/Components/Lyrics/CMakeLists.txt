@@ -1,10 +1,6 @@
 PROJECT(say_comp_lyrics)
 
-SET(SOURCES
-        Lyrics.cpp
-	LyricLookup.cpp
-	LyricServer.cpp
-)
+FILE(GLOB_RECURSE SOURCES . *.cpp)
 
 ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES})
 TARGET_LINK_LIBRARIES(${PROJECT_NAME}

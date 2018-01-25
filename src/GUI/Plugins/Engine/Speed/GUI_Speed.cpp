@@ -19,7 +19,7 @@
  */
 
 #include "GUI_Speed.h"
-#include "GUI/Plugins/Engine/ui_GUI_Speed.h"
+#include "GUI/Plugins/ui_GUI_Speed.h"
 #include "GUI/Utils/EventFilter.h"
 
 #include "Utils/Settings/Settings.h"

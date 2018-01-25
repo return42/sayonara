@@ -19,7 +19,7 @@
  */
 
 #include "GUI_Crossfader.h"
-#include "GUI/Plugins/Engine/ui_GUI_Crossfader.h"
+#include "GUI/Plugins/ui_GUI_Crossfader.h"
 #include "Utils/Playlist/PlaylistMode.h"
 #include "Utils/Settings/Settings.h"
 #include "Utils/Language.h"
@@ -87,7 +87,7 @@ void GUI_Crossfader::active_changed(bool b)
 
 	Playlist::Mode plm = _settings->get(Set::PL_Mode);
 	plm.setGapless(Playlist::Mode::isActive(plm.gapless()), !b);
-	
+
 	_settings->set(Set::PL_Mode, plm);
 	_settings->set(Set::Engine_CrossFaderActive, b);
 }

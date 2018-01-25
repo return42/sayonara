@@ -48,6 +48,8 @@ public:
 	void setEditorData(QWidget* editor, const QModelIndex& index) const override;
 	void setModelData(QWidget* editor, QAbstractItemModel* model, const QModelIndex& index) const override;
 
+	int rating_height() const;
+
 private slots:
 	void sl_look_changed();
 	void sl_show_rating_changed();

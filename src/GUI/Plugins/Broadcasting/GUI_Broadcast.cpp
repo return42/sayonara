@@ -28,7 +28,7 @@
 
 #include "GUI/Utils/PreferenceAction.h"
 
-#include "GUI/Plugins/Broadcasting/ui_GUI_Broadcast.h"
+#include "GUI/Plugins/ui_GUI_Broadcast.h"
 
 class BroadcastAction :
 		public PreferenceAction

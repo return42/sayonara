@@ -95,10 +95,9 @@ PlaylistView::PlaylistView(PlaylistPtr pl, QWidget* parent) :
 
 	Set::listen(Set::PL_ShowNumbers, this, &PlaylistView::sl_columns_changed);
 	Set::listen(Set::PL_ShowCovers, this, &PlaylistView::sl_columns_changed);
-	Set::listen(Set::PL_FontSize, this, &PlaylistView::skin_changed);
-	Set::listen(Set::PL_EntryLook, this, &PlaylistView::skin_changed);
-	Set::listen(Set::PL_ShowNumbers, this, &PlaylistView::skin_changed);
-	Set::listen(Set::PL_ShowRating, this, &PlaylistView::skin_changed);
+	Set::listen(Set::PL_ShowNumbers, this, &PlaylistView::sl_columns_changed);
+	Set::listen(Set::PL_EntryLook, this, &PlaylistView::look_changed);
+	Set::listen(Set::PL_ShowRating, this, &PlaylistView::refresh);
 
 	this->goto_row(pl->current_track_index());
 }
@@ -328,7 +327,7 @@ void PlaylistView::refresh()
 
 	int h = std::max(fm.height() + 4, 20);
 	if(show_rating){
-		h += 14;
+		h += m->delegate->rating_height();
 	}
 
 	for(int i=0; i<m->model->rowCount(); i++) {
@@ -584,6 +583,17 @@ bool PlaylistView::viewportEvent(QEvent* event)
 void PlaylistView::skin_changed()
 {
 	refresh();
+}
+
+void PlaylistView::look_changed()
+{
+	for(int r=0; r<m->model->rowCount(); r++)
+	{
+		for(int c=0; c<m->model->columnCount(); c++)
+		{
+			update( m->model->index(r, c) );
+		}
+	}
 }
 
 void PlaylistView::sl_columns_changed()

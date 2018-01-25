@@ -25,7 +25,7 @@
  */
 
 #include "Utils/Utils.h"
-#include "Utils/Shutdown/Shutdown.h"
+#include "Components/Shutdown/Shutdown.h"
 #include "Database/DatabaseConnector.h"
 #include "Database/DatabaseSettings.h"
 #include "Components/PlayManager/PlayManager.h"

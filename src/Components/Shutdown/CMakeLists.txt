@@ -1,9 +1,12 @@
-PROJECT(say_comp_bookmarks)
+PROJECT(say_comp_shutdown)
 
-FILE(GLOB_RECURSE SOURCES . *.cpp)
+SET(SOURCES
+	Shutdown.cpp
+)
 
 ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES})
 TARGET_LINK_LIBRARIES(${PROJECT_NAME}
-	say_db
 	say_comp_playmanager
+	say_interfaces_notifications
+	Qt5::DBus
 )

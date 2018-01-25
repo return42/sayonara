@@ -32,7 +32,7 @@
 #include "Components/Engine/EngineHandler.h"
 
 #include "GUI/Utils/Delegates/ComboBoxDelegate.h"
-#include "GUI/Plugins/Engine/ui_GUI_Equalizer.h"
+#include "GUI/Plugins/ui_GUI_Equalizer.h"
 
 #include "Utils/EqualizerPresets.h"
 #include "Utils/Settings/Settings.h"

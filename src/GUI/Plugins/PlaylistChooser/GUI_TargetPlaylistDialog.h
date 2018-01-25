@@ -21,14 +21,14 @@
 #ifndef GUI_TARGET_PLAYLIST_DIALOG_H
 #define GUI_TARGET_PLAYLIST_DIALOG_H
 
-#include "GUI/Plugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h"
+#include "GUI/Plugins/ui_GUI_TargetPlaylistDialog.h"
 #include "GUI/Utils/Widgets/Dialog.h"
 
 class GUI_TargetPlaylistDialog :
 		public Gui::Dialog,
 		private Ui::GUI_TargetPlaylistDialog
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
 	explicit GUI_TargetPlaylistDialog(QWidget *parent=nullptr);
@@ -36,10 +36,10 @@ public:
 
 signals:
 	void sig_target_chosen(const QString& name, bool relative);
-    
+
 private slots:
-    void search_button_clicked();
-    void ok_button_clicked();
+	void search_button_clicked();
+	void ok_button_clicked();
 
 protected:
 	void language_changed() override;

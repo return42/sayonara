@@ -1,14 +1,6 @@
 PROJECT(say_comp_playlist)
 
-SET(SOURCES
-	AbstractPlaylist.cpp
-	StdPlaylist.cpp
-	StreamPlaylist.cpp
-	PlaylistHandler.cpp
-	PlaylistLoader.cpp
-	PlaylistDBInterface.cpp
-	PlaylistDBWrapper.cpp
-)
+FILE(GLOB_RECURSE SOURCES . *.cpp)
 
 ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES})
 TARGET_LINK_LIBRARIES(${PROJECT_NAME}

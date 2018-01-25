@@ -1,11 +1,6 @@
 PROJECT(say_comp_broadcasting)
 
-SET(SOURCES
-	StreamServer.cpp
-	StreamWriter.cpp
-	StreamHttpParser.cpp
-	StreamDataSender.cpp
-)
+FILE(GLOB_RECURSE SOURCES . *.cpp)
 
 ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES})
 TARGET_LINK_LIBRARIES(${PROJECT_NAME}

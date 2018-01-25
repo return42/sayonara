@@ -1,17 +1,11 @@
 PROJECT(say_gui_tagedit)
 
-SET(SOURCES
-	GUI_TagEdit.cpp
-	TagLineEdit.cpp
-	TagTextInput.cpp
-	TextSelection.cpp
-)
+FILE(GLOB_RECURSE SOURCES . *.cpp)
+FILE(GLOB_RECURSE RAW_UI_FILES . *.ui)
 
-QT5_WRAP_UI(FORMS_UIC
-	GUI_TagEdit.ui
-)
+QT5_WRAP_UI(UI_FILES ${RAW_UI_FILES})
 
-ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES} ${FORMS_UIC})
+ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES} ${UI_FILES})
 TARGET_LINK_LIBRARIES(${PROJECT_NAME}
 	say_comp_tagging
 	say_gui_utils
