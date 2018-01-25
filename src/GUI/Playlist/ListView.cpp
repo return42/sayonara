@@ -326,9 +326,9 @@ void PlaylistView::refresh()
 	bool show_rating = _settings->get(Set::PL_ShowRating);
 	QFontMetrics fm(this->font());
 
-	int h = fm.height() + 4;
+	int h = std::max(fm.height() + 4, 20);
 	if(show_rating){
-		h += 16;
+		h += 14;
 	}
 
 	for(int i=0; i<m->model->rowCount(); i++) {

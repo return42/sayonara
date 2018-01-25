@@ -152,12 +152,14 @@ void PlaylistItemDelegate::paint(QPainter *painter,	const QStyleOptionViewItem &
 			int flags = (Qt::AlignLeft);
 			if(m->show_rating){
 				flags |= Qt::AlignTop;
+				rect.setY(option.rect.y() + 2);
 			}
 			else{
 				flags |= Qt::AlignVCenter;
 			}
 
 			painter->drawText(rect, flags, fm.elidedText(str, Qt::ElideRight, rect.width()));
+
 
 			offset_x = fm.width(str);
 			rect.setWidth(rect.width() - offset_x);
@@ -181,6 +183,8 @@ void PlaylistItemDelegate::paint(QPainter *painter,	const QStyleOptionViewItem &
 		}
 	}
 
+
+
 	if(m->show_rating)
 	{
 		painter->restore();
@@ -201,13 +205,13 @@ void PlaylistItemDelegate::paint(QPainter *painter,	const QStyleOptionViewItem &
 				label.setGeometry(QRect(x, y, w, h));
 			}
 
-			painter->translate(option.rect.left(), option.rect.top() + fm.height() );
+			painter->translate(option.rect.left(), option.rect.top() + fm.height() + 2);
 			label.render(painter);
 		}
 
 		else
 		{
-			painter->translate(option.rect.left() + 4, option.rect.top() + fm.height() );
+			painter->translate(rect.left() + 4, rect.top() + fm.height() + 2);
 			painter->drawText(x, y, w, h, (Qt::AlignLeft | Qt::AlignBottom), md.album());
 		}
 	}
