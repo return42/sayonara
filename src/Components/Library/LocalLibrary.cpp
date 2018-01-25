@@ -54,7 +54,7 @@ struct LocalLibrary::Private
 	Private(LibraryId library_id) :
 		manager(Library::Manager::instance()),
 		db(DB::Connector::instance()),
-		library_db(db->library_db(lib_id, 0)),
+		library_db(db->library_db(library_id, 0)),
 		library_id(library_id)
 	{}
 };
