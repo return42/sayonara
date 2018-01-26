@@ -32,7 +32,7 @@ class GUI_Covers :
 	UI_CLASS(GUI_Covers)
 
 public:
-	GUI_Covers(const QString& identifier);
+	explicit GUI_Covers(const QString& identifier);
 	virtual ~GUI_Covers();
 
 	bool commit() override;

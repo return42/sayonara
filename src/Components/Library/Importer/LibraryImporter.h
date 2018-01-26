@@ -42,7 +42,7 @@ namespace Library
 		PIMPL(Importer)
 
 	public:
-		Importer(LocalLibrary* library);
+		explicit Importer(LocalLibrary* library);
 		~Importer();
 
 		enum class ImportStatus : uint8_t

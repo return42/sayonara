@@ -35,10 +35,10 @@ using Engine::Base;
 struct Base::Private
 {
 	MetaData		md;
-	Name            name;
+	Name			name;
 
 	MilliSeconds	cur_pos_ms;
-	Seconds	cur_pos_s;
+	Seconds			cur_pos_s;
 
 	gchar*			uri=nullptr;
 

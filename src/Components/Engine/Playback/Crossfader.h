@@ -98,6 +98,8 @@ namespace Pipeline
 
 		virtual void stop()=0;
 		virtual void play()=0;
+		virtual void fade_out_handler()=0;
+		virtual void fade_in_handler()=0;
 	};
 }
 

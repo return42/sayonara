@@ -44,7 +44,7 @@ namespace Tagging
 			virtual ~AbstractFrameHelper();
 
 		protected:
-			QString cvt_string(const TagLib::String str) const;
+			QString cvt_string(const TagLib::String& str) const;
 			TagLib::String cvt_string(const QString& str) const;
 			QString key() const;
 			TagLib::String tag_key() const;

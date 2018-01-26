@@ -53,7 +53,7 @@ namespace Library
 		void sig_new_block_saved();
 
 	public:
-		ReloadThread(QObject* parent);
+		explicit ReloadThread(QObject* parent);
 		~ReloadThread();
 
 		void pause();

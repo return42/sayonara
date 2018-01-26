@@ -75,7 +75,7 @@ namespace Engine
 		explicit Base(Name name, QObject* parent=nullptr);
 		virtual ~Base();
 
-		virtual Name	name() const final;
+		virtual Name		name() const final;
 
 		virtual bool		init()=0;
 

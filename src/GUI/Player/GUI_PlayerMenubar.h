@@ -44,7 +44,7 @@ signals:
 	void sig_logger_clicked();
 
 public:
-	Menubar(QWidget* parent=nullptr);
+	explicit Menubar(QWidget* parent=nullptr);
 	~Menubar();
 
 	void insert_player_plugin_action(QAction* action);

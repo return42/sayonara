@@ -59,7 +59,7 @@ void Callbacks::decodebin_ready(GstElement* source, GstPad* new_src_pad, gpointe
 	GstPad*				sink_pad;
 	GstPadLinkReturn	pad_link_return;
 
-	sp_log(Log::Debug, "Callback") << "Source: " << gst_element_get_name(source);
+	sp_log(Log::Develop, "Callback") << "Source: " << gst_element_get_name(source);
 
 	element = static_cast<GstElement*>(data);
 	if(!element){
@@ -167,10 +167,10 @@ void Callbacks::source_ready(GstURIDecodeBin* bin, GstElement* source, gpointer 
 		Proxy* proxy = Proxy::instance();
 		if(proxy->active())
 		{
-          /*  g_object_set(G_OBJECT(source),
+		  /*  g_object_set(G_OBJECT(source),
 						 "proxy", proxy->full_url().toLocal8Bit().data(),
 						 nullptr
-            );*/
+			);*/
 
 			sp_log(Log::Develop, "Engine Callback") << "Will use proxy: " << proxy->full_url();
 

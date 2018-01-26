@@ -165,26 +165,36 @@ void CrossFader::init_fader()
 
 void CrossFader::fade_in()
 {
+	sp_log(Log::Develop, this) << "Fading in";
 	double volume = Settings::instance()->get(Set::Engine_Vol) / 100.0;
 
 	m->volume = 0;
 	m->fade_mode = CrossFader::FadeMode::FadeIn;
 	m->fade_step = volume / (FaderThreadData::get_max_cycles() * 1.0);
 
+	sp_log(Log::Crazy, this) << "Fading in: Fade step = " << m->fade_step;
+
 	set_current_volume(0.00001);
 
+	fade_in_handler();
 	init_fader();
 	play();
 }
 
 void CrossFader::fade_out()
 {
+
+	sp_log(Log::Develop, this) << "Fading out";
+
 	m->volume = Settings::instance()->get(Set::Engine_Vol) / 100.0;
 	m->fade_mode = CrossFader::FadeMode::FadeOut;
 	m->fade_step = m->volume / (FaderThreadData::get_max_cycles() * 1.0);
 
+	sp_log(Log::Crazy, this) << "Fading out: Fade step = " << m->fade_step;
+
 	set_current_volume( m->volume );
 
+	fade_out_handler();
 	init_fader();
 }
 
@@ -225,6 +235,7 @@ void CrossFader::increase_volume()
 
 	if(m->volume > max_volume)
 	{
+		sp_log(Log::Develop, this) << "Max volume reached: " << m->volume;
 		abort_fader();
 		return;
 	}
@@ -243,7 +254,10 @@ void CrossFader::decrease_volume()
 
 	m->volume -= m->fade_step;
 
-	if(m->volume < 0.00001){
+	if(m->volume < 0.00001)
+	{
+		sp_log(Log::Develop, this) << "Min volume reached: " << m->volume << ". Stop track";
+
 		abort_fader();
 		stop();
 		return;

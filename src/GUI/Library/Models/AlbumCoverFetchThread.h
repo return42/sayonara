@@ -57,7 +57,7 @@ protected:
     void run() override;
 
 public:
-    AlbumCoverFetchThread(QObject* parent=nullptr);
+    explicit AlbumCoverFetchThread(QObject* parent=nullptr);
     ~AlbumCoverFetchThread();
 
 	/**

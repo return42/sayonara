@@ -129,7 +129,8 @@ struct Playback::Private :
 Playback::Playback(Engine::Base* engine, QObject *parent) :
 	Pipeline::Base("Playback Pipeline", engine, parent),
 	CrossFader(),
-	Pipeline::Changeable()
+	Pipeline::Changeable(),
+	Pipeline::DelayedPlayHandler()
 {
 	m = Pimpl::make<Private>();
 }
@@ -445,6 +446,7 @@ void Playback::stop()
 {
 	Base::stop();
 
+	abort_delayed_playing();
 	abort_fader();
 }
 
@@ -464,20 +466,44 @@ void Playback::s_mute_changed()
 	g_object_set(G_OBJECT(m->volume), "mute", muted, nullptr);
 }
 
-void Playback::s_show_level_changed()
+
+void Playback::set_level_enabled(bool b)
 {
-	m->show_level = _settings->get(Set::Engine_ShowLevel);
+	m->show_level = b;
 	Probing::handle_probe(&m->show_level, m->level_queue, &m->level_probe, Probing::level_probed);
 }
 
-
-void Playback::s_show_spectrum_changed()
+void Playback::s_show_level_changed()
 {
-	m->show_spectrum = _settings->get(Set::Engine_ShowSpectrum);
+	set_level_enabled(
+		_settings->get(Set::Engine_ShowLevel)
+	);
+}
 
+void Playback::set_spectrum_enabled(bool b)
+{
+	m->show_spectrum = b;
 	Probing::handle_probe(&m->show_spectrum, m->spectrum_queue, &m->spectrum_probe, Probing::spectrum_probed);
 }
 
+void Playback::s_show_spectrum_changed()
+{
+	set_spectrum_enabled(
+		_settings->get(Set::Engine_ShowSpectrum)
+	);
+}
+
+void Playback::fade_in_handler()
+{
+	s_show_spectrum_changed();
+	s_show_level_changed();
+}
+
+void Playback::fade_out_handler()
+{
+	set_spectrum_enabled(false);
+	set_level_enabled(false);
+}
 
 void Playback::set_n_sound_receiver(int num_sound_receiver)
 {
@@ -505,6 +531,7 @@ void Playback::force_about_to_finish()
 	_about_to_finish = true;
 	emit sig_about_to_finish(get_about_to_finish_time());
 }
+
 
 
 bool Playback::set_uri(gchar* uri)

@@ -40,7 +40,7 @@ namespace Library
 		PIMPL(ImportCache)
 
 	public:
-		ImportCache(const QString& library_path);
+		explicit ImportCache(const QString& library_path);
 		virtual ~ImportCache();
 
 		ImportCache(const ImportCache& other);

@@ -34,7 +34,7 @@ class PlaylistItemDelegate :
 	PIMPL(PlaylistItemDelegate)
 
 public:
-	PlaylistItemDelegate(QTableView* parent);
+	explicit PlaylistItemDelegate(QTableView* parent);
 	virtual ~PlaylistItemDelegate();
 
 	void paint( QPainter *painter, const QStyleOptionViewItem &option,

@@ -126,8 +126,8 @@ gboolean Callbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpointer dat
 	}
 
 	GstMessageType msg_type = GST_MESSAGE_TYPE(msg);
-	QString msg_src_name = QString(GST_MESSAGE_SRC_NAME(msg)).toLower();
-	GstElement* src = reinterpret_cast<GstElement*>(msg->src);
+	QString	msg_src_name = QString(GST_MESSAGE_SRC_NAME(msg)).toLower();
+	GstElement*	src = reinterpret_cast<GstElement*>(msg->src);
 
 	switch (msg_type)
 	{
@@ -147,7 +147,6 @@ gboolean Callbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpointer dat
 			break;
 
 		case GST_MESSAGE_ELEMENT:
-
 			if(msg_src_name.compare("spectrum") == 0){
 				return spectrum_handler(bus, msg, engine);
 			}
@@ -380,7 +379,7 @@ Callbacks::spectrum_handler(GstBus* bus, GstMessage* message, gpointer data)
 {
 	Q_UNUSED(bus);
 
-	Playback*               engine;
+	Playback*				engine;
 	const GstStructure*		structure;
 	const gchar*			structure_name;
 	const GValue*			magnitudes;

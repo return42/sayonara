@@ -61,12 +61,11 @@ struct FetchThread::Private
 	Private(const Location& cl, int n_covers) :
 		cl(cl),
 		id(Util::random_string(8)),
+		search_urls(cl.search_urls()),
 		n_covers(n_covers),
 		n_covers_found(0),
 		may_run(true)
-	{
-		search_urls = cl.search_urls();
-	}
+	{}
 };
 
 FetchThread::FetchThread() {}

@@ -40,6 +40,7 @@ struct IcyWebAccess::Private
 		Private()
 		{
 			status = IcyWebAccess::Status::Success;
+			port = 80;
 		}
 
 		void close_tcp()

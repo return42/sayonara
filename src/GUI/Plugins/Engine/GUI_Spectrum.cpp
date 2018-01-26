@@ -135,10 +135,10 @@ void GUI_Spectrum::set_spectrum(const SpectrumList& spec)
 
 void GUI_Spectrum::do_fadeout_step()
 {
-	/*for(auto it=m->spec.begin(); it!= m->spec.begin(); it++)
+	for(auto it=m->spec.begin(); it!= m->spec.end(); it++)
 	{
-		*it -= 0.024f;
-	}*/
+		*it = (*it - 1.5f);
+	}
 
 	update();
 }

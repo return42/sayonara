@@ -43,7 +43,7 @@ TagLib::String Tagging::AbstractFrameHelper::cvt_string(const QString& str) cons
 	return TagLib::String(str.toUtf8().data(), TagLib::String::Type::UTF8);
 }
 
-QString Tagging::AbstractFrameHelper::cvt_string(const TagLib::String str) const
+QString Tagging::AbstractFrameHelper::cvt_string(const TagLib::String& str) const
 {
 	return QString(str.toCString(true));
 }
