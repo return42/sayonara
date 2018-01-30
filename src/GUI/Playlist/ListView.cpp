@@ -117,6 +117,7 @@ void PlaylistView::init_view()
 	setAutoScrollMargin(50);
 
 	verticalHeader()->hide();
+	verticalHeader()->setMinimumSectionSize(1);
 	horizontalHeader()->hide();
 	horizontalHeader()->setMinimumSectionSize(0);
 
