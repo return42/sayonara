@@ -208,7 +208,8 @@ void SomaFM::Library::soma_playlist_content_fetched(bool success)
 	Cover::Location cl = station.cover_location();
 	QString cover_url;
 	if(cl.has_search_urls()){
-		cover_url = cl.search_urls().at(0);
+		QStringList search_urls = cl.search_urls();
+		cover_url = search_urls.first();
 	}
 
 	for(auto it = v_md.begin(); it != v_md.end(); it++){
@@ -244,7 +245,7 @@ void SomaFM::Library::set_station_loved(const QString& station_name, bool loved)
 			continue;
 		}
 
-		stations << (*it);
+		stations << it.value();
 	}
 
 	sort_stations(stations);
