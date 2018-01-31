@@ -231,7 +231,8 @@ Qt::ItemFlags AlbumModel::flags(const QModelIndex & index) const
 
 	int col = index.column();
 
-	if(col == (int) ColumnIndex::Album::Rating){
+	if(col == (int) ColumnIndex::Album::Rating)
+	{
 		return (QAbstractItemModel::flags(index) | Qt::ItemIsEditable);
 	}
 
