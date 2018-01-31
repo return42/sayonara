@@ -45,19 +45,19 @@ MetaDataList PlaylistParser::parse_playlist(const QString& local_filename)
 	MetaDataList v_md_to_delete;
 	AbstractPlaylistParser* playlist_parser;
 
-	if(local_filename.toLower().endsWith("m3u")) {
+	if(local_filename.endsWith(QStringLiteral("m3u"), Qt::CaseInsensitive)) {
 		playlist_parser = new M3UParser(local_filename);
 	}
 
-	else if(local_filename.toLower().endsWith("pls")) {
+	else if(local_filename.endsWith(QStringLiteral("pls"), Qt::CaseInsensitive)) {
 		playlist_parser = new PLSParser(local_filename);
 	}
 
-	else if(local_filename.toLower().endsWith("ram")) {
+	else if(local_filename.endsWith(QStringLiteral("ram"), Qt::CaseInsensitive)) {
 		playlist_parser = new M3UParser(local_filename);
 	}
 
-	else if(local_filename.toLower().endsWith("asx")) {
+	else if(local_filename.endsWith(QStringLiteral("asx"), Qt::CaseInsensitive)) {
 		playlist_parser = new ASXParser(local_filename);
 	}
 

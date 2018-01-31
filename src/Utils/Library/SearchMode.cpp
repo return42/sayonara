@@ -25,7 +25,7 @@
 #include <QMap>
 #include <QString>
 
-static QMap<QString, QString> diacritic_chars;
+QMap<QString, QString> diacritic_chars;
 
 static void init_diacritic_chars()
 {
@@ -115,7 +115,7 @@ QString Library::Util::convert_search_string(const QString& str, Library::Search
 	{
 		QList<QChar> special_chars =
 		{
-				'.', '\'', '\"', '&', '!', '$', '+', '*', '\t', '\n', '\r', '/', '(', ')', '=', '-', '_', ';', 
+				'.', '\'', '\"', '&', '!', '$', '+', '*', '\t', '\n', '\r', '/', '(', ')', '=', '-', '_', ';',
 				':', ',', '?', '<', '>', '[', ']', '{', '}', '@', '|', '~', '^'
 		};
 
@@ -131,14 +131,14 @@ QString Library::Util::convert_search_string(const QString& str, Library::Search
 	if(mode & Library::NoDiacriticChars)
 	{
 		QString cleaned_string;
-		
-		for (int i = 0; i < ret.length(); i++) 
+
+		for (int i = 0; i < ret.length(); i++)
 		{
 			QString c = QString(ret[i]);
 			QString replacement;
 
 			if(diacritic_chars.contains(c)){
-				replacement = diacritic_chars[c];	
+				replacement = diacritic_chars[c];
 			}
 
 			else{

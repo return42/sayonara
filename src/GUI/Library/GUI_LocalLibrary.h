@@ -94,8 +94,8 @@ namespace Library
 		void import_files(const QStringList& files);
 		void change_library_name(const QString& name);
 		void change_library_path(const QString& path);
-		void name_changed(const QString& name);
-		void path_changed(const QString& path);
+		void name_changed(LibraryId id);
+		void path_changed(LibraryId id);
 
 		// importer requests dialog
 		void import_dialog_requested(const QString& target_dir);

@@ -38,6 +38,8 @@
 #include "Utils/Playlist/PlaylistFwd.h"
 #include "Utils/Library/LibraryNamespaces.h"
 
+#include <QStringList>
+
 class CustomPlaylist;
 class MetaData;
 class MetaDataList;
@@ -251,8 +253,6 @@ namespace Playlist
 			void save_playlist_to_file(int pl_idx, const QString& filename, bool relative);
 
 
-		public slots:
-
 			/**
 			 * @brief load playlists of last session from database
 			 * @return number of playlists fetched
@@ -278,7 +278,6 @@ namespace Playlist
 			 * @param type deprecated
 			 * @return new playlist index
 			 */
-
 			int create_playlist(const QStringList& path_list, const QString& name=QString(), bool temporary=true, Playlist::Type type=Playlist::Type::Std);
 
 			/**
@@ -291,6 +290,7 @@ namespace Playlist
 			 */
 
 			int create_playlist(const QString& dir, const QString& name=QString(), bool temporary=true, Playlist::Type type=Playlist::Type::Std);
+
 
 			/**
 			 * @brief create a new playlist (overloaded)

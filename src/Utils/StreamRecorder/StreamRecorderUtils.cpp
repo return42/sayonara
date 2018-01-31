@@ -35,9 +35,9 @@ using namespace StreamRecorder;
 QList<QString> Utils::supported_tags()
 {
 	QList<QString> tags;
-	QList<QPair<QString, QString>> descs = Utils::descriptions();
+	const QList<QPair<QString, QString>> descs = Utils::descriptions();
 
-	for(auto p : descs)
+	for(const auto& p : descs)
 	{
 		tags << p.first;
 	}
@@ -122,9 +122,10 @@ Utils::ErrorCode Utils::validate_template(const QString &target_path_template, i
 		return Utils::ErrorCode::MissingUniqueTag;
 	}
 
-	QStringList invalid_chars;
-	invalid_chars << ":" << "\"" << "(" << ")" << " /" << "/ " << " *"
-				  << "?";
+	const QStringList invalid_chars {
+		":", "\"", "(", ")", " /", "/ ", " *", "?"
+	};
+
 	for(const QString& ic : invalid_chars)
 	{
 		int idx = target_path_template.indexOf(ic);

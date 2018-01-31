@@ -141,8 +141,9 @@ MetaDataInfo::MetaDataInfo(const MetaDataList& v_md) :
 		}
 	}
 
-	for(const QString& name : values.keys()){
-		_additional_info[name] = values[name].join("<br />");
+	for(auto it=values.cbegin(); it != values.cend(); it++)
+	{
+		_additional_info[it.key()] = it.value().join("<br />");
 	}
 
 	if(bitrate_max > 0){
@@ -367,9 +368,9 @@ QString MetaDataInfo::infostring() const
 {
 	QString str;
 
-	for( const InfoStrings& key : _info.keys() )
+	for(auto it=_info.cbegin(); it != _info.cend(); it++)
 	{
-		str += BOLD(get_info_string(key)) + _info.value(key) + CAR_RET;
+		str += BOLD(get_info_string(it.key())) + it.value() + CAR_RET;
 	}
 
 	return str;
@@ -379,8 +380,9 @@ QString MetaDataInfo::additional_infostring() const
 {
 	QString str;
 
-	for(const QString& key : _additional_info.keys()){
-		str += BOLD(key) + ": " + _additional_info[key] + CAR_RET;
+	for(auto it=_additional_info.cbegin(); it != _additional_info.cend(); it++)
+	{
+		str += BOLD(it.key()) + ": " + it.value() + CAR_RET;
 	}
 
 	return str;
@@ -403,11 +405,11 @@ QString MetaDataInfo::pathsstring() const
 
 	bool dark = (_settings->get(Set::Player_Style) == 1);
 
-	for(const QString& path : m->paths)
+	for(const QString& path : ::Util::AsConst(m->paths))
 	{
 		QString name = path;
 
-		for(const QString& lp : lib_paths)
+		for(const QString& lp : ::Util::AsConst(lib_paths))
 		{
 			if(name.contains(lp))
 			{

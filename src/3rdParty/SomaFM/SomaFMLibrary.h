@@ -39,8 +39,8 @@ namespace SomaFM
 		PIMPL(Library)
 
 		signals:
-			void sig_stations_loaded(const QList<Station>& stations);
-			void sig_station_changed(const Station& station);
+			void sig_stations_loaded(const QList<SomaFM::Station>& stations);
+			void sig_station_changed(const SomaFM::Station& station);
 			void sig_loading_finished();
 			void sig_loading_started();
 

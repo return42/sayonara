@@ -60,7 +60,7 @@ Shortcut::Shortcut(ShortcutWidget* parent, const QString& identifier, const QStr
 
 	m->shortcuts = m->default_shortcuts;
 
-    RawShortcutMap rsm = Settings::instance()->get(Set::Player_Shortcuts);
+	RawShortcutMap rsm = Settings::instance()->get(Set::Player_Shortcuts);
 
 	if(rsm.contains(identifier)){
 		m->shortcuts = rsm[identifier];
@@ -120,7 +120,10 @@ QStringList Shortcut::get_default() const
 QList<QKeySequence> Shortcut::get_sequences() const
 {
 	QList<QKeySequence> sequences;
-	for(const QString& str : get_shortcuts()){
+	const QStringList& shortcuts = get_shortcuts();
+
+	for(const QString& str : shortcuts)
+	{
 		QKeySequence seq = QKeySequence::fromString(str, QKeySequence::NativeText);
 		sequences << seq;
 	}
@@ -128,7 +131,7 @@ QList<QKeySequence> Shortcut::get_sequences() const
 	return sequences;
 }
 
-QStringList Shortcut::get_shortcuts() const
+const QStringList& Shortcut::get_shortcuts() const
 {
 	return m->shortcuts;
 }
@@ -165,7 +168,8 @@ QList<QShortcut*> Shortcut::init_qt_shortcut(QWidget* parent)
 		sp_log(Log::Debug, this) << "Number of shortcuts: " << get_sequences().size();
 	}
 
-	for(const QKeySequence& sequence : get_sequences()){
+	const QList<QKeySequence> sequences = get_sequences();
+	for(const QKeySequence& sequence : sequences){
 		QShortcut* shortcut = new QShortcut(parent);
 
 		shortcut->setContext(Qt::WindowShortcut);
@@ -182,14 +186,17 @@ QList<QShortcut*> Shortcut::init_qt_shortcut(QWidget* parent)
 }
 
 
-void Shortcut::change_shortcut(const QStringList &shortcuts){
+void Shortcut::change_shortcut(const QStringList &shortcuts)
+{
 	m->shortcuts = shortcuts;
-	for(QString& str : m->shortcuts){
+	for(QString& str : m->shortcuts)
+	{
 		str.replace(" +", "+");
 		str.replace("+ ", "+");
 	}
 
-	for(QShortcut* sc : m->qt_shortcuts){
+	foreach(QShortcut* sc, m->qt_shortcuts)
+	{
 		QList<QKeySequence> sequences = get_sequences();
 		for(const QKeySequence& ks : sequences){
 			sc->setKey(ks);

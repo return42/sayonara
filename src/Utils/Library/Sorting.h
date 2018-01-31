@@ -41,6 +41,7 @@ namespace Library
 		Sortings(const Sortings& so);
 		~Sortings();
 
+		Sortings& operator=(const Library::Sortings& other);
 		bool operator==(Library::Sortings so);
 
 		QString toString() const;

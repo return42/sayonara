@@ -592,7 +592,7 @@ void GUI_Player::closeEvent(QCloseEvent* e)
 	else {
 		m->tray_icon->hide();
 		Gui::MainWindow::closeEvent(e);
-		sig_player_closed();
+		emit sig_player_closed();
 	}
 }
 

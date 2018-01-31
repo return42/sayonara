@@ -272,10 +272,10 @@ int DirectoryModel::getNumberResults(const QString& str)
 Qt::ItemFlags DirectoryModel::flags(const QModelIndex& index) const
 {
 	if(index.isValid()){
-		return (QAbstractItemModel::flags(index) | Qt::ItemIsDropEnabled);
+		return (QFileSystemModel::flags(index) | Qt::ItemIsDropEnabled);
 	}
 
-	return (QAbstractItemModel::flags(index) & ~Qt::ItemIsDropEnabled);
+	return (QFileSystemModel::flags(index) & ~Qt::ItemIsDropEnabled);
 }
 
 LibraryId DirectoryModel::library_id(const QModelIndex& index) const

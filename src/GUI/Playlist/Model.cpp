@@ -206,7 +206,7 @@ Qt::ItemFlags PlaylistItemModel::flags(const QModelIndex &index) const
 		}
 	}
 
-	Qt::ItemFlags f = QAbstractItemModel::flags(index);
+	Qt::ItemFlags f = QAbstractTableModel::flags(index);
 	if(index.column() == ColumnName::Description)
 	{
 		f |= Qt::ItemIsEditable;

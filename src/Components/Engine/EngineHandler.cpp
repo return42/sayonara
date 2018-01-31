@@ -25,6 +25,8 @@
 
 #include "Playback/PlaybackEngine.h"
 #include "Convert/ConvertEngine.h"
+
+#include "Utils/Utils.h"
 #include "Utils/Logger/Logger.h"
 #include "Utils/MetaData/MetaData.h"
 
@@ -47,7 +49,7 @@ struct Handler::Private
 
 	~Private()
 	{
-		for(Base* e : engines)
+		for(Base* e : ::Util::AsConst(engines))
 		{
 			delete e;
 		}
@@ -282,7 +284,8 @@ bool Handler::configure_connections(Base* old_engine, Base* new_engine)
 
 Base* Handler::get_engine(Name name)
 {
-	for(Base* e : m->engines){
+	for(Base* e : ::Util::AsConst(m->engines))
+	{
 		if(e && e->name() == name){
 			return e;
 		}
@@ -302,10 +305,10 @@ Base* Handler::get_engine(Name name)
 	else if(name == Name::ConvertEngine)
 	{
 		Convert* cvt_engine = new Convert();
-		if(cvt_engine->init()){
+		if(cvt_engine->init())
+		{
 			m->engines << static_cast<Base*>(cvt_engine);
 			return cvt_engine;
-
 		}
 	}
 
@@ -332,7 +335,8 @@ Engine::Playback* Handler::get_playback_engine()
 
 void Handler::new_data(const uchar* data, uint64_t n_bytes)
 {
-	for(RawSoundReceiverInterface* receiver : m->raw_sound_receiver){
+	for(RawSoundReceiverInterface* receiver : ::Util::AsConst(m->raw_sound_receiver))
+	{
 		receiver->new_audio_data(data, n_bytes);
 	}
 }

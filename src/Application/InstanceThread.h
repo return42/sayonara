@@ -33,13 +33,14 @@ class InstanceThread : public QThread
 
 signals:
 	void sig_player_raise();
-	void sig_create_playlist(const QStringList& playlist, const QString& name, bool temporary);
+	void sig_create_playlist();
 
 public:
 	InstanceThread(QObject* parent=nullptr);
 	~InstanceThread();
 
 	void stop();
+	QStringList paths() const;
 
 private:
 	void run() override;

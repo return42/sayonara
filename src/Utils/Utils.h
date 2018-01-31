@@ -179,6 +179,23 @@ namespace Util
 	{
 		std::sort(container.begin(), container.end(), fn);
 	}
+
+	template<typename T, typename FN>
+	typename T::iterator find(T& container, FN fn)
+	{
+		return std::find_if(container.begin(), container.end(), fn);
+	}
+
+	template<typename T, typename FN>
+	typename T::const_iterator find(const T& container, FN fn)
+	{
+		return std::find_if(container.begin(), container.end(), fn);
+	}
+
+	template<typename T>
+	constexpr typename std::add_const<T>::type& AsConst(T& t) {
+		return t;
+	}
 }
 
 #endif

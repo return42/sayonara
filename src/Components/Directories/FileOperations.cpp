@@ -67,7 +67,7 @@ LibraryId DirectoryCopyThread::target_library() const
 
 void DirectoryCopyThread::run()
 {
-	for(const QString& source_dir : m->source_dirs)
+	for(const QString& source_dir : Util::AsConst(m->source_dirs))
 	{
 		Util::File::copy_dir(source_dir, m->target_dir);
 	}

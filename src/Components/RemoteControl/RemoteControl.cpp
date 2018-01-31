@@ -466,14 +466,16 @@ void RemoteControl::show_api()
 
 	m->socket->write("\n");
 
-	for(const QByteArray& key : m->fn_call_map.keys()) {
-		m->socket->write(key + "\n");
+	for(auto it=m->fn_call_map.cbegin(); it!=m->fn_call_map.cend(); it++)
+	{
+		m->socket->write(it.key() + "\n");
 	}
 
 	m->socket->write("\n");
 
-	for(const QByteArray& key : m->fn_int_call_map.keys()) {
-		m->socket->write(key + "( value )\n");
+	for(auto it=m->fn_call_map.cbegin(); it!=m->fn_call_map.cend(); it++)
+	{
+		m->socket->write(it.key() + "( value )\n");
 	}
 
 	m->socket->write("\n");

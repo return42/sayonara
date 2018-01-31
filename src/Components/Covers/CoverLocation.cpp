@@ -183,7 +183,7 @@ Location Location::cover_location(const Album& album)
 
 	if( album.album_artists().size() == 1)
 	{
-		cl = Location::cover_location(album.name(), album.album_artists().first());
+		cl = Location::cover_location(album.name(), album.album_artists().at(0));
 	}
 
 	else if(album.artists().size() > 1)
@@ -193,7 +193,7 @@ Location Location::cover_location(const Album& album)
 
 	else if(album.artists().size() == 1)
 	{
-		cl = Location::cover_location(album.name(), album.artists().first());
+		cl = Location::cover_location(album.name(), album.artists().at(0));
 	}
 
 	else
@@ -234,7 +234,7 @@ Location Location::cover_location(const Album& album)
 			QImage img(cl.preferred_path());
 
 			if(album.album_artists().size() == 1) {
-				tmpcl = Location::cover_location(album.name(), album.album_artists().first());
+				tmpcl = Location::cover_location(album.name(), album.album_artists().at(0));
 			}
 
 			else if( album.artists().size() > 1) {
@@ -242,7 +242,7 @@ Location Location::cover_location(const Album& album)
 			}
 
 			else if( album.artists().size() == 1) {
-				tmpcl = Location::cover_location(album.name(), album.artists().first());
+				tmpcl = Location::cover_location(album.name(), album.artists().at(0));
 			}
 
 			else {
@@ -317,8 +317,9 @@ Location Get_cover_location(AlbumId album_id, DbId db_id)
 		return Location::invalid_location();
 	}
 
-	if(album.name().trimmed().isEmpty() &&
-	  (album.artists().isEmpty() && album.artists()[0].trimmed().isEmpty()))
+	QStringList artists = album.artists();
+	if( (album.name().trimmed().isEmpty() && artists.isEmpty()) ||
+		(artists.at(0).trimmed().isEmpty()) )
 	{
 		return Location::invalid_location();
 	}
@@ -416,8 +417,10 @@ QString Location::cover_path() const
 
 QString Location::preferred_path() const
 {
-	if(!this->local_paths().isEmpty()){
-		return this->local_paths().first();
+	const QStringList paths = local_paths();
+
+	if(!paths.isEmpty()){
+		return paths.at(0);
 	}
 
 	if(QFile::exists(this->cover_path())){

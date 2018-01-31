@@ -222,7 +222,7 @@ void AlbumView::middle_clicked()
 void AlbumView::play_clicked()
 {
 	TableView::play_clicked();
-	doubleClicked(QModelIndex());
+	emit doubleClicked(QModelIndex());
 }
 
 void AlbumView::play_new_tab_clicked()

@@ -61,12 +61,11 @@ struct FetchThread::Private
 	Private(const Location& cl, int n_covers) :
 		cl(cl),
 		id(Util::random_string(8)),
+		search_urls(cl.search_urls()),
 		n_covers(n_covers),
 		n_covers_found(0),
 		may_run(true)
-	{
-		search_urls = cl.search_urls();
-	}
+	{}
 };
 
 FetchThread::FetchThread() {}
@@ -81,7 +80,8 @@ FetchThread::~FetchThread()
 {
 	while(!m->active_connections.isEmpty())
 	{
-		for(AsyncWebAccess* awa : m->active_connections){
+		for(AsyncWebAccess* awa : ::Util::AsConst(m->active_connections))
+		{
 			awa->stop();
 		}
 
@@ -175,7 +175,8 @@ bool FetchThread::more()
 
 void FetchThread::stop()
 {
-	for(AsyncWebAccess* awa : m->active_connections){
+	for(AsyncWebAccess* awa : ::Util::AsConst(m->active_connections))
+	{
 		awa->stop();
 	}
 

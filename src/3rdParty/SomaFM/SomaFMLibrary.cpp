@@ -148,7 +148,8 @@ void SomaFM::Library::soma_station_playlists_fetched(bool success)
 	QString cover_url;
 	Cover::Location cl = station.cover_location();
 	if(cl.has_search_urls()){
-		cover_url = cl.search_urls().first();
+		QStringList search_urls = cl.search_urls();
+		cover_url = search_urls.first();
 	}
 
 	for(auto it = v_md.begin(); it != v_md.end(); it++){
@@ -207,7 +208,8 @@ void SomaFM::Library::soma_playlist_content_fetched(bool success)
 	Cover::Location cl = station.cover_location();
 	QString cover_url;
 	if(cl.has_search_urls()){
-		cover_url = cl.search_urls().first();
+		QStringList search_urls = cl.search_urls();
+		cover_url = search_urls.first();
 	}
 
 	for(auto it = v_md.begin(); it != v_md.end(); it++){
@@ -236,12 +238,14 @@ void SomaFM::Library::set_station_loved(const QString& station_name, bool loved)
 	m->qsettings->setValue(station_name, loved);
 
 	QList<SomaFM::Station> stations;
-	for(const QString& key : m->station_map.keys()){
-		if(key.isEmpty()){
+
+	for(auto it=m->station_map.cbegin(); it!=m->station_map.cend(); it++)
+	{
+		if(it.key().isEmpty()){
 			continue;
 		}
 
-		stations << m->station_map[key];
+		stations << it.value();
 	}
 
 	sort_stations(stations);

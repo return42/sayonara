@@ -21,7 +21,7 @@
 
 #include "GUI_LevelPainter.h"
 #include "EngineColorStyleChooser.h"
-#include "GUI/Plugins/Engine/ui_GUI_LevelPainter.h"
+#include "GUI/Plugins/ui_GUI_LevelPainter.h"
 
 #include "Components/Engine/Playback/PlaybackEngine.h"
 #include "Components/Engine/EngineHandler.h"
@@ -49,13 +49,13 @@ using StepArray=std::array<ChannelSteps, Channels>;
 
 struct GUI_LevelPainter::Private
 {
-    ChannelArray    level;
+	ChannelArray    level;
 	StepArray       steps;
 
-    float           exp_lot[600];
+	float           exp_lot[600];
 
-    void resize_steps(int n_rects)
-    {
+	void resize_steps(int n_rects)
+	{
 		for(size_t c=0; c<level.size(); c++)
 		{
 			steps[c].resize((size_t) n_rects);
@@ -63,11 +63,11 @@ struct GUI_LevelPainter::Private
 		}
 	}
 
-    void set_level(float left, float right)
-    {
-        level[0] = left;
-        level[1] = right;
-    }
+	void set_level(float left, float right)
+	{
+		level[0] = left;
+		level[1] = right;
+	}
 
 	void decrease_step(int channel, int step)
 	{
@@ -85,7 +85,7 @@ struct GUI_LevelPainter::Private
 GUI_LevelPainter::GUI_LevelPainter(QWidget *parent) :
 	EnginePlugin(parent)
 {
-    m = Pimpl::make<Private>();
+	m = Pimpl::make<Private>();
 	_settings->set(Set::Engine_ShowLevel, false);
 }
 
@@ -109,12 +109,12 @@ void GUI_LevelPainter::init_ui()
 	_cur_style_idx = _settings->get(Set::Level_Style);
 
 
-    // exp(-6.0) = 0.002478752
-    // exp(0) = 1;
-    float f=0;
-    for(int i=0; i<600; i++, f+=0.01f)
-    {
-        m->exp_lot[i] = std::exp(-i / 100.0f);
+	// exp(-6.0) = 0.002478752
+	// exp(0) = 1;
+	float f=0;
+	for(int i=0; i<600; i++, f+=0.01f)
+	{
+		m->exp_lot[i] = std::exp(-i / 100.0f);
 	}
 
 	setup_parent(this, &ui);
@@ -124,9 +124,9 @@ void GUI_LevelPainter::init_ui()
 	m->resize_steps(_cur_style.n_rects);
 	m->set_level(0, 0);
 
-    Engine::Playback* playback_engine = engine()->get_playback_engine();
-    if(playback_engine)
-    {
+	Engine::Playback* playback_engine = engine()->get_playback_engine();
+	if(playback_engine)
+	{
 		playback_engine->add_level_receiver(this);
 	}
 
@@ -164,9 +164,9 @@ void GUI_LevelPainter::set_level(float left, float right)
 		return;
 	}
 
-    m->set_level(left, right);
+	m->set_level(left, right);
 
-    stop_fadeout_timer();
+	stop_fadeout_timer();
 	update();
 
 	mtx.unlock();
@@ -190,21 +190,21 @@ void GUI_LevelPainter::paintEvent(QPaintEvent* e)
 	int num_zero = 0;
 	int x_init = (w_rect + border_x);
 
-    for(int c=0; c<Channels; c++)
-    {
-        float level = -std::max(m->level[c], -39.9f) * 15.0f;
+	for(int c=0; c<Channels; c++)
+	{
+		float level = -std::max(m->level[c], -39.9f) * 15.0f;
 		int idx = std::max(0, std::min(599, (int) level));
 
-        level = m->exp_lot[idx];
+		level = m->exp_lot[idx];
 
 		int n_colored_rects = n_rects * level;
 
 		QRect rect(0, y, w_rect, h_rect);
 
-        for(int r=0; r<n_rects; r++)
-        {
-            if(r < n_colored_rects)
-            {
+		for(int r=0; r<n_rects; r++)
+		{
+			if(r < n_colored_rects)
+			{
 				if(!_cur_style.style[r].contains(-1)){
 					sp_log(Log::Debug, this) << "Style does not contain -1";
 				}
@@ -214,30 +214,30 @@ void GUI_LevelPainter::paintEvent(QPaintEvent* e)
 				m->set_step(c, r, n_fading_steps - 1);
 			}
 
-            else
-            {
-                if(!_cur_style.style[r].contains(m->steps[c][r])){
-                    sp_log(Log::Debug, this) << "2 Style does not contain " << m->steps[c][r] << ", " << c << ", " << r;
+			else
+			{
+				if(!_cur_style.style[r].contains(m->steps[c][r])){
+					sp_log(Log::Debug, this) << "2 Style does not contain " << m->steps[c][r] << ", " << c << ", " << r;
 				}
 
-                painter.fillRect(rect, _cur_style.style[r].value(m->steps[c][r]) );
+				painter.fillRect(rect, _cur_style.style[r].value(m->steps[c][r]) );
 
 				if(m->steps[c][r] > 0) {
 					m->decrease_step(c, r);
 				}
 
-                if(m->steps[c][r] == 0) {
-                    num_zero++;
+				if(m->steps[c][r] == 0) {
+					num_zero++;
 				}
 			}
 
 			rect.translate(x_init, 0);
 		}
 
-        if(num_zero == Channels * n_rects)
-        {
-            // all rectangles where fade out
-            stop_fadeout_timer();
+		if(num_zero == Channels * n_rects)
+		{
+			// all rectangles where fade out
+			stop_fadeout_timer();
 		}
 
 		y += h_rect + border_y;
@@ -247,9 +247,9 @@ void GUI_LevelPainter::paintEvent(QPaintEvent* e)
 
 void GUI_LevelPainter::do_fadeout_step()
 {
-    for(float& l : m->level)
-    {
-        l -= 2.0f;
+	for(float& l : m->level)
+	{
+		l -= 2.0f;
 	}
 
 	update();
@@ -261,7 +261,7 @@ void GUI_LevelPainter::sl_update_style()
 	_ecsc->reload(width(), height());
 	_cur_style = _ecsc->get_color_scheme_level(_cur_style_idx);
 
-    m->resize_steps(_cur_style.n_rects);
+	m->resize_steps(_cur_style.n_rects);
 
 	update();
 }
@@ -298,10 +298,10 @@ void GUI_LevelPainter::closeEvent(QCloseEvent* e)
 
 QWidget *GUI_LevelPainter::widget()
 {
-    return this;
+	return this;
 }
 
 bool GUI_LevelPainter::has_small_buttons() const
 {
-    return true;
+	return true;
 }

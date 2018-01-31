@@ -20,11 +20,12 @@
 
 #include "PlaylistDBWrapper.h"
 
-#include "Utils/Tagging/Tagging.h"
+#include "Utils/Utils.h"
 #include "Utils/FileUtils.h"
 #include "Utils/Parser/PlaylistParser.h"
 #include "Utils/MetaData/MetaDataList.h"
 #include "Utils/Playlist/CustomPlaylist.h"
+#include "Utils/Tagging/Tagging.h"
 
 #include "Database/DatabaseConnector.h"
 #include "Database/DatabasePlaylist.h"
@@ -113,7 +114,8 @@ bool DBWrapper::get_playlists(CustomPlaylists& playlists, Playlist::StoreType ty
 	bool load_permanent = (type == Playlist::StoreType::OnlyPermanent ||
 						   type == Playlist::StoreType::TemporaryAndPermanent);
 
-	for(const CustomPlaylistSkeleton& skeleton : skeletons){
+	for(const CustomPlaylistSkeleton& skeleton : ::Util::AsConst(skeletons))
+	{
 		CustomPlaylist pl(skeleton);
 		if(pl.id() < 0){
 			continue;

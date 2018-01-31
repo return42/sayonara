@@ -107,7 +107,8 @@ bool GUI_Shortcuts::commit()
 	m->error_strings.clear();
 
 	SP::Set<QKeySequence> sequences;
-	for(GUI_ShortcutEntry* entry : m->entries)
+
+	foreach(GUI_ShortcutEntry* entry, m->entries)
 	{
 		QList<QKeySequence> lst = entry->get_sequences();
 		for(const QKeySequence& s : lst)
@@ -129,7 +130,8 @@ bool GUI_Shortcuts::commit()
 
 void GUI_Shortcuts::revert()
 {
-	for(GUI_ShortcutEntry* entry : m->entries){
+	foreach(GUI_ShortcutEntry* entry, m->entries)
+	{
 		entry->revert();
 	}
 }
@@ -153,13 +155,13 @@ void GUI_Shortcuts::sequence_entered()
 	GUI_ShortcutEntry* entry = static_cast<GUI_ShortcutEntry*>(sender());
 	QList<QKeySequence> sequences = entry->get_sequences();
 
-	for(GUI_ShortcutEntry* lst_entry : m->entries)
+	foreach(const GUI_ShortcutEntry* lst_entry, m->entries)
 	{
 		if(lst_entry == entry){
 			continue;
 		}
 
-		QList<QKeySequence> saved_sequences = lst_entry->get_sequences();
+		const QList<QKeySequence> saved_sequences = lst_entry->get_sequences();
 		for(const QKeySequence& seq1 : sequences)
 		{
 			QString seq1_str = seq1.toString(QKeySequence::NativeText);

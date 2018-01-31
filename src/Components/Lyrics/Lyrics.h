@@ -35,7 +35,7 @@ class Lyrics :
 		public QObject
 {
 	Q_OBJECT
-    PIMPL(Lyrics)
+	PIMPL(Lyrics)
 
 signals:
 	void sig_lyrics_fetched();
@@ -44,13 +44,13 @@ public:
 	explicit Lyrics(QObject* parent=nullptr);
 	~Lyrics();
 
-    QStringList servers() const;
-    void set_metadata(const MetaData& md);
+	QStringList servers() const;
+	void set_metadata(const MetaData& md);
 	bool fetch_lyrics(const QString& artist, const QString& title, int server_index);
 	bool save_lyrics(const QString& plain_text);
 
-    QString artist() const;
-    QString title() const;
+	QString artist() const;
+	QString title() const;
 	QString lyric_header() const;
 	QString local_lyric_header() const;
 	QString lyrics() const;

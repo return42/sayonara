@@ -118,7 +118,7 @@ bool Base::init(GstState state)
 
 	m->progress_timer = new QTimer(this);
 	m->progress_timer->setInterval(200);
-	connect(m->progress_timer, &QTimer::timeout, [=]()
+	connect(m->progress_timer, &QTimer::timeout, this, [=]()
 	{
 		if(this->get_state() != GST_STATE_NULL){
 			Callbacks::position_changed(this);
@@ -186,7 +186,7 @@ void Base::check_about_to_finish()
 {
 	if(!_about_to_finish)
 	{
-		if(_duration_ms < _position_pipeline_ms)
+		if(_duration_ms < _position_pipeline_ms || (_duration_ms == 0))
 		{
 			_duration_ms = m->query_duration(get_source());
 
@@ -196,8 +196,6 @@ void Base::check_about_to_finish()
 		}
 	}
 
-	//show_time_info(_position_ms, _duration_ms);
-
 	MilliSeconds about_to_finish_time = get_about_to_finish_time();
 	if(!_about_to_finish)
 	{
@@ -206,6 +204,9 @@ void Base::check_about_to_finish()
 			if((_duration_ms - _position_pipeline_ms) < about_to_finish_time)
 			{
 				_about_to_finish = true;
+
+				sp_log(Log::Develop, this) << "Duration: " << _duration_ms << ", Position: " << _position_pipeline_ms;
+
 				emit sig_about_to_finish(_duration_ms - _position_pipeline_ms);
 				return;
 			}

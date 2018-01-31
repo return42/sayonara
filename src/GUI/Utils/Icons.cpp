@@ -36,7 +36,7 @@ static bool s_force_standard_icons=false;
 
 using P=QPair<QString, QString>;
 
-static QMap<Icons::IconName, QPair<QString, QString>> s_icon_map =
+static const QMap<Icons::IconName, QPair<QString, QString>> s_icon_map =
 {
 	{Icons::AudioFile,	P("audio-x-generic", "cd.png")},
 	{Icons::Append,		P("list-add", "append")},

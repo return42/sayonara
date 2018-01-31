@@ -24,6 +24,7 @@
 #include "Components/Playlist/PlaylistDBWrapper.h"
 
 #include "Utils/Logger/Logger.h"
+#include "Utils/Utils.h"
 
 #include <QStringList>
 
@@ -84,7 +85,7 @@ void PlaylistChooser::load_single_playlist(int id)
 
 int PlaylistChooser::find_playlist(const QString& name) const
 {
-	for(const CustomPlaylistSkeleton& skeleton : m->skeletons)
+	for(const CustomPlaylistSkeleton& skeleton : Util::AsConst(m->skeletons))
 	{
 		if(skeleton.name().compare(name) == 0)
 		{

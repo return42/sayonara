@@ -19,6 +19,8 @@
  */
 
 #include "LocalCoverSearcher.h"
+
+#include "Utils/Utils.h"
 #include "Utils/FileUtils.h"
 
 #include <QFile>
@@ -31,7 +33,7 @@ QStringList LocalSearcher::cover_paths_from_filename(const QString& filepath)
 {
 	QString file, dir;
 	Util::File::split_filename(filepath, dir, file);
-    return cover_paths_from_dirname(dir);
+	return cover_paths_from_dirname(dir);
 }
 
 QStringList LocalSearcher::cover_paths_from_dirname(const QString& filepath)
@@ -49,18 +51,19 @@ QStringList LocalSearcher::cover_paths_from_dirname(const QString& filepath)
 		return ret;
 	}
 
-	for(const QString& entry : entries){
+	for(const QString& entry : ::Util::AsConst(entries))
+	{
 		int prio = 2;
 
-		if(entry.contains("cover", Qt::CaseInsensitive) ||
-			entry.contains("albumart", Qt::CaseInsensitive) ||
-			entry.contains("front", Qt::CaseInsensitive))
+		if(entry.contains(QStringLiteral("cover"), Qt::CaseInsensitive) ||
+			entry.contains(QStringLiteral("albumart"), Qt::CaseInsensitive) ||
+			entry.contains(QStringLiteral("front"), Qt::CaseInsensitive))
 		{
-			if(entry.contains("large", Qt::CaseInsensitive)){
+			if(entry.contains(QStringLiteral("large"), Qt::CaseInsensitive)){
 				prio = 0;
 			}
 
-			else if(!entry.contains("small", Qt::CaseInsensitive)){
+			else if(!entry.contains(QStringLiteral("small"), Qt::CaseInsensitive)){
 				prio = 1;
 			}
 		}

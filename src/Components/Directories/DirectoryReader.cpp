@@ -120,7 +120,7 @@ MetaDataList DirectoryReader::metadata_from_filelist(const QStringList& lst)
 			dir.cd(str);
 
 			files_in_directory_recursive(dir, files);
-			for(const QString& file : files){
+			for(const QString& file : ::Util::AsConst(files)){
 				if(Util::File::is_soundfile(file)){
 					sound_files << file;
 				}
@@ -157,7 +157,7 @@ MetaDataList DirectoryReader::metadata_from_filelist(const QStringList& lst)
 		it++;
 	}
 
-	for(const QString& playlist_file : playlist_files)
+	for(const QString& playlist_file : ::Util::AsConst(playlist_files))
 	{
 		v_md << PlaylistParser::parse_playlist(playlist_file);
 	}
@@ -195,8 +195,6 @@ QStringList DirectoryReader::find_files_rec(const QDir& dir_orig, const QString&
 
 	for(const QString& file : files)
 	{
-		QFileInfo fi(file);
-
 		if(file.contains(filename)){
 			ret += dir.absoluteFilePath(file);
 		}

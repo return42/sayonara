@@ -63,17 +63,17 @@
 
 #include "GUI/Preferences/Broadcast/GUI_BroadcastSetup.h"
 #include "GUI/Preferences/Covers/GUI_Covers.h"
-#include "GUI/Preferences/EnginePreferences/GUI_EnginePreferences.h"
+#include "GUI/Preferences/Engine/GUI_EnginePreferences.h"
 #include "GUI/Preferences/Fonts/GUI_FontConfig.h"
 #include "GUI/Preferences/Icons/GUI_IconPreferences.h"
 #include "GUI/Preferences/Language/GUI_LanguageChooser.h"
 #include "GUI/Preferences/LastFM/GUI_LastFM.h"
-#include "GUI/Preferences/LibraryPreferences/GUI_LibraryPreferences.h"
+#include "GUI/Preferences/Library/GUI_LibraryPreferences.h"
 #include "GUI/Preferences/Notifications/GUI_Notifications.h"
-#include "GUI/Preferences/PlayerPreferences/GUI_PlayerPreferences.h"
-#include "GUI/Preferences/PlaylistPreferences/GUI_PlaylistPreferences.h"
+#include "GUI/Preferences/Player/GUI_PlayerPreferences.h"
+#include "GUI/Preferences/Playlist/GUI_PlaylistPreferences.h"
 #include "GUI/Preferences/PreferenceDialog/GUI_PreferenceDialog.h"
-#include "GUI/Preferences/ProxyPreferences/GUI_Proxy.h"
+#include "GUI/Preferences/Proxy/GUI_Proxy.h"
 #include "GUI/Preferences/RemoteControl/GUI_RemoteControl.h"
 #include "GUI/Preferences/Search/GUI_SearchPreferences.h"
 #include "GUI/Preferences/Shortcuts/GUI_Shortcuts.h"
@@ -371,8 +371,7 @@ void Application::init_single_instance_thread()
 	m->instance_thread = new InstanceThread(this);
 
 	connect(m->instance_thread, &InstanceThread::sig_player_raise, m->player, &GUI_Player::raise);
-	connect(m->instance_thread, SIGNAL(sig_create_playlist(const QStringList&, const QString&, bool)),
-			m->plh, SLOT(create_playlist(const QStringList&, const QString&, bool)));
+	connect(m->instance_thread, &InstanceThread::sig_create_playlist, this, &Application::create_playlist);
 
 	m->instance_thread->start();
 }
@@ -389,4 +388,17 @@ void Application::session_end_requested(QSessionManager& manager)
 	if(m->player){
 		m->player->request_shutdown();
 	};
+}
+
+void Application::create_playlist()
+{
+	InstanceThread* t =	static_cast<InstanceThread*>(sender());
+	if(!t){
+		return;
+	}
+
+	QStringList paths = t->paths();
+	QString new_name = Playlist::Handler::instance()->request_new_playlist_name();
+
+	Playlist::Handler::instance()->create_playlist(paths, new_name, true);
 }

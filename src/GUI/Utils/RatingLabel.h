@@ -48,7 +48,6 @@ public:
 
 	void set_offset_y(int offset);
 
-
 protected:
 	void paintEvent(QPaintEvent *e) override;
 	void focusInEvent(QFocusEvent* e) override;

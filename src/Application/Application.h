@@ -54,6 +54,7 @@ private:
 
 private slots:
 	void session_end_requested(QSessionManager& manager);
+	void create_playlist();
 };
 
 #endif // APPLICATION_H

@@ -1,20 +1,9 @@
 PROJECT(say_gui_player)
 
-SET(SOURCES
-	GUI_Controls.cpp
-	GUI_Player.cpp
-	GUI_PlayerMenubar.cpp
-	GUI_PlayerMessages.cpp
-	GUI_TrayIcon.cpp
-	GUI_Logger.cpp
-	SearchSlider.cpp
-)
+FILE(GLOB_RECURSE SOURCES . *.cpp)
+FILE(GLOB_RECURSE RAW_UI_FILES . *.ui)
 
-QT5_WRAP_UI(FORMS_UIC
-	GUI_Controls.ui
-	GUI_Player.ui
-	GUI_Logger.ui
-)
+QT5_WRAP_UI(UI_FILES ${RAW_UI_FILES})
 
 SET(PLAYER_LIBRARIES
 
@@ -25,7 +14,7 @@ SET(PLAYER_LIBRARIES
 	say_gui_plugins
 )
 
-ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES} ${FORMS_UIC})
+ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES} ${UI_FILES})
 TARGET_LINK_LIBRARIES(${PROJECT_NAME}
 	${PLAYER_LIBRARIES}
 )

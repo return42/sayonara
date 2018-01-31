@@ -19,7 +19,7 @@
  */
 
 #include "GUI_Spectrum.h"
-#include "GUI/Plugins/Engine/ui_GUI_Spectrum.h"
+#include "GUI/Plugins/ui_GUI_Spectrum.h"
 
 #include "EngineColorStyleChooser.h"
 
@@ -54,28 +54,28 @@ struct GUI_Spectrum::Private
 
 
 GUI_Spectrum::GUI_Spectrum(QWidget *parent) :
-    EnginePlugin(parent)
+	EnginePlugin(parent)
 {
-    m = Pimpl::make<Private>();
+	m = Pimpl::make<Private>();
 
-    _settings->set(Set::Engine_ShowSpectrum, false);
+	_settings->set(Set::Engine_ShowSpectrum, false);
 }
 
 
 GUI_Spectrum::~GUI_Spectrum()
 {
-    if(ui)
-    {
-        delete ui; ui=nullptr;
-    }
+	if(ui)
+	{
+		delete ui; ui=nullptr;
+	}
 }
 
 
 void GUI_Spectrum::init_ui()
 {
-    if(is_ui_initialized()){
-        return;
-    }
+	if(is_ui_initialized()){
+		return;
+	}
 
 	int bins = _settings->get(Set::Engine_SpectrumBins);
 	bins = std::max(50, bins);
@@ -89,7 +89,7 @@ void GUI_Spectrum::init_ui()
 	for(int i=0; i<bins; i++)
 	{
 		log_lu[i] = (std::pow(10.0f, (i / 140.0f) + 1.0f) / 8.0f) / 75.0f;
-    }
+	}
 
 	setup_parent(this, &ui);
 	EnginePlugin::init_ui();
@@ -97,10 +97,10 @@ void GUI_Spectrum::init_ui()
 
 	_cur_style = _ecsc->get_color_scheme_spectrum(_cur_style_idx);
 
-    Engine::Playback* playback_engine = engine()->get_playback_engine();
-    if(playback_engine){
-        playback_engine->add_spectrum_receiver(this);
-    }
+	Engine::Playback* playback_engine = engine()->get_playback_engine();
+	if(playback_engine){
+		playback_engine->add_spectrum_receiver(this);
+	}
 
 	update();
 }
@@ -108,13 +108,13 @@ void GUI_Spectrum::init_ui()
 
 QString GUI_Spectrum::get_name() const
 {
-    return "Spectrum";
+	return "Spectrum";
 }
 
 
 QString GUI_Spectrum::get_display_name() const
 {
-    return tr("Spectrum");
+	return tr("Spectrum");
 }
 
 
@@ -122,33 +122,33 @@ void GUI_Spectrum::retranslate_ui() {}
 
 void GUI_Spectrum::set_spectrum(const SpectrumList& spec)
 {
-    if(!is_ui_initialized() || !isVisible()){
-        return;
-    }
+	if(!is_ui_initialized() || !isVisible()){
+		return;
+	}
 
 	m->spec = spec;
 
-    stop_fadeout_timer();
-    update();
+	stop_fadeout_timer();
+	update();
 }
 
 
 void GUI_Spectrum::do_fadeout_step()
 {
-	/*for(auto it=m->spec.begin(); it!= m->spec.begin(); it++)
-    {
-        *it -= 0.024f;
-	}*/
+	for(auto it=m->spec.begin(); it!= m->spec.end(); it++)
+	{
+		*it = (*it - 1.5f);
+	}
 
-    update();
+	update();
 }
 
 
 void GUI_Spectrum::resize_steps(int n_bins, int rects)
 {
-    if(!is_ui_initialized()){
-        return;
-    }
+	if(!is_ui_initialized()){
+		return;
+	}
 
 	if(n_bins != (int) m->steps.size()){
 		m->steps.resize(n_bins);
@@ -165,124 +165,124 @@ void GUI_Spectrum::resize_steps(int n_bins, int rects)
 
 void GUI_Spectrum::sl_update_style()
 {
-    if(!is_ui_initialized()){
-        return;
-    }
+	if(!is_ui_initialized()){
+		return;
+	}
 
 	if(!mtx.try_lock()) {
 		sp_log(Log::Debug, this) << "Cannot update stylde";
 		return;
 	}
 
-    _ecsc->reload(width(), height());
-    _cur_style = _ecsc->get_color_scheme_spectrum(_cur_style_idx);
-    _settings->set(Set::Spectrum_Style, _cur_style_idx);
+	_ecsc->reload(width(), height());
+	_cur_style = _ecsc->get_color_scheme_spectrum(_cur_style_idx);
+	_settings->set(Set::Spectrum_Style, _cur_style_idx);
 
-    int bins = _settings->get(Set::Engine_SpectrumBins);
-    resize_steps(bins, _cur_style.n_rects);
+	int bins = _settings->get(Set::Engine_SpectrumBins);
+	resize_steps(bins, _cur_style.n_rects);
 
-    update();
+	update();
 	mtx.unlock();
 }
 
 
 void GUI_Spectrum::showEvent(QShowEvent* e)
 {
-    _settings->set(Set::Engine_ShowSpectrum, true);
-    EnginePlugin::showEvent(e);
+	_settings->set(Set::Engine_ShowSpectrum, true);
+	EnginePlugin::showEvent(e);
 }
 
 
 void GUI_Spectrum::closeEvent(QCloseEvent* e)
 {
-    _settings->set(Set::Engine_ShowSpectrum, false);
-    EnginePlugin::closeEvent(e);
+	_settings->set(Set::Engine_ShowSpectrum, false);
+	EnginePlugin::closeEvent(e);
 }
 
 void GUI_Spectrum::paintEvent(QPaintEvent* e)
 {
-    Q_UNUSED(e)
+	Q_UNUSED(e)
 
-    QPainter painter(this);
+	QPainter painter(this);
 
-    float widget_height = (float) height();
+	float widget_height = (float) height();
 
-    int n_rects = _cur_style.n_rects;
-    int n_fading_steps = _cur_style.n_fading_steps;
-    int h_rect = (widget_height / n_rects) - _cur_style.ver_spacing;
-    int border_y = _cur_style.ver_spacing;
-    int border_x = _cur_style.hor_spacing;
+	int n_rects = _cur_style.n_rects;
+	int n_fading_steps = _cur_style.n_fading_steps;
+	int h_rect = (widget_height / n_rects) - _cur_style.ver_spacing;
+	int border_y = _cur_style.ver_spacing;
+	int border_x = _cur_style.hor_spacing;
 
-    int x=3;
+	int x=3;
 	int ninety = 35;
-    int offset = 0;
-    int n_zero = 0;
+	int offset = 0;
+	int n_zero = 0;
 
-    if(ninety == 0) {
-        return;
-    }
+	if(ninety == 0) {
+		return;
+	}
 
-    int w_bin = ((width() + 10) / (ninety - offset)) - border_x;
+	int w_bin = ((width() + 10) / (ninety - offset)) - border_x;
 
-    // run through all bins
-    for(int i=offset; i<ninety + 1; i++)
-    {
+	// run through all bins
+	for(int i=offset; i<ninety + 1; i++)
+	{
 		// spec: [-75, 0]
-        // f_scaled: [0, 75]
-        // scaling factor of ( / 75.0) is in log_lu
+		// f_scaled: [0, 75]
+		// scaling factor of ( / 75.0) is in log_lu
 		float f_scaled = (m->spec[i] + 75.0);
 		float f = f_scaled * log_lu[i];
 
-        // if this is one bar, how tall would it be?
-        int h =  f * widget_height;
+		// if this is one bar, how tall would it be?
+		int h =  f * widget_height;
 
-        // how many colored rectangles would fit into this bar?
-        int colored_rects = h / (h_rect + border_y) - 1 ;
+		// how many colored rectangles would fit into this bar?
+		int colored_rects = h / (h_rect + border_y) - 1 ;
 
-        colored_rects = std::max(colored_rects, 0);
+		colored_rects = std::max(colored_rects, 0);
 
-        // we start from bottom with painting
-        int y = widget_height - h_rect;
+		// we start from bottom with painting
+		int y = widget_height - h_rect;
 
-        // run vertical
+		// run vertical
 
-        QRect rect(x, y, w_bin, h_rect);
-        QColor col;
-        for(int r=0; r<n_rects; r++)
-        {
-            // 100%
-            if( r < colored_rects)
-            {
-                col = _cur_style.style[r].value(-1);
-                m->steps[i][r] = n_fading_steps;
-            }
+		QRect rect(x, y, w_bin, h_rect);
+		QColor col;
+		for(int r=0; r<n_rects; r++)
+		{
+			// 100%
+			if( r < colored_rects)
+			{
+				col = _cur_style.style[r].value(-1);
+				m->steps[i][r] = n_fading_steps;
+			}
 
-            // fading out
-            else
-            {
-                col = _cur_style.style[r].value(m->steps[i][r]);
+			// fading out
+			else
+			{
+				col = _cur_style.style[r].value(m->steps[i][r]);
 
-                if(m->steps[i][r] > 0) {
-                    m->steps[i][r]--;
-                }
+				if(m->steps[i][r] > 0) {
+					m->steps[i][r]--;
+				}
 
-                else {
-                    n_zero++;
-                }
-            }
+				else {
+					n_zero++;
+				}
+			}
 
-            painter.fillRect(rect, col);
+			painter.fillRect(rect, col);
 
-            rect.translate(0, -(h_rect + border_y));
-        }
+			rect.translate(0, -(h_rect + border_y));
+		}
 
-        x += w_bin + border_x;
-    }
+		x += w_bin + border_x;
+	}
 
-    if(n_zero == (ninety - offset) * n_rects)
-    {
-        stop_fadeout_timer();
-    }
+	if(n_zero == (ninety - offset) * n_rects)
+	{
+		stop_fadeout_timer();
+	}
 }
 
 
@@ -293,5 +293,5 @@ QWidget* GUI_Spectrum::widget()
 
 bool GUI_Spectrum::has_small_buttons() const
 {
-    return false;
+	return false;
 }

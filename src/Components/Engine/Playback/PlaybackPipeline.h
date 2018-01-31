@@ -23,6 +23,7 @@
 
 #include "ChangeablePipeline.h"
 #include "Crossfader.h"
+#include "DelayedPlayHandler.h"
 #include "Components/Engine/AbstractPipeline.h"
 #include "Utils/Pimpl.h"
 
@@ -35,7 +36,8 @@ namespace Pipeline
 	class Playback :
 			public Base,
 			public CrossFader,
-			public Changeable
+			public Changeable,
+			public DelayedPlayHandler
 	{
 		Q_OBJECT
 		PIMPL(Playback)
@@ -57,6 +59,8 @@ namespace Pipeline
 
 		void force_about_to_finish();
 
+		void set_spectrum_enabled(bool b);
+		void set_level_enabled(bool b);
 
 	public slots:
 		void play() override;
@@ -75,6 +79,9 @@ namespace Pipeline
 		bool add_and_link_elements() override;
 		bool configure_elements() override;
 		MilliSeconds get_about_to_finish_time() const override;
+
+		void fade_in_handler() override;
+		void fade_out_handler() override;
 
 	protected slots:
 		void s_vol_changed();

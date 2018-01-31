@@ -22,7 +22,7 @@
 
 #include "GUI/Utils/Widgets/Widget.h"
 
-#include "Utils/Shutdown/Shutdown.h"
+#include "Components/Shutdown/Shutdown.h"
 #include "Utils/Playlist/PlaylistFwd.h"
 #include "Utils/Pimpl.h"
 

@@ -10,7 +10,7 @@ class PlaylistContextMenu :
 	PIMPL(PlaylistContextMenu)
 
 public:
-	PlaylistContextMenu(QWidget* parent);
+	explicit PlaylistContextMenu(QWidget* parent);
 	~PlaylistContextMenu();
 
 	void set_bookmarks_visible(bool b);

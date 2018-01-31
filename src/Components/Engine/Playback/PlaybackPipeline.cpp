@@ -36,6 +36,7 @@
 #include <gst/app/gstappsink.h>
 
 #include <algorithm>
+#include <list>
 
 //http://gstreamer.freedesktop.org/data/doc/gstreamer/head/manual/html/chapter-dataaccess.html
 
@@ -129,7 +130,8 @@ struct Playback::Private :
 Playback::Playback(Engine::Base* engine, QObject *parent) :
 	Pipeline::Base("Playback Pipeline", engine, parent),
 	CrossFader(),
-	Pipeline::Changeable()
+	Pipeline::Changeable(),
+	Pipeline::DelayedPlayHandler()
 {
 	m = Pimpl::make<Private>();
 }
@@ -344,7 +346,7 @@ bool Playback::configure_elements()
 {
 	guint64 interval = 25000000;
 	gint threshold = -75;
-	QList<GstElement*> sinks;
+	std::list<GstElement*> sinks;
 
 	g_object_set (G_OBJECT (m->audio_src),
 				  "use-buffering", true,
@@ -388,7 +390,7 @@ bool Playback::configure_elements()
 					 "emit-signals",
 					 true, nullptr );
 
-		sinks << m->lame_app_sink;
+		sinks.push_back(m->lame_app_sink);
 	}
 
 	if(m->file_sink){
@@ -406,14 +408,16 @@ bool Playback::configure_elements()
 					 "location", (Util::sayonara_path() + "bla.mp3").toLocal8Bit().data(),
 					 nullptr);
 
-		sinks << m->file_sink;
+		sinks.push_back(m->file_sink);
 
 		gst_element_set_state(m->file_sink, GST_STATE_NULL);
 	}
 
-	sinks << m->level_sink << m->spectrum_sink;
+	sinks.push_back(m->level_sink);
+	sinks.push_back(m->spectrum_sink);
 
-	for(GstElement* sink : sinks){
+	for(GstElement* sink : sinks)
+	{
 		//gst_object_ref(sink);
 		/* run synced and not as fast as we can */
 		g_object_set(G_OBJECT (sink), "sync", true, nullptr);
@@ -445,6 +449,7 @@ void Playback::stop()
 {
 	Base::stop();
 
+	abort_delayed_playing();
 	abort_fader();
 }
 
@@ -464,20 +469,44 @@ void Playback::s_mute_changed()
 	g_object_set(G_OBJECT(m->volume), "mute", muted, nullptr);
 }
 
-void Playback::s_show_level_changed()
+
+void Playback::set_level_enabled(bool b)
 {
-	m->show_level = _settings->get(Set::Engine_ShowLevel);
+	m->show_level = b;
 	Probing::handle_probe(&m->show_level, m->level_queue, &m->level_probe, Probing::level_probed);
 }
 
-
-void Playback::s_show_spectrum_changed()
+void Playback::s_show_level_changed()
 {
-	m->show_spectrum = _settings->get(Set::Engine_ShowSpectrum);
+	set_level_enabled(
+		_settings->get(Set::Engine_ShowLevel)
+	);
+}
 
+void Playback::set_spectrum_enabled(bool b)
+{
+	m->show_spectrum = b;
 	Probing::handle_probe(&m->show_spectrum, m->spectrum_queue, &m->spectrum_probe, Probing::spectrum_probed);
 }
 
+void Playback::s_show_spectrum_changed()
+{
+	set_spectrum_enabled(
+		_settings->get(Set::Engine_ShowSpectrum)
+	);
+}
+
+void Playback::fade_in_handler()
+{
+	s_show_spectrum_changed();
+	s_show_level_changed();
+}
+
+void Playback::fade_out_handler()
+{
+	set_spectrum_enabled(false);
+	set_level_enabled(false);
+}
 
 void Playback::set_n_sound_receiver(int num_sound_receiver)
 {
@@ -505,6 +534,7 @@ void Playback::force_about_to_finish()
 	_about_to_finish = true;
 	emit sig_about_to_finish(get_about_to_finish_time());
 }
+
 
 
 bool Playback::set_uri(gchar* uri)

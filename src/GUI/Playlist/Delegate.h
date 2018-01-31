@@ -34,7 +34,7 @@ class PlaylistItemDelegate :
 	PIMPL(PlaylistItemDelegate)
 
 public:
-	PlaylistItemDelegate(QTableView* parent);
+	explicit PlaylistItemDelegate(QTableView* parent);
 	virtual ~PlaylistItemDelegate();
 
 	void paint( QPainter *painter, const QStyleOptionViewItem &option,
@@ -47,6 +47,8 @@ public:
 	QWidget* createEditor(QWidget* parent, const QStyleOptionViewItem& option, const QModelIndex& index) const override;
 	void setEditorData(QWidget* editor, const QModelIndex& index) const override;
 	void setModelData(QWidget* editor, QAbstractItemModel* model, const QModelIndex& index) const override;
+
+	int rating_height() const;
 
 private slots:
 	void sl_look_changed();

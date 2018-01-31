@@ -19,7 +19,7 @@
  */
 
 #include "GUI_Podcasts.h"
-#include "GUI/Plugins/Stream/ui_GUI_Podcasts.h"
+#include "GUI/Plugins/ui_GUI_Podcasts.h"
 #include "Components/StreamPlugins/Streams/StreamHandlerPodcasts.h"
 
 GUI_Podcasts::GUI_Podcasts(QWidget *parent) :
@@ -46,7 +46,7 @@ QString GUI_Podcasts::get_display_name() const
 
 void GUI_Podcasts::init_ui()
 {
-	setup_parent(this, &ui);	
+	setup_parent(this, &ui);
 }
 
 void GUI_Podcasts::retranslate_ui()

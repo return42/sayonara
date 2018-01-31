@@ -1,14 +1,10 @@
-PROJECT(say_comp_remote_control)
+PROJECT( say_comp_metadata_info )
 
 FILE(GLOB_RECURSE SOURCES . *.cpp)
 
 ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES})
 TARGET_LINK_LIBRARIES(${PROJECT_NAME}
-	Qt5::Core
-	Qt5::Network
-	Qt5::Gui
-
-	say_comp_playmanager
-	say_comp_playlist
+	say_db
+	say_utils
 	say_comp_covers
 )

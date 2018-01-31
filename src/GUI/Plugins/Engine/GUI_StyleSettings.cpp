@@ -19,7 +19,7 @@
  */
 
 #include "GUI_StyleSettings.h"
-#include "GUI/Plugins/Engine/ui_GUI_Style.h"
+#include "GUI/Plugins/ui_GUI_Style.h"
 
 #include "StyleTypes.h"
 

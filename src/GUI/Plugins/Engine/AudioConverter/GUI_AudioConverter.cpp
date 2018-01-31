@@ -19,7 +19,7 @@
  */
 
 #include "GUI_AudioConverter.h"
-#include "GUI/Plugins/Engine/ui_GUI_AudioConverter.h"
+#include "GUI/Plugins/ui_GUI_AudioConverter.h"
 
 #include "Utils/Message/Message.h"
 #include "Utils/Logger/Logger.h"

@@ -260,27 +260,16 @@ QMap<QString, int> TrackChangedThread::filter_available_artists(const ArtistMatc
 	QMap<ArtistMatch::ArtistDesc, double> bin = artist_match.get(quality);
 	QMap<QString, int> possible_artists;
 
-	for(const ArtistMatch::ArtistDesc& key : bin.keys()) {
-#if SMART_COMPARE
+	DB::Connector* db = DB::Connector::instance();
+	DB::LibraryDatabase* lib_db = db->library_db(-1, 0);
 
-		QMap<QString, float> sc_map = _smart_comparison->get_similar_strings(key);
-		for(const QString& sc_key : sc_map.keys() ){
-			ArtistId artist_id = db->getArtistID(sc_key);
-			if(artist_id >= 0 && sc_map[sc_key] > 5.0f){
-				possible_artists[sc_key] = artist_id;
-			}
-
+	for(auto it=bin.cbegin(); it!=bin.cend(); it++)
+	{
+		ArtistId artist_id = lib_db->getArtistID(it.key().artist_name);
+		if(artist_id >= 0 )
+		{
+			possible_artists[it.key().artist_name] = artist_id;
 		}
-
-#else
-		DB::Connector* db = DB::Connector::instance();
-		DB::LibraryDatabase* lib_db = db->library_db(-1, 0);
-		ArtistId artist_id = lib_db->getArtistID(key.artist_name);
-		if(artist_id >= 0 ){
-			possible_artists[key.artist_name] = artist_id;
-		}
-
-#endif
 	}
 
 	return possible_artists;

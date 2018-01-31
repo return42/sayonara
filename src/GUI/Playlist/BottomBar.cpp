@@ -88,7 +88,8 @@ GUI_PlaylistBottomBar::GUI_PlaylistBottomBar(QWidget *parent) :
 	m->btn_gapless = new QPushButton(Icons::icon(Icons::Gapless, Icons::ForceSayonaraIcon), "", this);
 	m->btn_shutdown = new QPushButton(Icons::icon(Icons::Shutdown), "", this);
 
-	for(QPushButton* btn : m->buttons())
+	const QList<QPushButton*> buttons = m->buttons();
+	for(QPushButton* btn : buttons)
 	{
 		btn->setIconSize(QSize(20, 20));
 		btn->setCheckable(true);

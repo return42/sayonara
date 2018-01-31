@@ -70,6 +70,8 @@ public:
 	const SP::Set<AlbumId>& selected_albums() const;
 	const SP::Set<ArtistId>& selected_artists() const;
 
+	bool is_loaded() const;
+
 signals:
 	void sig_track_mime_data_available();
 	void sig_all_tracks_loaded ();
@@ -86,7 +88,6 @@ signals:
 public slots:
 
 	virtual void load();
-	bool is_loaded() const;
 
 	virtual void reload_library(bool clear_first, Library::ReloadQuality quality)=0;
 

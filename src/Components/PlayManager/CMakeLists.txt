@@ -5,12 +5,10 @@ INCLUDE_DIRECTORIES(
 	${CMAKE_CURRENT_BINARY_DIR}
 )
 
-SET(SOURCES
-    PlayManager.cpp
-)
+FILE(GLOB_RECURSE SOURCES . *.cpp)
 
 ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES})
 TARGET_LINK_LIBRARIES(${PROJECT_NAME}
 	say_utils
-    say_interfaces_notifications
+	say_interfaces_notifications
 )

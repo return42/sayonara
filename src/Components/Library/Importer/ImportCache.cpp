@@ -25,37 +25,59 @@
 #include "Utils/FileUtils.h"
 #include "Utils/MetaData/MetaDataList.h"
 
-#include <QMap>
+#include <QHash>
 #include <QString>
 #include <QStringList>
+
+using Library::ImportCache;
 
 struct ImportCache::Private
 {
 	QString					library_path;
 	MetaDataList			v_md;
-	QMap<QString, MetaData> src_md_map;
-	QMap<QString, QString>	src_dst_map;
+	QHash<QString, MetaData> src_md_map;
+	QHash<QString, QString>	src_dst_map;
 	QStringList				files;
+
+	Private(const QString& library_path) :
+		library_path(library_path)
+	{}
+
+	Private(const Private& other) :
+		CASSIGN(library_path),
+		CASSIGN(v_md),
+		CASSIGN(src_md_map),
+		CASSIGN(src_dst_map),
+		CASSIGN(files)
+	{}
+
+	Private& operator=(const Private& other)
+	{
+		ASSIGN(library_path);
+		ASSIGN(v_md);
+		ASSIGN(src_md_map);
+		ASSIGN(src_dst_map);
+		ASSIGN(files);
+
+		return *this;
+	}
 };
 
 ImportCache::ImportCache(const QString& library_path)
 {
-	m = Pimpl::make<ImportCache::Private>();
-	m->library_path = library_path;
+	m = Pimpl::make<Private>(library_path);
+}
+
+ImportCache::ImportCache(const ImportCache& other)
+{
+	m = Pimpl::make<Private>(*(other.m));
 }
 
 ImportCache::~ImportCache() {}
-ImportCache::ImportCache(const ImportCache& other)
-{
-	m = Pimpl::make<ImportCache::Private>();
-	ImportCache::Private data = *(other.m.get());
-	(*m) = data;
-}
 
 ImportCache& ImportCache::operator=(const ImportCache& other)
 {
-	ImportCache::Private data = *(other.m.get());
-	(*m) = data;
+	*m = *(other.m);
 
 	return *this;
 }
@@ -93,7 +115,8 @@ void ImportCache::add_standard_file(const QString& filename, const QString& pare
 	QString pure_src_filename = Util::File::get_filename_of_path(filename);
 	QString target_subdir;
 
-	if(!parent_dir.isEmpty()){
+	if(!parent_dir.isEmpty())
+	{
 		QString file_dir = Util::File::get_parent_directory(filename);
 		QString sub_dir = file_dir.remove(Util::File::get_absolute_filename(parent_dir));
 		QString pure_srcdir = Util::File::get_filename_of_path(parent_dir);
@@ -134,7 +157,9 @@ void ImportCache::change_metadata(const MetaDataList& v_md_old, const MetaDataLi
 	Q_UNUSED(v_md_old)
 
 	m->v_md = v_md_new;
-	for(const MetaData& md : v_md_new){
+
+	for(const MetaData& md : v_md_new)
+	{
 		m->src_md_map[md.filepath()] = md;
 	}
 }

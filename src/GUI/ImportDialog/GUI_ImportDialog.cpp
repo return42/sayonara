@@ -39,7 +39,7 @@
 
 struct GUI_ImportDialog::Private
 {
-	LibraryImporter*	importer=nullptr;
+	Library::Importer*	importer=nullptr;
 	GUI_TagEdit*		tag_edit=nullptr;
 	LocalLibrary*		library=nullptr;
 };
@@ -68,10 +68,10 @@ GUI_ImportDialog::GUI_ImportDialog(LocalLibrary* library, bool copy_enabled, QWi
 	connect(ui->btn_cancel, &QPushButton::clicked, this, &GUI_ImportDialog::bb_rejected);
 	connect(ui->btn_edit, &QPushButton::clicked, this, &GUI_ImportDialog::edit_pressed);
 
-	connect(m->importer, &LibraryImporter::sig_got_metadata, this, &GUI_ImportDialog::set_metadata);
-	connect(m->importer, &LibraryImporter::sig_status_changed, this, &GUI_ImportDialog::set_status);
-	connect(m->importer, &LibraryImporter::sig_progress, this, &GUI_ImportDialog::set_progress);
-	connect(m->importer, &LibraryImporter::sig_triggered, this, &GUI_ImportDialog::show);
+	connect(m->importer, &Library::Importer::sig_got_metadata, this, &GUI_ImportDialog::set_metadata);
+	connect(m->importer, &Library::Importer::sig_status_changed, this, &GUI_ImportDialog::set_status);
+	connect(m->importer, &Library::Importer::sig_progress, this, &GUI_ImportDialog::set_progress);
+	connect(m->importer, &Library::Importer::sig_triggered, this, &GUI_ImportDialog::show);
 
 	setModal(true);
 }
@@ -106,7 +106,7 @@ void GUI_ImportDialog::set_metadata(const MetaDataList& v_md)
 	ui->btn_edit->setVisible( !v_md.isEmpty() );
 }
 
-void GUI_ImportDialog::set_status(LibraryImporter::ImportStatus status)
+void GUI_ImportDialog::set_status(Library::Importer::ImportStatus status)
 {
 	ui->pb_progress->hide();
 	ui->lab_status->show();
@@ -115,33 +115,34 @@ void GUI_ImportDialog::set_status(LibraryImporter::ImportStatus status)
 	ui->btn_ok->setEnabled(false);
 	ui->btn_cancel->setEnabled(true);
 
-	switch(status){
-		case LibraryImporter::ImportStatus::Caching:
+	switch(status)
+	{
+		case Library::Importer::ImportStatus::Caching:
 			ui->lab_status->setText(tr("Loading tracks") + "...");
 			thread_active = true;
 			show();
 			break;
 
-		case LibraryImporter::ImportStatus::Importing:
+		case Library::Importer::ImportStatus::Importing:
 			ui->lab_status->setText(tr("Importing") + "...");
 			thread_active = true;
 			break;
 
-		case LibraryImporter::ImportStatus::Imported:
+		case Library::Importer::ImportStatus::Imported:
 			ui->lab_status->setText(tr("Finished"));
 			close();
 			break;
 
-		case LibraryImporter::ImportStatus::Cancelled:
+		case Library::Importer::ImportStatus::Cancelled:
 			ui->lab_status->setText(tr("Cancelled"));
 			close();
 			break;
 
-		case LibraryImporter::ImportStatus::NoTracks:
+		case Library::Importer::ImportStatus::NoTracks:
 			ui->lab_status->setText(tr("No tracks"));
 			break;
 
-		case LibraryImporter::ImportStatus::Rollback:
+		case Library::Importer::ImportStatus::Rollback:
 			ui->lab_status->setText(tr("Rollback"));
 			ui->btn_cancel->setEnabled(false);
 			thread_active = true;
@@ -193,13 +194,13 @@ void GUI_ImportDialog::bb_accepted()
 void GUI_ImportDialog::bb_rejected()
 {
 	//m->tag_edit->cancel();
-	LibraryImporter::ImportStatus status = m->importer->get_status();
+	Library::Importer::ImportStatus status = m->importer->status();
 
 	m->importer->cancel_import();
 
-	if( status == LibraryImporter::ImportStatus::Cancelled  ||
-		status == LibraryImporter::ImportStatus::NoTracks ||
-		status == LibraryImporter::ImportStatus::Imported)
+	if( status == Library::Importer::ImportStatus::Cancelled  ||
+		status == Library::Importer::ImportStatus::NoTracks ||
+		status == Library::Importer::ImportStatus::Imported)
 	{
 		close();
 	}

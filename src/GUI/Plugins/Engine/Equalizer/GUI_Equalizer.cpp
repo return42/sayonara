@@ -32,8 +32,9 @@
 #include "Components/Engine/EngineHandler.h"
 
 #include "GUI/Utils/Delegates/ComboBoxDelegate.h"
-#include "GUI/Plugins/Engine/ui_GUI_Equalizer.h"
+#include "GUI/Plugins/ui_GUI_Equalizer.h"
 
+#include "Utils/Utils.h"
 #include "Utils/EqualizerPresets.h"
 #include "Utils/Settings/Settings.h"
 #include "Utils/Language.h"
@@ -129,7 +130,8 @@ void GUI_Equalizer::init_ui()
 
 	ui->btn_tool->register_action(action_gauss);
 
-	for(EqSlider* s : m->sliders) {
+	foreach(EqSlider* s, m->sliders)
+	{
 		connect(s, &EqSlider::sig_value_changed, this, &GUI_Equalizer::sli_changed);
 		connect(s, &EqSlider::sig_slider_got_focus, this, &GUI_Equalizer::sli_pressed);
 		connect(s, &EqSlider::sig_slider_lost_focus, this, &GUI_Equalizer::sli_released);
@@ -174,7 +176,7 @@ void GUI_Equalizer::sli_pressed()
 	m->active_idx= idx;
 
 	int i=0;
-	for(EqSlider* slider : m->sliders)
+	for(const EqSlider* slider : Util::AsConst(m->sliders))
 	{
 		m->old_val[i] = slider->value();
 		i++;
@@ -234,7 +236,8 @@ void GUI_Equalizer::fill_eq_presets()
 	m->presets.prepend(EQ_Setting());
 
 	QStringList items;
-	for(const EQ_Setting& s : m->presets) {
+	for(const EQ_Setting& s : Util::AsConst(m->presets))
+	{
 		items << s.name();
 	}
 
@@ -367,7 +370,7 @@ void GUI_Equalizer::btn_undo_clicked()
 
 	if(found_idx <= 0)
 	{
-		for(EqSlider* sli : m->sliders){
+		for(EqSlider* sli : Util::AsConst(m->sliders)){
 			sli->setValue(0);
 		}
 	}

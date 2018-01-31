@@ -30,7 +30,7 @@
 #include <QStringList>
 #include <QHash>
 
-static QHash<GenreID, Genre> genre_pool;
+QHash<GenreID, Genre> genre_pool;
 
 //#define COUNT_MD
 #ifdef COUNT_MD

@@ -60,12 +60,14 @@ Loader::Loader(QObject* parent) :
 	int saved_track_idx = _settings->get(Set::PL_LastTrack);
 
 	// we don't load any playlists
-	if(!load_playlists){
+	if(!load_playlists)
+	{
 		CustomPlaylists playlists;
 		success = playlist_db_connector->get_temporary_playlists(playlists);
 
-		if(success){
-			for(const CustomPlaylist& pl : playlists){
+		if(success)
+		{
+			for(const CustomPlaylist& pl : Util::AsConst(playlists)){
 				playlist_db_connector->delete_playlist(pl.id());
 			}
 		}
@@ -203,9 +205,11 @@ int Loader::create_playlists()
 		plh->set_current_index(idx);
 	}
 
-	else {
+	else
+	{
 		// add playlists
-		for(const CustomPlaylist& pl : m->playlists){
+		for(const CustomPlaylist& pl : Util::AsConst(m->playlists))
+		{
 			plh->create_playlist(pl);
 		}
 	}

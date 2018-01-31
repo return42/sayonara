@@ -35,11 +35,13 @@
 struct RawShortcutMap :
 		public QMap<QString, QStringList>
 {
-	QString toString() const 
+	QString toString() const
 	{
 		QStringList entries;
+		const QList<QString> l_keys = this->keys();
 
-		for(const QString& key : this->keys()){
+		for(const QString& key : l_keys)
+		{
 			QString shortcut_name = key;
 			QStringList shortcuts = this->value(key);
 
@@ -49,7 +51,8 @@ struct RawShortcutMap :
 		return entries.join(";-;");
 	}
 
-	static RawShortcutMap fromString(const QString& setting){
+	static RawShortcutMap fromString(const QString& setting)
+	{
 		RawShortcutMap rsc;
 
 		QStringList entries = setting.split(";-;");

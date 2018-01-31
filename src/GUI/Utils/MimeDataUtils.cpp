@@ -55,7 +55,8 @@ MetaDataList MimeData::metadata(const QMimeData* data)
 		DirectoryReader reader;
 		reader.set_filter(::Util::soundfile_extensions());
 
-		for(const QUrl& url : data->urls())
+		const QList<QUrl> urls = data->urls();
+		for(const QUrl& url : urls)
 		{
 			if(url.isLocalFile())
 			{
@@ -82,9 +83,10 @@ QStringList MimeData::playlists(const QMimeData* data)
 		return QStringList();
 	}
 
+	const QList<QUrl> urls = data->urls();
 	QStringList www_playlists;
 
-	for(const QUrl& url : data->urls())
+	for(const QUrl& url : urls)
 	{
 		if(::Util::File::is_playlistfile(url.toString())){
 			www_playlists << url.toString();

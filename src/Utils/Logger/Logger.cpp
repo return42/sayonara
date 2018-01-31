@@ -56,10 +56,8 @@
 	#include "cxxabi.h"
 #endif
 
-
-
-static QList<LogListener*>	log_listeners;
-static QList<LogEntry>		log_buffer;
+QList<LogListener*>	log_listeners;
+QList<LogEntry>		log_buffer;
 
 struct Logger::Private
 {
@@ -146,7 +144,7 @@ struct Logger::Private
 
 			log_buffer << le;
 
-			for(LogListener* log_listener : log_listeners)
+			foreach(LogListener* log_listener, log_listeners)
 			{
 				if(log_listener)
 				{
@@ -177,7 +175,7 @@ Logger::~Logger()
 //static
 void Logger::register_log_listener(LogListener* log_listener)
 {
-	for(const LogEntry& le : log_buffer)
+	for(const LogEntry& le : Util::AsConst(log_buffer))
 	{
 		log_listener->add_log_line(le);
 	}

@@ -35,12 +35,15 @@ const static int PLAYLIST_BOLD=70;
 
 struct PlaylistItemDelegate::Private
 {
-	int			drag_row;
 	QString		entry_look;
+	int			drag_row;
+	int			rating_height;
+
 	bool		show_rating;
 
 	Private() :
 		drag_row(-1),
+		rating_height(18),
 		show_rating(false)
 	{
 		entry_look = Settings::instance()->get(Set::PL_EntryLook);
@@ -73,11 +76,10 @@ void PlaylistItemDelegate::paint(QPainter *painter,	const QStyleOptionViewItem &
 	int row = index.row();
 	int row_height = rect.height();
 
-	int y = rect.topLeft().y() + row_height - 1;
-
 	StyledItemDelegate::paint(painter, option, index);
 
 	if(m->drag_row == row) {
+		int y = rect.topLeft().y() + row_height - 1;
 		painter->drawLine(QLine(rect.x(), y, rect.x() + rect.width(), y));
 	}
 
@@ -93,7 +95,7 @@ void PlaylistItemDelegate::paint(QPainter *painter,	const QStyleOptionViewItem &
 	if(md.is_disabled)
 	{
 		QColor col_text = palette.color(QPalette::Disabled, QPalette::Foreground);
-		if(_settings->get(Set::Player_Style) == 1){
+		if(_settings->get(Set::Player_Style) == 1) {
 			col_text.setAlpha(196);
 		}
 
@@ -104,22 +106,21 @@ void PlaylistItemDelegate::paint(QPainter *painter,	const QStyleOptionViewItem &
 
 	QFont font = option.font;
 
-	/** Time **/
-	QString str;
-	int offset_x = 4;
 
-	bool bold = font.bold();
 
 	painter->translate(-4, 0);
 	font.setWeight(QFont::Normal);
 	painter->setFont(font);
 
-	if(bold){
+	if(font.bold()){
 		font.setWeight(PLAYLIST_BOLD);
 	}
 
 	painter->setFont(font);
 	painter->translate(4, 0);
+
+	QString str;
+	int offset_x = 4;
 
 	for(int i=0; i<m->entry_look.size(); i++)
 	{
@@ -127,11 +128,8 @@ void PlaylistItemDelegate::paint(QPainter *painter,	const QStyleOptionViewItem &
 
 		QChar c = m->entry_look.at(i);
 
-		if(c == '*'){
-			print = true;
-		}
-
-		else if(c == '\''){
+		if( (c == '*') || (c == '\'') )
+		{
 			print = true;
 		}
 
@@ -150,10 +148,12 @@ void PlaylistItemDelegate::paint(QPainter *painter,	const QStyleOptionViewItem &
 			str.replace("%album%", md.album());
 
 			int flags = (Qt::AlignLeft);
-			if(m->show_rating){
+			if(m->show_rating) {
 				flags |= Qt::AlignTop;
+				rect.setY(option.rect.y() + 2);
 			}
-			else{
+
+			else {
 				flags |= Qt::AlignVCenter;
 			}
 
@@ -169,6 +169,7 @@ void PlaylistItemDelegate::paint(QPainter *painter,	const QStyleOptionViewItem &
 			if(font.weight() == PLAYLIST_BOLD){
 				font.setWeight(QFont::Normal);
 			}
+
 			else {
 				font.setWeight(PLAYLIST_BOLD);
 			}
@@ -186,29 +187,23 @@ void PlaylistItemDelegate::paint(QPainter *painter,	const QStyleOptionViewItem &
 		painter->restore();
 		painter->save();
 
-		QFontMetrics fm(font);
-
-		int x = 0;
-		int y = 0;
-		int w = option.rect.width();
-		int h = 20;
-
 		if(md.radio_mode() != RadioMode::Station)
 		{
 			RatingLabel label(nullptr, true);
 			label.set_rating(md.rating);
 			{
-				label.setGeometry(QRect(x, y, w, h));
+				label.setGeometry(0, 0, option.rect.width(), m->rating_height);
 			}
 
-			painter->translate(option.rect.left(), option.rect.top() + fm.height() );
+			painter->translate(option.rect.left(), option.rect.bottom() - m->rating_height);
 			label.render(painter);
 		}
 
 		else
 		{
-			painter->translate(option.rect.left() + 4, option.rect.top() + fm.height() );
-			painter->drawText(x, y, w, h, (Qt::AlignLeft | Qt::AlignBottom), md.album());
+			QFontMetrics fm(font);
+			painter->translate(rect.left() + 4, 0);
+			painter->drawText(0, 0, option.rect.width(), m->rating_height, (Qt::AlignLeft | Qt::AlignBottom), md.album());
 		}
 	}
 
@@ -252,8 +247,7 @@ QWidget* PlaylistItemDelegate::createEditor(QWidget* parent, const QStyleOptionV
 	}
 
 	RatingLabel* label = new RatingLabel(parent, true);
-	label->set_offset_y(option.fontMetrics.height());
-	label->set_rating(4);
+	label->set_offset_y(option.rect.height() - m->rating_height);
 
 	connect(label, &RatingLabel::sig_finished, this, &PlaylistItemDelegate::destroy_editor);
 
@@ -295,4 +289,9 @@ void PlaylistItemDelegate::setModelData(QWidget* editor, QAbstractItemModel* mod
 	RatingLabel* label = qobject_cast<RatingLabel *>(editor);
 	if(!label) return;
 	model->setData(index, label->get_rating());
+}
+
+int PlaylistItemDelegate::rating_height() const
+{
+	return m->rating_height;
 }

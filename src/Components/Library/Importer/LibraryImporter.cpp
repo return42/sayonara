@@ -22,53 +22,55 @@
 #include "ImportCache.h"
 #include "CachingThread.h"
 #include "CopyThread.h"
-
 #include "LocalLibrary.h"
+
+#include "Components/Tagging/ChangeNotifier.h"
 
 #include "Utils/MetaData/MetaDataList.h"
 #include "Utils/Message/Message.h"
 #include "Utils/Logger/Logger.h"
 
-#include "Components/Tagging/ChangeNotifier.h"
 #include "Database/DatabaseConnector.h"
 #include "Database/LibraryDatabase.h"
 
 #include <QMap>
 #include <QDir>
 
-struct LibraryImporter::Private
+using Library::Importer;
+
+struct Importer::Private
 {
-	LocalLibrary*			library=nullptr;
-	CachingThread*			cache_thread=nullptr;
-	CopyThread*				copy_thread=nullptr;
-	ImportCachePtr			import_cache=nullptr;
+	QString						src_dir;
 
-	DB::Connector*			db=nullptr;
+	LocalLibrary*				library=nullptr;
+	Library::CachingThread*		cache_thread=nullptr;
+	Library::CopyThread*		copy_thread=nullptr;
+	Library::ImportCachePtr		import_cache=nullptr;
 
-	LibraryImporter::ImportStatus status;
-	QString					src_dir;
+	DB::Connector*				db=nullptr;
+
+	Importer::ImportStatus		status;
 
 	Private(LocalLibrary* library) :
 		library(library),
 		db(DB::Connector::instance()),
-		status(LibraryImporter::ImportStatus::NoTracks)
+		status(Importer::ImportStatus::NoTracks)
 	{}
 };
 
-LibraryImporter::LibraryImporter(LocalLibrary* library) :
+Importer::Importer(LocalLibrary* library) :
 	QObject(library)
 {
 	m = Pimpl::make<Private>(library);
 
 	Tagging::ChangeNotifier* md_change_notifier = Tagging::ChangeNotifier::instance();
 	connect(md_change_notifier, &Tagging::ChangeNotifier::sig_metadata_changed,
-			this, &LibraryImporter::metadata_changed);
+			this, &Importer::metadata_changed);
 }
 
+Importer::~Importer() {}
 
-LibraryImporter::~LibraryImporter() {}
-
-void LibraryImporter::import_files(const QStringList& files, const QString& target_dir)
+void Importer::import_files(const QStringList& files, const QString& target_dir)
 {
 	emit_status(ImportStatus::Caching);
 
@@ -77,10 +79,11 @@ void LibraryImporter::import_files(const QStringList& files, const QString& targ
 		emit sig_target_dir_changed(target_dir);
 	}
 
+	using Library::CachingThread;
 	CachingThread* thread = new CachingThread(files, m->library->library_path());
-	connect(thread, &CachingThread::finished, this, &LibraryImporter::caching_thread_finished);
-	connect(thread, &CachingThread::sig_progress, this, &LibraryImporter::sig_progress);
-	connect(thread, &CachingThread::destroyed, [=]()
+	connect(thread, &CachingThread::finished, this, &Importer::caching_thread_finished);
+	connect(thread, &CachingThread::sig_progress, this, &Importer::sig_progress);
+	connect(thread, &CachingThread::destroyed, this, [=]()
 	{
 		m->cache_thread = nullptr;
 	});
@@ -91,9 +94,9 @@ void LibraryImporter::import_files(const QStringList& files, const QString& targ
 
 
 // preload thread has cached everything, but ok button has not been clicked yet
-void LibraryImporter::caching_thread_finished()
+void Importer::caching_thread_finished()
 {
-	CachingThread* thread = static_cast<CachingThread*>(sender());
+	Library::CachingThread* thread = static_cast<Library::CachingThread*>(sender());
 	MetaDataList v_md;
 
 	m->import_cache = thread->cache();
@@ -120,15 +123,16 @@ void LibraryImporter::caching_thread_finished()
 
 
 // fired if ok was clicked in dialog
-void  LibraryImporter::accept_import(const QString& target_dir)
+void  Importer::accept_import(const QString& target_dir)
 {
 	emit_status(ImportStatus::Importing);
 
-	CopyThread* copy_thread = new CopyThread(target_dir, m->import_cache, this);
+	using Library::CopyThread;
 
-	connect(copy_thread, &CopyThread::sig_progress, this, &LibraryImporter::sig_progress);
-	connect(copy_thread, &CopyThread::finished, this, &LibraryImporter::copy_thread_finished);
-	connect(copy_thread, &CachingThread::destroyed, [=]()
+	CopyThread* copy_thread = new CopyThread(target_dir, m->import_cache, this);
+	connect(copy_thread, &CopyThread::sig_progress, this, &Importer::sig_progress);
+	connect(copy_thread, &CopyThread::finished, this, &Importer::copy_thread_finished);
+	connect(copy_thread, &CachingThread::destroyed, this, [=]()
 	{
 		m->copy_thread = nullptr;
 	});
@@ -138,9 +142,9 @@ void  LibraryImporter::accept_import(const QString& target_dir)
 }
 
 
-void LibraryImporter::copy_thread_finished()
+void Importer::copy_thread_finished()
 {
-	CopyThread* copy_thread = static_cast<CopyThread*>(sender());
+	Library::CopyThread* copy_thread = static_cast<Library::CopyThread*>(sender());
 
 	MetaDataList v_md = copy_thread->get_copied_metadata();
 
@@ -155,8 +159,9 @@ void LibraryImporter::copy_thread_finished()
 
 	// copy was cancelled
 	sp_log(Log::Debug, this) << "Copy folder thread finished " << m->copy_thread->was_cancelled();
-	if(copy_thread->was_cancelled()) {
-		copy_thread->set_mode(CopyThread::Mode::Rollback);
+	if(copy_thread->was_cancelled())
+	{
+		copy_thread->set_mode(Library::CopyThread::Mode::Rollback);
 		copy_thread->start();
 
 		emit_status(ImportStatus::Rollback);
@@ -203,7 +208,7 @@ void LibraryImporter::copy_thread_finished()
 }
 
 
-void LibraryImporter::metadata_changed(const MetaDataList& old_md, const MetaDataList& new_md)
+void Importer::metadata_changed(const MetaDataList& old_md, const MetaDataList& new_md)
 {
 	if(m->cache_thread){
 		m->cache_thread->change_metadata(old_md, new_md);
@@ -212,7 +217,7 @@ void LibraryImporter::metadata_changed(const MetaDataList& old_md, const MetaDat
 
 
 // fired if cancel button was clicked in dialog
-void LibraryImporter::cancel_import()
+void Importer::cancel_import()
 {
 	emit_status(ImportStatus::Cancelled);
 
@@ -225,13 +230,13 @@ void LibraryImporter::cancel_import()
 	}
 }
 
-void LibraryImporter::emit_status(LibraryImporter::ImportStatus status)
+void Importer::emit_status(Importer::ImportStatus status)
 {
 	m->status = status;
 	emit sig_status_changed(m->status);
 }
 
-LibraryImporter::ImportStatus LibraryImporter::get_status() const
+Importer::ImportStatus Importer::status() const
 {
 	return m->status;
 }

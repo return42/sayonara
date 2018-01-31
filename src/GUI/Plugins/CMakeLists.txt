@@ -1,7 +1,22 @@
-ADD_SUBDIRECTORY(Generic)
-ADD_SUBDIRECTORY(Bookmarks)
-ADD_SUBDIRECTORY(Broadcasting)
-ADD_SUBDIRECTORY(Engine)
-ADD_SUBDIRECTORY(PlaylistChooser)
-ADD_SUBDIRECTORY(Stream)
+PROJECT(say_gui_plugins)
 
+FILE(GLOB_RECURSE SOURCES . *.cpp)
+FILE(GLOB_RECURSE RAW_UI_FILES . *.ui)
+
+QT5_WRAP_UI(UI_FILES ${RAW_UI_FILES})
+
+ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES} ${UI_FILES})
+TARGET_LINK_LIBRARIES(${PROJECT_NAME}
+	say_comp_bookmarks
+	say_comp_broadcasting
+	say_comp_engine
+	say_comp_playlist_chooser
+	say_comp_streamplugins
+	say_gui_utils
+
+	say_interfaces_player_plugin
+)
+
+IF( WITH_COTIRE )
+	cotire(${PROJECT_NAME})
+ENDIF()

@@ -30,6 +30,7 @@
 #include "Utils/Logger/Logger.h"
 
 #include <algorithm>
+#include <list>
 
 using Engine::Playback;
 
@@ -48,16 +49,15 @@ enum class GaplessState : uint8_t
 
 struct Playback::Private
 {
-	Pipeline::Playback*         pipeline=nullptr;
-	Pipeline::Playback*         other_pipeline=nullptr;
+	Pipeline::Playback*			pipeline=nullptr;
+	Pipeline::Playback*			other_pipeline=nullptr;
 
-	QList<LevelReceiver*>		level_receiver;
-	QList<SpectrumReceiver*>	spectrum_receiver;
+	std::list<LevelReceiver*>		level_receiver;
+	std::list<SpectrumReceiver*>	spectrum_receiver;
 
-	StreamRecorder::StreamRecorder*   stream_recorder=nullptr;
-	QTimer*						gapless_timer=nullptr;
+	StreamRecorder::StreamRecorder*	stream_recorder=nullptr;
 
-	GaplessState                gapless_state;
+	GaplessState				gapless_state;
 
 	bool						sr_active;
 
@@ -66,23 +66,10 @@ struct Playback::Private
 		sr_active(false)
 	{
 		stream_recorder = new StreamRecorder::StreamRecorder(parent);
-
-		gapless_timer = new QTimer();
-		gapless_timer->setTimerType(Qt::PreciseTimer);
-		gapless_timer->setSingleShot(true);
 	}
 
 	~Private()
 	{
-		while(gapless_timer && gapless_timer->isActive())
-		{
-			gapless_timer->stop();
-		}
-
-		if(gapless_timer){
-			delete gapless_timer; gapless_timer = nullptr;
-		}
-
 		delete pipeline; pipeline = nullptr;
 		if(other_pipeline)
 		{
@@ -137,10 +124,6 @@ bool Playback::init()
 	Set::listen(Set::PL_Mode, this, &Playback::s_gapless_changed);
 	Set::listen(Set::Engine_CrossFaderActive, this, &Playback::s_gapless_changed);
 
-	connect(m->gapless_timer, &QTimer::timeout, [=](){
-		m->pipeline->play();
-	});
-
 	return true;
 }
 
@@ -176,6 +159,7 @@ bool Playback::change_track_crossfading(const MetaData& md)
 	}
 
 	m->pipeline->fade_in();
+
 	m->change_gapless_state(GaplessState::Playing);
 
 	return true;
@@ -190,16 +174,9 @@ bool Playback::change_track_gapless(const MetaData& md)
 	}
 
 	MilliSeconds time_to_go = m->other_pipeline->get_time_to_go();
-	if(time_to_go <= 0) {
-		m->pipeline->play();
-	}
+	m->pipeline->play_in(time_to_go);
 
-	else {
-		m->gapless_timer->setInterval(time_to_go);
-		m->gapless_timer->start();
-
-		sp_log(Log::Develop, this) << "Will start playing in " << time_to_go << "msec";
-	}
+	sp_log(Log::Develop, this) << "Will start playing in " << time_to_go << "msec";
 
 	m->change_gapless_state(GaplessState::TrackFetched);
 
@@ -212,22 +189,20 @@ bool Playback::change_track_immediatly(const MetaData& md)
 		m->other_pipeline->stop();
 	}
 
+	m->pipeline->stop();
+
 	return Base::change_track(md);
 }
 
 bool Playback::change_track(const MetaData& md)
 {
-	if(m->gapless_timer){
-		m->gapless_timer->stop();
-	}
-
 	bool crossfader_active = _settings->get(Set::Engine_CrossFaderActive);
 	if(m->gapless_state != GaplessState::Stopped && crossfader_active)
 	{
 		return change_track_crossfading(md);
 	}
 
-	else if(m->gapless_state == GaplessState::AboutToFinish )
+	else if(m->gapless_state == GaplessState::AboutToFinish)
 	{
 		return change_track_gapless(md);
 	}
@@ -273,19 +248,11 @@ void Playback::stop()
 {
 	m->change_gapless_state(GaplessState::Stopped);
 
-	if(m->gapless_timer){
-		m->gapless_timer->stop();
-	}
-
 	sp_log(Log::Info, this) << "Stop";
 	m->pipeline->stop();
 
 	if(m->other_pipeline){
 		m->other_pipeline->stop();
-	}
-
-	if(m->gapless_timer){
-		m->gapless_timer->stop();
 	}
 
 	if(m->sr_active && m->stream_recorder->is_recording()){
@@ -357,13 +324,13 @@ void Playback::set_track_almost_finished(MilliSeconds time2go)
 		return;
 	}
 
-	sp_log(Log::Debug, this) << "About to finish: " <<
+	sp_log(Log::Develop, this) << "About to finish: " <<
 								(int) m->gapless_state << " (" << time2go << "ms)";
 
 	m->change_gapless_state(GaplessState::AboutToFinish);
 
 	bool crossfade = _settings->get(Set::Engine_CrossFaderActive);
-	if(crossfade){
+	if(crossfade) {
 		m->pipeline->fade_out();
 	}
 
@@ -536,9 +503,7 @@ void Playback::update_duration(MilliSeconds duration_ms, GstElement* src)
 	m->pipeline->update_duration_ms(duration_ms, src);
 
 	Base::update_duration(duration_ms, src);
-
 }
-
 
 void Playback::update_bitrate(Bitrate br, GstElement* src)
 {
@@ -549,10 +514,9 @@ void Playback::update_bitrate(Bitrate br, GstElement* src)
 	Base::update_bitrate(br, src);
 }
 
-
 void Playback::add_spectrum_receiver(SpectrumReceiver* receiver)
 {
-	m->spectrum_receiver << receiver;
+	m->spectrum_receiver.push_back(receiver);
 }
 
 int Playback::get_spectrum_bins() const
@@ -573,7 +537,7 @@ void Playback::set_spectrum(const SpectrumList& vals)
 
 void Playback::add_level_receiver(LevelReceiver* receiver)
 {
-	m->level_receiver << receiver;
+	m->level_receiver.push_back(receiver);
 }
 
 void Playback::set_level(float left, float right)

@@ -48,6 +48,8 @@
 
 #include <utility>
 
+using Library::ReloadThread;
+
 struct ReloadThread::Private
 {
 	DB::Connector*			db=nullptr;
@@ -82,7 +84,7 @@ ReloadThread::~ReloadThread()
 {
 	this->stop();
 	while(this->isRunning()){
-		Util::sleep_ms(50);
+		::Util::sleep_ms(50);
 	}
 }
 
@@ -214,13 +216,13 @@ QStringList ReloadThread::get_files_recursive(QDir base_dir)
 	{
 		sp_log(Log::Crazy, this) << "Reading all files from " << base_dir.absolutePath();
 		QString parent_dir, pure_dir_name;
-		Util::File::split_filename(base_dir.absolutePath(), parent_dir, pure_dir_name);
+		::Util::File::split_filename(base_dir.absolutePath(), parent_dir, pure_dir_name);
 
 		QString message = tr("Reading files") + ": " + pure_dir_name;
 		emit sig_reloading_library(message, 0);
 	}
 
-	QStringList soundfile_exts = Util::soundfile_extensions();
+	QStringList soundfile_exts = ::Util::soundfile_extensions();
 	QStringList sub_dirs = base_dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
 	sp_log(Log::Crazy, this) << "  Found " << sub_dirs.size() << " subdirectories";
 
@@ -343,7 +345,7 @@ void ReloadThread::run()
 	// find orphaned tracks in library && delete them
 	for(const MetaData& md : v_md)
 	{
-		if(!Util::File::check_file(md.filepath()))
+		if(!::Util::File::check_file(md.filepath()))
 		{
 			v_to_delete << std::move(md);
 		}

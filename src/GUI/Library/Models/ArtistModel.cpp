@@ -160,7 +160,7 @@ Qt::ItemFlags ArtistModel::flags(const QModelIndex& index) const
 		return Qt::ItemIsEnabled;
 	}
 
-	return QAbstractItemModel::flags(index);
+	return QAbstractTableModel::flags(index);
 }
 
 

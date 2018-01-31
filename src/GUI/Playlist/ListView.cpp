@@ -95,10 +95,9 @@ PlaylistView::PlaylistView(PlaylistPtr pl, QWidget* parent) :
 
 	Set::listen(Set::PL_ShowNumbers, this, &PlaylistView::sl_columns_changed);
 	Set::listen(Set::PL_ShowCovers, this, &PlaylistView::sl_columns_changed);
-	Set::listen(Set::PL_FontSize, this, &PlaylistView::skin_changed);
-	Set::listen(Set::PL_EntryLook, this, &PlaylistView::skin_changed);
-	Set::listen(Set::PL_ShowNumbers, this, &PlaylistView::skin_changed);
-	Set::listen(Set::PL_ShowRating, this, &PlaylistView::skin_changed);
+	Set::listen(Set::PL_ShowNumbers, this, &PlaylistView::sl_columns_changed);
+	Set::listen(Set::PL_EntryLook, this, &PlaylistView::look_changed);
+	Set::listen(Set::PL_ShowRating, this, &PlaylistView::refresh);
 
 	this->goto_row(pl->current_track_index());
 }
@@ -139,15 +138,15 @@ void PlaylistView::init_context_menu()
 
 	m->context_menu = new PlaylistContextMenu(this);
 
-	connect(m->context_menu, &PlaylistContextMenu::sig_info_clicked, [=](){
+	connect(m->context_menu, &PlaylistContextMenu::sig_info_clicked, this, [=](){
 		show_info();
 	});
 
-	connect(m->context_menu, &PlaylistContextMenu::sig_edit_clicked, [=](){
+	connect(m->context_menu, &PlaylistContextMenu::sig_edit_clicked, this, [=](){
 		show_edit();
 	});
 
-	connect(m->context_menu, &PlaylistContextMenu::sig_lyrics_clicked, [=](){
+	connect(m->context_menu, &PlaylistContextMenu::sig_lyrics_clicked, this, [=](){
 		show_lyrics();
 	});
 
@@ -255,7 +254,7 @@ void PlaylistView::handle_drop(QDropEvent* event)
 		StreamParser* stream_parser = new StreamParser();
 		stream_parser->set_cover_url(cover_url);
 
-		connect(stream_parser, &StreamParser::sig_finished, [=](bool success){
+		connect(stream_parser, &StreamParser::sig_finished, this, [=](bool success){
 			async_drop_finished(success, row);
 		});
 
@@ -327,9 +326,9 @@ void PlaylistView::refresh()
 	bool show_rating = _settings->get(Set::PL_ShowRating);
 	QFontMetrics fm(this->font());
 
-	int h = fm.height() + 4;
+	int h = std::max(fm.height() + 4, 20);
 	if(show_rating){
-		h += 16;
+		h += m->delegate->rating_height();
 	}
 
 	for(int i=0; i<m->model->rowCount(); i++) {
@@ -440,7 +439,7 @@ void PlaylistView::mouseMoveEvent(QMouseEvent* event)
 	QDrag* drag = drag_moving(event->pos());
 	if(drag)
 	{
-		connect(drag, &QDrag::destroyed, [=](){
+		connect(drag, &QDrag::destroyed, this, [=](){
 			drag_released(Dragable::ReleaseReason::Destroyed);
 		});
 	}
@@ -585,6 +584,17 @@ bool PlaylistView::viewportEvent(QEvent* event)
 void PlaylistView::skin_changed()
 {
 	refresh();
+}
+
+void PlaylistView::look_changed()
+{
+	for(int r=0; r<m->model->rowCount(); r++)
+	{
+		for(int c=0; c<m->model->columnCount(); c++)
+		{
+			update( m->model->index(r, c) );
+		}
+	}
 }
 
 void PlaylistView::sl_columns_changed()

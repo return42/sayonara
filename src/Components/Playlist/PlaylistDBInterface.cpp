@@ -20,6 +20,8 @@
 
 #include "PlaylistDBWrapper.h"
 #include "PlaylistDBInterface.h"
+
+#include "Utils/Utils.h"
 #include "Utils/Playlist/CustomPlaylist.h"
 #include "Utils/Language.h"
 
@@ -158,7 +160,8 @@ DBInterface::SaveAsAnswer DBInterface::save_as(const QString& name, bool force_o
 	m->playlist_db_connector->get_all_skeletons(skeletons);
 
 	// check if name already exists
-	for(const CustomPlaylistSkeleton& skeleton : skeletons){
+	for(const CustomPlaylistSkeleton& skeleton : ::Util::AsConst(skeletons))
+	{
 		QString tmp_name = skeleton.name();
 
 		if( tmp_name.compare(name, Qt::CaseInsensitive) == 0 ){
@@ -220,7 +223,8 @@ DBInterface::SaveAsAnswer DBInterface::rename(const QString& name)
 	m->playlist_db_connector->get_all_skeletons(skeletons);
 
 	// check if name already exists
-	for(const CustomPlaylistSkeleton& skeleton : skeletons){
+	for(const CustomPlaylistSkeleton& skeleton : Util::AsConst(skeletons))
+	{
 		QString tmp_name = skeleton.name();
 
 		if( tmp_name.compare(name, Qt::CaseInsensitive) == 0 ){

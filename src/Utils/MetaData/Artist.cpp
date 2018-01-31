@@ -178,7 +178,9 @@ QString ArtistList::get_major_artist(const QStringList& artists)
 	}
 
 	// n_appearances have to be at least 2/3 of all appearances
-	for(const QString& artist : map.keys()) {
+	const QList<QString> keys = map.keys();
+	for(const QString& artist : keys)
+	{
 		int n_appearances = map.value(artist);
 		if(n_appearances * 3 > n_artists * 2) {
 			return artist;

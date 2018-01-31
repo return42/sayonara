@@ -96,13 +96,15 @@ void Bookmarks::sort_bookmarks()
 void Bookmarks::reload_bookmarks()
 {
 	QMap<Seconds, QString> bookmarks;
-	if(m->md.id >= 0){
+	if(m->md.id >= 0)
+	{
 		m->db->searchBookmarks(m->md.id, bookmarks);
 	}
 
 	m->bookmarks.clear();
-	for(Seconds key : bookmarks.keys()){
-		m->bookmarks << Bookmark(key, bookmarks[key], true);
+	for(auto it=bookmarks.cbegin(); it != bookmarks.cend(); it++)
+	{
+		m->bookmarks << Bookmark(it.key(), it.value(), true);
 	}
 
 	sort_bookmarks();
@@ -299,8 +301,10 @@ void Bookmarks::track_changed(const MetaData& md)
 		m->db->searchBookmarks(md.id, bookmarks);
 
 		m->bookmarks.clear();
-		for(Seconds key : bookmarks.keys()){
-			m->bookmarks << Bookmark(key, bookmarks[key], true);
+
+		for(auto it=bookmarks.cbegin(); it != bookmarks.cend(); it++)
+		{
+			m->bookmarks << Bookmark(it.key(), it.value(), true);
 		}
 	}
 

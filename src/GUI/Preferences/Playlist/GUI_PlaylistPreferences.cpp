@@ -163,6 +163,7 @@ void GUI_PlaylistPreferences::init_ui()
 	}
 
 	setup_parent(this, &ui);
+	ui->tabWidget->setCurrentIndex(0);
 
 	revert();
 
@@ -200,7 +201,8 @@ QString GUI_PlaylistPreferences::error_string() const
 	return tr("Playlist look: Invalid expression");
 }
 
-void GUI_PlaylistPreferences::cb_toggled(bool b) {
+void GUI_PlaylistPreferences::cb_toggled(bool b)
+{
 	Q_UNUSED(b);
 
 	bool load = (ui->cb_load_saved_playlists->isChecked() || ui->cb_load_temporary_playlists->isChecked());

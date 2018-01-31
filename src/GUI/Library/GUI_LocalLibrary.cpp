@@ -28,8 +28,9 @@
 
 #include "GUI_LocalLibrary.h"
 #include "GUI/Library/ui_GUI_LocalLibrary.h"
-#include "GUI/Library/GUI_ReloadLibraryDialog.h"
 
+#include "GUI/Library/InfoBox/GUI_LibraryInfoBox.h"
+#include "GUI/Library/GUI_ReloadLibraryDialog.h"
 #include "GUI/Library/Utils/LocalLibraryMenu.h"
 #include "GUI/Library/Views/CoverView.h"
 
@@ -39,16 +40,15 @@
 #include "GUI/Utils/Library/GUI_DeleteDialog.h"
 #include "GUI/Utils/SearchableWidget/SearchableView.h"
 
+#include "Components/Covers/CoverLocation.h"
 #include "Components/Library/LocalLibrary.h"
 #include "Components/Library/LibraryManager.h"
-#include "InfoBox/GUI_LibraryInfoBox.h"
-
 
 #include "Utils/Utils.h"
 #include "Utils/Settings/Settings.h"
 #include "Utils/Language.h"
 #include "Utils/Message/Message.h"
-#include "Components/Covers/CoverLocation.h"
+#include "Utils/Library/LibraryInfo.h"
 
 #include <QFileDialog>
 #include <QDir>
@@ -63,27 +63,32 @@ using namespace Library;
 
 struct GUI_LocalLibrary::Private
 {
-	LocalLibrary*			library=nullptr;
-	GUI_LibraryInfoBox*		library_info_box=nullptr;
-	GUI_ImportDialog*		ui_importer=nullptr;
-
-	LocalLibraryMenu*		library_menu=nullptr;
+	Manager*				manager = nullptr;
+	LocalLibrary*			library = nullptr;
+	GUI_LibraryInfoBox*		library_info_box = nullptr;
+	GUI_ImportDialog*		ui_importer = nullptr;
+	LocalLibraryMenu*		library_menu = nullptr;
 	CoverView*				acv = nullptr;
+
+	Private(LibraryId id, GUI_LocalLibrary* parent)
+	{
+		manager = Manager::instance();
+		library = manager->library_instance(id);
+
+		library_menu = new LocalLibraryMenu(
+					library->library_name(),
+					library->library_path(),
+					parent);
+	}
 };
 
 
 GUI_LocalLibrary::GUI_LocalLibrary(LibraryId id, QWidget* parent) :
 	GUI_AbstractLibrary(Manager::instance()->library_instance(id), parent)
 {
-	m = Pimpl::make<Private>();
+	m = Pimpl::make<Private>(id, this);
 
 	setup_parent(this, &ui);
-
-	m->library = Manager::instance()->library_instance(id);
-	m->library_menu = new LocalLibraryMenu(
-						   m->library->library_name(),
-						   m->library->library_path(),
-						   this);
 
 	ui->pb_progress->setVisible(false);
 	ui->lab_progress->setVisible(false);
@@ -105,8 +110,8 @@ GUI_LocalLibrary::GUI_LocalLibrary(LibraryId id, QWidget* parent) :
 	connect(m->library, &LocalLibrary::sig_reloading_library, this, &GUI_LocalLibrary::progress_changed);
 	connect(m->library, &LocalLibrary::sig_reloading_library_finished, this, &GUI_LocalLibrary::reload_finished);
 	connect(m->library, &LocalLibrary::sig_reloading_library_finished, ui->lv_genres, &GenreView::reload_genres);
-	connect(m->library, &LocalLibrary::sig_path_changed, this, &GUI_LocalLibrary::path_changed);
-	connect(m->library, &LocalLibrary::sig_name_changed, this, &GUI_LocalLibrary::name_changed);
+	connect(m->manager, &Manager::sig_path_changed, this, &GUI_LocalLibrary::path_changed);
+	connect(m->manager, &Manager::sig_renamed, this, &GUI_LocalLibrary::name_changed);
 
 	connect(ui->lv_album, &AlbumView::sig_disc_pressed, this, &GUI_LocalLibrary::disc_pressed);
 	connect(ui->lv_album, &AlbumView::sig_import_files, this, &GUI_LocalLibrary::import_files);
@@ -374,17 +379,33 @@ void GUI_LocalLibrary::change_library_path(const QString& path)
 	m->library->set_library_path(path);
 }
 
-void GUI_LocalLibrary::name_changed(const QString& name)
+void GUI_LocalLibrary::name_changed(LibraryId id)
 {
-	m->library_menu->refresh_name(name);
+	if(m->library->library_id() != id){
+		return;
+	}
+
+	Library::Info info = m->manager->library_info(id);
+	if(info.valid()){
+		m->library_menu->refresh_name(info.name());
+	}
 }
 
-void GUI_LocalLibrary::path_changed(const QString& path)
-{
-	m->library_menu->refresh_path(path);
 
-	if(this->isVisible()){
-		reload_library_requested(Library::ReloadQuality::Accurate);
+void GUI_LocalLibrary::path_changed(LibraryId id)
+{
+	if(m->library->library_id() != id) {
+		return;
+	}
+
+	Library::Info info = m->manager->library_info(id);
+	if(info.valid())
+	{
+		m->library_menu->refresh_path(info.path());
+
+		if(this->isVisible()){
+			reload_library_requested(Library::ReloadQuality::Accurate);
+		}
 	}
 }
 
