@@ -24,6 +24,7 @@
 #include "GUI_PlaylistPreferences.h"
 #include "GUI/Preferences/ui_GUI_PlaylistPreferences.h"
 
+#include "Utils/Utils.h"
 #include "Utils/Settings/Settings.h"
 #include "Utils/Language.h"
 
@@ -77,7 +78,7 @@ bool evaluate_expression(const QString& expr)
 	int correct_ones = 0;
 	int incorrect_ones = 0;
 
-	for(const QString& between_percent : between_percents)
+	for(const QString& between_percent : Util::AsConst(between_percents))
 	{
 		if((between_percent.compare("nr") != 0) &&
 		   (between_percent.compare("title") != 0) &&
@@ -175,7 +176,7 @@ void GUI_PlaylistPreferences::init_ui()
 	connect(ui->cb_remember_time, &QCheckBox::toggled, this, &GUI_PlaylistPreferences::cb_toggled);
 	connect(ui->cb_start_playing, &QCheckBox::toggled, this, &GUI_PlaylistPreferences::cb_toggled);
 
-	connect(ui->btn_default, &QPushButton::clicked, [=]()
+	connect(ui->btn_default, &QPushButton::clicked, this, [=]()
 	{
 		ui->le_expression->setText("*%title%* - %artist%");
 	});

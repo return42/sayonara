@@ -229,7 +229,7 @@ void GenreView::reload_genres()
 {
 	SP::Set<Genre> genres = m->genre_fetcher->genres();
 
-	for(GenreNode* n : m->genres->children)
+	for(GenreNode* n : Util::AsConst(m->genres->children))
 	{
 		m->genres->remove_child(n);
 		delete n; n=nullptr;
@@ -320,7 +320,8 @@ void GenreView::build_genre_data_tree(const SP::Set<Genre>& genres)
 		}
 	}
 
-	for(GenreNode* base_genre : m->genres->children){
+	for(GenreNode* base_genre : Util::AsConst(m->genres->children))
+	{
 		build_genre_node(base_genre, children);
 	}
 
@@ -342,7 +343,8 @@ void GenreView::populate_widget(QTreeWidgetItem* parent_item, GenreNode* node)
 		item = new QTreeWidgetItem(parent_item, text);
 	}
 
-	for(GenreNode* child : node->children) {
+	for(GenreNode* child : Util::AsConst(node->children))
+	{
 		populate_widget(item, child);
 	}
 

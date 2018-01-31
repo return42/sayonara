@@ -212,18 +212,19 @@ QVariant CoverModel::data(const QModelIndex& index, int role) const
 				if(!m->pixmaps.contains(hash))
 				{
 					Location cl;
-					if(!m->cover_locations.contains(hash)){
-						QString str = album.to_string();
+					if(!m->cover_locations.contains(hash))
+					{
 						cl = Location::cover_location(album);
 						m->cover_locations[hash] = cl;
 					}
 
-					else{
+					else {
 						cl = m->cover_locations[hash];
 					}
 
 					p = QPixmap(cl.preferred_path());
-					if(!Location::is_invalid(cl.preferred_path())){
+					if(!Location::is_invalid(cl.preferred_path()))
+					{
 						m->pixmaps[hash] = p.scaled(m->zoom, m->zoom, Qt::KeepAspectRatio);
 					}
 
@@ -270,8 +271,8 @@ void CoverModel::next_hash()
 	QModelIndex idx = m->indexes[hash];
 
 	Lookup* clu = new Lookup(this, 1);
-	connect(clu, &Lookup::sig_finished, [=](bool success){
-
+	connect(clu, &Lookup::sig_finished, this, [=](bool success)
+	{
 		if(success) {
 			emit dataChanged(idx, idx);
 		}
@@ -301,7 +302,8 @@ QModelIndex CoverModel::getNextRowIndexOf(const QString& substr, int cur_row, co
 			return this->index(idx / columnCount(), idx % columnCount());
 		}
 
-		for(const QString& artist : albums()[idx].artists())
+		const QStringList artists = albums().at(idx).artists();
+		for(const QString& artist : artists)
 		{
 			QString cvt_artist = Library::Util::convert_search_string(artist, search_mode());
 
@@ -334,7 +336,8 @@ QModelIndex CoverModel::getPrevRowIndexOf(const QString& substr, int row, const 
 			return this->index(idx / columnCount(), idx % columnCount());
 		}
 
-		for(const QString& artist : albums()[idx].artists())
+		const QStringList artists = albums().at(idx).artists();
+		for(const QString& artist : artists)
 		{
 			QString cvt_artist = Library::Util::convert_search_string(artist, search_mode());
 
@@ -361,7 +364,8 @@ int CoverModel::getNumberResults(const QString& substr)
 			continue;
 		}
 
-		for(const QString& artist : albums()[i].artists())
+		const QStringList artists = albums().at(i).artists();
+		for(const QString& artist : artists)
 		{
 			QString cvt_artist = Library::Util::convert_search_string(artist, search_mode());
 
@@ -411,7 +415,7 @@ Location CoverModel::cover(const IndexSet& indexes) const
 		return Location::invalid_location();
 	}
 
-	QString hash = get_hash( albums()[idx] );
+	QString hash = get_hash( albums().at(idx) );
 	if(!m->cover_locations.contains(hash)){
 		return Location::invalid_location();
 	}

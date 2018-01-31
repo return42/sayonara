@@ -383,7 +383,8 @@ void DirectoryTreeView::mouseMoveEvent(QMouseEvent* e)
 	QDrag* drag = Dragable::drag_moving(e->pos());
 	if(drag)
 	{
-		connect(drag, &QDrag::destroyed, [=]() {
+		connect(drag, &QDrag::destroyed, this, [=]()
+		{
 			this->drag_released(Dragable::ReleaseReason::Destroyed);
 		});
 	}
@@ -498,7 +499,8 @@ void DirectoryTreeView::dropEvent(QDropEvent* event)
 		LibraryId lib_id = m->model->library_id(index);
 		QStringList files;
 
-		for(const QUrl& url : mimedata->urls())
+		const QList<QUrl> urls = mimedata->urls();
+		for(const QUrl& url : urls)
 		{
 			QString local_file = url.toLocalFile();
 			if(!local_file.isEmpty()){

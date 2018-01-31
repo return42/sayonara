@@ -238,7 +238,8 @@ QMimeData* SomaFM::StationModel::mimeData(const QModelIndexList& indexes) const
 	QList<QUrl> urls;
 	QString cover_url;
 
-	for(const QModelIndex& idx : indexes){
+	for(const QModelIndex& idx : indexes)
+	{
 		if(idx.column() == 0){
 			continue;
 		}
@@ -250,11 +251,13 @@ QMimeData* SomaFM::StationModel::mimeData(const QModelIndexList& indexes) const
 
 		QStringList str_urls = m->stations[row].urls();
 
-		for(const QString& str_url : str_urls){
+		for(const QString& str_url : str_urls)
+		{
 			urls << QUrl(str_url);
 			Cover::Location cl = m->stations[row].cover_location();
-			if(cl.has_search_urls()){
-				cover_url = cl.search_urls().first();
+			if(cl.has_search_urls())
+			{
+				cover_url = cl.search_url(0);
 			}
 		}
 	}

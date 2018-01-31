@@ -71,7 +71,7 @@ void GUI_LibraryPreferences::init_ui()
 	ui->tab_widget->setCurrentIndex(0);
 
 	QItemSelectionModel* sel_model = ui->lv_libs->selectionModel();
-	connect(sel_model, &QItemSelectionModel::currentChanged, [=](const QModelIndex& current, const QModelIndex& previous){
+	connect(sel_model, &QItemSelectionModel::currentChanged, this, [=](const QModelIndex& current, const QModelIndex& previous){
 		Q_UNUSED(previous)
 		current_item_changed(current.row());
 	});
@@ -146,7 +146,7 @@ void GUI_LibraryPreferences::current_item_changed(int row)
 		return;
 	}
 
-	QString path = m->model->all_paths()[row];
+	QString path = m->model->path(row);
 	ui->lab_current_path->setText(path);
 }
 
@@ -172,8 +172,8 @@ void GUI_LibraryPreferences::edit_clicked()
 		return;
 	}
 
-	QString name = m->model->all_names()[cur_row];
-	QString path = m->model->all_paths()[cur_row];
+	QString name = m->model->name(cur_row);
+	QString path = m->model->path(cur_row);
 
 	GUI_EditLibrary* edit_dialog = new GUI_EditLibrary(name, path, this);
 

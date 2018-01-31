@@ -96,7 +96,7 @@ void GUI_AbstractLibrary::init_search_bar()
 
 		actions << action;
 
-		connect(action, &QAction::triggered, [=](){
+		connect(action, &QAction::triggered, this, [=](){
 			search_mode_changed(filter_mode);
 		});
 	}

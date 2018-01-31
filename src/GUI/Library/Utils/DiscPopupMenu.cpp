@@ -101,10 +101,12 @@ void DiscPopupMenu::mouseReleaseEvent(QMouseEvent* e)
 
 void DiscPopupMenu::clean_up()
 {
-	for(DiscAction* a : _actions){
+	for(DiscAction* a : Util::AsConst(_actions))
+	{
 		if(!a) {
 			continue;
 		}
+
 		delete a; a=nullptr;
 	}
 

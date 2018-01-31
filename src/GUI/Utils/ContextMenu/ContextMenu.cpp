@@ -85,7 +85,8 @@ ContextMenu::ContextMenu(QWidget *parent) :
 
 	this->addActions(m->actions);
 
-	for(QAction* action : m->actions){
+	for(QAction* action : ::Util::AsConst(m->actions))
+	{
 		action->setVisible(false);
 	}
 
@@ -208,7 +209,8 @@ ContextMenuEntries ContextMenu::get_entries() const
 
 void ContextMenu::show_all()
 {
-	for(QAction* action: m->actions){
+	for(QAction* action : ::Util::AsConst(m->actions))
+	{
 		action->setVisible(true);
 	}
 }
@@ -229,7 +231,8 @@ void ContextMenu::add_preference_action(PreferenceAction* action)
 
 void ContextMenu::showEvent(QShowEvent* e)
 {
-	for(QAction* action: m->actions){
+	for(QAction* action : ::Util::AsConst(m->actions))
+	{
 		action->setDisabled(true);
 	}
 
@@ -240,7 +243,8 @@ void ContextMenu::showEvent(QShowEvent* e)
 
 void ContextMenu::timed_out()
 {
-	for(QAction* action: m->actions){
+	for(QAction* action : ::Util::AsConst(m->actions))
+	{
 		action->setDisabled(false);
 	}
 }

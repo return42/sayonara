@@ -350,7 +350,7 @@ void PluginHandler::local_library_removed(LibraryId id)
 	int i=0;
 
 	LocalLibraryContainer* removed_llc=nullptr;
-	for(LocalLibraryContainer* llc : m->local_libraries)
+	for(LocalLibraryContainer* llc : Util::AsConst(m->local_libraries))
 	{
 		if(llc->id() == id)
 		{

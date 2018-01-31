@@ -117,8 +117,11 @@ static IntSet ids(const QString& search_string, const QHash<QString, IntSet>& id
 		iterations++;
 	}
 
-	for(int result : results.keys()) {
-		if(results[result] == iterations){
+	for(auto it=results.cbegin(); it != results.cend(); it++)
+	{
+		int result = it.key();
+
+		if(it.value() == iterations){
 			ids.insert(result);
 		}
 	}

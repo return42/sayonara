@@ -13,7 +13,6 @@ SET(COMMON_FLAGS_TEST
 		"-Wextra"
 		"-Wpedantic"
 		"-pthread"
-		"-Wno-clazy-non-pod-global-static"
 )
 
 IF(NOT WIN32 OR NOT DEFINED WIN32)

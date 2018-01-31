@@ -25,6 +25,7 @@
 #include "GUI/Utils/RatingLabel.h"
 #include "GUI/Utils/PreferenceAction.h"
 
+#include "Utils/Utils.h"
 #include "Utils/Settings/Settings.h"
 #include "Utils/Language.h"
 
@@ -139,7 +140,8 @@ LibraryContextMenu::LibraryContextMenu(QWidget* parent) :
 	m->entry_action_map[EntryClearSelection] = m->clear_selection_action;
 	m->entry_action_map[EntryCoverView] = m->cover_view_action;
 
-	for(QAction* action : actions){
+	for(QAction* action : ::Util::AsConst(actions))
+	{
 		action->setVisible(action->isSeparator());
 	}
 }
@@ -210,8 +212,9 @@ LibraryContexMenuEntries LibraryContextMenu::get_entries() const
 {
 	LibraryContexMenuEntries entries = EntryNone;
 
-	for(QAction* action : m->entry_action_map.values())
+	for(auto it=m->entry_action_map.cbegin(); it != m->entry_action_map.cend(); it++)
 	{
+		QAction* action = it.value();
 		if(action->isVisible()){
 			entries |= m->entry_action_map.key(action);
 		}
@@ -223,8 +226,9 @@ LibraryContexMenuEntries LibraryContextMenu::get_entries() const
 
 void LibraryContextMenu::show_actions(LibraryContexMenuEntries entries)
 {
-	for(QAction* action : m->entry_action_map.values())
+	for(auto it=m->entry_action_map.cbegin(); it != m->entry_action_map.cend(); it++)
 	{
+		QAction* action = it.value();
 		action->setVisible( entries & m->entry_action_map.key(action) );
 	}
 }
@@ -244,7 +248,9 @@ void LibraryContextMenu::show_action(LibraryContextMenu::Entry entry, bool visib
 
 void LibraryContextMenu::show_all()
 {
-	for(QAction* action : this->actions()){
+	const QList<QAction*> actions = this->actions();
+	for(QAction* action : actions)
+	{
 		action->setVisible(true);
 	}
 }
@@ -256,7 +262,7 @@ QAction* LibraryContextMenu::init_rating_action(Rating rating)
 	action->setData(rating);
 	action->setCheckable(true);
 
-	connect(action, &QAction::triggered, [=]()
+	connect(action, &QAction::triggered, this, [=]()
 	{
 		emit sig_rating_changed(rating);
 	});

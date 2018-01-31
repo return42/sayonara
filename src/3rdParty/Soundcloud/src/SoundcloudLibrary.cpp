@@ -160,7 +160,8 @@ void SC::Library::get_all_albums(AlbumList& albums)
 			m->album_id_idx_map[album.id] = i;
 			m->album_name_idx_map[album.name()].insert(i);
 
-			for(const QString& artist : album.artists())
+			const QStringList artists = album.artists();
+			for(const QString& artist : artists)
 			{
 				m->artist_name_album_idx_map[artist].insert(i);
 			}

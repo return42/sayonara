@@ -1,3 +1,5 @@
+// clazy:excludeall=non-pod-global-static
+
 /* Icons.cpp */
 
 /* Copyright (C) 2011-2017  Lucio Carreras

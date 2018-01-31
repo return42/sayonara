@@ -39,6 +39,7 @@
 #include "Components/Covers/CoverFetcherInterface.h"
 #include "Components/Library/LibraryManager.h"
 
+#include "Utils/Utils.h"
 #include "Utils/Message/Message.h"
 #include "Utils/Language.h"
 #include "Utils/Settings/Settings.h"
@@ -117,14 +118,14 @@ GUI_AlternativeCovers::GUI_AlternativeCovers(QWidget* parent) :
 	connect(m->cl_alternative, &AlternativeLookup::sig_cover_found, this, &GUI_AlternativeCovers::cl_new_cover);
 	connect(m->cl_alternative, &AlternativeLookup::sig_finished, this, &GUI_AlternativeCovers::cl_finished);
 
-	connect(ui->rb_auto_search, &QRadioButton::toggled, [=](bool b)
+	connect(ui->rb_auto_search, &QRadioButton::toggled, this, [=](bool b)
 	{
 		if(b){
 			init_combobox();
 		}
 	});
 
-	connect(ui->rb_text_search, &QRadioButton::toggled, [=](bool b)
+	connect(ui->rb_text_search, &QRadioButton::toggled, this, [=](bool b)
 	{
 		ui->le_search->setEnabled(b);
 
@@ -353,7 +354,7 @@ void GUI_AlternativeCovers::open_file_dialog()
 
 void GUI_AlternativeCovers::delete_all_files()
 {
-	for(const QString& cover_path : m->filelist)
+	for(const QString& cover_path : ::Util::AsConst(m->filelist))
 	{
 		if(Location::is_invalid(cover_path)){
 			continue;
@@ -390,7 +391,6 @@ void GUI_AlternativeCovers::init_combobox()
 	for(const Cover::Fetcher::Base* cover_fetcher : available_cover_fetchers)
 	{
 		QString keyword = cover_fetcher->keyword();
-		QMap<QString, QString> all_search_urls = cl.all_search_urls();
 
 		bool suitable = false;
 		if(is_text_mode) {
@@ -398,7 +398,7 @@ void GUI_AlternativeCovers::init_combobox()
 		}
 
 		else {
-			suitable = all_search_urls.keys().contains(keyword);
+			suitable = cl.all_search_urls().contains(keyword);
 		}
 
 		if(suitable){

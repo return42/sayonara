@@ -21,6 +21,8 @@
 #include "LibraryPluginCombobox.h"
 #include "LibraryPluginHandler.h"
 #include "LibraryContainer/LibraryContainer.h"
+
+#include "Utils/Utils.h"
 #include "Utils/Settings/Settings.h"
 
 #include <QList>
@@ -94,7 +96,7 @@ void PluginCombobox::action_triggered(bool b)
 	QString name = action->data().toString();
 
 	PluginHandler::instance()->set_current_library(name);
-	for(QAction* library_action : m->actions)
+	for(QAction* library_action : Util::AsConst(m->actions))
 	{
 		if(library_action == action){
 			continue;

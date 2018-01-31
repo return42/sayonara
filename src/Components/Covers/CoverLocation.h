@@ -103,7 +103,9 @@ namespace Cover
 		 * @brief Retrieve the urls where a new cover can be searched
 		 * @return
 		 */
-		QStringList		search_urls() const;
+		const QStringList& search_urls() const;
+
+		QString search_url(int idx) const;
 
 		/**
 		 * @brief Check for existing search urls
@@ -112,7 +114,7 @@ namespace Cover
 		bool			has_search_urls() const;
 
 
-		QMap<QString, QString> all_search_urls() const;
+		const QMap<QString, QString>& all_search_urls() const;
 
 		/**
 		 * @brief Search term for a free search. As a human you would

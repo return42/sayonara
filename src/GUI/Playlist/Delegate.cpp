@@ -201,7 +201,6 @@ void PlaylistItemDelegate::paint(QPainter *painter,	const QStyleOptionViewItem &
 
 		else
 		{
-			QFontMetrics fm(font);
 			painter->translate(rect.left() + 4, 0);
 			painter->drawText(0, 0, option.rect.width(), m->rating_height, (Qt::AlignLeft | Qt::AlignBottom), md.album());
 		}

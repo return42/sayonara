@@ -20,6 +20,8 @@
 
 #include "Dragable.h"
 #include "GUI/Utils/GuiUtils.h"
+
+#include "Utils/Utils.h"
 #include "Utils/FileUtils.h"
 #include "Utils/Language.h"
 
@@ -162,7 +164,8 @@ QDrag* Dragable::drag_moving(const QPoint& p)
 
 	int pm_width = logo_height + 4;
 
-	for(const QString& str : strings){
+	for(const QString& str : ::Util::AsConst(strings))
+	{
 		pm_width = std::max( pm_width, fm.width(str) );
 	}
 
@@ -178,13 +181,14 @@ QDrag* Dragable::drag_moving(const QPoint& p)
 	QPainter painter(&pm);
 
 	painter.fillRect(pm.rect(), QColor(64, 64, 64));
-	painter.setPen(QColor("#424e72"));
+	painter.setPen(QColor(243,132,26));
 	painter.drawRect(0, 0, pm_width - 1, pm_height - 1);
 	painter.drawPixmap(left_offset, (pm_height - logo_height) / 2, logo_height, logo_height, cover);
 	painter.setPen(QColor(255, 255, 255));
 	painter.translate(logo_width + 15, font_padding + font_height - 2);
 
-	for(const QString& str : strings){
+	for(const QString& str : ::Util::AsConst(strings))
+	{
 		painter.drawText(0, 0, str);
 		painter.translate(0, font_height + 2);
 	}

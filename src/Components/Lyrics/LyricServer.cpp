@@ -18,13 +18,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "LyricServer.h"
 #include "Utils/Logger/Logger.h"
 
-const QString STR_TRUE("true");
-const QString STR_FALSE("false");
+#define STR_TRUE	QStringLiteral("true")
+#define STR_FALSE	QStringLiteral("false")
 
 void ServerTemplate::addReplacement(const QString& rep, const QString& rep_with)
 {

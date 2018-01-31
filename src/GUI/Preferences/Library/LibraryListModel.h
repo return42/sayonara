@@ -51,6 +51,8 @@ public:
 
 	QStringList all_names() const;
 	QStringList all_paths() const;
+	QString name(int idx) const;
+	QString path(int idx) const;
 
 	void reset();
 	bool commit();

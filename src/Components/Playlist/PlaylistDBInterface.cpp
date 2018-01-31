@@ -281,7 +281,8 @@ QString DBInterface::request_new_db_name()
 	{
 		bool found = false;
 		target_name = Lang::get(Lang::New) + " " + QString::number(idx);
-		for(const CustomPlaylistSkeleton& skeleton : skeletons){
+		for(const CustomPlaylistSkeleton& skeleton : ::Util::AsConst(skeletons))
+		{
 			QString name = skeleton.name();
 
 			if(name.compare(target_name, Qt::CaseInsensitive) == 0){

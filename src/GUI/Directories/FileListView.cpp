@@ -118,8 +118,8 @@ void FileListView::mouseMoveEvent(QMouseEvent* event)
 	QDrag* drag = Dragable::drag_moving(event->pos());
 	if(drag)
 	{
-		connect(drag, &QObject::destroyed, [=]()
-{
+		connect(drag, &QObject::destroyed, this, [=]()
+		{
 			this->drag_released(Dragable::ReleaseReason::Destroyed);
 		});
 	}
@@ -169,7 +169,8 @@ void FileListView::dropEvent(QDropEvent *event)
 	}
 
 	QStringList files;
-	for(const QUrl& url : mime_data->urls())
+	const QList<QUrl> urls = mime_data->urls();
+	for(const QUrl& url : urls)
 	{
 		QString local_file = url.toLocalFile();
 		if(!local_file.isEmpty()){

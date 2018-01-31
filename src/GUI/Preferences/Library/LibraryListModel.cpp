@@ -18,12 +18,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #include "LibraryListModel.h"
 #include "ChangeOperations.h"
 #include "Components/Library/LibraryManager.h"
 #include "Utils/Library/LibraryInfo.h"
 #include "Interfaces/LibraryInterface/LibraryPluginHandler.h"
+
+#include "Utils/Utils.h"
 #include "Utils/globals.h"
 
 #include <QList>
@@ -49,7 +50,8 @@ struct LibraryListModel::Private
 
 	void clear_operations()
 	{
-		for(ChangeOperation* op : operations){
+		for(ChangeOperation* op : Util::AsConst(operations))
+		{
 			delete op;
 		}
 
@@ -159,7 +161,8 @@ QStringList LibraryListModel::all_names() const
 {
 	QStringList ret;
 
-	for(const Info& info : m->shown_library_info) {
+	for(const Info& info : Util::AsConst(m->shown_library_info))
+	{
 		ret << info.name();
 	}
 
@@ -170,11 +173,32 @@ QStringList LibraryListModel::all_paths() const
 {
 	QStringList ret;
 
-	for(const Info& info : m->shown_library_info) {
+	for(const Info& info : Util::AsConst(m->shown_library_info))
+	{
 		ret << info.path();
 	}
 
 	return ret;
+}
+
+QString LibraryListModel::name(int idx) const
+{
+	if(between(idx, m->shown_library_info))
+	{
+		return m->shown_library_info.at(idx).name();
+	}
+
+	return QString();
+}
+
+QString LibraryListModel::path(int idx) const
+{
+	if(between(idx, m->shown_library_info))
+	{
+		return m->shown_library_info.at(idx).path();
+	}
+
+	return QString();
 }
 
 void LibraryListModel::reset()
@@ -190,7 +214,7 @@ bool LibraryListModel::commit()
 	}
 
 	bool success = true;
-	for(ChangeOperation* op : m->operations)
+	for(ChangeOperation* op : Util::AsConst(m->operations))
 	{
 		if(!op->exec()){
 			success = false;

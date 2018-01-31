@@ -233,10 +233,10 @@ Qt::ItemFlags AlbumModel::flags(const QModelIndex & index) const
 
 	if(col == (int) ColumnIndex::Album::Rating)
 	{
-		return (QAbstractItemModel::flags(index) | Qt::ItemIsEditable);
+		return (QAbstractTableModel::flags(index) | Qt::ItemIsEditable);
 	}
 
-	return QAbstractItemModel::flags(index);
+	return QAbstractTableModel::flags(index);
 }
 
 

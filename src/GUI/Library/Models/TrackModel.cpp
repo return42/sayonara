@@ -142,10 +142,10 @@ Qt::ItemFlags TrackModel::flags(const QModelIndex &index = QModelIndex()) const
 	}
 
 	if(index.column() == (int) ColumnIndex::Track::Rating) {
-		return (QAbstractItemModel::flags(index) | Qt::ItemIsEditable);
+		return (QAbstractTableModel::flags(index) | Qt::ItemIsEditable);
 	}
 
-	return QAbstractItemModel::flags(index);
+	return QAbstractTableModel::flags(index);
 }
 
 bool TrackModel::setData(const QModelIndex &index, const QVariant &value, int role)

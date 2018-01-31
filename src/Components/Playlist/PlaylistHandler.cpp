@@ -32,6 +32,7 @@
 #include "Database/DatabaseConnector.h"
 
 #include "Utils/globals.h"
+#include "Utils/Utils.h"
 #include "Utils/Parser/PlaylistParser.h"
 #include "Utils/Playlist/CustomPlaylist.h"
 #include "Utils/Settings/Settings.h"
@@ -467,7 +468,7 @@ void Handler::save_all_playlists()
 	if(_settings->get(Set::PL_LoadTemporaryPlaylists))
 	{
 		m->db->transaction();
-		for(PlaylistPtr pl : m->playlists)
+		for(const PlaylistPtr& pl : Util::AsConst(m->playlists))
 		{
 			if(pl->is_temporary() && pl->was_changed())
 			{

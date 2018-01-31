@@ -22,6 +22,8 @@
 #include "Database/DatabaseConnector.h"
 #include "Database/DatabaseVisStyles.h"
 
+#include "Utils/Utils.h"
+
 #include <algorithm>
 #include <atomic>
 #include <mutex>
@@ -201,7 +203,7 @@ void EngineColorStyleChooser::reload(int widget_width, int widget_height)
     }
 
 
-	for(const RawColorStyle& rcs : colors_active)
+	for(const RawColorStyle& rcs : Util::AsConst(colors_active))
 	{
         ColorStyle style_spectrum;
         ColorStyle style_level;

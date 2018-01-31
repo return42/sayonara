@@ -128,19 +128,19 @@ void ItemView::init_context_menu()
 	m->merge_action = m->context_menu->addMenu(m->merge_menu);
 	m->merge_action->setVisible(false);
 
-	connect(m->context_menu, &LibraryContextMenu::sig_edit_clicked, [=](){
+	connect(m->context_menu, &LibraryContextMenu::sig_edit_clicked, this, [=](){
 		show_edit();
 	});
 
-	connect(m->context_menu, &LibraryContextMenu::sig_info_clicked, [=](){
+	connect(m->context_menu, &LibraryContextMenu::sig_info_clicked, this, [=](){
 		show_info();
 	});
 
-	connect(m->context_menu, &LibraryContextMenu::sig_lyrics_clicked, [=](){
+	connect(m->context_menu, &LibraryContextMenu::sig_lyrics_clicked, this, [=](){
 		show_lyrics();
 	});
 
-	connect(m->context_menu, &LibraryContextMenu::sig_clear_selection_clicked, [=](){
+	connect(m->context_menu, &LibraryContextMenu::sig_clear_selection_clicked, this, [=](){
 		this->clear_selection();
 	});
 	connect(m->context_menu, &LibraryContextMenu::sig_delete_clicked, this, &ItemView::delete_clicked);
@@ -232,7 +232,7 @@ void ItemView::show_clear_button(bool visible)
 		m->btn_clear_selection = new QPushButton(this);
 		m->btn_clear_selection->setText(tr("Clear selection"));
 
-		connect(m->btn_clear_selection, &QPushButton::clicked, [=](){
+		connect(m->btn_clear_selection, &QPushButton::clicked, this, [=](){
 			this->clearSelection();
 			m->btn_clear_selection->hide();
 		});
@@ -419,7 +419,7 @@ void ItemView::mouseMoveEvent(QMouseEvent* event)
 	QDrag* drag = this->drag_moving(event->pos());
 	if(drag)
 	{
-		connect(drag, &QDrag::destroyed, [=]() {
+		connect(drag, &QDrag::destroyed, this, [=]() {
 			this->drag_released(Dragable::ReleaseReason::Destroyed);
 		});
 	}
@@ -557,24 +557,26 @@ void ItemView::dropEvent(QDropEvent *event)
 {
 	event->accept();
 
-	const QMimeData* mime_data = event->mimeData();
-	if(!mime_data) {
+	const QMimeData* mimedata = event->mimeData();
+	if(!mimedata) {
 		return;
 	}
 
 	QString text;
 
-	if(mime_data->hasText()){
-		text = mime_data->text();
+	if(mimedata->hasText()){
+		text = mimedata->text();
 	}
 
 	// extern drops
-	if( !mime_data->hasUrls() || text.compare("tracks", Qt::CaseInsensitive) == 0) {
+	if( !mimedata->hasUrls() || text.compare("tracks", Qt::CaseInsensitive) == 0) {
 		return;
 	}
 
 	QStringList filelist;
-	for(const QUrl& url : mime_data->urls()) {
+	const QList<QUrl> urls = mimedata->urls();
+	for(const QUrl& url : urls)
+	{
 		QString path = url.path();
 
 		if(QFile::exists(path)) {

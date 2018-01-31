@@ -24,18 +24,18 @@
 
 #include <QString>
 
-const QString sc_main("https://api.soundcloud.com");
-const QString sc_users(sc_main + "/users");
+#define sc_main		QStringLiteral("https://api.soundcloud.com");
+#define sc_users	QStringLiteral("https://api.soundcloud.com/users");
 
 QString	SC::WebAccess::create_dl_get_artist(const QString& name)
 {
-	QString ret = "";
+	QString ret;
 
 	if(name.isEmpty()) {
 		return ret;
 	}
 
-	ret = sc_users + "?" + CLIENT_ID_STR + "&q=" + name;
+	ret += sc_users + "?" + CLIENT_ID_STR + "&q=" + name;
 
 	sp_log(Log::Debug) << "Get Artist info from " << ret;
 
@@ -44,13 +44,13 @@ QString	SC::WebAccess::create_dl_get_artist(const QString& name)
 
 QString	SC::WebAccess::create_dl_get_artist(int artist_id)
 {
-	QString ret = "";
+	QString ret;
 
 	if(artist_id <= 0){
 		return ret;
 	}
 
-	ret = sc_users + "/" + QString::number(artist_id) + "?" + CLIENT_ID_STR;
+	ret += sc_users + "/" + QString::number(artist_id) + "?" + CLIENT_ID_STR;
 
 	sp_log(Log::Debug) << "Get Artist info from " << ret;
 

@@ -18,8 +18,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+// clazy:excludeall=non-pod-global-static
+
 #include "GUI_Logger.h"
 #include "GUI/Player/ui_GUI_Logger.h"
+#include "Utils/Utils.h"
 #include "Utils/Logger/Logger.h"
 #include "Utils/Logger/LoggerUtils.h"
 #include "Utils/Language.h"
@@ -73,7 +76,8 @@ void GUI_Logger::init_ui()
 	ui = new Ui::GUI_Logger;
 	ui->setupUi(this);
 
-	for(const QString& line : _buffer) {
+	for(const QString& line : Util::AsConst(_buffer))
+	{
 		ui->te_log->append(line);
 	}
 
@@ -204,6 +208,6 @@ void GUI_Logger::showEvent(QShowEvent* e)
 {
 	init_ui();
 
-	QWidget::showEvent(e);
+	Widget::showEvent(e);
 }
 

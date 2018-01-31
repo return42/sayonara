@@ -18,7 +18,9 @@
  */
 
 #include "HeaderView.h"
+
 #include "Utils/globals.h"
+#include "Utils/Utils.h"
 #include "Utils/Settings/Settings.h"
 
 #include <QFontMetrics>
@@ -94,7 +96,7 @@ void HeaderView::set_column_headers(const ColumnHeaderList& column_headers, cons
 
 	int i=0;
 
-	for(ColumnHeader* header : m->column_headers)
+	for(ColumnHeader* header : Util::AsConst(m->column_headers))
 	{
 		if( header->sortorder_asc() == sorting) {
 			this->setSortIndicator(i, Qt::AscendingOrder);
@@ -236,7 +238,7 @@ ColumnHeader* HeaderView::column_header(int idx)
 
 void HeaderView::language_changed()
 {
-	for(ColumnHeader* header : m->column_headers)
+	for(ColumnHeader* header : Util::AsConst(m->column_headers))
 	{
 		header->retranslate();
 	}

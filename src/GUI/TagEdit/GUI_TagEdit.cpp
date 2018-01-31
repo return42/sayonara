@@ -641,8 +641,10 @@ void GUI_TagEdit::apply_tag(int idx)
 	QMap<Tag, ReplacedString> tag_cap_map = m->tag_expression.get_tag_val_map();
 	MetaData md =m->tag_edit->metadata(idx);
 
-	for(const QString& tag : tag_cap_map.keys()){
-		ReplacedString cap = tag_cap_map[tag];
+	for(auto it=tag_cap_map.cbegin(); it != tag_cap_map.cend(); it++)
+	{
+		const QString& tag = it.key();
+		const ReplacedString& cap = it.value();
 
 		if(tag.compare(TAG_TITLE) == 0){
 			md.set_title(cap);

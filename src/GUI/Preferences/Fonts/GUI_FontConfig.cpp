@@ -124,7 +124,8 @@ void GUI_FontConfig::fill_sizes(const QStringList& sizes)
 	ui->combo_lib_size->addItem(tr("Inherit"));
 	ui->combo_pl_size->addItem(tr("Inherit"));
 
-	for(QString sz : sizes){
+	for(const QString& sz : sizes)
+	{
 		int isz = sz.toInt();
 		if(isz < 7 || isz > 40){
 			continue;

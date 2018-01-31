@@ -151,7 +151,7 @@ void GUI_IconPreferences::init_ui()
 	});
 	QIcon::setThemeSearchPaths(icon_paths);
 
-	for(const QString& icon_path : icon_paths)
+	for(const QString& icon_path : Util::AsConst(icon_paths))
 	{
 		QDir d(icon_path);
 		QStringList subdirs = d.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
@@ -172,7 +172,7 @@ void GUI_IconPreferences::init_ui()
 				continue;
 			}
 
-			connect(rb, &QRadioButton::toggled, [=](bool checked)
+			connect(rb, &QRadioButton::toggled, this, [=](bool checked)
 			{
 				if(checked){
 					this->theme_changed(rb->data());
@@ -192,7 +192,7 @@ void GUI_IconPreferences::init_ui()
 			add_header_entry(icon_path, widget);
 		}
 
-		for(IconRadioButton* rb : buttons)
+		for(IconRadioButton* rb : Util::AsConst(buttons))
 		{
 
 			layout->addWidget(rb);
@@ -220,9 +220,11 @@ QString GUI_IconPreferences::action_name() const
 
 bool GUI_IconPreferences::commit()
 {
-	for(const QString& key : m->rb_map.keys())
+	for(auto it=m->rb_map.cbegin(); it != m->rb_map.cend(); it++)
 	{
-		IconRadioButton* rb = m->rb_map[key];
+		const QString& key = it.key();
+		IconRadioButton* rb = it.value();
+
 		rb->setStyleSheet("font-weight: normal;");
 		if(rb->isChecked())
 		{
@@ -243,9 +245,11 @@ bool GUI_IconPreferences::commit()
 
 void GUI_IconPreferences::revert()
 {
-	for(const QString& key : m->rb_map.keys())
+	for(auto it=m->rb_map.cbegin(); it != m->rb_map.cend(); it++)
 	{
-		IconRadioButton* rb = m->rb_map[key];
+		const QString& key = it.key();
+		IconRadioButton* rb = it.value();
+
 		rb->setChecked(key.compare(m->original_theme) == 0);
 	}
 

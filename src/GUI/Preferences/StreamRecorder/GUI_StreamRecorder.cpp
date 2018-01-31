@@ -85,7 +85,7 @@ void GUI_StreamRecorder::init_ui()
 			Util::cvt_str_to_first_upper(keyval.second)
 		);
 
-		connect(btn, &QPushButton::clicked, [=]()
+		connect(btn, &QPushButton::clicked, this, [=]()
 		{
 			int old_position = ui->le_template->cursorPosition();
 
@@ -109,7 +109,7 @@ void GUI_StreamRecorder::init_ui()
 	connect(ui->btn_path, &QPushButton::clicked, this, &GUI_StreamRecorder::sl_btn_path_clicked);
 	connect(ui->le_template, &QLineEdit::textChanged, this, &GUI_StreamRecorder::sl_line_edit_changed);
 	connect(ui->le_path, &QLineEdit::textChanged, this, &GUI_StreamRecorder::sl_line_edit_changed);
-	connect(ui->cb_create_session_path, &QCheckBox::toggled, [=](bool b){
+	connect(ui->cb_create_session_path, &QCheckBox::toggled, this, [=](bool b){
 		ui->tabWidget->setTabEnabled(1, b);
 	});
 
@@ -301,7 +301,7 @@ TagButton::~TagButton() {}
 void TagButton::language_changed()
 {
 	QList<QPair<QString, QString>> descs = SR::Utils::descriptions();
-	for(auto d : descs)
+	for(const QPair<QString, QString>& d : descs)
 	{
 		if(d.first.compare(m->tag_name) == 0){
 			this->setText(Util::cvt_str_to_first_upper(d.second));

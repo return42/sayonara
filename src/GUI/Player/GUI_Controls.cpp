@@ -71,7 +71,7 @@ GUI_Controls::GUI_Controls(QWidget* parent) :
 		cur_pos_changed(play_manager->initial_position_ms());
 	}
 
-	connect(ui->btn_cover, &CoverButton::sig_rejected, [=](){
+	connect(ui->btn_cover, &CoverButton::sig_rejected, this, [=](){
 		show_edit();
 	});
 
@@ -787,15 +787,15 @@ void GUI_Controls::contextMenuEvent(QContextMenuEvent* e)
 			LibraryContextMenu::EntryEdit)
 		);
 
-		connect(m->context_menu, &LibraryContextMenu::sig_edit_clicked, [=](){
+		connect(m->context_menu, &LibraryContextMenu::sig_edit_clicked, this, [=](){
 			show_edit();
 		});
 
-		connect(m->context_menu, &LibraryContextMenu::sig_info_clicked, [=](){
+		connect(m->context_menu, &LibraryContextMenu::sig_info_clicked, this, [=](){
 			show_info();
 		});
 
-		connect(m->context_menu, &LibraryContextMenu::sig_lyrics_clicked, [=](){
+		connect(m->context_menu, &LibraryContextMenu::sig_lyrics_clicked, this, [=](){
 			show_lyrics();
 		});
 

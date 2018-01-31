@@ -200,8 +200,9 @@ void MiniSearcher::set_extra_triggers(const QMap<QChar, QString>& triggers)
 	m->triggers = triggers;
 	QString tooltip;
 
-	for(const QChar& key : triggers.keys()) {
-        tooltip += "<b>" + QString(key) + "</b> = " + triggers.value(key) + "<br />";
+	for(auto it=triggers.cbegin(); it != triggers.cend(); it++)
+	{
+		tooltip += "<b>" + QString(it.key()) + "</b> = " + it.value() + "<br />";
 	}
 
     add_tooltip_text(tooltip);
@@ -330,7 +331,7 @@ void MiniSearcher::showEvent(QShowEvent* e)
 	QRect geo = calc_geo();
 	this->setGeometry(geo);
 
-	QFrame::showEvent(e);
+	WidgetTemplate<QFrame>::showEvent(e);
 }
 
 
@@ -338,5 +339,5 @@ void MiniSearcher::focusOutEvent(QFocusEvent* e)
 {
 	this->reset();
 
-	QFrame::focusOutEvent(e);
+	WidgetTemplate<QFrame>::focusOutEvent(e);
 }

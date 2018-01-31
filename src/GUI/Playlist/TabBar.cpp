@@ -174,15 +174,16 @@ void PlaylistTabBar::close_others_pressed()
 	int my_tab = currentIndex();
 	int i=0;
 
-	while( count() > 2){
+	while( count() > 2)
+	{
 		if(i < my_tab){
-			tabCloseRequested(0);
+			emit tabCloseRequested(0);
 		}
 
 		else if(i == my_tab) {}
 
 		else{
-			tabCloseRequested(1);
+			emit tabCloseRequested(1);
 		}
 
 		i++;

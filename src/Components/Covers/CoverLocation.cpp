@@ -436,9 +436,18 @@ QString Location::identifer() const
 	return m->identifier;
 }
 
-QStringList Location::search_urls() const
+const QStringList& Location::search_urls() const
 {
 	return m->search_urls;
+}
+
+QString Location::search_url(int idx) const
+{
+	if(!between(idx, m->search_urls)){
+		return QString();
+	}
+
+	return m->search_urls.at(idx);
 }
 
 bool Location::has_search_urls() const
@@ -446,7 +455,7 @@ bool Location::has_search_urls() const
 	return !(m->search_urls.isEmpty());
 }
 
-QMap<QString, QString> Location::all_search_urls() const
+const QMap<QString, QString>& Location::all_search_urls() const
 {
 	return m->all_search_urls;
 }

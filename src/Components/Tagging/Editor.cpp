@@ -282,7 +282,7 @@ void Editor::run()
 		}
 	}
 
-	for(auto it=m->cover_map.cbegin(); it != m->cover_map.end(); it++)
+	for(auto it=m->cover_map.cbegin(); it != m->cover_map.cend(); it++)
 	{
 		int idx = it.key();
 		Tagging::Util::write_cover(m->v_md[idx], it.value());

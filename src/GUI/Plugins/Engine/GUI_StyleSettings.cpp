@@ -23,7 +23,9 @@
 
 #include "StyleTypes.h"
 
+#include "Utils/Utils.h"
 #include "Utils/Message/Message.h"
+
 #include "Database/DatabaseConnector.h"
 #include "Database/DatabaseVisStyles.h"
 
@@ -102,7 +104,7 @@ void GUI_StyleSettings::init()
 
 	m->styles.push_front(style);
 
-	for(const RawColorStyle& style : m->styles)
+	for(const RawColorStyle& style : Util::AsConst(m->styles))
 	{
 		ui->combo_styles->addItem(style.col_list.name);
 	}
