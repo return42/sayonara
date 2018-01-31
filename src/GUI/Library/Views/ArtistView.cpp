@@ -100,7 +100,7 @@ void ArtistView::merge_action_triggered() {}
 void ArtistView::play_clicked()
 {
 	TableView::play_clicked();
-	doubleClicked(QModelIndex());
+	emit doubleClicked(QModelIndex());
 }
 
 void ArtistView::play_new_tab_clicked()

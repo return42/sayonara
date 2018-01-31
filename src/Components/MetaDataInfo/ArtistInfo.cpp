@@ -113,12 +113,11 @@ void ArtistInfo::calc_similar_artists(Artist& artist)
 {
 	QMap<QString, double> sim_artists = SimilarArtists::get_similar_artists(artist.name());
 
-	for(const QString& artist_name : sim_artists.keys())
+	for(auto it=sim_artists.cbegin(); it != sim_artists.cend(); it++)
 	{
-		double match = sim_artists[artist_name];
-
+		const QString& artist_name = it.key();
 		artist.add_custom_field("sim_artist_" + artist_name,
-								"sim_artist_" + QString::number(match) + artist_name,
+								"sim_artist_" + QString::number(it.value()) + it.key(),
 								artist_name);
 	}
 }
@@ -155,13 +154,15 @@ QString ArtistInfo::additional_infostring() const
 {
 	QString str;
 	QStringList sim_artists;
-	for(const QString& key : _additional_info.keys()){
-		if(key.startsWith("sim_artist_")){
-			sim_artists << key;
+
+	for(auto it=_additional_info.cbegin(); it != _additional_info.cend(); it++)
+	{
+		if(it.key().startsWith("sim_artist_")){
+			sim_artists << it.key();
 		}
 
 		else {
-			str += BOLD(key) + ": " + _additional_info[key] + CAR_RET;
+			str += BOLD(it.key()) + ": " + it.value() + CAR_RET;
 		}
 	}
 
@@ -175,7 +176,7 @@ QString ArtistInfo::additional_infostring() const
 
 	int i=0;
 	QStringList artist_list;
-	for(const QString& sim_artist : sim_artists)
+	for(const QString& sim_artist : ::Util::AsConst(sim_artists))
 	{
 		if(i++ > 50){
 			break;

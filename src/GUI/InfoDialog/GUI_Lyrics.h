@@ -38,9 +38,6 @@ class GUI_Lyrics :
 	UI_CLASS(GUI_Lyrics)
 	PIMPL(GUI_Lyrics)
 
-signals:
-	void sig_closed();
-
 public:
 	explicit GUI_Lyrics(QWidget *parent = nullptr);
 	~GUI_Lyrics();
@@ -69,7 +66,7 @@ private slots:
 	void save_lyrics_clicked();
 
 protected:
-    void language_changed() override;
+	void language_changed() override;
 
 	void showEvent(QShowEvent* e) override;
 	void wheelEvent(QWheelEvent* e) override;

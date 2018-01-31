@@ -430,7 +430,7 @@ DB::LibraryDatabases Connector::library_dbs() const
 
 DB::LibraryDatabase* Connector::library_db(LibraryId library_id, DbId db_id)
 {
-	for(LibraryDatabase* db : m->library_dbs)
+	for(LibraryDatabase* db : ::Util::AsConst(m->library_dbs))
 	{
 		if( (db->library_id() == library_id) &&
 			(db->db_id() == db_id))
@@ -451,7 +451,7 @@ DB::LibraryDatabase* Connector::library_db(LibraryId library_id, DbId db_id)
 
 DB::LibraryDatabase *Connector::find_library_db(LibraryId library_id) const
 {
-	for(DB::LibraryDatabase* db : m->library_dbs)
+	for(DB::LibraryDatabase* db : ::Util::AsConst(m->library_dbs))
 	{
 		if( (db->library_id() == library_id)){
 			return db;

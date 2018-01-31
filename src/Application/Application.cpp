@@ -371,8 +371,7 @@ void Application::init_single_instance_thread()
 	m->instance_thread = new InstanceThread(this);
 
 	connect(m->instance_thread, &InstanceThread::sig_player_raise, m->player, &GUI_Player::raise);
-	connect(m->instance_thread, SIGNAL(sig_create_playlist(const QStringList&, const QString&, bool)),
-			m->plh, SLOT(create_playlist(const QStringList&, const QString&, bool)));
+	connect(m->instance_thread, &InstanceThread::sig_create_playlist, this, &Application::create_playlist);
 
 	m->instance_thread->start();
 }
@@ -389,4 +388,17 @@ void Application::session_end_requested(QSessionManager& manager)
 	if(m->player){
 		m->player->request_shutdown();
 	};
+}
+
+void Application::create_playlist()
+{
+	InstanceThread* t =	static_cast<InstanceThread*>(sender());
+	if(!t){
+		return;
+	}
+
+	QStringList paths = t->paths();
+	QString new_name = Playlist::Handler::instance()->request_new_playlist_name();
+
+	Playlist::Handler::instance()->create_playlist(paths, new_name, true);
 }

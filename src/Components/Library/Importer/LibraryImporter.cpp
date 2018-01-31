@@ -83,7 +83,7 @@ void Importer::import_files(const QStringList& files, const QString& target_dir)
 	CachingThread* thread = new CachingThread(files, m->library->library_path());
 	connect(thread, &CachingThread::finished, this, &Importer::caching_thread_finished);
 	connect(thread, &CachingThread::sig_progress, this, &Importer::sig_progress);
-	connect(thread, &CachingThread::destroyed, [=]()
+	connect(thread, &CachingThread::destroyed, this, [=]()
 	{
 		m->cache_thread = nullptr;
 	});
@@ -132,7 +132,7 @@ void  Importer::accept_import(const QString& target_dir)
 	CopyThread* copy_thread = new CopyThread(target_dir, m->import_cache, this);
 	connect(copy_thread, &CopyThread::sig_progress, this, &Importer::sig_progress);
 	connect(copy_thread, &CopyThread::finished, this, &Importer::copy_thread_finished);
-	connect(copy_thread, &CachingThread::destroyed, [=]()
+	connect(copy_thread, &CachingThread::destroyed, this, [=]()
 	{
 		m->copy_thread = nullptr;
 	});

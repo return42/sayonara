@@ -134,19 +134,19 @@ GUI_DirectoryWidget::GUI_DirectoryWidget(QWidget *parent) :
 	connect(ui->tv_dirs, &DirectoryTreeView::sig_delete_clicked, this, &GUI_DirectoryWidget::dir_delete_clicked);
 	connect(ui->tv_dirs, &DirectoryTreeView::sig_directory_loaded, this, &GUI_DirectoryWidget::dir_opened);
 
-	connect(ui->tv_dirs, &DirectoryTreeView::sig_info_clicked, [=]()
+	connect(ui->tv_dirs, &DirectoryTreeView::sig_info_clicked, this, [=]()
 	{
 		m->selected_widget = Private::SelectedWidget::Dirs;
 		show_info();
 	});
 
-	connect(ui->tv_dirs, &DirectoryTreeView::sig_edit_clicked, [=]()
+	connect(ui->tv_dirs, &DirectoryTreeView::sig_edit_clicked, this, [=]()
 	{
 		m->selected_widget = Private::SelectedWidget::Dirs;
 		show_edit();
 	});
 
-	connect(ui->tv_dirs, &DirectoryTreeView::sig_lyrics_clicked, [=]()
+	connect(ui->tv_dirs, &DirectoryTreeView::sig_lyrics_clicked, this, [=]()
 	{
 		m->selected_widget = Private::SelectedWidget::Dirs;
 		show_lyrics();
@@ -161,19 +161,19 @@ GUI_DirectoryWidget::GUI_DirectoryWidget(QWidget *parent) :
 	connect(ui->lv_files, &FileListView::sig_play_next_clicked, this, &GUI_DirectoryWidget::file_play_next_clicked);
 	connect(ui->lv_files, &FileListView::sig_play_new_tab_clicked, this, &GUI_DirectoryWidget::file_play_new_tab_clicked);
 	connect(ui->lv_files, &FileListView::sig_delete_clicked, this, &GUI_DirectoryWidget::file_delete_clicked);
-	connect(ui->lv_files, &FileListView::sig_info_clicked, [=]()
+	connect(ui->lv_files, &FileListView::sig_info_clicked, this, [=]()
 	{
 		m->selected_widget = Private::SelectedWidget::Files;
 		show_info();
 	});
 
-	connect(ui->lv_files, &FileListView::sig_edit_clicked, [=]()
+	connect(ui->lv_files, &FileListView::sig_edit_clicked, this, [=]()
 	{
 		m->selected_widget = Private::SelectedWidget::Files;
 		show_edit();
 	});
 
-	connect(ui->lv_files, &FileListView::sig_lyrics_clicked, [=]()
+	connect(ui->lv_files, &FileListView::sig_lyrics_clicked, this, [=]()
 	{
 		m->selected_widget = Private::SelectedWidget::Files;
 		show_lyrics();

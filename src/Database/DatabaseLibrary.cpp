@@ -24,6 +24,7 @@
 #include "Database/DatabaseArtists.h"
 #include "Database/DatabaseTracks.h"
 
+#include "Utils/Utils.h"
 #include "Utils/MetaData/MetaData.h"
 #include "Utils/MetaData/MetaDataList.h"
 #include "Utils/MetaData/Album.h"
@@ -98,7 +99,7 @@ QList<::Library::Info> DB::Library::get_all_libraries()
 		});
 
 
-		for(const InfoOrder& order : orders){
+		for(const InfoOrder& order : ::Util::AsConst(orders)){
 			infos << order.value;
 		}
 	}
@@ -131,8 +132,10 @@ bool DB::Library::insert_library(LibraryId id, const QString& library_name, cons
 
 	if(!success)
 	{
-		q.show_error(
-			QString("Cannot insert library (name: %1, path: %2)").arg(library_name).arg(library_path)
+		q.show_error
+		(
+			QString("Cannot insert library (name: %1, path: %2)")
+					.arg(library_name, library_path)
 		);
 	}
 
@@ -166,7 +169,8 @@ bool DB::Library::edit_library(LibraryId library_id, const QString& new_name, co
 	if(!success)
 	{
 		q.show_error(
-			QString("Cannot update library (name: %1, path: %2)").arg(new_name).arg(new_path)
+			QString("Cannot update library (name: %1, path: %2)")
+					.arg(new_name, new_path)
 		);
 	}
 
@@ -203,7 +207,7 @@ bool DB::Library::reorder_libraries(const QMap<LibraryId, int>& order)
 	}
 
 	bool success = true;
-	for(LibraryId library_id : order.keys())
+	for(auto it=order.cbegin(); it != order.cend(); it++)
 	{
 		QString query = "UPDATE Libraries "
 						"SET "
@@ -213,8 +217,8 @@ bool DB::Library::reorder_libraries(const QMap<LibraryId, int>& order)
 
 		Query q(module_db());
 		q.prepare(query);
-		q.bindValue(":index", order[library_id]);
-		q.bindValue(":library_id", library_id);
+		q.bindValue(":index",		it.value());
+		q.bindValue(":library_id",	it.key());
 
 		success = (success && q.exec());
 
@@ -246,7 +250,7 @@ void DB::Library::drop_indexes()
 	indexes << "track_search";
 	//indexes << "track_file_search";
 
-	for(const QString& idx : indexes)
+	for(const QString& idx : ::Util::AsConst(indexes))
 	{
 		Query q(this);
 		QString text = "DROP INDEX " + idx + ";";
@@ -263,12 +267,13 @@ void DB::Library::create_indexes()
 	drop_indexes();
 
 	QList<IndexDescription> indexes;
+
 	indexes << std::make_tuple("album_search", "albums", "albumID");
 	indexes << std::make_tuple("artist_search", "artists", "artistID");
 	indexes << std::make_tuple("track_search", "tracks", "trackID");
 	//indexes << std::make_tuple("track_file_search", "tracks", "trackID");
 
-	for(const IndexDescription& idx : indexes)
+	for(const IndexDescription& idx : ::Util::AsConst(indexes))
 	{
 		Query q(this);
 		QString name = std::get<0>(idx);

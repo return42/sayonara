@@ -34,9 +34,6 @@ class GUI_Shutdown :
 	Q_OBJECT
 	UI_CLASS(GUI_Shutdown)
 
-signals:
-	void sig_closed();
-
 private slots:
 	void ok_clicked();
 	void cancel_clicked();

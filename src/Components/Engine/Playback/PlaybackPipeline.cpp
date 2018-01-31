@@ -36,6 +36,7 @@
 #include <gst/app/gstappsink.h>
 
 #include <algorithm>
+#include <list>
 
 //http://gstreamer.freedesktop.org/data/doc/gstreamer/head/manual/html/chapter-dataaccess.html
 
@@ -345,7 +346,7 @@ bool Playback::configure_elements()
 {
 	guint64 interval = 25000000;
 	gint threshold = -75;
-	QList<GstElement*> sinks;
+	std::list<GstElement*> sinks;
 
 	g_object_set (G_OBJECT (m->audio_src),
 				  "use-buffering", true,
@@ -389,7 +390,7 @@ bool Playback::configure_elements()
 					 "emit-signals",
 					 true, nullptr );
 
-		sinks << m->lame_app_sink;
+		sinks.push_back(m->lame_app_sink);
 	}
 
 	if(m->file_sink){
@@ -407,14 +408,16 @@ bool Playback::configure_elements()
 					 "location", (Util::sayonara_path() + "bla.mp3").toLocal8Bit().data(),
 					 nullptr);
 
-		sinks << m->file_sink;
+		sinks.push_back(m->file_sink);
 
 		gst_element_set_state(m->file_sink, GST_STATE_NULL);
 	}
 
-	sinks << m->level_sink << m->spectrum_sink;
+	sinks.push_back(m->level_sink);
+	sinks.push_back(m->spectrum_sink);
 
-	for(GstElement* sink : sinks){
+	for(GstElement* sink : sinks)
+	{
 		//gst_object_ref(sink);
 		/* run synced and not as fast as we can */
 		g_object_set(G_OBJECT (sink), "sync", true, nullptr);

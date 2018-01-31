@@ -101,7 +101,7 @@ public:
 
 	Info get_library_info(LibraryId id)
 	{
-		for(const Info& info : all_libs)
+		for(const Info& info : ::Util::AsConst(all_libs))
 		{
 			if(info.id() == id){
 				return info;
@@ -115,7 +115,7 @@ public:
 	{
 		Info ret;
 
-		for(const Info& info : all_libs)
+		for(const Info& info : ::Util::AsConst(all_libs))
 		{
 			if( path.startsWith(info.path()) &&
 				path.length() > ret.path().length())
@@ -132,7 +132,7 @@ public:
 	{
 		Info ret;
 
-		for(const Info& info : all_libs)
+		for(const Info& info : ::Util::AsConst(all_libs))
 		{
 			if( sympath.startsWith(info.symlink_path()) &&
 				sympath.length() > ret.symlink_path().length())
@@ -159,7 +159,7 @@ public:
 
 		::Util::File::create_directories(dir);
 
-		for(const Info& info : all_libs)
+		for(const Info& info : ::Util::AsConst(all_libs))
 		{
 			QString target = info.symlink_path();
 
@@ -173,7 +173,7 @@ public:
 	{
 		OrderMap order_map;
 		int i=0;
-		for(const ::Library::Info& info : all_libs)
+		for(const ::Library::Info& info : ::Util::AsConst(all_libs))
 		{
 			order_map[info.id()] = i;
 			i++;
@@ -205,7 +205,8 @@ void Manager::reset()
 	{
 		m->all_libs = _settings->get(Set::Lib_AllLibraries);
 		int index = 0;
-		for(const Library::Info& info : m->all_libs){
+		for(const Library::Info& info : ::Util::AsConst(m->all_libs))
+		{
 			ldb->insert_library(info.id(), info.name(), info.path(), index);
 			index ++;
 		}

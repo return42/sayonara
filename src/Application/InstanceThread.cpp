@@ -27,6 +27,7 @@
 struct InstanceThread::Private
 {
 	QSharedMemory		memory;
+	QStringList			paths;
 	bool				may_run;
 
 	Private() :
@@ -118,9 +119,14 @@ void InstanceThread::parse_memory()
 			}
 		}
 
-		QString new_name =  Playlist::Handler::instance()->request_new_playlist_name();
-		emit sig_create_playlist(file_list, new_name, true);
+		m->paths = file_list;
+		emit sig_create_playlist();
 	}
 
 	m->memory.unlock();
+}
+
+QStringList InstanceThread::paths() const
+{
+	return m->paths;
 }

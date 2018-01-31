@@ -68,12 +68,7 @@ namespace PlayerPlugin
 		 * @brief emitted when reloading is requested, after firing this signal
 		 * the plugin will be painted new. Useful, if the size has changed
 		 */
-		void sig_reload(Base*);
-
-		/**
-		 * @brief emitted when plugin is closed
-		 */
-		void sig_closed();
+		void sig_reload(PlayerPlugin::Base* plugin);
 
 		void sig_opened();
 

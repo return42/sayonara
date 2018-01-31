@@ -19,6 +19,8 @@
  */
 
 #include "StreamHttpParser.h"
+
+#include "Utils/Utils.h"
 #include "Utils/Logger/Logger.h"
 
 #include <QRegExp>
@@ -99,7 +101,7 @@ StreamHttpParser::HttpAnswer StreamHttpParser::parse(const QByteArray& data)
 
 	sp_log(Log::Develop, this) << qmsg;
 
-	for(const QString& str : lst)
+	for(const QString& str : Util::AsConst(lst))
 	{
 		QRegExp regex("(GET|HEAD)(\\s|/)*HTTP", Qt::CaseInsensitive);
 		QRegExp regex_pl("(GET)(\\s|/)*(playlist.m3u)(\\s|/)*HTTP", Qt::CaseInsensitive);
@@ -138,37 +140,40 @@ StreamHttpParser::HttpAnswer StreamHttpParser::parse(const QByteArray& data)
 			continue;
 		}
 
-		if(str.toLower().contains("host:")){
+		if(str.contains(QStringLiteral("host:"), Qt::CaseInsensitive))
+		{
 			QStringList lst = str.split(":");
 			if(lst.size() > 1){
 				m->host = lst[1].trimmed();
 			}
 		}
 
-		if( str.contains("icy-metadata:", Qt::CaseInsensitive) ){
-			if(str.contains(":1") || str.contains(": 1")){
+		if( str.contains(QStringLiteral("icy-metadata:"), Qt::CaseInsensitive) )
+		{
+			if(str.contains(QStringLiteral(":1")) || str.contains(QStringLiteral(": 1")))
+			{
 				icy = true;
 				continue;
 			}
 		}
 
-		if(str.contains("user-agent", Qt::CaseInsensitive))
+		if(str.contains(QStringLiteral("user-agent"), Qt::CaseInsensitive))
 		{
 			if(str.size() > 11){
 				QString user_agent = str.right( str.size() - 11).toLower();
-				if( user_agent.contains("firefox", Qt::CaseInsensitive) ||
-					user_agent.contains("mozilla", Qt::CaseInsensitive) ||
-					user_agent.contains("gecko", Qt::CaseInsensitive) ||
-					user_agent.contains("webkit", Qt::CaseInsensitive) ||
-					user_agent.contains("safari", Qt::CaseInsensitive) ||
-					user_agent.contains("internet explorer", Qt::CaseInsensitive) ||
-					user_agent.contains("opera", Qt::CaseInsensitive) ||
-					user_agent.contains("chrom", Qt::CaseInsensitive))
+				if( user_agent.contains(QStringLiteral("firefox"), Qt::CaseInsensitive) ||
+					user_agent.contains(QStringLiteral("mozilla"), Qt::CaseInsensitive) ||
+					user_agent.contains(QStringLiteral("gecko"), Qt::CaseInsensitive) ||
+					user_agent.contains(QStringLiteral("webkit"), Qt::CaseInsensitive) ||
+					user_agent.contains(QStringLiteral("safari"), Qt::CaseInsensitive) ||
+					user_agent.contains(QStringLiteral("internet explorer"), Qt::CaseInsensitive) ||
+					user_agent.contains(QStringLiteral("opera"), Qt::CaseInsensitive) ||
+					user_agent.contains(QStringLiteral("chrom"), Qt::CaseInsensitive))
 				{
 						is_browser = true;
 				}
 
-				if(user_agent.contains("sayonara", Qt::CaseInsensitive)){
+				if(user_agent.contains(QStringLiteral("sayonara"), Qt::CaseInsensitive)){
 					get_playlist = true;
 					continue;
 				}

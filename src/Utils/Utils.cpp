@@ -401,7 +401,9 @@ QStringList Util::ip_addresses()
 	QStringList ret;
 	QList<QHostAddress> host_list;
 	host_list = QNetworkInterface::allAddresses();
-	for(const QHostAddress& host : host_list){
+
+	for(const QHostAddress& host : Util::AsConst(host_list))
+	{
 		QString address = host.toString();
 		if(!address.startsWith("127") &&
 			host.protocol() == QAbstractSocket::IPv4Protocol)

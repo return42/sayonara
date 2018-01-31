@@ -21,9 +21,11 @@
 #include "CachingThread.h"
 
 #include "Components/Directories/DirectoryReader.h"
-#include "Utils/Tagging/Tagging.h"
+
+#include "Utils/Utils.h"
 #include "Utils/FileUtils.h"
 #include "Utils/MetaData/MetaDataList.h"
+#include "Utils/Tagging/Tagging.h"
 #include "Utils/Logger/Logger.h"
 
 #include <QDir>
@@ -44,7 +46,7 @@ struct CachingThread::Private
 		DirectoryReader dr;
 		dr.set_filter("*");
 
-		for(const QString& filename : file_list)
+		for(const QString& filename : ::Util::AsConst(file_list))
 		{
 			if(cancelled) {
 				cache->clear();
@@ -61,7 +63,7 @@ struct CachingThread::Private
 				dr.files_in_directory_recursive(dir, dir_files);
 				sp_log(Log::Crazy, this) << "Found " << dir_files.size() << " files";
 
-				for(const QString& dir_file : dir_files)
+				for(const QString& dir_file : ::Util::AsConst(dir_files))
 				{
 					cache->add_standard_file(dir_file, filename);
 				}
@@ -76,8 +78,9 @@ struct CachingThread::Private
 	void extract_soundfiles()
 	{
 		sp_log(Log::Develop, this) << "Extract soundfiles";
+		const QStringList files = cache->files();
 
-		for(const QString& filename : cache->files())
+		for(const QString& filename : files)
 		{
 			if(Util::File::is_soundfile(filename))
 			{

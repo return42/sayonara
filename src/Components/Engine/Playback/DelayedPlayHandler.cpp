@@ -34,7 +34,7 @@ Logic::Logic(Pipeline::DelayedPlayHandler* dph)
 {
 	m = Pimpl::make<Private>(dph);
 
-	connect(m->t, &QTimer::timeout, [=](){
+	connect(m->t, &QTimer::timeout, this, [=](){
 		m->dph->play();
 	});
 }

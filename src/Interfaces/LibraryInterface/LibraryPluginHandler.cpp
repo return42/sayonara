@@ -67,8 +67,9 @@ struct PluginHandler::Private
 
 	void insert_local_libraries()
 	{
-		QList<Library::Info> library_infos = Manager::instance()->all_libraries();
-		for(const Library::Info& library_info : library_infos)
+		using Library::Info;
+		const QList<Info> library_infos = Manager::instance()->all_libraries();
+		for(const Info& library_info : library_infos)
 		{
 			if(library_info.id() < 0) {
 				continue;
@@ -93,25 +94,25 @@ struct PluginHandler::Private
 
 		for(const QString& filename : dll_filenames)
 		{
-			QObject* raw_plugin;
-			Container* container;
-
 			QPluginLoader loader(plugin_dir.absoluteFilePath(filename));
 
-			raw_plugin = loader.instance();
-			if(!raw_plugin) {
+			QObject* raw_plugin = loader.instance();
+			if(!raw_plugin)
+			{
 				sp_log(Log::Warning, plugin_handler) << "Cannot load plugin: " << filename << ": " << loader.errorString();
 				loader.unload();
 				continue;
 			}
 
-			container = dynamic_cast<Container*>(raw_plugin);
-			if(!container) {
+			Container* container = dynamic_cast<Container*>(raw_plugin);
+			if(!container)
+			{
 				loader.unload();
 				continue;
 			}
 
 			sp_log(Log::Info, plugin_handler) << "Found library plugin " << container->display_name();
+
 			dll_libraries << container;
 		}
 	}
@@ -148,14 +149,17 @@ struct PluginHandler::Private
 
 	Container* library_by_name(const QString& name)
 	{
-		for(Container* container : all_libraries())
-		{
-			if(container->name() == name) {
-				return container;
-			}
+		const QList<Container*> containers = all_libraries();
+
+		auto it = ::Util::find(containers, [&name](Container* c){
+			return (c->name() == name);
+		});
+
+		if (it == containers.end()) {
+			return nullptr;
 		}
 
-		return nullptr;
+		return *it;
 	}
 };
 
@@ -229,8 +233,7 @@ void PluginHandler::init_library(Container* library)
 		header_frame->setFrameShape(QFrame::NoFrame);
 		header_frame->setLayout(layout);
 
-		connect(combo_box, SIGNAL(activated(int)),
-				this, SLOT(current_library_changed(int)));
+		connect(combo_box, combo_activated_int, this, &PluginHandler::current_library_changed);
 	}
 }
 
@@ -239,7 +242,10 @@ void PluginHandler::set_library_parent(QWidget* parent)
 {
 	m->library_parent = parent;
 
-	for(Container* container : m->all_libraries()) {
+	const QList<Library::Container*> containers = m->all_libraries();
+
+	for(Container* container : containers)
+	{
 		if(container->is_initialized()) {
 			container->widget()->setParent(parent);
 		}
@@ -250,7 +256,8 @@ void PluginHandler::set_library_parent(QWidget* parent)
 void PluginHandler::current_library_changed(int library_idx)
 {
 	QList<Container*> libs = m->all_libraries();
-	if(between(library_idx, libs)) {
+	if(between(library_idx, libs))
+	{
 		set_current_library(libs[library_idx]);
 	}
 }
@@ -268,7 +275,8 @@ void PluginHandler::set_current_library(Container* cur_library)
 		return;
 	}
 
-	for(Container* container : m->all_libraries())
+	const QList<Library::Container*> containers = m->all_libraries();
+	for(Container* container : containers)
 	{
 		QString name = container->name();
 		QString cur_name = cur_library->name();
@@ -320,7 +328,7 @@ void PluginHandler::local_library_added(LibraryId id)
 
 void PluginHandler::local_library_renamed(LibraryId id)
 {
-	for(LocalLibraryContainer* llc : m->local_libraries)
+	for(LocalLibraryContainer* llc : Util::AsConst(m->local_libraries))
 	{
 		if(llc->id() == id)
 		{

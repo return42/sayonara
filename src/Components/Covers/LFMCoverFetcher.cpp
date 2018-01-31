@@ -94,7 +94,8 @@ QStringList LastFM::calc_addresses_from_website(const QByteArray& website) const
 	}
 
 	QStringList ret;
-	for(const QString& attr : attributes){
+	for(const QString& attr : ::Util::AsConst(attributes))
+	{
 		QString url = lfm_covers[attr];
 		if(!url.isEmpty()){
 			ret << url;

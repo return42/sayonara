@@ -118,7 +118,7 @@ bool Base::init(GstState state)
 
 	m->progress_timer = new QTimer(this);
 	m->progress_timer->setInterval(200);
-	connect(m->progress_timer, &QTimer::timeout, [=]()
+	connect(m->progress_timer, &QTimer::timeout, this, [=]()
 	{
 		if(this->get_state() != GST_STATE_NULL){
 			Callbacks::position_changed(this);

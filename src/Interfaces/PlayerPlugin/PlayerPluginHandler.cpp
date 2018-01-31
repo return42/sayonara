@@ -22,6 +22,7 @@
 #include "PlayerPluginHandler.h"
 #include "Utils/Logger/Logger.h"
 #include "Utils/Settings/Settings.h"
+#include "Utils/Utils.h"
 
 #include <QAction>
 
@@ -50,7 +51,7 @@ Base* Handler::find_plugin(const QString& name)
 {
 	sp_log(Log::Debug, this) << "Search for plugin " << name;
 
-	for(Base* p : m->plugins)
+	for(Base* p : Util::AsConst(m->plugins))
 	{
 		if(p->get_name().compare(name) == 0)
 		{
@@ -120,7 +121,7 @@ void Handler::plugin_closed()
 
 void Handler::language_changed()
 {
-	for(Base* p : m->plugins)
+	for(Base* p : Util::AsConst(m->plugins))
 	{
 		p->language_changed();
 		p->get_action()->setText(p->get_display_name());

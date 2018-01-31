@@ -175,7 +175,6 @@ int Handler::add_new_playlist(const QString& name, bool temporary, Playlist::Typ
 	return pl->index();
 }
 
-
 // create a playlist, where metadata is already available
 int Handler::create_playlist(const MetaDataList& v_md, const QString& name, bool temporary, Playlist::Type type)
 {
@@ -200,7 +199,6 @@ int Handler::create_playlist(const MetaDataList& v_md, const QString& name, bool
 	return idx;
 }
 
-
 // create a new playlist, where only filepaths are given
 // Load Folder, Load File...
 int Handler::create_playlist(const QStringList& pathlist, const QString& name, bool temporary, Playlist::Type type)
@@ -209,7 +207,6 @@ int Handler::create_playlist(const QStringList& pathlist, const QString& name, b
 	MetaDataList v_md = reader.metadata_from_filelist(pathlist);
 	return create_playlist(v_md, name, temporary, type);
 }
-
 
 int Handler::create_playlist(const QString& dir, const QString& name, bool temporary, Playlist::Type type)
 {
@@ -472,7 +469,8 @@ void Handler::save_all_playlists()
 		m->db->transaction();
 		for(PlaylistPtr pl : m->playlists)
 		{
-			if(pl->is_temporary() && pl->was_changed()){
+			if(pl->is_temporary() && pl->was_changed())
+			{
 				pl->save();
 			}
 		}

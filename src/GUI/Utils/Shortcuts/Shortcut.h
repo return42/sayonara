@@ -114,7 +114,7 @@ public:
 	 * @brief get a human-readable list of mapped shortcuts
 	 * @return
 	 */
-	QStringList				get_shortcuts() const;
+	const QStringList&		get_shortcuts() const;
 
 	/**
 	 * @brief get the unique identifier

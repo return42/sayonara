@@ -394,8 +394,7 @@ void Menubar::about_clicked()
 		last_translator = QString("<b>") + m->translators.last() + "</b>";
 		translator_str = QString("<br /><br /><br />") +
 				tr("Special thanks to %1 and %2 for translating")
-				.arg(first_translators)
-				.arg(last_translator);
+				.arg(first_translators, last_translator);
 	}
 
 	m->about_box->setInformativeText( QString("") +

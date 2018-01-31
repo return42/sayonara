@@ -276,7 +276,7 @@ void StreamServer::new_connection(const QString& ip)
 void StreamServer::track_changed(const MetaData& md)
 {
 	m->cur_track = md;
-	for(StreamWriter* sw : m->lst_sw)
+	for(StreamWriter* sw : ::Util::AsConst(m->lst_sw))
 	{
 		sw->change_track(md);
 	}
@@ -304,7 +304,7 @@ void StreamServer::disconnect(StreamWriterPtr sw)
 
 void StreamServer::disconnect_all()
 {
-	for(StreamWriter* sw : m->lst_sw)
+	for(StreamWriter* sw : ::Util::AsConst(m->lst_sw))
 	{
 		QObject::disconnect(sw, &StreamWriter::sig_disconnected, this, &StreamServer::disconnected);
 		QObject::disconnect(sw, &StreamWriter::sig_new_connection, this, &StreamServer::new_connection);

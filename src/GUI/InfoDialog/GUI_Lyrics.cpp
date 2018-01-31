@@ -114,7 +114,7 @@ void GUI_Lyrics::init()
 	connect(ui->btn_close, &QPushButton::clicked, this, &GUI_Lyrics::sig_closed);
 	connect(ui->btn_close, &QPushButton::clicked, this, &GUI_Lyrics::close);
 	connect(ui->btn_switch, &QPushButton::clicked, this, &GUI_Lyrics::switch_pressed);
-	connect(ui->sb_zoom, spinbox_value_changed_int, [=](int percent){
+	connect(ui->sb_zoom, spinbox_value_changed_int, this, [=](int percent){
 		zoom( (percent * m->initial_font_size) / 100.0 );
 	});
 
@@ -260,7 +260,8 @@ void GUI_Lyrics::setup_sources()
 	}
 
 	int i=0;
-	for(const QString& str : m->lyrics->servers()){
+	const QStringList servers = m->lyrics->servers();
+	for(const QString& str : servers){
 		ui->combo_servers->addItem(str, i++);
 	}
 

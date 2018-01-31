@@ -80,7 +80,8 @@ FetchThread::~FetchThread()
 {
 	while(!m->active_connections.isEmpty())
 	{
-		for(AsyncWebAccess* awa : m->active_connections){
+		for(AsyncWebAccess* awa : ::Util::AsConst(m->active_connections))
+		{
 			awa->stop();
 		}
 
@@ -174,7 +175,8 @@ bool FetchThread::more()
 
 void FetchThread::stop()
 {
-	for(AsyncWebAccess* awa : m->active_connections){
+	for(AsyncWebAccess* awa : ::Util::AsConst(m->active_connections))
+	{
 		awa->stop();
 	}
 

@@ -121,7 +121,7 @@ Qt::ItemFlags AlternativeCoverItemModel::flags(const QModelIndex &index) const
 	}
 
 	if(!between(index.row(), _pathlist)){
-		return QAbstractItemModel::flags(index);
+		return QAbstractTableModel::flags(index);
 	}
 
 	bool invalid = Location::is_invalid(_pathlist[index.row()]);
@@ -129,7 +129,7 @@ Qt::ItemFlags AlternativeCoverItemModel::flags(const QModelIndex &index) const
 		return (Qt::NoItemFlags);
 	}
 
-	return QAbstractItemModel::flags(index);
+	return QAbstractTableModel::flags(index);
 }
 
 bool AlternativeCoverItemModel::set_cover(int row, int column, const QString& cover)

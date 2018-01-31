@@ -287,7 +287,8 @@ QPair<MetaDataList, PlaylistFiles> StreamParser::parse_website(const QByteArray&
 
 	found_strings.removeDuplicates();
 
-	for(const QString& found_str : found_strings) {
+	for(const QString& found_str : Util::AsConst(found_strings))
+	{
 		QString child_url;
 
 		if(!found_str.startsWith("http")) {

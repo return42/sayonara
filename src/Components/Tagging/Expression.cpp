@@ -19,8 +19,11 @@
  */
 
 #include "Expression.h"
+
+#include "Utils/Utils.h"
 #include "Utils/FileUtils.h"
 #include "Utils/Logger/Logger.h"
+
 #include <QString>
 #include <QStringList>
 #include <QRegExp>
@@ -70,10 +73,23 @@ Expression::~Expression() {}
 QString Expression::escape_special_chars(const QString& str) const
 {
 	QString s = str;
-	QStringList str2escape;
-	str2escape << "\\" << "?" << "+" << "*" << "[" << "]" << "(" << ")" << "{" << "}" << "."; //<< "-";
+	const QStringList str2escape
+	{
+		QStringLiteral("\\"),
+		QStringLiteral("?"),
+		QStringLiteral("+"),
+		QStringLiteral("*"),
+		QStringLiteral("["),
+		QStringLiteral("]"),
+		QStringLiteral("("),
+		QStringLiteral(")"),
+		QStringLiteral("{"),
+		QStringLiteral("}"),
+		QStringLiteral(".")
+	};
 
-	for(const QString& c : str2escape){
+	for(const QString& c : str2escape)
+	{
 		s.replace(c, QString("\\") + c);
 	}
 
@@ -97,7 +113,8 @@ QStringList Expression::split_tag_string( const QString& tag_str ) const
 
 
 	// search for the tags in tag_str
-	for(const QString& tag : available_tags){
+	for(const QString& tag : ::Util::AsConst(available_tags))
+	{
 		int idx = tag_str_tmp.indexOf(tag);
 		if(idx >= 0){
 			tags.insert(idx, tag);
@@ -106,14 +123,17 @@ QStringList Expression::split_tag_string( const QString& tag_str ) const
 
 	int cur_idx = 0;
 
+	for(auto it=tags.cbegin(); it != tags.cend(); it++)
+	{
+		int idx = it.key();
+		QString value = it.value();
 
-	for(int idx : tags.keys()){
 		int len = idx - cur_idx;
 
 		splitted_tag_str << tag_str_tmp.mid(cur_idx, idx - cur_idx);
-		splitted_tag_str << tags[idx];
+		splitted_tag_str << value;
 
-		cur_idx += (tags[idx].size() + len);
+		cur_idx += (value.size() + len);
 	}
 
 	splitted_tag_str << tag_str_tmp.right(tag_str_tmp.length() - cur_idx);
@@ -173,7 +193,8 @@ bool Expression::update_tag(const QString& tag_str, const QString& filepath){
 		sp_log(Log::Warning) << "Caps: ";
 		sp_log(Log::Warning) << "";
 
-		for(const QString& s : captured_texts){
+		for(const QString& s : ::Util::AsConst(captured_texts))
+		{
 			sp_log(Log::Warning) << "  " << s;
 		}
 

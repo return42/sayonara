@@ -89,8 +89,9 @@ QString WebAccess::create_std_url_post(const QString& base_url, const UrlParams&
 
 	post_data.clear();
 
-	for(const QByteArray& key : sig_data.keys()) {
-		QByteArray entry = key + "=" + sig_data[key];
+	for(auto it=sig_data.cbegin(); it != sig_data.cend(); it++)
+	{
+		QByteArray entry = it.key() + "=" + it.value();
 		entry.replace("&", "%26");
 		entry += QChar('&');
 
@@ -120,29 +121,31 @@ QString WebAccess::parse_error_message(const QString& response)
 		return "";
 	}
 
-	if(response.left(100).contains("failed")) {
-		return Util::easy_tag_finder("lfm.error", response).trimmed();
+	if(response.leftRef(100).contains(QStringLiteral("failed")))
+	{
+		return Util::easy_tag_finder(QStringLiteral("lfm.error"), response).trimmed();
 	}
 
 	return "";
 }
 
 
-UrlParams::UrlParams() : 
+UrlParams::UrlParams() :
 	QMap<QByteArray, QByteArray>() {}
 
 void UrlParams::append_signature()
 {
 	QByteArray signature;
 
-    for(const QByteArray& key : this->keys()) {
-        signature += key;
-        signature += this->value(key);
-    }
+	for(auto it=this->cbegin(); it != this->cend(); it++)
+	{
+		signature += it.key();
+		signature += it.value();
+	}
 
-    signature += LFM_API_SECRET;
+	signature += LFM_API_SECRET;
 
-    QByteArray hash = Util::calc_hash(signature);
+	QByteArray hash = Util::calc_hash(signature);
 
-    this->insert("api_sig", hash);
+	this->insert("api_sig", hash);
 }

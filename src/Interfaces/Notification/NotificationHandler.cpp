@@ -18,6 +18,8 @@
  */
 
 #include "NotificationHandler.h"
+
+#include "Utils/Utils.h"
 #include "Utils/Settings/Settings.h"
 #include "Utils/Logger/Logger.h"
 
@@ -80,7 +82,7 @@ void NotificationHandler::notificator_changed(const QString& name)
 	m->cur_idx = -1;
 	int i = 0;
 
-	for(NotificationInterface* n : m->notificators)
+	for(NotificationInterface* n : ::Util::AsConst(m->notificators))
 	{
 		if(n->name().compare(name, Qt::CaseInsensitive) == 0){
 			m->cur_idx = i;

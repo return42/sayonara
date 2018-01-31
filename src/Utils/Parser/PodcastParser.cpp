@@ -33,7 +33,7 @@ int find_year(QString str) {
 	int idx = str.indexOf(QRegExp("[0-9]{4,4}"));
 
 	if(idx >= 0) {
-		return str.mid(idx, 4).toInt();
+		return str.midRef(idx, 4).toInt();
 	}
 
 	return 0;

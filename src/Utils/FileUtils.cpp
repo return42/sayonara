@@ -105,7 +105,7 @@ void Util::File::delete_files(const QStringList& paths)
 		return (str1.size() > str2.size());
 	});
 
-	for(const QString& path : sorted_paths)
+	for(const QString& path : Util::AsConst(sorted_paths))
 	{
 		QFileInfo info(path);
 		if(!info.exists()){
@@ -257,7 +257,7 @@ bool Util::File::is_soundfile(const QString& filename)
 
 	return Util::contains(exts, [&filename](const QString& ext)
 	{
-		return (filename.toLower().endsWith(ext.right(4)));
+		return (filename.endsWith(ext.rightRef(4), Qt::CaseInsensitive));
 	});
 }
 
@@ -268,7 +268,7 @@ bool Util::File::is_playlistfile(const QString& filename)
 
 	return Util::contains(exts, [&filename](const QString& ext)
 	{
-		return (filename.toLower().endsWith(ext.right(4)));
+		return (filename.endsWith(ext.rightRef(4), Qt::CaseInsensitive));
 	});
 }
 
@@ -278,7 +278,7 @@ bool Util::File::is_imagefile(const QString& filename)
 
 	return Util::contains(exts, [&filename](const QString& ext)
 	{
-		return (filename.toLower().endsWith(ext.right(4)));
+		return (filename.endsWith(ext.rightRef(4), Qt::CaseInsensitive));
 	});
 }
 
@@ -290,7 +290,7 @@ bool Util::File::create_directories(const QString& path)
 	}
 
 	QString cleaned_path = clean_filename(path);
-	QStringList paths = cleaned_path.split(QDir::separator());
+	const QStringList paths = cleaned_path.split(QDir::separator());
 	QDir dir;
 	if( is_absolute(cleaned_path) ){
 		dir = QDir::root();
@@ -300,7 +300,7 @@ bool Util::File::create_directories(const QString& path)
 		dir = QDir(".");
 	}
 
-	for(QString p : paths)
+	for(const QString& p : paths)
 	{
 		QString abs_path = dir.absoluteFilePath(p);
 
@@ -481,7 +481,7 @@ QString Util::File::get_common_directory(const QStringList& paths)
 
 	ret = absolute_paths[0];
 
-	for(const QString& absolute_path : absolute_paths)
+	for(const QString& absolute_path : Util::AsConst(absolute_paths))
 	{
 		ret = get_common_directory(ret, absolute_path);
 	}

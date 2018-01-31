@@ -30,6 +30,7 @@
 #include "Utils/Logger/Logger.h"
 
 #include <algorithm>
+#include <list>
 
 using Engine::Playback;
 
@@ -51,8 +52,8 @@ struct Playback::Private
 	Pipeline::Playback*			pipeline=nullptr;
 	Pipeline::Playback*			other_pipeline=nullptr;
 
-	QList<LevelReceiver*>		level_receiver;
-	QList<SpectrumReceiver*>	spectrum_receiver;
+	std::list<LevelReceiver*>		level_receiver;
+	std::list<SpectrumReceiver*>	spectrum_receiver;
 
 	StreamRecorder::StreamRecorder*	stream_recorder=nullptr;
 
@@ -515,7 +516,7 @@ void Playback::update_bitrate(Bitrate br, GstElement* src)
 
 void Playback::add_spectrum_receiver(SpectrumReceiver* receiver)
 {
-	m->spectrum_receiver << receiver;
+	m->spectrum_receiver.push_back(receiver);
 }
 
 int Playback::get_spectrum_bins() const
@@ -536,7 +537,7 @@ void Playback::set_spectrum(const SpectrumList& vals)
 
 void Playback::add_level_receiver(LevelReceiver* receiver)
 {
-	m->level_receiver << receiver;
+	m->level_receiver.push_back(receiver);
 }
 
 void Playback::set_level(float left, float right)

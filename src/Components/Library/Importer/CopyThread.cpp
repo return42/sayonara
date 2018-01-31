@@ -19,8 +19,9 @@
  */
 
 #include "CopyThread.h"
-#include "Utils/MetaData/MetaDataList.h"
+#include "Utils/Utils.h"
 #include "Utils/FileUtils.h"
+#include "Utils/MetaData/MetaDataList.h"
 #include "Utils/Logger/Logger.h"
 
 #include <QFile>
@@ -131,7 +132,8 @@ void CopyThread::rollback()
 	int n_operations = m->lst_copied_files.size();
 	int n_ops_todo = n_operations;
 
-	for(const QString& f : m->lst_copied_files) {
+	for(const QString& f : ::Util::AsConst(m->lst_copied_files))
+	{
 		QFile file(f);
 		file.remove();
 		int percent = ((n_ops_todo--) * (m->percent * 1000)) / (n_operations);

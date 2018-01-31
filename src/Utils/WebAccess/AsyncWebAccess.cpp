@@ -169,9 +169,11 @@ void AsyncWebAccess::run_post(const QString &url, const QByteArray &post_data, i
 	QNetworkRequest request(my_url);
 	request.setHeader(QNetworkRequest::ContentTypeHeader, QString("application/x-www-form-urlencoded"));
 
-	if(!m->header.isEmpty()){
-		for(const QByteArray& key : m->header.keys()){
-			request.setRawHeader(key, m->header[key]);
+	if(!m->header.isEmpty())
+	{
+		for(auto it=m->header.cbegin(); it != m->header.cend(); it++)
+		{
+			request.setRawHeader(it.key(), it.value());
 		}
 	}
 

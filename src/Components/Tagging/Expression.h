@@ -25,13 +25,13 @@
 #include "Utils/Pimpl.h"
 
 #define TAG_NONE
-#define TAG_TITLE QString("<t>")
-#define TAG_ALBUM QString("<al>")
-#define TAG_ARTIST QString("<ar>")
-#define TAG_TRACK_NUM QString("<nr>")
-#define TAG_YEAR QString("<y>")
-#define TAG_DISC QString("<d>")
-#define TAG_IGNORE QString("<ign>")
+#define TAG_TITLE		QStringLiteral("<t>")
+#define TAG_ALBUM		QStringLiteral("<al>")
+#define TAG_ARTIST		QStringLiteral("<ar>")
+#define TAG_TRACK_NUM	QStringLiteral("<nr>")
+#define TAG_YEAR		QStringLiteral("<y>")
+#define TAG_DISC		QStringLiteral("<d>")
+#define TAG_IGNORE		QStringLiteral("<ign>")
 
 class QString;
 class QStringList;
@@ -41,64 +41,64 @@ using ReplacedString=QString;
 
 namespace Tagging
 {
-    /**
-     * @brief The TagExpression class
-     * @ingroup Tagging
-     */
-    class Expression
-    {
-        PIMPL(Expression)
+	/**
+	 * @brief The TagExpression class
+	 * @ingroup Tagging
+	 */
+	class Expression
+	{
+		PIMPL(Expression)
 
-    private:
+	private:
 
-        /**
-         * @brief prepends a "\\" before special characters
-         * @param str string to be modified
-         * @return new string with escaped characters
-         */
-        QString escape_special_chars(const QString& str) const;
-
-
-        /**
-         * @brief calcs the regular expression string
-         * @param splitted_tag_str a stringlist gennerated by split_tag_string
-         * @return the regular expression string
-         */
-        QString calc_regex_string(const QStringList& splitted_tag_str) const;
-
-        /**
-         * @brief splits the tag string into normal string and tags e.g. foo<t>bar -> (foo, <t>, bar)
-         * @param tag_str
-         * @return a stringlist containing normal strings and tags
-         */
-        QStringList split_tag_string(const QString& tag_str) const;
+		/**
+		 * @brief prepends a "\\" before special characters
+		 * @param str string to be modified
+		 * @return new string with escaped characters
+		 */
+		QString escape_special_chars(const QString& str) const;
 
 
-    public:
+		/**
+		 * @brief calcs the regular expression string
+		 * @param splitted_tag_str a stringlist gennerated by split_tag_string
+		 * @return the regular expression string
+		 */
+		QString calc_regex_string(const QStringList& splitted_tag_str) const;
 
-        Expression();
-        Expression(const QString& tag_str, const QString& filename);
-        virtual ~Expression();
+		/**
+		 * @brief splits the tag string into normal string and tags e.g. foo<t>bar -> (foo, <t>, bar)
+		 * @param tag_str
+		 * @return a stringlist containing normal strings and tags
+		 */
+		QStringList split_tag_string(const QString& tag_str) const;
 
 
-        /**
-         * @brief fills the _cap_map
-         * @param tag_str the tag string entered in UI
-         * @param filepath the filepath
-         * @return true if regular expressions can be applied to filepath, false else
-         */
-        bool update_tag(const QString& tag_str, const QString& filepath);
+	public:
 
-        /**
-         * @brief checks, if one specific tag can be applied to the string
-         * @param tag e.g. <t>
-         * @param str usually the filepath
-         * @return true on success, false else
-         */
-        bool check_tag(const Tag& tag, const QString& str);
+		Expression();
+		Expression(const QString& tag_str, const QString& filename);
+		virtual ~Expression();
 
-        QMap<Tag, ReplacedString> get_tag_val_map() const;
-    };
+
+		/**
+		 * @brief fills the _cap_map
+		 * @param tag_str the tag string entered in UI
+		 * @param filepath the filepath
+		 * @return true if regular expressions can be applied to filepath, false else
+		 */
+		bool update_tag(const QString& tag_str, const QString& filepath);
+
+		/**
+		 * @brief checks, if one specific tag can be applied to the string
+		 * @param tag e.g. <t>
+		 * @param str usually the filepath
+		 * @return true on success, false else
+		 */
+		bool check_tag(const Tag& tag, const QString& str);
+
+		QMap<Tag, ReplacedString> get_tag_val_map() const;
+	};
 }
 
 #endif // TAGEXPRESSION_H

@@ -137,15 +137,15 @@ void PlaylistView::init_context_menu()
 
 	m->context_menu = new PlaylistContextMenu(this);
 
-	connect(m->context_menu, &PlaylistContextMenu::sig_info_clicked, [=](){
+	connect(m->context_menu, &PlaylistContextMenu::sig_info_clicked, this, [=](){
 		show_info();
 	});
 
-	connect(m->context_menu, &PlaylistContextMenu::sig_edit_clicked, [=](){
+	connect(m->context_menu, &PlaylistContextMenu::sig_edit_clicked, this, [=](){
 		show_edit();
 	});
 
-	connect(m->context_menu, &PlaylistContextMenu::sig_lyrics_clicked, [=](){
+	connect(m->context_menu, &PlaylistContextMenu::sig_lyrics_clicked, this, [=](){
 		show_lyrics();
 	});
 
@@ -253,7 +253,7 @@ void PlaylistView::handle_drop(QDropEvent* event)
 		StreamParser* stream_parser = new StreamParser();
 		stream_parser->set_cover_url(cover_url);
 
-		connect(stream_parser, &StreamParser::sig_finished, [=](bool success){
+		connect(stream_parser, &StreamParser::sig_finished, this, [=](bool success){
 			async_drop_finished(success, row);
 		});
 
@@ -438,7 +438,7 @@ void PlaylistView::mouseMoveEvent(QMouseEvent* event)
 	QDrag* drag = drag_moving(event->pos());
 	if(drag)
 	{
-		connect(drag, &QDrag::destroyed, [=](){
+		connect(drag, &QDrag::destroyed, this, [=](){
 			drag_released(Dragable::ReleaseReason::Destroyed);
 		});
 	}

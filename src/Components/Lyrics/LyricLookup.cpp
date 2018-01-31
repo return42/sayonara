@@ -29,6 +29,7 @@
 #include "LyricServer.h"
 
 #include "Utils/WebAccess/AsyncWebAccess.h"
+#include "Utils/Utils.h"
 
 #include <QStringList>
 #include <QRegExp>
@@ -89,7 +90,9 @@ QString LyricLookupThread::convert_to_regex(const QString& str) const
 {
 	QString ret = str;
 
-	for(QString key : m->regex_conversions.keys()){
+	const QList<QString> keys = m->regex_conversions.keys();
+	for(const QString& key : keys)
+	{
 		ret.replace(key, m->regex_conversions.value(key));
 	}
 
@@ -108,14 +111,15 @@ QString LyricLookupThread::calc_server_url(QString artist, QString song)
 
 	for(int i=0; i<2; i++)
 	{
-		for(QString key : replacements.keys())
+		for(auto it=replacements.cbegin(); it != replacements.cend(); it++)
 		{
+			const QString key = it.key();
 			while(artist.indexOf(key) >= 0){
-				artist.replace(key, replacements.value(key));
+				artist.replace(key, it.value());
 			}
 
 			while(song.indexOf(key) >= 0){
-				song.replace(key, replacements.value(key));
+				song.replace(key, it.value());
 			}
 		}
 	}
@@ -365,7 +369,8 @@ void LyricLookupThread::init_server_list()
 QStringList LyricLookupThread::servers() const
 {
 	QStringList lst;
-	for(const ServerTemplate& t : m->server_list) {
+	for(const ServerTemplate& t : Util::AsConst(m->server_list))
+	{
 		lst << t.display_str;
 	}
 
@@ -388,11 +393,12 @@ QString LyricLookupThread::parse_webpage(const QByteArray& raw, const ServerTemp
 {
 	QString dst(raw);
 
-	for(QString start_tag : t.start_end_tag.keys()) {
+	for(auto it=t.start_end_tag.cbegin(); it != t.start_end_tag.cend(); it++)
+	{
 		QString content;
-		QString end_tag;
 
-		end_tag = t.start_end_tag.value(start_tag);
+		QString start_tag = it.key();
+		QString end_tag = it.value();
 
 		start_tag = convert_to_regex(start_tag);
 		if(start_tag.startsWith("<") && !start_tag.endsWith(">")){

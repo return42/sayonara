@@ -1,18 +1,19 @@
 INCLUDE(CheckCXXCompilerFlag)
 SET(CMAKE_CXX_STANDARD 11)
-SET(CMAKE_CXX_STANDARD_REQUIRED ON) 
+SET(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 #SET(COMMON_FLAGS "-fno-diagnostics-show-caret -ftrack-macro-expansion=0")
 
 MESSAGE("Build type = ${CMAKE_BUILD_TYPE}")
 
-SET(COMMON_FLAGS_TEST 
+SET(COMMON_FLAGS_TEST
 		"-Woverloaded-virtual"
-		"-Wall" 
-		"-Wunreachable-code" 
-		"-Wextra" 
-		"-Wpedantic" 
-		"-pthread" 
+		"-Wall"
+		"-Wunreachable-code"
+		"-Wextra"
+		"-Wpedantic"
+		"-pthread"
+		"-Wno-clazy-non-pod-global-static"
 )
 
 IF(NOT WIN32 OR NOT DEFINED WIN32)
@@ -37,8 +38,8 @@ SET(CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS_RELWITHDEBINFO} ${COMMON_F
 SET(CMAKE_CXX_FLAGS_MINSIZEREL "${CMAKE_CXX_FLAGS_MINSIZEREL} ${COMMON_FLAGS}")
 
 IF ( ${CMAKE_BUILD_TYPE} MATCHES "Debug" )
-    MESSAGE("Debug Mode active")
-    ADD_DEFINITIONS(-DDEBUG)
+	MESSAGE("Debug Mode active")
+	ADD_DEFINITIONS(-DDEBUG)
 ENDIF()
 
 SET(CMAKE_CXX_FLAGS_NONE "${CMAKE_CXX_FLAGS_NONE} ${COMMON_FLAGS}")

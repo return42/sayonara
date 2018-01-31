@@ -71,19 +71,19 @@ void GUI_Speed::init_ui()
 	MouseLeaveFilter* mlf_pitch = new MouseLeaveFilter(ui->btn_pitch);
 	MouseLeaveFilter* mlf_speed = new MouseLeaveFilter(ui->btn_speed);
 
-	connect(mef_pitch, &MouseEnterFilter::sig_mouse_entered, [=](){
+	connect(mef_pitch, &MouseEnterFilter::sig_mouse_entered, this, [=](){
 		ui->btn_pitch->setText("440 Hz");
 	});
 
-	connect(mef_speed, &MouseEnterFilter::sig_mouse_entered, [=](){
+	connect(mef_speed, &MouseEnterFilter::sig_mouse_entered, this, [=](){
 		ui->btn_speed->setText(QString::number(1.0f, 'f', 2));
 	});
 
-	connect(mlf_pitch, &MouseLeaveFilter::sig_mouse_left, [=](){
+	connect(mlf_pitch, &MouseLeaveFilter::sig_mouse_left, this, [=](){
 		ui->btn_pitch->setText(QString::number(ui->sli_pitch->value() / 10) + " Hz");
 	});
 
-	connect(mlf_speed, &MouseLeaveFilter::sig_mouse_left, [=](){
+	connect(mlf_speed, &MouseLeaveFilter::sig_mouse_left, this, [=](){
 		ui->btn_speed->setText(QString::number(ui->sli_speed->value() / 100.0f, 'f', 2));
 	});
 

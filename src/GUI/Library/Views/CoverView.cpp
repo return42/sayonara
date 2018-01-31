@@ -34,6 +34,7 @@
 #include "Utils/Settings/Settings.h"
 #include "Utils/Logger/Logger.h"
 #include "Utils/Language.h"
+#include "Utils/Utils.h"
 
 #include <QHeaderView>
 #include <QWheelEvent>
@@ -108,7 +109,7 @@ struct CoverView::Private
 
 	void add_sorting_items()
 	{
-		for(const ActionPair& ap : sorting_actions)
+		for(const ActionPair& ap : ::Util::AsConst(sorting_actions))
 		{
 			if(combo_sorting)
 			{
@@ -204,7 +205,9 @@ void CoverView::change_zoom(int zoom)
 	zoom = std::max(zoom, 50);
 
 	bool found=false;
-	for(QAction* a : m->menu_zoom->actions())
+
+	const QList<QAction*> actions = m->menu_zoom->actions();
+	for(QAction* a : actions)
 	{
 		a->setChecked( (a->text().toInt() >= zoom) && !found );
 		if(a->text().toInt() >= zoom)
@@ -338,66 +341,66 @@ void CoverView::init_sorting_actions()
 
 	ActionPair ap;
 	ap = ActionPair(QString("%1 (%2)")
-			.arg(Lang::get(Lang::Name))
-			.arg(Lang::get(Lang::Ascending)),
-			Library::SortOrder::AlbumNameAsc
-	);
+					.arg(Lang::get(Lang::Name),
+						 Lang::get(Lang::Ascending)),
+					Library::SortOrder::AlbumNameAsc
+					);
 
 	m->sorting_actions << ap;
 
 	ap = ActionPair(QString("%1 (%2)")
-			.arg(Lang::get(Lang::Name))
-			.arg(Lang::get(Lang::Descending)),
-			Library::SortOrder::AlbumNameDesc
-	);
+					.arg(Lang::get(Lang::Name),
+						 Lang::get(Lang::Descending)),
+					Library::SortOrder::AlbumNameDesc
+					);
 
 	m->sorting_actions << ap;
 
 	ap = ActionPair(QString("%1 (%2)")
-			.arg(Lang::get(Lang::Year))
-			.arg(Lang::get(Lang::Ascending)),
-			Library::SortOrder::AlbumYearAsc
-	);
+					.arg(Lang::get(Lang::Year),
+						 Lang::get(Lang::Ascending)),
+					Library::SortOrder::AlbumYearAsc
+					);
 
 	m->sorting_actions << ap;
 
 	ap = ActionPair(QString("%1 (%2)")
-			.arg(Lang::get(Lang::Year))
-			.arg(Lang::get(Lang::Descending)),
-			Library::SortOrder::AlbumYearDesc
-	);
+					.arg(Lang::get(Lang::Year),
+						 Lang::get(Lang::Descending)),
+					Library::SortOrder::AlbumYearDesc
+					);
 
 	m->sorting_actions << ap;
 
 	ap = ActionPair(QString("%1 (%2)")
-			.arg(Lang::get(Lang::NumTracks))
-			.arg(Lang::get(Lang::Ascending)),
-			Library::SortOrder::AlbumTracksAsc
-	);
+					.arg(Lang::get(Lang::NumTracks),
+						 Lang::get(Lang::Ascending)),
+					Library::SortOrder::AlbumTracksAsc
+					);
 
 	m->sorting_actions << ap;
 
 	ap = ActionPair(QString("%1 (%2)")
-			.arg(Lang::get(Lang::NumTracks))
-			.arg(Lang::get(Lang::Descending)),
-			Library::SortOrder::AlbumTracksDesc
-	);
+					.arg(Lang::get(Lang::NumTracks),
+						 Lang::get(Lang::Descending)),
+					Library::SortOrder::AlbumTracksDesc
+					);
 
 	m->sorting_actions << ap;
 
 	ap = ActionPair(QString("%1 (%2)")
-			.arg(Lang::get(Lang::Duration))
-			.arg(Lang::get(Lang::Ascending)),
-			Library::SortOrder::AlbumDurationAsc
-	);
+					.arg(Lang::get(Lang::Duration),
+						 Lang::get(Lang::Ascending)),
+					Library::SortOrder::AlbumDurationAsc
+					);
 
 	m->sorting_actions << ap;
 
 	ap = ActionPair(QString("%1 (%2)")
-			.arg(Lang::get(Lang::Duration))
-			.arg(Lang::get(Lang::Descending)),
-			Library::SortOrder::AlbumDurationDesc
-	);
+					.arg(Lang::get(Lang::Duration),
+						 Lang::get(Lang::Descending)),
+					Library::SortOrder::AlbumDurationDesc
+					);
 
 	m->sorting_actions << ap;
 
@@ -405,7 +408,8 @@ void CoverView::init_sorting_actions()
 
 	if(m->menu_sortings)
 	{
-		for(QAction* action : m->menu_sortings->actions())
+		const QList<QAction*> actions = m->menu_sortings->actions();
+		for(QAction* action : actions)
 		{
 			action->setCheckable(true);
 
@@ -421,7 +425,8 @@ void CoverView::init_sorting_actions()
 
 void CoverView::change_sortorder(SortOrder so)
 {
-	for(QAction* a : m->menu_sortings->actions())
+	const QList<QAction*> actions = m->menu_sortings->actions();
+	for(QAction* a : actions)
 	{
 		a->setChecked(a->data().toInt() == (int) so);
 	}
@@ -457,12 +462,12 @@ void CoverView::init_zoom_actions()
 {
 	m->combo_zoom->addItems(m->zoom_actions);
 
-	for(const QString& z : m->zoom_actions)
+	for(const QString& z : ::Util::AsConst(m->zoom_actions))
 	{
 		QAction* action = m->menu_zoom->addAction(z);
 		action->setCheckable(true);
 
-		connect(action, &QAction::triggered, [=](){
+		connect(action, &QAction::triggered, this, [=](){
 			this->change_zoom(action->text().toInt());
 		});
 	}
@@ -485,7 +490,7 @@ void CoverView::show_utils_triggered()
 void CoverView::wheelEvent(QWheelEvent* e)
 {
 	if( (e->modifiers() & Qt::ControlModifier) &&
-		(e->delta() != 0) )
+			(e->delta() != 0) )
 	{
 		int zoom;
 		if(e->delta() > 0){
