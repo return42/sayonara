@@ -26,6 +26,7 @@
 
 #include "GUI/Utils/Widgets/Widget.h"
 
+#include <QMainWindow>
 #include <QDBusConnectionInterface>
 #include <QList>
 

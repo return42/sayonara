@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-// clazy:excludeall=non-pod-global-static
-
 #include "GUI_Logger.h"
 #include "GUI/Player/ui_GUI_Logger.h"
 #include "Utils/Utils.h"
@@ -37,7 +35,7 @@
 #include <QDir>
 #include <QDateTime>
 
-static LogObject log_object;
+Q_GLOBAL_STATIC(LogObject, log_object)
 
 LogObject::LogObject(QObject* parent) :
 	QObject(parent),
@@ -55,7 +53,7 @@ void LogObject::add_log_line(const LogEntry& le)
 GUI_Logger::GUI_Logger(QWidget *parent) :
 	Widget(parent)
 {
-	connect(&log_object, &LogObject::sig_new_log, this, &GUI_Logger::log_ready, Qt::QueuedConnection);
+	connect(log_object (), &LogObject::sig_new_log, this, &GUI_Logger::log_ready, Qt::QueuedConnection);
 
 	Logger::register_log_listener(this->get_log_listener());
 }
@@ -165,7 +163,7 @@ void GUI_Logger::language_changed()
 
 LogListener* GUI_Logger::get_log_listener()
 {
-	return &log_object;
+	return log_object ();
 }
 
 

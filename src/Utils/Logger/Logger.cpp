@@ -56,8 +56,11 @@
 	#include "cxxabi.h"
 #endif
 
-QList<LogListener*>	log_listeners;
-QList<LogEntry>		log_buffer;
+using LogListeners=QList<LogListener*>;
+Q_GLOBAL_STATIC(LogListeners, log_listeners)
+
+using LogEntries=QList<LogEntry>;
+Q_GLOBAL_STATIC(LogEntries, log_buffer)
 
 struct Logger::Private
 {
@@ -142,10 +145,11 @@ struct Logger::Private
 				le.message = QString::fromStdString(str);
 				le.type = type;
 
-			log_buffer << le;
+			log_buffer->push_back(le);
 
-			foreach(LogListener* log_listener, log_listeners)
+			for(auto it=log_listeners->begin(); it != log_listeners->end(); it++)
 			{
+				LogListener* log_listener = *it;
 				if(log_listener)
 				{
 					log_listener->add_log_line(le);
@@ -175,12 +179,12 @@ Logger::~Logger()
 //static
 void Logger::register_log_listener(LogListener* log_listener)
 {
-	for(const LogEntry& le : Util::AsConst(log_buffer))
+	for(auto it=log_buffer->begin(); it != log_buffer->end(); it++)
 	{
-		log_listener->add_log_line(le);
+		log_listener->add_log_line(*it);
 	}
 
-	log_listeners << log_listener;
+	log_listeners->push_back(log_listener);
 }
 
 Logger& Logger::operator << (const QString& msg)

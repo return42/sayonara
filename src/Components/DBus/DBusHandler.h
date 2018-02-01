@@ -21,10 +21,10 @@
 #ifndef DBUSHANDLER_H
 #define DBUSHANDLER_H
 
-#include <QMainWindow>
-
 #include "Utils/Pimpl.h"
+#include <QObject>
 
+class QMainWindow;
 namespace DBusMPRIS
 {
 	class MediaPlayer2;

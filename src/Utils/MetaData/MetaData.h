@@ -125,6 +125,9 @@ public:
 
 	static QVariant toVariant(const MetaData& md);
 	static bool fromVariant(const QVariant& v, MetaData& md);
+
+private:
+	QHash<GenreID, Genre>& genre_pool() const;
 };
 
 Q_DECLARE_METATYPE(MetaData)

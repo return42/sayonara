@@ -29,8 +29,7 @@
 #include <QVariant>
 #include <QStringList>
 #include <QHash>
-
-static QHash<GenreID, Genre> genre_pool;
+#include <QGlobalStatic>
 
 //#define COUNT_MD
 #ifdef COUNT_MD
@@ -351,6 +350,13 @@ bool MetaData::fromVariant(const QVariant& v, MetaData& md)
 	return true;
 }
 
+QHash<GenreID, Genre>& MetaData::genre_pool() const
+{
+	static QHash<GenreID, Genre> pool;
+	return pool;
+}
+
+
 MetaData& MetaData::operator=(const MetaData& other)
 {
 	LibraryItem::operator=(other);
@@ -466,7 +472,7 @@ SP::Set<Genre> MetaData::genres() const
 	SP::Set<Genre> genres;
 
 	for(GenreID genre_id : m->genres){
-		genres.insert( genre_pool[genre_id] );
+		genres.insert( genre_pool().value(genre_id) );
 	}
 
 	return genres;
@@ -478,9 +484,9 @@ void MetaData::set_genres(const SP::Set<Genre>& genres)
 	for(const Genre& genre : genres)
 	{
 		GenreID id = genre.id();
-		if(!genre_pool.contains(id))
+		if(!genre_pool().contains(id))
 		{
-			genre_pool[id] = genre;
+			genre_pool().insert(id, genre);
 		}
 
 		m->genres << id;
@@ -509,9 +515,9 @@ bool MetaData::remove_genre(const Genre& genre)
 bool MetaData::add_genre(const Genre& genre)
 {
 	GenreID id = genre.id();
-	if(!genre_pool.contains(id))
+	if(!genre_pool().contains(id))
 	{
-		genre_pool[id] = genre;
+		genre_pool().insert(id, genre);
 	}
 
 	m->genres << id;
@@ -540,7 +546,7 @@ QStringList MetaData::genres_to_list() const
 	QStringList new_genres;
 	for(const GenreID& id : m->genres)
 	{
-		new_genres << genre_pool[id].name();
+		new_genres << genre_pool().value(id).name();
 	}
 
 	return new_genres;

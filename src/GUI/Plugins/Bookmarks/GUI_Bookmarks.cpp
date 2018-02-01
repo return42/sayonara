@@ -18,7 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
- // clazy:excludeall=non-pod-global-static
 
 #include "GUI_Bookmarks.h"
 
@@ -32,7 +31,7 @@
 #include "Components/Bookmarks/Bookmark.h"
 #include "Components/Bookmarks/Bookmarks.h"
 
-static const QString NoBookmarkText("--:--");
+#define NoBookmarkText QStringLiteral("--:--")
 
 struct GUI_Bookmarks::Private
 {

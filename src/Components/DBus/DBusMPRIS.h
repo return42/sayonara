@@ -24,7 +24,6 @@
 #include <QObject>
 #include <QVariant>
 #include <QDBusObjectPath>
-#include <QMainWindow>
 
 #include "Components/PlayManager/PlayState.h"
 
@@ -34,6 +33,7 @@
 
 using QStrRef=const QString&;
 
+class QMainWindow;
 class DBusAdaptor :
 		public QObject
 {

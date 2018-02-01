@@ -30,6 +30,7 @@
 #include "Utils/Logger/Logger.h"
 #include "Utils/Settings/Settings.h"
 
+#include <QMainWindow>
 #include <QDBusConnection>
 #include <QDBusMessage>
 #include <QStringList>
