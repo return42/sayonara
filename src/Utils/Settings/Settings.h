@@ -36,61 +36,63 @@ using SettingArray=std::array<AbstrSetting*, static_cast<unsigned int>(SettingKe
  */
 class Settings
 {
-    SINGLETON(Settings)
-    PIMPL(Settings)
+	SINGLETON(Settings)
+	PIMPL(Settings)
 
-    public:
+	public:
 
-        AbstrSetting* setting(SettingKey keyIndex) const;
+		AbstrSetting* setting(SettingKey keyIndex) const;
 
-        /* get all settings (used by database) */
-        const SettingArray& settings();
-
-
-        /* before you want to access a setting you have to register it */
-        void register_setting(AbstrSetting* s);
+		/* get all settings (used by database) */
+		const SettingArray& settings();
 
 
-        /* checks if all settings are registered */
-        bool check_settings();
+		/* before you want to access a setting you have to register it */
+		void register_setting(AbstrSetting* s);
 
 
-        /* get a setting, defined by a unique, REGISTERED key */
-        template<typename DataType, SettingKey keyIndex>
-        const DataType& get(const SettingIdentifier<DataType, keyIndex>& k) const
-        {
-            Q_UNUSED(k);
-            using SettingPtr=Setting<DataType>*;
+		/* checks if all settings are registered */
+		bool check_settings();
 
-            SettingPtr s = static_cast<SettingPtr>( setting(keyIndex) );
-            return s->value();
-        }
 
-        /* set a setting, define by a unique, REGISTERED key */
-        template<typename DataType, SettingKey keyIndex>
-        void set(const SettingIdentifier<DataType,keyIndex>& key, const DataType& val)
-        {
-            using SettingPtr=Setting<DataType>*;
-            SettingPtr s = static_cast<SettingPtr>( setting(keyIndex) );
+		/* get a setting, defined by a unique, REGISTERED key */
+		template<typename DataType, SettingKey keyIndex>
+		const DataType& get(const SettingIdentifier<DataType, keyIndex>* key) const
+		{
+			Q_UNUSED(key);
+			using SettingPtr=Setting<DataType>*;
 
-            if( s->assign_value(val))
-            {
-                using KeyClass=decltype(key);
+			SettingPtr s = static_cast<SettingPtr>( setting(keyIndex) );
+			return s->value();
+		}
 
-                SettingNotifier< KeyClass >* sn = SettingNotifier< KeyClass >::instance();
-                sn->val_changed();
-            }
-        }
+		/* set a setting, define by a unique, REGISTERED key */
+		template<typename DataType, SettingKey keyIndex>
+		void set(const SettingIdentifier<DataType,keyIndex>* key, const DataType& val)
+		{
+			using SettingPtr=Setting<DataType>*;
+			SettingPtr s = static_cast<SettingPtr>( setting(keyIndex) );
 
-        /* get a setting, defined by a unique, REGISTERED key */
-        template<typename DataType, SettingKey keyIndex>
-        void shout(const SettingIdentifier<DataType,keyIndex>& key) const
-        {
-            using KeyClass=decltype(key);
+			if( s->assign_value(val))
+			{
+				using KeyClass=decltype(key);
+				using KeyClassPure=typename std::remove_pointer<KeyClass>::type;
 
-            SettingNotifier< KeyClass >* sn = SettingNotifier< KeyClass >::instance();
-            sn->val_changed();
-        }
+				SettingNotifier< KeyClassPure >* sn = SettingNotifier< KeyClassPure >::instance();
+				sn->val_changed();
+			}
+		}
+
+		/* get a setting, defined by a unique, REGISTERED key */
+		template<typename DataType, SettingKey keyIndex>
+		void shout(const SettingIdentifier<DataType,keyIndex>* key) const
+		{
+			using KeyClass=decltype(key);
+			using KeyClassPure=typename std::remove_pointer<KeyClass>::type;
+
+			SettingNotifier< KeyClassPure >* sn = SettingNotifier< KeyClassPure >::instance();
+			sn->val_changed();
+		}
 };
 
 

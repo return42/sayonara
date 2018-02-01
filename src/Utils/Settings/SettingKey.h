@@ -200,12 +200,7 @@ enum class SettingKey : unsigned short
 
 
 template<typename DataType, SettingKey keyIndex>
-class SettingIdentifier
-{
-	public:
-		SettingIdentifier() {}
-		~SettingIdentifier() {}
-};
+class SettingIdentifier;
 
 /**
   * @brief MACRO INST use this macro to declare a setting:\n
@@ -213,7 +208,9 @@ class SettingIdentifier
   * typedef SettingKey<bool, SK::LFM_Active> LFM_Active_t; const LFM_Active_t LFM_Active
   * @ingroup Settings
   */
-#define INST(type, settingkey) static const SettingIdentifier<type, SettingKey:: settingkey> settingkey
+#define INST(type, settingkey) const static SettingIdentifier<type, SettingKey:: settingkey>* settingkey=nullptr
+
+
 
 /**
  * @brief Set namespace defines the setting: Which key and which type

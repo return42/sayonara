@@ -36,7 +36,7 @@
 #include <type_traits>
 
 template<typename DataType, SettingKey keyIndex>
-void register_setting(const SettingIdentifier<DataType, keyIndex>& key, const char* db_key, const DataType& default_value)
+void register_setting(const SettingIdentifier<DataType, keyIndex>* key, const char* db_key, const DataType& default_value)
 {
 	auto setting = new Setting<DataType>(key, db_key, default_value);
 
@@ -44,7 +44,7 @@ void register_setting(const SettingIdentifier<DataType, keyIndex>& key, const ch
 }
 
 template<typename DataType, SettingKey keyIndex>
-void register_setting(const SettingIdentifier<DataType, keyIndex>& key, const DataType& default_value)
+void register_setting(const SettingIdentifier<DataType, keyIndex>* key, const DataType& default_value)
 {
 	auto setting = new Setting<DataType>(key, default_value);
 

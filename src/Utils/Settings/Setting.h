@@ -53,15 +53,15 @@ class AbstrSetting
 		virtual ~AbstrSetting();
 
 		SettingKey get_key() const;
-        QString db_key() const;
-        bool is_db_setting() const;
+		QString db_key() const;
+		bool is_db_setting() const;
 
-        void assign_value(const QString& value);
+		void assign_value(const QString& value);
 
-        /* Pure virtual function for DB load/save */
+		/* Pure virtual function for DB load/save */
 		virtual bool load_value_from_string(const QString& str)=0;
 		virtual QString value_to_string() const=0;
-        virtual void assign_default_value()=0;
+		virtual void assign_default_value()=0;
 };
 
 
@@ -84,23 +84,23 @@ class Setting : public AbstrSetting
 	public:
 
 		/* Constructor */
-        template<SettingKey keyIndex>
-        Setting(const SettingIdentifier<T, keyIndex>& identifier, const char* db_key, T def) :
-            AbstrSetting(keyIndex, db_key)
+		template<SettingKey keyIndex>
+		Setting(const SettingIdentifier<T, keyIndex>* identifier, const char* db_key, T def) :
+			AbstrSetting(keyIndex, db_key)
 		{
-            Q_UNUSED(identifier);
+			Q_UNUSED(identifier);
 			_default_val = def;
 			_val = def;
 		}
 
-        template<SettingKey keyIndex>
-        Setting(const SettingIdentifier<T, keyIndex>& identifier, T def) :
-            AbstrSetting(keyIndex)
-        {
-            Q_UNUSED(identifier);
-            _default_val = def;
-            _val = def;
-        }
+		template<SettingKey keyIndex>
+		Setting(const SettingIdentifier<T, keyIndex>* identifier, T def) :
+			AbstrSetting(keyIndex)
+		{
+			Q_UNUSED(identifier);
+			_default_val = def;
+			_val = def;
+		}
 
 		/* Destructor */
 		~Setting() {}
@@ -133,7 +133,7 @@ class Setting : public AbstrSetting
 		}
 
 		/* ... */
-        bool assign_value(const T& val)
+		bool assign_value(const T& val)
 		{
 			if( _val == val ){
 				return false;
