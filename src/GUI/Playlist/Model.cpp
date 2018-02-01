@@ -146,7 +146,7 @@ QVariant PlaylistItemModel::data(const QModelIndex& index, int role) const
 	{
 		Settings* s = Settings::instance();
 		QFont f = Gui::Util::main_window()->font();
-		int point_size = s->get(Set::PL_FontSize);
+		int point_size = s->get<Set::PL_FontSize>();
 		if(point_size > 0){
 			f.setPointSize(point_size);
 		}

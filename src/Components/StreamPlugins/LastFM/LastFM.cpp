@@ -92,15 +92,15 @@ Base::Base() :
 	connect(m->track_changed_thread, &TrackChangedThread::sig_similar_artists_available,
 			this, &Base::sl_similar_artists_available);
 
-	Set::listen(Set::LFM_Login, this, &Base::psl_login, false);
-	Set::listen(Set::LFM_Active, this, &Base::psl_login);
+	Set::listen<Set::LFM_Login>(this, &Base::psl_login, false);
+	Set::listen<Set::LFM_Active>(this, &Base::psl_login);
 }
 
 Base::~Base() {}
 
 void Base::get_login(QString& user, QString& pw)
 {
-	StringPair user_pw = Settings::instance()->get(Set::LFM_Login);
+	StringPair user_pw = Settings::instance()->get<Set::LFM_Login>();
 	user = user_pw.first;
 	pw = user_pw.second;
 }
@@ -114,7 +114,7 @@ bool Base::is_logged_in()
 
 void Base::psl_login()
 {
-	m->active = _settings->get(Set::LFM_Active);
+	m->active = _settings->get<Set::LFM_Active>();
 	if(!m->active){
 		return;
 	}
@@ -139,7 +139,7 @@ void Base::sl_login_thread_finished(bool success)
 	m->auth_token = login_info.token;
 	m->session_key = login_info.session_key;
 
-	_settings->set(Set::LFM_SessionKey, m->session_key);
+	_settings->set<Set::LFM_SessionKey>(m->session_key);
 
 	sp_log(Log::Debug, this) << "Got session key";
 
@@ -152,7 +152,7 @@ void Base::sl_login_thread_finished(bool success)
 
 void Base::sl_track_changed(const MetaData& md)
 {
-	Playlist::Mode pl_mode = _settings->get(Set::PL_Mode);
+	Playlist::Mode pl_mode = _settings->get<Set::PL_Mode>();
 	if( Playlist::Mode::isActiveAndEnabled(pl_mode.dynamic())) {
 		m->track_changed_thread->search_similar_artists(md);
 	}
@@ -224,7 +224,7 @@ bool Base::check_scrobble(MilliSeconds pos_ms)
 		}
 
 		else{
-			MilliSeconds scrobble_time_ms = (MilliSeconds) (_settings->get(Set::LFM_ScrobbleTimeSec) * 1000);
+			MilliSeconds scrobble_time_ms = (MilliSeconds) (_settings->get<Set::LFM_ScrobbleTimeSec>() * 1000);
 
 			m->old_pos_difference += (pos_ms - m->old_pos);
 			m->old_pos = pos_ms;

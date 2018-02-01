@@ -64,10 +64,10 @@ AbstractLibrary::AbstractLibrary(QObject *parent) :
 	m = Pimpl::make<Private>();
 
 	m->playlist = Playlist::Handler::instance();
-	m->sortorder = _settings->get(Set::Lib_Sorting);
+	m->sortorder = _settings->get<Set::Lib_Sorting>();
 
 	m->filter.set_mode(Library::Filter::Fulltext);
-	m->filter.set_filtertext("", _settings->get(Set::Lib_SearchMode));
+	m->filter.set_filtertext("", _settings->get<Set::Lib_SearchMode>());
 
 	Tagging::ChangeNotifier* mdcn = Tagging::ChangeNotifier::instance();
 	connect(mdcn, &Tagging::ChangeNotifier::sig_metadata_changed,
@@ -213,11 +213,11 @@ void AbstractLibrary::set_playlist_action_after_double_click()
 {
 	PlayManagerPtr play_manager = PlayManager::instance();
 
-	if(_settings->get(Set::Lib_DC_DoNothing)){
+	if(_settings->get<Set::Lib_DC_DoNothing>()){
 		return;
 	}
 
-	else if(_settings->get(Set::Lib_DC_PlayIfStopped))
+	else if(_settings->get<Set::Lib_DC_PlayIfStopped>())
 	{
 		if(play_manager->playstate() != PlayState::Playing){
 			m->playlist->change_track(0, m->playlist->current_index());
@@ -342,7 +342,7 @@ void AbstractLibrary::change_filter(Library::Filter filter, bool force)
 
 	else
 	{
-		Library::SearchModeMask mask = _settings->get(Set::Lib_SearchMode);
+		Library::SearchModeMask mask = _settings->get<Set::Lib_SearchMode>();
 		filter.set_filtertext(filtertext, mask);
 	}
 
@@ -366,7 +366,7 @@ void AbstractLibrary::selected_artists_changed(const IndexSet& indexes)
 void AbstractLibrary::change_album_selection(const IndexSet& indexes)
 {
 	SP::Set<AlbumId> selected_albums;
-	bool show_album_artists = _settings->get(Set::Lib_ShowAlbumArtists);
+	bool show_album_artists = _settings->get<Set::Lib_ShowAlbumArtists>();
 
 	for(auto it=indexes.begin(); it != indexes.end(); it++){
 		int idx = *it;
@@ -539,9 +539,9 @@ void AbstractLibrary::change_track_sortorder(Library::SortOrder s)
 		return;
 	}
 
-	Library::Sortings so = _settings->get(Set::Lib_Sorting);
+	Library::Sortings so = _settings->get<Set::Lib_Sorting>();
 	so.so_tracks = s;
-	_settings->set(Set::Lib_Sorting, so);
+	_settings->set<Set::Lib_Sorting>(so);
 	m->sortorder = so;
 
 	_tracks.sort(s);
@@ -555,9 +555,9 @@ void AbstractLibrary::change_album_sortorder(Library::SortOrder s)
 		return;
 	}
 
-	Library::Sortings so = _settings->get(Set::Lib_Sorting);
+	Library::Sortings so = _settings->get<Set::Lib_Sorting>();
 	so.so_albums = s;
-	_settings->set(Set::Lib_Sorting, so);
+	_settings->set<Set::Lib_Sorting>(so);
 
 	m->sortorder = so;
 
@@ -572,9 +572,9 @@ void AbstractLibrary::change_artist_sortorder(Library::SortOrder s)
 		return;
 	}
 
-	Library::Sortings so = _settings->get(Set::Lib_Sorting);
+	Library::Sortings so = _settings->get<Set::Lib_Sorting>();
 	so.so_artists = s;
-	_settings->set(Set::Lib_Sorting, so);
+	_settings->set<Set::Lib_Sorting>(so);
 
 	m->sortorder = so;
 

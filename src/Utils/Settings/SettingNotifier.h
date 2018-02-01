@@ -77,14 +77,12 @@ public:
 
 namespace Set
 {
-	template<typename T, typename KeyClassInstance>
+	template<typename KeyClassInstance, typename T>
 	//typename std::enable_if<std::is_base_of<SayonaraClass, T>::value, void>::type
 	void
-	listen(const KeyClassInstance& key, T* t, void (T::*fn)(), bool run=true)
+	listen(T* t, void (T::*fn)(), bool run=true)
 	{
-		using KeyClass=decltype(key);
-
-		SettingNotifier<KeyClass>::instance()->add_listener(t, fn);
+		SettingNotifier<KeyClassInstance>::instance()->add_listener(t, fn);
 
 		if(run)
 		{
@@ -94,10 +92,9 @@ namespace Set
 	}
 
 	template<typename KeyClassInstance>
-	void shout(const KeyClassInstance& key)
+	void shout()
 	{
-		using KeyClass=decltype(key);
-		SettingNotifier<KeyClass>::instance()->val_changed();
+		SettingNotifier<KeyClassInstance>::instance()->val_changed();
 	}
 }
 

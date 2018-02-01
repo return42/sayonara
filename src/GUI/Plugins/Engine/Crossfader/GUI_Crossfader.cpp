@@ -41,8 +41,8 @@ void GUI_Crossfader::init_ui()
 {
 	setup_parent(this, &ui);
 
-	int val = _settings->get(Set::Engine_CrossFaderTime);
-	bool enabled = _settings->get(Set::Engine_CrossFaderActive);
+	int val = _settings->get<Set::Engine_CrossFaderTime>();
+	bool enabled = _settings->get<Set::Engine_CrossFaderActive>();
 
 	ui->cb_active->setChecked(enabled);
 	ui->sli_crossfader->setEnabled(enabled);
@@ -77,7 +77,7 @@ QString GUI_Crossfader::get_display_name() const
 void GUI_Crossfader::slider_changed(int val)
 {
 	ui->lab_crossfader->setText(QString::number(val) + "ms");
-	_settings->set(Set::Engine_CrossFaderTime, val);
+	_settings->set<Set::Engine_CrossFaderTime>(val);
 }
 
 
@@ -85,9 +85,9 @@ void GUI_Crossfader::active_changed(bool b)
 {
 	ui->sli_crossfader->setEnabled(b);
 
-	Playlist::Mode plm = _settings->get(Set::PL_Mode);
+	Playlist::Mode plm = _settings->get<Set::PL_Mode>();
 	plm.setGapless(Playlist::Mode::isActive(plm.gapless()), !b);
 
-	_settings->set(Set::PL_Mode, plm);
-	_settings->set(Set::Engine_CrossFaderActive, b);
+	_settings->set<Set::PL_Mode>(plm);
+	_settings->set<Set::Engine_CrossFaderActive>(b);
 }

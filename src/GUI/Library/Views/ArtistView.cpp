@@ -60,7 +60,7 @@ void ArtistView::init_view(AbstractLibrary* library)
 	connect(this, &TableView::doubleClicked, this, &ArtistView::double_clicked);
 	connect(m->library, &AbstractLibrary::sig_all_artists_loaded, this, &ArtistView::artists_ready);
 
-	Set::listen(Set::Lib_UseViewClearButton, this, &ArtistView::use_clear_button_changed);
+	Set::listen<Set::Lib_UseViewClearButton>(this, &ArtistView::use_clear_button_changed);
 }
 
 ColumnHeaderList ArtistView::column_headers() const
@@ -78,14 +78,14 @@ ColumnHeaderList ArtistView::column_headers() const
 
 BoolList ArtistView::shown_columns() const
 {
-	BoolList columns = _settings->get(Set::Lib_ColsArtist);
+	BoolList columns = _settings->get<Set::Lib_ColsArtist>();
 	columns[0] = false;
 	return columns;
 }
 
 SortOrder ArtistView::sortorder() const
 {
-	Library::Sortings so = _settings->get(Set::Lib_Sorting);
+	Library::Sortings so = _settings->get<Set::Lib_Sorting>();
 	return so.so_artists;
 }
 
@@ -136,7 +136,7 @@ void ArtistView::refresh_clicked()
 void ArtistView::columns_changed()
 {
 	TableView::columns_changed();
-	_settings->set(Set::Lib_ColsArtist, this->shown_columns());
+	_settings->set<Set::Lib_ColsArtist>(this->shown_columns());
 }
 
 void ArtistView::sortorder_changed(SortOrder s)
@@ -159,6 +159,6 @@ void ArtistView::artists_ready()
 
 void ArtistView::use_clear_button_changed()
 {
-	bool b = _settings->get(Set::Lib_UseViewClearButton);
+	bool b = _settings->get<Set::Lib_UseViewClearButton>();
 	use_clear_button(b);
 }

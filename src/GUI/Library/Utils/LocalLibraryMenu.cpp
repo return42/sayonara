@@ -129,15 +129,15 @@ void LocalLibraryMenu::init_menu()
 
 	m->livesearch_action = new QAction(this);
 	m->livesearch_action->setCheckable(true);
-	m->livesearch_action->setChecked(_settings->get(Set::Lib_LiveSearch));
+	m->livesearch_action->setChecked(_settings->get<Set::Lib_LiveSearch>());
 
 	m->show_album_artists_action = new QAction(this);
 	m->show_album_artists_action->setCheckable(true);
-	m->show_album_artists_action->setChecked(_settings->get(Set::Lib_ShowAlbumArtists));
+	m->show_album_artists_action->setChecked(_settings->get<Set::Lib_ShowAlbumArtists>());
 
 	m->show_album_cover_view = new QAction(this);
 	m->show_album_cover_view->setCheckable(true);
-	m->show_album_cover_view->setChecked(_settings->get(Set::Lib_ShowAlbumCovers));
+	m->show_album_cover_view->setChecked(_settings->get<Set::Lib_ShowAlbumCovers>());
 
 	connect(m->reload_library_action, &QAction::triggered, this, &LocalLibraryMenu::sig_reload_library);
 	connect(m->import_file_action, &QAction::triggered, this, &LocalLibraryMenu::sig_import_file);
@@ -166,7 +166,7 @@ void LocalLibraryMenu::init_menu()
 
 	m->initialized = true;
 
-	Set::listen(Set::Lib_ShowAlbumCovers, this, &LocalLibraryMenu::show_album_covers_changed);
+	Set::listen<Set::Lib_ShowAlbumCovers>(this, &LocalLibraryMenu::show_album_covers_changed);
 
 	language_changed();
 	skin_changed();
@@ -208,7 +208,7 @@ void LocalLibraryMenu::realtime_search_changed()
 		return;
 	}
 
-	_settings->set(Set::Lib_LiveSearch, m->livesearch_action->isChecked());
+	_settings->set<Set::Lib_LiveSearch>(m->livesearch_action->isChecked());
 }
 
 void LocalLibraryMenu::edit_clicked()
@@ -250,7 +250,7 @@ void LocalLibraryMenu::show_album_covers_changed()
 		return;
 	}
 
-	bool show_covers = Settings::instance()->get(Set::Lib_ShowAlbumCovers);
+	bool show_covers = Settings::instance()->get<Set::Lib_ShowAlbumCovers>();
 	m->show_album_cover_view->setChecked(show_covers);
 }
 
@@ -260,7 +260,7 @@ void LocalLibraryMenu::show_album_cover_view_changed()
 		return;
 	}
 
-	_settings->set(Set::Lib_ShowAlbumCovers, m->show_album_cover_view->isChecked());
+	_settings->set<Set::Lib_ShowAlbumCovers>(m->show_album_cover_view->isChecked());
 }
 
 void LocalLibraryMenu::show_album_artists_changed()
@@ -270,7 +270,7 @@ void LocalLibraryMenu::show_album_artists_changed()
 	}
 
 	bool show_album_artist = m->show_album_artists_action->isChecked();
-	_settings->set(Set::Lib_ShowAlbumArtists, show_album_artist);
+	_settings->set<Set::Lib_ShowAlbumArtists>(show_album_artist);
 
 	emit sig_show_album_artists_changed(show_album_artist);
 }

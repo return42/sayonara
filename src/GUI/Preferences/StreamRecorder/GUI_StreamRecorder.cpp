@@ -72,7 +72,7 @@ void GUI_StreamRecorder::init_ui()
 	ui->le_template->setClearButtonEnabled(true);
 	ui->le_template->setMouseTracking(true);
 	ui->tabWidget->setCurrentIndex(0);
-	ui->tabWidget->setTabEnabled(1, _settings->get(Set::Engine_SR_SessionPath));
+	ui->tabWidget->setTabEnabled(1, _settings->get<Set::Engine_SR_SessionPath>());
 
 
 	QList<QPair<QString, QString>> desc = StreamRecorder::Utils::descriptions();
@@ -229,24 +229,24 @@ bool GUI_StreamRecorder::commit()
 		}
 	}
 
-	_settings->set(Set::Engine_SR_Active, ui->cb_activate->isChecked());
-	_settings->set(Set::Engine_SR_Path, path);
-	_settings->set(Set::Engine_SR_AutoRecord, ui->cb_auto_rec->isChecked());
-	_settings->set(Set::Engine_SR_SessionPath, ui->cb_create_session_path->isChecked());
-	_settings->set(Set::Engine_SR_SessionPathTemplate, ui->le_template->text().trimmed());
+	_settings->set<Set::Engine_SR_Active>(ui->cb_activate->isChecked());
+	_settings->set<Set::Engine_SR_Path>(path);
+	_settings->set<Set::Engine_SR_AutoRecord>(ui->cb_auto_rec->isChecked());
+	_settings->set<Set::Engine_SR_SessionPath>(ui->cb_create_session_path->isChecked());
+	_settings->set<Set::Engine_SR_SessionPathTemplate>(ui->le_template->text().trimmed());
 
 	return has_error;
 }
 
 void GUI_StreamRecorder::revert()
 {
-	bool lame_available = _settings->get(SetNoDB::MP3enc_found);
+	bool lame_available = _settings->get<SetNoDB::MP3enc_found>();
 
-	QString path = _settings->get(Set::Engine_SR_Path);
-	QString template_path = _settings->get(Set::Engine_SR_SessionPathTemplate);
-	bool active = _settings->get(Set::Engine_SR_Active) && lame_available;
-	bool create_session_path = _settings->get(Set::Engine_SR_SessionPath);
-	bool auto_rec = _settings->get(Set::Engine_SR_AutoRecord);
+	QString path = _settings->get<Set::Engine_SR_Path>();
+	QString template_path = _settings->get<Set::Engine_SR_SessionPathTemplate>();
+	bool active = _settings->get<Set::Engine_SR_Active>() && lame_available;
+	bool create_session_path = _settings->get<Set::Engine_SR_SessionPath>();
+	bool auto_rec = _settings->get<Set::Engine_SR_AutoRecord>();
 
 	if(template_path.isEmpty()){
 		template_path = SR::Utils::target_path_template_default(true);

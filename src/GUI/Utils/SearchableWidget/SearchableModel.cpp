@@ -80,5 +80,5 @@ int SearchableModelInterface::getNumberResults(const QString& str)
 
 Library::SearchModeMask SearchableModelInterface::search_mode() const
 {
-	return Settings::instance()->get(Set::Lib_SearchMode);
+	return Settings::instance()->get<Set::Lib_SearchMode>();
 }

@@ -44,11 +44,11 @@ QString Style::style(bool dark)
 	Settings* settings = Settings::instance();
 
 	QFont std_font = QApplication::font();
-	QString font_family =	settings->get(Set::Player_FontName);
-	int font_size =			settings->get(Set::Player_FontSize);
-	int font_size_lib =		settings->get(Set::Lib_FontSize);
-	int font_size_pl =		settings->get(Set::PL_FontSize);
-	bool lib_bold =			settings->get(Set::Lib_FontBold);
+	QString font_family =	settings->get<Set::Player_FontName>();
+	int font_size =			settings->get<Set::Player_FontSize>();
+	int font_size_lib =		settings->get<Set::Lib_FontSize>();
+	int font_size_pl =		settings->get<Set::PL_FontSize>();
+	bool lib_bold =			settings->get<Set::Lib_FontBold>();
 
 	if(font_family.isEmpty()){
 		font_family = std_font.family();
@@ -66,16 +66,16 @@ QString Style::style(bool dark)
 		font_size_pl = font_size;
 	}
 
-    QString style;
+	QString style;
 
 	if(!dark) {
 		Util::File::read_file_into_str( Util::share_path("standard.css"), style );
 	}
 
-    else{
+	else{
 		Util::File::read_file_into_str( Util::share_path("dark.css"), style );
 		style.replace("<<SHARE_PATH>>", Util::share_path());
-    }
+	}
 
 	style.replace("<<FONT_FAMILY>>", font_family);
 	style.replace("<<FONT_SIZE>>", QString::number(font_size));
@@ -83,18 +83,18 @@ QString Style::style(bool dark)
 	style.replace("<<FONT_SIZE_PL>>", QString::number(font_size_pl));
 	style.replace("<<FONT_WEIGHT_LIB>>", lib_bold ? "600" : "normal");
 
-    return style;
+	return style;
 }
 
 QFont Style::current_font()
 {
 	Settings* settings = Settings::instance();
 	QFont std_font = QApplication::font();
-	QString font_family =	settings->get(Set::Player_FontName);
-	int font_size =			settings->get(Set::Player_FontSize);
-	int font_size_lib =		settings->get(Set::Lib_FontSize);
-	int font_size_pl =		settings->get(Set::PL_FontSize);
-	bool lib_bold =			settings->get(Set::Lib_FontBold);
+	QString font_family =	settings->get<Set::Player_FontName>();
+	int font_size =			settings->get<Set::Player_FontSize>();
+	int font_size_lib =		settings->get<Set::Lib_FontSize>();
+	int font_size_pl =		settings->get<Set::PL_FontSize>();
+	bool lib_bold =			settings->get<Set::Lib_FontBold>();
 
 	Q_UNUSED(lib_bold);
 
@@ -119,7 +119,7 @@ QFont Style::current_font()
 
 QString Style::current_style()
 {
-	bool dark = (Settings::instance()->get(Set::Player_Style) == 1);
+	bool dark = (Settings::instance()->get<Set::Player_Style>() == 1);
 	return style(dark);
 }
 

@@ -179,7 +179,7 @@ PluginHandler::~PluginHandler() {}
 
 void PluginHandler::init(const QList<Container*>& containers)
 {
-	QString cur_plugin = _settings->get(Set::Lib_CurPlugin);
+	QString cur_plugin = _settings->get<Set::Lib_CurPlugin>();
 
 	m->insert_local_libraries();
 	m->insert_containers(containers);
@@ -295,7 +295,7 @@ void PluginHandler::set_current_library(Container* cur_library)
 	   m->current_library->show();
 	}
 
-	_settings->set(Set::Lib_CurPlugin, cur_library->name() );
+	_settings->set<Set::Lib_CurPlugin>(cur_library->name() );
 
 	emit sig_current_library_changed( cur_library->name() );
 }

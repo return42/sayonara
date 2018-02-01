@@ -121,7 +121,7 @@ struct Application::Private
 		db->settings_connector()->load_settings();
 
 		Gui::Icons::set_standard_theme(QIcon::themeName());
-		Gui::Icons::force_standard_icons(Settings::instance()->get(Set::Icon_ForceInDarkTheme));
+		Gui::Icons::force_standard_icons(Settings::instance()->get<Set::Icon_ForceInDarkTheme>());
 
 		if( !settings_initialized )
 		{
@@ -212,7 +212,7 @@ bool Application::init(const QStringList& files_to_play)
 	Settings* settings = Settings::instance();
 
 	QString version = QString(SAYONARA_VERSION);
-	settings->set(Set::Player_Version, version);
+	settings->set<Set::Player_Version>(version);
 
 	init_translator();
 	Gui::Icons::change_theme();
@@ -226,7 +226,7 @@ bool Application::init(const QStringList& files_to_play)
 
 	new RemoteControl(this);
 
-	if(settings->get(Set::Notification_Show))
+	if(settings->get<Set::Notification_Show>())
 	{
 		NotificationHandler::instance()->notify("Sayonara Player",
 												Lang::get(Lang::Version) + " " + SAYONARA_VERSION,
@@ -254,7 +254,7 @@ void Application::init_translator()
 {
 	m->translator = new QTranslator(this);
 
-	QString language = Settings::instance()->get(Set::Player_Language);
+	QString language = Settings::instance()->get<Set::Player_Language>();
 	m->translator->load(language, Util::share_path("translations"));
 	bool success = this->installTranslator(m->translator);
 	if(!success){

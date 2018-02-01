@@ -75,7 +75,7 @@ void GUI_AbstractLibrary::init()
 	connect(lv_album(), &ItemView::sig_delete_clicked, this, &GUI_AbstractLibrary::item_delete_clicked);
 	connect(lv_tracks(), &ItemView::sig_delete_clicked, this, &GUI_AbstractLibrary::tracks_delete_clicked);
 
-	Set::listen(Set::Lib_LiveSearch, this, &GUI_AbstractLibrary::_sl_live_search_changed);
+	Set::listen<Set::Lib_LiveSearch>(this, &GUI_AbstractLibrary::_sl_live_search_changed);
 }
 
 void GUI_AbstractLibrary::init_search_bar()
@@ -143,7 +143,7 @@ void GUI_AbstractLibrary::query_library()
 	Filter::Mode current_mode = static_cast<Filter::Mode>(m->le_search->property("search_mode").toInt());
 
 	filter.set_mode(current_mode);
-	filter.set_filtertext(m->le_search->text(), _settings->get(Set::Lib_SearchMode));
+	filter.set_filtertext(m->le_search->text(), _settings->get<Set::Lib_SearchMode>());
 
 	m->library->change_filter(filter);
 }
@@ -185,7 +185,7 @@ void GUI_AbstractLibrary::search_edited(const QString& search)
 		search_mode_changed(::Library::Filter::Filename);
 	}
 
-	else if(_settings->get(Set::Lib_LiveSearch))
+	else if(_settings->get<Set::Lib_LiveSearch>())
 	{
 		query_library();
 	}
@@ -265,7 +265,7 @@ void GUI_AbstractLibrary::show_delete_answer(QString answer)
 
 void GUI_AbstractLibrary::_sl_live_search_changed()
 {
-	if(_settings->get(Set::Lib_LiveSearch)) {
+	if(_settings->get<Set::Lib_LiveSearch>()) {
 		connect(m->le_search, &QLineEdit::textChanged, this, &GUI_AbstractLibrary::search_edited);
 	}
 

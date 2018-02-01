@@ -164,7 +164,7 @@ void LibraryContextMenu::language_changed()
 	m->rating_action->setText(Lang::get(Lang::Rating));
 	m->clear_selection_action->setText(tr("Clear selection"));
 
-	bool show_covers = _settings->get(Set::Lib_ShowAlbumCovers);
+	bool show_covers = _settings->get<Set::Lib_ShowAlbumCovers>();
 
 	if(show_covers)
 	{
@@ -195,7 +195,7 @@ void LibraryContextMenu::skin_changed()
 	m->rating_action->setIcon(Icons::icon(Icons::Star));
 	m->clear_selection_action->setIcon(Icons::icon(Icons::Clear));
 
-	bool show_covers = _settings->get(Set::Lib_ShowAlbumCovers);
+	bool show_covers = _settings->get<Set::Lib_ShowAlbumCovers>();
 
 	if(show_covers)
 	{
@@ -311,7 +311,7 @@ QAction* LibraryContextMenu::add_preference_action(PreferenceAction* action)
 
 void LibraryContextMenu::show_covers_changed()
 {
-	bool show_covers = _settings->get(Set::Lib_ShowAlbumCovers);
+	bool show_covers = _settings->get<Set::Lib_ShowAlbumCovers>();
 
 	if(show_covers)
 	{
@@ -326,7 +326,7 @@ void LibraryContextMenu::show_covers_changed()
 
 void LibraryContextMenu::cover_view_action_triggered()
 {
-	bool show_covers = _settings->get(Set::Lib_ShowAlbumCovers);
-	_settings->set(Set::Lib_ShowAlbumCovers, !show_covers);
+	bool show_covers = _settings->get<Set::Lib_ShowAlbumCovers>();
+	_settings->set<Set::Lib_ShowAlbumCovers>(!show_covers);
 }
 

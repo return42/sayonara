@@ -70,9 +70,9 @@ bool GUI_Notifications::commit()
 	int timeout =       ui->sb_timeout->value();
 	QString cur_data =  ui->combo_notification->currentData().toString();
 
-	_settings->set(Set::Notification_Name, cur_data);
-	_settings->set(Set::Notification_Timeout, timeout);
-	_settings->set(Set::Notification_Show, active);
+	_settings->set<Set::Notification_Name>(cur_data);
+	_settings->set<Set::Notification_Timeout>(timeout);
+	_settings->set<Set::Notification_Show>(active);
 
 	nh->notificator_changed(cur_data);
 
@@ -81,8 +81,8 @@ bool GUI_Notifications::commit()
 
 void GUI_Notifications::revert()
 {
-	int timeout = _settings->get(Set::Notification_Timeout);
-	int active = _settings->get(Set::Notification_Show);
+	int timeout = _settings->get<Set::Notification_Timeout>();
+	int active = _settings->get<Set::Notification_Show>();
 
 	ui->sb_timeout->setValue(timeout);
 	ui->cb_activate->setChecked(active);

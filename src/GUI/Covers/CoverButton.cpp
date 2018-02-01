@@ -110,7 +110,7 @@ void CoverButton::set_cover_location(const Location& cl)
 
 void CoverButton::force_cover(const QPixmap &pm)
 {
-	if(!_settings->get(Set::Cover_LoadFromFile)){
+	if(!_settings->get<Set::Cover_LoadFromFile>()){
 		return;
 	}
 

@@ -93,17 +93,17 @@ bool GUI_LastFM::commit()
 	user_pw.first = ui->tf_username->text();
 	user_pw.second = ui->tf_password->text();
 
-	_settings->set(Set::LFM_Login, user_pw);
+	_settings->set<Set::LFM_Login>(user_pw);
 
 	if( ui->tf_username->text().length() >= 3 &&
 		ui->tf_password->text().length() >= 3 )
 	{
 		m->lfm->psl_login();
 
-		_settings->set( Set::LFM_Active, ui->cb_activate->isChecked() );
+		_settings->set< Set::LFM_Active>(ui->cb_activate->isChecked() );
 	}
 
-	_settings->set(Set::LFM_ScrobbleTimeSec, ui->sb_scrobble_time->value());
+	_settings->set<Set::LFM_ScrobbleTimeSec>(ui->sb_scrobble_time->value());
 
 	return true;
 }
@@ -111,17 +111,17 @@ bool GUI_LastFM::commit()
 
 void GUI_LastFM::revert()
 {
-	bool active = _settings->get(Set::LFM_Active);
+	bool active = _settings->get<Set::LFM_Active>();
 
 	ui->cb_activate->setChecked(active);
 	active_changed(active);
 
 	logged_in(m->lfm->is_logged_in());
 
-	StringPair user_pw = _settings->get(Set::LFM_Login);
+	StringPair user_pw = _settings->get<Set::LFM_Login>();
 	ui->tf_username->setText(user_pw.first);
 	ui->tf_password->setText(user_pw.second);
-	ui->sb_scrobble_time->setValue( _settings->get(Set::LFM_ScrobbleTimeSec) );
+	ui->sb_scrobble_time->setValue( _settings->get<Set::LFM_ScrobbleTimeSec>() );
 }
 
 
@@ -139,7 +139,7 @@ void GUI_LastFM::btn_login_clicked()
 	user_pw.first = ui->tf_username->text();
 	user_pw.second = ui->tf_password->text();
 
-	_settings->set(Set::LFM_Login, user_pw);
+	_settings->set<Set::LFM_Login>(user_pw);
 
 	m->lfm->psl_login();
 }

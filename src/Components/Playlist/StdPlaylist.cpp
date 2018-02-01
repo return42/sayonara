@@ -133,7 +133,7 @@ void Standard::stop()
 {
 	m->track_idx_before_stop = metadata().current_track();
 
-	if(!_settings->get(Set::PL_RememberTrackAfterStop)){
+	if(!_settings->get<Set::PL_RememberTrackAfterStop>()){
 		metadata().set_current_track(-1);
 	}
 

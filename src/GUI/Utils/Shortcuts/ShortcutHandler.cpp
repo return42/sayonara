@@ -27,20 +27,20 @@
 
 struct ShortcutHandler::Private
 {
-    QList<Shortcut> shortcuts;
+	QList<Shortcut> shortcuts;
 };
 
 ShortcutHandler::ShortcutHandler() :
-    SayonaraClass()
+	SayonaraClass()
 {
-    m = Pimpl::make<Private>();
+	m = Pimpl::make<Private>();
 }
 
 ShortcutHandler::~ShortcutHandler() {}
 
 Shortcut ShortcutHandler::get_shortcut(const QString& identifier) const
 {
-    for(auto it = m->shortcuts.begin(); it != m->shortcuts.end(); it++)
+	for(auto it = m->shortcuts.begin(); it != m->shortcuts.end(); it++)
 	{
 		if(it->get_identifier() == identifier){
 			return *it;
@@ -53,7 +53,7 @@ Shortcut ShortcutHandler::get_shortcut(const QString& identifier) const
 void ShortcutHandler::set_shortcut(const QString& identifier, const QStringList& shortcuts)
 {
 	RawShortcutMap rsm;
-    for(auto it = m->shortcuts.begin(); it != m->shortcuts.end(); it++)
+	for(auto it = m->shortcuts.begin(); it != m->shortcuts.end(); it++)
 	{
 		if(it->get_identifier() == identifier){
 			it->change_shortcut(shortcuts);
@@ -62,12 +62,12 @@ void ShortcutHandler::set_shortcut(const QString& identifier, const QStringList&
 		rsm[it->get_identifier()] = it->get_shortcuts();
 	}
 
-	_settings->set(Set::Player_Shortcuts, rsm);
+	_settings->set<Set::Player_Shortcuts>(rsm);
 }
 
 void ShortcutHandler::set_shortcut(const Shortcut& shortcut)
 {
-    for(auto it = m->shortcuts.begin(); it != m->shortcuts.end(); it++)
+	for(auto it = m->shortcuts.begin(); it != m->shortcuts.end(); it++)
 	{
 		if(it->get_identifier() == shortcut.get_identifier()){
 			*it = shortcut;
@@ -86,12 +86,12 @@ Shortcut ShortcutHandler::add(const Shortcut& shortcut)
 		return sc;
 	}
 
-    m->shortcuts << shortcut;
+	m->shortcuts << shortcut;
 	return shortcut;
 }
 
 QList<Shortcut> ShortcutHandler::get_shortcuts() const
 {
-    return m->shortcuts;
+	return m->shortcuts;
 }
 

@@ -54,7 +54,7 @@ QIcon IconProvider::icon(IconType type) const
 
 QIcon IconProvider::icon(const QFileInfo &info) const
 {
-	if(_settings->get(Set::Player_Style) == 0)
+	if(_settings->get<Set::Player_Style>() == 0)
 	{
 		return QFileIconProvider::icon(info);
 	}

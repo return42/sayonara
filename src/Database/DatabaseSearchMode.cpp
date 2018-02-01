@@ -87,7 +87,7 @@ void SearchMode::update_search_mode()
 	AbstrSetting* s = settings->setting(SettingKey::Lib_SearchMode);
 	QString db_key = s->db_key();
 
-	Library::SearchModeMask search_mode = settings->get(Set::Lib_SearchMode);
+	Library::SearchModeMask search_mode = settings->get<Set::Lib_SearchMode>();
 
 	Query q_update(this);
 	q_update.prepare("UPDATE settings SET value=:search_mode WHERE key = :key;");

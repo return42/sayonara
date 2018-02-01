@@ -403,7 +403,7 @@ QString MetaDataInfo::pathsstring() const
 		return (lp1.length() > lp2.length());
 	});
 
-	bool dark = (_settings->get(Set::Player_Style) == 1);
+	bool dark = (_settings->get<Set::Player_Style>() == 1);
 
 	for(const QString& path : ::Util::AsConst(m->paths))
 	{

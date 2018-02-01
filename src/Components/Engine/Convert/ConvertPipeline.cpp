@@ -29,7 +29,7 @@ using Pipeline::test_and_error;
 using Pipeline::test_and_error_bool;
 
 Convert::Convert(Engine::Base* engine, QObject *parent) :
-    Pipeline::Base("ConvertPipeline", engine, parent)
+	Pipeline::Base("ConvertPipeline", engine, parent)
 {
 	_audio_src = nullptr;
 	_lame = nullptr;
@@ -48,7 +48,7 @@ bool Convert::init(GstState state){
 		return false;
 	}
 
-	_settings->set(SetNoDB::MP3enc_found, (_lame != nullptr) );
+	_settings->set<SetNoDB::MP3enc_found>((_lame != nullptr) );
 	return true;
 }
 
@@ -84,12 +84,12 @@ bool Convert::add_and_link_elements()
 	);
 
 	success = gst_element_link_many(_audio_convert, _resampler, _lame, _xingheader, _audio_sink, nullptr);
-    return test_and_error_bool(success, "ConvertEngine: Cannot link lame elements");
+	return test_and_error_bool(success, "ConvertEngine: Cannot link lame elements");
 }
 
 bool Convert::configure_elements()
 {
-    g_signal_connect (_audio_src, "pad-added", G_CALLBACK (Callbacks::decodebin_ready), _audio_convert);
+	g_signal_connect (_audio_src, "pad-added", G_CALLBACK (Callbacks::decodebin_ready), _audio_convert);
 	return true;
 }
 
@@ -122,7 +122,7 @@ bool Convert::set_target_uri(gchar* uri)
 
 void Convert::play()
 {
-	LameBitrate q = (LameBitrate) _settings->get(Set::Engine_ConvertQuality);
+	LameBitrate q = (LameBitrate) _settings->get<Set::Engine_ConvertQuality>();
 	set_quality(q);
 
 	sp_log(Log::Debug, this) << "Convert pipeline: play";

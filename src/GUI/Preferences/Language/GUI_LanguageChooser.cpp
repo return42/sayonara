@@ -62,7 +62,7 @@ bool GUI_LanguageChooser::commit()
 	int cur_idx = ui->combo_lang->currentIndex();
 	QString cur_language = ui->combo_lang->itemData(cur_idx).toString();
 
-	_settings->set(Set::Player_Language, cur_language);
+	_settings->set<Set::Player_Language>(cur_language);
 
 	return true;
 }
@@ -76,7 +76,7 @@ void GUI_LanguageChooser::renew_combo()
 		return;
 	}
 
-	QString lang_setting = _settings->get(Set::Player_Language);
+	QString lang_setting = _settings->get<Set::Player_Language>();
 
 	sp_log(Log::Info, this) << "Language setting = " << lang_setting;
 	QDir dir(Util::share_path("translations"));

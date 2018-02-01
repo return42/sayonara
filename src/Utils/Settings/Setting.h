@@ -65,7 +65,7 @@ class AbstrSetting
 };
 
 
-template< typename T,
+template< typename DataType, SettingKey keyIndex,
 		 template <typename Arg> class SC = SettingConverter >
 /**
  * @brief The Setting class\n
@@ -78,26 +78,22 @@ class Setting : public AbstrSetting
 		Setting();
 		Setting(const Setting&);
 
-		T _val;
-		T _default_val;
+		DataType _val;
+		DataType _default_val;
 
 	public:
 
 		/* Constructor */
-		template<SettingKey keyIndex>
-		Setting(const SettingIdentifier<T, keyIndex>* identifier, const char* db_key, T def) :
+		Setting(const char* db_key, const DataType& def) :
 			AbstrSetting(keyIndex, db_key)
 		{
-			Q_UNUSED(identifier);
 			_default_val = def;
 			_val = def;
 		}
 
-		template<SettingKey keyIndex>
-		Setting(const SettingIdentifier<T, keyIndex>* identifier, T def) :
+		Setting(const DataType& def) :
 			AbstrSetting(keyIndex)
 		{
-			Q_UNUSED(identifier);
 			_default_val = def;
 			_val = def;
 		}
@@ -112,28 +108,28 @@ class Setting : public AbstrSetting
 
 		QString value_to_string() const override
 		{
-			 return SC<T>::cvt_to_string(_val);
+			 return SC<DataType>::cvt_to_string(_val);
 		}
 
 		bool load_value_from_string(const QString& str) override
 		{
-			return SC<T>::cvt_from_string(str, _val);
+			return SC<DataType>::cvt_from_string(str, _val);
 		}
 
 		/* ... */
-		const T& value() const
+		const DataType& value() const
 		{
 			return _val;
 		}
 
 		/* ... */
-		const T& default_value() const
+		const DataType& default_value() const
 		{
 			return _default_val;
 		}
 
 		/* ... */
-		bool assign_value(const T& val)
+		bool assign_value(const DataType& val)
 		{
 			if( _val == val ){
 				return false;

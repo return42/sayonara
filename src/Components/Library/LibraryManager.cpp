@@ -203,7 +203,7 @@ void Manager::reset()
 
 	if(m->all_libs.isEmpty())
 	{
-		m->all_libs = _settings->get(Set::Lib_AllLibraries);
+		m->all_libs = _settings->get<Set::Lib_AllLibraries>();
 		int index = 0;
 		for(const Library::Info& info : ::Util::AsConst(m->all_libs))
 		{
@@ -211,12 +211,12 @@ void Manager::reset()
 			index ++;
 		}
 
-		_settings->set(Set::Lib_AllLibraries, QList<::Library::Info>());
+		_settings->set<Set::Lib_AllLibraries>(QList<::Library::Info>());
 	}
 
 	if(m->all_libs.isEmpty())
 	{
-		QString old_path = _settings->get(Set::Lib_Path);
+		QString old_path = _settings->get<Set::Lib_Path>();
 
 		if(!old_path.isEmpty())
 		{
@@ -226,7 +226,7 @@ void Manager::reset()
 			m->all_libs << info;
 		}
 
-		_settings->set(Set::Lib_Path, QString());
+		_settings->set<Set::Lib_Path>(QString());
 	}
 
 	for(int i=m->all_libs.size() - 1; i>=0; i--)

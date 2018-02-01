@@ -80,7 +80,7 @@ GUI_SomaFM::GUI_SomaFM(QWidget *parent) :
 
 	ui->lab_image->setPixmap(logo);
 
-	bool dark = (_settings->get(Set::Player_Style) == 1);
+	bool dark = (_settings->get<Set::Player_Style>() == 1);
 	QString description =
 		"Listener-supported, commercial-free, underground/alternative radio<br /><br />" +
 		Util::create_link("https://somafm.com", dark, "https://somafm.com");

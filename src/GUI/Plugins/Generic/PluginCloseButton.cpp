@@ -37,7 +37,7 @@ PluginCloseButton::PluginCloseButton(QWidget *parent) :
 	this->setStyleSheet("margin-left: 2px; margin-right: 2px; padding-left: 0px; padding-right: 0px; background: transparent;");
 	this->setToolTip(Lang::get(Lang::Close));
 
-	Set::listen(Set::Player_Style, this, &PluginCloseButton::_sl_skin_changed);
+	Set::listen<Set::Player_Style>(this, &PluginCloseButton::_sl_skin_changed);
 }
 
 PluginCloseButton::~PluginCloseButton() {}
@@ -50,7 +50,7 @@ void PluginCloseButton::mouseReleaseEvent(QMouseEvent *e){
 void PluginCloseButton::enterEvent(QEvent* e){
 	QPushButton::enterEvent(e);
 
-	bool dark = (_settings->get(Set::Player_Style) == 1);
+	bool dark = (_settings->get<Set::Player_Style>() == 1);
 	QIcon icon;
 
 	if(dark){
@@ -79,7 +79,7 @@ void PluginCloseButton::leaveEvent(QEvent* e){
 
 void PluginCloseButton::set_std_icon()
 {
-	bool dark = (_settings->get(Set::Player_Style) == 1);
+	bool dark = (_settings->get<Set::Player_Style>() == 1);
 
 	QIcon icon;
 	QPixmap pixmap;

@@ -31,11 +31,11 @@ Proxy::Proxy() :
 	QObject(),
 	SayonaraClass()
 {
-	Set::listen(Set::Proxy_Active, this, &Proxy::proxy_changed);
-	Set::listen(Set::Proxy_Hostname, this, &Proxy::proxy_changed);
-	Set::listen(Set::Proxy_Port, this, &Proxy::proxy_changed);
-	Set::listen(Set::Proxy_Username, this, &Proxy::proxy_changed);
-	Set::listen(Set::Proxy_Password, this, &Proxy::proxy_changed);
+	Set::listen<Set::Proxy_Active>(this, &Proxy::proxy_changed);
+	Set::listen<Set::Proxy_Hostname>(this, &Proxy::proxy_changed);
+	Set::listen<Set::Proxy_Port>(this, &Proxy::proxy_changed);
+	Set::listen<Set::Proxy_Username>(this, &Proxy::proxy_changed);
+	Set::listen<Set::Proxy_Password>(this, &Proxy::proxy_changed);
 }
 
 Proxy::~Proxy() {}
@@ -65,7 +65,7 @@ void Proxy::proxy_changed()
 
 	else {
 		proxy.setType(QNetworkProxy::NoProxy);
-	
+
 		Util::unset_environment("http_proxy");
 		Util::unset_environment("https_proxy");
 		Util::unset_environment("HTTP_PROXY");
@@ -83,27 +83,27 @@ void Proxy::init()
 
 QString Proxy::hostname() const
 {
-	return _settings->get(Set::Proxy_Hostname);
+	return _settings->get<Set::Proxy_Hostname>();
 }
 
 int Proxy::port() const
 {
-	return _settings->get(Set::Proxy_Port);
+	return _settings->get<Set::Proxy_Port>();
 }
 
 QString Proxy::username() const
 {
-	return _settings->get(Set::Proxy_Username);
+	return _settings->get<Set::Proxy_Username>();
 }
 
 QString Proxy::password() const
 {
-	return _settings->get(Set::Proxy_Password);
+	return _settings->get<Set::Proxy_Password>();
 }
 
 bool Proxy::active() const
 {
-	return _settings->get(Set::Proxy_Active);
+	return _settings->get<Set::Proxy_Active>();
 }
 
 bool Proxy::has_username() const

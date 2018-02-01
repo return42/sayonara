@@ -87,7 +87,7 @@ GenreView::GenreView(QWidget* parent) :
 	connect(m->genre_fetcher, &GenreFetcher::sig_progress, this, &GenreView::progress_changed);
 	connect(m->genre_fetcher, &GenreFetcher::sig_genres_fetched, this, &GenreView::reload_genres);
 
-	Set::listen(Set::Lib_GenreTree, this, &GenreView::tree_action_changed, false);
+	Set::listen<Set::Lib_GenreTree>(this, &GenreView::tree_action_changed, false);
 }
 
 GenreView::~GenreView() {}
@@ -201,7 +201,7 @@ void GenreView::delete_pressed()
 
 void GenreView::tree_action_changed()
 {
-	bool show_tree = _settings->get(Set::Lib_GenreTree);
+	bool show_tree = _settings->get<Set::Lib_GenreTree>();
 	reload_genres();
 
 	if(!show_tree) {
@@ -215,7 +215,7 @@ void GenreView::tree_action_changed()
 
 void GenreView::tree_action_toggled(bool b)
 {
-	_settings->set(Set::Lib_GenreTree, b);
+	_settings->set<Set::Lib_GenreTree>(b);
 }
 
 void GenreView::language_changed()
@@ -280,7 +280,7 @@ static void build_genre_node(GenreNode* node, const QMap<QString, StringSet>& pa
 
 void GenreView::build_genre_data_tree(const SP::Set<Genre>& genres)
 {
-	bool show_tree = _settings->get(Set::Lib_GenreTree);
+	bool show_tree = _settings->get<Set::Lib_GenreTree>();
 
 	if(m->genres){
 		delete m->genres;
@@ -373,7 +373,7 @@ void GenreView::init_context_menu()
 		return;
 	}
 
-	bool show_tree = _settings->get(Set::Lib_GenreTree);
+	bool show_tree = _settings->get<Set::Lib_GenreTree>();
 
 	m->context_menu = new ContextMenu(this);
 	m->toggle_tree_action = new QAction(m->context_menu);

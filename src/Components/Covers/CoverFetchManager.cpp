@@ -123,7 +123,7 @@ Manager::Manager() :
 	register_coverfetcher(new Fetcher::LastFM());
 	register_coverfetcher(m->std_cover_fetcher);
 
-	Set::listen(Set::Cover_Server, this, &Manager::servers_changed);
+	Set::listen<Set::Cover_Server>(this, &Manager::servers_changed);
 }
 
 Manager::~Manager() {}
@@ -205,7 +205,7 @@ QList<Fetcher::Base*> Manager::active_coverfetchers() const
 
 void Manager::servers_changed()
 {
-	QStringList servers = _settings->get(Set::Cover_Server);
+	QStringList servers = _settings->get<Set::Cover_Server>();
 	activate_coverfetchers(servers);
 }
 

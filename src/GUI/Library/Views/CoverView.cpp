@@ -143,7 +143,7 @@ CoverView::CoverView(AbstractLibrary* library, QWidget* topbar, QWidget* parent)
 	m->topbar->layout()->addWidget(m->label_zoom);
 	m->topbar->layout()->addWidget(m->combo_zoom);
 
-	m->topbar->setVisible(_settings->get(Set::Lib_CoverShowUtils));
+	m->topbar->setVisible(_settings->get<Set::Lib_CoverShowUtils>());
 
 	connect(m->combo_sorting, SIGNAL(activated(int)), this, SLOT(combo_sorting_changed(int)));
 	connect(m->combo_zoom, SIGNAL(activated(int)), this, SLOT(combo_zoom_changed(int)));
@@ -234,7 +234,7 @@ void CoverView::change_zoom(int zoom)
 	}
 
 	m->model->set_zoom(zoom, this->size());
-	_settings->set(Set::Lib_CoverZoom, zoom);
+	_settings->set<Set::Lib_CoverZoom>(zoom);
 
 	refresh();
 }
@@ -304,7 +304,7 @@ void CoverView::init_context_menu()
 
 	m->action_show_utils = menu->addAction("Show utils");
 	m->action_show_utils->setCheckable(true);
-	m->action_show_utils->setChecked(_settings->get(Set::Lib_CoverShowUtils));
+	m->action_show_utils->setChecked(_settings->get<Set::Lib_CoverShowUtils>());
 	connect(m->action_show_utils, &QAction::triggered, this, &CoverView::show_utils_triggered);
 
 	m->menu_sortings = new QMenu(menu);
@@ -320,7 +320,7 @@ void CoverView::init_context_menu()
 
 void CoverView::init_sorting_actions()
 {
-	Library::Sortings sortings = _settings->get(Set::Lib_Sorting);
+	Library::Sortings sortings = _settings->get<Set::Lib_Sorting>();
 	Library::SortOrder so = sortings.so_albums;
 
 	m->sorting_actions.clear();
@@ -484,7 +484,7 @@ void CoverView::show_utils_triggered()
 {
 	bool b = m->action_show_utils->isChecked();
 	m->topbar->setVisible(b);
-	_settings->set(Set::Lib_CoverShowUtils, b);
+	_settings->set<Set::Lib_CoverShowUtils>(b);
 }
 
 void CoverView::wheelEvent(QWheelEvent* e)

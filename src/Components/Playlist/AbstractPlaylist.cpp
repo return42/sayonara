@@ -57,7 +57,7 @@ Base::Base(int idx, const QString& name) :
 	Tagging::ChangeNotifier* md_change_notifier = Tagging::ChangeNotifier::instance();
 	PlayManagerPtr play_manager = PlayManager::instance();
 
-	m = Pimpl::make<Base::Private>(idx,  _settings->get(Set::PL_Mode));
+	m = Pimpl::make<Base::Private>(idx,  _settings->get<Set::PL_Mode>());
 
 	connect(md_change_notifier, &Tagging::ChangeNotifier::sig_metadata_changed, this, &Base::metadata_changed);
 	connect(md_change_notifier, &Tagging::ChangeNotifier::sig_metadata_deleted, this, &Base::metadata_deleted);
@@ -65,7 +65,7 @@ Base::Base(int idx, const QString& name) :
 	connect(play_manager, &PlayManager::sig_md_changed, this, &Base::metadata_changed_single);
 	connect(play_manager, &PlayManager::sig_duration_changed, this, &Base::duration_changed);
 
-	Set::listen(Set::PL_Mode, this, &Base::_sl_playlist_mode_changed);
+	Set::listen<Set::PL_Mode>(this, &Base::_sl_playlist_mode_changed);
 }
 
 Base::~Base() {}
@@ -284,7 +284,7 @@ void Base::set_storable(bool b)
 
 void Base::_sl_playlist_mode_changed()
 {
-	Playlist::Mode mode = _settings->get(Set::PL_Mode);
+	Playlist::Mode mode = _settings->get<Set::PL_Mode>();
 	set_mode(mode);
 }
 

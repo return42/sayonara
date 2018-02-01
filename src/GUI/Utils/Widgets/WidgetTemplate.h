@@ -55,15 +55,15 @@ namespace Gui
 			T(std::forward<Args>(args)...),
 			SayonaraClass()
 		{
-			Set::listen(Set::Player_Language, this, &WidgetTemplate<T>::language_changed);
-			Set::listen(Set::Player_Style, this, &WidgetTemplate<T>::skin_changed);
-			Set::listen(Set::Player_FontName, this, &WidgetTemplate<T>::skin_changed, false);
-			Set::listen(Set::Player_FontSize, this, &WidgetTemplate<T>::skin_changed, false);
-			Set::listen(Set::PL_FontSize, this, &WidgetTemplate<T>::skin_changed, false);
-			Set::listen(Set::Lib_FontSize, this, &WidgetTemplate<T>::skin_changed, false);
-			Set::listen(Set::Lib_FontBold, this, &WidgetTemplate<T>::skin_changed, false);
-			Set::listen(Set::Icon_Theme, this, &WidgetTemplate<T>::skin_changed, false);
-			Set::listen(Set::Icon_ForceInDarkTheme, this, &WidgetTemplate<T>::skin_changed, false);
+			Set::listen<Set::Player_Language>(this, &WidgetTemplate<T>::language_changed);
+			Set::listen<Set::Player_Style>(this, &WidgetTemplate<T>::skin_changed);
+			Set::listen<Set::Player_FontName>(this, &WidgetTemplate<T>::skin_changed, false);
+			Set::listen<Set::Player_FontSize>(this, &WidgetTemplate<T>::skin_changed, false);
+			Set::listen<Set::PL_FontSize>(this, &WidgetTemplate<T>::skin_changed, false);
+			Set::listen<Set::Lib_FontSize>(this, &WidgetTemplate<T>::skin_changed, false);
+			Set::listen<Set::Lib_FontBold>(this, &WidgetTemplate<T>::skin_changed, false);
+			Set::listen<Set::Icon_Theme>(this, &WidgetTemplate<T>::skin_changed, false);
+			Set::listen<Set::Icon_ForceInDarkTheme>(this, &WidgetTemplate<T>::skin_changed, false);
 		}
 
 		virtual ~WidgetTemplate() {}

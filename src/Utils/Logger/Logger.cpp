@@ -78,7 +78,8 @@ struct Logger::Private
 		bool ignore=false;
 
 		Settings* s = Settings::instance();
-		int logger_level = s->get(Set::Logger_Level);
+
+		int logger_level = s->get<Set::Logger_Level>();
 
 		switch(type)
 		{

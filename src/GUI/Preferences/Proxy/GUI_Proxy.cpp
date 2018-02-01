@@ -57,18 +57,18 @@ QString GUI_Proxy::action_name() const
 
 bool GUI_Proxy::commit()
 {
-	_settings->set(Set::Proxy_Active, ui->cb_active->isChecked());
-	_settings->set(Set::Proxy_Username, ui->le_username->text());
+	_settings->set<Set::Proxy_Active>(ui->cb_active->isChecked());
+	_settings->set<Set::Proxy_Username>(ui->le_username->text());
 
-	_settings->set(Set::Proxy_Hostname, ui->le_host->text());
-	_settings->set(Set::Proxy_Port, ui->sb_port->value());
-	_settings->set(Set::Proxy_SavePw, ui->cb_save_pw->isChecked());
+	_settings->set<Set::Proxy_Hostname>(ui->le_host->text());
+	_settings->set<Set::Proxy_Port>(ui->sb_port->value());
+	_settings->set<Set::Proxy_SavePw>(ui->cb_save_pw->isChecked());
 
 	if(ui->cb_save_pw->isChecked()) {
-		_settings->set(Set::Proxy_Password, ui->le_password->text());
+		_settings->set<Set::Proxy_Password>(ui->le_password->text());
 	}
 	else {
-		_settings->set(Set::Proxy_Password, QString());
+		_settings->set<Set::Proxy_Password>(QString());
 	}
 
 	return true;
@@ -76,15 +76,15 @@ bool GUI_Proxy::commit()
 
 void GUI_Proxy::revert()
 {
-	bool active = _settings->get(Set::Proxy_Active);
+	bool active = _settings->get<Set::Proxy_Active>();
 
 	ui->cb_active->setChecked(active);
 
-	ui->le_host->setText(_settings->get(Set::Proxy_Hostname));
-	ui->sb_port->setValue(_settings->get(Set::Proxy_Port));
-	ui->le_username->setText(_settings->get(Set::Proxy_Username));
-	ui->le_password->setText(_settings->get(Set::Proxy_Password));
-	ui->cb_save_pw->setChecked(_settings->get(Set::Proxy_SavePw));
+	ui->le_host->setText(_settings->get<Set::Proxy_Hostname>());
+	ui->sb_port->setValue(_settings->get<Set::Proxy_Port>());
+	ui->le_username->setText(_settings->get<Set::Proxy_Username>());
+	ui->le_password->setText(_settings->get<Set::Proxy_Password>());
+	ui->cb_save_pw->setChecked(_settings->get<Set::Proxy_SavePw>());
 
 	active_toggled(active);
 }

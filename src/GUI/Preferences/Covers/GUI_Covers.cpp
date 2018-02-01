@@ -57,8 +57,8 @@ bool GUI_Covers::commit()
 		active_items << item->text();
 	}
 
-	settings->set(Set::Cover_Server, active_items);
-	settings->set(Set::Cover_LoadFromFile, ui->cb_load_covers_from_file->isChecked());
+	settings->set<Set::Cover_Server>(active_items);
+	settings->set<Set::Cover_LoadFromFile>(ui->cb_load_covers_from_file->isChecked());
 
 	return true;
 }
@@ -66,7 +66,7 @@ bool GUI_Covers::commit()
 void GUI_Covers::revert()
 {
 	Settings* settings = Settings::instance();
-	QStringList active = settings->get(Set::Cover_Server);
+	QStringList active = settings->get<Set::Cover_Server>();
 
 	ui->lv_active->clear();
 	ui->lv_inactive->clear();
@@ -89,7 +89,7 @@ void GUI_Covers::revert()
 		}
 	}
 
-	ui->cb_load_covers_from_file->setChecked(settings->get(Set::Cover_LoadFromFile));
+	ui->cb_load_covers_from_file->setChecked(settings->get<Set::Cover_LoadFromFile>());
 }
 
 QString GUI_Covers::action_name() const

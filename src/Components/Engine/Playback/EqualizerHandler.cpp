@@ -49,8 +49,8 @@ EqualizerHandler::~EqualizerHandler() {}
 
 void EqualizerHandler::init_equalizer()
 {
-	int last_idx = m->settings->get(Set::Eq_Last);
-	QList<EQ_Setting> presets = m->settings->get(Set::Eq_List);
+	int last_idx = m->settings->get<Set::Eq_Last>();
+	QList<EQ_Setting> presets = m->settings->get<Set::Eq_List>();
 	presets.push_front(EQ_Setting());
 
 	if( !between(last_idx, presets)){
@@ -85,9 +85,9 @@ void EqualizerHandler::set_band(int band, int val)
 	}
 
 	g_object_set( G_OBJECT(equalizer_element),
-	              band_name.toUtf8().data(),
-                  new_val,
-	              nullptr
+				  band_name.toUtf8().data(),
+				  new_val,
+				  nullptr
 	);
 }
 

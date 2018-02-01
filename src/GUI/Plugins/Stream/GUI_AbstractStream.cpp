@@ -138,7 +138,7 @@ void GUI_AbstractStream::init_ui()
 
 	set_searching(false);
 
-	Set::listen(Set::Player_Style, this, &GUI_AbstractStream::_sl_skin_changed);
+	Set::listen<Set::Player_Style>(this, &GUI_AbstractStream::_sl_skin_changed);
 }
 
 void GUI_AbstractStream::retranslate_ui()
@@ -183,7 +183,7 @@ void GUI_AbstractStream::stopped()
 
 void GUI_AbstractStream::set_searching(bool searching)
 {
-	bool is_dark = (_settings->get(Set::Player_Style) == 1);
+	bool is_dark = (_settings->get<Set::Player_Style>() == 1);
 
 	m->loading_bar->setVisible(searching);
 	m->btn_play->setDisabled(false);

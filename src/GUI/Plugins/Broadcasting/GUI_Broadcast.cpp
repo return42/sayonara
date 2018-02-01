@@ -122,7 +122,7 @@ void GUI_Broadcast::init_ui()
 	set_status_label();
 	retranslate_ui();
 
-	Set::listen(SetNoDB::MP3enc_found, this, &GUI_Broadcast::mp3_enc_found);
+	Set::listen<SetNoDB::MP3enc_found>(this, &GUI_Broadcast::mp3_enc_found);
 }
 
 
@@ -201,7 +201,7 @@ void GUI_Broadcast::can_listen_changed(bool success)
 	ui->btn_retry->setVisible(!success);
 
 	if(!success){
-		QString msg = tr("Cannot broadcast on port %1").arg(_settings->get(Set::Broadcast_Port));
+		QString msg = tr("Cannot broadcast on port %1").arg(_settings->get<Set::Broadcast_Port>());
 		msg += "\n" + tr("Maybe another application is using this port?");
 
 		Message::warning(msg);
@@ -302,7 +302,7 @@ void GUI_Broadcast::mp3_enc_found()
 		return;
 	}
 
-	bool active = _settings->get(SetNoDB::MP3enc_found);
+	bool active = _settings->get<SetNoDB::MP3enc_found>();
 	if(!active)
 	{
 		ui->combo_clients->hide();

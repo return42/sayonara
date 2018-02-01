@@ -124,7 +124,7 @@ void Convert::configure_target(const MetaData& md)
 		filename = filename.left(idx);
 	}
 
-	QString cvt_target_path = _settings->get(Set::Engine_CovertTargetPath);
+	QString cvt_target_path = _settings->get<Set::Engine_CovertTargetPath>();
 	filename = cvt_target_path + "/" + filename + ".mp3";
 
 	gchar* target_uri = filename.toUtf8().data();

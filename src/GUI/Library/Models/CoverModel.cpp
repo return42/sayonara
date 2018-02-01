@@ -59,7 +59,7 @@ struct CoverModel::Private
 
 		old_row_count = 0;
 		old_column_count = 0;
-		zoom = Settings::instance()->get(Set::Lib_CoverZoom);
+		zoom = Settings::instance()->get<Set::Lib_CoverZoom>();
 		columns = 10;
 		n_threads_running = 0;
 	}

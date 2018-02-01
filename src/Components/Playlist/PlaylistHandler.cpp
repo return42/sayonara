@@ -101,7 +101,7 @@ void Handler::emit_cur_track_changed()
 		return;
 	}
 
-	_settings->set(Set::PL_LastPlaylist, pl->get_id());
+	_settings->set<Set::PL_LastPlaylist>(pl->get_id());
 
 	m->play_manager->change_track(md, cur_track_idx);
 
@@ -135,7 +135,7 @@ int Handler::load_old_playlists()
 		return m->playlists.size();
 	}
 
-	if(_settings->get(Set::PL_StartPlaying)){
+	if(_settings->get<Set::PL_StartPlaying>()){
 		m->play_manager->play();
 	}
 
@@ -317,7 +317,7 @@ void Handler::next()
 
 void Handler::wake_up()
 {
-	bool restore_track_after_stop = _settings->get(Set::PL_RememberTrackAfterStop);
+	bool restore_track_after_stop = _settings->get<Set::PL_RememberTrackAfterStop>();
 
 	if(restore_track_after_stop)
 	{
@@ -384,7 +384,7 @@ void Handler::set_active_idx(int idx)
 		m->active_playlist_idx = active_playlist()->index();
 	}
 
-	_settings->set(Set::PL_LastPlaylist, active_playlist()->get_id());
+	_settings->set<Set::PL_LastPlaylist>(active_playlist()->get_id());
 }
 
 void Handler::set_current_index(int pl_idx)
@@ -422,7 +422,7 @@ void Handler::insert_tracks(const MetaDataList& v_md, int row, int pl_idx)
 
 	if( is_empty &&
 		stopped &&
-		_settings->get(Set::Lib_DD_PlayIfStoppedAndEmpty))
+		_settings->get<Set::Lib_DD_PlayIfStoppedAndEmpty>())
 	{
 		this->change_track(0, pl_idx);
 	}
@@ -465,7 +465,7 @@ QString Handler::request_new_playlist_name() const
 
 void Handler::save_all_playlists()
 {
-	if(_settings->get(Set::PL_LoadTemporaryPlaylists))
+	if(_settings->get<Set::PL_LoadTemporaryPlaylists>())
 	{
 		m->db->transaction();
 		for(const PlaylistPtr& pl : Util::AsConst(m->playlists))
@@ -509,11 +509,11 @@ void Handler::close_playlist(int idx)
 	}
 
 	if(was_active){
-		_settings->set(Set::PL_LastPlaylist, -1);
-		_settings->set(Set::PL_LastTrack, -1);
+		_settings->set<Set::PL_LastPlaylist>(-1);
+		_settings->set<Set::PL_LastTrack>(-1);
 	}
 	else{
-		_settings->set(Set::PL_LastPlaylist, active_playlist()->get_id());
+		_settings->set<Set::PL_LastPlaylist>(active_playlist()->get_id());
 	}
 }
 
@@ -750,7 +750,7 @@ void Handler::www_track_finished(const MetaData& md)
 		return;
 	}
 
-	if(_settings->get(Set::Stream_ShowHistory))
+	if(_settings->get<Set::Stream_ShowHistory>())
 	{
 		active_pl->insert_track(md, active_pl->current_track_index());
 	}

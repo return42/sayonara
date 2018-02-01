@@ -72,7 +72,7 @@ LocalLibrary::LocalLibrary(LibraryId library_id, QObject *parent) :
 	connect(plh, &Playlist::Handler::sig_track_deletion_requested,
 			this, &LocalLibrary::delete_tracks);
 
-	Set::listen(Set::Lib_SearchMode, this, &LocalLibrary::_sl_search_mode_changed, false);
+	Set::listen<Set::Lib_SearchMode>(this, &LocalLibrary::_sl_search_mode_changed, false);
 }
 
 LocalLibrary::~LocalLibrary() {}
@@ -115,13 +115,13 @@ void LocalLibrary::reload_thread_finished()
 
 void LocalLibrary::_sl_search_mode_changed()
 {
-	sp_log(Log::Debug, this) << "Updating cissearch... " << _settings->get(Set::Lib_SearchMode);
+	sp_log(Log::Debug, this) << "Updating cissearch... " << _settings->get<Set::Lib_SearchMode>();
 
 	m->library_db->updateArtistCissearch();
 	m->library_db->updateAlbumCissearch();
 	m->library_db->updateTrackCissearch();
 
-	sp_log(Log::Debug, this) << "Updating cissearch finished" << _settings->get(Set::Lib_SearchMode);
+	sp_log(Log::Debug, this) << "Updating cissearch finished" << _settings->get<Set::Lib_SearchMode>();
 }
 
 
@@ -345,7 +345,7 @@ void LocalLibrary::merge_artists(const SP::Set<ArtistId>& artist_ids, ArtistId t
 		return;
 	}
 
-	bool show_album_artists = _settings->get(Set::Lib_ShowAlbumArtists);
+	bool show_album_artists = _settings->get<Set::Lib_ShowAlbumArtists>();
 
 	Artist artist;
 	bool success = m->library_db->getArtistByID(target_artist, artist);

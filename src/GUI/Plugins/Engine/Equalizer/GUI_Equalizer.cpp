@@ -126,7 +126,7 @@ void GUI_Equalizer::init_ui()
 
 	QAction* action_gauss = new QAction("Kurve", ui->btn_tool);
 	action_gauss->setCheckable(true);
-	action_gauss->setChecked(_settings->get(Set::Eq_Gauss));
+	action_gauss->setChecked(_settings->get<Set::Eq_Gauss>());
 
 	ui->btn_tool->register_action(action_gauss);
 
@@ -192,7 +192,7 @@ static double scale[] = {1.0, 0.6, 0.20, 0.06, 0.01};
 
 void GUI_Equalizer::sli_changed(int idx, int new_val)
 {
-	bool gauss_on = _settings->get(Set::Eq_Gauss);
+	bool gauss_on = _settings->get<Set::Eq_Gauss>();
 	ui->btn_tool->show_action(ContextMenu::EntryUndo, true);
 
 	EqSlider* s = m->sliders[idx];
@@ -230,9 +230,9 @@ void GUI_Equalizer::fill_eq_presets()
 		return;
 	}
 
-	int last_idx = _settings->get(Set::Eq_Last);
+	int last_idx = _settings->get<Set::Eq_Last>();
 
-	m->presets = _settings->get(Set::Eq_List);
+	m->presets = _settings->get<Set::Eq_List>();
 	m->presets.prepend(EQ_Setting());
 
 	QStringList items;
@@ -288,13 +288,13 @@ void GUI_Equalizer::preset_changed(int index)
 		m->old_val[i] = value;
 	}
 
-	_settings->set(Set::Eq_Last, index);
+	_settings->set<Set::Eq_Last>(index);
 }
 
 
 void GUI_Equalizer::cb_gauss_toggled(bool b)
 {
-	_settings->set(Set::Eq_Gauss, b);
+	_settings->set<Set::Eq_Gauss>(b);
 }
 
 void GUI_Equalizer::btn_default_clicked()
@@ -339,7 +339,7 @@ void GUI_Equalizer::btn_save_clicked()
 	}
 
 	m->presets.removeFirst();
-	_settings->set(Set::Eq_List, m->presets);
+	_settings->set<Set::Eq_List>(m->presets);
 	m->presets.prepend(EQ_Setting());
 
 	ui->combo_presets->setCurrentIndex(found_idx);
@@ -357,7 +357,7 @@ void GUI_Equalizer::btn_delete_clicked()
 	ui->combo_presets->removeItem(idx);
 
 	m->presets.removeFirst();
-	_settings->set(Set::Eq_List, m->presets);
+	_settings->set<Set::Eq_List>(m->presets);
 	m->presets.prepend(EQ_Setting());
 }
 

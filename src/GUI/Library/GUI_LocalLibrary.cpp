@@ -145,7 +145,7 @@ GUI_LocalLibrary::GUI_LocalLibrary(LibraryId id, QWidget* parent) :
 
 	ui->lv_genres->set_local_library(m->library);
 
-	Set::listen(Set::Lib_ShowAlbumCovers, this, &GUI_LocalLibrary::switch_album_view);
+	Set::listen<Set::Lib_ShowAlbumCovers>(this, &GUI_LocalLibrary::switch_album_view);
 }
 
 
@@ -430,7 +430,7 @@ void GUI_LocalLibrary::splitter_artist_moved(int pos, int idx)
 	Q_UNUSED(idx)
 
 	QByteArray arr = ui->splitter_artist_album->saveState();
-	_settings->set(Set::Lib_SplitterStateArtist, arr);
+	_settings->set<Set::Lib_SplitterStateArtist>(arr);
 }
 
 void GUI_LocalLibrary::splitter_tracks_moved(int pos, int idx)
@@ -439,7 +439,7 @@ void GUI_LocalLibrary::splitter_tracks_moved(int pos, int idx)
 	Q_UNUSED(idx)
 
 	QByteArray arr = ui->splitter_tracks->saveState();
-	_settings->set(Set::Lib_SplitterStateTrack, arr);
+	_settings->set<Set::Lib_SplitterStateTrack>(arr);
 }
 
 void GUI_LocalLibrary::splitter_genre_moved(int pos, int idx)
@@ -448,7 +448,7 @@ void GUI_LocalLibrary::splitter_genre_moved(int pos, int idx)
 	Q_UNUSED(idx)
 
 	QByteArray arr = ui->splitter_genre->saveState();
-	_settings->set(Set::Lib_SplitterStateGenre, arr);
+	_settings->set<Set::Lib_SplitterStateGenre>(arr);
 }
 
 
@@ -482,7 +482,7 @@ void GUI_LocalLibrary::init_album_cover_view()
 
 void GUI_LocalLibrary::switch_album_view()
 {
-	bool show_cover_view = _settings->get(Set::Lib_ShowAlbumCovers);
+	bool show_cover_view = _settings->get<Set::Lib_ShowAlbumCovers>();
 
 	int idx = 0;
 	if(show_cover_view)
@@ -540,10 +540,10 @@ void GUI_LocalLibrary::showEvent(QShowEvent* e)
 
 	QByteArray artist_splitter_state, track_splitter_state, genre_splitter_state, date_splitter_state;
 
-	artist_splitter_state = _settings->get(Set::Lib_SplitterStateArtist);
-	track_splitter_state = _settings->get(Set::Lib_SplitterStateTrack);
-	genre_splitter_state = _settings->get(Set::Lib_SplitterStateGenre);
-	date_splitter_state = _settings->get(Set::Lib_SplitterStateDate);
+	artist_splitter_state = _settings->get<Set::Lib_SplitterStateArtist>();
+	track_splitter_state = _settings->get<Set::Lib_SplitterStateTrack>();
+	genre_splitter_state = _settings->get<Set::Lib_SplitterStateGenre>();
+	date_splitter_state = _settings->get<Set::Lib_SplitterStateDate>();
 
 	if(!artist_splitter_state.isEmpty()){
 		ui->splitter_artist_album->restoreState(artist_splitter_state);

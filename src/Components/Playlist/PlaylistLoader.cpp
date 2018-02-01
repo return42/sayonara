@@ -52,12 +52,12 @@ Loader::Loader(QObject* parent) :
 
 	bool success=false;
 
-	bool load_playlists = (_settings->get(Set::PL_LoadSavedPlaylists) || _settings->get(Set::PL_LoadTemporaryPlaylists));
-	bool load_temporary_playlists = _settings->get(Set::PL_LoadTemporaryPlaylists);
-	bool load_saved_playlists = _settings->get(Set::PL_LoadSavedPlaylists);
-	bool load_last_track = _settings->get(Set::PL_LoadLastTrack);
-	int saved_playlist_id = _settings->get(Set::PL_LastPlaylist);
-	int saved_track_idx = _settings->get(Set::PL_LastTrack);
+	bool load_playlists = (_settings->get<Set::PL_LoadSavedPlaylists>() || _settings->get<Set::PL_LoadTemporaryPlaylists>());
+	bool load_temporary_playlists = _settings->get<Set::PL_LoadTemporaryPlaylists>();
+	bool load_saved_playlists = _settings->get<Set::PL_LoadSavedPlaylists>();
+	bool load_last_track = _settings->get<Set::PL_LoadLastTrack>();
+	int saved_playlist_id = _settings->get<Set::PL_LastPlaylist>();
+	int saved_track_idx = _settings->get<Set::PL_LastTrack>();
 
 	// we don't load any playlists
 	if(!load_playlists)

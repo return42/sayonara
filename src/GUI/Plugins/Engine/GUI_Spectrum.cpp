@@ -58,7 +58,7 @@ GUI_Spectrum::GUI_Spectrum(QWidget *parent) :
 {
 	m = Pimpl::make<Private>();
 
-	_settings->set(Set::Engine_ShowSpectrum, false);
+	_settings->set<Set::Engine_ShowSpectrum>(false);
 }
 
 
@@ -77,10 +77,10 @@ void GUI_Spectrum::init_ui()
 		return;
 	}
 
-	int bins = _settings->get(Set::Engine_SpectrumBins);
+	int bins = _settings->get<Set::Engine_SpectrumBins>();
 	bins = std::max(50, bins);
 
-	_cur_style_idx = _settings->get(Set::Spectrum_Style);
+	_cur_style_idx = _settings->get<Set::Spectrum_Style>();
 
 	resize_steps(bins, _cur_style.n_rects);
 
@@ -176,9 +176,9 @@ void GUI_Spectrum::sl_update_style()
 
 	_ecsc->reload(width(), height());
 	_cur_style = _ecsc->get_color_scheme_spectrum(_cur_style_idx);
-	_settings->set(Set::Spectrum_Style, _cur_style_idx);
+	_settings->set<Set::Spectrum_Style>(_cur_style_idx);
 
-	int bins = _settings->get(Set::Engine_SpectrumBins);
+	int bins = _settings->get<Set::Engine_SpectrumBins>();
 	resize_steps(bins, _cur_style.n_rects);
 
 	update();
@@ -188,14 +188,14 @@ void GUI_Spectrum::sl_update_style()
 
 void GUI_Spectrum::showEvent(QShowEvent* e)
 {
-	_settings->set(Set::Engine_ShowSpectrum, true);
+	_settings->set<Set::Engine_ShowSpectrum>(true);
 	EnginePlugin::showEvent(e);
 }
 
 
 void GUI_Spectrum::closeEvent(QCloseEvent* e)
 {
-	_settings->set(Set::Engine_ShowSpectrum, false);
+	_settings->set<Set::Engine_ShowSpectrum>(false);
 	EnginePlugin::closeEvent(e);
 }
 

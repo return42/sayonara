@@ -141,14 +141,14 @@ Menubar::Menubar(QWidget* parent) :
 {
 	m = Pimpl::make<Private>(this);
 
-	m->action_view_library->setChecked(_settings->get(Set::Lib_Show));
+	m->action_view_library->setChecked(_settings->get<Set::Lib_Show>());
 	m->action_view_library->setText(Lang::get(Lang::Library));
 
-	m->action_dark->setChecked(_settings->get(Set::Player_Style));
+	m->action_dark->setChecked(_settings->get<Set::Player_Style>());
 	m->action_dark->setShortcut(QKeySequence("F10"));
 
 	m->action_fullscreen->setShortcut(QKeySequence("F11"));
-	m->action_fullscreen->setChecked(_settings->get(Set::Player_Fullscreen));
+	m->action_fullscreen->setChecked(_settings->get<Set::Player_Fullscreen>());
 
 #ifdef WITH_SHUTDOWN
 	m->action_shutdown->setVisible(true);
@@ -192,7 +192,7 @@ QAction* Menubar::update_library_action(QMenu* new_library_menu, const QString& 
 	m->current_library_menu_action = this->insertMenu(m->menu_help_action, new_library_menu);
 	m->current_library_menu_action->setText(name);
 
-	bool library_visible = _settings->get(Set::Lib_Show);
+	bool library_visible = _settings->get<Set::Lib_Show>();
 	m->current_library_menu_action->setVisible(library_visible);
 
 	return m->current_library_menu_action;
@@ -256,7 +256,7 @@ void Menubar::language_changed()
 
 void Menubar::skin_changed()
 {
-	bool dark = (_settings->get(Set::Player_Style) == 1);
+	bool dark = (_settings->get<Set::Player_Style>() == 1);
 
 	QString stylesheet = Style::style(dark);
 	this->setStyleSheet(stylesheet);
@@ -325,14 +325,14 @@ void Menubar::minimize_clicked()
 
 void Menubar::skin_toggled(bool b)
 {
-	_settings->set(Set::Player_Style, ((b) ? 1 : 0));
+	_settings->set<Set::Player_Style>( ((b) ? 1 : 0));
 }
 
 
 void Menubar::show_library_toggled(bool b)
 {
 	m->action_view_library->setChecked(b);
-	_settings->set(Set::Lib_Show, b);
+	_settings->set<Set::Lib_Show>(b);
 }
 
 
@@ -340,16 +340,16 @@ void Menubar::show_fullscreen_toggled(bool b)
 {
 	// may happened because of F11 too
 	m->action_fullscreen->setChecked(b);
-	_settings->set(Set::Player_Fullscreen, b);
+	_settings->set<Set::Player_Fullscreen>(b);
 }
 
 
 void Menubar::help_clicked()
 {
 	Message::info(tr("Please visit the forum at") + "<br />" +
-				  Util::create_link("http://sayonara-player.com/forum", _settings->get(Set::Player_Style) == 1) +
+				  Util::create_link("http://sayonara-player.com/forum", _settings->get<Set::Player_Style>() == 1) +
 				  "<br /><br />" +
-				  tr("Donate") + ": <br />" + Util::create_link("http://sayonara-player.com", _settings->get(Set::Player_Style) == 1) +
+				  tr("Donate") + ": <br />" + Util::create_link("http://sayonara-player.com", _settings->get<Set::Player_Style>() == 1) +
 				  "<br /><br />" +
 				  tr("Thank you") + "! :-)"
 	);
@@ -361,7 +361,7 @@ void Menubar::about_clicked()
 	QString first_translators;
 	QString last_translator;
 	QString translator_str = "";
-	QString version = _settings->get(Set::Player_Version);
+	QString version = _settings->get<Set::Player_Version>();
 
 	QString link = Util::create_link("http://sayonara-player.com");
 

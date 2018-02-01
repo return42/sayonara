@@ -92,7 +92,7 @@ void GUI_LibraryInfoBox::skin_changed()
 {
 	Library::Manager* manager = Library::Manager::instance();
 	Library::Info info = manager->library_info(m->library_id);
-	bool dark = (_settings->get(Set::Player_Style) == 1);
+	bool dark = (_settings->get<Set::Player_Style>() == 1);
 
 	ui->lab_path->setText(Util::create_link(info.path(), dark));
 	ui->lab_icon->setPixmap(Gui::Icons::pixmap(Gui::Icons::LocalLibrary));

@@ -118,7 +118,7 @@ void Base::finalize_initialization()
 		sc.create_qt_shortcut(this, parentWidget(), SLOT(close()));
 	}
 
-	Set::listen(Set::Player_Style, this, &Base::skin_changed);
+	Set::listen<Set::Player_Style>(this, &Base::skin_changed);
 
 	set_ui_initialized();
 	retranslate_ui();

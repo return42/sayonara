@@ -66,7 +66,7 @@ void AlbumView::init_view(AbstractLibrary* library)
 	connect(this, &AlbumView::doubleClicked, this, &AlbumView::double_clicked);
 	connect(m->library, &AbstractLibrary::sig_all_albums_loaded, this, &AlbumView::albums_ready);
 
-	Set::listen(Set::Lib_UseViewClearButton, this, &AlbumView::use_clear_button_changed);
+	Set::listen<Set::Lib_UseViewClearButton>(this, &AlbumView::use_clear_button_changed);
 }
 
 ColumnHeaderList AlbumView::column_headers() const
@@ -86,12 +86,12 @@ ColumnHeaderList AlbumView::column_headers() const
 
 BoolList AlbumView::shown_columns() const
 {
-	return _settings->get(Set::Lib_ColsAlbum);
+	return _settings->get<Set::Lib_ColsAlbum>();
 }
 
 SortOrder AlbumView::sortorder() const
 {
-	Sortings so = _settings->get(Set::Lib_Sorting);
+	Sortings so = _settings->get<Set::Lib_Sorting>();
 	return so.so_albums;
 }
 
@@ -210,7 +210,7 @@ void AlbumView::sortorder_changed(SortOrder s)
 void AlbumView::columns_changed()
 {
 	TableView::columns_changed();
-	_settings->set(Set::Lib_ColsAlbum, this->shown_columns());
+	_settings->set<Set::Lib_ColsAlbum>(this->shown_columns());
 }
 
 void AlbumView::middle_clicked()
@@ -270,6 +270,6 @@ void AlbumView::albums_ready()
 
 void AlbumView::use_clear_button_changed()
 {
-	bool b = _settings->get(Set::Lib_UseViewClearButton);
+	bool b = _settings->get<Set::Lib_UseViewClearButton>();
 	use_clear_button(b);
 }

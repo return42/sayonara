@@ -46,7 +46,7 @@ SpeedHandler::~SpeedHandler() {}
 
 void SpeedHandler::set_speed(float speed, double pitch, bool preserve_pitch)
 {
-	if(!m->settings->get(Set::Engine_SpeedActive))
+	if(!m->settings->get<Set::Engine_SpeedActive>())
 	{
 		return;
 	}
@@ -59,17 +59,17 @@ void SpeedHandler::set_speed(float speed, double pitch, bool preserve_pitch)
 
 	if(preserve_pitch){
 		g_object_set(pitch_element,
-		             "tempo", speed,
-		             "rate", 1.0,
-		             "pitch", pitch,
-		             nullptr);
+					 "tempo", speed,
+					 "rate", 1.0,
+					 "pitch", pitch,
+					 nullptr);
 	}
 
 	else{
 		g_object_set(pitch_element,
-		             "tempo", 1.0,
-		             "rate", speed,
-		             "pitch", pitch,
-		             nullptr);
+					 "tempo", 1.0,
+					 "rate", speed,
+					 "pitch", pitch,
+					 nullptr);
 	}
 }

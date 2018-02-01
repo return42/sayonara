@@ -65,7 +65,7 @@ void GUI_AudioConverter::init_ui()
 {
 	setup_parent(this, &ui);
 
-	LameBitrate br = (LameBitrate) _settings->get(Set::Engine_ConvertQuality);
+	LameBitrate br = (LameBitrate) _settings->get<Set::Engine_ConvertQuality>();
 
 	ui->rb_cbr->setChecked(false);
 	ui->rb_vbr->setChecked(false);
@@ -100,7 +100,7 @@ void GUI_AudioConverter::init_ui()
 	PlayManagerPtr play_manager = PlayManager::instance();
 	connect(play_manager, &PlayManager::sig_playstate_changed, this, &GUI_AudioConverter::playstate_changed);
 
-	Set::listen(SetNoDB::MP3enc_found, this, &GUI_AudioConverter::mp3_enc_found);
+	Set::listen<SetNoDB::MP3enc_found>(this, &GUI_AudioConverter::mp3_enc_found);
 }
 
 
@@ -216,7 +216,7 @@ void GUI_AudioConverter::rb_vbr_toggled(bool b)
 
 void GUI_AudioConverter::pl_mode_backup()
 {
-	m->pl_mode = _settings->get(Set::PL_Mode);
+	m->pl_mode = _settings->get<Set::PL_Mode>();
 
 	Playlist::Mode new_mode;
 		new_mode.setAppend(false, false);
@@ -226,12 +226,12 @@ void GUI_AudioConverter::pl_mode_backup()
 		new_mode.setGapless(false, false);
 		new_mode.setDynamic(false, false);
 
-	_settings->set(Set::PL_Mode, new_mode);
+	_settings->set<Set::PL_Mode>(new_mode);
 }
 
 void GUI_AudioConverter::pl_mode_restore()
 {
-	_settings->set(Set::PL_Mode, m->pl_mode);
+	_settings->set<Set::PL_Mode>(m->pl_mode);
 }
 
 void GUI_AudioConverter::cb_active_toggled(bool b)
@@ -252,11 +252,11 @@ void GUI_AudioConverter::cb_active_toggled(bool b)
 	}
 
 	if(b) {
-		QString cvt_target_path = _settings->get(Set::Engine_CovertTargetPath);
+		QString cvt_target_path = _settings->get<Set::Engine_CovertTargetPath>();
 		QString dir = QFileDialog::getExistingDirectory(this, "Choose target directory", cvt_target_path);
 
 		if(dir.size() > 0) {
-			_settings->set(Set::Engine_CovertTargetPath, dir);
+			_settings->set<Set::Engine_CovertTargetPath>(dir);
 			pl_mode_backup();
 
 			m->engine->start_convert();
@@ -283,10 +283,10 @@ void GUI_AudioConverter::quality_changed(int index)
 
 	LameBitrate q = (LameBitrate) ui->cb_quality->itemData(index).toInt();
 	sp_log(Log::Info) << "Quality: " << q;
-	_settings->set(Set::Engine_ConvertQuality, (int) q);
+	_settings->set<Set::Engine_ConvertQuality>((int) q);
 }
 
 void GUI_AudioConverter::mp3_enc_found()
 {
-	m->mp3_enc_available = _settings->get(SetNoDB::MP3enc_found);
+	m->mp3_enc_available = _settings->get<SetNoDB::MP3enc_found>();
 }

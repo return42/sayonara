@@ -129,7 +129,7 @@ QModelIndex SearchableViewInterface::match_index(const QString& str, SearchDirec
 		return idx;
 	}
 
-	Library::SearchModeMask search_mode = Settings::instance()->get(Set::Lib_SearchMode);
+	Library::SearchModeMask search_mode = Settings::instance()->get<Set::Lib_SearchMode>();
 	QMap<QChar, QString> extra_triggers = m->search_model->getExtraTriggers();
 
 	QString converted_string = Library::Util::convert_search_string(str, search_mode, extra_triggers.keys());
@@ -224,7 +224,7 @@ void SearchableViewInterface::Private::edit_changed(const QString& str)
 {
 	search_view->select_match(str, SearchDirection::First);
 
-	Library::SearchModeMask search_mode = Settings::instance()->get(Set::Lib_SearchMode);
+	Library::SearchModeMask search_mode = Settings::instance()->get<Set::Lib_SearchMode>();
 	QString search_str = Library::Util::convert_search_string(str, search_mode);
 
 	mini_searcher->set_number_results(

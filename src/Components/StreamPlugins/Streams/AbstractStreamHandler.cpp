@@ -117,7 +117,7 @@ void AbstractStreamHandler::stream_parser_finished(bool success)
 		if(!v_md.isEmpty())
 		{
 			QString station_name;
-			if(Settings::instance()->get(Set::Stream_NewTab)){
+			if(Settings::instance()->get<Set::Stream_NewTab>()){
 				station_name = m->station_name;
 			}
 

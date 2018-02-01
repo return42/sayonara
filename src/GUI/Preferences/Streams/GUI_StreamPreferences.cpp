@@ -34,16 +34,16 @@ GUI_StreamPreferences::~GUI_StreamPreferences() {}
 
 bool GUI_StreamPreferences::commit()
 {
-	_settings->set(Set::Stream_NewTab, ui->cb_new_tab->isChecked());
-	_settings->set(Set::Stream_ShowHistory, ui->cb_show_history->isChecked());
+	_settings->set<Set::Stream_NewTab>(ui->cb_new_tab->isChecked());
+	_settings->set<Set::Stream_ShowHistory>(ui->cb_show_history->isChecked());
 
 	return true;
 }
 
 void GUI_StreamPreferences::revert()
 {
-	ui->cb_show_history->setChecked(_settings->get(Set::Stream_ShowHistory));
-	ui->cb_new_tab->setChecked(_settings->get(Set::Stream_NewTab));
+	ui->cb_show_history->setChecked(_settings->get<Set::Stream_ShowHistory>());
+	ui->cb_new_tab->setChecked(_settings->get<Set::Stream_NewTab>());
 }
 
 QString GUI_StreamPreferences::action_name() const

@@ -47,15 +47,15 @@ QString GUI_EnginePreferences::action_name() const
 bool GUI_EnginePreferences::commit()
 {
 	if(ui->rb_pulse->isChecked()){
-		_settings->set(Set::Engine_Sink, QString("pulse"));
+		_settings->set<Set::Engine_Sink>(QString("pulse"));
 	}
 
 	else if(ui->rb_alsa->isChecked()){
-		_settings->set(Set::Engine_Sink, QString("alsa"));
+		_settings->set<Set::Engine_Sink>(QString("alsa"));
 	}
 
 	else{
-		_settings->set(Set::Engine_Sink, QString("auto"));
+		_settings->set<Set::Engine_Sink>(QString("auto"));
 	}
 
 	return true;
@@ -63,7 +63,7 @@ bool GUI_EnginePreferences::commit()
 
 void GUI_EnginePreferences::revert()
 {
-	QString engine_name = _settings->get(Set::Engine_Sink);
+	QString engine_name = _settings->get<Set::Engine_Sink>();
 	if(engine_name == "pulse"){
 		ui->rb_pulse->setChecked(true);
 	}

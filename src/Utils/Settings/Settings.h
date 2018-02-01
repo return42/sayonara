@@ -56,41 +56,46 @@ class Settings
 
 
 		/* get a setting, defined by a unique, REGISTERED key */
-		template<typename DataType, SettingKey keyIndex>
-		const DataType& get(const SettingIdentifier<DataType, keyIndex>* key) const
+		template< typename T>
+		const typename T::Data& get() const
 		{
-			Q_UNUSED(key);
-			using SettingPtr=Setting<DataType>*;
+			using DataType = typename T::Data;
+			constexpr SettingKey keyIndex = T::key;
+
+			using SettingPtr=Setting<DataType, keyIndex>*;
 
 			SettingPtr s = static_cast<SettingPtr>( setting(keyIndex) );
 			return s->value();
 		}
 
 		/* set a setting, define by a unique, REGISTERED key */
-		template<typename DataType, SettingKey keyIndex>
-		void set(const SettingIdentifier<DataType,keyIndex>* key, const DataType& val)
+		template< typename T>
+		void set(const typename T::Data& val)
 		{
-			using SettingPtr=Setting<DataType>*;
+			using DataType = typename T::Data;
+			constexpr SettingKey keyIndex = T::key;
+
+			using SettingPtr=Setting<DataType, keyIndex>*;
 			SettingPtr s = static_cast<SettingPtr>( setting(keyIndex) );
 
 			if( s->assign_value(val))
 			{
-				using KeyClass=decltype(key);
-				using KeyClassPure=typename std::remove_pointer<KeyClass>::type;
+				using KeyClass=SettingIdentifier<DataType, keyIndex>;
 
-				SettingNotifier< KeyClassPure >* sn = SettingNotifier< KeyClassPure >::instance();
+				SettingNotifier< KeyClass >* sn = SettingNotifier< KeyClass >::instance();
 				sn->val_changed();
 			}
 		}
 
 		/* get a setting, defined by a unique, REGISTERED key */
-		template<typename DataType, SettingKey keyIndex>
-		void shout(const SettingIdentifier<DataType,keyIndex>* key) const
+		template< typename T>
+		void shout() const
 		{
-			using KeyClass=decltype(key);
-			using KeyClassPure=typename std::remove_pointer<KeyClass>::type;
+			using DataType = typename T::Data;
+			constexpr SettingKey keyIndex = T::key;
+			using KeyClass=SettingIdentifier<DataType, keyIndex>;
 
-			SettingNotifier< KeyClassPure >* sn = SettingNotifier< KeyClassPure >::instance();
+			SettingNotifier< KeyClass >* sn = SettingNotifier< KeyClass >::instance();
 			sn->val_changed();
 		}
 };

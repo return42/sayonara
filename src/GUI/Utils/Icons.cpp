@@ -104,7 +104,7 @@ QString get_win_icon_name(const QString& name)
 
 QIcon Icons::icon(Icons::IconName spec, Icons::IconMode mode)
 {
-	bool dark = (Settings::instance()->get(Set::Player_Style) == 1);
+	bool dark = (Settings::instance()->get<Set::Player_Style>() == 1);
 	QString std_name = s_icon_map[spec].first;
 	QString dark_name = s_icon_map[spec].second;
 
@@ -162,7 +162,7 @@ QIcon Icons::icon(IconName spec)
 void Icons::change_theme()
 {
 	Settings* s = Settings::instance();
-	QString theme = s->get(Set::Icon_Theme);
+	QString theme = s->get<Set::Icon_Theme>();
 
 	QIcon::setThemeName(theme);
 }
@@ -179,7 +179,7 @@ QPixmap Icons::pixmap(Icons::IconName spec)
 
 QPixmap Icons::pixmap(Icons::IconName spec, Icons::IconMode mode)
 {
-	bool dark = (Settings::instance()->get(Set::Player_Style) == 1);
+	bool dark = (Settings::instance()->get<Set::Player_Style>() == 1);
 	QString std_name = s_icon_map[spec].first;
 	QString dark_name = s_icon_map[spec].second;
 

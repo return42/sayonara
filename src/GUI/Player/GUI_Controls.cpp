@@ -46,7 +46,7 @@ GUI_Controls::GUI_Controls(QWidget* parent) :
 	ui = new Ui::GUI_Controls();
 	ui->setupUi(this);
 
-	QString version = _settings->get(Set::Player_Version);
+	QString version = _settings->get<Set::Player_Version>();
 	ui->lab_sayonara->setText(tr("Sayonara Player"));
 	ui->lab_version->setText( version );
 	ui->lab_writtenby->setText(tr("Written by") + " Lucio Carreras");
@@ -75,9 +75,9 @@ GUI_Controls::GUI_Controls(QWidget* parent) :
 		show_edit();
 	});
 
-	Set::listen(Set::Engine_SR_Active, this, &GUI_Controls::sr_active_changed);
-	Set::listen(Set::Engine_Pitch, this, &GUI_Controls::file_info_changed);
-	Set::listen(Set::Engine_SpeedActive, this, &GUI_Controls::file_info_changed, false);
+	Set::listen<Set::Engine_SR_Active>(this, &GUI_Controls::sr_active_changed);
+	Set::listen<Set::Engine_Pitch>(this, &GUI_Controls::file_info_changed);
+	Set::listen<Set::Engine_SpeedActive>(this, &GUI_Controls::file_info_changed, false);
 }
 
 GUI_Controls::~GUI_Controls() {}
@@ -143,7 +143,7 @@ QIcon GUI_Controls::icon(Gui::Icons::IconName name)
 {
 	using namespace Gui;
 
-	bool dark = (_settings->get(Set::Player_Style) == 1);
+	bool dark = (_settings->get<Set::Player_Style>() == 1);
 
 	Icons::IconMode mode = Icons::Automatic;
 
@@ -427,7 +427,7 @@ void GUI_Controls::change_volume_by_tick(int val)
 
 void GUI_Controls::mute_button_clicked()
 {
-	bool muted = _settings->get(Set::Engine_Mute);
+	bool muted = _settings->get<Set::Engine_Mute>();
 	PlayManager::instance()->set_muted(!muted);
 }
 
@@ -442,7 +442,7 @@ void GUI_Controls::mute_changed(bool muted)
 	}
 
 	else {
-		val = _settings->get(Set::Engine_Vol);
+		val = _settings->get<Set::Engine_Vol>();
 	}
 
 	ui->sli_volume->setValue(val);
@@ -539,14 +539,14 @@ void GUI_Controls::file_info_changed()
 	const MetaData& md = PlayManager::instance()->current_track();
 
 	QString rating_text;
-	if( (_settings->get(Set::Engine_Pitch) != 440) &&
-		_settings->get(Set::Engine_SpeedActive))
+	if( (_settings->get<Set::Engine_Pitch>() != 440) &&
+		_settings->get<Set::Engine_SpeedActive>())
 	{
 		if(!rating_text.isEmpty()){
 			rating_text += ", ";
 		}
 
-		rating_text += QString::number(_settings->get(Set::Engine_Pitch)) + "Hz";
+		rating_text += QString::number(_settings->get<Set::Engine_Pitch>()) + "Hz";
 	}
 
 
@@ -574,7 +574,7 @@ void GUI_Controls::file_info_changed()
 void GUI_Controls::skin_changed()
 {
 	using namespace Gui;
-	bool dark = (_settings->get(Set::Player_Style) == 1);
+	bool dark = (_settings->get<Set::Player_Style>() == 1);
 
 	QString stylesheet = Style::style(dark);
 
@@ -620,8 +620,8 @@ void GUI_Controls::check_record_button_visible()
 	const MetaData& md = play_manager->current_track();
 	PlayState playstate = play_manager->playstate();
 
-	bool is_lame_available = _settings->get(SetNoDB::MP3enc_found);
-	bool is_sr_active = _settings->get(Set::Engine_SR_Active);
+	bool is_lame_available = _settings->get<SetNoDB::MP3enc_found>();
+	bool is_sr_active = _settings->get<Set::Engine_SR_Active>();
 	bool is_radio = ((md.radio_mode() != RadioMode::Off));
 	bool is_playing = (playstate == PlayState::Playing);
 

@@ -93,11 +93,11 @@ PlaylistView::PlaylistView(PlaylistPtr pl, QWidget* parent) :
 	connect(m->model, &PlaylistItemModel::sig_data_ready, this, &PlaylistView::refresh);
 	connect(pl.get(), &Playlist::Base::sig_current_track_changed, this, &PlaylistView::goto_row);
 
-	Set::listen(Set::PL_ShowNumbers, this, &PlaylistView::sl_columns_changed);
-	Set::listen(Set::PL_ShowCovers, this, &PlaylistView::sl_columns_changed);
-	Set::listen(Set::PL_ShowNumbers, this, &PlaylistView::sl_columns_changed);
-	Set::listen(Set::PL_EntryLook, this, &PlaylistView::look_changed);
-	Set::listen(Set::PL_ShowRating, this, &PlaylistView::refresh);
+	Set::listen<Set::PL_ShowNumbers>(this, &PlaylistView::sl_columns_changed);
+	Set::listen<Set::PL_ShowCovers>(this, &PlaylistView::sl_columns_changed);
+	Set::listen<Set::PL_ShowNumbers>(this, &PlaylistView::sl_columns_changed);
+	Set::listen<Set::PL_EntryLook>(this, &PlaylistView::look_changed);
+	Set::listen<Set::PL_ShowRating>(this, &PlaylistView::refresh);
 
 	this->goto_row(pl->current_track_index());
 }
@@ -323,7 +323,7 @@ void PlaylistView::rating_changed(Rating rating)
 
 void PlaylistView::refresh()
 {
-	bool show_rating = _settings->get(Set::PL_ShowRating);
+	bool show_rating = _settings->get<Set::PL_ShowRating>();
 	QFontMetrics fm(this->font());
 
 	int h = std::max(fm.height() + 4, 20);
@@ -339,14 +339,14 @@ void PlaylistView::refresh()
 	int viewport_width = viewport()->width();
 	int w_time = fm.width("123:23");
 
-	if(_settings->get(Set::PL_ShowCovers))
+	if(_settings->get<Set::PL_ShowCovers>())
 	{
 		int w_cov = 30;
 		viewport_width -= w_cov;
 		hh->resizeSection(PlaylistItemModel::ColumnName::Cover, w_cov);
 	}
 
-	if(_settings->get(Set::PL_ShowNumbers))
+	if(_settings->get<Set::PL_ShowNumbers>())
 	{
 		int w_tn = fm.width(QString::number(m->model->rowCount() * 100));
 		viewport_width -= w_tn;
@@ -599,8 +599,8 @@ void PlaylistView::look_changed()
 
 void PlaylistView::sl_columns_changed()
 {
-	bool show_numbers = _settings->get(Set::PL_ShowNumbers);
-	bool show_covers = _settings->get(Set::PL_ShowCovers);
+	bool show_numbers = _settings->get<Set::PL_ShowNumbers>();
+	bool show_covers = _settings->get<Set::PL_ShowCovers>();
 
 	horizontalHeader()->setSectionHidden(PlaylistItemModel::ColumnName::TrackNumber, !show_numbers);
 	horizontalHeader()->setSectionHidden(PlaylistItemModel::ColumnName::Cover, !show_covers);

@@ -124,14 +124,14 @@ void GUI_TrayIcon::init_context_menu()
 	connect(m->cur_song_action, &QAction::triggered, this, &GUI_TrayIcon::cur_song_clicked);
 	connect(m->show_action, &QAction::triggered, this, &GUI_TrayIcon::show_clicked);
 
-	Set::listen(Set::Player_Language, this, &GUI_TrayIcon::language_changed);
-	Set::listen(Set::Player_Style, this, &GUI_TrayIcon::skin_changed);
-	Set::listen(Set::Player_FontName, this, &GUI_TrayIcon::skin_changed);
-	Set::listen(Set::Player_FontSize, this, &GUI_TrayIcon::skin_changed);
-	Set::listen(Set::Lib_FontSize, this, &GUI_TrayIcon::skin_changed);
-	Set::listen(Set::Lib_FontBold, this, &GUI_TrayIcon::skin_changed);
-	Set::listen(Set::Icon_Theme, this, &GUI_TrayIcon::skin_changed);
-	Set::listen(Set::Icon_ForceInDarkTheme, this, &GUI_TrayIcon::skin_changed);
+	Set::listen<Set::Player_Language>(this, &GUI_TrayIcon::language_changed);
+	Set::listen<Set::Player_Style>(this, &GUI_TrayIcon::skin_changed);
+	Set::listen<Set::Player_FontName>(this, &GUI_TrayIcon::skin_changed);
+	Set::listen<Set::Player_FontSize>(this, &GUI_TrayIcon::skin_changed);
+	Set::listen<Set::Lib_FontSize>(this, &GUI_TrayIcon::skin_changed);
+	Set::listen<Set::Lib_FontBold>(this, &GUI_TrayIcon::skin_changed);
+	Set::listen<Set::Icon_Theme>(this, &GUI_TrayIcon::skin_changed);
+	Set::listen<Set::Icon_ForceInDarkTheme>(this, &GUI_TrayIcon::skin_changed);
 }
 
 
@@ -158,12 +158,12 @@ void GUI_TrayIcon::language_changed()
 
 void GUI_TrayIcon::skin_changed()
 {
-	bool dark = (_settings->get(Set::Player_Style) == 1);
+	bool dark = (_settings->get<Set::Player_Style>() == 1);
 
 	QString stylesheet = Style::style(dark);
 	m->context_menu->setStyleSheet(stylesheet);
 
-	mute_changed( _settings->get(Set::Engine_Mute) );
+	mute_changed( _settings->get<Set::Engine_Mute>() );
 
 	using namespace Gui;
 	m->play_action->setIcon(Icons::icon(Icons::Play));
@@ -205,7 +205,7 @@ void GUI_TrayIcon::notify(const MetaData& md)
 	}
 
 	QString msg = md.title() + " " + Lang::get(Lang::By).space() + md.artist();
-	int timeout = _settings->get(Set::Notification_Timeout);
+	int timeout = _settings->get<Set::Notification_Timeout>();
 
 	showMessage("Sayonara", msg, QSystemTrayIcon::Information, timeout);
 }
@@ -219,7 +219,7 @@ void GUI_TrayIcon::notify(const QString &title, const QString &message, const QS
 		return;
 	}
 
-	int timeout = _settings->get(Set::Notification_Timeout);
+	int timeout = _settings->get<Set::Notification_Timeout>();
 
 	showMessage(title, message, QSystemTrayIcon::Information, timeout);
 }
@@ -310,7 +310,7 @@ void GUI_TrayIcon::close_clicked()
 
 void GUI_TrayIcon::mute_clicked()
 {
-	bool mute = _settings->get(Set::Engine_Mute);
+	bool mute = _settings->get<Set::Engine_Mute>();
 
 	m->play_manager->set_muted(!mute);
 }
@@ -341,6 +341,6 @@ void GUI_TrayIcon::mute_changed(bool muted)
 
 void GUI_TrayIcon::_sl_show_tray_icon()
 {
-	bool show_tray_icon = _settings->get(Set::Player_ShowTrayIcon);
+	bool show_tray_icon = _settings->get<Set::Player_ShowTrayIcon>();
 	this->setVisible(show_tray_icon);
 }

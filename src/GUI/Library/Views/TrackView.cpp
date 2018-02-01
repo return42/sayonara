@@ -87,12 +87,12 @@ ColumnHeaderList TrackView::column_headers() const
 
 BoolList TrackView::shown_columns() const
 {
-	return _settings->get(Set::Lib_ColsTitle);
+	return _settings->get<Set::Lib_ColsTitle>();
 }
 
 SortOrder TrackView::sortorder() const
 {
-	Sortings so = _settings->get(Set::Lib_Sorting);
+	Sortings so = _settings->get<Set::Lib_Sorting>();
 	return so.so_tracks;
 }
 
@@ -105,7 +105,7 @@ void TrackView::sortorder_changed(SortOrder s)
 void TrackView::columns_changed()
 {
 	TableView::columns_changed();
-	_settings->set(Set::Lib_ColsTitle, this->shown_columns());
+	_settings->set<Set::Lib_ColsTitle>(this->shown_columns());
 }
 
 
