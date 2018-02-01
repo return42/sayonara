@@ -39,11 +39,10 @@
 
 using namespace Gui;
 
-struct GUI_TrayIcon::Private
+class ContextMenu :
+		public Gui::WidgetTemplate<QMenu>
 {
-	// some shared actions
-	PlayManagerPtr play_manager=nullptr;
-
+private:
 	QAction*	show_action=nullptr;
 	QAction*	close_action=nullptr;
 	QAction*	play_action=nullptr;
@@ -53,7 +52,18 @@ struct GUI_TrayIcon::Private
 	QAction*	bwd_action=nullptr;
 	QAction*	cur_song_action=nullptr;
 
-	QMenu*		context_menu=nullptr;
+	protected:
+		void language_changed() override;
+		void skin_changed() override;
+};
+
+struct GUI_TrayIcon::Private
+{
+	// some shared actions
+	PlayManagerPtr play_manager=nullptr;
+
+
+	ContextMenu*	context_menu=nullptr;
 	QTimer*		timer=nullptr;
 
 	Private()
@@ -63,9 +73,8 @@ struct GUI_TrayIcon::Private
 };
 
 GUI_TrayIcon::GUI_TrayIcon (QObject *parent) :
-	QSystemTrayIcon(parent),
-	NotificationInterface(),
-	SayonaraClass()
+	Gui::WidgetTemplate<QSystemTrayIcon>(parent),
+	NotificationInterface()
 {
 	m = Pimpl::make<Private>();
 
@@ -99,7 +108,7 @@ void GUI_TrayIcon::init_context_menu()
 	m->cur_song_action = new QAction(this);
 	m->close_action = new QAction(this);
 
-	m->context_menu = new QMenu();
+	m->context_menu = new Gui::WidgetTemplate<ContextMenu*>();
 	m->context_menu->addAction(m->play_action);
 	m->context_menu->addAction(m->stop_action);
 	m->context_menu->addSeparator();
@@ -123,15 +132,6 @@ void GUI_TrayIcon::init_context_menu()
 	connect(m->mute_action, &QAction::triggered, this, &GUI_TrayIcon::mute_clicked);
 	connect(m->cur_song_action, &QAction::triggered, this, &GUI_TrayIcon::cur_song_clicked);
 	connect(m->show_action, &QAction::triggered, this, &GUI_TrayIcon::show_clicked);
-
-	Set::listen<Set::Player_Language>(this, &GUI_TrayIcon::language_changed);
-	Set::listen<Set::Player_Style>(this, &GUI_TrayIcon::skin_changed);
-	Set::listen<Set::Player_FontName>(this, &GUI_TrayIcon::skin_changed);
-	Set::listen<Set::Player_FontSize>(this, &GUI_TrayIcon::skin_changed);
-	Set::listen<Set::Lib_FontSize>(this, &GUI_TrayIcon::skin_changed);
-	Set::listen<Set::Lib_FontBold>(this, &GUI_TrayIcon::skin_changed);
-	Set::listen<Set::Icon_Theme>(this, &GUI_TrayIcon::skin_changed);
-	Set::listen<Set::Icon_ForceInDarkTheme>(this, &GUI_TrayIcon::skin_changed);
 }
 
 
@@ -158,28 +158,7 @@ void GUI_TrayIcon::language_changed()
 
 void GUI_TrayIcon::skin_changed()
 {
-	bool dark = (_settings->get<Set::Player_Style>() == 1);
 
-	QString stylesheet = Style::style(dark);
-	m->context_menu->setStyleSheet(stylesheet);
-
-	mute_changed( _settings->get<Set::Engine_Mute>() );
-
-	using namespace Gui;
-	m->play_action->setIcon(Icons::icon(Icons::Play));
-	m->stop_action->setIcon(Icons::icon(Icons::Stop));
-	m->bwd_action->setIcon(Icons::icon(Icons::Previous));
-	m->fwd_action->setIcon(Icons::icon(Icons::Next));
-	m->cur_song_action->setIcon(Icons::icon(Icons::Info));
-	m->close_action->setIcon(Icons::icon(Icons::Exit));
-
-	if(m->play_manager->is_muted()){
-		m->mute_action->setIcon(Icons::icon(Icons::Vol3));
-	}
-
-	else {
-		m->mute_action->setIcon(Icons::icon(Icons::VolMute));
-	}
 }
 
 
@@ -343,4 +322,34 @@ void GUI_TrayIcon::_sl_show_tray_icon()
 {
 	bool show_tray_icon = _settings->get<Set::Player_ShowTrayIcon>();
 	this->setVisible(show_tray_icon);
+}
+
+
+void ContextMenu::language_changed()
+{
+
+}
+
+void ContextMenu::skin_changed()
+{
+	QString stylesheet = Style::current_style();
+	this->setStyleSheet(stylesheet);
+
+	m->tray_icon->mute_changed( _settings->get<Set::Engine_Mute>() );
+
+	using namespace Gui;
+	m->play_action->setIcon(Icons::icon(Icons::Play));
+	m->stop_action->setIcon(Icons::icon(Icons::Stop));
+	m->bwd_action->setIcon(Icons::icon(Icons::Previous));
+	m->fwd_action->setIcon(Icons::icon(Icons::Next));
+	m->cur_song_action->setIcon(Icons::icon(Icons::Info));
+	m->close_action->setIcon(Icons::icon(Icons::Exit));
+
+	if(m->play_manager->is_muted()){
+		m->mute_action->setIcon(Icons::icon(Icons::Vol3));
+	}
+
+	else {
+		m->mute_action->setIcon(Icons::icon(Icons::VolMute));
+	}
 }

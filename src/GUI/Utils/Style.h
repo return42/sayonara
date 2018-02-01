@@ -49,6 +49,9 @@ namespace Style
 	QFont current_font();
 
 	int recommended_height();
+
+	bool is_dark();
+	void set_dark(bool b);
 }
 
 #endif /* STYLE_H_ */

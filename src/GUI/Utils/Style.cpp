@@ -119,14 +119,24 @@ QFont Style::current_font()
 
 QString Style::current_style()
 {
-	bool dark = (Settings::instance()->get<Set::Player_Style>() == 1);
-	return style(dark);
+	return style( is_dark() );
 }
 
 int Style::recommended_height()
 {
-
 	QFontMetrics fm(current_font());
 	int h = fm.height();
 	return h;
+}
+
+bool Style::is_dark()
+{
+	Settings* s = Settings::instance();
+	return (s->get<Set::Player_Style>() == 1);
+}
+
+void Style::set_dark(bool dark)
+{
+	Settings* s = Settings::instance();
+	s->set<Set::Player_Style>(dark ? 1 : 0);
 }

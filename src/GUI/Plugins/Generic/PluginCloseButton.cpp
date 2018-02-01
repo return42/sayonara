@@ -21,39 +21,39 @@
 /* PluginCloseButton.cpp */
 
 #include "PluginCloseButton.h"
-#include "Utils/Settings/Settings.h"
+
 #include "GUI/Utils/GuiUtils.h"
 #include "GUI/Utils/Icons.h"
+#include "GUI/Utils/Style.h"
 #include "Utils/Language.h"
 
 #include <QEvent>
 
 PluginCloseButton::PluginCloseButton(QWidget *parent) :
-	QPushButton(parent)
+	Gui::WidgetTemplate<QPushButton>(parent)
 {
 	this->setFlat(true);
 	this->setIconSize(QSize(14,14));
 
 	this->setStyleSheet("margin-left: 2px; margin-right: 2px; padding-left: 0px; padding-right: 0px; background: transparent;");
 	this->setToolTip(Lang::get(Lang::Close));
-
-	Set::listen<Set::Player_Style>(this, &PluginCloseButton::_sl_skin_changed);
 }
 
 PluginCloseButton::~PluginCloseButton() {}
 
-void PluginCloseButton::mouseReleaseEvent(QMouseEvent *e){
+void PluginCloseButton::mouseReleaseEvent(QMouseEvent *e)
+{
 	QPushButton::mouseReleaseEvent(e);
 }
 
 
-void PluginCloseButton::enterEvent(QEvent* e){
+void PluginCloseButton::enterEvent(QEvent* e)
+{
 	QPushButton::enterEvent(e);
 
-	bool dark = (_settings->get<Set::Player_Style>() == 1);
 	QIcon icon;
 
-	if(dark){
+	if(Style::is_dark()){
 		icon = Gui::Util::icon("tool_grey");
 	}
 
@@ -79,13 +79,11 @@ void PluginCloseButton::leaveEvent(QEvent* e){
 
 void PluginCloseButton::set_std_icon()
 {
-	bool dark = (_settings->get<Set::Player_Style>() == 1);
-
 	QIcon icon;
 	QPixmap pixmap;
 	QPixmap pixmap_disabled;
 
-	if(dark){
+	if(Style::is_dark()){
 		pixmap = Gui::Util::pixmap("tool_dark_grey");
 		pixmap_disabled = Gui::Util::pixmap("tool_disabled");
 		icon.addPixmap(pixmap, QIcon::Normal, QIcon::On);
@@ -111,7 +109,7 @@ void PluginCloseButton::set_std_icon()
 }
 
 
-void PluginCloseButton::_sl_skin_changed()
+void PluginCloseButton::skin_changed()
 {
 	set_std_icon();
 }

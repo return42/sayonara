@@ -21,12 +21,10 @@
 #ifndef GUI_TRAYICON_H
 #define GUI_TRAYICON_H
 
-
-
 #include "Interfaces/Notification/NotificationHandler.h"
 #include "Components/PlayManager/PlayState.h"
 
-#include "Utils/Settings/SayonaraClass.h"
+#include "GUI/Utils/Widgets/WidgetTemplate.h"
 #include "Utils/Pimpl.h"
 
 #include <QSystemTrayIcon>
@@ -40,14 +38,12 @@ class MetaData;
   */
 class GUI_TrayIcon :
 		public QSystemTrayIcon,
-		public NotificationInterface,
-		public SayonaraClass
+		public NotificationInterface
 {
 	Q_OBJECT
 	PIMPL(GUI_TrayIcon)
 
 public:
-
 	explicit GUI_TrayIcon(QObject *parent=nullptr);
 	virtual ~GUI_TrayIcon();
 
@@ -71,6 +67,9 @@ signals:
 	void sig_close_clicked();
 	void sig_show_clicked();
 
+protected:
+	void language_changed() override;
+	void skin_changed() override;
 
 private slots:
 	void play_clicked();
@@ -86,9 +85,6 @@ private slots:
 
 	void mute_changed(bool muted);
 	void _sl_show_tray_icon();
-
-	void language_changed();
-	void skin_changed();
 
 private:
 	void init_context_menu();

@@ -24,6 +24,7 @@
 
 #include "Components/Directories/DirectoryReader.h"
 #include "GUI/Utils/GuiUtils.h"
+#include "GUI/Utils/Style.h"
 #include "Utils/Settings/Settings.h"
 #include "Utils/Logger/Logger.h"
 
@@ -104,7 +105,6 @@ QString get_win_icon_name(const QString& name)
 
 QIcon Icons::icon(Icons::IconName spec, Icons::IconMode mode)
 {
-	bool dark = (Settings::instance()->get<Set::Player_Style>() == 1);
 	QString std_name = s_icon_map[spec].first;
 	QString dark_name = s_icon_map[spec].second;
 
@@ -120,7 +120,7 @@ QIcon Icons::icon(Icons::IconName spec, Icons::IconMode mode)
 
 	if(icon.isNull())
 	{
-		if(!dark)
+		if(!Style::is_dark())
 		{
 	#ifdef Q_OS_WIN
 			icon = QIcon(get_win_icon_name(std_name));
@@ -179,7 +179,6 @@ QPixmap Icons::pixmap(Icons::IconName spec)
 
 QPixmap Icons::pixmap(Icons::IconName spec, Icons::IconMode mode)
 {
-	bool dark = (Settings::instance()->get<Set::Player_Style>() == 1);
 	QString std_name = s_icon_map[spec].first;
 	QString dark_name = s_icon_map[spec].second;
 
@@ -195,7 +194,7 @@ QPixmap Icons::pixmap(Icons::IconName spec, Icons::IconMode mode)
 
 	if(pm.isNull())
 	{
-		if(!dark)
+		if(!Style::is_dark())
 		{
 	#ifdef Q_OS_WIN
 			pm = QIcon(get_win_icon_name(std_name)).pixmap(QSize(32,32));

@@ -30,6 +30,7 @@
 #include "Model.h"
 
 #include "GUI/Utils/RatingLabel.h"
+#include "GUI/Utils/Style.h"
 
 const static int PLAYLIST_BOLD=70;
 
@@ -95,7 +96,8 @@ void PlaylistItemDelegate::paint(QPainter *painter,	const QStyleOptionViewItem &
 	if(md.is_disabled)
 	{
 		QColor col_text = palette.color(QPalette::Disabled, QPalette::Foreground);
-		if(_settings->get<Set::Player_Style>() == 1) {
+		if(Style::is_dark())
+		{
 			col_text.setAlpha(196);
 		}
 

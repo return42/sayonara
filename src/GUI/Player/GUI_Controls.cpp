@@ -17,7 +17,6 @@
 
 #include "Utils/Utils.h"
 #include "Utils/Settings/Settings.h"
-#include "Utils/MetaData/MetaData.h"
 #include "Utils/MetaData/MetaDataList.h"
 #include "Utils/Language.h"
 
@@ -143,11 +142,9 @@ QIcon GUI_Controls::icon(Gui::Icons::IconName name)
 {
 	using namespace Gui;
 
-	bool dark = (_settings->get<Set::Player_Style>() == 1);
-
 	Icons::IconMode mode = Icons::Automatic;
 
-	if(dark){
+	if(Style::is_dark()){
 		mode = Icons::ForceSayonaraIcon;
 	}
 
@@ -427,7 +424,7 @@ void GUI_Controls::change_volume_by_tick(int val)
 
 void GUI_Controls::mute_button_clicked()
 {
-	bool muted = _settings->get<Set::Engine_Mute>();
+	bool muted = PlayManager::instance()->is_muted();
 	PlayManager::instance()->set_muted(!muted);
 }
 
@@ -442,7 +439,7 @@ void GUI_Controls::mute_changed(bool muted)
 	}
 
 	else {
-		val = _settings->get<Set::Engine_Vol>();
+		val = PlayManager::instance()->volume();
 	}
 
 	ui->sli_volume->setValue(val);
@@ -574,10 +571,8 @@ void GUI_Controls::file_info_changed()
 void GUI_Controls::skin_changed()
 {
 	using namespace Gui;
-	bool dark = (_settings->get<Set::Player_Style>() == 1);
 
-	QString stylesheet = Style::style(dark);
-
+	QString stylesheet = Style::current_style();
 	this->setStyleSheet(stylesheet);
 
 	ui->btn_fw->setIcon(icon(Icons::Forward));

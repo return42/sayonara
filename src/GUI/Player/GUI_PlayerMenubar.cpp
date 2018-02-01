@@ -144,7 +144,7 @@ Menubar::Menubar(QWidget* parent) :
 	m->action_view_library->setChecked(_settings->get<Set::Lib_Show>());
 	m->action_view_library->setText(Lang::get(Lang::Library));
 
-	m->action_dark->setChecked(_settings->get<Set::Player_Style>());
+	m->action_dark->setChecked(Style::is_dark());
 	m->action_dark->setShortcut(QKeySequence("F10"));
 
 	m->action_fullscreen->setShortcut(QKeySequence("F11"));
@@ -256,9 +256,7 @@ void Menubar::language_changed()
 
 void Menubar::skin_changed()
 {
-	bool dark = (_settings->get<Set::Player_Style>() == 1);
-
-	QString stylesheet = Style::style(dark);
+	QString stylesheet = Style::current_style();
 	this->setStyleSheet(stylesheet);
 
 	using namespace Gui;
@@ -325,7 +323,7 @@ void Menubar::minimize_clicked()
 
 void Menubar::skin_toggled(bool b)
 {
-	_settings->set<Set::Player_Style>( ((b) ? 1 : 0));
+	Style::set_dark(b);
 }
 
 
@@ -347,9 +345,9 @@ void Menubar::show_fullscreen_toggled(bool b)
 void Menubar::help_clicked()
 {
 	Message::info(tr("Please visit the forum at") + "<br />" +
-				  Util::create_link("http://sayonara-player.com/forum", _settings->get<Set::Player_Style>() == 1) +
+				  Util::create_link("http://sayonara-player.com/forum", Style::is_dark()) +
 				  "<br /><br />" +
-				  tr("Donate") + ": <br />" + Util::create_link("http://sayonara-player.com", _settings->get<Set::Player_Style>() == 1) +
+				  tr("Donate") + ": <br />" + Util::create_link("http://sayonara-player.com", Style::is_dark()) +
 				  "<br /><br />" +
 				  tr("Thank you") + "! :-)"
 	);

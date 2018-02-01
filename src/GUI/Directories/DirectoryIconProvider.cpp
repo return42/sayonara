@@ -21,16 +21,14 @@
 #include "DirectoryIconProvider.h"
 #include "Utils/Utils.h"
 #include "Utils/FileUtils.h"
-#include "Utils/Settings/Settings.h"
 
 #include "GUI/Utils/GuiUtils.h"
 #include "GUI/Utils/Icons.h"
+#include "GUI/Utils/Style.h"
 
 IconProvider::IconProvider() :
 	QFileIconProvider()
-{
-	_settings = Settings::instance();
-}
+{}
 
 IconProvider::~IconProvider() {}
 
@@ -54,7 +52,7 @@ QIcon IconProvider::icon(IconType type) const
 
 QIcon IconProvider::icon(const QFileInfo &info) const
 {
-	if(_settings->get<Set::Player_Style>() == 0)
+	if(!Style::is_dark())
 	{
 		return QFileIconProvider::icon(info);
 	}

@@ -20,6 +20,7 @@
 
 #include "SoundcloudGlobal.h"
 #include "SoundcloudJsonParser.h"
+
 #include "Utils/Utils.h"
 #include "Utils/FileUtils.h"
 #include "Utils/MetaData/Artist.h"
@@ -83,7 +84,8 @@ bool SC::JsonParser::parse_artists(ArtistList& artists)
 }
 
 
-bool SC::JsonParser::parse_artist_list(ArtistList& artists, QJsonArray arr){
+bool SC::JsonParser::parse_artist_list(ArtistList& artists, QJsonArray arr)
+{
 	artists.clear();
 
 	for(auto it = arr.begin(); it != arr.end(); it++){
@@ -378,7 +380,8 @@ bool SC::JsonParser::parse_playlist(ArtistList& artists, Album& album, MetaDataL
 
 QString SC::JsonParser::create_link(const QString& name, const QString& target)
 {
-	bool dark = (Settings::instance()->get<Set::Player_Style>() == 1);
+	Settings* s = Settings::instance();
+	bool dark = (s->get<Set::Player_Style>() == 0);
 	return Util::create_link(name, dark, target);
 }
 

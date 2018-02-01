@@ -64,7 +64,6 @@ struct GUI_Player::Private
 	int							style;
 	bool						shutdown_requested;
 
-
 	Private(QTranslator* translator) :
 		translator(translator),
 		shutdown_requested(false)
@@ -392,7 +391,7 @@ void GUI_Player::awa_version_finished()
 	QString new_version(awa->data());
 	QString cur_version = _settings->get<Set::Player_Version>();
 	bool notify_new_version = _settings->get<Set::Player_NotifyNewVersion>();
-	bool dark = (_settings->get<Set::Player_Style>() == 1);
+	bool dark = Style::is_dark();
 
 	new_version = new_version.trimmed();
 
@@ -492,18 +491,15 @@ void GUI_Player::show_library(bool is_library_visible, bool was_library_visible)
 
 void GUI_Player::skin_changed()
 {
-	int style = _settings->get<Set::Player_Style>();
-	bool dark = (style == 1);
-
-	QString stylesheet = Style::style(dark);
+	QString stylesheet = Style::current_style();
 	this->setStyleSheet(stylesheet);
 
-	if(style != m->style){
+	int style = _settings->get<Set::Player_Style>();
+	if(style != m->style)
+	{
 		m->style = style;
 		Set::shout<Set::Player_Style>();
 	}
-
-
 }
 
 void GUI_Player::minimize()

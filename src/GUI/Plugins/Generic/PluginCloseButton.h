@@ -25,7 +25,8 @@
 #define PLUGINCLOSEBUTTON_H
 
 #include <QPushButton>
-#include "Utils/Settings/SayonaraClass.h"
+
+#include "GUI/Utils/Widgets/WidgetTemplate.h"
 
 /**
  * @brief The MenuButton class.\n
@@ -34,8 +35,7 @@
  * @ingroup GUIHelper
  */
 class PluginCloseButton :
-		public QPushButton,
-		public SayonaraClass
+		public Gui::WidgetTemplate<QPushButton>
 {
 	Q_OBJECT
 
@@ -56,8 +56,8 @@ public:
 	explicit PluginCloseButton(QWidget* parent=nullptr);
 	virtual ~PluginCloseButton();
 
-protected slots:
-	void _sl_skin_changed();
+protected:
+	void skin_changed() override;
 };
 
 #endif // PLUGINCLOSEBUTTON_H
