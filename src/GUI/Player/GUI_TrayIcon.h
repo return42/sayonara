@@ -28,11 +28,47 @@
 #include "Utils/Pimpl.h"
 
 #include <QSystemTrayIcon>
+#include <QMenu>
 
 
 class QTimer;
 class QAction;
 class MetaData;
+
+class GUI_TrayIcon;
+
+class TrayIconContextMenu :
+		public Gui::WidgetTemplate<QMenu>
+{
+	friend class GUI_TrayIcon;
+
+	Q_OBJECT
+	PIMPL(TrayIconContextMenu)
+
+	signals:
+		void sig_show_clicked();
+		void sig_close_clicked();
+
+	private:
+		// all here called by GUI_TrayIcon
+		explicit TrayIconContextMenu(QWidget* parent=nullptr);
+		~TrayIconContextMenu();
+
+		void set_enable_fwd(bool b);
+
+	protected:
+		void language_changed() override;
+		void skin_changed() override;
+
+	private slots:
+		void playstate_changed(PlayState state);
+		void mute_changed(bool muted);
+
+		void mute_clicked();
+		void current_song_clicked();
+};
+
+
 /**
   * Small class to be used as tray icon
   */
@@ -48,7 +84,7 @@ public:
 	virtual ~GUI_TrayIcon();
 
 	bool event ( QEvent * e ) override;
-	void set_enable_fwd(bool);
+	void set_enable_fwd(bool b);
 
 	void notify(const MetaData& md) override;
 	void notify(const QString &title, const QString &message, const QString &image_path) override;
@@ -68,23 +104,12 @@ signals:
 	void sig_show_clicked();
 
 protected:
-	void language_changed() override;
-	void skin_changed() override;
+	void language_changed();
 
 private slots:
-	void play_clicked();
-	void stop_clicked();
-	void fwd_clicked();
-	void bwd_clicked();
-	void show_clicked();
-	void close_clicked();
-	void mute_clicked();
-	void cur_song_clicked();
-
 	void playstate_changed(PlayState state);
 
-	void mute_changed(bool muted);
-	void _sl_show_tray_icon();
+	void s_show_tray_icon_changed();
 
 private:
 	void init_context_menu();
