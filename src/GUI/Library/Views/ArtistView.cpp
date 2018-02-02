@@ -76,17 +76,27 @@ ColumnHeaderList ArtistView::column_headers() const
 	return columns;
 }
 
-BoolList ArtistView::shown_columns() const
+BoolList ArtistView::visible_columns() const
 {
 	BoolList columns = _settings->get<Set::Lib_ColsArtist>();
 	columns[0] = false;
 	return columns;
 }
 
+void ArtistView::save_visible_columns(const BoolList& columns)
+{
+	_settings->set<Set::Lib_ColsArtist>(columns);
+}
+
 SortOrder ArtistView::sortorder() const
 {
 	Library::Sortings so = _settings->get<Set::Lib_Sorting>();
 	return so.so_artists;
+}
+
+void ArtistView::save_sortorder(SortOrder s)
+{
+	m->library->change_artist_sortorder(s);
 }
 
 void ArtistView::selection_changed(const IndexSet& indexes)
@@ -131,18 +141,6 @@ void ArtistView::refresh_clicked()
 {
 	TableView::refresh_clicked();
 	m->library->refresh_artist();
-}
-
-void ArtistView::columns_changed()
-{
-	TableView::columns_changed();
-	_settings->set<Set::Lib_ColsArtist>(this->shown_columns());
-}
-
-void ArtistView::sortorder_changed(SortOrder s)
-{
-	TableView::sortorder_changed(s);
-	m->library->change_artist_sortorder(s);
 }
 
 void ArtistView::double_clicked(const QModelIndex& index)

@@ -36,7 +36,7 @@ namespace Library
 		PIMPL(TableView)
 
 	signals:
-		void sig_columns_changed();
+		//void sig_columns_changed();
 		void sig_sortorder_changed(Library::SortOrder);
 
 	private:
@@ -52,8 +52,12 @@ namespace Library
 	protected:
 		virtual void init_view(AbstractLibrary* library)=0;
 		virtual ColumnHeaderList column_headers() const=0;
-		virtual BoolList shown_columns() const=0;
+
+		virtual BoolList visible_columns() const=0;
+		virtual void save_visible_columns(const BoolList& columns)=0;
+
 		virtual Library::SortOrder sortorder() const=0;
+		virtual void save_sortorder(SortOrder s)=0;
 
 		void resizeEvent(QResizeEvent* e) override;
 		void language_changed() override;
@@ -61,10 +65,6 @@ namespace Library
 		// SayonaraSelectionView.h
 		int index_by_model_index(const QModelIndex& idx) const override;
 		QModelIndex model_index_by_index(int idx) const override;
-
-		virtual void columns_changed();
-		virtual void sortorder_changed(SortOrder s);
-
 
 	protected slots:
 		void header_actions_triggered();

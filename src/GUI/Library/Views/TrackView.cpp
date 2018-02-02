@@ -85,9 +85,14 @@ ColumnHeaderList TrackView::column_headers() const
 	return track_columns;
 }
 
-BoolList TrackView::shown_columns() const
+BoolList TrackView::visible_columns() const
 {
 	return _settings->get<Set::Lib_ColsTitle>();
+}
+
+void TrackView::save_visible_columns(const BoolList& lst)
+{
+	_settings->set<Set::Lib_ColsTitle>(lst);
 }
 
 SortOrder TrackView::sortorder() const
@@ -96,18 +101,10 @@ SortOrder TrackView::sortorder() const
 	return so.so_tracks;
 }
 
-void TrackView::sortorder_changed(SortOrder s)
+void TrackView::save_sortorder(SortOrder s)
 {
-	TableView::sortorder_changed(s);
 	m->library->change_track_sortorder(s);
 }
-
-void TrackView::columns_changed()
-{
-	TableView::columns_changed();
-	_settings->set<Set::Lib_ColsTitle>(this->shown_columns());
-}
-
 
 void TrackView::selection_changed(const IndexSet& lst)
 {

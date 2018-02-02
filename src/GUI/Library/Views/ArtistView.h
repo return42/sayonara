@@ -52,11 +52,12 @@ namespace Library
 		protected:
 			void init_view(AbstractLibrary* library) override;
 			ColumnHeaderList column_headers() const override;
-			BoolList shown_columns() const override;
-			Library::SortOrder sortorder() const override;
 
-			void columns_changed() override;
-			void sortorder_changed(SortOrder s) override;
+			BoolList visible_columns() const override;
+			void save_visible_columns(const BoolList& columns) override;
+
+			Library::SortOrder sortorder() const override;
+			void save_sortorder(Library::SortOrder s) override;
 
 		private slots:
 			void double_clicked(const QModelIndex& index);

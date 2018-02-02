@@ -84,9 +84,14 @@ ColumnHeaderList AlbumView::column_headers() const
 	return album_columns;
 }
 
-BoolList AlbumView::shown_columns() const
+BoolList AlbumView::visible_columns() const
 {
 	return _settings->get<Set::Lib_ColsAlbum>();
+}
+
+void AlbumView::save_visible_columns(const BoolList& lst)
+{
+	_settings->set<Set::Lib_ColsAlbum>(lst);
 }
 
 SortOrder AlbumView::sortorder() const
@@ -95,6 +100,10 @@ SortOrder AlbumView::sortorder() const
 	return so.so_albums;
 }
 
+void AlbumView::save_sortorder(SortOrder s)
+{
+	m->library->change_album_sortorder(s);
+}
 
 void AlbumView::context_menu_show(const QPoint & p)
 {
@@ -199,18 +208,6 @@ void AlbumView::clear_discnumbers()
 void AlbumView::add_discnumbers(const QList<Disc>& dns)
 {
 	m->discnumbers << dns;
-}
-
-void AlbumView::sortorder_changed(SortOrder s)
-{
-	TableView::sortorder_changed(s);
-	m->library->change_album_sortorder(s);
-}
-
-void AlbumView::columns_changed()
-{
-	TableView::columns_changed();
-	_settings->set<Set::Lib_ColsAlbum>(this->shown_columns());
 }
 
 void AlbumView::middle_clicked()

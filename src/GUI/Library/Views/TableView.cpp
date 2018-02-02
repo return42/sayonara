@@ -64,7 +64,7 @@ void TableView::init(AbstractLibrary* library)
 	init_view(library);
 
 	ColumnHeaderList headers = column_headers();
-	m->shown_columns = shown_columns();
+	m->shown_columns = visible_columns();
 	m->sortorder = sortorder();
 
 	QStringList header_names;
@@ -90,7 +90,8 @@ void TableView::header_actions_triggered()
 	});
 
 	m->shown_columns = m->header->shown_columns();
-	columns_changed();
+
+	save_visible_columns(m->shown_columns);
 }
 
 
@@ -109,7 +110,7 @@ void TableView::sort_by_column(int column_idx)
 
 	switch_sorters( m->sortorder, asc_sortorder, desc_sortorder );
 
-	sortorder_changed(m->sortorder);
+	save_sortorder(m->sortorder);
 }
 
 
@@ -149,14 +150,4 @@ QModelIndex TableView::model_index_by_index(int idx) const
 	}
 
 	return _model->index(idx, first_col);
-}
-
-void TableView::columns_changed()
-{
-	emit sig_columns_changed();
-}
-
-void TableView::sortorder_changed(SortOrder s)
-{
-	emit sig_sortorder_changed(s);
 }

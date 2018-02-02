@@ -44,11 +44,12 @@ namespace Library
 		//from Library::TableView
 		void init_view(AbstractLibrary* library) override;
 		ColumnHeaderList column_headers() const override;
-		BoolList shown_columns() const override;
-		SortOrder sortorder() const override;
 
-		void sortorder_changed(SortOrder s) override;
-		void columns_changed() override;
+		SortOrder sortorder() const override;
+		void save_sortorder(SortOrder s) override;
+
+		BoolList visible_columns() const override;
+		void save_visible_columns(const BoolList& lst) override;
 
 		// from Library::ItemView
 		void play_clicked() override;
