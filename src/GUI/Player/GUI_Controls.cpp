@@ -79,7 +79,12 @@ GUI_Controls::GUI_Controls(QWidget* parent) :
 	Set::listen<Set::Engine_SpeedActive>(this, &GUI_Controls::file_info_changed, false);
 }
 
-GUI_Controls::~GUI_Controls() {}
+GUI_Controls::~GUI_Controls()
+{
+	if(ui){
+		delete ui; ui=nullptr;
+	}
+}
 
 // new track
 void GUI_Controls::track_changed(const MetaData & md)

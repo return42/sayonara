@@ -38,14 +38,6 @@
 using namespace Cover;
 using Cover::Fetcher::Manager;
 
-struct Manager::Private
-{
-	QMap<QString, int>		cf_order;
-	QList<Fetcher::Base*>	coverfetchers;
-	QList<Fetcher::Base*>	active_coverfetchers;
-	Fetcher::Standard*		std_cover_fetcher = nullptr;
-};
-
 static void sort_coverfetchers(QList<Fetcher::Base*>& lst, const QMap<QString, int>& cf_order)
 {
 	std::sort(lst.begin(), lst.end(), [&cf_order](Fetcher::Base* t1, Fetcher::Base* t2)
@@ -110,13 +102,40 @@ static Fetcher::Base* coverfetcher_by_url(const QString& url, const QList<Fetche
 	return nullptr;
 }
 
+struct Manager::Private
+{
+	QMap<QString, int>		cf_order;
+	QList<Fetcher::Base*>	coverfetchers;
+	QList<Fetcher::Base*>	active_coverfetchers;
+	Fetcher::Standard*		std_cover_fetcher = nullptr;
+
+	Private()
+	{
+		std_cover_fetcher = new Standard();
+	}
+
+	~Private()
+	{
+		std_cover_fetcher = nullptr;
+
+		active_coverfetchers.clear();
+
+		for(auto it=coverfetchers.begin(); it != coverfetchers.end(); it++)
+		{
+			Fetcher::Base* b = *it;
+			delete b;
+		}
+
+		coverfetchers.clear();
+	}
+};
+
 
 Manager::Manager() :
 	QObject(),
 	SayonaraClass()
 {
 	m = Pimpl::make<Private>();
-	m->std_cover_fetcher = new Standard();
 
 	register_coverfetcher(new Fetcher::Google());
 	register_coverfetcher(new Fetcher::Discogs());

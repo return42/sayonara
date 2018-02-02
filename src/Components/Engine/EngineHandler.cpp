@@ -46,16 +46,6 @@ struct Handler::Private
 	{
 		play_manager = PlayManager::instance();
 	}
-
-	~Private()
-	{
-		for(Base* e : ::Util::AsConst(engines))
-		{
-			delete e;
-		}
-
-		engines.clear();
-	}
 };
 
 Handler::Handler(QObject* parent) :
@@ -96,6 +86,17 @@ Handler::~Handler() {}
 bool Handler::init()
 {
 	return true;
+}
+
+void Handler::shutdown()
+{
+	for(Base* e : ::Util::AsConst(m->engines))
+	{
+		e->stop();
+		delete e;
+	}
+
+	m->engines.clear();
 }
 
 

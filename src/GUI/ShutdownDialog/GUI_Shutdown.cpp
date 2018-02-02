@@ -39,7 +39,10 @@ GUI_Shutdown::GUI_Shutdown(QWidget* parent):
 	connect(ui->rb_after_minutes, &QRadioButton::clicked, this, &GUI_Shutdown::rb_after_minutes_clicked);
 }
 
-GUI_Shutdown::~GUI_Shutdown() {}
+GUI_Shutdown::~GUI_Shutdown()
+{
+	delete ui; ui=nullptr;
+}
 
 void GUI_Shutdown::skin_changed()
 {

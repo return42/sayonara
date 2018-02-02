@@ -59,7 +59,9 @@ void Callbacks::decodebin_ready(GstElement* source, GstPad* new_src_pad, gpointe
 	GstPad*				sink_pad;
 	GstPadLinkReturn	pad_link_return;
 
-	sp_log(Log::Develop, "Callback") << "Source: " << gst_element_get_name(source);
+	gchar* element_name = gst_element_get_name(source);
+	sp_log(Log::Develop, "Callback") << "Source: " << element_name;
+	g_free(element_name);
 
 	element = static_cast<GstElement*>(data);
 	if(!element){

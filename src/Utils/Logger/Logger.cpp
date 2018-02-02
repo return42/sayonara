@@ -288,7 +288,9 @@ Logger sp_log(const Log& type, const char* data)
 	{
 #ifdef HAVE_CXX_ABI
 		int status;
-		class_name = QString(abi::__cxa_demangle(data, 0, 0, &status));
+		char* content = abi::__cxa_demangle(data, 0, 0, &status);
+		class_name = QString(content);
+		free(content);
 #else
 		class_name = QString(data);
 #endif

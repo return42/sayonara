@@ -37,13 +37,7 @@ namespace SP {
 	{
 	public:
 
-		/**
-		 * @brief Standard constructor
-		 */
-		Set() :
-			std::set<T>()
-		{}
-
+		Set() : std::set<T>() {}
 		/**
 		 * @brief Constructs a set with a single element
 		 * @param one_element the first element
@@ -62,7 +56,7 @@ namespace SP {
 		QList<T> toList() const
 		{
 			QList<T> ret;
-			for(auto it=this->begin(); it!=this->end(); it++){
+			for(auto it=this->cbegin(); it!=this->cend(); it++){
 				ret << *it;
 			}
 			return ret;

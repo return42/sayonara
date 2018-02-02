@@ -1804,7 +1804,7 @@ Bitte ein anderes Verzeichnis wählen</translation>
     <message>
         <location line="+2"/>
         <source>Active</source>
-        <translation>Activ</translation>
+        <translation>Aktiv</translation>
     </message>
     <message>
         <location line="+6"/>

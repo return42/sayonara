@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "StreamRecorderHandler.h"
 #include "PipelineProbes.h"
 #include "StreamRecorderData.h"
@@ -34,12 +32,17 @@ struct StreamRecorderHandler::Private
 	Settings*			settings=nullptr;
 	QString				sr_path;
 	bool				run_sr;
-    StreamRecorder::Data* sr_data=nullptr;
+	StreamRecorder::Data* sr_data=nullptr;
 
 	Private() :
-        sr_data(new StreamRecorder::Data())
+		sr_data(new StreamRecorder::Data())
 	{
 		settings = Settings::instance();
+	}
+
+	~Private()
+	{
+		delete sr_data; sr_data = nullptr;
 	}
 };
 

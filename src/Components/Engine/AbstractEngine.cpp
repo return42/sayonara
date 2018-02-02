@@ -47,6 +47,14 @@ struct Base::Private
 		cur_pos_ms(0),
 		cur_pos_s(0)
 	{}
+
+	Private()
+	{
+		if(uri)
+		{
+			g_free(uri); uri = nullptr;
+		}
+	}
 };
 
 Base::Base(Name name, QObject *parent) :

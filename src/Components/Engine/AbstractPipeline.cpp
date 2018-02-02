@@ -70,13 +70,15 @@ Base::Base(QString name, Engine::Base* engine, QObject* parent) :
 
 Base::~Base()
 {
-	if (_bus){
-		gst_object_unref (_bus);
-	}
-
 	if (_pipeline) {
 		gst_element_set_state(GST_ELEMENT(_pipeline), GST_STATE_NULL);
 		gst_object_unref (GST_OBJECT(_pipeline));
+		_pipeline = nullptr;
+	}
+
+	if (_bus){
+		//gst_object_unref (_bus);
+
 	}
 }
 

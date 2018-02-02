@@ -125,7 +125,7 @@ struct Application::Private
 
 		if( !settings_initialized )
 		{
-			sp_log(Log::Error) << "Cannot initialize settings";
+			sp_log(Log::Error, this) << "Cannot initialize settings";
 			return;
 		}
 
@@ -205,7 +205,10 @@ Application::Application(int & argc, char ** argv) :
 	this->setQuitOnLastWindowClosed(false);
 }
 
-Application::~Application() {}
+Application::~Application()
+{
+	Engine::Handler::instance()->shutdown();
+}
 
 bool Application::init(const QStringList& files_to_play)
 {

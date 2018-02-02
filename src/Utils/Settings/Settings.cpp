@@ -27,12 +27,12 @@
 struct Settings::Private
 {
 	QString			version;
-    std::array<AbstrSetting*, static_cast<int>(SettingKey::Num_Setting_Keys)> settings;
+	std::array<AbstrSetting*, static_cast<int>(SettingKey::Num_Setting_Keys)> settings;
 
 	Private()
 	{
-        std::fill(settings.begin(), settings.end(), nullptr);
-    }
+		std::fill(settings.begin(), settings.end(), nullptr);
+	}
 };
 
 Settings::Settings()
@@ -40,7 +40,14 @@ Settings::Settings()
 	m = Pimpl::make<Private>();
 }
 
-Settings::~Settings () {}
+Settings::~Settings ()
+{
+	for(size_t i=0; i<m->settings.size(); i++)
+	{
+		delete m->settings[i];
+		m->settings[i] = nullptr;
+	}
+}
 
 
 AbstrSetting* Settings::setting(SettingKey key) const
@@ -64,24 +71,24 @@ bool Settings::check_settings()
 {
 	IntList un_init;
 
-    int i=0;
-    for(AbstrSetting* s : m->settings)
-    {
-        if(!s){
-            un_init << i;
+	int i=0;
+	for(AbstrSetting* s : m->settings)
+	{
+		if(!s){
+			un_init << i;
 		}
 
-        i++;
+		i++;
 	}
 
-    if( !un_init.empty() )
-    {
-        sp_log(Log::Warning, this) << "**** Settings " << un_init << " are not initialized ****";
+	if( !un_init.empty() )
+	{
+		sp_log(Log::Warning, this) << "**** Settings " << un_init << " are not initialized ****";
 		return false;
 	}
 
 	else{
-        sp_log(Log::Info, this) << "**** All settings initialized ****";
+		sp_log(Log::Info, this) << "**** All settings initialized ****";
 	}
 
 	return true;

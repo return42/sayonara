@@ -32,6 +32,7 @@
 
 #include "Database/DatabaseConnector.h"
 
+#include "Utils/Logger/Logger.h"
 #include "Utils/MetaData/MetaData.h"
 #include "Utils/MetaData/Album.h"
 
@@ -46,9 +47,11 @@ struct Lookup::Private
 {
 	int             n_covers;
 	FetchThread*    cft=nullptr;
+	bool			thread_running;
 
 	Private(int n_covers) :
-		n_covers(n_covers)
+		n_covers(n_covers),
+		thread_running(false)
 	{}
 };
 
@@ -71,6 +74,8 @@ bool Lookup::start_new_thread(const Cover::Location& cl )
 		return false;
 	}
 
+	m->thread_running = true;
+
 	FetchThread* cft = new FetchThread(this, cl, m->n_covers);
 
 	connect(cft, &FetchThread::sig_cover_found, this, &Lookup::cover_found);
@@ -83,9 +88,9 @@ bool Lookup::start_new_thread(const Cover::Location& cl )
 	return true;
 }
 
-
-bool Lookup::fetch_cover(const Location& cl, bool also_www)
+bool Lookup::fetch_cover(const Cover::Location& cl, bool also_www)
 {
+	sp_log(Log::Crazy, this) << cl.identifer();
 	// Look, if cover exists in .Sayonara/covers
 	if( QFile::exists(cl.cover_path()) && m->n_covers == 1 )
 	{
@@ -150,4 +155,9 @@ void Lookup::stop()
 		m->cft->stop();
 		emit sig_finished(true);
 	}
+}
+
+bool Lookup::is_thread_running() const
+{
+	return (m->cft != nullptr);
 }

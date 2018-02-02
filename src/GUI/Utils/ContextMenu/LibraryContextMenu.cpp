@@ -77,13 +77,14 @@ LibraryContextMenu::LibraryContextMenu(QWidget* parent) :
 	m->clear_selection_action = new QAction(this);
 	m->cover_view_action = new QAction(this);
 
+	m->rating_menu = new QMenu(this);
+
 	QList<QAction*> rating_actions;
 	for(Rating i=0; i<=5; i++)
 	{
-		rating_actions << init_rating_action(i);
+		rating_actions << init_rating_action(i, m->rating_menu);
 	}
 
-	m->rating_menu = new QMenu(this);
 	m->rating_menu->addActions(rating_actions);
 	m->rating_action = this->addMenu(m->rating_menu);
 
@@ -256,9 +257,9 @@ void LibraryContextMenu::show_all()
 }
 
 
-QAction* LibraryContextMenu::init_rating_action(Rating rating)
+QAction* LibraryContextMenu::init_rating_action(Rating rating, QObject* parent)
 {
-	QAction* action = new QAction(QString::number(rating), nullptr);
+	QAction* action = new QAction(QString::number(rating), parent);
 	action->setData(rating);
 	action->setCheckable(true);
 

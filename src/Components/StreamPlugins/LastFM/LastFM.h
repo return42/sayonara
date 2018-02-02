@@ -64,7 +64,7 @@ namespace LastFM
 
 		public:
 			Base();
-			~Base();
+			virtual ~Base();
 
 			bool is_logged_in();
 			static void get_login(QString& user, QString& pw);

@@ -181,16 +181,20 @@ src_blocked_remove(GstPad* pad, GstPadProbeInfo* info, gpointer data)
 	return GST_PAD_PROBE_OK;
 }
 
+#include <memory>
 void Changeable::remove_element(GstElement* element, GstElement* first_element, GstElement* second_element)
 {
 	GstElement* pipeline = get_pipeline();
 
 	char* element_name = gst_element_get_name(element);
 
-	if(!gst_bin_get_by_name((GstBin*)pipeline, element_name)){
+	if(!gst_bin_get_by_name((GstBin*)pipeline, element_name))
+	{
 		sp_log(Log::Debug, this) << "Element " << element_name << " not in pipeline";
+		g_free(element_name);
 		return;
 	}
+
 
 	GstPad* pad = gst_element_get_static_pad(first_element, "src");
 
@@ -209,9 +213,8 @@ void Changeable::remove_element(GstElement* element, GstElement* first_element, 
 		gst_element_link(first_element, second_element);
 
 		sp_log(Log::Debug, this) << "Pipeline not playing, removed " << element_name << " immediately";
-
+		g_free(element_name);
 		return;
-
 	}
 
 	gulong id = gst_pad_add_probe (pad,
@@ -226,9 +229,10 @@ void Changeable::remove_element(GstElement* element, GstElement* first_element, 
 		Util::sleep_ms(SleepInterval);
 	}
 
-	sp_log(Log::Debug, this) << "Element " << gst_element_get_name(element) << " removed.";
+	sp_log(Log::Debug, this) << "Element " << element_name << " removed.";
 
 	delete data; data = nullptr;
+	g_free(element_name);
 }
 
 

@@ -49,6 +49,7 @@ namespace Engine
 
 	public:
 		bool init() override;
+		void shutdown();
 
 		Engine::Playback* get_playback_engine();
 

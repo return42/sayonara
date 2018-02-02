@@ -40,6 +40,9 @@ namespace Fetcher
 	{
 
 		public:
+			Base();
+			virtual ~Base();
+
 			/**
 			 * @brief Can the cover be fetched from the adress without starting a two-stage query?
 			 * @return
@@ -109,6 +112,7 @@ namespace Fetcher
 			 */
 			virtual int estimated_size() const=0;
 	};
+
 } // Fetcher
 } // Cover
 

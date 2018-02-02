@@ -124,7 +124,7 @@ private slots:
 	void cover_view_action_triggered();
 
 protected:
-	QAction* init_rating_action(Rating rating);
+	QAction* init_rating_action(Rating rating, QObject* parent);
 
 	void skin_changed() override;
 	void language_changed() override;

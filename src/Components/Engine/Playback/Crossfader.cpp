@@ -36,19 +36,20 @@ using Pipeline::CrossFader;
 class FaderThreadData
 {
 private:
-
+	CrossFader*				_crossfader=nullptr;
 	int						_cycles;
 	int						_cycle_time_ms;
-	std::function<void ()>	_fn;
 
 public:
 
-	FaderThreadData(const std::function<void ()>& fn){
+	FaderThreadData(CrossFader* crossfader) :
+		_crossfader(crossfader)
+	{
 		reset();
-		_fn = fn;
 	}
 
-	void set_fading_time(int fading_time){
+	void set_fading_time(int fading_time)
+	{
 		_cycle_time_ms = fading_time / _cycles;
 	}
 
@@ -65,13 +66,14 @@ public:
 	void abort()
 	{
 		_cycles = 0;
+		_crossfader->fader_timed_out();
 	}
 
 	void wait()
 	{
 		Util::sleep_ms(_cycle_time_ms);
 		_cycles --;
-		_fn();
+		_crossfader->fader_timed_out();
 	}
 
 	int get_cycles() const
@@ -87,25 +89,23 @@ public:
 
 class FaderThread : public QThread
 {
+	private:
+		FaderThreadData*	_ftd=nullptr;
 
-private:
-	FaderThreadData* _ftd=nullptr;
+	public:
+		FaderThread(FaderThreadData* ftd) :
+			QThread(nullptr),
+			_ftd(ftd)
+		{}
 
-public:
-	FaderThread(FaderThreadData* data) :
-		QThread(nullptr)
-	{
-		_ftd = data;
-	}
-
-protected:
-	void run() override
-	{
-		while(_ftd && _ftd->is_active())
+	protected:
+		void run() override
 		{
-			_ftd->wait();
+			while(_ftd && _ftd->is_active())
+			{
+				_ftd->wait();
+			}
 		}
-	}
 };
 
 struct CrossFader::Private
@@ -117,24 +117,47 @@ struct CrossFader::Private
 	double			fade_step;
 
 	FadeMode	    fade_mode;
+	bool			destructed;
 
 	Private() :
 		volume(0),
 		fade_step(0),
-		fade_mode(CrossFader::FadeMode::NoFading)
+		fade_mode(CrossFader::FadeMode::NoFading),
+		destructed(false)
 	{}
+
+	~Private()
+	{
+		if(fader){
+			delete fader; fader=nullptr;
+		}
+
+		if(fader_data) {
+			delete fader_data; fader_data=nullptr;
+		}
+	}
 };
 
 CrossFader::CrossFader()
 {
 	m = Pimpl::make<Private>();
 
-	m->fader_data = new FaderThreadData(
-		std::bind(&CrossFader::fader_timed_out, this)
-	);
+	m->fader_data = new FaderThreadData(this);
 }
 
-CrossFader::~CrossFader() {}
+CrossFader::~CrossFader()
+{
+	m->destructed = true;
+	if(m->fader)
+	{
+		m->fader_data->abort();
+
+		while(m->fader->isRunning())
+		{
+			Util::sleep_ms(10);
+		}
+	}
+}
 
 void CrossFader::init_fader()
 {
@@ -183,7 +206,6 @@ void CrossFader::fade_in()
 
 void CrossFader::fade_out()
 {
-
 	sp_log(Log::Develop, this) << "Fading out";
 
 	m->volume = Settings::instance()->get<Set::Engine_Vol>() / 100.0;
@@ -215,6 +237,10 @@ bool CrossFader::is_fading_int() const
 
 void CrossFader::fader_timed_out()
 {
+	if(m->destructed){
+		return;
+	}
+
 	if(m->fade_mode == CrossFader::FadeMode::FadeIn){
 		increase_volume();
 	}
@@ -279,9 +305,8 @@ MilliSeconds CrossFader::get_fading_time_ms() const
 
 void CrossFader::abort_fader()
 {
-	if(m->fader_data->is_active()){
+	if(m->fader_data->is_active())
+	{
 		m->fader_data->abort();
 	}
 }
-
-

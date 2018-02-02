@@ -109,7 +109,7 @@ bool StreamParser::parse_next_url()
 	}
 
 	if(m->urls.isEmpty()) {
-		sp_log(Log::Debug, this) << "No more urls to parse";
+		sp_log(Log::Develop, this) << "No more urls to parse";
 		emit sig_finished( !m->v_md.empty());
 		return false;
 	}
@@ -143,7 +143,7 @@ void StreamParser::awa_finished()
 		case AsyncWebAccess::Status::GotData:
 		{
 			m->forbidden_urls << m->last_url;
-			sp_log(Log::Warning, this) << "Got data. Try to parse content";
+			sp_log(Log::Develop, this) << "Got data. Try to parse content";
 
 			QPair<MetaDataList, PlaylistFiles> result = parse_content(awa->data());
 
@@ -160,7 +160,7 @@ void StreamParser::awa_finished()
 
 		case AsyncWebAccess::Status::NoHttp:
 		{
-			sp_log(Log::Warning, this) << "No correct http was found. Maybe Icy?";
+			sp_log(Log::Develop, this) << "No correct http was found. Maybe Icy?";
 			IcyWebAccess* iwa = new IcyWebAccess(this);
 			m->active_icy = iwa;
 			connect(iwa, &IcyWebAccess::sig_finished, this, &StreamParser::icy_finished);
@@ -171,7 +171,7 @@ void StreamParser::awa_finished()
 
 		case AsyncWebAccess::Status::AudioStream:
 		{
-			sp_log(Log::Warning, this) << "Found audio stream";
+			sp_log(Log::Develop, this) << "Found audio stream";
 			MetaData md;
 			tag_metadata(md, m->last_url, m->cover_url);
 
@@ -180,7 +180,7 @@ void StreamParser::awa_finished()
 		} break;
 
 		default:
-			sp_log(Log::Warning, this) << "Web Access finished: " << (int) status;
+			sp_log(Log::Develop, this) << "Web Access finished: " << (int) status;
 	}
 
 	awa->deleteLater();
@@ -208,14 +208,14 @@ void StreamParser::icy_finished()
 	}
 
 	if(status == IcyWebAccess::Status::Success) {
-		sp_log(Log::Debug, this) << "Stream is icy stream";
+		sp_log(Log::Develop, this) << "Stream is icy stream";
 		MetaData md;
 		tag_metadata(md, m->last_url, m->cover_url);
 
 		m->v_md << md;
 		m->v_md.remove_duplicates();
 	} else {
-		sp_log(Log::Warning) << "Stream is no icy stream";
+		sp_log(Log::Develop, this) << "Stream is no icy stream";
 	}
 
 	iwa->deleteLater();
@@ -228,7 +228,7 @@ QPair<MetaDataList, PlaylistFiles>  StreamParser::parse_content(const QByteArray
 {
 	QPair<MetaDataList, PlaylistFiles> result;
 
-	sp_log(Log::Debug, this) << QString::fromUtf8(data);
+	sp_log(Log::Crazy, this) << QString::fromUtf8(data);
 
 	/** 1. try if podcast file **/
 	result.first = PodcastParser::parse_podcast_xml_file_content(data);
@@ -311,7 +311,7 @@ QPair<MetaDataList, PlaylistFiles> StreamParser::parse_website(const QByteArray&
 		}
 	}
 
-	sp_log(Log::Debug, this) << "Found " << m->urls.size() << " playlists and " << v_md.size() << " streams";
+	sp_log(Log::Develop, this) << "Found " << m->urls.size() << " playlists and " << v_md.size() << " streams";
 
 	return QPair<MetaDataList, PlaylistFiles>(v_md, playlist_files);
 }
