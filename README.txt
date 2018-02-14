@@ -25,14 +25,22 @@ Libraries
 	* make install (as root)
 	* sayonara
 	
-	1.1 Debian/Ubuntu/Mint:  apt-get install cmake  pkg-config qt5-default qttools5-dev qttools5-dev-tools libqt5core5a libqt5network5 libqt5sql5 libqt5sql5-sqlite libqt5xml5 \
-							 libtag1-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libgstreamer-plugins-good1.0-dev libgstreamer-plugins-bad1.0-dev libsqlite3-0
+	1.1 Debian/Ubuntu/Mint::
 
-		optional: gstreamer1.0-plugins-ugly libmp3lame
-
+          apt-get install cmake pkg-config qt5-default qttools5-dev qttools5-dev-tools \
+            libqt5core5a libqt5network5 libqt5sql5 libqt5sql5-sqlite libqt5xml5 \
+            libtag1-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev \
+            libgstreamer-plugins-good1.0-dev libgstreamer-plugins-bad1.0-dev libsqlite3-0 \
+            build-essential cmake pkg-config libtag1-dev libgstreamer1.0-dev libglib2.0-dev \
+            libgstreamer-plugins-base1.0-dev qtdeclarative5-dev qttools5-dev-tools \
+            gstreamer1.0-plugins-ugly libmp3lame0
 
 	1.2 Fedora/Suse: yum install gcc-c++ cmake pkg-config qt5-qtbase-devel qt5-qttools-devel gstreamer1-devel gstreamer1-plugins-base-devel  
 		
 		optional: gstreamer1-plugins-ugly lame (use rpmforge or rpmfusion)
 	
+
+-----
+
+
 
